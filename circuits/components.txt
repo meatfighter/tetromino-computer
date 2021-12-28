@@ -1,0 +1,22 @@
+# left not
+def leftNot :
+    o -1 -1 1
+
+# right not
+def rightNot :
+    o 2 -1 -1
+
+# or
+def or :
+    o 1
+
+# nand
+def nand :
+    leftNot 0 0
+    rightNot 1 0
+    or 1 -1
+
+# 16-bit adder
+def mAdder16 add carryInNeg carryIn a15..0 b15..0 carryOutNeg carryOut s15..0 :
+    mAdder8 add carryInNeg carryIn a7..0 b7..0 cOutNeg cOut s7..0 
+    mAdder8 add cOutNeg cOut a15..8 b15..8 carryOutNeg carryOut s15..8
