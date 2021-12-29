@@ -87,7 +87,7 @@ public class Tetrimino {
             }
         }
         for (int[] bs : blocks) {
-            MATRIX[bs[1]][bs[0]] = true;
+            MATRIX[2 + bs[1]][2 + bs[0]] = true;
         }
     }
     
