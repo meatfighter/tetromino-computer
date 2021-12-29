@@ -4,34 +4,29 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class Instruction {
     
-    private final Structure structure;
+    private final Component component;
     
     private final int index;
     private final int rotation;
     
-    private final int x;
-    private final Integer y;
-    private final Integer x2;
+    private final int[] moves;
 
-    public Instruction(final Pair<Integer,Integer> indexAndRotation, final Structure structure, final int x, 
-            final Integer y, final Integer x2) {
+    public Instruction(final Pair<Integer,Integer> indexAndRotation, final Component component, final int[] moves) {
         
         if (indexAndRotation != null) {
             this.index = indexAndRotation.getLeft();
             this.rotation = indexAndRotation.getRight();
-            this.structure = null;
+            this.component = null;
         } else {
             this.index = 0;
             this.rotation = 0;
-            this.structure = structure;
+            this.component = component;
         }
-        this.x = x;
-        this.y = y;
-        this.x2 = x2;
+        this.moves = moves;
     }
 
-    public Structure getStructure() {
-        return structure;
+    public Component getComponent() {
+        return component;
     }
 
     public int getIndex() {
@@ -42,32 +37,20 @@ public class Instruction {
         return rotation;
     }
 
-    public int getX() {
-        return x;
+    public int[] getMoves() {
+        return moves;
     }
 
-    public Integer getY() {
-        return y;
-    }
-
-    public Integer getX2() {
-        return x2;
-    }
-    
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        if (structure != null) {
-            sb.append(structure.getName());
+        if (component != null) {
+            sb.append(component.getName());
         } else {
             sb.append(Tetrimino.FINE_NAMES[index][rotation]);
         }
-        sb.append(' ').append(x);
-        if (y != null) {
-            sb.append(' ').append(y);
-        }
-        if (x2 != null) {
-            sb.append(' ').append(x2);
+        for (final int move : moves) {
+            sb.append(' ').append(move);
         }
         return sb.toString();
     }

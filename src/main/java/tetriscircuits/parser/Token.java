@@ -10,6 +10,7 @@ class Token {
     private String str;
     private int num;
     private int num2;
+    private boolean[] bits;
 
     public Token(final String filename, final int lineNumber, final int lineColumn) {
         this.filename = filename;
@@ -60,6 +61,14 @@ class Token {
     public void setNum2(final int num2) {
         this.num2 = num2;
     }
+
+    public boolean[] getBits() {
+        return bits;
+    }
+
+    public void setBits(final boolean[] bits) {
+        this.bits = bits;
+    }
     
     @Override
     public String toString() {
@@ -78,6 +87,12 @@ class Token {
                     sb.append(str);
                 }
                 sb.append(num).append("..").append(num2);
+                break;
+            case BITS:
+                sb.append(": ");
+                for (final boolean bit : bits) {
+                    sb.append(bit ? '1' : '0');
+                }
                 break;
         }
         return sb.toString();

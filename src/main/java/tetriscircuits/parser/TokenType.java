@@ -4,6 +4,6 @@ enum TokenType {
     STRING,
     NUMBER,
     RANGE,
-    COLON,
+    BITS,
     END,
 }

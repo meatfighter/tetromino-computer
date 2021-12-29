@@ -16,28 +16,29 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import org.apache.commons.lang3.tuple.Pair;
 import tetriscircuits.Instruction;
 import tetriscircuits.Point;
-import tetriscircuits.Structure;
+import tetriscircuits.Component;
+import tetriscircuits.ComponentTest;
 import tetriscircuits.Tetrimino;
 
 public class Parser {
     
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
-    public void parse(final Map<String, Structure> structures, final File file) throws IOException, ParseException {
-        parse(structures, file.getPath(), new FileInputStream(file));
+    public void parse(final Map<String, Component> components, final File file) throws IOException, ParseException {
+        parse(components, file.getPath(), new FileInputStream(file));
     }
 
-    public void parse(final Map<String, Structure> structures, final String filename) 
+    public void parse(final Map<String, Component> components, final String filename) 
             throws IOException, ParseException {
-        parse(structures, filename, new FileInputStream(filename));
+        parse(components, filename, new FileInputStream(filename));
     }
     
-    public void parse(final Map<String, Structure> structures, final File file, final InputStream in) 
+    public void parse(final Map<String, Component> components, final File file, final InputStream in) 
             throws IOException, ParseException {
-        parse(structures, file.getPath(), in);
+        parse(components, file.getPath(), in);
     }
     
-    public void parse(final Map<String, Structure> structures, final String filename, final InputStream in) 
+    public void parse(final Map<String, Component> components, final String filename, final InputStream in) 
             throws IOException, ParseException {
         
         final List<Token> tokens = new ArrayList<>();
@@ -55,7 +56,7 @@ public class Parser {
         tokens.add(token);
         tokens.add(token);
         
-        processTokens(tokens, structures);
+        processTokens(tokens, components);
     }
     
     private String removeComment(final String line) {
@@ -82,13 +83,6 @@ public class Parser {
     private void parseElement(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
         
-        if (":".equals(value)) {
-            final Token token = new Token(filename, lineNumber, lineColumn);
-            token.setType(TokenType.COLON);
-            tokens.add(token);
-            return;
-        }
-        
         final int rangeIndex = value.indexOf("..");
         if (rangeIndex >= 0) {
             parseRange(tokens, filename, lineNumber, lineColumn, value, rangeIndex);
@@ -103,14 +97,39 @@ public class Parser {
             return;
         }
         
+        boolean[] bits = null;
+        outer: {
+            for (int i = 0; i < value.length(); ++i) {
+                final char c = value.charAt(i);
+                if (c != '0' && c != '1') {
+                    break outer;
+                }
+            }
+            bits = new boolean[value.length()];
+            for (int i = 0; i < value.length(); ++i) {
+                bits[i] = (value.charAt(i) == '1');
+            }
+        }
+        
         try {
             final int num = Integer.parseInt(value);
             final Token token = new Token(filename, lineNumber, lineColumn);
             token.setType(TokenType.NUMBER);
+            token.setStr(value);
+            token.setBits(bits);
             token.setNum(num);
             tokens.add(token);
             return;
         } catch (final NumberFormatException e) {            
+        }
+        
+        if (bits != null) {
+            final Token token = new Token(filename, lineNumber, lineColumn);
+            token.setType(TokenType.BITS);
+            token.setStr(value);
+            token.setBits(bits);
+            tokens.add(token);
+            return;
         }
         
         throw new ParseException(filename, lineNumber, lineColumn, "Unexpected token: " + value);
@@ -177,18 +196,18 @@ public class Parser {
         tokens.add(token);
     }
     
-    private void processTokens(final List<Token> tokens, final Map<String, Structure> structures) 
+    private void processTokens(final List<Token> tokens, final Map<String, Component> components) 
             throws ParseException {
         
-        final Map<String, Token> unknownStructures = new HashMap<>();
+        final Map<String, Token> unknownComponent = new HashMap<>();
         
         outer: for (int i = 0; i < tokens.size(); ) {
             final Token token = tokens.get(i);
             switch(token.getType()) {
                 case STRING:
                     switch(token.getStr()) {
-                        case "struct":
-                            i = processStruct(tokens, structures, unknownStructures, i + 1);
+                        case "def":
+                            i = processComponent(tokens, components, unknownComponent, i + 1);
                             break;
                         default:
                             throw new ParseException(token, "Unknown keyword.");
@@ -201,9 +220,9 @@ public class Parser {
             }            
         }
         
-        if (!unknownStructures.isEmpty()) {
-            for (Map.Entry<String, Token> entry : unknownStructures.entrySet()) {
-                throw new ParseException(entry.getValue(), "Undefined struct: " + entry.getKey());
+        if (!unknownComponent.isEmpty()) {
+            for (Map.Entry<String, Token> entry : unknownComponent.entrySet()) {
+                throw new ParseException(entry.getValue(), "Undefined component: " + entry.getKey());
             }
         }
     }
@@ -217,26 +236,27 @@ public class Parser {
         return ps;
     }
     
-    private int processStruct(final List<Token> tokens, final Map<String, Structure> structures, 
-            final Map<String, Token> unknownStructures, final int index) throws ParseException {
+    private int processComponent(final List<Token> tokens, final Map<String, Component> components, 
+            final Map<String, Token> unknownComponents, final int index) throws ParseException {
         
         int i = index;
         
         final Token nameToken = tokens.get(i++);
         if (nameToken.getType() != TokenType.STRING) {
-            throw new ParseException(nameToken, "struct missing name.");
+            throw new ParseException(nameToken, "component missing name.");
         }
         final String name = nameToken.getStr();        
-        unknownStructures.remove(name);
-        Structure structure = structures.get(name);
-        if (structure == null) {            
-            structure = new Structure(name);
-            structures.put(name, structure);
+        unknownComponents.remove(name);
+        Component component = components.get(name);
+        if (component == null) {            
+            component = new Component(name);
+            components.put(name, component);
         } 
         
         final List<Instruction> instructions = new ArrayList<>();
         final List<List<Point>> inputs = new ArrayList<>();
         final List<List<Point>> outputs = new ArrayList<>();
+        final List<ComponentTest> tests = new ArrayList<>();
         
         outer: while (true) {
             final Token operationToken = tokens.get(i);  
@@ -247,74 +267,71 @@ public class Parser {
             }
             final String operation = operationToken.getStr();
             switch(operation) {
-                case "struct":
                 case "def":    
                     break outer;
                 case "in":
-                    i = processStructTerminals(tokens, inputs, operationToken, i + 1);
+                    i = processTerminals(tokens, inputs, operationToken, i + 1);
                     break;
                 case "out":
-                    i = processStructTerminals(tokens, outputs, operationToken, i + 1);
+                    i = processTerminals(tokens, outputs, operationToken, i + 1);
+                    break;
+                case "test":
+                    i = processTest(tokens, tests, i + 1);
                     break;
                 default:
-                    i = processInstruction(tokens, instructions, operationToken, structures, unknownStructures, i + 1);
+                    i = processInstruction(tokens, instructions, operationToken, components, unknownComponents, i + 1);
                     break;
             }
         }
         
         if (instructions.isEmpty()) {
-            throw new ParseException(nameToken, "struct has no instructions.");
+            throw new ParseException(nameToken, "component has no instructions.");
         }
-        structure.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
-        structure.setInputs(toArray(inputs));
-        structure.setOutputs(toArray(outputs));
+        component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        component.setInputs(toArray(inputs));
+        component.setOutputs(toArray(outputs));
+        component.setTests(tests.toArray(new ComponentTest[tests.size()]));
         
         return i;
     }
     
     private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 
-            final Token operationToken, final Map<String, Structure> structures, 
-            final Map<String, Token> unknownStructures, final int index) throws ParseException {
+            final Token operationToken, final Map<String, Component> components, 
+            final Map<String, Token> unknownComponents, final int index) throws ParseException {
         
         final String operation = operationToken.getStr();
         final Pair indexAndRotation = Tetrimino.INDEX_AND_ROTATIONS.get(operation);
-        final Structure structure = structures.get(operation);
-        if (indexAndRotation == null && structure == null) {
-            unknownStructures.put(operation, operationToken);
-        }        
+        final Component component = components.get(operation);
+        if (indexAndRotation == null && component == null) {
+            unknownComponents.put(operation, operationToken);
+        }  
         
-        final Token tokenX = tokens.get(index);
-        if (tokenX.getType() != TokenType.NUMBER) {
-            throw new ParseException(tokenX, "Number expected for x.");
-        }
-        final int x = tokenX.getNum();
-        final Integer y;
-        final Integer x2;
-        int i = index + 1;
-        
-        final Token tokenY = tokens.get(i);
-        if (tokenY.getType() == TokenType.NUMBER) {
-            ++i;
-            y = tokenY.getNum();            
-            final Token tokenX2 = tokens.get(i);
-            if (tokenX2.getType() == TokenType.NUMBER) {
-                ++i;
-                x2 = tokenX2.getNum();
-            } else {
-                x2 = null;
+        final List<Integer> moves = new ArrayList<>();
+        int i = index;
+        while (true) {
+            final Token token = tokens.get(i);
+            if (token.getType() != TokenType.NUMBER) {
+                break;
             }
-        } else {
-            y = null;
-            x2 = null;
+            ++i;
+            moves.add(token.getNum());
         }
         
-        instructions.add(new Instruction(indexAndRotation, structure, x, y, x2));
+        if (moves.isEmpty()) {
+            throw new ParseException(operationToken, "Missing moves.");
+        }
+        final int[] ms = new int[moves.size()];
+        for (int j = ms.length - 1; j >= 0; --j) {
+            ms[j] = moves.get(j);
+        }
+                        
+        instructions.add(new Instruction(indexAndRotation, component, ms));
         
         return i;
     }
     
-    private int processStructTerminals(final List<Token> tokens, List<List<Point>> terminals, 
-            final Token operationToken, final int index) {
+    private int processTerminals(final List<Token> tokens, List<List<Point>> terminals, 
+            final Token operationToken, final int index) throws ParseException {
         
         int i = index;
         
@@ -375,5 +392,25 @@ public class Parser {
         terminals.add(terms);
         
         return i;
+    }
+    
+    private int processTest(final List<Token> tokens, final List<ComponentTest> tests, final int index) 
+            throws ParseException {
+        
+        final Token inputsToken = tokens.get(index);
+        if ((inputsToken.getType() != TokenType.BITS && inputsToken.getType() != TokenType.NUMBER) 
+                || inputsToken.getBits() == null) {
+            throw new ParseException(inputsToken, "Expected input bits.");    
+        }
+        
+        final Token ouputsToken = tokens.get(index + 1);
+        if ((ouputsToken.getType() != TokenType.BITS && ouputsToken.getType() != TokenType.NUMBER) 
+                || ouputsToken.getBits() == null) {
+            throw new ParseException(ouputsToken, "Expected output bits.");    
+        }
+        
+        tests.add(new ComponentTest(inputsToken.getBits(), ouputsToken.getBits()));
+        
+        return index + 2;
     }
 }

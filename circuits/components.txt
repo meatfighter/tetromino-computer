@@ -1,29 +1,25 @@
 # left not
-struct leftNot
+def leftNot
     o -1 1 1
     in 0 0
     out 0 1
+    test 0 1
+    test 1 0
 
 # right not
-struct rightNot
+def rightNot
     o 2 1 -1
     in 0 0
     out 0 1
 
 # or
-struct or
+def or
     o 1
     in 0 0 1 0
     out 0..1 2
 
 # nand
-struct nand
+def nand
     leftNot 0 0
     rightNot 1 0
     or 1 1
-    
-
-# 16-bit adder
-#def mAdder16 add carryInNeg carryIn a15..0 b15..0 carryOutNeg carryOut s15..0 :
-#    mAdder8 add carryInNeg carryIn a7..0 b7..0 cOutNeg cOut s7..0 
-#    mAdder8 add cOutNeg cOut a15..8 b15..8 carryOutNeg carryOut s15..8

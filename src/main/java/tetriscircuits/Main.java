@@ -7,11 +7,11 @@ import tetriscircuits.parser.Parser;
 public class Main {
 
     public void launch() throws Exception {
-        final Map<String, Structure> structures = new HashMap<>();
+        final Map<String, Component> components = new HashMap<>();
         final Parser parser = new Parser();
-        parser.parse(structures, "circuits/components.txt");
-        for (final Structure structure : structures.values()) {
-            System.out.println(structure);
+        parser.parse(components, "circuits/components.txt");
+        for (final Component component : components.values()) {
+            System.out.println(component);
         }
     }
     
