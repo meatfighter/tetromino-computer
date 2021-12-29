@@ -13,13 +13,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import org.apache.commons.lang3.tuple.Pair;
 import tetriscircuits.Instruction;
 import tetriscircuits.Point;
 import tetriscircuits.Component;
 import tetriscircuits.ComponentTest;
 import tetriscircuits.Tetrimino;
-import tetriscircuits.Tetriminos;
 
 public class Parser {
     
