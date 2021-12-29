@@ -1,10 +1,14 @@
 package tetriscircuits.parser;
 
-public class ParseException extends Exception {
+public class ParseException extends RuntimeException {
 
     private final String filename;
     private final int lineNumber;
     private final int lineColumn;
+    
+    public ParseException(final Token token, final String message) {
+        this(token.getFilename(), token.getLineNumber(), token.getLineColumn(), message);
+    }
     
     public ParseException(final String filename, final int lineNumber, final int lineColumn, final String message) {
         super(message);

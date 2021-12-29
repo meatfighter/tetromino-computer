@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,67 +14,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import org.apache.commons.lang3.tuple.Pair;
+import tetriscircuits.Instruction;
+import tetriscircuits.Point;
+import tetriscircuits.Structure;
+import tetriscircuits.Tetrimino;
 
 public class Parser {
     
-    private static final Object[][] TETRIMINOS_TABLE = {
-        {  "t", 0, 0 },
-        { "td", 0, 0 },
-        { "tl", 0, 1 },
-        { "tu", 0, 2 },
-        { "tr", 0, 3 },
-        
-        {  "j", 1, 0 },
-        { "jd", 1, 0 },
-        { "jl", 1, 1 },
-        { "ju", 1, 2 },
-        { "jr", 1, 3 },
-        
-        {  "z", 2, 0 },
-        { "zh", 2, 0 },
-        { "zv", 2, 1 },
-        
-        {  "o", 3, 0 },
-        { "os", 3, 0 },
-        
-        {  "s", 4, 0 },
-        { "sh", 4, 0 },
-        { "sv", 4, 1 },
-        
-        {  "l", 5, 0 },
-        { "ld", 5, 0 },
-        { "ll", 5, 1 },
-        { "lu", 5, 2 },
-        { "lr", 5, 3 },
-        
-        {  "i", 6, 0 },
-        { "ih", 6, 0 },
-        { "iv", 6, 1 },
-    };
-    
-    private static final Map<String, Pair> TETRIMINOS = Collections.unmodifiableMap(new HashMap<>());
-    
-    static {
-        for (final Object[] entry : TETRIMINOS_TABLE) {
-            TETRIMINOS.put((String)entry[0], Pair.of(entry[1], entry[2]));
-        }
-    }    
-    
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
-    public void parse(final File file) throws IOException, ParseException {
-        parse(file.getPath(), new FileInputStream(file));
+    public void parse(final Map<String, Structure> structures, final File file) throws IOException, ParseException {
+        parse(structures, file.getPath(), new FileInputStream(file));
     }
 
-    public void parse(final String filename) throws IOException, ParseException {
-        parse(filename, new FileInputStream(filename));
+    public void parse(final Map<String, Structure> structures, final String filename) 
+            throws IOException, ParseException {
+        parse(structures, filename, new FileInputStream(filename));
     }
     
-    public void parse(final File file, final InputStream in) throws IOException, ParseException {
-        parse(file.getPath(), in);
+    public void parse(final Map<String, Structure> structures, final File file, final InputStream in) 
+            throws IOException, ParseException {
+        parse(structures, file.getPath(), in);
     }
     
-    public void parse(final String filename, final InputStream in) throws IOException, ParseException {
+    public void parse(final Map<String, Structure> structures, final String filename, final InputStream in) 
+            throws IOException, ParseException {
         
         final List<Token> tokens = new ArrayList<>();
         
@@ -90,8 +53,9 @@ public class Parser {
         final Token token = new Token(filename, lineNumber, 0);
         token.setType(TokenType.END);
         tokens.add(token);
+        tokens.add(token);
         
-        processTokens(tokens);
+        processTokens(tokens, structures);
     }
     
     private String removeComment(final String line) {
@@ -213,7 +177,181 @@ public class Parser {
         tokens.add(token);
     }
     
-    private void processTokens(final List<Token> tokens) throws ParseException {
+    private void processTokens(final List<Token> tokens, final Map<String, Structure> structures) 
+            throws ParseException {
         
+        final Map<String, Token> unknownStructures = new HashMap<>();
+        
+        for (int i = 0; i < tokens.size(); ) {
+            final Token token = tokens.get(i);
+            switch(token.getType()) {
+                case STRING:
+                    switch(token.getStr()) {
+                        case "struct":
+                            i = processStruct(tokens, structures, unknownStructures, i + 1);
+                            break;
+                        default:
+                            throw new ParseException(token, "Unknown keyword.");
+                    }
+                    break;
+                case END:
+                    break;
+                default:
+                    throw new ParseException(token, "Keyword expected.");
+            }            
+        }
+        
+        if (!unknownStructures.isEmpty()) {
+            for (Map.Entry<String, Token> entry : unknownStructures.entrySet()) {
+                throw new ParseException(entry.getValue(), "Undefined struct: " + entry.getKey());
+            }
+        }
+    }
+    
+    private int processStruct(final List<Token> tokens, final Map<String, Structure> structures, 
+            final Map<String, Token> unknownStructures, final int index) throws ParseException {
+        
+        int i = index;
+        
+        final Token nameToken = tokens.get(i++);
+        if (nameToken.getType() != TokenType.STRING) {
+            throw new ParseException(nameToken, "struct missing name.");
+        }
+        final String name = nameToken.getStr();        
+        unknownStructures.remove(name);
+        Structure structure = structures.get(name);
+        if (structure == null) {            
+            structure = new Structure(name);
+            structures.put(name, structure);
+        } 
+        
+        final List<Instruction> instructions = new ArrayList<>();
+        final List<List<Point>> inputs = new ArrayList<>();
+        final List<List<Point>> outputs = new ArrayList<>();
+        
+        outer: while (true) {
+            final Token operationToken = tokens.get(i);  
+            if (operationToken.getType() == TokenType.END) {
+                break;
+            } else if (operationToken.getType() != TokenType.STRING) {
+                throw new ParseException(operationToken, "Operation expected.");
+            }
+            final String operation = operationToken.getStr();
+            switch(operation) {
+                case "struct":
+                case "def":    
+                    break outer;
+                case "in":
+                    i = processStructTerminals(tokens, inputs, i + 1);
+                    break;
+                case "out":
+                    i = processStructTerminals(tokens, outputs, i + 1);
+                    break;
+                default:
+                    i = processInstruction(tokens, instructions, operationToken, structures, unknownStructures, i + 1);
+                    break;
+            }
+        }
+        
+        return i;
+    }
+    
+    private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 
+            final Token operationToken, final Map<String, Structure> structures, 
+            final Map<String, Token> unknownStructures, final int index) throws ParseException {
+        
+        final String operation = operationToken.getStr();
+        final Pair indexAndRotation = Tetrimino.INDEX_AND_ROTATION.get(operation);
+        final Structure structure = structures.get(operation);
+        if (indexAndRotation == null && structure == null) {
+            unknownStructures.put(operation, operationToken);
+        }        
+        
+        final Token tokenX = tokens.get(index);
+        if (tokenX.getType() != TokenType.NUMBER) {
+            throw new ParseException(tokenX, "Number expected for x.");
+        }
+        final int x = tokenX.getNum();
+        final Integer y;
+        final Integer x2;
+        int i = index + 1;
+        
+        final Token tokenY = tokens.get(i);
+        if (tokenY.getType() == TokenType.NUMBER) {
+            ++i;
+            y = tokenY.getNum();            
+            final Token tokenX2 = tokens.get(i);
+            if (tokenX2.getType() == TokenType.NUMBER) {
+                ++i;
+                x2 = tokenX2.getNum();
+            } else {
+                x2 = null;
+            }
+        } else {
+            y = null;
+            x2 = null;
+        }
+        
+        instructions.add(new Instruction(indexAndRotation, structure, x, y, x2));
+        
+        return i;
+    }
+    
+    private int processStructTerminals(final List<Token> tokens, List<List<Point>> terminals, final int index) {
+        
+        int i = index;
+        
+        while (true) {
+            final Token tokenX = tokens.get(i);
+            final Token tokenY = tokens.get(i + 1);
+            
+            if (tokenX.getType() != TokenType.NUMBER && tokenX.getType() != TokenType.RANGE) {
+                break;
+            }
+            
+            if (tokenY.getType() != TokenType.NUMBER && tokenY.getType() != TokenType.RANGE) {
+                throw new ParseException(tokenY, "Expected number or range.");
+            }
+            
+            i += 2;
+            
+            int x1;
+            int x2;
+            if (tokenX.getType() == TokenType.NUMBER) {
+                x1 = x2 = tokenX.getNum();
+            } else {
+                x1 = tokenX.getNum();
+                x2 = tokenX.getNum2();
+                if (x2 < x1) {
+                    final int t = x1;
+                    x1 = x2;
+                    x2 = t;
+                }
+            }
+            
+            int y1;
+            int y2;
+            if (tokenY.getType() == TokenType.NUMBER) {
+                y1 = y2 = tokenY.getNum();
+            } else {
+                y1 = tokenY.getNum();
+                y2 = tokenY.getNum2();
+                if (y2 < y1) {
+                    final int t = y1;
+                    y1 = y2;
+                    y2 = t;
+                }
+            }
+            
+            final List<Point> terms = new ArrayList<>();
+            for (int y = y1; y <= y2; ++y) {
+                for (int x = x1; x <= x2; ++x) {
+                    terms.add(new Point(x, y));
+                }
+            }
+            terminals.add(terms);
+        }
+        
+        return i;
     }
 }

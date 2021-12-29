@@ -17,6 +17,18 @@ class Token {
         this.lineColumn = lineColumn;
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getLineColumn() {
+        return lineColumn;
+    }
+
     public TokenType getType() {
         return type;
     }
