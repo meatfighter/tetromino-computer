@@ -16,7 +16,7 @@ public class Instruction {
     public Instruction(final Pair<Integer,Integer> indexAndRotation, final Structure structure, final int x, 
             final Integer y, final Integer x2) {
         
-        if (indexAndRotation == null) {
+        if (indexAndRotation != null) {
             this.index = indexAndRotation.getLeft();
             this.rotation = indexAndRotation.getRight();
             this.structure = null;

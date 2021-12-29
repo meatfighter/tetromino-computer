@@ -42,13 +42,13 @@ public class Tetrimino {
     public static final int[][][] GROUP_I = { Ih, Iv };
     
     public static final String[][] FINE_NAMES = {
-        { "Td", "Tl", "Tu", "Tr" },
-        { "Jd", "Jl", "Ju", "Jr" },
-        { "Zh", "Zv" },
-        { "O" },
-        { "Sh", "Sv" },
-        { "Ld", "Ll", "Lu", "Lr" },
-        { "Ih", "Iv" },
+        { "td", "tl", "tu", "tr" },
+        { "jd", "jl", "ju", "jr" },
+        { "zh", "zv" },
+        { "o" },
+        { "sh", "sv" },
+        { "ld", "ll", "lu", "lr" },
+        { "ih", "iv" },
     };
     
     public static final int[][][][] TETRIMINOS = { GROUP_T, GROUP_J, GROUP_Z, GROUP_O, GROUP_S, GROUP_L, GROUP_I };
@@ -61,7 +61,7 @@ public class Tetrimino {
     public static final int L = 5;
     public static final int I = 6;
     
-    public static final String[] NAMES = { "T", "J", "Z", "O", "S", "L", "I" };
+    public static final String[] NAMES = { "t", "j", "z", "o", "s", "l", "i" };
     
     private static final Object[][] TETRIMINOS_TABLE = {
         {  "t", 0, 0 },
@@ -98,11 +98,13 @@ public class Tetrimino {
         { "iv", 6, 1 },
     };
     
-    public static final Map<String, Pair> INDEX_AND_ROTATION = Collections.unmodifiableMap(new HashMap<>());
+    public static final Map<String, Pair> INDEX_AND_ROTATIONS;
     
     static {
+        final Map<String, Pair> indexAndRotations = new HashMap<>();
         for (final Object[] entry : TETRIMINOS_TABLE) {
-            INDEX_AND_ROTATION.put((String)entry[0], Pair.of(entry[1], entry[2]));
+            indexAndRotations.put((String)entry[0], Pair.of(entry[1], entry[2]));
         }
+        INDEX_AND_ROTATIONS = Collections.unmodifiableMap(indexAndRotations);
     } 
 }

@@ -21,6 +21,7 @@ struct nand
     leftNot 0 0
     rightNot 1 0
     or 1 1
+    
 
 # 16-bit adder
 #def mAdder16 add carryInNeg carryIn a15..0 b15..0 carryOutNeg carryOut s15..0 :

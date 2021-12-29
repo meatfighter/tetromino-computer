@@ -182,7 +182,7 @@ public class Parser {
         
         final Map<String, Token> unknownStructures = new HashMap<>();
         
-        for (int i = 0; i < tokens.size(); ) {
+        outer: for (int i = 0; i < tokens.size(); ) {
             final Token token = tokens.get(i);
             switch(token.getType()) {
                 case STRING:
@@ -195,7 +195,7 @@ public class Parser {
                     }
                     break;
                 case END:
-                    break;
+                    break outer;
                 default:
                     throw new ParseException(token, "Keyword expected.");
             }            
@@ -206,6 +206,15 @@ public class Parser {
                 throw new ParseException(entry.getValue(), "Undefined struct: " + entry.getKey());
             }
         }
+    }
+    
+    private Point[][] toArray(final List<List<Point>> points) {
+        final Point[][] ps = new Point[points.size()][];
+        for (int i = ps.length - 1; i >= 0; --i) {
+            final List<Point> list = points.get(i);
+            ps[i] = list.toArray(new Point[list.size()]);
+        }        
+        return ps;
     }
     
     private int processStruct(final List<Token> tokens, final Map<String, Structure> structures, 
@@ -242,16 +251,23 @@ public class Parser {
                 case "def":    
                     break outer;
                 case "in":
-                    i = processStructTerminals(tokens, inputs, i + 1);
+                    i = processStructTerminals(tokens, inputs, operationToken, i + 1);
                     break;
                 case "out":
-                    i = processStructTerminals(tokens, outputs, i + 1);
+                    i = processStructTerminals(tokens, outputs, operationToken, i + 1);
                     break;
                 default:
                     i = processInstruction(tokens, instructions, operationToken, structures, unknownStructures, i + 1);
                     break;
             }
         }
+        
+        if (instructions.isEmpty()) {
+            throw new ParseException(nameToken, "struct has no instructions.");
+        }
+        structure.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        structure.setInputs(toArray(inputs));
+        structure.setOutputs(toArray(outputs));
         
         return i;
     }
@@ -261,7 +277,7 @@ public class Parser {
             final Map<String, Token> unknownStructures, final int index) throws ParseException {
         
         final String operation = operationToken.getStr();
-        final Pair indexAndRotation = Tetrimino.INDEX_AND_ROTATION.get(operation);
+        final Pair indexAndRotation = Tetrimino.INDEX_AND_ROTATIONS.get(operation);
         final Structure structure = structures.get(operation);
         if (indexAndRotation == null && structure == null) {
             unknownStructures.put(operation, operationToken);
@@ -297,10 +313,12 @@ public class Parser {
         return i;
     }
     
-    private int processStructTerminals(final List<Token> tokens, List<List<Point>> terminals, final int index) {
+    private int processStructTerminals(final List<Token> tokens, List<List<Point>> terminals, 
+            final Token operationToken, final int index) {
         
         int i = index;
         
+        final List<Point> terms = new ArrayList<>();
         while (true) {
             final Token tokenX = tokens.get(i);
             final Token tokenY = tokens.get(i + 1);
@@ -343,14 +361,18 @@ public class Parser {
                 }
             }
             
-            final List<Point> terms = new ArrayList<>();
+            
             for (int y = y1; y <= y2; ++y) {
                 for (int x = x1; x <= x2; ++x) {
                     terms.add(new Point(x, y));
                 }
-            }
-            terminals.add(terms);
+            }            
         }
+        
+        if (terms.isEmpty()) {
+            throw new ParseException(operationToken, "Missing terminal coordinates.");
+        }
+        terminals.add(terms);
         
         return i;
     }
