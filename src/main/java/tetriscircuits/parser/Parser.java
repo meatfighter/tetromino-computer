@@ -19,6 +19,7 @@ import tetriscircuits.Point;
 import tetriscircuits.Component;
 import tetriscircuits.ComponentTest;
 import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetriminos;
 
 public class Parser {
     
@@ -300,9 +301,9 @@ public class Parser {
             final Map<String, Token> unknownComponents, final int index) throws ParseException {
         
         final String operation = operationToken.getStr();
-        final Pair indexAndRotation = Tetrimino.INDEX_AND_ROTATIONS.get(operation);
+        final Tetrimino tetrimino = Tetrimino.fromName(operation);
         final Component component = components.get(operation);
-        if (indexAndRotation == null && component == null) {
+        if (tetrimino == null && component == null) {
             unknownComponents.put(operation, operationToken);
         }  
         
@@ -325,7 +326,7 @@ public class Parser {
             ms[j] = moves.get(j);
         }
                         
-        instructions.add(new Instruction(indexAndRotation, component, ms));
+        instructions.add(new Instruction(tetrimino, component, ms));
         
         return i;
     }

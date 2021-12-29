@@ -5,36 +5,18 @@ import org.apache.commons.lang3.tuple.Pair;
 public class Instruction {
     
     private final Component component;
-    
-    private final int index;
-    private final int rotation;
+    private final Tetrimino tetrimino;
     
     private final int[] moves;
 
-    public Instruction(final Pair<Integer,Integer> indexAndRotation, final Component component, final int[] moves) {
-        
-        if (indexAndRotation != null) {
-            this.index = indexAndRotation.getLeft();
-            this.rotation = indexAndRotation.getRight();
-            this.component = null;
-        } else {
-            this.index = 0;
-            this.rotation = 0;
-            this.component = component;
-        }
+    public Instruction(final Tetrimino tetrimino, final Component component, final int[] moves) {
+        this.tetrimino = tetrimino;
+        this.component = component;
         this.moves = moves;
     }
 
     public Component getComponent() {
         return component;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public int getRotation() {
-        return rotation;
     }
 
     public int[] getMoves() {
@@ -47,7 +29,7 @@ public class Instruction {
         if (component != null) {
             sb.append(component.getName());
         } else {
-            sb.append(Tetrimino.FINE_NAMES[index][rotation]);
+            sb.append(tetrimino.getName());
         }
         for (final int move : moves) {
             sb.append(' ').append(move);
