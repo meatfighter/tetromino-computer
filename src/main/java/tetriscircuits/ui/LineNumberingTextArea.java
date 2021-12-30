@@ -1,12 +1,10 @@
 package tetriscircuits.ui;
 
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
-import javax.swing.text.Element;
 
 // https://stackoverflow.com/questions/18768649/java-code-to-display-lines-number-in-jtextarea
 public class LineNumberingTextArea extends JTextArea {
@@ -15,6 +13,7 @@ public class LineNumberingTextArea extends JTextArea {
     private static final Color BACKGROUND = new Color(0x313335);
     
     private JTextArea textArea;
+    private int lastMaxLineNumber;
     
     private static int getDigits(final int number) {
         if (number < 100000) {
@@ -69,17 +68,23 @@ public class LineNumberingTextArea extends JTextArea {
         setEditable(false);                 
     }    
     
-    public void updateLineNumbers() {        
+    public void updateLineNumbers() { 
         final Document doc = textArea.getDocument();
-        final int lines = doc.getDefaultRootElement().getElementIndex(doc.getLength()) + 1;
-        final int maxDigits = getDigits(lines);
+        final int maxLineNumber = doc.getDefaultRootElement().getElementIndex(doc.getLength()) + 1;
+        
+        if (maxLineNumber == lastMaxLineNumber) {
+            return;
+        }
+        lastMaxLineNumber = maxLineNumber;
+        
+        final int maxDigits = getDigits(maxLineNumber);
                 
         final StringBuilder sb = new StringBuilder();
         for (int i = maxDigits - 2; i >= 0; --i) {
             sb.append(' ');
         }
         sb.append("1").append(System.lineSeparator());        
-        for (int lineNumber = 2; lineNumber <= lines; ++lineNumber) {
+        for (int lineNumber = 2; lineNumber <= maxLineNumber; ++lineNumber) {
             for (int i = maxDigits - getDigits(lineNumber) - 1; i >= 0; --i) {
                 sb.append(' ');
             }

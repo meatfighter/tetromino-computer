@@ -38,7 +38,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         initComponents();
         lineNumberingTextArea = new LineNumberingTextArea(codeTextArea);
         codeScrollPane.setRowHeaderView(lineNumberingTextArea);
-        doc.addDocumentListener(new DocumentListener() {
+        codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(final DocumentEvent e) { 
                 lineNumberingTextArea.updateLineNumbers();
@@ -161,11 +161,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                         e.printStackTrace(); // TODO REMOVE
                     }
                 }
-                                
-//                final SimpleAttributeSet attributes = new SimpleAttributeSet();
-//                StyleConstants.setForeground(attributes, Color.RED);
-//                StyleConstants.setBackground(attributes, Color.GREEN);
-//                ((DefaultStyledDocument)doc).setCharacterAttributes(0, 10, attributes, false);
             }
         });        
     }
