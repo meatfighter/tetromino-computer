@@ -1,5 +1,6 @@
 package tetriscircuits.ui;
 
+import java.awt.Color;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -12,8 +13,11 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -34,7 +38,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         initComponents();
         lineNumberingTextArea = new LineNumberingTextArea(codeTextArea);
         codeScrollPane.setRowHeaderView(lineNumberingTextArea);
-        codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
+        doc.addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(final DocumentEvent e) { 
                 lineNumberingTextArea.updateLineNumbers();
@@ -141,7 +145,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                         if (toggle) {
                             if (line.startsWith("#")) {
                                 doc.remove(startOffset, 1);
-                            } else {
+                            } else {                                
                                 doc.insertString(startOffset, "#", null);
                             }
                         } else if (comment) {
@@ -154,8 +158,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                             }                            
                         }
                     } catch (final BadLocationException e) {
+                        e.printStackTrace(); // TODO REMOVE
                     }
                 }
+                                
+//                final SimpleAttributeSet attributes = new SimpleAttributeSet();
+//                StyleConstants.setForeground(attributes, Color.RED);
+//                StyleConstants.setBackground(attributes, Color.GREEN);
+//                ((DefaultStyledDocument)doc).setCharacterAttributes(0, 10, attributes, false);
             }
         });        
     }
@@ -197,7 +207,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.setForeground(new java.awt.Color(169, 183, 198));
         codeTextArea.setRows(5);
         codeTextArea.setTabSize(4);
-        codeTextArea.setText("This is a test. Hello World!!!");
         codeTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
         codeScrollPane.setViewportView(codeTextArea);
 
