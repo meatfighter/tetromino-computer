@@ -1,6 +1,5 @@
 package tetriscircuits.ui;
 
-import java.awt.Color;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -13,11 +12,8 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -35,7 +31,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
      * Creates new form NewJPanel
      */
     public CircuitsEditorPanel() {
-        initComponents();
+        initComponents();       
         lineNumberingTextArea = new LineNumberingTextArea(codeTextPane);
         codeScrollPane.setRowHeaderView(lineNumberingTextArea);
         codeTextPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -173,45 +169,28 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        splitPane = new javax.swing.JSplitPane();
+        horizontalSplitPane = new javax.swing.JSplitPane();
         playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
-        codeTextAreaScrollPane = new javax.swing.JScrollPane();
-        codeTextArea = new javax.swing.JTextArea();
-        splitPane2 = new javax.swing.JSplitPane();
+        verticalSplitPane = new javax.swing.JSplitPane();
         outputScrollPane = new javax.swing.JScrollPane();
         outputTextArea = new javax.swing.JTextArea();
         codeScrollPane = new javax.swing.JScrollPane();
         codeTextPane = new javax.swing.JTextPane();
 
-        codeTextArea.setBackground(new java.awt.Color(43, 43, 43));
-        codeTextArea.setColumns(20);
-        codeTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
-        codeTextArea.setForeground(new java.awt.Color(169, 183, 198));
-        codeTextArea.setRows(5);
-        codeTextArea.setTabSize(4);
-        codeTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
-        codeTextAreaScrollPane.setViewportView(codeTextArea);
-
         javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
         playfieldPanel.setLayout(playfieldPanelLayout);
         playfieldPanelLayout.setHorizontalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(playfieldPanelLayout.createSequentialGroup()
-                .addGap(321, 321, 321)
-                .addComponent(codeTextAreaScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(635, Short.MAX_VALUE))
+            .addGap(0, 976, Short.MAX_VALUE)
         );
         playfieldPanelLayout.setVerticalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(playfieldPanelLayout.createSequentialGroup()
-                .addGap(240, 240, 240)
-                .addComponent(codeTextAreaScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(429, Short.MAX_VALUE))
+            .addGap(0, 766, Short.MAX_VALUE)
         );
 
-        splitPane.setRightComponent(playfieldPanel);
+        horizontalSplitPane.setRightComponent(playfieldPanel);
 
-        splitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
         outputTextArea.setColumns(20);
@@ -219,7 +198,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputTextArea.setRows(5);
         outputScrollPane.setViewportView(outputTextArea);
 
-        splitPane2.setRightComponent(outputScrollPane);
+        verticalSplitPane.setRightComponent(outputScrollPane);
 
         codeTextPane.setBackground(new java.awt.Color(43, 43, 43));
         codeTextPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
@@ -227,32 +206,30 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextPane.setForeground(new java.awt.Color(169, 183, 198));
         codeScrollPane.setViewportView(codeTextPane);
 
-        splitPane2.setLeftComponent(codeScrollPane);
+        verticalSplitPane.setLeftComponent(codeScrollPane);
 
-        splitPane.setLeftComponent(splitPane2);
+        horizontalSplitPane.setLeftComponent(verticalSplitPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(splitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(splitPane)
+            .addComponent(horizontalSplitPane)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane codeScrollPane;
-    private javax.swing.JTextArea codeTextArea;
-    private javax.swing.JScrollPane codeTextAreaScrollPane;
     private javax.swing.JTextPane codeTextPane;
+    private javax.swing.JSplitPane horizontalSplitPane;
     private javax.swing.JScrollPane outputScrollPane;
     private javax.swing.JTextArea outputTextArea;
     private tetriscircuits.ui.PlayfieldPanel playfieldPanel;
-    private javax.swing.JSplitPane splitPane;
-    private javax.swing.JSplitPane splitPane2;
+    private javax.swing.JSplitPane verticalSplitPane;
     // End of variables declaration//GEN-END:variables
 }
