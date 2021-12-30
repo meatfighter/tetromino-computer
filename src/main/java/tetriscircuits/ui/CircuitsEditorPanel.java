@@ -1,12 +1,36 @@
 package tetriscircuits.ui;
 
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
+    private LineNumberingTextArea lineNumberingTextArea;
+    
     /**
      * Creates new form NewJPanel
      */
     public CircuitsEditorPanel() {
         initComponents();
+        lineNumberingTextArea = new LineNumberingTextArea(codeTextArea);
+        scrollPane.setRowHeaderView(lineNumberingTextArea);
+        codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                lineNumberingTextArea.updateLineNumbers();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                lineNumberingTextArea.updateLineNumbers();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                lineNumberingTextArea.updateLineNumbers();
+            }
+        });
     }
 
     /**
@@ -27,6 +51,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         codeTextArea.setForeground(new java.awt.Color(169, 183, 198));
         codeTextArea.setRows(5);
+        codeTextArea.setText("This is a test. Hello World!!!");
         scrollPane.setViewportView(codeTextArea);
 
         splitPane.setLeftComponent(scrollPane);

@@ -24,9 +24,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         fileMenu.setText("File");
-        fileMenu.setMaximumSize(null);
         fileMenu.setMinimumSize(null);
-        fileMenu.setPreferredSize(null);
         menuBar.add(fileMenu);
 
         setJMenuBar(menuBar);
@@ -40,8 +38,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(circuitsEditorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 838, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(circuitsEditorPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

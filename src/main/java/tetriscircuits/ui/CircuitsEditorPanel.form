@@ -55,7 +55,11 @@
                   <Color blue="c6" green="b7" red="a9" type="rgb"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
+                <Property name="text" type="java.lang.String" value="This is a test. Hello World!!!"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
