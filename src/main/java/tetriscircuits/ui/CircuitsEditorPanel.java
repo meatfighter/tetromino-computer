@@ -5,7 +5,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
+import javax.swing.text.Element;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -93,7 +95,31 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void codeTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextAreaKeyTyped
-        System.out.println(evt);
+        if (!evt.isShiftDown() || evt.getKeyChar() != '\t') {
+            return;
+        }
+        
+        final Document doc = codeTextArea.getDocument();
+        final Element root = doc.getDefaultRootElement();
+        final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
+        final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
+        
+        for (int i = startIndex; i <= endIndex; ++i) {
+            final Element element = root.getElement(i);
+            final int startOffset = element.getStartOffset();
+            final int endOffset = element.getEndOffset();
+            if (endOffset - startOffset < 4) {
+                continue;
+            }
+            try {
+                final String line = doc.getText(startOffset, endOffset - startOffset);
+                if (line.startsWith("    ")) {
+                    doc.remove(startOffset, 4);
+                }
+            } catch (final BadLocationException e) {
+                e.printStackTrace(); // TODO REMOVE
+            }
+        }
     }//GEN-LAST:event_codeTextAreaKeyTyped
 
 
