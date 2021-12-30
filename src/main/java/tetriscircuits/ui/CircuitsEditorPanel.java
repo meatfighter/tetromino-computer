@@ -1,10 +1,11 @@
 package tetriscircuits.ui;
 
-import java.awt.EventQueue;
-import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -20,24 +21,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(final DocumentEvent e) { 
-                try {
-                    final Document doc = e.getDocument();
-                    final int offset = e.getOffset();
-                    final int length = e.getLength();
-                    final String insertedText = doc.getText(offset, length);
-                    if (insertedText.indexOf('\t') >= 0) {
-                        EventQueue.invokeLater(() -> {
-                            try {
-                                doc.remove(offset, length);
-                                doc.insertString(offset, insertedText.replace("\t", "    "), null);
-                            } catch (final Exception exception) {
-                                exception.printStackTrace();    // TODO REMOVE
-                            }
-                        });
-                    }
-                } catch (final Exception exception) {
-                    exception.printStackTrace(); // TODO REMOVE
-                }
                 lineNumberingTextArea.updateLineNumbers();
             }
 
@@ -51,6 +34,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 lineNumberingTextArea.updateLineNumbers();
             }
         });
+        ((AbstractDocument)codeTextArea.getDocument()).setDocumentFilter(new CodeDocumentFilter());
     }
 
     /**
@@ -74,6 +58,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.setTabSize(4);
         codeTextArea.setText("This is a test. Hello World!!!");
         codeTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
+        codeTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codeTextAreaKeyTyped(evt);
+            }
+        });
         scrollPane.setViewportView(codeTextArea);
 
         splitPane.setLeftComponent(scrollPane);
@@ -102,6 +91,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             .addComponent(splitPane)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void codeTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextAreaKeyTyped
+        System.out.println(evt);
+    }//GEN-LAST:event_codeTextAreaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
