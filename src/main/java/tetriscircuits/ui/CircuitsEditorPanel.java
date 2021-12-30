@@ -1,16 +1,28 @@
 package tetriscircuits.ui;
 
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
 import javax.swing.text.Element;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
+    private static final KeyStroke UNDO_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
+    private static final KeyStroke REDO_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);    
+    
     private LineNumberingTextArea lineNumberingTextArea;
     
     /**
@@ -37,6 +49,36 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });
         ((AbstractDocument)codeTextArea.getDocument()).setDocumentFilter(new CodeDocumentFilter());
+        
+        final UndoManager undoManager = new UndoManager();
+        codeTextArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
+            @Override
+            public void undoableEditHappened(final UndoableEditEvent e) {
+                undoManager.addEdit(e.getEdit());
+            }
+        });
+        codeTextArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(UNDO_KEYSTROKE, "undoKeyStroke");
+        codeTextArea.getActionMap().put("undoKeyStroke", new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    undoManager.undo();
+                } catch (final CannotUndoException cue) {
+                }
+            }
+        });
+        codeTextArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(REDO_KEYSTROKE, "redoKeyStroke");
+        codeTextArea.getActionMap().put("redoKeyStroke", new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    undoManager.redo();
+                } catch (final CannotRedoException cre) {
+                }
+            }
+        });        
     }
 
     /**
@@ -95,31 +137,29 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void codeTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextAreaKeyTyped
-        if (!evt.isShiftDown() || evt.getKeyChar() != '\t') {
-            return;
-        }
-        
-        final Document doc = codeTextArea.getDocument();
-        final Element root = doc.getDefaultRootElement();
-        final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
-        final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
-        
-        for (int i = startIndex; i <= endIndex; ++i) {
-            final Element element = root.getElement(i);
-            final int startOffset = element.getStartOffset();
-            final int endOffset = element.getEndOffset();
-            if (endOffset - startOffset < 4) {
-                continue;
-            }
-            try {
-                final String line = doc.getText(startOffset, endOffset - startOffset);
-                if (line.startsWith("    ")) {
-                    doc.remove(startOffset, 4);
+        if (evt.isShiftDown() && evt.getKeyChar() == '\t') {        
+            final Document doc = codeTextArea.getDocument();
+            final Element root = doc.getDefaultRootElement();
+            final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
+            final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
+
+            for (int i = startIndex; i <= endIndex; ++i) {
+                final Element element = root.getElement(i);
+                final int startOffset = element.getStartOffset();
+                final int endOffset = element.getEndOffset();
+                if (endOffset - startOffset < 4) {
+                    continue;
                 }
-            } catch (final BadLocationException e) {
-                e.printStackTrace(); // TODO REMOVE
+                try {
+                    final String line = doc.getText(startOffset, endOffset - startOffset);
+                    if (line.startsWith("    ")) {
+                        doc.remove(startOffset, 4);
+                    }
+                } catch (final BadLocationException e) {
+                    e.printStackTrace(); // TODO REMOVE
+                }
             }
-        }
+        } 
     }//GEN-LAST:event_codeTextAreaKeyTyped
 
 
