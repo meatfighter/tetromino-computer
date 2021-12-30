@@ -1,8 +1,10 @@
 package tetriscircuits.ui;
 
+import java.awt.EventQueue;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -17,17 +19,35 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         scrollPane.setRowHeaderView(lineNumberingTextArea);
         codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent documentEvent) {
+            public void insertUpdate(final DocumentEvent e) { 
+                try {
+                    final Document doc = e.getDocument();
+                    final int offset = e.getOffset();
+                    final int length = e.getLength();
+                    final String insertedText = doc.getText(offset, length);
+                    if (insertedText.indexOf('\t') >= 0) {
+                        EventQueue.invokeLater(() -> {
+                            try {
+                                doc.remove(offset, length);
+                                doc.insertString(offset, insertedText.replace("\t", "    "), null);
+                            } catch (final Exception exception) {
+                                exception.printStackTrace();    // TODO REMOVE
+                            }
+                        });
+                    }
+                } catch (final Exception exception) {
+                    exception.printStackTrace(); // TODO REMOVE
+                }
                 lineNumberingTextArea.updateLineNumbers();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent documentEvent) {
+            public void removeUpdate(final DocumentEvent e) {
                 lineNumberingTextArea.updateLineNumbers();
             }
 
             @Override
-            public void changedUpdate(DocumentEvent documentEvent) {
+            public void changedUpdate(final DocumentEvent e) {
                 lineNumberingTextArea.updateLineNumbers();
             }
         });
@@ -51,7 +71,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         codeTextArea.setForeground(new java.awt.Color(169, 183, 198));
         codeTextArea.setRows(5);
+        codeTextArea.setTabSize(4);
         codeTextArea.setText("This is a test. Hello World!!!");
+        codeTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
         scrollPane.setViewportView(codeTextArea);
 
         splitPane.setLeftComponent(scrollPane);
