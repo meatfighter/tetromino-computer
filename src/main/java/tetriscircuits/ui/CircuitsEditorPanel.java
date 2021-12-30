@@ -21,7 +21,9 @@ import javax.swing.undo.UndoManager;
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
     private static final KeyStroke UNDO_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
-    private static final KeyStroke REDO_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);    
+    private static final KeyStroke REDO_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
+    private static final KeyStroke UNINDENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK);
+    private static final KeyStroke COMMENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Event.CTRL_MASK);
     
     private LineNumberingTextArea lineNumberingTextArea;
     
@@ -31,7 +33,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     public CircuitsEditorPanel() {
         initComponents();
         lineNumberingTextArea = new LineNumberingTextArea(codeTextArea);
-        scrollPane.setRowHeaderView(lineNumberingTextArea);
+        codeScrollPane.setRowHeaderView(lineNumberingTextArea);
         codeTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(final DocumentEvent e) { 
@@ -78,6 +80,83 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 } catch (final CannotRedoException cre) {
                 }
             }
+        });
+        codeTextArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(UNINDENT_KEYSTROKE, "unindentKeyStroke");
+        codeTextArea.getActionMap().put("unindentKeyStroke", new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent evt) {
+                final Document doc = codeTextArea.getDocument();
+                final Element root = doc.getDefaultRootElement();
+                final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
+                final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
+                for (int i = startIndex; i <= endIndex; ++i) {
+                    final Element element = root.getElement(i);
+                    final int startOffset = element.getStartOffset();
+                    final int endOffset = element.getEndOffset();
+                    if (endOffset - startOffset < 4) {
+                        continue;
+                    }
+                    try {
+                        final String line = doc.getText(startOffset, endOffset - startOffset);
+                        if (line.startsWith("    ")) {
+                            doc.remove(startOffset, 4);
+                        }
+                    } catch (final BadLocationException e) {
+                    }
+                }                
+            }
+        });
+        codeTextArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(COMMENT_KEYSTROKE, "commentKeyStroke");
+        codeTextArea.getActionMap().put("commentKeyStroke", new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent evt) {
+            final Document doc = codeTextArea.getDocument();
+                final Element root = doc.getDefaultRootElement();
+                final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
+                final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
+                final int lineCount = endIndex - startIndex + 1;
+                int comments = 0;
+                for (int i = startIndex; i <= endIndex; ++i) {
+                    final Element element = root.getElement(i);
+                    final int startOffset = element.getStartOffset();
+                    final int endOffset = element.getEndOffset();
+                    try {
+                        final String line = doc.getText(startOffset, endOffset - startOffset);
+                        if (line.startsWith("#")) {
+                            ++comments;
+                        }
+                    } catch (final BadLocationException e) {
+                    }
+                }
+                final boolean toggle = lineCount == 1;
+                final boolean comment = comments <= (lineCount >> 1);
+                for (int i = startIndex; i <= endIndex; ++i) {
+                    final Element element = root.getElement(i);
+                    final int startOffset = element.getStartOffset();
+                    final int endOffset = element.getEndOffset();
+                    try {
+                        final String line = doc.getText(startOffset, endOffset - startOffset);
+                        if (toggle) {
+                            if (line.startsWith("#")) {
+                                doc.remove(startOffset, 1);
+                            } else {
+                                doc.insertString(startOffset, "#", null);
+                            }
+                        } else if (comment) {
+                            if (!line.startsWith("#")) {
+                                doc.insertString(startOffset, "#", null);
+                            }                            
+                        } else {
+                            if (line.startsWith("#")) {
+                                doc.remove(startOffset, 1);
+                            }                            
+                        }
+                    } catch (final BadLocationException e) {
+                    }
+                }
+            }
         });        
     }
 
@@ -90,9 +169,27 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         splitPane = new javax.swing.JSplitPane();
-        scrollPane = new javax.swing.JScrollPane();
-        codeTextArea = new javax.swing.JTextArea();
         playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
+        splitPane2 = new javax.swing.JSplitPane();
+        codeScrollPane = new javax.swing.JScrollPane();
+        codeTextArea = new javax.swing.JTextArea();
+        outputScrollPane = new javax.swing.JScrollPane();
+        outputTextArea = new javax.swing.JTextArea();
+
+        javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
+        playfieldPanel.setLayout(playfieldPanelLayout);
+        playfieldPanelLayout.setHorizontalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 804, Short.MAX_VALUE)
+        );
+        playfieldPanelLayout.setVerticalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 766, Short.MAX_VALUE)
+        );
+
+        splitPane.setRightComponent(playfieldPanel);
+
+        splitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         codeTextArea.setBackground(new java.awt.Color(43, 43, 43));
         codeTextArea.setColumns(20);
@@ -102,27 +199,19 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextArea.setTabSize(4);
         codeTextArea.setText("This is a test. Hello World!!!");
         codeTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
-        codeTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                codeTextAreaKeyTyped(evt);
-            }
-        });
-        scrollPane.setViewportView(codeTextArea);
+        codeScrollPane.setViewportView(codeTextArea);
 
-        splitPane.setLeftComponent(scrollPane);
+        splitPane2.setLeftComponent(codeScrollPane);
 
-        javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
-        playfieldPanel.setLayout(playfieldPanelLayout);
-        playfieldPanelLayout.setHorizontalGroup(
-            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 855, Short.MAX_VALUE)
-        );
-        playfieldPanelLayout.setVerticalGroup(
-            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 754, Short.MAX_VALUE)
-        );
+        outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
+        outputTextArea.setColumns(20);
+        outputTextArea.setForeground(new java.awt.Color(169, 183, 198));
+        outputTextArea.setRows(5);
+        outputScrollPane.setViewportView(outputTextArea);
 
-        splitPane.setRightComponent(playfieldPanel);
+        splitPane2.setRightComponent(outputScrollPane);
+
+        splitPane.setLeftComponent(splitPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,37 +225,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void codeTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextAreaKeyTyped
-        if (evt.isShiftDown() && evt.getKeyChar() == '\t') {        
-            final Document doc = codeTextArea.getDocument();
-            final Element root = doc.getDefaultRootElement();
-            final int startIndex = root.getElementIndex(codeTextArea.getSelectionStart());
-            final int endIndex = root.getElementIndex(codeTextArea.getSelectionEnd());
-
-            for (int i = startIndex; i <= endIndex; ++i) {
-                final Element element = root.getElement(i);
-                final int startOffset = element.getStartOffset();
-                final int endOffset = element.getEndOffset();
-                if (endOffset - startOffset < 4) {
-                    continue;
-                }
-                try {
-                    final String line = doc.getText(startOffset, endOffset - startOffset);
-                    if (line.startsWith("    ")) {
-                        doc.remove(startOffset, 4);
-                    }
-                } catch (final BadLocationException e) {
-                    e.printStackTrace(); // TODO REMOVE
-                }
-            }
-        } 
-    }//GEN-LAST:event_codeTextAreaKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane codeScrollPane;
     private javax.swing.JTextArea codeTextArea;
+    private javax.swing.JScrollPane outputScrollPane;
+    private javax.swing.JTextArea outputTextArea;
     private tetriscircuits.ui.PlayfieldPanel playfieldPanel;
-    private javax.swing.JScrollPane scrollPane;
     private javax.swing.JSplitPane splitPane;
+    private javax.swing.JSplitPane splitPane2;
     // End of variables declaration//GEN-END:variables
 }
