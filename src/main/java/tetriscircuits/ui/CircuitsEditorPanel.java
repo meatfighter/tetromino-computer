@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tetriscircuits.ui;
 
-/**
- *
- * @author o__1
- */
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
     /**
@@ -26,48 +17,50 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        splitPane = new javax.swing.JSplitPane();
+        scrollPane = new javax.swing.JScrollPane();
         codeTextArea = new javax.swing.JTextArea();
-        playfieldPanel1 = new tetriscircuits.ui.PlayfieldPanel();
+        playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
 
+        codeTextArea.setBackground(new java.awt.Color(43, 43, 43));
         codeTextArea.setColumns(20);
-        codeTextArea.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        codeTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        codeTextArea.setForeground(new java.awt.Color(169, 183, 198));
         codeTextArea.setRows(5);
-        jScrollPane1.setViewportView(codeTextArea);
+        scrollPane.setViewportView(codeTextArea);
 
-        jSplitPane1.setLeftComponent(jScrollPane1);
+        splitPane.setLeftComponent(scrollPane);
 
-        javax.swing.GroupLayout playfieldPanel1Layout = new javax.swing.GroupLayout(playfieldPanel1);
-        playfieldPanel1.setLayout(playfieldPanel1Layout);
-        playfieldPanel1Layout.setHorizontalGroup(
-            playfieldPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
+        playfieldPanel.setLayout(playfieldPanelLayout);
+        playfieldPanelLayout.setHorizontalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 855, Short.MAX_VALUE)
         );
-        playfieldPanel1Layout.setVerticalGroup(
-            playfieldPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        playfieldPanelLayout.setVerticalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 754, Short.MAX_VALUE)
         );
 
-        jSplitPane1.setRightComponent(playfieldPanel1);
+        splitPane.setRightComponent(playfieldPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
+            .addComponent(splitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1010, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+            .addComponent(splitPane)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea codeTextArea;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSplitPane jSplitPane1;
-    private tetriscircuits.ui.PlayfieldPanel playfieldPanel1;
+    private tetriscircuits.ui.PlayfieldPanel playfieldPanel;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JSplitPane splitPane;
     // End of variables declaration//GEN-END:variables
 }

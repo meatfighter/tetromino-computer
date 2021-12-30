@@ -1,5 +1,6 @@
 package tetriscircuits;
 
+import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +30,10 @@ public class Main {
     }
     
     private void createFrame() {
+        
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(new DarculaLaf()); 
         } catch (final Exception e) {
             e.printStackTrace();
         }

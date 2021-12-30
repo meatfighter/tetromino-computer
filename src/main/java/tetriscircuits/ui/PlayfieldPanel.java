@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
+    
+    private static final Color BACKGROUND = new Color(0x2B2B2B);
+    private static final Color GRID = new Color(0x555555);
 
     /**
      * Creates new form PlayfieldPanel
@@ -41,7 +44,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         
         final Dimension size = getSize();
         
-        g.setColor(Color.RED);
+        g.setColor(BACKGROUND);
         g.fillRect(0, 0, size.width, size.height);
     }
 }
