@@ -4,6 +4,7 @@ import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
@@ -173,6 +174,18 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         try {
             undoManager.redo();
         } catch (final CannotRedoException cre) {
+        }
+    }
+    
+    public void tetriminoButtonPressed(final ActionEvent evt) {
+        final TetriminoRenderer tetriminoRenderer = (TetriminoRenderer)((JButton)evt.getSource()).getIcon();
+        final StyledDocument doc = codeTextPane.getStyledDocument();        
+        try {            
+            final int caretPos = codeTextPane.getCaretPosition();
+            doc.insertString(caretPos, ((caretPos > 0 
+                    && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) ? "\n    " : "") 
+                    + tetriminoRenderer.getTetrimino().getName() + " ", null);
+        } catch (final BadLocationException e) {
         }
     }
 

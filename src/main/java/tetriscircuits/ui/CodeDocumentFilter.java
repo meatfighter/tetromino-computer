@@ -5,19 +5,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class CodeDocumentFilter extends DocumentFilter {
 
-    private static final Pattern keywordPattern = Pattern.compile("(def|in|out|test)($|\\s)");
-    private static final Pattern numberPattern 
+    private static final Pattern KEYWORD_PATTERN = Pattern.compile("(def|in|out|test)($|\\s)");
+    private static final Pattern NUMBER_PATTERN 
             = Pattern.compile("(([0-9]+)|([0-9]+\\.\\.[0-9]+)|([A-Za-z0-9]+[0-9]+\\.\\.[0-9]+))($|\\s)");
-    private static final Pattern declarePattern = Pattern.compile("(^|\\s)def\\s+([a-zA-Z_][a-zA-Z0-9_]*)($|\\s)");
+    private static final Pattern DECLARE_PATTERN = Pattern.compile("(^|\\s)def\\s+([a-zA-Z_][a-zA-Z0-9_]*)($|\\s)");
     
     private static final Color NORMAL_COLOR = new Color(0xBBBBBB);
     private static final Color COMMENT_COLOR = new Color(0x808080);
@@ -55,7 +55,7 @@ public class CodeDocumentFilter extends DocumentFilter {
             lineStr = lineText;
         }
         
-        final Matcher keywordMatcher = keywordPattern.matcher(lineStr);
+        final Matcher keywordMatcher = KEYWORD_PATTERN.matcher(lineStr);
         while (keywordMatcher.find()) {
             final int start = keywordMatcher.start(1);
             if (start == 0 || Character.isWhitespace(lineStr.charAt(start - 1))) {
@@ -64,7 +64,7 @@ public class CodeDocumentFilter extends DocumentFilter {
             }
         }
         
-        final Matcher numberMatcher = numberPattern.matcher(lineStr);
+        final Matcher numberMatcher = NUMBER_PATTERN.matcher(lineStr);
         while (numberMatcher.find()) {
             final int start = numberMatcher.start(1);
             if (start == 0 || lineStr.charAt(start - 1) == '-' || Character.isWhitespace(lineStr.charAt(start - 1))) {
@@ -73,7 +73,7 @@ public class CodeDocumentFilter extends DocumentFilter {
             }
         }
         
-        final Matcher declareMatcher = declarePattern.matcher(lineStr);
+        final Matcher declareMatcher = DECLARE_PATTERN.matcher(lineStr);
         while (declareMatcher.find()) {
             final int start = declareMatcher.start(2);
             doc.setCharacterAttributes(startOffset + start, 
@@ -106,7 +106,7 @@ public class CodeDocumentFilter extends DocumentFilter {
         if ("\n".equals(text)) {            
             final Element line = root.getElement(root.getElementIndex(offset));
             final String lineText = doc.getText(line.getStartOffset(), line.getEndOffset() - line.getStartOffset());
-            if (lineText.startsWith("    ")) {
+            if ((lineText.startsWith("    ") && !isBlank(lineText)) || DECLARE_PATTERN.matcher(lineText).matches()) {
                 fb.insertString(offset, "\n    ", null);
             } else {
                 fb.insertString(offset, text, null);

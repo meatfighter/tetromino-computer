@@ -1,5 +1,7 @@
 package tetriscircuits.ui;
 
+import javax.swing.JComponent;
+
 public class CircuitsFrame extends javax.swing.JFrame {
 
     /**
@@ -64,62 +66,111 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.setRollover(true);
 
         tdButton.setIcon(TetriminoRenderer.TD);
+        tdButton.setToolTipText("td");
         tdButton.setFocusable(false);
         tdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tdButton.setIconTextGap(0);
         tdButton.setMargin(null);
         tdButton.setPreferredSize(new java.awt.Dimension(40, 40));
         tdButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tdButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tdButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(tdButton);
 
         tlButton.setIcon(TetriminoRenderer.TL);
+        tlButton.setToolTipText("tl");
         tlButton.setFocusable(false);
         tlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tlButton.setMargin(null);
         tlButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tlButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tlButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(tlButton);
 
         tuButton.setIcon(TetriminoRenderer.TU);
+        tuButton.setToolTipText("tu");
         tuButton.setFocusable(false);
         tuButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tuButton.setMargin(null);
         tuButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tuButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(tuButton);
 
         trButton.setIcon(TetriminoRenderer.TR);
+        trButton.setToolTipText("tr");
         trButton.setFocusable(false);
         trButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         trButton.setMargin(null);
         trButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        trButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(trButton);
         toolBar.add(separator4);
 
         jdButton.setIcon(TetriminoRenderer.JD);
+        jdButton.setToolTipText("jd");
         jdButton.setFocusable(false);
         jdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jdButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jdButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jdButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(jdButton);
 
         jlButton.setIcon(TetriminoRenderer.JL);
+        jlButton.setToolTipText("jl");
         jlButton.setFocusable(false);
         jlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jlButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jlButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jlButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(jlButton);
 
         juButton.setIcon(TetriminoRenderer.JU);
+        juButton.setToolTipText("ju");
         juButton.setFocusable(false);
         juButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         juButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        juButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                juButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(juButton);
 
         jrButton.setIcon(TetriminoRenderer.JR);
+        jrButton.setToolTipText("jr");
         jrButton.setFocusable(false);
         jrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(jrButton);
         toolBar.add(separator5);
 
         zhButton.setIcon(TetriminoRenderer.ZH);
+        zhButton.setToolTipText("zh");
         zhButton.setFocusable(false);
         zhButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zhButton.setMargin(null);
@@ -128,9 +179,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         zhButton.setName(""); // NOI18N
         zhButton.setPreferredSize(null);
         zhButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        zhButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zhButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(zhButton);
 
         zvButton.setIcon(TetriminoRenderer.ZV);
+        zvButton.setToolTipText("zv");
         zvButton.setFocusable(false);
         zvButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zvButton.setMargin(null);
@@ -138,10 +195,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         zvButton.setMinimumSize(null);
         zvButton.setPreferredSize(null);
         zvButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        zvButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zvButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(zvButton);
         toolBar.add(separator6);
 
         oButton.setIcon(TetriminoRenderer.OS);
+        oButton.setToolTipText("o");
         oButton.setFocusable(false);
         oButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         oButton.setMargin(null);
@@ -149,10 +212,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         oButton.setMinimumSize(null);
         oButton.setPreferredSize(null);
         oButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        oButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                oButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(oButton);
         toolBar.add(separator7);
 
         shButton.setIcon(TetriminoRenderer.SH);
+        shButton.setToolTipText("sh");
         shButton.setFocusable(false);
         shButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         shButton.setMargin(null);
@@ -160,9 +229,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         shButton.setMinimumSize(null);
         shButton.setPreferredSize(null);
         shButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        shButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(shButton);
 
         svButton.setIcon(TetriminoRenderer.SV);
+        svButton.setToolTipText("sv");
         svButton.setFocusable(false);
         svButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         svButton.setMargin(null);
@@ -170,10 +245,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         svButton.setMinimumSize(null);
         svButton.setPreferredSize(null);
         svButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        svButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                svButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(svButton);
         toolBar.add(separator8);
 
         ldButton.setIcon(TetriminoRenderer.LD);
+        ldButton.setToolTipText("ld");
         ldButton.setFocusable(false);
         ldButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ldButton.setMargin(null);
@@ -181,9 +262,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ldButton.setMinimumSize(null);
         ldButton.setPreferredSize(null);
         ldButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ldButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ldButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(ldButton);
 
         llButton.setIcon(TetriminoRenderer.LL);
+        llButton.setToolTipText("ll");
         llButton.setFocusable(false);
         llButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         llButton.setMargin(null);
@@ -191,9 +278,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         llButton.setMinimumSize(null);
         llButton.setPreferredSize(null);
         llButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        llButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                llButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(llButton);
 
         luButton.setIcon(TetriminoRenderer.LU);
+        luButton.setToolTipText("lu");
         luButton.setFocusable(false);
         luButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         luButton.setMargin(null);
@@ -201,9 +294,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         luButton.setMinimumSize(null);
         luButton.setPreferredSize(null);
         luButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        luButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                luButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(luButton);
 
         lrButton.setIcon(TetriminoRenderer.LR);
+        lrButton.setToolTipText("lr");
         lrButton.setFocusable(false);
         lrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lrButton.setMargin(null);
@@ -211,10 +310,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         lrButton.setMinimumSize(null);
         lrButton.setPreferredSize(null);
         lrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        lrButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lrButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(lrButton);
         toolBar.add(jSeparator9);
 
         ivButton.setIcon(TetriminoRenderer.IV);
+        ivButton.setToolTipText("iv");
         ivButton.setFocusable(false);
         ivButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ivButton.setMargin(null);
@@ -222,9 +327,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ivButton.setMinimumSize(null);
         ivButton.setPreferredSize(null);
         ivButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ivButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ivButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(ivButton);
 
         ihButton.setIcon(TetriminoRenderer.IH);
+        ihButton.setToolTipText("ih");
         ihButton.setFocusable(false);
         ihButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ihButton.setMargin(null);
@@ -232,6 +343,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ihButton.setMinimumSize(null);
         ihButton.setPreferredSize(null);
         ihButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ihButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ihButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(ihButton);
 
         fileMenu.setMnemonic('f');
@@ -329,6 +445,82 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void redoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoMenuItemActionPerformed
         circuitsEditorPanel.redo();
     }//GEN-LAST:event_redoMenuItemActionPerformed
+
+    private void tdButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tdButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_tdButtonActionPerformed
+
+    private void tlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tlButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_tlButtonActionPerformed
+
+    private void tuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tuButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_tuButtonActionPerformed
+
+    private void trButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_trButtonActionPerformed
+
+    private void jdButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_jdButtonActionPerformed
+
+    private void jlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_jlButtonActionPerformed
+
+    private void juButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_juButtonActionPerformed
+
+    private void jrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_jrButtonActionPerformed
+
+    private void zhButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zhButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_zhButtonActionPerformed
+
+    private void zvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zvButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_zvButtonActionPerformed
+
+    private void oButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_oButtonActionPerformed
+
+    private void shButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_shButtonActionPerformed
+
+    private void svButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_svButtonActionPerformed
+
+    private void ldButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ldButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_ldButtonActionPerformed
+
+    private void llButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_llButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_llButtonActionPerformed
+
+    private void luButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_luButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_luButtonActionPerformed
+
+    private void lrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lrButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_lrButtonActionPerformed
+
+    private void ivButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ivButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_ivButtonActionPerformed
+
+    private void ihButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ihButtonActionPerformed
+        circuitsEditorPanel.tetriminoButtonPressed(evt);
+    }//GEN-LAST:event_ihButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
