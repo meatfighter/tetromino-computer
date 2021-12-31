@@ -26,6 +26,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private static final KeyStroke UNINDENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK);
     private static final KeyStroke COMMENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Event.CTRL_MASK);
     
+    
+    private final UndoManager undoManager;
+    
     private LineNumberingTextArea lineNumberingTextArea;
     
     /**
@@ -53,7 +56,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
         ((AbstractDocument)codeTextPane.getDocument()).setDocumentFilter(new CodeDocumentFilter());
         
-        final UndoManager undoManager = ((CustomTextPane)codeTextPane).createUndoManager();
+        undoManager = ((CustomTextPane)codeTextPane).createUndoManager();
         codeTextPane.getDocument().addUndoableEditListener(new UndoableEditListener() {
             @Override
             public void undoableEditHappened(final UndoableEditEvent e) {
@@ -65,10 +68,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextPane.getActionMap().put("undoKeyStroke", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                try {
-                    undoManager.undo();
-                } catch (final CannotUndoException cue) {
-                }
+                undo();
             }
         });
         codeTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -76,10 +76,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextPane.getActionMap().put("redoKeyStroke", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                try {
-                    undoManager.redo();
-                } catch (final CannotRedoException cre) {
-                }
+                redo();
             }
         });
         codeTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -164,6 +161,20 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });        
     }
+    
+    public void undo() {
+        try {
+            undoManager.undo();
+        } catch (final CannotUndoException cue) {
+        }        
+    }
+    
+    public void redo() {
+        try {
+            undoManager.redo();
+        } catch (final CannotRedoException cre) {
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -174,25 +185,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         horizontalSplitPane = new javax.swing.JSplitPane();
-        playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
         verticalSplitPane = new javax.swing.JSplitPane();
         outputScrollPane = new javax.swing.JScrollPane();
         outputTextArea = new javax.swing.JTextArea();
         codeScrollPane = new javax.swing.JScrollPane();
-        codeTextPane = new CustomTextPane();
-
-        javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
-        playfieldPanel.setLayout(playfieldPanelLayout);
-        playfieldPanelLayout.setHorizontalGroup(
-            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 976, Short.MAX_VALUE)
-        );
-        playfieldPanelLayout.setVerticalGroup(
-            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 766, Short.MAX_VALUE)
-        );
-
-        horizontalSplitPane.setRightComponent(playfieldPanel);
+        codeTextPane = new tetriscircuits.ui.CustomTextPane();
+        playfieldScrollPane = new javax.swing.JScrollPane();
+        playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
 
         verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -214,6 +213,21 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
 
         horizontalSplitPane.setLeftComponent(verticalSplitPane);
 
+        javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
+        playfieldPanel.setLayout(playfieldPanelLayout);
+        playfieldPanelLayout.setHorizontalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 770, Short.MAX_VALUE)
+        );
+        playfieldPanelLayout.setVerticalGroup(
+            playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 763, Short.MAX_VALUE)
+        );
+
+        playfieldScrollPane.setViewportView(playfieldPanel);
+
+        horizontalSplitPane.setRightComponent(playfieldScrollPane);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,6 +248,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane outputScrollPane;
     private javax.swing.JTextArea outputTextArea;
     private tetriscircuits.ui.PlayfieldPanel playfieldPanel;
+    private javax.swing.JScrollPane playfieldScrollPane;
     private javax.swing.JSplitPane verticalSplitPane;
     // End of variables declaration//GEN-END:variables
 }

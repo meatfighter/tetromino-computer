@@ -10,21 +10,13 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color GRID = new Color(0x555555);
     private static final Color AXISES = new Color(0xA9B7C6);
     
-    private static final Color[] TETRIMINOS = {
-        new Color(0xB802FD),
-        new Color(0x1801FF),
-        new Color(0xFE103C),
-        new Color(0xFFDE00),
-        new Color(0x66FD00),
-        new Color(0xFF7308),
-        new Color(0x00E6FE),        
-    };
-
     /**
      * Creates new form PlayfieldPanel
      */
     public PlayfieldPanel() {
         initComponents();
+        
+        this.setPreferredSize(new Dimension(5024, 5024));
     }
 
     /**
