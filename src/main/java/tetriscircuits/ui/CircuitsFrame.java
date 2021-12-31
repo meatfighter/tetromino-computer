@@ -64,6 +64,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
+        toolBar.setMaximumSize(null);
+        toolBar.setMinimumSize(null);
+        toolBar.setName(""); // NOI18N
+        toolBar.setPreferredSize(null);
 
         tdButton.setIcon(TetriminoRenderer.TD);
         tdButton.setToolTipText("td");
@@ -174,10 +178,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         zhButton.setFocusable(false);
         zhButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zhButton.setMargin(null);
-        zhButton.setMaximumSize(null);
-        zhButton.setMinimumSize(null);
         zhButton.setName(""); // NOI18N
-        zhButton.setPreferredSize(null);
         zhButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         zhButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,9 +192,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         zvButton.setFocusable(false);
         zvButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zvButton.setMargin(null);
-        zvButton.setMaximumSize(null);
-        zvButton.setMinimumSize(null);
-        zvButton.setPreferredSize(null);
         zvButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         zvButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,9 +206,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         oButton.setFocusable(false);
         oButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         oButton.setMargin(null);
-        oButton.setMaximumSize(null);
-        oButton.setMinimumSize(null);
-        oButton.setPreferredSize(null);
         oButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         oButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,9 +220,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         shButton.setFocusable(false);
         shButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         shButton.setMargin(null);
-        shButton.setMaximumSize(null);
-        shButton.setMinimumSize(null);
-        shButton.setPreferredSize(null);
         shButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         shButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,9 +233,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         svButton.setFocusable(false);
         svButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         svButton.setMargin(null);
-        svButton.setMaximumSize(null);
-        svButton.setMinimumSize(null);
-        svButton.setPreferredSize(null);
         svButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         svButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,9 +247,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ldButton.setFocusable(false);
         ldButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ldButton.setMargin(null);
-        ldButton.setMaximumSize(null);
-        ldButton.setMinimumSize(null);
-        ldButton.setPreferredSize(null);
         ldButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         ldButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,9 +260,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         llButton.setFocusable(false);
         llButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         llButton.setMargin(null);
-        llButton.setMaximumSize(null);
-        llButton.setMinimumSize(null);
-        llButton.setPreferredSize(null);
         llButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         llButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,9 +273,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         luButton.setFocusable(false);
         luButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         luButton.setMargin(null);
-        luButton.setMaximumSize(null);
-        luButton.setMinimumSize(null);
-        luButton.setPreferredSize(null);
         luButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         luButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,9 +286,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         lrButton.setFocusable(false);
         lrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lrButton.setMargin(null);
-        lrButton.setMaximumSize(null);
-        lrButton.setMinimumSize(null);
-        lrButton.setPreferredSize(null);
         lrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         lrButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,9 +300,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ivButton.setFocusable(false);
         ivButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ivButton.setMargin(null);
-        ivButton.setMaximumSize(null);
-        ivButton.setMinimumSize(null);
-        ivButton.setPreferredSize(null);
         ivButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         ivButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -339,9 +313,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         ihButton.setFocusable(false);
         ihButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ihButton.setMargin(null);
-        ihButton.setMaximumSize(null);
-        ihButton.setMinimumSize(null);
-        ihButton.setPreferredSize(null);
         ihButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         ihButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

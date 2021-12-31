@@ -12,7 +12,7 @@ import tetriscircuits.Tetrimino;
 
 public class TetriminoRenderer implements Icon {
     
-    private static final int ICON_CELL_SIZE = 8;
+    private static final int ICON_CELL_SIZE = 5;
     private static final int ICON_SIZE = 5 * ICON_CELL_SIZE;
     
     private static final boolean[][] MATRIX = new boolean[7][7];
@@ -141,8 +141,8 @@ public class TetriminoRenderer implements Icon {
         final Point[] blocks = tetrimino.getBlocks();        
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
-            final int ox = x - (cellSize >> 1) + cellSize * block.x;
-            final int oy = y - (cellSize >> 1) + cellSize * block.y;
+            final int ox = x + cellSize * block.x;
+            final int oy = y + cellSize * block.y;
             g.setColor(fillColor);
             g.fillRect(ox, oy, cellSize, cellSize);
             if (cellSize >= 4) {
@@ -181,7 +181,7 @@ public class TetriminoRenderer implements Icon {
     @Override
     public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
         
-        final int origin = ICON_SIZE >> 1;
+        final int origin = (ICON_SIZE - ICON_CELL_SIZE) >> 1;
         
         render(g, origin + x, origin + y, ICON_CELL_SIZE);
     }

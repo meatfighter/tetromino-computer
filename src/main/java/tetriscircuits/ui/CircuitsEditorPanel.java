@@ -1,5 +1,6 @@
 package tetriscircuits.ui;
 
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -36,7 +37,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
      * Creates new form NewJPanel
      */
     public CircuitsEditorPanel() {
-        initComponents();       
+        initComponents();
         lineNumberingTextArea = new LineNumberingTextArea(codeTextPane);
         codeScrollPane.setRowHeaderView(lineNumberingTextArea);
         codeTextPane.getDocument().addDocumentListener(new DocumentListener() {
@@ -206,7 +207,19 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldScrollPane = new javax.swing.JScrollPane();
         playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
 
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setPreferredSize(null);
+
+        horizontalSplitPane.setMaximumSize(null);
+        horizontalSplitPane.setMinimumSize(null);
+        horizontalSplitPane.setPreferredSize(null);
+
         verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        outputScrollPane.setMaximumSize(null);
+        outputScrollPane.setMinimumSize(null);
+        outputScrollPane.setPreferredSize(null);
 
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
         outputTextArea.setColumns(20);
@@ -216,15 +229,31 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
 
         verticalSplitPane.setRightComponent(outputScrollPane);
 
+        codeScrollPane.setMaximumSize(null);
+        codeScrollPane.setMinimumSize(null);
+        codeScrollPane.setPreferredSize(null);
+
         codeTextPane.setBackground(new java.awt.Color(43, 43, 43));
         codeTextPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
         codeTextPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         codeTextPane.setForeground(new java.awt.Color(169, 183, 198));
+        codeTextPane.setMaximumSize(null);
+        codeTextPane.setMinimumSize(null);
+        codeTextPane.setPreferredSize(null);
         codeScrollPane.setViewportView(codeTextPane);
 
         verticalSplitPane.setLeftComponent(codeScrollPane);
 
         horizontalSplitPane.setLeftComponent(verticalSplitPane);
+
+        playfieldScrollPane.setMaximumSize(null);
+        playfieldScrollPane.setMinimumSize(null);
+        playfieldScrollPane.setPreferredSize(null);
+
+        playfieldPanel.setMaximumSize(null);
+        playfieldPanel.setMinimumSize(null);
+        playfieldPanel.setName(""); // NOI18N
+        playfieldPanel.setPreferredSize(null);
 
         javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
         playfieldPanel.setLayout(playfieldPanelLayout);
@@ -249,7 +278,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

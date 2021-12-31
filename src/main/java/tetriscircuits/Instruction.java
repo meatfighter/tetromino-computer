@@ -15,6 +15,10 @@ public class Instruction {
         this.moves = moves;
     }
 
+    public Tetrimino getTetrimino() {
+        return tetrimino;
+    }
+
     public Component getComponent() {
         return component;
     }

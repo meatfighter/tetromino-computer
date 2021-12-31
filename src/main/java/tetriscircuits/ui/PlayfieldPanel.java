@@ -10,13 +10,20 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color GRID = new Color(0x555555);
     private static final Color AXISES = new Color(0xA9B7C6);
     
+    private int cellSize = 16;
+    private int playfieldWidth = 64;
+    private int playfieldHeight = 64;
+    private LockedTetriminoRenderer[] lockedTetriminoRenderers = {
+        new LockedTetriminoRenderer(TetriminoRenderer.TD, 1, 0),
+    };
+    
+    private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
+    
     /**
      * Creates new form PlayfieldPanel
      */
     public PlayfieldPanel() {
         initComponents();
-        
-        this.setPreferredSize(new Dimension(5024, 5024));
     }
 
     /**
@@ -26,6 +33,10 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setPreferredSize(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -49,13 +60,36 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         
         g.setColor(BACKGROUND);
         g.fillRect(0, 0, size.width, size.height);
+                
+        final int width = playfieldWidth * cellSize;
+        final int height = playfieldHeight * cellSize;
+        final int originY = size.height - 1 - height;
+        final int originX = (size.width - width) >> 1;
         
         g.setColor(GRID);
-        for (int x = 0; x < size.width; x += 16) {
-            g.drawLine(x, 0, x, size.height);
+        for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
+            g.drawLine(x, originY, x, originY + height);
         }
-        for (int y = 0; y < size.height; y += 16) {
-            g.drawLine(0, y, size.width, y);
+        for (int i = 0, y = originY; i <= playfieldHeight; ++i, y += cellSize) {
+            g.drawLine(originX, y, originX + width, y);
         }
+        
+        g.setColor(AXISES);
+        final int middleX = originX + (playfieldWidth >> 1) * cellSize;
+        g.drawLine(middleX, originY, middleX, originY + height);
+        
+        for (int i = 0; i < lockedTetriminoRenderers.length; ++i) {
+            lockedTetriminoRenderers[i].render(g, originX, originY, cellSize);
+        }
+    }
+
+    @Override
+    public Dimension getMinimumSize() {
+        return minimalSize;
+    }    
+
+    @Override
+    public Dimension getPreferredSize() {
+        return minimalSize;
     }
 }

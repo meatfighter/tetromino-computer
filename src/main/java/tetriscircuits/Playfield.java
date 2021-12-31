@@ -40,6 +40,15 @@ public class Playfield {
         data = new int[height][w];
     }
     
+    public void clear() {
+        for (int i = data.length - 1; i >= 0; --i) {
+            final int[] row = data[i];
+            for (int j = row.length - 1; j >= 0; --j) {
+                row[j] = 0;
+            }
+        }
+    }
+    
     public int get(final int x, final int y) {
         if (x < 0 || x >= width || y >= height) {
             return 1;
