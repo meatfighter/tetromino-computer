@@ -103,6 +103,16 @@ public class CodeDocumentFilter extends DocumentFilter {
         final Element root = doc.getDefaultRootElement();
         final int startIndex = root.getElementIndex(offset);
         
+        if ("\n".equals(text)) {            
+            final Element line = root.getElement(root.getElementIndex(offset));
+            if (doc.getText(line.getStartOffset(), line.getEndOffset() - line.getStartOffset()).startsWith("    ")) {
+                fb.insertString(offset, "\n    ", null);
+            } else {
+                fb.insertString(offset, text, null);
+            }
+            return;
+        }
+        
         if ("\t".equals(text)) {
             final int endIndex = root.getElementIndex(offset + length);
             if (startIndex == endIndex) {
