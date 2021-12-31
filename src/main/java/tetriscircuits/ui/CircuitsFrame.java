@@ -18,6 +18,32 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         circuitsEditorPanel = new tetriscircuits.ui.CircuitsEditorPanel();
+        toolBar = new javax.swing.JToolBar();
+        tdButton = new javax.swing.JButton();
+        tlButton = new javax.swing.JButton();
+        tuButton = new javax.swing.JButton();
+        trButton = new javax.swing.JButton();
+        separator4 = new javax.swing.JToolBar.Separator();
+        jdButton = new javax.swing.JButton();
+        jlButton = new javax.swing.JButton();
+        juButton = new javax.swing.JButton();
+        jrButton = new javax.swing.JButton();
+        separator5 = new javax.swing.JToolBar.Separator();
+        zhButton = new javax.swing.JButton();
+        zvButton = new javax.swing.JButton();
+        separator6 = new javax.swing.JToolBar.Separator();
+        oButton = new javax.swing.JButton();
+        separator7 = new javax.swing.JToolBar.Separator();
+        shButton = new javax.swing.JButton();
+        svButton = new javax.swing.JButton();
+        separator8 = new javax.swing.JToolBar.Separator();
+        ldButton = new javax.swing.JButton();
+        llButton = new javax.swing.JButton();
+        luButton = new javax.swing.JButton();
+        lrButton = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JToolBar.Separator();
+        ivButton = new javax.swing.JButton();
+        ihButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -33,6 +59,180 @@ public class CircuitsFrame extends javax.swing.JFrame {
         redoMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);
+
+        tdButton.setIcon(TetriminoRenderer.TD);
+        tdButton.setFocusable(false);
+        tdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tdButton.setIconTextGap(0);
+        tdButton.setMargin(null);
+        tdButton.setPreferredSize(new java.awt.Dimension(40, 40));
+        tdButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(tdButton);
+
+        tlButton.setIcon(TetriminoRenderer.TL);
+        tlButton.setFocusable(false);
+        tlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tlButton.setMargin(null);
+        tlButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(tlButton);
+
+        tuButton.setIcon(TetriminoRenderer.TU);
+        tuButton.setFocusable(false);
+        tuButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tuButton.setMargin(null);
+        tuButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(tuButton);
+
+        trButton.setIcon(TetriminoRenderer.TR);
+        trButton.setFocusable(false);
+        trButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        trButton.setMargin(null);
+        trButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(trButton);
+        toolBar.add(separator4);
+
+        jdButton.setIcon(TetriminoRenderer.JD);
+        jdButton.setFocusable(false);
+        jdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jdButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(jdButton);
+
+        jlButton.setIcon(TetriminoRenderer.JL);
+        jlButton.setFocusable(false);
+        jlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jlButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(jlButton);
+
+        juButton.setIcon(TetriminoRenderer.JU);
+        juButton.setFocusable(false);
+        juButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        juButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(juButton);
+
+        jrButton.setIcon(TetriminoRenderer.JR);
+        jrButton.setFocusable(false);
+        jrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(jrButton);
+        toolBar.add(separator5);
+
+        zhButton.setIcon(TetriminoRenderer.ZH);
+        zhButton.setFocusable(false);
+        zhButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        zhButton.setMargin(null);
+        zhButton.setMaximumSize(null);
+        zhButton.setMinimumSize(null);
+        zhButton.setName(""); // NOI18N
+        zhButton.setPreferredSize(null);
+        zhButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(zhButton);
+
+        zvButton.setIcon(TetriminoRenderer.ZV);
+        zvButton.setFocusable(false);
+        zvButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        zvButton.setMargin(null);
+        zvButton.setMaximumSize(null);
+        zvButton.setMinimumSize(null);
+        zvButton.setPreferredSize(null);
+        zvButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(zvButton);
+        toolBar.add(separator6);
+
+        oButton.setIcon(TetriminoRenderer.OS);
+        oButton.setFocusable(false);
+        oButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        oButton.setMargin(null);
+        oButton.setMaximumSize(null);
+        oButton.setMinimumSize(null);
+        oButton.setPreferredSize(null);
+        oButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(oButton);
+        toolBar.add(separator7);
+
+        shButton.setIcon(TetriminoRenderer.SH);
+        shButton.setFocusable(false);
+        shButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        shButton.setMargin(null);
+        shButton.setMaximumSize(null);
+        shButton.setMinimumSize(null);
+        shButton.setPreferredSize(null);
+        shButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(shButton);
+
+        svButton.setIcon(TetriminoRenderer.SV);
+        svButton.setFocusable(false);
+        svButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        svButton.setMargin(null);
+        svButton.setMaximumSize(null);
+        svButton.setMinimumSize(null);
+        svButton.setPreferredSize(null);
+        svButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(svButton);
+        toolBar.add(separator8);
+
+        ldButton.setIcon(TetriminoRenderer.LD);
+        ldButton.setFocusable(false);
+        ldButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ldButton.setMargin(null);
+        ldButton.setMaximumSize(null);
+        ldButton.setMinimumSize(null);
+        ldButton.setPreferredSize(null);
+        ldButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(ldButton);
+
+        llButton.setIcon(TetriminoRenderer.LL);
+        llButton.setFocusable(false);
+        llButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        llButton.setMargin(null);
+        llButton.setMaximumSize(null);
+        llButton.setMinimumSize(null);
+        llButton.setPreferredSize(null);
+        llButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(llButton);
+
+        luButton.setIcon(TetriminoRenderer.LU);
+        luButton.setFocusable(false);
+        luButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        luButton.setMargin(null);
+        luButton.setMaximumSize(null);
+        luButton.setMinimumSize(null);
+        luButton.setPreferredSize(null);
+        luButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(luButton);
+
+        lrButton.setIcon(TetriminoRenderer.LR);
+        lrButton.setFocusable(false);
+        lrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lrButton.setMargin(null);
+        lrButton.setMaximumSize(null);
+        lrButton.setMinimumSize(null);
+        lrButton.setPreferredSize(null);
+        lrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(lrButton);
+        toolBar.add(jSeparator9);
+
+        ivButton.setIcon(TetriminoRenderer.IV);
+        ivButton.setFocusable(false);
+        ivButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ivButton.setMargin(null);
+        ivButton.setMaximumSize(null);
+        ivButton.setMinimumSize(null);
+        ivButton.setPreferredSize(null);
+        ivButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(ivButton);
+
+        ihButton.setIcon(TetriminoRenderer.IH);
+        ihButton.setFocusable(false);
+        ihButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ihButton.setMargin(null);
+        ihButton.setMaximumSize(null);
+        ihButton.setMinimumSize(null);
+        ihButton.setPreferredSize(null);
+        ihButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(ihButton);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -104,11 +304,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -132,15 +335,41 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JButton ihButton;
+    private javax.swing.JButton ivButton;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator9;
+    private javax.swing.JButton jdButton;
+    private javax.swing.JButton jlButton;
+    private javax.swing.JButton jrButton;
+    private javax.swing.JButton juButton;
+    private javax.swing.JButton ldButton;
+    private javax.swing.JButton llButton;
+    private javax.swing.JButton lrButton;
+    private javax.swing.JButton luButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newMenuItem;
+    private javax.swing.JButton oButton;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem redoMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JToolBar.Separator separator4;
+    private javax.swing.JToolBar.Separator separator5;
+    private javax.swing.JToolBar.Separator separator6;
+    private javax.swing.JToolBar.Separator separator7;
+    private javax.swing.JToolBar.Separator separator8;
+    private javax.swing.JButton shButton;
+    private javax.swing.JButton svButton;
+    private javax.swing.JButton tdButton;
+    private javax.swing.JButton tlButton;
+    private javax.swing.JToolBar toolBar;
+    private javax.swing.JButton trButton;
+    private javax.swing.JButton tuButton;
     private javax.swing.JMenuItem undoMenuItem;
+    private javax.swing.JButton zhButton;
+    private javax.swing.JButton zvButton;
     // End of variables declaration//GEN-END:variables
 }

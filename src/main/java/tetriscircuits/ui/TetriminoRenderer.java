@@ -103,8 +103,20 @@ public class TetriminoRenderer implements Icon {
         blockFaces = new BlockFaces[blocks.length];
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
-            blockFaces[i] = new BlockFaces(MATRIX[block.y - 1][block.x], MATRIX[block.y][block.x + 1], 
-                    MATRIX[block.y + 1][block.x], MATRIX[block.y][block.x + 1]);
+            blockFaces[i] = new BlockFaces(
+                    !MATRIX[3 + block.y - 1][3 + block.x], 
+                    !MATRIX[3 + block.y][3 + block.x + 1], 
+                    !MATRIX[3 + block.y + 1][3 + block.x], 
+                    !MATRIX[3 + block.y][3 + block.x - 1],
+                    
+                    MATRIX[3 + block.y][3 + block.x - 1] && MATRIX[3 + block.y - 1][3 + block.x] 
+                            && !MATRIX[3 + block.y - 1][3 + block.x - 1],
+                    MATRIX[3 + block.y][3 + block.x + 1] && MATRIX[3 + block.y - 1][3 + block.x] 
+                            && !MATRIX[3 + block.y - 1][3 + block.x + 1],
+                    MATRIX[3 + block.y][3 + block.x - 1] && MATRIX[3 + block.y + 1][3 + block.x] 
+                            && !MATRIX[3 + block.y + 1][3 + block.x - 1],
+                    MATRIX[3 + block.y][3 + block.x + 1] && MATRIX[3 + block.y + 1][3 + block.x] 
+                            && !MATRIX[3 + block.y + 1][3 + block.x + 1]);
         }
     }
 
@@ -126,37 +138,52 @@ public class TetriminoRenderer implements Icon {
         
     public void render(final Graphics g, final int x, final int y, int cellSize) {
         
-        final int origin = (cellSize << 1) + (cellSize >> 1);
-        
-        final Point[] blocks = tetrimino.getBlocks();
-        g.setColor(fillColor);
+        final Point[] blocks = tetrimino.getBlocks();        
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
-            final int X = cellSize * block.x - origin;
-            final int Y = cellSize * block.y - origin;
-            g.fillRect(X, Y, cellSize, cellSize);
+            final int ox = x - (cellSize >> 1) + cellSize * block.x;
+            final int oy = y - (cellSize >> 1) + cellSize * block.y;
+            g.setColor(fillColor);
+            g.fillRect(ox, oy, cellSize, cellSize);
             if (cellSize >= 4) {
                 g.setColor(lineColor);
                 final BlockFaces faces = blockFaces[i];
+                
                 if (faces.top) {
-                    g.drawLine(X, Y, X + cellSize - 1, Y);
+                    g.drawLine(ox, oy, ox + cellSize - 1, oy);
                 }
                 if (faces.left) {
-                    g.drawLine(X + cellSize - 1, Y, X + cellSize - 1, Y + cellSize - 1);
+                    g.drawLine(ox, oy, ox, oy + cellSize - 1);
                 }
                 if (faces.bottom) {
-                    g.drawLine(X, Y + cellSize - 1, X + cellSize - 1, Y + cellSize - 1);
+                    g.drawLine(ox, oy + cellSize - 1, ox + cellSize - 1, oy + cellSize - 1);
                 }
                 if (faces.right) {
-                    g.drawLine(X, Y, X, Y + cellSize - 1);
-                }                
+                    g.drawLine(ox + cellSize - 1, oy, ox + cellSize - 1, oy + cellSize - 1);                    
+                } 
+             
+                if (faces.topLeft) {
+                    g.fillRect(ox, oy, 1, 1);
+                }
+                if (faces.topRight) {
+                    g.fillRect(ox + cellSize - 1, oy, 1, 1);
+                }
+                if (faces.bottomLeft) {
+                    g.fillRect(ox, oy + cellSize - 1, 1, 1);
+                }
+                if (faces.bottomRight) {
+                    g.fillRect(ox + cellSize - 1, oy + cellSize - 1, 1, 1);
+                }
             }
         }        
     }
 
     @Override
     public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-        render(g, x, y, ICON_CELL_SIZE);
+        
+        final int origin = ICON_SIZE >> 1;
+        
+        render(g, origin + x, origin + y, ICON_CELL_SIZE);
     }
 
     @Override
