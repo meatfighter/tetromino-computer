@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.text.Document;
 
 // https://stackoverflow.com/questions/18768649/java-code-to-display-lines-number-in-jtextarea
@@ -12,7 +13,7 @@ public class LineNumberingTextArea extends JTextArea {
     private static final Color FOREGROUND = new Color(0x888888);    
     private static final Color BACKGROUND = new Color(0x313335);
     
-    private JTextArea textArea;
+    private JTextPane textPane;
     private int lastMaxLineNumber;
     
     private static int getDigits(final int number) {
@@ -55,8 +56,8 @@ public class LineNumberingTextArea extends JTextArea {
         }
     }
     
-    public LineNumberingTextArea(JTextArea textArea) {
-        this.textArea = textArea;
+    public LineNumberingTextArea(JTextPane textPane) {
+        this.textPane = textPane;
         setForeground(FOREGROUND);
         setBackground(BACKGROUND);    
         setSelectedTextColor(FOREGROUND);
@@ -69,7 +70,7 @@ public class LineNumberingTextArea extends JTextArea {
     }    
     
     public void updateLineNumbers() { 
-        final Document doc = textArea.getDocument();
+        final Document doc = textPane.getDocument();
         final int maxLineNumber = doc.getDefaultRootElement().getElementIndex(doc.getLength()) + 1;
         
         if (maxLineNumber == lastMaxLineNumber) {
