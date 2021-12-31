@@ -117,6 +117,9 @@
                       <Color blue="c6" green="b7" red="a9" type="rgb"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new tetriscircuits.ui.CustomTextPane()"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

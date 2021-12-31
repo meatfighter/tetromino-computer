@@ -24,6 +24,20 @@ public class CodeDocumentFilter extends DocumentFilter {
         StyleConstants.setForeground(NORMAL_ATTRIBS, NORMAL_COLOR);
         StyleConstants.setForeground(COMMENT_ATTRIBS, COMMENT_COLOR);
         StyleConstants.setForeground(KEYWORD_ATTRIBS, KEYWORD_COLOR);
+    }   
+    
+    public static void processLine(final StyledDocument doc, final Element line) throws BadLocationException {
+        final int startOffset = line.getStartOffset();
+        final int endOffset = line.getEndOffset();
+        final int lineLength = endOffset - startOffset;
+        doc.setCharacterAttributes(startOffset, lineLength, NORMAL_ATTRIBS, true);
+        final String lineText = doc.getText(startOffset, lineLength);
+        for (int j = 0; j < lineText.length(); ++j) {
+            if (lineText.charAt(j) == '#') {
+                doc.setCharacterAttributes(startOffset + j, lineLength - j, COMMENT_ATTRIBS, true);
+                break;
+            }
+        }
     }    
 
     @Override
@@ -65,20 +79,6 @@ public class CodeDocumentFilter extends DocumentFilter {
         final int endIndex = root.getElementIndex(offset + text.length());
         for (int i = startIndex; i <= endIndex; ++i) {
             processLine(doc, root.getElement(i));
-        }
-    }
-    
-    private void processLine(final StyledDocument doc, final Element line) throws BadLocationException {
-        final int startOffset = line.getStartOffset();
-        final int endOffset = line.getEndOffset();
-        final int lineLength = endOffset - startOffset;
-        doc.setCharacterAttributes(startOffset, lineLength, NORMAL_ATTRIBS, true);
-        final String lineText = doc.getText(startOffset, lineLength);
-        for (int j = 0; j < lineText.length(); ++j) {
-            if (lineText.charAt(j) == '#') {
-                doc.setCharacterAttributes(startOffset + j, lineLength - j, COMMENT_ATTRIBS, true);
-                break;
-            }
         }
     }
 }

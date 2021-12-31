@@ -14,6 +14,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -52,7 +53,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
         ((AbstractDocument)codeTextPane.getDocument()).setDocumentFilter(new CodeDocumentFilter());
         
-        final UndoManager undoManager = new UndoManager();
+        final UndoManager undoManager = ((CustomTextPane)codeTextPane).createUndoManager();
         codeTextPane.getDocument().addUndoableEditListener(new UndoableEditListener() {
             @Override
             public void undoableEditHappened(final UndoableEditEvent e) {
@@ -112,7 +113,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent evt) {
-            final Document doc = codeTextPane.getDocument();
+                final StyledDocument doc = codeTextPane.getStyledDocument();
                 final Element root = doc.getDefaultRootElement();
                 final int startIndex = root.getElementIndex(codeTextPane.getSelectionStart());
                 final int endIndex = root.getElementIndex(codeTextPane.getSelectionEnd());
@@ -144,15 +145,18 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                             } else {                                
                                 doc.insertString(startOffset, "#", null);
                             }
+                            CodeDocumentFilter.processLine(doc, element);
                         } else if (comment) {
                             if (!line.startsWith("#")) {
                                 doc.insertString(startOffset, "#", null);
+                                CodeDocumentFilter.processLine(doc, element);
                             }                            
                         } else {
-                            if (line.startsWith("#")) {
+                            if (line.startsWith("#")) {                                
                                 doc.remove(startOffset, 1);
+                                CodeDocumentFilter.processLine(doc, element);
                             }                            
-                        }
+                        }                        
                     } catch (final BadLocationException e) {
                         e.printStackTrace(); // TODO REMOVE
                     }
@@ -175,7 +179,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputScrollPane = new javax.swing.JScrollPane();
         outputTextArea = new javax.swing.JTextArea();
         codeScrollPane = new javax.swing.JScrollPane();
-        codeTextPane = new javax.swing.JTextPane();
+        codeTextPane = new CustomTextPane();
 
         javax.swing.GroupLayout playfieldPanelLayout = new javax.swing.GroupLayout(playfieldPanel);
         playfieldPanel.setLayout(playfieldPanelLayout);
