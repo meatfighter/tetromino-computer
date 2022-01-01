@@ -1,25 +1,39 @@
 # left not
-def leftNot
-    o -1 1 1
+def notLeft
+    o -1 1 0
     in 0 0
     out 0 1
     test 0 1
     test 1 0
 
 # right not
-def rightNot
-    o 2 1 -1
+def notRight
+    o 2 1 1
     in 0 0
     out 0 1
+    test 0 1
+    test 1 0
 
 # or
 def or
-    o 1
-    in 0 0 1 0
+    o 0
+    in -1 0 
+    in 0 0
     out 0..1 2
+    test 00 0
+    test 01 1
+    test 10 1
+    test 11 1
 
 # nand
 def nand
-    leftNot 0 0
-    rightNot 1 0
-    or 1 1
+    leftNot -1 0
+    rightNot 0 0
+    or 0 -1
+    in -1 0
+    in 0 0
+    out -1..0 -3
+    test 00 1
+    test 01 1
+    test 10 1
+    test 11 0

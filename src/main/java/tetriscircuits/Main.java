@@ -2,13 +2,17 @@ package tetriscircuits;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import tetriscircuits.parser.Parser;
 import tetriscircuits.ui.CircuitsEditorPanel;
 import tetriscircuits.ui.CircuitsFrame;
+import tetriscircuits.ui.LockedTetriminoRenderer;
+import tetriscircuits.ui.TetriminoRenderer;
 
 public class Main {
 
@@ -19,13 +23,14 @@ public class Main {
 //        for (final Component component : components.values()) {
 //            System.out.println(component);
 //        }
-
-//        final Playfield playfield = new Playfield(26, 10, 2);
-//        for(int i = 0; i < 26; ++i) {
-//            playfield.set(i, 4, i + 1);
-//        }
-//        System.out.println(playfield);
-
+//
+//        final Playfield playfield = new Playfield(64, 64, 1);
+//        final Simulator simulator = new Simulator();
+//        final List<LockedTetriminoRenderer> renderers = new ArrayList<>();
+//        simulator.simulate(playfield, components.get("nand"), (tetrimino, x, y) -> {
+//            renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
+//        });
+        
         EventQueue.invokeLater(this::createFrame);
     }
     

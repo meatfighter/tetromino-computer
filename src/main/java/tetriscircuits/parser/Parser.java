@@ -319,6 +319,9 @@ public class Parser {
         if (moves.isEmpty()) {
             throw new ParseException(operationToken, "Missing moves.");
         }
+        if (tetrimino == null && moves.size() != 2) {
+            throw new ParseException(operationToken, "Invalid component coordinates.");
+        }
         final int[] ms = new int[moves.size()];
         for (int j = ms.length - 1; j >= 0; --j) {
             ms[j] = moves.get(j);

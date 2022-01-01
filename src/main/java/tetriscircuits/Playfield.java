@@ -25,7 +25,7 @@ public class Playfield {
                     break outer;
                 }
             }
-            throw new IllegalArgumentException("bitsPerCell must be a power of 2.");
+            throw new IllegalArgumentException("bitsPerCell must be either 1, 2, 4, 8, 16, or 32.");
         }
         
         this.width = width;
@@ -39,6 +39,10 @@ public class Playfield {
         }
         data = new int[height][w];
     }
+
+    public int getMaxValue() {
+        return mask;
+    }
     
     public void clear() {
         for (int i = data.length - 1; i >= 0; --i) {
@@ -51,7 +55,7 @@ public class Playfield {
     
     public int get(final int x, final int y) {
         if (x < 0 || x >= width || y >= height) {
-            return 1;
+            return mask;
         }
         if (y < 0) {
             return 0;
