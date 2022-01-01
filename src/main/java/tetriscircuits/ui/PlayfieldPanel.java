@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import tetriscircuits.Component;
 import tetriscircuits.Playfield;
+import tetriscircuits.Point;
 import tetriscircuits.Simulator;
 import tetriscircuits.parser.Parser;
 
@@ -18,12 +19,18 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color GRID = new Color(0x555555);
     private static final Color AXISES = new Color(0xA9B7C6);
     
-    private int cellSize = 16;
+    private static final Color INPUT_FILL = new Color(0xC7D6E5);
+    private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
+    
+    private int cellSize = 32;
     private int playfieldWidth = 16;
     private int playfieldHeight = 16;
     private LockedTetriminoRenderer[] lockedTetriminoRenderers = {
         new LockedTetriminoRenderer(TetriminoRenderer.TD, 1, 0),
     };
+    
+    private Point[] inputs = new Point[0];
+    private Point[][] outputs = new Point[0][0];
     
     private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
     
@@ -47,11 +54,20 @@ public class PlayfieldPanel extends javax.swing.JPanel {
 
         final Playfield playfield = new Playfield(playfieldWidth, playfieldHeight, 1);
         final Simulator simulator = new Simulator();
-        final List<LockedTetriminoRenderer> renderers = new ArrayList<>();
-        simulator.simulate(playfield, components.get("nand"), (tetrimino, x, y) -> {
-            renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
-        });        
+        final Component component = components.get("or"); 
         
+        this.outputs = component.getOutputs();
+        
+        final List<Point> inputPoints = new ArrayList<>();
+        simulator.init(playfield, component, "00", (x, y) -> {
+            inputPoints.add(new Point(x, y));
+        });
+        inputs = inputPoints.toArray(new Point[inputPoints.size()]);
+        
+        final List<LockedTetriminoRenderer> renderers = new ArrayList<>();        
+        simulator.simulate(playfield, component, (tetrimino, x, y) -> {
+            renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
+        });                
         lockedTetriminoRenderers = renderers.toArray(new LockedTetriminoRenderer[renderers.size()]);
     }
 
@@ -95,6 +111,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final int originY = size.height - 1 - height;
         final int originX = (size.width - width) >> 1;
         
+        final int halfWidth = width >> 1;
+        
         g.setColor(GRID);
         for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
             g.drawLine(x, originY, x, originY + height);
@@ -106,9 +124,25 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         g.setColor(AXISES);
         final int middleX = originX + (playfieldWidth >> 1) * cellSize;
         g.drawLine(middleX, originY, middleX, originY + height - 1);
+                
+        for (int i = inputs.length - 1; i >= 0; --i) {
+            final Point input = inputs[i];
+            g.setColor(INPUT_FILL);
+            g.fillRect(originX + input.x * cellSize, originY + input.y * cellSize, cellSize, cellSize);
+        }
         
-        for (int i = 0; i < lockedTetriminoRenderers.length; ++i) {
+        for (int i = lockedTetriminoRenderers.length - 1; i >= 0; --i) {
             lockedTetriminoRenderers[i].render(g, originX, originY, cellSize);
+        }
+        
+        for (int i = outputs.length - 1; i >= 0; --i) {
+            final Point[] outs = outputs[i];
+            for (int j = outs.length - 1; j >= 0; --j) {
+                final Point output = outs[j];
+                g.setColor(OUTPUT_FILL);
+                g.fillRect(halfWidth + originX + output.x * cellSize, 
+                        height + originY + (output.y - 1) * cellSize, cellSize, cellSize);
+            }
         }
     }
 

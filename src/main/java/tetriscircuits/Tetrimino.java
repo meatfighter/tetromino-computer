@@ -35,7 +35,7 @@ public class Tetrimino {
     
     private static final int[][] BLOCKS_IH = { { -2,  0 }, { -1,  0 }, {  0,  0 }, {  1,  0 }, };
     private static final int[][] BLOCKS_IV = { {  0, -2 }, {  0, -1 }, {  0,  0 }, {  0,  1 }, };
-        
+    
     public static final Tetrimino TD;
     public static final Tetrimino TL;
     public static final Tetrimino TU;

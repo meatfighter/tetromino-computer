@@ -1,7 +1,5 @@
 package tetriscircuits;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 public class Instruction {
     
     private final Component component;

@@ -2,6 +2,36 @@ package tetriscircuits;
 
 public class Simulator {
     
+    public void init(final Playfield playfield, final Component component, final String inputBits) {
+        init(playfield, component, inputBits, null);
+    }
+    
+    public void init(final Playfield playfield, final Component component, final String inputBits, 
+            final CellListener listener) {
+        init(playfield, component, inputBits, playfield.getWidth() >> 1, playfield.getHeight() - 1, 
+                playfield.getMaxValue(), listener);
+    }
+    
+    public void init(final Playfield playfield, final Component component, final String inputBits, 
+            final int originX, final int originY, final int cellValue, final CellListener listener) {
+        
+        final Point[][] inputs = component.getInputs();
+        for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
+            if (inputBits.charAt(i) == '1') {
+                final Point[] ins = inputs[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final Point p = ins[j];
+                    final int x = originX + p.x;
+                    final int y = originY + p.y;
+                    playfield.set(x, y, cellValue);
+                    if (listener != null) {
+                        listener.cellSet(x, y);
+                    }
+                }
+            }
+        }
+    }
+    
     public void simulate(final Playfield playfield, final Component component) {
         simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
     }

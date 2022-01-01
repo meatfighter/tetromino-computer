@@ -19,7 +19,7 @@ def or
     o 0
     in -1 0 
     in 0 0
-    out 0..1 2
+    out -1..0 -2
     test 00 0
     test 01 1
     test 10 1
@@ -27,8 +27,8 @@ def or
 
 # nand
 def nand
-    leftNot -1 0
-    rightNot 0 0
+    notLeft -1 0
+    notRight 0 0
     or 0 -1
     in -1 0
     in 0 0
