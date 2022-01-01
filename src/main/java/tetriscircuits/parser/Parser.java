@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import tetriscircuits.Instruction;
 import tetriscircuits.Point;
 import tetriscircuits.Component;
 import tetriscircuits.ComponentTest;
+import tetriscircuits.Range;
 import tetriscircuits.Tetrimino;
 
 public class Parser {
@@ -226,13 +228,13 @@ public class Parser {
         }
     }
     
-    private Point[][] toArray(final List<List<Point>> points) {
-        final Point[][] ps = new Point[points.size()][];
-        for (int i = ps.length - 1; i >= 0; --i) {
-            final List<Point> list = points.get(i);
-            ps[i] = list.toArray(new Point[list.size()]);
+    private <T> T[][] toArray(final List<List<T>> as, final T[] array) {        
+        final T[][] ts = (T[][])Array.newInstance(array.getClass(), as.size());
+        for (int i = ts.length - 1; i >= 0; --i) {
+            final List<T> list = as.get(i);
+            ts[i] = list.toArray(array);
         }        
-        return ps;
+        return ts;
     }
     
     private int processComponent(final List<Token> tokens, final Map<String, Component> components, 
@@ -254,7 +256,9 @@ public class Parser {
         
         final List<Instruction> instructions = new ArrayList<>();
         final List<List<Point>> inputs = new ArrayList<>();
+        final List<List<Range>> inputRanges = new ArrayList<>();
         final List<List<Point>> outputs = new ArrayList<>();
+        final List<List<Range>> outputRanges = new ArrayList<>();
         final List<ComponentTest> tests = new ArrayList<>();
         
         outer: while (true) {
@@ -269,10 +273,10 @@ public class Parser {
                 case "def":    
                     break outer;
                 case "in":
-                    i = processTerminals(tokens, inputs, operationToken, i + 1);
+                    i = processTerminals(tokens, inputs, inputRanges, operationToken, i + 1);
                     break;
                 case "out":
-                    i = processTerminals(tokens, outputs, operationToken, i + 1);
+                    i = processTerminals(tokens, outputs, outputRanges, operationToken, i + 1);
                     break;
                 case "test":
                     i = processTest(tokens, tests, i + 1);
@@ -287,8 +291,10 @@ public class Parser {
             throw new ParseException(nameToken, "component has no instructions.");
         }
         component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
-        component.setInputs(toArray(inputs));
-        component.setOutputs(toArray(outputs));
+        component.setInputs(toArray(inputs, new Point[0]));
+        component.setInputRanges(toArray(inputRanges, new Range[0]));
+        component.setOutputs(toArray(outputs, new Point[0]));
+        component.setOutputRanges(toArray(outputRanges, new Range[0]));        
         component.setTests(tests.toArray(new ComponentTest[tests.size()]));
         
         return i;
@@ -332,12 +338,13 @@ public class Parser {
         return i;
     }
     
-    private int processTerminals(final List<Token> tokens, List<List<Point>> terminals, 
-            final Token operationToken, final int index) throws ParseException {
+    private int processTerminals(final List<Token> tokens, final List<List<Point>> terminals, 
+            final List<List<Range>> ranges, final Token operationToken, final int index) throws ParseException {
         
         int i = index;
         
         final List<Point> terms = new ArrayList<>();
+        final List<Range> rs = new ArrayList<>();
         while (true) {
             final Token tokenX = tokens.get(i);
             final Token tokenY = tokens.get(i + 1);
@@ -355,10 +362,14 @@ public class Parser {
             int x1;
             int x2;
             if (tokenX.getType() == TokenType.NUMBER) {
-                x1 = x2 = tokenX.getNum();
+                x1 = x2 = tokenX.getNum();   
+                rs.add(new Range(x1));
+            } else if (tokenX.getStr() != null) {
+                throw new ParseException(tokenX, "Expected number or numerical range.");
             } else {
                 x1 = tokenX.getNum();
                 x2 = tokenX.getNum2();
+                rs.add(new Range(x1, x2));
                 if (x2 < x1) {
                     final int t = x1;
                     x1 = x2;
@@ -370,17 +381,20 @@ public class Parser {
             int y2;
             if (tokenY.getType() == TokenType.NUMBER) {
                 y1 = y2 = tokenY.getNum();
+                rs.add(new Range(y1));
+            } else if (tokenY.getStr() != null) {
+                throw new ParseException(tokenY, "Expected number or numerical range.");    
             } else {
                 y1 = tokenY.getNum();
                 y2 = tokenY.getNum2();
+                rs.add(new Range(y1, y2));
                 if (y2 < y1) {
                     final int t = y1;
                     y1 = y2;
                     y2 = t;
                 }
             }
-            
-            
+                        
             for (int y = y1; y <= y2; ++y) {
                 for (int x = x1; x <= x2; ++x) {
                     terms.add(new Point(x, y));
@@ -392,6 +406,7 @@ public class Parser {
             throw new ParseException(operationToken, "Missing terminal coordinates.");
         }
         terminals.add(terms);
+        ranges.add(rs);
         
         return i;
     }

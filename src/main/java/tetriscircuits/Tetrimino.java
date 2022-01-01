@@ -146,7 +146,7 @@ public class Tetrimino {
         ZH = new Tetrimino("zh", 0, "z", 2, BLOCKS_ZH);
         ZV = new Tetrimino("zv", 1, "z", 2, BLOCKS_ZV);
         
-        OS = new Tetrimino("os", 0, "o", 3, BLOCKS_OS);
+        OS = new Tetrimino( "o", 0, "o", 3, BLOCKS_OS);
         
         SH = new Tetrimino("sh", 0, "s", 4, BLOCKS_SH);
         SV = new Tetrimino("sv", 1, "s", 4, BLOCKS_SV);

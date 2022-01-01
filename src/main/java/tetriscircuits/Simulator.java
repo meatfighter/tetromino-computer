@@ -22,7 +22,7 @@ public class Simulator {
                 for (int j = ins.length - 1; j >= 0; --j) {
                     final Point p = ins[j];
                     final int x = originX + p.x;
-                    final int y = originY + p.y;
+                    final int y = originY - p.y;
                     playfield.set(x, y, cellValue);
                     if (listener != null) {
                         listener.cellSet(x, y);
@@ -72,7 +72,7 @@ public class Simulator {
         
         final Component component = instruction.getComponent();
         if (component != null) {            
-            simulate(playfield, component, moves[0] + originX, moves[1] + originY, listener);
+            simulate(playfield, component, originX + moves[0], originY - moves[1], listener);
             return;
         }
         
@@ -82,9 +82,9 @@ public class Simulator {
         
         for (int i = 1; i < moves.length; ++i) {
             if ((i & 1) == 1) {
-                y = moveDown(playfield, tetrimino, x, y, originY + moves[i]);
+                y = moveDown(playfield, tetrimino, x, y, originY - moves[i]);
             } else {
-                x = moveHorizontally(playfield, tetrimino, x, y, originX + moves[i]);
+                x = moveHorizontally(playfield, tetrimino, x, y, originX - moves[i]);
             }
         }
         

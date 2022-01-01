@@ -8,8 +8,13 @@ public class Component {
     private final String name;
     
     private Instruction[] instructions;
+    
     private Point[][] inputs;
+    private Range[][] inputRanges;
+    
     private Point[][] outputs;
+    private Range[][] outputRanges;
+    
     private ComponentTest[] tests;
     
     public Component(final String name) {
@@ -51,14 +56,30 @@ public class Component {
     public void setTests(final ComponentTest[] tests) {
         this.tests = tests;
     }
+
+    public Range[][] getInputRanges() {
+        return inputRanges;
+    }
+
+    public void setInputRanges(Range[][] inputRanges) {
+        this.inputRanges = inputRanges;
+    }
+
+    public Range[][] getOutputRanges() {
+        return outputRanges;
+    }
+
+    public void setOutputRanges(Range[][] outputRanges) {
+        this.outputRanges = outputRanges;
+    }
     
-    private void appendTerminals(final StringBuilder sb, final String name, final Point[][] terminals) {
+    private void appendTerminals(final StringBuilder sb, final String name, final Range[][] terminals) {
         if (terminals == null) {
             return;
         }
-        for (final Point[] terms : terminals) {
+        for (final Range[] terms : terminals) {
             sb.append("    ").append(name);
-            for (final Point term : terms) {
+            for (final Range term : terms) {
                 sb.append(' ').append(term);
             }
             sb.append(System.lineSeparator());
@@ -72,8 +93,8 @@ public class Component {
         for (final Instruction instruction : instructions) {
             sb.append("    ").append(instruction).append(System.lineSeparator());
         }
-        appendTerminals(sb, "in", inputs);
-        appendTerminals(sb, "out", outputs);
+        appendTerminals(sb, "in", inputRanges);
+        appendTerminals(sb, "out", outputRanges);
         for (final ComponentTest test : tests) {
             sb.append("    ").append(test).append(System.lineSeparator());
         }

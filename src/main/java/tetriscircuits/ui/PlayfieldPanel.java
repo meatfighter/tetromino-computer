@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import tetriscircuits.Component;
@@ -18,8 +19,9 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color BACKGROUND = new Color(0x2B2B2B);
     private static final Color GRID = new Color(0x555555);
     private static final Color AXISES = new Color(0xA9B7C6);
+    private static final Color CURSOR = new Color(0xFFFFFF);
     
-    private static final Color INPUT_FILL = new Color(0xC7D6E5);
+    private static final Color INPUT_FILL = new Color(0xDDEEFF);
     private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
     
     private int cellSize = 32;
@@ -34,6 +36,9 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
     
+    private Integer lastCellX;
+    private Integer lastCellY;
+    
     /**
      * Creates new form PlayfieldPanel
      */
@@ -41,12 +46,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         initComponents();
         
         
-        final Map<String, Component> components = new HashMap<>();
+        final Map<String, Component> components = new LinkedHashMap<>();
         final Parser parser = new Parser();
         try {
             parser.parse(components, "circuits/components.txt");
         } catch (final Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO REMOVE
         }
         for (final Component component : components.values()) {
             System.out.println(component);
@@ -54,12 +59,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
 
         final Playfield playfield = new Playfield(playfieldWidth, playfieldHeight, 1);
         final Simulator simulator = new Simulator();
-        final Component component = components.get("or"); 
+        final Component component = components.get("nand"); 
         
         this.outputs = component.getOutputs();
         
         final List<Point> inputPoints = new ArrayList<>();
-        simulator.init(playfield, component, "00", (x, y) -> {
+        simulator.init(playfield, component, "11", (x, y) -> {
             inputPoints.add(new Point(x, y));
         });
         inputs = inputPoints.toArray(new Point[inputPoints.size()]);
@@ -80,8 +85,16 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         setMaximumSize(null);
-        setMinimumSize(null);
-        setPreferredSize(null);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -94,6 +107,42 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        
+        final Dimension size = getSize();
+        final int width = playfieldWidth * cellSize;
+        final int height = playfieldHeight * cellSize;
+        final int originY = size.height - 1 - height;
+        final int originX = (size.width - width) >> 1;
+        
+        final int x = evt.getX();
+        final int y = evt.getY();
+        if (x >= originX && x < originX + width && y >= originY && y < originY + height) {
+            final int cellX = (x - originX) / cellSize - (playfieldWidth >> 1);
+            final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
+            if (lastCellX == null || cellX != lastCellX || cellY != lastCellY) { 
+                if (lastCellX != null) {
+                    repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                            originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+                }
+                lastCellX = cellX;
+                lastCellY = cellY;
+                repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+            }
+        } else {
+            if (lastCellX != null) {
+                repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+            }
+            lastCellX = lastCellY = null;
+        }
+    }//GEN-LAST:event_formMouseMoved
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
@@ -141,8 +190,14 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 final Point output = outs[j];
                 g.setColor(OUTPUT_FILL);
                 g.fillRect(halfWidth + originX + output.x * cellSize, 
-                        height + originY + (output.y - 1) * cellSize, cellSize, cellSize);
+                        height + originY + (-output.y - 1) * cellSize, cellSize, cellSize);
             }
+        }
+        
+        if (lastCellX != null) {
+            g.setColor(CURSOR);
+            g.drawRect(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                    originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize, cellSize);
         }
     }
 
