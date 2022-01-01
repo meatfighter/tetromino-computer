@@ -43,10 +43,12 @@ public class Main {
             e.printStackTrace();
         }
         final CircuitsFrame frame = new CircuitsFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);        
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);      
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        frame.init(); 
+        frame.setVisible(true);               
     }
     
     public static void main(final String... args) throws Exception {

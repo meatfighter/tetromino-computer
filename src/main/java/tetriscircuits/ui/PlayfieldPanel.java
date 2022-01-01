@@ -39,6 +39,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private Integer lastCellX;
     private Integer lastCellY;
     
+    private CircuitsFrame circuitsFrame;
+    
     /**
      * Creates new form PlayfieldPanel
      */
@@ -61,19 +63,25 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final Simulator simulator = new Simulator();
         final Component component = components.get("nand"); 
         
-        this.outputs = component.getOutputs();
-        
-        final List<Point> inputPoints = new ArrayList<>();
-        simulator.init(playfield, component, "11", (x, y) -> {
-            inputPoints.add(new Point(x, y));
-        });
-        inputs = inputPoints.toArray(new Point[inputPoints.size()]);
-        
-        final List<LockedTetriminoRenderer> renderers = new ArrayList<>();        
-        simulator.simulate(playfield, component, (tetrimino, x, y) -> {
-            renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
-        });                
-        lockedTetriminoRenderers = renderers.toArray(new LockedTetriminoRenderer[renderers.size()]);
+        if (component != null) {
+            this.outputs = component.getOutputs();
+
+            final List<Point> inputPoints = new ArrayList<>();
+            simulator.init(playfield, component, "11", (x, y) -> {
+                inputPoints.add(new Point(x, y));
+            });
+            inputs = inputPoints.toArray(new Point[inputPoints.size()]);
+
+            final List<LockedTetriminoRenderer> renderers = new ArrayList<>();        
+            simulator.simulate(playfield, component, (tetrimino, x, y) -> {
+                renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
+            });                
+            lockedTetriminoRenderers = renderers.toArray(new LockedTetriminoRenderer[renderers.size()]);
+        }
+    }
+
+    public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
+        this.circuitsFrame = circuitsFrame;
     }
 
     /**
@@ -91,6 +99,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             }
         });
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                formMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
@@ -130,6 +144,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 lastCellY = cellY;
                 repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
                         originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+                circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
             }
         } else {
             if (lastCellX != null) {
@@ -137,12 +152,34 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                         originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
             }
             lastCellX = lastCellY = null;
+            circuitsFrame.getCoordinatesLabel().setText("");
         }
     }//GEN-LAST:event_formMouseMoved
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_formMousePressed
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        formMouseMoved(evt);
+    }//GEN-LAST:event_formMouseEntered
+
+    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
+        
+        if (lastCellX == null) {
+            return;
+        }
+        
+        final Dimension size = getSize();
+        final int width = playfieldWidth * cellSize;
+        final int height = playfieldHeight * cellSize;
+        final int originY = size.height - 1 - height;
+        final int originX = (size.width - width) >> 1;
+        repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+        lastCellX = lastCellY = null;
+        circuitsFrame.getCoordinatesLabel().setText("");
+    }//GEN-LAST:event_formMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

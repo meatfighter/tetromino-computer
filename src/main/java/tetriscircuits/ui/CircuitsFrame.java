@@ -1,6 +1,7 @@
 package tetriscircuits.ui;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 public class CircuitsFrame extends javax.swing.JFrame {
 
@@ -9,6 +10,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
      */
     public CircuitsFrame() {
         initComponents();
+    }
+    
+    public void init() {
+        circuitsEditorPanel.init();
+        circuitsEditorPanel.setCircuitsFrame(this);
+    }
+
+    public JLabel getCoordinatesLabel() {
+        return coordinatesLabel;
     }
 
     /**
@@ -21,12 +31,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         circuitsEditorPanel = new tetriscircuits.ui.CircuitsEditorPanel();
         toolBar = new javax.swing.JToolBar();
+        buildButton = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         tdButton = new javax.swing.JButton();
         tlButton = new javax.swing.JButton();
         tuButton = new javax.swing.JButton();
         trButton = new javax.swing.JButton();
-        separator4 = new javax.swing.JToolBar.Separator();
         jdButton = new javax.swing.JButton();
+        separator4 = new javax.swing.JToolBar.Separator();
         jlButton = new javax.swing.JButton();
         juButton = new javax.swing.JButton();
         jrButton = new javax.swing.JButton();
@@ -46,6 +58,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JToolBar.Separator();
         ivButton = new javax.swing.JButton();
         ihButton = new javax.swing.JButton();
+        bottomPanel = new javax.swing.JPanel();
+        coordinatesLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -62,15 +76,24 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        circuitsEditorPanel.setPreferredSize(null);
+
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        toolBar.setMaximumSize(null);
-        toolBar.setMinimumSize(null);
         toolBar.setName(""); // NOI18N
         toolBar.setPreferredSize(null);
 
+        buildButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/build.png"))); // NOI18N
+        buildButton.setContentAreaFilled(false);
+        buildButton.setFocusable(false);
+        buildButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buildButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(buildButton);
+        toolBar.add(jSeparator4);
+
         tdButton.setIcon(TetriminoRenderer.TD);
         tdButton.setToolTipText("td");
+        tdButton.setContentAreaFilled(false);
         tdButton.setFocusable(false);
         tdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tdButton.setIconTextGap(0);
@@ -86,6 +109,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         tlButton.setIcon(TetriminoRenderer.TL);
         tlButton.setToolTipText("tl");
+        tlButton.setContentAreaFilled(false);
         tlButton.setFocusable(false);
         tlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tlButton.setMargin(null);
@@ -99,6 +123,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         tuButton.setIcon(TetriminoRenderer.TU);
         tuButton.setToolTipText("tu");
+        tuButton.setContentAreaFilled(false);
         tuButton.setFocusable(false);
         tuButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         tuButton.setMargin(null);
@@ -112,6 +137,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         trButton.setIcon(TetriminoRenderer.TR);
         trButton.setToolTipText("tr");
+        trButton.setContentAreaFilled(false);
         trButton.setFocusable(false);
         trButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         trButton.setMargin(null);
@@ -122,10 +148,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         toolBar.add(trButton);
-        toolBar.add(separator4);
 
         jdButton.setIcon(TetriminoRenderer.JD);
         jdButton.setToolTipText("jd");
+        jdButton.setContentAreaFilled(false);
         jdButton.setFocusable(false);
         jdButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jdButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -135,9 +161,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         toolBar.add(jdButton);
+        toolBar.add(separator4);
 
         jlButton.setIcon(TetriminoRenderer.JL);
         jlButton.setToolTipText("jl");
+        jlButton.setContentAreaFilled(false);
         jlButton.setFocusable(false);
         jlButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jlButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -150,6 +178,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         juButton.setIcon(TetriminoRenderer.JU);
         juButton.setToolTipText("ju");
+        juButton.setContentAreaFilled(false);
         juButton.setFocusable(false);
         juButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         juButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -162,6 +191,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         jrButton.setIcon(TetriminoRenderer.JR);
         jrButton.setToolTipText("jr");
+        jrButton.setContentAreaFilled(false);
         jrButton.setFocusable(false);
         jrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jrButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -175,6 +205,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         zhButton.setIcon(TetriminoRenderer.ZH);
         zhButton.setToolTipText("zh");
+        zhButton.setContentAreaFilled(false);
         zhButton.setFocusable(false);
         zhButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zhButton.setMargin(null);
@@ -189,6 +220,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         zvButton.setIcon(TetriminoRenderer.ZV);
         zvButton.setToolTipText("zv");
+        zvButton.setContentAreaFilled(false);
         zvButton.setFocusable(false);
         zvButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         zvButton.setMargin(null);
@@ -203,6 +235,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         oButton.setIcon(TetriminoRenderer.OS);
         oButton.setToolTipText("o");
+        oButton.setContentAreaFilled(false);
         oButton.setFocusable(false);
         oButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         oButton.setMargin(null);
@@ -217,6 +250,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         shButton.setIcon(TetriminoRenderer.SH);
         shButton.setToolTipText("sh");
+        shButton.setContentAreaFilled(false);
         shButton.setFocusable(false);
         shButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         shButton.setMargin(null);
@@ -230,6 +264,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         svButton.setIcon(TetriminoRenderer.SV);
         svButton.setToolTipText("sv");
+        svButton.setContentAreaFilled(false);
         svButton.setFocusable(false);
         svButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         svButton.setMargin(null);
@@ -244,6 +279,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         ldButton.setIcon(TetriminoRenderer.LD);
         ldButton.setToolTipText("ld");
+        ldButton.setContentAreaFilled(false);
         ldButton.setFocusable(false);
         ldButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ldButton.setMargin(null);
@@ -257,6 +293,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         llButton.setIcon(TetriminoRenderer.LL);
         llButton.setToolTipText("ll");
+        llButton.setContentAreaFilled(false);
         llButton.setFocusable(false);
         llButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         llButton.setMargin(null);
@@ -270,6 +307,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         luButton.setIcon(TetriminoRenderer.LU);
         luButton.setToolTipText("lu");
+        luButton.setContentAreaFilled(false);
         luButton.setFocusable(false);
         luButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         luButton.setMargin(null);
@@ -283,6 +321,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         lrButton.setIcon(TetriminoRenderer.LR);
         lrButton.setToolTipText("lr");
+        lrButton.setContentAreaFilled(false);
         lrButton.setFocusable(false);
         lrButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lrButton.setMargin(null);
@@ -297,6 +336,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         ivButton.setIcon(TetriminoRenderer.IV);
         ivButton.setToolTipText("iv");
+        ivButton.setContentAreaFilled(false);
         ivButton.setFocusable(false);
         ivButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ivButton.setMargin(null);
@@ -310,6 +350,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         ihButton.setIcon(TetriminoRenderer.IH);
         ihButton.setToolTipText("ih");
+        ihButton.setContentAreaFilled(false);
         ihButton.setFocusable(false);
         ihButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ihButton.setMargin(null);
@@ -320,6 +361,27 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         toolBar.add(ihButton);
+
+        bottomPanel.setPreferredSize(null);
+
+        coordinatesLabel.setPreferredSize(null);
+
+        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
+        bottomPanel.setLayout(bottomPanelLayout);
+        bottomPanelLayout.setHorizontalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(coordinatesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        bottomPanelLayout.setVerticalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(coordinatesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -390,16 +452,21 @@ public class CircuitsFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
             .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bottomPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -494,7 +561,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ihButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JButton buildButton;
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
+    private javax.swing.JLabel coordinatesLabel;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -503,6 +573,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JButton jdButton;
     private javax.swing.JButton jlButton;

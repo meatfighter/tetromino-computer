@@ -33,6 +33,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     private LineNumberingTextArea lineNumberingTextArea;
     
+    private CircuitsFrame circuitsFrame;
+    
     /**
      * Creates new form NewJPanel
      */
@@ -163,6 +165,15 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });        
     }
+
+    public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
+        this.circuitsFrame = circuitsFrame;
+        playfieldPanel.setCircuitsFrame(circuitsFrame);
+    }
+    
+    public void init() {
+        verticalSplitPane.setDividerLocation(0.99);
+    }
     
     public void undo() {
         try {
@@ -208,23 +219,29 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
 
         setMaximumSize(null);
-        setMinimumSize(null);
         setPreferredSize(null);
 
         horizontalSplitPane.setMaximumSize(null);
-        horizontalSplitPane.setMinimumSize(null);
         horizontalSplitPane.setPreferredSize(null);
 
         verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        verticalSplitPane.setMaximumSize(null);
+        verticalSplitPane.setMinimumSize(null);
+        verticalSplitPane.setPreferredSize(null);
 
         outputScrollPane.setMaximumSize(null);
         outputScrollPane.setMinimumSize(null);
         outputScrollPane.setPreferredSize(null);
 
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
-        outputTextArea.setColumns(20);
+        outputTextArea.setColumns(40);
         outputTextArea.setForeground(new java.awt.Color(169, 183, 198));
-        outputTextArea.setRows(5);
+        outputTextArea.setRows(10);
+        outputTextArea.setTabSize(4);
+        outputTextArea.setMaximumSize(null);
+        outputTextArea.setMinimumSize(null);
+        outputTextArea.setPreferredSize(null);
+        outputTextArea.setRequestFocusEnabled(false);
         outputScrollPane.setViewportView(outputTextArea);
 
         verticalSplitPane.setRightComponent(outputScrollPane);
@@ -238,7 +255,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         codeTextPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         codeTextPane.setForeground(new java.awt.Color(169, 183, 198));
         codeTextPane.setMaximumSize(null);
-        codeTextPane.setMinimumSize(null);
         codeTextPane.setPreferredSize(null);
         codeScrollPane.setViewportView(codeTextPane);
 
@@ -259,7 +275,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setLayout(playfieldPanelLayout);
         playfieldPanelLayout.setHorizontalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
         playfieldPanelLayout.setVerticalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
