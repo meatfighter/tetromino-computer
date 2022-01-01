@@ -2,42 +2,20 @@ package tetriscircuits;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-import tetriscircuits.parser.Parser;
-import tetriscircuits.ui.CircuitsEditorPanel;
 import tetriscircuits.ui.CircuitsFrame;
-import tetriscircuits.ui.LockedTetriminoRenderer;
-import tetriscircuits.ui.TetriminoRenderer;
 
 public class Main {
+    
+    private final Controller controller = new Controller();
 
-    public void launch() throws Exception {
-//        final Map<String, Component> components = new HashMap<>();
-//        final Parser parser = new Parser();
-//        parser.parse(components, "circuits/components.txt");
-//        for (final Component component : components.values()) {
-//            System.out.println(component);
-//        }
-//
-//        final Playfield playfield = new Playfield(64, 64, 1);
-//        final Simulator simulator = new Simulator();
-//        final List<LockedTetriminoRenderer> renderers = new ArrayList<>();
-//        simulator.simulate(playfield, components.get("nand"), (tetrimino, x, y) -> {
-//            renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
-//        });
-        
+    public void launch() throws Exception {       
         EventQueue.invokeLater(this::createFrame);
     }
     
-    private void createFrame() {
-        
+    private void createFrame() {        
         try {
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             UIManager.setLookAndFeel(new DarculaLaf()); 
         } catch (final Exception e) {
             e.printStackTrace();
@@ -46,8 +24,9 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);      
         frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.init(); 
+        frame.setLocationRelativeTo(null);        
+        frame.init();        
+        frame.setController(controller);
         frame.setVisible(true);               
     }
     

@@ -15,6 +15,10 @@ public class Playfield {
     
     private final int[][] data;
     
+    private int minX;
+    private int maxX;
+    private int minY;
+    
     public Playfield(final int width, final int height, final int bitsPerCell) {
         
         outer: {
@@ -38,6 +42,9 @@ public class Playfield {
             ++w;
         }
         data = new int[height][w];
+        
+        minX = maxX = width >> 1;
+        minY = height - 1;
     }
 
     public int getMaxValue() {
@@ -45,12 +52,14 @@ public class Playfield {
     }
     
     public void clear() {
-        for (int i = data.length - 1; i >= 0; --i) {
-            final int[] row = data[i];
-            for (int j = row.length - 1; j >= 0; --j) {
-                row[j] = 0;
+        for (int y = height - 1; y >= minY; --y) {
+            final int[] row = data[y];
+            for (int x = minX; x <= maxX; ++x) {
+                row[x >> shift] = 0;
             }
         }
+        minX = maxX = width >> 1;
+        minY = height - 1;        
     }
     
     public int get(final int x, final int y) {
@@ -67,6 +76,15 @@ public class Playfield {
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return;
         }
+        if (x < minX) {
+            minX = x;
+        }
+        if (x > maxX) {
+            maxX = x;
+        }
+        if (y < minY) {
+            minY = y;
+        }
         final int[] row = data[y];
         final int s = (x & mask2) << power;
         row[x >> shift] = (row[x >> shift] & ~(mask << s)) | ((color & mask) << s);        
@@ -78,6 +96,18 @@ public class Playfield {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getMinX() {
+        return minX;
+    }
+
+    public int getMaxX() {
+        return maxX;
+    }
+
+    public int getMinY() {
+        return minY;
     }
 
     @Override

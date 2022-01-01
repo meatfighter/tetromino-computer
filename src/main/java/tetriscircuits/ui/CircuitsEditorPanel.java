@@ -2,6 +2,7 @@ package tetriscircuits.ui;
 
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -20,6 +21,8 @@ import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import tetriscircuits.Controller;
+import tetriscircuits.OutputListener;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -34,6 +37,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private LineNumberingTextArea lineNumberingTextArea;
     
     private CircuitsFrame circuitsFrame;
+    private Controller controller;
     
     /**
      * Creates new form NewJPanel
@@ -166,6 +170,32 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });        
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(final Controller controller) {
+        this.controller = controller;
+        controller.setOutputListener(new OutputListener() {
+            @Override
+            public void clear() {
+                if (!EventQueue.isDispatchThread()) {
+                    EventQueue.invokeLater(this::clear);
+                    return;
+                }
+                outputTextArea.setText("");
+            }
+            @Override
+            public void append(final String text) {
+                if (!EventQueue.isDispatchThread()) {
+                    EventQueue.invokeLater(() -> append(text));
+                    return;
+                }
+                outputTextArea.append(text + "\n");
+            }            
+        });
+    }
+
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
         this.circuitsFrame = circuitsFrame;
         playfieldPanel.setCircuitsFrame(circuitsFrame);
@@ -187,6 +217,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             undoManager.redo();
         } catch (final CannotRedoException cre) {
         }
+    }
+    
+    public void build() {
+        controller.build(codeTextPane.getText());
     }
     
     public void tetriminoButtonPressed(final ActionEvent evt) {
@@ -229,17 +263,18 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         verticalSplitPane.setMinimumSize(null);
         verticalSplitPane.setPreferredSize(null);
 
+        outputScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         outputScrollPane.setMaximumSize(null);
         outputScrollPane.setMinimumSize(null);
         outputScrollPane.setPreferredSize(null);
 
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
         outputTextArea.setColumns(40);
+        outputTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         outputTextArea.setForeground(new java.awt.Color(169, 183, 198));
         outputTextArea.setRows(10);
         outputTextArea.setTabSize(4);
         outputTextArea.setMaximumSize(null);
-        outputTextArea.setMinimumSize(null);
         outputTextArea.setPreferredSize(null);
         outputTextArea.setRequestFocusEnabled(false);
         outputScrollPane.setViewportView(outputTextArea);

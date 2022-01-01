@@ -2,14 +2,36 @@ package tetriscircuits.ui;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
+import tetriscircuits.Controller;
 
 public class CircuitsFrame extends javax.swing.JFrame {
+
+    private Controller controller;
 
     /**
      * Creates new form CircuitsFrame
      */
     public CircuitsFrame() {
         initComponents();
+        initTextField(componentsTextField);
+        initTextField(testTextField);
+    }
+    
+    private void initTextField(final JTextField textField) {
+        textField.setText("MMMMMMMMMMMMMMM");
+        textField.setMinimumSize(componentsTextField.getPreferredSize());
+        textField.setMaximumSize(componentsTextField.getPreferredSize());
+        textField.setText("");
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(final Controller controller) {
+        this.controller = controller;
+        circuitsEditorPanel.setController(controller);
     }
     
     public void init() {
@@ -33,6 +55,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar = new javax.swing.JToolBar();
         buildButton = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
+        componentsTextField = new javax.swing.JTextField();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
+        testTextField = new javax.swing.JTextField();
+        playButton = new javax.swing.JButton();
         tdButton = new javax.swing.JButton();
         tlButton = new javax.swing.JButton();
         tuButton = new javax.swing.JButton();
@@ -84,12 +110,47 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.setPreferredSize(null);
 
         buildButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/build.png"))); // NOI18N
+        buildButton.setToolTipText("Build Code");
         buildButton.setContentAreaFilled(false);
         buildButton.setFocusable(false);
         buildButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buildButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buildButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(buildButton);
         toolBar.add(jSeparator4);
+
+        componentsTextField.setColumns(15);
+        componentsTextField.setToolTipText("Component Name");
+        componentsTextField.setPreferredSize(null);
+        toolBar.add(componentsTextField);
+
+        jSeparator5.setMaximumSize(new java.awt.Dimension(4, 10));
+        jSeparator5.setMinimumSize(new java.awt.Dimension(4, 10));
+        jSeparator5.setPreferredSize(new java.awt.Dimension(4, 10));
+        jSeparator5.setSeparatorSize(new java.awt.Dimension(4, 10));
+        toolBar.add(jSeparator5);
+
+        testTextField.setColumns(15);
+        testTextField.setToolTipText("Test Bit String");
+        testTextField.setPreferredSize(null);
+        toolBar.add(testTextField);
+
+        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/play.png"))); // NOI18N
+        playButton.setToolTipText("Run Component and Test");
+        playButton.setContentAreaFilled(false);
+        playButton.setFocusable(false);
+        playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        playButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(playButton);
 
         tdButton.setIcon(TetriminoRenderer.TD);
         tdButton.setToolTipText("td");
@@ -452,19 +513,21 @@ public class CircuitsFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bottomPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE)
-                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -560,10 +623,19 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.tetriminoButtonPressed(evt);
     }//GEN-LAST:event_ihButtonActionPerformed
 
+    private void buildButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildButtonActionPerformed
+        circuitsEditorPanel.build();
+    }//GEN-LAST:event_buildButtonActionPerformed
+
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton buildButton;
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
+    private javax.swing.JTextField componentsTextField;
     private javax.swing.JLabel coordinatesLabel;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
@@ -574,6 +646,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JButton jdButton;
     private javax.swing.JButton jlButton;
@@ -587,6 +660,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JButton oButton;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JButton playButton;
     private javax.swing.JMenuItem redoMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
@@ -598,6 +672,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JButton shButton;
     private javax.swing.JButton svButton;
     private javax.swing.JButton tdButton;
+    private javax.swing.JTextField testTextField;
     private javax.swing.JButton tlButton;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JButton trButton;

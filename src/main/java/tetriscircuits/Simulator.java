@@ -78,7 +78,7 @@ public class Simulator {
         
         final Tetrimino tetrimino = instruction.getTetrimino();
         int x = moves[0] + originX;
-        int y = 0;
+        int y = playfield.getMinY() - 3;
         
         for (int i = 1; i < moves.length; ++i) {
             if ((i & 1) == 1) {
