@@ -255,11 +255,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     + tetriminoRenderer.getTetrimino().getName() + " ", null);
         } catch (final BadLocationException e) {
         }
-        
-        // TODO 
-//        playfieldPanel.setCursorRenderers(new LockedTetriminoRenderer[] {
-//            new LockedTetriminoRenderer(tetriminoRenderer, 0, 0),            
-//        }, -2, -2, 5, 5);
+        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(tetriminoRenderer.getTetrimino().getName()));
     }
 
     /**
