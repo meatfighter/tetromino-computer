@@ -1,6 +1,7 @@
 package tetriscircuits.ui;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,6 +17,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color INPUT_FILL = new Color(0xDDEEFF);
     private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
     
+    private final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
+    
     private int cellSize = 32;
     private int playfieldWidth = 32;
     private int playfieldHeight = 32;
@@ -25,6 +28,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private Point[] outputs = new Point[0];
     
     private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
+    
+    private Cursor invisibleMouseCursor;
     
     private Integer lastCellX;
     private Integer lastCellY;
@@ -37,6 +42,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private int cursorOriginY = 0;
     private int cursorWidth = cellSize + 1;
     private int cursorHeight = cellSize + 1;
+    
+    private boolean mouseVisible = true;
     
     /**
      * Creates new form PlayfieldPanel
@@ -56,10 +63,16 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
-        this.circuitsFrame = circuitsFrame;
-        setCursor(circuitsFrame.getToolkit().createCustomCursor(
-                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new java.awt.Point(0, 0),
-                "null"));      
+        this.circuitsFrame = circuitsFrame; 
+        invisibleMouseCursor = circuitsFrame.getToolkit().createCustomCursor(
+                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new java.awt.Point(0, 0), "null");
+    }
+    
+    private void setMouseCursor(final boolean visible) {  
+        if (visible != mouseVisible) {
+            mouseVisible = visible;
+            setCursor(visible ? DEFAULT_CURSOR : invisibleMouseCursor);
+        }
     }
     
     public void runCompleted(final Point[] ins, final Point[] outs, 
@@ -138,6 +151,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                             cursorWidth, cursorHeight);
                 circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
             }
+            setMouseCursor(false);
         } else {
             if (lastCellX != null) {
                 repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
@@ -146,6 +160,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             }
             lastCellX = lastCellY = null;
             circuitsFrame.getCoordinatesLabel().setText("");
+            setMouseCursor(true);
         }
     }//GEN-LAST:event_formMouseMoved
 
@@ -158,6 +173,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
+        
+        setMouseCursor(true);
         
         if (lastCellX == null) {
             return;

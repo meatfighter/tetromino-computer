@@ -1,6 +1,5 @@
 package tetriscircuits.ui;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import tetriscircuits.Controller;
