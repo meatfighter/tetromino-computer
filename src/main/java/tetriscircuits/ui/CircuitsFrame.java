@@ -2,16 +2,19 @@ package tetriscircuits.ui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
+import tetriscircuits.Structure;
 
 public class CircuitsFrame extends javax.swing.JFrame {
 
     private Controller controller;
+    private Map<String, Structure> structures;
 
     /**
      * Creates new form CircuitsFrame
@@ -64,18 +67,19 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 playButton.setEnabled(false);
             }
             @Override
-            public void buildCompleted(final String[] componentNames) {
+            public void buildCompleted(final String[] componentNames, final Map<String, Structure> structures) {
                 if (!EventQueue.isDispatchThread()) {
-                    EventQueue.invokeLater(() -> buildCompleted(componentNames));
+                    EventQueue.invokeLater(() -> buildCompleted(componentNames, structures));
                     return;
                 }
+                CircuitsFrame.this.structures = structures;
                 buildButton.setEnabled(true);
                 playButton.setEnabled(true);
                 final String selectedItem = (String)compEditComboBox.getSelectedItem();
                 compEditComboBox.setModel(new DefaultComboBoxModel(componentNames));
                 if (selectedItem != null) {
                     compEditComboBox.setSelectedItem(selectedItem);
-                }
+                }                
             }
         });
     }
@@ -708,7 +712,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void addComponentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComponentButtonActionPerformed
-        // TODO add your handling code here:
+        final String name = compEditComboBox.getSelectedItem().toString();
+        final Structure structure = structures.get(name);
+        if (structure != null) {
+            circuitsEditorPanel.setCursorRenderer(new StructureRenderer(structure), name);
+        }
     }//GEN-LAST:event_addComponentButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

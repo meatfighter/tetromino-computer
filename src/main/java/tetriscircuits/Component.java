@@ -1,8 +1,5 @@
 package tetriscircuits;
 
-import tetriscircuits.Point;
-import tetriscircuits.Instruction;
-
 public class Component {
     
     private final String name;

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
 
@@ -20,6 +22,9 @@ public class Controller {
     
     private final Map<String, Component> loadedComponents = new ConcurrentHashMap<>();
     private final Map<String, Component> builtComponents = new ConcurrentHashMap<>();
+    
+    private final Map<String, Structure> loadedStructures = new ConcurrentHashMap<>();
+    private final Map<String, Structure> builtStructures = new ConcurrentHashMap<>();
     
     private final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
     
@@ -113,14 +118,7 @@ public class Controller {
         }
         execute(() -> {
             buildText(text);
-            final Set<String> names = new HashSet<>(loadedComponents.keySet());
-            names.addAll(builtComponents.keySet());
-            final List<String> ns = new ArrayList<>(names);
-            final String[] componentNames = ns.toArray(new String[ns.size()]);
-            Arrays.sort(componentNames);            
-            if (listener != null) {
-                listener.buildCompleted(componentNames);
-            }
+            createStructures();            
         });
     }
     
@@ -150,6 +148,53 @@ public class Controller {
         }
         if (listener != null) {
             listener.append("Build success.");
+        }
+    }
+    
+    private void createStructures() {
+        builtStructures.clear();
+        final List<Component> components = new ArrayList<>(builtComponents.values());
+        if (components.isEmpty()) {
+            return;
+        }
+        
+        final AtomicInteger counter = new AtomicInteger(components.size());
+        for (final Component component : components) {
+            execute(() -> {
+                final Playfield playfield = borrowPlayfield();
+                try {
+                    final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();
+                    simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+                    final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+                    final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+                    final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+                    builtStructures.put(component.getName(), new Structure(
+                            lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
+                            new Point[0], new Point[0], minX, maxX, 0, maxY));
+                } finally {
+                    returnPlayfield(playfield);
+                    if (counter.decrementAndGet() == 0) {
+                        finishedCreatingStructures();
+                    }
+                }                
+            });
+        }
+    }
+    
+    private void finishedCreatingStructures() {
+        
+        final Set<String> names = new HashSet<>(loadedComponents.keySet());
+        names.addAll(builtComponents.keySet());
+        final List<String> ns = new ArrayList<>(names);
+        final String[] componentNames = ns.toArray(new String[ns.size()]);
+        Arrays.sort(componentNames);  
+        
+        final Map<String, Structure> structures = new HashMap<>(loadedStructures);
+        structures.putAll(builtStructures);
+        
+        final BuildListener listener = buildListener;
+        if (listener != null) {
+            listener.buildCompleted(componentNames, structures);
         }
     }
     

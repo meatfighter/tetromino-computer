@@ -245,17 +245,27 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         controller.build(codeTextPane.getText());
     }
     
+    public void setCursorRenderer(final StructureRenderer cursorRenderer, final String name) {
+        insertComponentName(name);
+        playfieldPanel.setCursorRenderer(cursorRenderer);
+    }
+    
     public void tetriminoButtonPressed(final ActionEvent evt) {
-        final TetriminoRenderer tetriminoRenderer = (TetriminoRenderer)((JButton)evt.getSource()).getIcon();
+        final String name = ((TetriminoRenderer)((JButton)evt.getSource())
+                .getIcon()).getTetrimino().getName();
+        insertComponentName(name);
+        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(name));
+    }
+    
+    private void insertComponentName(final String name) {
         final StyledDocument doc = codeTextPane.getStyledDocument();        
         try {            
             final int caretPos = codeTextPane.getCaretPosition();
             doc.insertString(caretPos, ((caretPos > 0 
                     && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) ? "\n    " : "") 
-                    + tetriminoRenderer.getTetrimino().getName() + " ", null);
+                    + name + " ", null);
         } catch (final BadLocationException e) {
         }
-        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(tetriminoRenderer.getTetrimino().getName()));
     }
 
     /**

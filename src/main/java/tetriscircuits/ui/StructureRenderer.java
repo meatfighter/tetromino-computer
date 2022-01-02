@@ -31,6 +31,18 @@ public class StructureRenderer {
     private final Structure structure;
     private final int cellX;
     private final int cellY;
+
+    public Structure getStructure() {
+        return structure;
+    }
+
+    public int getCellX() {
+        return cellX;
+    }
+
+    public int getCellY() {
+        return cellY;
+    }
     
     public static StructureRenderer fromTetrimino(final String tetriminoName) {
         return STRUCTURE_RENDERERS.get(tetriminoName);
