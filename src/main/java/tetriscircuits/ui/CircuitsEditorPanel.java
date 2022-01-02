@@ -226,7 +226,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void init() {
-        verticalSplitPane.setDividerLocation(0.999);
+        verticalSplitPane.setDividerLocation(0.8);
         horizontalSplitPane.setDividerLocation(0.4);
         
         EventQueue.invokeLater(() -> {
@@ -302,6 +302,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputScrollPane.setMinimumSize(null);
         outputScrollPane.setPreferredSize(null);
 
+        outputTextArea.setEditable(false);
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
         outputTextArea.setColumns(40);
         outputTextArea.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
@@ -359,11 +360,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -24,12 +24,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="horizontalSplitPane" alignment="0" pref="959" max="32767" attributes="0"/>
+          <Component id="horizontalSplitPane" alignment="0" pref="54" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="horizontalSplitPane" alignment="0" pref="794" max="32767" attributes="0"/>
+          <Component id="horizontalSplitPane" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -90,6 +90,7 @@
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="outputTextArea">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2b" green="2b" red="2b" type="rgb"/>
                     </Property>

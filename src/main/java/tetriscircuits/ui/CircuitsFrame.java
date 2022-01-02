@@ -1,7 +1,12 @@
 package tetriscircuits.ui;
 
+import java.awt.Color;
+import java.awt.EventQueue;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
 
 public class CircuitsFrame extends javax.swing.JFrame {
@@ -13,14 +18,31 @@ public class CircuitsFrame extends javax.swing.JFrame {
      */
     public CircuitsFrame() {
         initComponents();
-        initTextField(componentsTextField);
-        initTextField(testTextField);
+        toolBar.setLayout(new WrapLayout(WrapLayout.LEFT, 0, 0));
+        initTextField(componentsTextField, 32);
+        initTextField(testTextField, 16);
+        initEditableComboBox(compEditComboBox);  
     }
     
-    private void initTextField(final JTextField textField) {
-        textField.setText("MMMMMMMMMMMMMMM");
-        textField.setMinimumSize(componentsTextField.getPreferredSize());
-        textField.setMaximumSize(componentsTextField.getPreferredSize());
+    private void initEditableComboBox(final JComboBox comboBox) {
+        final JTextField textField = (JTextField)comboBox.getEditor().getEditorComponent();
+        textField.setSelectionColor(new Color(0x3C3F41));        
+        AutoCompletion.enable(comboBox);
+        comboBox.setPreferredSize(componentsTextField.getPreferredSize());
+        comboBox.setMinimumSize(componentsTextField.getMinimumSize());
+        comboBox.setMaximumSize(componentsTextField.getMaximumSize());
+        compEditComboBox.setModel(new DefaultComboBoxModel(new String[0]));
+    }
+    
+    private void initTextField(final JTextField textField, final int columns) {
+        textField.setColumns(columns);
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < columns; ++i) {
+            sb.append('M');
+        }
+        textField.setText(sb.toString());
+        textField.setMinimumSize(textField.getPreferredSize());
+        textField.setMaximumSize(textField.getPreferredSize());
         textField.setText("");
     }
 
@@ -31,6 +53,31 @@ public class CircuitsFrame extends javax.swing.JFrame {
     public void setController(final Controller controller) {
         this.controller = controller;
         circuitsEditorPanel.setController(controller);
+        controller.setBuildListener(new BuildListener() {
+            @Override
+            public void buildStarted() {
+                if (!EventQueue.isDispatchThread()) {
+                    EventQueue.invokeLater(this::buildStarted);
+                    return;
+                }
+                buildButton.setEnabled(false);
+                playButton.setEnabled(false);
+            }
+            @Override
+            public void buildCompleted(final String[] componentNames) {
+                if (!EventQueue.isDispatchThread()) {
+                    EventQueue.invokeLater(() -> buildCompleted(componentNames));
+                    return;
+                }
+                buildButton.setEnabled(true);
+                playButton.setEnabled(true);
+                final String selectedItem = (String)compEditComboBox.getSelectedItem();
+                compEditComboBox.setModel(new DefaultComboBoxModel(componentNames));
+                if (selectedItem != null) {
+                    compEditComboBox.setSelectedItem(selectedItem);
+                }
+            }
+        });
     }
     
     public void init() {
@@ -58,6 +105,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JToolBar.Separator();
         testTextField = new javax.swing.JTextField();
         playButton = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JToolBar.Separator();
+        compEditComboBox = new javax.swing.JComboBox<>();
+        addComponentButton = new javax.swing.JButton();
         tdButton = new javax.swing.JButton();
         tlButton = new javax.swing.JButton();
         tuButton = new javax.swing.JButton();
@@ -100,11 +150,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
         redoMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(null);
 
         circuitsEditorPanel.setPreferredSize(null);
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
+        toolBar.setMaximumSize(null);
+        toolBar.setMinimumSize(null);
         toolBar.setName(""); // NOI18N
         toolBar.setPreferredSize(null);
 
@@ -113,6 +166,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         buildButton.setContentAreaFilled(false);
         buildButton.setFocusable(false);
         buildButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buildButton.setPreferredSize(null);
         buildButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         buildButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +177,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jSeparator4);
 
         componentsTextField.setColumns(15);
+        componentsTextField.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         componentsTextField.setToolTipText("Component Name");
         componentsTextField.setPreferredSize(null);
         toolBar.add(componentsTextField);
@@ -134,6 +189,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jSeparator5);
 
         testTextField.setColumns(15);
+        testTextField.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         testTextField.setToolTipText("Test Bit String");
         testTextField.setPreferredSize(null);
         toolBar.add(testTextField);
@@ -150,6 +206,28 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         toolBar.add(playButton);
+        toolBar.add(jSeparator6);
+
+        compEditComboBox.setEditable(true);
+        compEditComboBox.setFont(new java.awt.Font("Monospaced", 1, 13)); // NOI18N
+        compEditComboBox.setModel(new DefaultComboBoxModel(new String[] { "" }));
+        compEditComboBox.setMaximumSize(null);
+        compEditComboBox.setMinimumSize(null);
+        compEditComboBox.setPreferredSize(null);
+        compEditComboBox.setPrototypeDisplayValue("MMMMMMMMMMMMMMM");
+        toolBar.add(compEditComboBox);
+
+        addComponentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        addComponentButton.setContentAreaFilled(false);
+        addComponentButton.setFocusable(false);
+        addComponentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        addComponentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        addComponentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addComponentButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(addComponentButton);
 
         tdButton.setIcon(TetriminoRenderer.TD);
         tdButton.setToolTipText("td");
@@ -515,18 +593,18 @@ public class CircuitsFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
-                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
+                .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -629,10 +707,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         controller.run(componentsTextField.getText(), testTextField.getText());
     }//GEN-LAST:event_playButtonActionPerformed
 
+    private void addComponentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComponentButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addComponentButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addComponentButton;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton buildButton;
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
+    private javax.swing.JComboBox<String> compEditComboBox;
     private javax.swing.JTextField componentsTextField;
     private javax.swing.JLabel coordinatesLabel;
     private javax.swing.JMenu editMenu;
@@ -645,6 +729,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JButton jdButton;
     private javax.swing.JButton jlButton;

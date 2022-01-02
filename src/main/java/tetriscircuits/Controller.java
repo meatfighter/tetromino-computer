@@ -2,9 +2,12 @@ package tetriscircuits;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,7 +27,7 @@ public class Controller {
     
     private volatile OutputListener outputListener;
     private volatile ProgressListener progressListener;
-    private volatile ProgressListener buildListener;
+    private volatile BuildListener buildListener;
     private volatile RunListener runListener;
     
     private int taskCount;
@@ -37,7 +40,7 @@ public class Controller {
         this.progressListener = progressListener;
     }
 
-    public void setBuildListener(final ProgressListener buildListener) {
+    public void setBuildListener(final BuildListener buildListener) {
         this.buildListener = buildListener;
     }
 
@@ -46,16 +49,7 @@ public class Controller {
     }
     
     public void run(final String componentName, final String testBitStr) {
-        final ProgressListener listener = buildListener;
-        if (listener != null) {
-            listener.update(true);
-        }
-        execute(() -> {
-            runComponent(componentName, testBitStr.trim());
-            if (listener != null) {
-                listener.update(false);
-            }
-        });
+        execute(() -> runComponent(componentName, testBitStr.trim()));
     }
     
     private void runComponent(final String componentName, final String testBitStr) {
@@ -103,14 +97,19 @@ public class Controller {
     }
     
     public void build(final String text) {
-        final ProgressListener listener = buildListener;
+        final BuildListener listener = buildListener;
         if (listener != null) {
-            listener.update(true);
+            listener.buildStarted();
         }
         execute(() -> {
             buildText(text);
+            final Set<String> names = new HashSet<>(loadedComponents.keySet());
+            names.addAll(builtComponents.keySet());
+            final List<String> ns = new ArrayList<>(names);
+            final String[] componentNames = ns.toArray(new String[ns.size()]);
+            Arrays.sort(componentNames);            
             if (listener != null) {
-                listener.update(false);
+                listener.buildCompleted(componentNames);
             }
         });
     }
