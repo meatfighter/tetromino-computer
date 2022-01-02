@@ -118,33 +118,15 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             final int cellX = (x - originX) / cellSize - (playfieldWidth >> 1);
             final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
             if (lastCellX == null || cellX != lastCellX || cellY != lastCellY) { 
-                if (lastCellX != null && cursorRenderer != null) {
-                    cursorRenderer.repaint(
-                            this, 
-                            originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
-                            originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                            cellSize);
-                }
+                repaintCursor(originX, originY);
                 lastCellX = cellX;
                 lastCellY = cellY;
-                if (cursorRenderer != null) {
-                    cursorRenderer.repaint(
-                            this, 
-                            originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
-                            originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                            cellSize);
-                }
+                repaintCursor(originX, originY);
                 circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
             }
             setMouseCursor(false);
         } else {
-            if (lastCellX != null && cursorRenderer != null) {
-                cursorRenderer.repaint(
-                        this, 
-                        originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
-                        originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                        cellSize);
-            }
+            repaintCursor(originX, originY);
             lastCellX = lastCellY = null;
             circuitsFrame.getCoordinatesLabel().setText("");
             setMouseCursor(true);
@@ -161,28 +143,35 @@ public class PlayfieldPanel extends javax.swing.JPanel {
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         
-        setMouseCursor(true);
-        
-        if (lastCellX == null) {
-            return;
-        }
-        
-        if (cursorRenderer != null) {
-            final Dimension size = getSize();
-            final int width = playfieldWidth * cellSize;
-            final int height = playfieldHeight * cellSize;
-            final int originY = size.height - 1 - height;
-            final int originX = (size.width - width) >> 1;            
-            cursorRenderer.repaint(
-                    this, 
-                    originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
-                    originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                    cellSize);
-        }
+        setMouseCursor(true);      
+
+        final Dimension size = getSize();          
+        repaintCursor((size.width - playfieldWidth * cellSize) >> 1, size.height - 1 - playfieldHeight * cellSize);
+
         lastCellX = lastCellY = null;
         circuitsFrame.getCoordinatesLabel().setText("");
     }//GEN-LAST:event_formMouseExited
 
+    private void repaintCursor(final int originX, final int originY) {
+        if (lastCellX == null) {
+            return;
+        }
+            
+        if (cursorRenderer == null) {
+            repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                    originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                    cellSize + 1, 
+                    cellSize + 1);
+            return;
+        }
+        
+        cursorRenderer.repaint(
+                this, 
+                originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                cellSize);
+    }
+    
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         formMouseMoved(evt);
     }//GEN-LAST:event_formMouseDragged

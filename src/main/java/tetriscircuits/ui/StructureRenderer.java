@@ -22,7 +22,7 @@ public class StructureRenderer {
         for (final Tetrimino[] tetriminos : Tetrimino.TETRIMINOS) {
             for (final Tetrimino ts : tetriminos) {
                 structureRenderers.put(ts.getName(), new StructureRenderer(new Structure(new LockedTetrimino[] { 
-                    new LockedTetrimino(ts, 0, 0) }, new Point[0], new Point[0], -2, -2, 2, 2)));
+                    new LockedTetrimino(ts, 0, 0) }, new Point[0], new Point[0], -2, 2, -2, 2)));
             }
         }
         STRUCTURE_RENDERERS = Collections.unmodifiableMap(structureRenderers);
@@ -75,7 +75,7 @@ public class StructureRenderer {
                     x + cellSize * (cellX + output.x), 
                     y - cellSize * (cellY + output.y), 
                     cellSize, cellSize);
-        }        
+        }    
     }
     
     public void repaint(final PlayfieldPanel panel, final int x, final int y, int cellSize) {
