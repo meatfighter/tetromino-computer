@@ -15,6 +15,8 @@ public class Simulator {
     public void init(final Playfield playfield, final Component component, final String inputBits, 
             final int originX, final int originY, final int cellValue, final CellListener listener) {
         
+        final int centerX = playfield.getWidth() >> 1;
+        final int centerY = playfield.getHeight() - 1;
         final Point[][] inputs = component.getInputs();
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             if (inputBits.charAt(i) == '1') {
@@ -25,7 +27,7 @@ public class Simulator {
                     final int y = originY - p.y;
                     playfield.set(x, y, cellValue);
                     if (listener != null) {
-                        listener.cellSet(new Point(x, y));
+                        listener.cellSet(new Point(x - centerX, centerY - y));
                     }
                 }
             }
@@ -33,22 +35,22 @@ public class Simulator {
     }
     
     public void findOutputs(final Playfield playfield, final Component component, final CellListener listener) {
-        findOutputs(component, playfield.getWidth() >> 1, playfield.getHeight() - 1, listener);
+        findOutputs(playfield, component, 0, 0, listener);
     }
     
-    public void findOutputs(final Component component, final int originX, final int originY, 
+    public void findOutputs(final Playfield playfield, final Component component, final int originX, final int originY, 
             final CellListener listener) {
         
         if (listener == null) {
             return;
         }
-        
+              
         final Point[][] outputs = component.getOutputs();
         for (int i = outputs.length - 1; i >= 0; --i) {
             final Point[] outs = outputs[i];
             for (int j = outs.length - 1; j >= 0; --j) {
                 final Point p = outs[j];
-                listener.cellSet(new Point(originX + p.x, originY - p.y));
+                listener.cellSet(new Point(originX + p.x, originY + p.y));
             }        
         }
     }
@@ -113,7 +115,8 @@ public class Simulator {
         lock(playfield, tetrimino, x, y);
         
         if (listener != null) {
-            listener.tetriminoLocked(new LockedTetrimino(tetrimino, x, y));
+            listener.tetriminoLocked(new LockedTetrimino(tetrimino, x - (playfield.getWidth() >> 1), 
+                    playfield.getHeight() - 1 - y));
         }
     }
     

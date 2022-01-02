@@ -33,6 +33,6 @@ public class LockedTetriminoRenderer {
     }
 
     public void render(final Graphics g, final int x, final int y, int cellSize) {
-        tetriminoRenderer.render(g, x + cellSize * cellX, y + cellSize * cellY, cellSize);
+        tetriminoRenderer.render(g, x + cellSize * cellX, y - cellSize * cellY, cellSize);
     }
 }

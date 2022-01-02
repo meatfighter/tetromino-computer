@@ -4,18 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import tetriscircuits.Component;
-import tetriscircuits.Controller;
-import tetriscircuits.Playfield;
 import tetriscircuits.Point;
-import tetriscircuits.Simulator;
-import tetriscircuits.Tetrimino;
-import tetriscircuits.parser.Parser;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     
@@ -28,8 +17,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
     
     private int cellSize = 32;
-    private int playfieldWidth = 1024;
-    private int playfieldHeight = 512;
+    private int playfieldWidth = 32;
+    private int playfieldHeight = 32;
     private LockedTetriminoRenderer[] lockedTetriminoRenderers = new LockedTetriminoRenderer[0];
     
     private Point[] inputs = new Point[0];
@@ -44,10 +33,6 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     private LockedTetriminoRenderer[] cursorRenderers;
             
-            
-//            new LockedTetriminoRenderer[] {
-//        new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(Tetrimino.TD), 0, 0),
-//    };
     private int cursorOriginX = 0;
     private int cursorOriginY = 0;
     private int cursorWidth = cellSize + 1;
@@ -207,8 +192,10 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 
         final int width = playfieldWidth * cellSize;
         final int height = playfieldHeight * cellSize;
-        final int originY = size.height - 1 - height;
         final int originX = (size.width - width) >> 1;
+        final int originY = size.height - 1 - height;        
+        final int centerX = originX + (width >> 1);
+        final int centerY = originY + height - cellSize;
         
         g.setColor(GRID);
         for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
@@ -225,17 +212,17 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         for (int i = inputs.length - 1; i >= 0; --i) {
             final Point input = inputs[i];
             g.setColor(INPUT_FILL);
-            g.fillRect(originX + input.x * cellSize, originY + input.y * cellSize, cellSize, cellSize);
+            g.fillRect(centerX + input.x * cellSize, centerY - input.y * cellSize, cellSize, cellSize);
         }
         
         for (int i = lockedTetriminoRenderers.length - 1; i >= 0; --i) {
-            lockedTetriminoRenderers[i].render(g, originX, originY, cellSize);
+            lockedTetriminoRenderers[i].render(g, centerX, centerY, cellSize);
         }
         
         for (int i = outputs.length - 1; i >= 0; --i) {
             final Point output = outputs[i];
             g.setColor(OUTPUT_FILL);
-            g.fillRect(originX + output.x * cellSize, originY + output.y * cellSize, cellSize, cellSize);
+            g.fillRect(centerX + output.x * cellSize, centerY - output.y * cellSize, cellSize, cellSize);
         }
         
         if (lastCellX != null) {            

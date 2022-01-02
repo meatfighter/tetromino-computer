@@ -173,7 +173,7 @@ public class Controller {
             }
         }
         if (playfield == null) {
-            playfield = new Playfield(1024, 512, 1);            
+            playfield = new Playfield(4096, 2048, 1);            
         }
         return playfield;
     }

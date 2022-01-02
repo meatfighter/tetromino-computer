@@ -106,7 +106,7 @@ public class CodeDocumentFilter extends DocumentFilter {
         if ("\n".equals(text)) {            
             final Element line = root.getElement(root.getElementIndex(offset));
             final String lineText = doc.getText(line.getStartOffset(), line.getEndOffset() - line.getStartOffset());
-            if ((lineText.startsWith("    ") && !isBlank(lineText)) || DECLARE_PATTERN.matcher(lineText).matches()) {
+            if ((lineText.startsWith("    ") && !isBlank(lineText)) || DECLARE_PATTERN.matcher(lineText).find()) {
                 fb.insertString(offset, "\n    ", null);
             } else {
                 fb.insertString(offset, text, null);
