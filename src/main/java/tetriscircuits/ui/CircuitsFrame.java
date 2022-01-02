@@ -628,7 +628,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buildButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        // TODO add your handling code here:
+        controller.run(componentsTextField.getText(), testTextField.getText());
     }//GEN-LAST:event_playButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

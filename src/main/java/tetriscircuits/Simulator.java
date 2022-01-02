@@ -25,10 +25,31 @@ public class Simulator {
                     final int y = originY - p.y;
                     playfield.set(x, y, cellValue);
                     if (listener != null) {
-                        listener.cellSet(x, y);
+                        listener.cellSet(new Point(x, y));
                     }
                 }
             }
+        }
+    }
+    
+    public void findOutputs(final Playfield playfield, final Component component, final CellListener listener) {
+        findOutputs(component, playfield.getWidth() >> 1, playfield.getHeight() - 1, listener);
+    }
+    
+    public void findOutputs(final Component component, final int originX, final int originY, 
+            final CellListener listener) {
+        
+        if (listener == null) {
+            return;
+        }
+        
+        final Point[][] outputs = component.getOutputs();
+        for (int i = outputs.length - 1; i >= 0; --i) {
+            final Point[] outs = outputs[i];
+            for (int j = outs.length - 1; j >= 0; --j) {
+                final Point p = outs[j];
+                listener.cellSet(new Point(originX + p.x, originY - p.y));
+            }        
         }
     }
     
@@ -92,7 +113,7 @@ public class Simulator {
         lock(playfield, tetrimino, x, y);
         
         if (listener != null) {
-            listener.tetriminoLocked(tetrimino, x, y);
+            listener.tetriminoLocked(new LockedTetrimino(tetrimino, x, y));
         }
     }
     

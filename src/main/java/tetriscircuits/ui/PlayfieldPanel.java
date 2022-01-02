@@ -3,15 +3,18 @@ package tetriscircuits.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import tetriscircuits.Component;
+import tetriscircuits.Controller;
 import tetriscircuits.Playfield;
 import tetriscircuits.Point;
 import tetriscircuits.Simulator;
+import tetriscircuits.Tetrimino;
 import tetriscircuits.parser.Parser;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
@@ -25,14 +28,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
     
     private int cellSize = 32;
-    private int playfieldWidth = 16;
-    private int playfieldHeight = 16;
-    private LockedTetriminoRenderer[] lockedTetriminoRenderers = {
-        new LockedTetriminoRenderer(TetriminoRenderer.TD, 1, 0),
-    };
+    private int playfieldWidth = 1024;
+    private int playfieldHeight = 512;
+    private LockedTetriminoRenderer[] lockedTetriminoRenderers = new LockedTetriminoRenderer[0];
     
     private Point[] inputs = new Point[0];
-    private Point[][] outputs = new Point[0][0];
+    private Point[] outputs = new Point[0];
     
     private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
     
@@ -41,47 +42,48 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     private CircuitsFrame circuitsFrame;
     
+    private LockedTetriminoRenderer[] cursorRenderers;
+            
+            
+//            new LockedTetriminoRenderer[] {
+//        new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(Tetrimino.TD), 0, 0),
+//    };
+    private int cursorOriginX = 0;
+    private int cursorOriginY = 0;
+    private int cursorWidth = cellSize + 1;
+    private int cursorHeight = cellSize + 1;
+    
     /**
      * Creates new form PlayfieldPanel
      */
     public PlayfieldPanel() {
         initComponents();
+    }
+    
+    public void setCursorRenderers(final LockedTetriminoRenderer[] cursorRenderers, final int originX, 
+            final int originY, final int width, final int height) {
         
-        
-        final Map<String, Component> components = new LinkedHashMap<>();
-        final Parser parser = new Parser();
-        try {
-            parser.parse(components, "circuits/components.txt");
-        } catch (final Exception e) {
-            e.printStackTrace(); // TODO REMOVE
-        }
-        for (final Component component : components.values()) {
-            System.out.println(component);
-        }
-
-        final Playfield playfield = new Playfield(playfieldWidth, playfieldHeight, 1);
-        final Simulator simulator = new Simulator();
-        final Component component = components.get("nand"); 
-        
-        if (component != null) {
-            this.outputs = component.getOutputs();
-
-            final List<Point> inputPoints = new ArrayList<>();
-            simulator.init(playfield, component, "11", (x, y) -> {
-                inputPoints.add(new Point(x, y));
-            });
-            inputs = inputPoints.toArray(new Point[inputPoints.size()]);
-
-            final List<LockedTetriminoRenderer> renderers = new ArrayList<>();        
-            simulator.simulate(playfield, component, (tetrimino, x, y) -> {
-                renderers.add(new LockedTetriminoRenderer(TetriminoRenderer.fromTetrimino(tetrimino), x, y));
-            });                
-            lockedTetriminoRenderers = renderers.toArray(new LockedTetriminoRenderer[renderers.size()]);
-        }
+        this.cursorRenderers = cursorRenderers;
+        cursorOriginX = cellSize * originX;
+        cursorOriginY = cellSize * originY;
+        cursorWidth = cellSize * width + 1;
+        cursorHeight = cellSize * height + 1;
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
         this.circuitsFrame = circuitsFrame;
+        setCursor(circuitsFrame.getToolkit().createCustomCursor(
+                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new java.awt.Point(0, 0),
+                "null"));      
+    }
+    
+    public void runCompleted(final Point[] ins, final Point[] outs, 
+            final LockedTetriminoRenderer[] lockedTetriminoRenderers) {
+        
+        this.inputs = ins;
+        this.outputs = outs;
+        this.lockedTetriminoRenderers = lockedTetriminoRenderers;        
+        repaint();
     }
 
     /**
@@ -94,6 +96,9 @@ public class PlayfieldPanel extends javax.swing.JPanel {
 
         setMaximumSize(null);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 formMouseMoved(evt);
             }
@@ -137,19 +142,22 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
             if (lastCellX == null || cellX != lastCellX || cellY != lastCellY) { 
                 if (lastCellX != null) {
-                    repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                            originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+                    repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                            cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                            cursorWidth, cursorHeight);
                 }
                 lastCellX = cellX;
                 lastCellY = cellY;
-                repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+                repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                            cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                            cursorWidth, cursorHeight);
                 circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
             }
         } else {
             if (lastCellX != null) {
-                repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+                repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                        cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                        cursorWidth, cursorHeight);
             }
             lastCellX = lastCellY = null;
             circuitsFrame.getCoordinatesLabel().setText("");
@@ -175,11 +183,16 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final int height = playfieldHeight * cellSize;
         final int originY = size.height - 1 - height;
         final int originX = (size.width - width) >> 1;
-        repaint(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize + 1, cellSize + 1);
+        repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                cursorWidth, cursorHeight);
         lastCellX = lastCellY = null;
         circuitsFrame.getCoordinatesLabel().setText("");
     }//GEN-LAST:event_formMouseExited
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        formMouseMoved(evt);
+    }//GEN-LAST:event_formMouseDragged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
@@ -196,8 +209,6 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final int height = playfieldHeight * cellSize;
         final int originY = size.height - 1 - height;
         final int originX = (size.width - width) >> 1;
-        
-        final int halfWidth = width >> 1;
         
         g.setColor(GRID);
         for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
@@ -222,19 +233,23 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         }
         
         for (int i = outputs.length - 1; i >= 0; --i) {
-            final Point[] outs = outputs[i];
-            for (int j = outs.length - 1; j >= 0; --j) {
-                final Point output = outs[j];
-                g.setColor(OUTPUT_FILL);
-                g.fillRect(halfWidth + originX + output.x * cellSize, 
-                        height + originY + (-output.y - 1) * cellSize, cellSize, cellSize);
-            }
+            final Point output = outputs[i];
+            g.setColor(OUTPUT_FILL);
+            g.fillRect(originX + output.x * cellSize, originY + output.y * cellSize, cellSize, cellSize);
         }
         
-        if (lastCellX != null) {
-            g.setColor(CURSOR);
-            g.drawRect(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                    originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize, cellSize);
+        if (lastCellX != null) {            
+            if (cursorRenderers == null) {            
+                g.setColor(CURSOR);
+                g.drawRect(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize, cellSize);
+            } else {
+                final int ox = originX + (lastCellX + (playfieldWidth >> 1)) * cellSize;
+                final int oy = originY - (lastCellY - playfieldHeight + 1) * cellSize;
+                for (int i = cursorRenderers.length - 1; i >= 0; --i) {
+                    cursorRenderers[i].render(g, ox, oy, cellSize);
+                }
+            }
         }
     }
 

@@ -1,12 +1,18 @@
 package tetriscircuits.ui;
 
 import java.awt.Graphics;
+import tetriscircuits.LockedTetrimino;
 
 public class LockedTetriminoRenderer {
     
     private final TetriminoRenderer tetriminoRenderer;
     private final int cellX;
     private final int cellY;
+    
+    public LockedTetriminoRenderer(final LockedTetrimino lockedTetrimino) {
+        this(TetriminoRenderer.fromTetrimino(lockedTetrimino.getTetrimino()), lockedTetrimino.getX(), 
+                lockedTetrimino.getY());
+    }
     
     public LockedTetriminoRenderer(final TetriminoRenderer tetriminoRenderer, final int cellX, final int cellY) {
         this.tetriminoRenderer = tetriminoRenderer;

@@ -3,11 +3,15 @@ package tetriscircuits.ui;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -22,7 +26,10 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import tetriscircuits.Controller;
+import tetriscircuits.LockedTetrimino;
 import tetriscircuits.OutputListener;
+import tetriscircuits.Point;
+import tetriscircuits.RunListener;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -194,6 +201,24 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 outputTextArea.append(text + "\n");
             }            
         });
+        controller.setRunListener(new RunListener() {
+            @Override
+            public void runCompleted(final List<Point> inputs, final List<Point> outputs, 
+                    final List<LockedTetrimino> lockedTetriminos) {
+                if (!EventQueue.isDispatchThread()) {
+                    EventQueue.invokeLater(() -> runCompleted(inputs, outputs, lockedTetriminos));
+                    return;
+                }
+                final Point[] ins = inputs.toArray(new Point[inputs.size()]);
+                final Point[] outs = outputs.toArray(new Point[outputs.size()]);            
+                final LockedTetriminoRenderer[] lockedTetriminoRenderers 
+                        = new LockedTetriminoRenderer[lockedTetriminos.size()];
+                for (int i = lockedTetriminos.size() - 1; i >= 0; --i) {
+                    lockedTetriminoRenderers[i] = new LockedTetriminoRenderer(lockedTetriminos.get(i));
+                }    
+                playfieldPanel.runCompleted(ins, outs, lockedTetriminoRenderers);
+            }
+        });
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
@@ -202,7 +227,15 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void init() {
-        verticalSplitPane.setDividerLocation(0.99);
+        verticalSplitPane.setDividerLocation(0.999);
+        horizontalSplitPane.setDividerLocation(0.4);
+        
+        EventQueue.invokeLater(() -> {
+            final JViewport viewPort = playfieldScrollPane.getViewport();
+            final Rectangle bounds = viewPort.getViewRect();
+            final Dimension size = viewPort.getViewSize();
+            viewPort.setViewPosition(new java.awt.Point((size.width - bounds.width) >> 1, size.height - bounds.height));
+        });
     }
     
     public void undo() {
@@ -233,6 +266,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     + tetriminoRenderer.getTetrimino().getName() + " ", null);
         } catch (final BadLocationException e) {
         }
+        playfieldPanel.setCursorRenderers(new LockedTetriminoRenderer[] {
+            new LockedTetriminoRenderer(tetriminoRenderer, 0, 0),            
+        }, -2, -2, 5, 5);
     }
 
     /**
