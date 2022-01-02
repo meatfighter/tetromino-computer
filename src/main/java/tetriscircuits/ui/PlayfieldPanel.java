@@ -5,7 +5,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import tetriscircuits.Point;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     
@@ -14,18 +13,13 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color AXISES = new Color(0xA9B7C6);
     private static final Color CURSOR = new Color(0xFFFFFF);
     
-    private static final Color INPUT_FILL = new Color(0xDDEEFF);
-    private static final Color OUTPUT_FILL = new Color(0x7F000000, true);
-    
     private final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
     
     private int cellSize = 32;
     private int playfieldWidth = 32;
     private int playfieldHeight = 32;
-    private LockedTetriminoRenderer[] lockedTetriminoRenderers = new LockedTetriminoRenderer[0];
-    
-    private Point[] inputs = new Point[0];
-    private Point[] outputs = new Point[0];
+
+    private StructureRenderer structureRenderer;
     
     private Dimension minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
     
@@ -36,12 +30,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     private CircuitsFrame circuitsFrame;
     
-    private LockedTetriminoRenderer[] cursorRenderers;
-            
-    private int cursorOriginX = 0;
-    private int cursorOriginY = 0;
-    private int cursorWidth = cellSize + 1;
-    private int cursorHeight = cellSize + 1;
+    private StructureRenderer cursorRenderer;
     
     private boolean mouseVisible = true;
     
@@ -52,14 +41,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void setCursorRenderers(final LockedTetriminoRenderer[] cursorRenderers, final int originX, 
-            final int originY, final int width, final int height) {
-        
-        this.cursorRenderers = cursorRenderers;
-        cursorOriginX = cellSize * originX;
-        cursorOriginY = cellSize * originY;
-        cursorWidth = cellSize * width + 1;
-        cursorHeight = cellSize * height + 1;
+    public void setCursorRenderer(final StructureRenderer cursorRenderer) {        
+        this.cursorRenderer = cursorRenderer;
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
@@ -75,12 +58,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         }
     }
     
-    public void runCompleted(final Point[] ins, final Point[] outs, 
-            final LockedTetriminoRenderer[] lockedTetriminoRenderers) {
-        
-        this.inputs = ins;
-        this.outputs = outs;
-        this.lockedTetriminoRenderers = lockedTetriminoRenderers;        
+    public void runCompleted(final StructureRenderer structureRenderer) {
+        this.structureRenderer = structureRenderer;
         repaint();
     }
 
@@ -139,24 +118,32 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             final int cellX = (x - originX) / cellSize - (playfieldWidth >> 1);
             final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
             if (lastCellX == null || cellX != lastCellX || cellY != lastCellY) { 
-                if (lastCellX != null) {
-                    repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                            cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                            cursorWidth, cursorHeight);
+                if (lastCellX != null && cursorRenderer != null) {
+                    cursorRenderer.repaint(
+                            this, 
+                            originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                            originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                            cellSize);
                 }
                 lastCellX = cellX;
                 lastCellY = cellY;
-                repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                            cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                            cursorWidth, cursorHeight);
+                if (cursorRenderer != null) {
+                    cursorRenderer.repaint(
+                            this, 
+                            originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                            originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                            cellSize);
+                }
                 circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
             }
             setMouseCursor(false);
         } else {
-            if (lastCellX != null) {
-                repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                        cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                        cursorWidth, cursorHeight);
+            if (lastCellX != null && cursorRenderer != null) {
+                cursorRenderer.repaint(
+                        this, 
+                        originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                        cellSize);
             }
             lastCellX = lastCellY = null;
             circuitsFrame.getCoordinatesLabel().setText("");
@@ -180,14 +167,18 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             return;
         }
         
-        final Dimension size = getSize();
-        final int width = playfieldWidth * cellSize;
-        final int height = playfieldHeight * cellSize;
-        final int originY = size.height - 1 - height;
-        final int originX = (size.width - width) >> 1;
-        repaint(cursorOriginX + originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
-                cursorOriginY + originY - (lastCellY - playfieldHeight + 1) * cellSize, 
-                cursorWidth, cursorHeight);
+        if (cursorRenderer != null) {
+            final Dimension size = getSize();
+            final int width = playfieldWidth * cellSize;
+            final int height = playfieldHeight * cellSize;
+            final int originY = size.height - 1 - height;
+            final int originX = (size.width - width) >> 1;            
+            cursorRenderer.repaint(
+                    this, 
+                    originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                    originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                    cellSize);
+        }
         lastCellX = lastCellY = null;
         circuitsFrame.getCoordinatesLabel().setText("");
     }//GEN-LAST:event_formMouseExited
@@ -225,34 +216,21 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         g.setColor(AXISES);
         final int middleX = originX + (playfieldWidth >> 1) * cellSize;
         g.drawLine(middleX, originY, middleX, originY + height - 1);
-                
-        for (int i = inputs.length - 1; i >= 0; --i) {
-            final Point input = inputs[i];
-            g.setColor(INPUT_FILL);
-            g.fillRect(centerX + input.x * cellSize, centerY - input.y * cellSize, cellSize, cellSize);
-        }
         
-        for (int i = lockedTetriminoRenderers.length - 1; i >= 0; --i) {
-            lockedTetriminoRenderers[i].render(g, centerX, centerY, cellSize);
-        }
-        
-        for (int i = outputs.length - 1; i >= 0; --i) {
-            final Point output = outputs[i];
-            g.setColor(OUTPUT_FILL);
-            g.fillRect(centerX + output.x * cellSize, centerY - output.y * cellSize, cellSize, cellSize);
+        if (structureRenderer != null) {
+            structureRenderer.render(g, centerX, centerY, cellSize);
         }
         
         if (lastCellX != null) {            
-            if (cursorRenderers == null) {            
+            if (cursorRenderer == null) {  
                 g.setColor(CURSOR);
                 g.drawRect(originX + (lastCellX + (playfieldWidth >> 1)) * cellSize,
                         originY - (lastCellY - playfieldHeight + 1) * cellSize, cellSize, cellSize);
             } else {
-                final int ox = originX + (lastCellX + (playfieldWidth >> 1)) * cellSize;
-                final int oy = originY - (lastCellY - playfieldHeight + 1) * cellSize;
-                for (int i = cursorRenderers.length - 1; i >= 0; --i) {
-                    cursorRenderers[i].render(g, ox, oy, cellSize);
-                }
+                cursorRenderer.render(g, 
+                        originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                        originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                        cellSize);
             }
         }
     }

@@ -66,6 +66,9 @@ public class Controller {
         final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();         
         
         Component component = builtComponents.get(componentName);
+        int minX = 0;
+        int maxX = 0;
+        int maxY = 0;
         if (component == null) {
             component = loadedComponents.get(componentName);
         }
@@ -79,6 +82,9 @@ public class Controller {
                 simulator.init(playfield, component, testBitStr, p -> inputs.add(p));
                 simulator.findOutputs(playfield, component, p -> outputs.add(p));
                 simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+                minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+                maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+                maxY = playfield.getHeight() - 1 - playfield.getMinY();
                 if (outListener != null) {
                     if (testBitStr.isEmpty()) {
                         outListener.append("Ran " + componentName + " with no inputs.");
@@ -92,7 +98,11 @@ public class Controller {
         }
         
         if (listener != null) {            
-            listener.runCompleted(inputs, outputs, lockedTetriminos);
+            listener.runCompleted(new Structure(
+                    lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
+                    inputs.toArray(new Point[inputs.size()]),
+                    outputs.toArray(new Point[outputs.size()]),
+                    minX, maxX, 0, maxY));
         }        
     }
     

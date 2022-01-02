@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -25,10 +24,9 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import tetriscircuits.Controller;
-import tetriscircuits.LockedTetrimino;
 import tetriscircuits.OutputListener;
-import tetriscircuits.Point;
 import tetriscircuits.RunListener;
+import tetriscircuits.Structure;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -202,20 +200,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
         controller.setRunListener(new RunListener() {
             @Override
-            public void runCompleted(final List<Point> inputs, final List<Point> outputs, 
-                    final List<LockedTetrimino> lockedTetriminos) {
+            public void runCompleted(final Structure structure) {
                 if (!EventQueue.isDispatchThread()) {
-                    EventQueue.invokeLater(() -> runCompleted(inputs, outputs, lockedTetriminos));
+                    EventQueue.invokeLater(() -> runCompleted(structure));
                     return;
-                }
-                final Point[] ins = inputs.toArray(new Point[inputs.size()]);
-                final Point[] outs = outputs.toArray(new Point[outputs.size()]);            
-                final LockedTetriminoRenderer[] lockedTetriminoRenderers 
-                        = new LockedTetriminoRenderer[lockedTetriminos.size()];
-                for (int i = lockedTetriminos.size() - 1; i >= 0; --i) {
-                    lockedTetriminoRenderers[i] = new LockedTetriminoRenderer(lockedTetriminos.get(i));
-                }    
-                playfieldPanel.runCompleted(ins, outs, lockedTetriminoRenderers);
+                }           
+                playfieldPanel.runCompleted(new StructureRenderer(structure));
             }
         });
     }
@@ -265,9 +255,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     + tetriminoRenderer.getTetrimino().getName() + " ", null);
         } catch (final BadLocationException e) {
         }
-        playfieldPanel.setCursorRenderers(new LockedTetriminoRenderer[] {
-            new LockedTetriminoRenderer(tetriminoRenderer, 0, 0),            
-        }, -2, -2, 5, 5);
+        
+        // TODO 
+//        playfieldPanel.setCursorRenderers(new LockedTetriminoRenderer[] {
+//            new LockedTetriminoRenderer(tetriminoRenderer, 0, 0),            
+//        }, -2, -2, 5, 5);
     }
 
     /**
