@@ -2,6 +2,7 @@ package tetriscircuits.ui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -155,6 +156,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(null);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         circuitsEditorPanel.setPreferredSize(null);
 
@@ -718,6 +724,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
             circuitsEditorPanel.setCursorRenderer(new StructureRenderer(structure), name);
         }
     }//GEN-LAST:event_addComponentButtonActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addComponentButton;

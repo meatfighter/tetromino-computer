@@ -5,6 +5,7 @@ import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.Controller;
 import tetriscircuits.OutputListener;
 import tetriscircuits.RunListener;
@@ -213,9 +215,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
         this.circuitsFrame = circuitsFrame;
         playfieldPanel.setCircuitsFrame(circuitsFrame);
+        playfieldPanel.setCircuitsEditorPanel(this);
     }
     
-    public void init() {
+    public void init() {        
         verticalSplitPane.setDividerLocation(0.8);
         horizontalSplitPane.setDividerLocation(0.4);
         
@@ -225,6 +228,34 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             final Dimension size = viewPort.getViewSize();
             viewPort.setViewPosition(new java.awt.Point((size.width - bounds.width) >> 1, size.height - bounds.height));
         });
+        
+        final String ESCAPE_PRESSED = "escapePressed";
+        getActionMap().put(ESCAPE_PRESSED, new AbstractAction("ESCAPE_PRESSED") {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                clearCursorRenderer();
+            }
+        });
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
+                ESCAPE_PRESSED);
+    }
+    
+    public void insertCoordinate(final int cellX, final int cellY) {               
+        try {            
+            final StyledDocument doc = codeTextPane.getStyledDocument(); 
+            final int caretPos = codeTextPane.getCaretPosition();
+            final Element root = doc.getDefaultRootElement();
+            final Element element = root.getElement(root.getElementIndex(caretPos));
+            final String line = doc.getText(element.getStartOffset(), element.getEndOffset() 
+                    - element.getStartOffset());
+            if (isBlank(line)) {
+                return;
+            }
+            doc.insertString(caretPos, ((caretPos == 0 || Character.isWhitespace(codeTextPane.getText(caretPos - 1, 1)
+                    .charAt(0))) ? "" : " ") + (((line.trim().split("\\s+").length & 1) == 1) ? cellX : cellY), 
+                    CodeDocumentFilter.NUMBER_ATTRIBS);
+        } catch (final BadLocationException e) {
+        }
     }
     
     public void undo() {
@@ -248,6 +279,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     public void setCursorRenderer(final StructureRenderer cursorRenderer, final String name) {
         insertComponentName(name);
         playfieldPanel.setCursorRenderer(cursorRenderer);
+    }
+    
+    public void clearCursorRenderer() {
+        playfieldPanel.clearCursorRenderer();
     }
     
     public void tetriminoButtonPressed(final ActionEvent evt) {

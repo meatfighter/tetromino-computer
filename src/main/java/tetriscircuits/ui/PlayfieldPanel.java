@@ -29,6 +29,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private Integer lastCellY;
     
     private CircuitsFrame circuitsFrame;
+    private CircuitsEditorPanel circuitsEditorPanel;
     
     private StructureRenderer cursorRenderer;
     
@@ -49,6 +50,10 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         this.circuitsFrame = circuitsFrame; 
         invisibleMouseCursor = circuitsFrame.getToolkit().createCustomCursor(
                 new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new java.awt.Point(0, 0), "null");
+    }
+
+    public void setCircuitsEditorPanel(final CircuitsEditorPanel circuitsEditorPanel) {
+        this.circuitsEditorPanel = circuitsEditorPanel;
     }
     
     private void setMouseCursor(final boolean visible) {  
@@ -132,11 +137,43 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             setMouseCursor(true);
         }
     }//GEN-LAST:event_formMouseMoved
-
+    
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        // TODO add your handling code here:
+        switch (evt.getButton()) {
+            case 1: {
+                final Dimension size = getSize();
+                final int width = playfieldWidth * cellSize;
+                final int height = playfieldHeight * cellSize;
+                final int originY = size.height - 1 - height;
+                final int originX = (size.width - width) >> 1;
+                final int x = evt.getX();
+                final int y = evt.getY();
+                if (x >= originX && x < originX + width && y >= originY && y < originY + height) {
+                    final int cellX = (x - originX) / cellSize - (playfieldWidth >> 1);
+                    final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
+                    circuitsEditorPanel.insertCoordinate(cellX, cellY);
+                }
+                break;
+            }
+            default:
+                clearCursorRenderer();
+                break;
+        }
     }//GEN-LAST:event_formMousePressed
 
+    public void clearCursorRenderer() {
+        final StructureRenderer cr = cursorRenderer;
+        cursorRenderer = null;
+        final Dimension size = getSize();          
+        final int originX = (size.width - playfieldWidth * cellSize) >> 1;
+        final int originY = size.height - 1 - playfieldHeight * cellSize;
+        cr.repaint(
+                this, 
+                originX + (lastCellX + (playfieldWidth >> 1)) * cellSize, 
+                originY - (lastCellY - playfieldHeight + 1) * cellSize, 
+                cellSize);
+    }
+    
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         formMouseMoved(evt);
     }//GEN-LAST:event_formMouseEntered

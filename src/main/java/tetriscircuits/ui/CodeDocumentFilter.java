@@ -19,17 +19,17 @@ public class CodeDocumentFilter extends DocumentFilter {
             = Pattern.compile("(([0-9]+)|([0-9]+\\.\\.[0-9]+)|([A-Za-z0-9]+[0-9]+\\.\\.[0-9]+))($|\\s)");
     private static final Pattern DECLARE_PATTERN = Pattern.compile("(^|\\s)def\\s+([a-zA-Z_][a-zA-Z0-9_]*)($|\\s)");
     
-    private static final Color NORMAL_COLOR = new Color(0xBBBBBB);
-    private static final Color COMMENT_COLOR = new Color(0x808080);
-    private static final Color KEYWORD_COLOR = new Color(0xCC7832);
-    private static final Color NUMBER_COLOR = new Color(0x6897BB);
-    private static final Color DECLARE_COLOR = new Color(0xFFC66D);
+    public static final Color NORMAL_COLOR = new Color(0xBBBBBB);
+    public static final Color COMMENT_COLOR = new Color(0x808080);
+    public static final Color KEYWORD_COLOR = new Color(0xCC7832);
+    public static final Color NUMBER_COLOR = new Color(0x6897BB);
+    public static final Color DECLARE_COLOR = new Color(0xFFC66D);
     
-    private static final SimpleAttributeSet NORMAL_ATTRIBS = new SimpleAttributeSet();
-    private static final SimpleAttributeSet COMMENT_ATTRIBS = new SimpleAttributeSet();
-    private static final SimpleAttributeSet KEYWORD_ATTRIBS = new SimpleAttributeSet();
-    private static final SimpleAttributeSet NUMBER_ATTRIBS = new SimpleAttributeSet();
-    private static final SimpleAttributeSet DECLARE_ATTRIBS = new SimpleAttributeSet();
+    public static final SimpleAttributeSet NORMAL_ATTRIBS = new SimpleAttributeSet();
+    public static final SimpleAttributeSet COMMENT_ATTRIBS = new SimpleAttributeSet();
+    public static final SimpleAttributeSet KEYWORD_ATTRIBS = new SimpleAttributeSet();
+    public static final SimpleAttributeSet NUMBER_ATTRIBS = new SimpleAttributeSet();
+    public static final SimpleAttributeSet DECLARE_ATTRIBS = new SimpleAttributeSet();
     
     static {                
         StyleConstants.setForeground(NORMAL_ATTRIBS, NORMAL_COLOR);
