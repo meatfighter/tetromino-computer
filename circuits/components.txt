@@ -1,20 +1,43 @@
-# left not
+# notLeft alias
+def not
+    notLeft 0 0
+    in 0 0
+    out 0 1
+    test 0 1
+    test 1 0
+
+# not with square on left and single tap right
 def notLeft
     o -1 1 0
     in 0 0
     out 0 1
     test 0 1
     test 1 0
-
-# right not
+      
+# not with square on left and double tap right
+def notLeft2
+    o -1 1 1
+    in 0 0
+    out 0 1
+    test 0 1
+    test 1 0
+    
+# not with square on right and single tap left
 def notRight
     o 2 1 1
     in 0 0
     out 0 1
     test 0 1
     test 1 0
-
-# or
+    
+# not with square on right and double tap left
+def notRight2
+    o 2 1 0
+    in 0 0
+    out 0 1
+    test 0 1
+    test 1 0
+    
 def or
     o 0
     in -1 0 
@@ -24,8 +47,7 @@ def or
     test 01 1
     test 10 1
     test 11 1
-
-# nand
+    
 def nand
     notLeft -1 0
     notRight 0 0

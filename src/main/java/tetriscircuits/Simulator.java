@@ -83,7 +83,7 @@ public class Simulator {
     
     public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
             final int originY, final TetriminoLockListener listener) {
-        for (int i = 0; i < instructions.length; ++i) {            
+        for (int i = 0; i < instructions.length; ++i) {    
             simulate(playfield, instructions[i], originX, originY, listener);
         }
     }
@@ -100,14 +100,14 @@ public class Simulator {
         }
         
         final Tetrimino tetrimino = instruction.getTetrimino();
-        int x = moves[0] + originX;
+        int x = originX + moves[0];
         int y = playfield.getMinY() - 3;
         
         for (int i = 1; i < moves.length; ++i) {
             if ((i & 1) == 1) {
                 y = moveDown(playfield, tetrimino, x, y, originY - moves[i]);
             } else {
-                x = moveHorizontally(playfield, tetrimino, x, y, originX - moves[i]);
+                x = moveHorizontally(playfield, tetrimino, x, y, originX + moves[i]);
             }
         }
         

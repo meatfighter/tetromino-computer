@@ -710,6 +710,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ihButtonActionPerformed
 
     private void buildButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildButtonActionPerformed
+        compEditComboBox.setSelectedItem(null);
         circuitsEditorPanel.build();
     }//GEN-LAST:event_buildButtonActionPerformed
 
