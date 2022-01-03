@@ -151,7 +151,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 if (x >= originX && x < originX + width && y >= originY && y < originY + height) {
                     final int cellX = (x - originX) / cellSize - (playfieldWidth >> 1);
                     final int cellY = (playfieldHeight - 1) - (y - originY) / cellSize;
-                    circuitsEditorPanel.insertCoordinate(cellX, cellY);
+                    circuitsEditorPanel.insertStructure(cellX, cellY);
                 }
                 break;
             }
@@ -162,6 +162,11 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_formMousePressed
 
     public void clearCursorRenderer() {
+        
+        if (cursorRenderer == null) {
+            return;
+        }
+        
         final StructureRenderer cr = cursorRenderer;
         cursorRenderer = null;
         final Dimension size = getSize();          

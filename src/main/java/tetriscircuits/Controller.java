@@ -52,22 +52,51 @@ public class Controller {
     public void setRunListener(final RunListener runListener) {
         this.runListener = runListener;
     }
+
+    public OutputListener getOutputListener() {
+        return outputListener;
+    }
+
+    public ProgressListener getProgressListener() {
+        return progressListener;
+    }
+
+    public BuildListener getBuildListener() {
+        return buildListener;
+    }
+
+    public RunListener getRunListener() {
+        return runListener;
+    }
+    
+    public void buildAndRun(final String text, final String componentName, final String testBitStr) {
+        final BuildListener listener = buildListener;
+        if (listener != null) {
+            listener.buildStarted();
+        }
+        execute(() -> {
+            buildText(text);
+            createStructures(componentName, testBitStr);            
+        });
+    }
     
     public void run(final String componentName, final String testBitStr) {
         execute(() -> runComponent(componentName, testBitStr.trim()));
     }
     
     private void runComponent(final String componentName, final String testBitStr) {
+        runComponent(componentName, testBitStr, true);
+    }
+    
+    private void runComponent(final String componentName, final String testBitStr, final boolean clearOutput) {
         
         final OutputListener outListener = outputListener;
         final RunListener listener = runListener;
         
-        if (outListener != null) {
+        if (outListener != null && clearOutput) {
             outListener.clear();
         }
         
-        final List<Point> inputs = new ArrayList<>();
-        final List<Point> outputs = new ArrayList<>();
         final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();         
         
         Component component = builtComponents.get(componentName);
@@ -84,8 +113,7 @@ public class Controller {
         } else {                
             final Playfield playfield = borrowPlayfield();
             try {
-                simulator.init(playfield, component, testBitStr, p -> inputs.add(p));
-                simulator.findOutputs(playfield, component, p -> outputs.add(p));
+                simulator.init(playfield, component, testBitStr);
                 simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -102,12 +130,16 @@ public class Controller {
             }
         }
         
-        if (listener != null) {            
+        if (listener != null) {   
+            final boolean[] testBits = new boolean[testBitStr.length()];
+            for (int i = testBitStr.length() - 1; i >= 0; --i) {
+                testBits[i] = testBitStr.charAt(i) == '1';
+            }
             listener.runCompleted(new Structure(
                     lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
-                    inputs.toArray(new Point[inputs.size()]),
-                    outputs.toArray(new Point[outputs.size()]),
-                    minX, maxX, 0, maxY));
+                    component == null ? new Rectangle[0][] : simulator.findTerminals(component.getInputRanges(), 0, 0),
+                    component == null ? new Rectangle[0][] : simulator.findTerminals(component.getOutputRanges(), 0, 0),
+                    testBits, minX, maxX, 0, maxY));
         }        
     }
     
@@ -131,7 +163,7 @@ public class Controller {
             listener.append("Building.");
         }
         try {
-            parser.parse(builtComponents, "todo", new ByteArrayInputStream(text.getBytes())); // TODO FILENAME
+            parser.parse(builtComponents, "[unnamed]", new ByteArrayInputStream(text.getBytes())); // TODO FILENAME
         } catch (final ParseException e) {
             if (listener != null) {
                 listener.append("Build failed.");
@@ -143,7 +175,6 @@ public class Controller {
                 listener.append("Build failed.");
                 listener.append(e.getMessage());
             }
-            e.printStackTrace(); // TODO REMOVE
             return;
         }
         if (listener != null) {
@@ -152,6 +183,10 @@ public class Controller {
     }
     
     private void createStructures() {
+        createStructures(null, null);
+    }
+    
+    private void createStructures(final String componentName, final String testBitStr) {
         builtStructures.clear();
         final List<Component> components = new ArrayList<>(builtComponents.values());
         if (components.isEmpty()) {
@@ -163,25 +198,40 @@ public class Controller {
             execute(() -> {
                 final Playfield playfield = borrowPlayfield();
                 try {
+                    final boolean[] testBits = new boolean[component.getInputRanges().length];
+                    final StringBuilder sb = new StringBuilder();
+                    for (int i = testBits.length - 1; i >= 0; --i) {
+                        sb.append('1');
+                        testBits[i] = true;
+                    }                                               
+                    simulator.init(playfield, component, sb.toString());
                     final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();
                     simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+                    simulator.addOutputs(playfield, component);
                     final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                     final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                     final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
                     builtStructures.put(component.getName(), new Structure(
                             lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
-                            new Point[0], new Point[0], minX, maxX, 0, maxY));
+                            simulator.findTerminals(component.getInputRanges(), 0, 0),
+                            simulator.findTerminals(component.getOutputRanges(), 0, 0),
+                            testBits, minX, maxX, 0, maxY));
+                } catch(final StackOverflowError e) {
+                    final OutputListener listener = outputListener;
+                    if (listener != null) {
+                        listener.append("Error: The definition of " + component.getName() + " contains itself.");
+                    }
                 } finally {
                     returnPlayfield(playfield);
                     if (counter.decrementAndGet() == 0) {
-                        finishedCreatingStructures();
+                        finishedCreatingStructures(componentName, testBitStr);
                     }
                 }                
             });
         }
     }
     
-    private void finishedCreatingStructures() {
+    private void finishedCreatingStructures(final String componentName, final String testBitStr) {
         
         final Set<String> names = new HashSet<>(loadedComponents.keySet());
         names.addAll(builtComponents.keySet());
@@ -195,6 +245,10 @@ public class Controller {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildCompleted(componentNames, structures);
+        }
+        
+        if (componentName != null) {
+            execute(() -> runComponent(componentName, testBitStr.trim(), false));
         }
     }
     

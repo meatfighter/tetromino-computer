@@ -306,9 +306,11 @@ public class Parser {
         
         final String operation = operationToken.getStr();
         final Tetrimino tetrimino = Tetrimino.fromName(operation);
-        final Component component = components.get(operation);
+        Component component = components.get(operation);
         if (tetrimino == null && component == null) {
             unknownComponents.put(operation, operationToken);
+            component = new Component(operation);
+            components.put(operation, component);
         }  
         
         final List<Integer> moves = new ArrayList<>();

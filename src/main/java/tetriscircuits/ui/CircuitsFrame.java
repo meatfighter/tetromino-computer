@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
+import tetriscircuits.OutputListener;
 import tetriscircuits.Structure;
 
 public class CircuitsFrame extends javax.swing.JFrame {
@@ -92,6 +93,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
     public JLabel getCoordinatesLabel() {
         return coordinatesLabel;
+    }
+    
+    public void buildAndRun(final String code) {        
+        controller.buildAndRun(code, componentsTextField.getText(), testTextField.getText());
     }
 
     /**
@@ -715,7 +720,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buildButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        controller.run(componentsTextField.getText(), testTextField.getText());
+        final String componentName = componentsTextField.getText().trim();
+        if (!componentName.isEmpty()) {
+            controller.run(componentsTextField.getText(), testTextField.getText().trim());
+        } else {
+            final OutputListener outputListener = controller.getOutputListener();
+            outputListener.clear();
+            outputListener.append("Error: No component specified.");
+        }
     }//GEN-LAST:event_playButtonActionPerformed
 
     private void addComponentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComponentButtonActionPerformed

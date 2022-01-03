@@ -3,34 +3,40 @@ package tetriscircuits;
 public class Structure {
 
     private final LockedTetrimino[] lockedTetriminos;
-    private final Point[] inputs;
-    private final Point[] outputs;
+    private final Rectangle[][] inputs;
+    private final Rectangle[][] outputs;
+    private final boolean[] testBits;
     private final int minX;
     private final int maxX;
     private final int minY;
-    private final int maxY;
+    private final int maxY;    
 
-    public Structure(final LockedTetrimino[] lockedTetriminos, final Point[] inputs, final Point[] outputs, 
-            final int minX, final int maxX, final int minY, final int maxY) {
+    public Structure(final LockedTetrimino[] lockedTetriminos, final Rectangle[][] inputs, final Rectangle[][] outputs,
+            final boolean[] testBits, final int minX, final int maxX, final int minY, final int maxY) {
         this.lockedTetriminos = lockedTetriminos;
         this.inputs = inputs;
         this.outputs = outputs;
+        this.testBits = testBits;
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
     }
 
-    public Point[] getInputs() {
+    public Rectangle[][] getInputs() {
         return inputs;
     }
 
-    public Point[] getOutputs() {
+    public Rectangle[][] getOutputs() {
         return outputs;
     }
 
     public LockedTetrimino[] getLockedTetriminos() {
         return lockedTetriminos;
+    }
+
+    public boolean[] getTestBits() {
+        return testBits;
     }
 
     public int getMinX() {

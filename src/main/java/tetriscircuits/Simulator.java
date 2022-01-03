@@ -1,22 +1,15 @@
 package tetriscircuits;
 
 public class Simulator {
-    
-    public void init(final Playfield playfield, final Component component, final String inputBits) {
-        init(playfield, component, inputBits, null);
-    }
-    
-    public void init(final Playfield playfield, final Component component, final String inputBits, 
-            final CellListener listener) {
-        init(playfield, component, inputBits, playfield.getWidth() >> 1, playfield.getHeight() - 1, 
-                playfield.getMaxValue(), listener);
-    }
-    
-    public void init(final Playfield playfield, final Component component, final String inputBits, 
-            final int originX, final int originY, final int cellValue, final CellListener listener) {
         
-        final int centerX = playfield.getWidth() >> 1;
-        final int centerY = playfield.getHeight() - 1;
+    public void init(final Playfield playfield, final Component component, final String inputBits) {
+        init(playfield, component, inputBits, playfield.getWidth() >> 1, playfield.getHeight() - 1, 
+                playfield.getMaxValue());
+    }
+    
+    public void init(final Playfield playfield, final Component component, final String inputBits, 
+            final int originX, final int originY, final int cellValue) {
+        
         final Point[][] inputs = component.getInputs();
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             if (inputBits.charAt(i) == '1') {
@@ -26,34 +19,65 @@ public class Simulator {
                     final int x = originX + p.x;
                     final int y = originY - p.y;
                     playfield.set(x, y, cellValue);
-                    if (listener != null) {
-                        listener.cellSet(new Point(x - centerX, centerY - y));
-                    }
                 }
             }
         }
     }
     
-    public void findOutputs(final Playfield playfield, final Component component, final CellListener listener) {
-        findOutputs(playfield, component, 0, 0, listener);
+    public void addOutputs(final Playfield playfield, final Component component) {
+        addOutputs(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, playfield.getMaxValue());
     }
     
-    public void findOutputs(final Playfield playfield, final Component component, final int originX, final int originY, 
-            final CellListener listener) {
+    public void addOutputs(final Playfield playfield, final Component component, final int originX, final int originY, 
+            final int cellValue) {
         
-        if (listener == null) {
-            return;
-        }
-              
         final Point[][] outputs = component.getOutputs();
         for (int i = outputs.length - 1; i >= 0; --i) {
             final Point[] outs = outputs[i];
             for (int j = outs.length - 1; j >= 0; --j) {
                 final Point p = outs[j];
-                listener.cellSet(new Point(originX + p.x, originY + p.y));
-            }        
+                final int x = originX + p.x;
+                final int y = originY - p.y;
+                playfield.set(x, y, cellValue);
+            }
         }
     }
+    
+    public Rectangle[][] findTerminals(final Range[][] terminals, final int originX, final int originY) {
+        
+        if (terminals == null) {
+            return new Rectangle[0][];
+        }
+        
+        final Rectangle[][] rectangles = new Rectangle[terminals.length][];
+        
+        for (int i = terminals.length - 1; i >= 0; --i) {
+            final Range[] outs = terminals[i];
+            rectangles[i] = new Rectangle[outs.length >> 1];
+            final Rectangle[] rects = rectangles[i];
+            for (int j = 0; j < rects.length; ++j) {
+                final Range o1 = outs[j << 1];
+                final Range o2 = outs[(j << 1) + 1];
+                if (o1.getNum2() == null && o2.getNum2() == null) {
+                    rects[j] = new Rectangle(originX + o1.getNum(), originY + o2.getNum(), 1, 1);
+                } else if (o1.getNum2() == null && o2.getNum2() != null) {
+                    rects[j] = new Rectangle(originX + o1.getNum(), originY + Math.max(o2.getNum(), o2.getNum2()), 1, 
+                            Math.abs(o2.getNum2() - o2.getNum()) + 1);
+                } else if (o1.getNum2() != null && o2.getNum2() == null) {
+                    rects[j] = new Rectangle(originX + Math.min(o1.getNum(), o1.getNum2()), originY + o2.getNum(), 
+                            Math.abs(o1.getNum2() - o1.getNum()) + 1, 1);
+                } else {
+                    rects[j] = new Rectangle(
+                            originX + Math.min(o1.getNum(), o1.getNum2()), 
+                            originY + Math.max(o2.getNum(), o2.getNum2()), 
+                            Math.abs(o1.getNum2() - o1.getNum()) + 1, 
+                            Math.abs(o2.getNum2() - o2.getNum()) + 1);
+                }
+            }        
+        }
+
+        return rectangles;
+    }    
     
     public void simulate(final Playfield playfield, final Component component) {
         simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
@@ -83,6 +107,9 @@ public class Simulator {
     
     public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
             final int originY, final TetriminoLockListener listener) {
+        if (instructions == null) {
+            return;
+        }
         for (int i = 0; i < instructions.length; ++i) {    
             simulate(playfield, instructions[i], originX, originY, listener);
         }

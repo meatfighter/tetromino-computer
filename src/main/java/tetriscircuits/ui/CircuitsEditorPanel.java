@@ -5,7 +5,6 @@ import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -24,7 +23,6 @@ import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.Controller;
 import tetriscircuits.OutputListener;
 import tetriscircuits.RunListener;
@@ -44,6 +42,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     private CircuitsFrame circuitsFrame;
     private Controller controller;
+    
+    private String componentName;
     
     /**
      * Creates new form NewJPanel
@@ -239,21 +239,40 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
                 ESCAPE_PRESSED);
     }
+        
+    public void clearCursorRenderer() {
+        componentName = null;
+        playfieldPanel.clearCursorRenderer();
+    }     
     
-    public void insertCoordinate(final int cellX, final int cellY) {               
+    public void setCursorRenderer(final StructureRenderer cursorRenderer, final String name) {
+        componentName = name;
+        playfieldPanel.setCursorRenderer(cursorRenderer);
+    }  
+    
+    public void tetriminoButtonPressed(final ActionEvent evt) {
+        componentName = ((TetriminoRenderer)((JButton)evt.getSource())
+                .getIcon()).getTetrimino().getName();
+        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(componentName));
+    }   
+    
+    public void insertStructure(final int cellX, final int cellY) {               
         try {            
             final StyledDocument doc = codeTextPane.getStyledDocument(); 
-            final int caretPos = codeTextPane.getCaretPosition();
             final Element root = doc.getDefaultRootElement();
-            final Element element = root.getElement(root.getElementIndex(caretPos));
-            final String line = doc.getText(element.getStartOffset(), element.getEndOffset() 
-                    - element.getStartOffset());
-            if (isBlank(line)) {
-                return;
+            final int caretPos = codeTextPane.getCaretPosition();
+            String prefix = "";
+            if (caretPos > 0 && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) {
+                prefix = (componentName == null) ? " " : "\n    ";
+            }     
+            final String line = String.format("%s%s%d %d", prefix, 
+                    (componentName == null) ? "" : (componentName + " "), cellX, cellY);
+            doc.insertString(caretPos, line, null);
+            CodeDocumentFilter.processLine(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
+            if (componentName != null) {
+                circuitsFrame.buildAndRun(codeTextPane.getText());
             }
-            doc.insertString(caretPos, ((caretPos == 0 || Character.isWhitespace(codeTextPane.getText(caretPos - 1, 1)
-                    .charAt(0))) ? "" : " ") + (((line.trim().split("\\s+").length & 1) == 1) ? cellX : cellY), 
-                    CodeDocumentFilter.NUMBER_ATTRIBS);
+            clearCursorRenderer();            
         } catch (final BadLocationException e) {
         }
     }
@@ -276,33 +295,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         controller.build(codeTextPane.getText());
     }
     
-    public void setCursorRenderer(final StructureRenderer cursorRenderer, final String name) {
-        insertComponentName(name);
-        playfieldPanel.setCursorRenderer(cursorRenderer);
-    }
-    
-    public void clearCursorRenderer() {
-        playfieldPanel.clearCursorRenderer();
-    }
-    
-    public void tetriminoButtonPressed(final ActionEvent evt) {
-        final String name = ((TetriminoRenderer)((JButton)evt.getSource())
-                .getIcon()).getTetrimino().getName();
-        insertComponentName(name);
-        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(name));
-    }
-    
-    private void insertComponentName(final String name) {
-        final StyledDocument doc = codeTextPane.getStyledDocument();        
-        try {            
-            final int caretPos = codeTextPane.getCaretPosition();
-            doc.insertString(caretPos, ((caretPos > 0 
-                    && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) ? "\n    " : "") 
-                    + name + " ", null);
-        } catch (final BadLocationException e) {
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
      * content of this method is always regenerated by the Form Editor.
