@@ -11,6 +11,10 @@ public class Simulator {
             final int originX, final int originY, final int cellValue) {
         
         final Point[][] inputs = component.getInputs();
+        if (inputs == null) {
+            return;
+        }
+                
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             if (inputBits.charAt(i) == '1') {
                 final Point[] ins = inputs[i];

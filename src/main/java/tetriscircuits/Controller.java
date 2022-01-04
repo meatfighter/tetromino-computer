@@ -194,11 +194,19 @@ public class Controller {
         }
         
         final AtomicInteger counter = new AtomicInteger(components.size());
+        final OutputListener listener = outputListener;
         for (final Component component : components) {
             execute(() -> {
+                final Range[][] inputRanges = component.getInputRanges();                
                 final Playfield playfield = borrowPlayfield();
                 try {
-                    final boolean[] testBits = new boolean[component.getInputRanges().length];
+                    if (inputRanges == null) {
+                        if (listener != null) {
+                            listener.append("Error: Invalid input ranges for " + component.getName() + ".");
+                        }
+                        return;
+                    }
+                    final boolean[] testBits = new boolean[inputRanges.length];
                     final StringBuilder sb = new StringBuilder();
                     for (int i = testBits.length - 1; i >= 0; --i) {
                         sb.append('1');
@@ -216,8 +224,7 @@ public class Controller {
                             simulator.findTerminals(component.getInputRanges(), 0, 0),
                             simulator.findTerminals(component.getOutputRanges(), 0, 0),
                             testBits, minX, maxX, 0, maxY));
-                } catch(final StackOverflowError e) {
-                    final OutputListener listener = outputListener;
+                } catch(final StackOverflowError e) {                    
                     if (listener != null) {
                         listener.append("Error: The definition of " + component.getName() + " contains itself.");
                     }
