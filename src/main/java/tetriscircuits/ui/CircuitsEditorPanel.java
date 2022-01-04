@@ -44,6 +44,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private Controller controller;
     
     private String componentName;
+    private boolean aggregateComponent;
     
     /**
      * Creates new form NewJPanel
@@ -246,11 +247,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }     
     
     public void setCursorRenderer(final StructureRenderer cursorRenderer, final String name) {
+        aggregateComponent = true;
         componentName = name;
         playfieldPanel.setCursorRenderer(cursorRenderer);
     }  
     
     public void tetriminoButtonPressed(final ActionEvent evt) {
+        aggregateComponent = false;
         componentName = ((TetriminoRenderer)((JButton)evt.getSource())
                 .getIcon()).getTetrimino().getName();
         playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(componentName));
@@ -265,8 +268,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             if (caretPos > 0 && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) {
                 prefix = (componentName == null) ? " " : "\n    ";
             }     
-            final String line = String.format("%s%s%d %d", prefix, 
-                    (componentName == null) ? "" : (componentName + " "), cellX, cellY);
+            String line = String.format("%s%s%d", prefix, (componentName == null) ? "" : (componentName + " "), cellX);
+            if (aggregateComponent) {
+                line += " " + cellY;
+            } 
             doc.insertString(caretPos, line, null);
             CodeDocumentFilter.processLine(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
             if (componentName != null) {
