@@ -63,6 +63,7 @@ public class Parser {
     }
     
     private String deriveComponentName(final String filename) {
+        System.out.println(filename);
         final int index = filename.indexOf('.');
         if (index < 0) {
             return filename;

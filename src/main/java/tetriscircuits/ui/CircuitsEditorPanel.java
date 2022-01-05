@@ -266,7 +266,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             final int caretPos = codeTextPane.getCaretPosition();
             String prefix = "";
             if (caretPos > 0 && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) {
-                prefix = (componentName == null) ? " " : "\n    ";
+                prefix = (componentName == null) ? " " : "\n";
             }     
             String line = String.format("%s%s%d", prefix, (componentName == null) ? "" : (componentName + " "), cellX);
             if (aggregateComponent) {

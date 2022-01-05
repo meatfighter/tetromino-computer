@@ -12,8 +12,6 @@ public class Component {
     private Point[][] outputs;
     private Range[][] outputRanges;
     
-    private ComponentTest[] tests;
-    
     public Component(final String name) {
         this.name = name;
     }

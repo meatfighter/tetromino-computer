@@ -77,7 +77,7 @@ public class Controller {
     }
     
     public void loadComponent(final File file) {
-        final String filename = file.getPath();
+        final String filename = file.getName();
         final OutputListener listener = outputListener;        
         final Parser parser = new Parser();
         if (listener != null) {
