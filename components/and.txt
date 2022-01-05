@@ -1,0 +1,9 @@
+# andLeft alias
+andLeft 0 0
+in -1 0
+in 0 0
+out -1..0 4
+test 00 0
+test 01 0
+test 10 0
+test 11 1

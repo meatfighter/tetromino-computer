@@ -71,7 +71,6 @@ def norLeft
     test 10 0
     test 11 0
     
-    
 # nor with square on right
 def norRight
     or 0 0

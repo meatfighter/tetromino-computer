@@ -1,0 +1,19 @@
+ih -2
+ih 2
+iv -4
+iv 3
+nor 0 1
+lu -2
+ju 1
+norLeft -3 5
+norRight 3 5
+ih -2
+ih 2
+or 0 9
+in -4..-1 0
+in 0..3 0
+out -1..0 11
+test 00 0
+test 01 1
+test 10 1
+test 00 0

@@ -1,0 +1,6 @@
+# not with square on right and double tap left
+o 2 1 0
+in 0 0
+out 0 1
+test 0 1
+test 1 0

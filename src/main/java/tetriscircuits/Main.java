@@ -12,7 +12,7 @@ public class Main {
     private final Controller controller = new Controller();
 
     public void launch() throws Exception {       
-        EventQueue.invokeLater(this::createFrame);
+        EventQueue.invokeLater(this::createFrame);        
     }
     
     private void createFrame() {        
@@ -28,7 +28,9 @@ public class Main {
         frame.setLocationRelativeTo(null);        
         frame.init();        
         frame.setController(controller);
-        frame.setVisible(true);               
+        frame.setVisible(true); 
+        
+        controller.loadComponents();
     }
     
     public static void main(final String... args) throws Exception {

@@ -1,6 +1,8 @@
 package tetriscircuits;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,11 +22,8 @@ public class Controller {
     
     private final Simulator simulator = new Simulator();
     
-    private final Map<String, Component> loadedComponents = new ConcurrentHashMap<>();
-    private final Map<String, Component> builtComponents = new ConcurrentHashMap<>();
-    
-    private final Map<String, Structure> loadedStructures = new ConcurrentHashMap<>();
-    private final Map<String, Structure> builtStructures = new ConcurrentHashMap<>();
+    private final Map<String, Component> components = new ConcurrentHashMap<>();    
+    private final Map<String, Structure> structures = new ConcurrentHashMap<>();
     
     private final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
     
@@ -69,15 +68,47 @@ public class Controller {
         return runListener;
     }
     
+    public void loadComponents() {
+        execute(() -> {
+            for (final File file : new File("components").listFiles(file -> file.isFile())) {
+                execute(() -> loadComponent(file));
+            }
+        });
+    }
+    
+    public void loadComponent(final File file) {
+        final String filename = file.getPath();
+        final OutputListener listener = outputListener;        
+        final Parser parser = new Parser();
+        if (listener != null) {
+            listener.append("Loading " + filename);
+        }
+        try {
+            createStructure(parser.parse(components, filename, new FileInputStream(file)));
+        } catch (final ParseException e) {
+            if (listener != null) {
+                listener.append("Failed to load " + filename);
+                listener.append(e.toString());
+            }
+            return;
+        } catch (final Exception e) {
+            if (listener != null) {
+                listener.append("Failed to load " + filename);
+                listener.append(e.getMessage());
+            }
+            return;
+        }
+        if (listener != null) {
+            listener.append("Loaded " + filename);
+        }        
+    }
+    
     public void buildAndRun(final String text, final String componentName, final String testBitStr) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> {
-            buildText(text);
-            createStructures(componentName, testBitStr);            
-        });
+        execute(() -> buildText(text, testBitStr));
     }
     
     public void run(final String componentName, final String testBitStr) {
@@ -99,13 +130,10 @@ public class Controller {
         
         final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();         
         
-        Component component = builtComponents.get(componentName);
+        Component component = components.get(componentName);
         int minX = 0;
         int maxX = 0;
         int maxY = 0;
-        if (component == null) {
-            component = loadedComponents.get(componentName);
-        }
         if (component == null) {
             if (outListener != null) {
                 outListener.append("Error: Unknown component: " + componentName);
@@ -148,22 +176,23 @@ public class Controller {
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> {
-            buildText(text);
-            createStructures();            
-        });
+        execute(() -> buildText(text));
     }
     
     private void buildText(final String text) {
+        buildText(text, null);
+    }
+    
+    private void buildText(final String text, final String testBitStr) {
         final OutputListener listener = outputListener;        
-        builtComponents.clear();
         final Parser parser = new Parser();
         if (listener != null) {
             listener.clear();
             listener.append("Building.");
         }
         try {
-            parser.parse(builtComponents, "[unnamed]", new ByteArrayInputStream(text.getBytes())); // TODO FILENAME
+            createStructure(parser.parse(components, "[unnamed]", new ByteArrayInputStream(text.getBytes())), 
+                    testBitStr); // TODO FILENAME
         } catch (final ParseException e) {
             if (listener != null) {
                 listener.append("Build failed.");
@@ -182,81 +211,60 @@ public class Controller {
         }
     }
     
-    private void createStructures() {
-        createStructures(null, null);
+    private void createStructure(final Component component) {
+        createStructure(component, null);
     }
     
-    private void createStructures(final String componentName, final String testBitStr) {
-        builtStructures.clear();
-        final List<Component> components = new ArrayList<>(builtComponents.values());
-        if (components.isEmpty()) {
-            return;
-        }
-        
-        final AtomicInteger counter = new AtomicInteger(components.size());
+    private void createStructure(final Component component, final String testBitStr) {
         final OutputListener listener = outputListener;
-        for (final Component component : components) {
-            execute(() -> {
-                final Range[][] inputRanges = component.getInputRanges();                
-                final Playfield playfield = borrowPlayfield();
-                try {
-                    if (inputRanges == null) {
-                        if (listener != null) {
-                            listener.append("Error: Invalid input ranges for " + component.getName() + ".");
-                        }
-                        return;
-                    }
-                    final boolean[] testBits = new boolean[inputRanges.length];
-                    final StringBuilder sb = new StringBuilder();
-                    for (int i = testBits.length - 1; i >= 0; --i) {
-                        sb.append('1');
-                        testBits[i] = true;
-                    }                                               
-                    simulator.init(playfield, component, sb.toString());
-                    final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();
-                    simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
-                    simulator.addOutputs(playfield, component);
-                    final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
-                    final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-                    final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
-                    builtStructures.put(component.getName(), new Structure(
-                            lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
-                            simulator.findTerminals(component.getInputRanges(), 0, 0),
-                            simulator.findTerminals(component.getOutputRanges(), 0, 0),
-                            testBits, minX, maxX, 0, maxY));
-                } catch(final StackOverflowError e) {                    
-                    if (listener != null) {
-                        listener.append("Error: The definition of " + component.getName() + " contains itself.");
-                    }
-                } finally {
-                    returnPlayfield(playfield);
-                    if (counter.decrementAndGet() == 0) {
-                        finishedCreatingStructures(componentName, testBitStr);
-                    }
-                }                
-            });
-        }
-    }
-    
-    private void finishedCreatingStructures(final String componentName, final String testBitStr) {
+        final Range[][] inputRanges = component.getInputRanges();                
+        final Playfield playfield = borrowPlayfield();
+        try {
+            if (inputRanges == null) {
+                if (listener != null) {
+                    listener.append("Error: Invalid input ranges for " + component.getName() + ".");
+                }
+                return;
+            }
+            final boolean[] testBits = new boolean[inputRanges.length];
+            final StringBuilder sb = new StringBuilder();
+            for (int i = testBits.length - 1; i >= 0; --i) {
+                sb.append('1');
+                testBits[i] = true;
+            }                                               
+            simulator.init(playfield, component, sb.toString());
+            final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();
+            simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+            simulator.addOutputs(playfield, component);
+            final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+            final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+            final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+            structures.put(component.getName(), new Structure(
+                    lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
+                    simulator.findTerminals(component.getInputRanges(), 0, 0),
+                    simulator.findTerminals(component.getOutputRanges(), 0, 0),
+                    testBits, minX, maxX, 0, maxY));
+        } catch(final StackOverflowError e) {                    
+            if (listener != null) {
+                listener.append("Error: The definition of " + component.getName() + " contains itself.");
+            }
+        } finally {
+            returnPlayfield(playfield);
+        }        
         
-        final Set<String> names = new HashSet<>(loadedComponents.keySet());
-        names.addAll(builtComponents.keySet());
+        final Set<String> names = new HashSet<>(components.keySet());
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);
         Arrays.sort(componentNames);  
         
-        final Map<String, Structure> structures = new HashMap<>(loadedStructures);
-        structures.putAll(builtStructures);
-        
-        final BuildListener listener = buildListener;
-        if (listener != null) {
-            listener.buildCompleted(componentNames, structures);
+        final BuildListener buildListener = this.buildListener;
+        if (buildListener != null) {
+            buildListener.buildCompleted(componentNames, new HashMap<>(structures));
         }
         
-        if (componentName != null) {
-            execute(() -> runComponent(componentName, testBitStr.trim(), false));
-        }
+        if (component.getName() != null && testBitStr != null) {
+            execute(() -> runComponent(component.getName(), testBitStr.trim(), false));
+        }        
     }
     
     private synchronized void execute(final Runnable runnable) {

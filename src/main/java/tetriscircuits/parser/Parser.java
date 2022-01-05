@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -25,22 +24,25 @@ public class Parser {
     
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
-    public void parse(final Map<String, Component> components, final File file) throws IOException, ParseException {
-        parse(components, file.getPath(), new FileInputStream(file));
+    public Component parse(final Map<String, Component> components, final File file) 
+            throws IOException, ParseException {
+        return parse(components, file.getPath(), new FileInputStream(file));
     }
 
-    public void parse(final Map<String, Component> components, final String filename) 
+    public Component parse(final Map<String, Component> components, final String filename) 
             throws IOException, ParseException {
-        parse(components, filename, new FileInputStream(filename));
+        return parse(components, filename, new FileInputStream(filename));
     }
     
-    public void parse(final Map<String, Component> components, final File file, final InputStream in) 
+    public Component parse(final Map<String, Component> components, final File file, final InputStream in) 
             throws IOException, ParseException {
-        parse(components, file.getPath(), in);
+        return parse(components, file.getPath(), in);
     }
     
-    public void parse(final Map<String, Component> components, final String filename, final InputStream in) 
+    public Component parse(final Map<String, Component> components, final String filename, final InputStream in) 
             throws IOException, ParseException {
+        
+        final String componentName = deriveComponentName(filename);
         
         final List<Token> tokens = new ArrayList<>();
         
@@ -57,7 +59,15 @@ public class Parser {
         tokens.add(token);
         tokens.add(token);
         
-        processTokens(tokens, components);
+        return createComponent(componentName, tokens, components);
+    }
+    
+    private String deriveComponentName(final String filename) {
+        final int index = filename.indexOf('.');
+        if (index < 0) {
+            return filename;
+        }
+        return filename.substring(0, index);
     }
     
     private String removeComment(final String line) {
@@ -197,37 +207,6 @@ public class Parser {
         tokens.add(token);
     }
     
-    private void processTokens(final List<Token> tokens, final Map<String, Component> components) 
-            throws ParseException {
-        
-        final Map<String, Token> unknownComponent = new HashMap<>();
-        
-        outer: for (int i = 0; i < tokens.size(); ) {
-            final Token token = tokens.get(i);
-            switch(token.getType()) {
-                case STRING:
-                    switch(token.getStr()) {
-                        case "def":
-                            i = processComponent(tokens, components, unknownComponent, i + 1);
-                            break;
-                        default:
-                            throw new ParseException(token, "Unknown keyword.");
-                    }
-                    break;
-                case END:
-                    break outer;
-                default:
-                    throw new ParseException(token, "Keyword expected.");
-            }            
-        }
-        
-        if (!unknownComponent.isEmpty()) {
-            for (Map.Entry<String, Token> entry : unknownComponent.entrySet()) {
-                throw new ParseException(entry.getValue(), "Undefined component: " + entry.getKey());
-            }
-        }
-    }
-    
     private <T> T[][] toArray(final List<List<T>> as, final T[] array) {        
         final T[][] ts = (T[][])Array.newInstance(array.getClass(), as.size());
         for (int i = ts.length - 1; i >= 0; --i) {
@@ -237,22 +216,12 @@ public class Parser {
         return ts;
     }
     
-    private int processComponent(final List<Token> tokens, final Map<String, Component> components, 
-            final Map<String, Token> unknownComponents, final int index) throws ParseException {
+    private Component createComponent(final String name, final List<Token> tokens, 
+            final Map<String, Component> components) throws ParseException {
         
-        int i = index;
+        int i = 0;
         
-        final Token nameToken = tokens.get(i++);
-        if (nameToken.getType() != TokenType.STRING) {
-            throw new ParseException(nameToken, "component missing name.");
-        }
-        final String name = nameToken.getStr();        
-        unknownComponents.remove(name);
-        Component component = components.get(name);
-        if (component == null) {            
-            component = new Component(name);
-            components.put(name, component);
-        } 
+        final Component component = components.computeIfAbsent(name, n -> new Component(n));
         
         final List<Instruction> instructions = new ArrayList<>();
         final List<List<Point>> inputs = new ArrayList<>();
@@ -270,8 +239,6 @@ public class Parser {
             }
             final String operation = operationToken.getStr();
             switch(operation) {
-                case "def":    
-                    break outer;
                 case "in":
                     i = processTerminals(tokens, inputs, inputRanges, operationToken, i + 1);
                     break;
@@ -282,14 +249,11 @@ public class Parser {
                     i = processTest(tokens, tests, i + 1);
                     break;
                 default:
-                    i = processInstruction(tokens, instructions, operationToken, components, unknownComponents, i + 1);
+                    i = processInstruction(tokens, instructions, operationToken, components, i + 1);
                     break;
             }
         }
         
-        if (instructions.isEmpty()) {
-            throw new ParseException(nameToken, "component has no instructions.");
-        }
         component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         component.setInputs(toArray(inputs, new Point[0]));
         component.setInputRanges(toArray(inputRanges, new Range[0]));
@@ -297,21 +261,17 @@ public class Parser {
         component.setOutputRanges(toArray(outputRanges, new Range[0]));        
         component.setTests(tests.toArray(new ComponentTest[tests.size()]));
         
-        return i;
+        return component;
     }
     
     private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 
             final Token operationToken, final Map<String, Component> components, 
-            final Map<String, Token> unknownComponents, final int index) throws ParseException {
+            final int index) throws ParseException {
         
         final String operation = operationToken.getStr();
         final Tetrimino tetrimino = Tetrimino.fromName(operation);
-        Component component = components.get(operation);
-        if (tetrimino == null && component == null) {
-            unknownComponents.put(operation, operationToken);
-            component = new Component(operation);
-            components.put(operation, component);
-        }  
+        final Component component = (tetrimino == null) ? components.computeIfAbsent(operation, n -> new Component(n)) 
+                : null;
         
         final List<Integer> moves = new ArrayList<>();
         int i = index;
