@@ -13,11 +13,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import tetriscircuits.Border;
 import tetriscircuits.Instruction;
 import tetriscircuits.Point;
 import tetriscircuits.Component;
 import tetriscircuits.ComponentTest;
 import tetriscircuits.Range;
+import tetriscircuits.Terminal;
+import tetriscircuits.TerminalType;
 import tetriscircuits.Tetrimino;
 
 public class Parser {
@@ -225,11 +228,9 @@ public class Parser {
         final Component component = components.computeIfAbsent(name, n -> new Component(n));
         
         final List<Instruction> instructions = new ArrayList<>();
-        final List<List<Point>> inputs = new ArrayList<>();
-        final List<List<Range>> inputRanges = new ArrayList<>();
-        final List<List<Point>> outputs = new ArrayList<>();
-        final List<List<Range>> outputRanges = new ArrayList<>();
-        final List<ComponentTest> tests = new ArrayList<>();
+        final List<Terminal> inputs = new ArrayList<>();
+        final List<Terminal> outputs = new ArrayList<>();
+        Border border = null;
         
         outer: while (true) {
             final Token operationToken = tokens.get(i);  
@@ -240,14 +241,15 @@ public class Parser {
             }
             final String operation = operationToken.getStr();
             switch(operation) {
+                case "border":
+                    border = processBorder(tokens, i + 1);
+                    i += 2;
+                    break;
                 case "in":
-                    i = processTerminals(tokens, inputs, inputRanges, operationToken, i + 1);
+                    i = processTerminals(tokens, TerminalType.INPUT, inputs, i + 1);
                     break;
                 case "out":
-                    i = processTerminals(tokens, outputs, outputRanges, operationToken, i + 1);
-                    break;
-                case "test":
-                    i = processTest(tokens, tests, i + 1);
+                    i = processTerminals(tokens, TerminalType.INPUT, outputs, i + 1);
                     break;
                 default:
                     i = processInstruction(tokens, instructions, operationToken, components, i + 1);
@@ -256,13 +258,25 @@ public class Parser {
         }
         
         component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
-        component.setInputs(toArray(inputs, new Point[0]));
-        component.setInputRanges(toArray(inputRanges, new Range[0]));
-        component.setOutputs(toArray(outputs, new Point[0]));
-        component.setOutputRanges(toArray(outputRanges, new Range[0]));        
-        component.setTests(tests.toArray(new ComponentTest[tests.size()]));
+        component.setInputs(inputs.toArray(new Terminal[inputs.size()]));
+        component.setInputs(outputs.toArray(new Terminal[outputs.size()]));
         
         return component;
+    }
+    
+    private Border processBorder(final List<Token> tokens, final int index) throws ParseException {
+        
+        final Token rangeXToken = tokens.get(index);
+        if (rangeXToken.getType() != TokenType.RANGE || rangeXToken.getStr() != null) {
+            throw new ParseException(rangeXToken, "Expected X range.");
+        }
+        
+        final Token maxYToken = tokens.get(index + 1);
+        if (maxYToken.getType() != TokenType.NUMBER) {
+            throw new ParseException(maxYToken, "Expected max Y.");
+        }
+        
+        return new Border(new Range(rangeXToken.getNum(), rangeXToken.getNum2()), maxYToken.getNum());
     }
     
     private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 
@@ -301,95 +315,30 @@ public class Parser {
         return i;
     }
     
-    private int processTerminals(final List<Token> tokens, final List<List<Point>> terminals, 
-            final List<List<Range>> ranges, final Token operationToken, final int index) throws ParseException {
+    private int processTerminals(final List<Token> tokens, final TerminalType type, final List<Terminal> terminals, 
+            final int index) throws ParseException {
         
-        int i = index;
-        
-        final List<Point> terms = new ArrayList<>();
-        final List<Range> rs = new ArrayList<>();
-        while (true) {
-            final Token tokenX = tokens.get(i);
-            final Token tokenY = tokens.get(i + 1);
-            
-            if (tokenX.getType() != TokenType.NUMBER && tokenX.getType() != TokenType.RANGE) {
-                break;
-            }
-            
-            if (tokenY.getType() != TokenType.NUMBER && tokenY.getType() != TokenType.RANGE) {
-                throw new ParseException(tokenY, "Expected number or range.");
-            }
-            
-            i += 2;
-            
-            int x1;
-            int x2;
-            if (tokenX.getType() == TokenType.NUMBER) {
-                x1 = x2 = tokenX.getNum();   
-                rs.add(new Range(x1));
-            } else if (tokenX.getStr() != null) {
-                throw new ParseException(tokenX, "Expected number or numerical range.");
-            } else {
-                x1 = tokenX.getNum();
-                x2 = tokenX.getNum2();
-                rs.add(new Range(x1, x2));
-                if (x2 < x1) {
-                    final int t = x1;
-                    x1 = x2;
-                    x2 = t;
-                }
-            }
-            
-            int y1;
-            int y2;
-            if (tokenY.getType() == TokenType.NUMBER) {
-                y1 = y2 = tokenY.getNum();
-                rs.add(new Range(y1));
-            } else if (tokenY.getStr() != null) {
-                throw new ParseException(tokenY, "Expected number or numerical range.");    
-            } else {
-                y1 = tokenY.getNum();
-                y2 = tokenY.getNum2();
-                rs.add(new Range(y1, y2));
-                if (y2 < y1) {
-                    final int t = y1;
-                    y1 = y2;
-                    y2 = t;
-                }
-            }
-                        
-            for (int y = y1; y <= y2; ++y) {
-                for (int x = x1; x <= x2; ++x) {
-                    terms.add(new Point(x, y));
-                }
-            }            
+        final Token nameToken = tokens.get(index);
+        if (nameToken.getType() != TokenType.STRING) {
+            throw new ParseException(nameToken, "Missing terminal name.");
         }
-        
-        if (terms.isEmpty()) {
-            throw new ParseException(operationToken, "Missing terminal coordinates.");
+
+        final Token rangeToken = tokens.get(index + 1);
+        if (rangeToken.getType() != TokenType.NUMBER && rangeToken.getType() != TokenType.RANGE) {
+            throw new ParseException(rangeToken, "Missing terminal range.");
         }
-        terminals.add(terms);
-        ranges.add(rs);
-        
-        return i;
-    }
-    
-    private int processTest(final List<Token> tokens, final List<ComponentTest> tests, final int index) 
-            throws ParseException {
-        
-        final Token inputsToken = tokens.get(index);
-        if ((inputsToken.getType() != TokenType.BITS && inputsToken.getType() != TokenType.NUMBER) 
-                || inputsToken.getBits() == null) {
-            throw new ParseException(inputsToken, "Expected input bits.");    
-        }
-        
-        final Token ouputsToken = tokens.get(index + 1);
-        if ((ouputsToken.getType() != TokenType.BITS && ouputsToken.getType() != TokenType.NUMBER) 
-                || ouputsToken.getBits() == null) {
-            throw new ParseException(ouputsToken, "Expected output bits.");    
-        }
-        
-        tests.add(new ComponentTest(inputsToken.getBits(), ouputsToken.getBits()));
+
+        final Range range;
+        if (rangeToken.getType() == TokenType.NUMBER) {
+            range = new Range(rangeToken.getNum());
+        } else if (rangeToken.getStr() != null) {
+            throw new ParseException(rangeToken, "Expected number or numerical range.");
+        } else {
+            range = new Range(rangeToken.getNum(), rangeToken.getNum2());
+            if (range.getNum() > range.getNum2()) {
+                throw new ParseException(rangeToken, "Expected min..max");
+            }
+        }                    
         
         return index + 2;
     }

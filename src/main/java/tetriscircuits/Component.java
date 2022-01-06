@@ -5,12 +5,9 @@ public class Component {
     private final String name;
     
     private Instruction[] instructions;
-    
-    private Point[][] inputs;
-    private Range[][] inputRanges;
-    
-    private Point[][] outputs;
-    private Range[][] outputRanges;
+    private Border border;
+    private Terminal[] inputs;
+    private Terminal[] outputs;
     
     public Component(final String name) {
         this.name = name;
@@ -18,6 +15,14 @@ public class Component {
 
     public String getName() {
         return name;
+    }
+
+    public Border getBorder() {
+        return border;
+    }
+
+    public void setBorder(final Border border) {
+        this.border = border;
     }
 
     public Instruction[] getInstructions() {
@@ -28,70 +33,34 @@ public class Component {
         this.instructions = instructions;
     }
 
-    public Point[][] getInputs() {
+    public Terminal[] getInputs() {
         return inputs;
     }
 
-    public void setInputs(final Point[][] inputs) {
+    public void setInputs(final Terminal[] inputs) {
         this.inputs = inputs;
     }
 
-    public Point[][] getOutputs() {
+    public Terminal[] getOutputs() {
         return outputs;
     }
 
-    public void setOutputs(final Point[][] outputs) {
+    public void setOutputs(final Terminal[] outputs) {
         this.outputs = outputs;
     }
 
-    public ComponentTest[] getTests() {
-        return tests;
-    }
-
-    public void setTests(final ComponentTest[] tests) {
-        this.tests = tests;
-    }
-
-    public Range[][] getInputRanges() {
-        return inputRanges;
-    }
-
-    public void setInputRanges(Range[][] inputRanges) {
-        this.inputRanges = inputRanges;
-    }
-
-    public Range[][] getOutputRanges() {
-        return outputRanges;
-    }
-
-    public void setOutputRanges(Range[][] outputRanges) {
-        this.outputRanges = outputRanges;
-    }
-    
-    private void appendTerminals(final StringBuilder sb, final String name, final Range[][] terminals) {
-        if (terminals == null) {
-            return;
-        }
-        for (final Range[] terms : terminals) {
-            sb.append("    ").append(name);
-            for (final Range term : terms) {
-                sb.append(' ').append(term);
-            }
-            sb.append(System.lineSeparator());
-        }
-    }
-    
     @Override 
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("def ").append(name).append(System.lineSeparator());
         for (final Instruction instruction : instructions) {
-            sb.append("    ").append(instruction).append(System.lineSeparator());
+            sb.append(instruction).append(System.lineSeparator());
         }
-        appendTerminals(sb, "in", inputRanges);
-        appendTerminals(sb, "out", outputRanges);
-        for (final ComponentTest test : tests) {
-            sb.append("    ").append(test).append(System.lineSeparator());
+        sb.append(border).append(System.lineSeparator());
+        for (final Terminal terminal : inputs) {
+            sb.append(terminal).append(System.lineSeparator());
+        }
+        for (final Terminal terminal : outputs) {
+            sb.append(terminal).append(System.lineSeparator());
         }
         return sb.toString();
     }
