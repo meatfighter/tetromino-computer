@@ -8,16 +8,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.Border;
 import tetriscircuits.Instruction;
-import tetriscircuits.Point;
 import tetriscircuits.Component;
-import tetriscircuits.ComponentTest;
+import tetriscircuits.HorizontalLine;
 import tetriscircuits.Range;
 import tetriscircuits.Terminal;
 import tetriscircuits.TerminalType;
@@ -112,39 +113,15 @@ public class Parser {
             return;
         }
         
-        boolean[] bits = null;
-        outer: {
-            for (int i = 0; i < value.length(); ++i) {
-                final char c = value.charAt(i);
-                if (c != '0' && c != '1') {
-                    break outer;
-                }
-            }
-            bits = new boolean[value.length()];
-            for (int i = 0; i < value.length(); ++i) {
-                bits[i] = (value.charAt(i) == '1');
-            }
-        }
-        
         try {
             final int num = Integer.parseInt(value);
             final Token token = new Token(filename, lineNumber, lineColumn);
             token.setType(TokenType.NUMBER);
             token.setStr(value);
-            token.setBits(bits);
             token.setNum(num);
             tokens.add(token);
             return;
         } catch (final NumberFormatException e) {            
-        }
-        
-        if (bits != null) {
-            final Token token = new Token(filename, lineNumber, lineColumn);
-            token.setType(TokenType.BITS);
-            token.setStr(value);
-            token.setBits(bits);
-            tokens.add(token);
-            return;
         }
         
         throw new ParseException(filename, lineNumber, lineColumn, "Unexpected token: " + value);
@@ -167,6 +144,13 @@ public class Parser {
         
         final String left = value.substring(0, rangeIndex);
         final String right = value.substring(rangeIndex + 2);
+
+        int leftValue = 0;
+        try {
+            leftValue = Integer.parseInt(left);
+        } catch (final NumberFormatException e) {
+            throw new ParseException(filename, lineNumber, lineColumn, "Invalid range: left value is not a number.");
+        }
         
         int rightValue = 0;
         try {
@@ -175,37 +159,8 @@ public class Parser {
             throw new ParseException(filename, lineNumber, lineColumn, "Invalid range: right value is not a number.");
         }
         
-        int c = 0;
-        for (; c < left.length() && Character.isLetter(left.charAt(c)); ++c) {            
-        }
-        if (c == left.length()) {
-            throw new ParseException(filename, lineNumber, lineColumn, 
-                    "Invalid range: left value does not container a number.");
-        }
-        
-        final String str;
-        final String leftNum;
-        if (c > 0) {
-            str = left.substring(0, c);
-            if (!isIdentifier(str)) {
-                throw new ParseException(filename, lineNumber, lineColumn, "Invalid range: bad left identifier.");
-            }
-            leftNum = left.substring(c);            
-        } else {
-            str = null;
-            leftNum = left;
-        }
-        int leftValue = 0;
-        try {
-            leftValue = Integer.parseInt(leftNum);
-        } catch (final NumberFormatException e) {
-            throw new ParseException(filename, lineNumber, lineColumn, 
-                    "Invalid range: left value does not contain a valid number.");
-        }
-        
         final Token token = new Token(filename, lineNumber, lineColumn);
         token.setType(TokenType.RANGE);
-        token.setStr(str);
         token.setNum(leftValue);
         token.setNum2(rightValue);
         tokens.add(token);
@@ -243,13 +198,13 @@ public class Parser {
             switch(operation) {
                 case "border":
                     border = processBorder(tokens, i + 1);
-                    i += 2;
+                    i += 3;
                     break;
                 case "in":
                     i = processTerminals(tokens, TerminalType.INPUT, inputs, i + 1);
                     break;
                 case "out":
-                    i = processTerminals(tokens, TerminalType.INPUT, outputs, i + 1);
+                    i = processTerminals(tokens, TerminalType.OUTPUT, outputs, i + 1);
                     break;
                 default:
                     i = processInstruction(tokens, instructions, operationToken, components, i + 1);
@@ -258,10 +213,31 @@ public class Parser {
         }
         
         component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        component.setBorder(border);
         component.setInputs(inputs.toArray(new Terminal[inputs.size()]));
-        component.setInputs(outputs.toArray(new Terminal[outputs.size()]));
+        component.setOutputs(outputs.toArray(new Terminal[outputs.size()]));
+        
+        verifyUniqueTerminalNames(tokens.get(0), component);
+        
+        // TODO REMOVE
+        System.out.println(component);
         
         return component;
+    }
+    
+    private void verifyUniqueTerminalNames(final Token token, final Component component) {
+        final Set<String> names = new HashSet<>();
+        verifyUniqueTerminalNames(token, component, names, component.getInputs());
+    }
+    
+    private void verifyUniqueTerminalNames(final Token token, final Component component, final Set<String> names, 
+            final Terminal[] terminals) {
+        for (final Terminal terminal : terminals) {
+            if (names.contains(terminal.getName())) {
+                throw new ParseException(token, component.getName() + " has duplicate terminal name: " 
+                        + terminal.getName());
+            }
+        }
     }
     
     private Border processBorder(final List<Token> tokens, final int index) throws ParseException {
@@ -318,28 +294,35 @@ public class Parser {
     private int processTerminals(final List<Token> tokens, final TerminalType type, final List<Terminal> terminals, 
             final int index) throws ParseException {
         
-        final Token nameToken = tokens.get(index);
+        int i = index;
+        
+        final Token nameToken = tokens.get(i++);
         if (nameToken.getType() != TokenType.STRING) {
             throw new ParseException(nameToken, "Missing terminal name.");
         }
-
-        final Token rangeToken = tokens.get(index + 1);
-        if (rangeToken.getType() != TokenType.NUMBER && rangeToken.getType() != TokenType.RANGE) {
-            throw new ParseException(rangeToken, "Missing terminal range.");
-        }
-
-        final Range range;
-        if (rangeToken.getType() == TokenType.NUMBER) {
-            range = new Range(rangeToken.getNum());
-        } else if (rangeToken.getStr() != null) {
-            throw new ParseException(rangeToken, "Expected number or numerical range.");
-        } else {
-            range = new Range(rangeToken.getNum(), rangeToken.getNum2());
-            if (range.getNum() > range.getNum2()) {
-                throw new ParseException(rangeToken, "Expected min..max");
-            }
-        }                    
         
-        return index + 2;
+        final List<HorizontalLine> horizontalLines = new ArrayList<>();
+        while (true) {
+            final Token xToken = tokens.get(i++);
+            if (xToken.getType() != TokenType.NUMBER && xToken.getType() != TokenType.RANGE) {
+                break;
+            }
+            
+            final Token yToken = tokens.get(i++);
+            if (yToken.getType() != TokenType.NUMBER) {
+                throw new ParseException(yToken, "Expected Y number.");
+            }
+            
+            if (xToken.getType() == TokenType.NUMBER) {
+                horizontalLines.add(new HorizontalLine(xToken.getNum(), yToken.getNum()));
+            } else {
+                horizontalLines.add(new HorizontalLine(xToken.getNum(), xToken.getNum2(), yToken.getNum()));
+            }
+        }
+        
+        terminals.add(new Terminal(type, nameToken.getStr(), horizontalLines.toArray(
+                new HorizontalLine[horizontalLines.size()])));
+
+        return i;
     }
 }

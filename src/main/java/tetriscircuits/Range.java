@@ -2,48 +2,33 @@ package tetriscircuits;
 
 public class Range {
     
-    private final String str;
-    private final Integer num;
-    private final Integer num2;
+    private final int min;
+    private final int max;
     
-    public Range(final Integer num) {
-        this(null, num, null);
-    }
-    
-    public Range(final Integer num, final Integer num2) {
-        this(null, num, num2);
+    public Range(final int value) {
+        this(value, value);
     }
 
-    public Range(final String str, final Integer num, final Integer num2) {
-        this.str = str;
-        this.num = num;
-        this.num2 = num2;
+    public Range(final int min, final int max) {
+        if (min > max) {
+            this.min = max;
+            this.max = min;
+        } else {
+            this.min = min;
+            this.max = max;
+        }
     }
 
-    public String getStr() {
-        return str;
+    public int getMin() {
+        return min;
     }
 
-    public Integer getNum() {
-        return num;
+    public int getMax() {
+        return max;
     }
 
-    public Integer getNum2() {
-        return num2;
-    }
-    
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        if (str != null) {
-            sb.append(str);
-        }
-        if (num != null) {
-            sb.append(num);
-        }
-        if (num2 != null) {
-            sb.append("..").append(num2);
-        }
-        return sb.toString();
+        return (min == max) ? Integer.toString(min) : String.format("%d..%d", min, max);
     } 
 }

@@ -10,19 +10,22 @@ public class Simulator {
     public void init(final Playfield playfield, final Component component, final String inputBits, 
             final int originX, final int originY, final int cellValue) {
         
-        final Point[][] inputs = component.getInputs();
+        final Terminal[] inputs = component.getInputs();
         if (inputs == null) {
             return;
         }
-                
+        final Border border = component.getBorder();
+        if (border == null) {
+            return;
+        }
+        
+        final int y = originY - border.getMaxY();                
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             if (inputBits.charAt(i) == '1') {
-                final Point[] ins = inputs[i];
-                for (int j = ins.length - 1; j >= 0; --j) {
-                    final Point p = ins[j];
-                    final int x = originX + p.x;
-                    final int y = originY - p.y;
-                    playfield.set(x, y, cellValue);
+                final Range range = inputs[i].getRange();
+                final int endX = range.getNum2() == null ? range.getNum() : range.getNum2();
+                for (int x = range.getNum(); x <= endX; ++x) {
+                    playfield.set(originX + x, y, cellValue);
                 }
             }
         }
@@ -35,98 +38,95 @@ public class Simulator {
     public void addOutputs(final Playfield playfield, final Component component, final int originX, final int originY, 
             final int cellValue) {
         
-        final Point[][] outputs = component.getOutputs();
+        final Terminal[] outputs = component.getOutputs();
+        if (outputs == null) {
+            return;
+        }
+        final Border border = component.getBorder();
+        if (border == null) {
+            return;
+        }
+        
         for (int i = outputs.length - 1; i >= 0; --i) {
-            final Point[] outs = outputs[i];
-            for (int j = outs.length - 1; j >= 0; --j) {
-                final Point p = outs[j];
-                final int x = originX + p.x;
-                final int y = originY - p.y;
-                playfield.set(x, y, cellValue);
+            final Range range = outputs[i].getRange();
+            final int endX = range.getNum2() == null ? range.getNum() : range.getNum2();
+            for (int x = range.getNum(); x <= endX; ++x) {
+                playfield.set(originX + x, originY, cellValue);
             }
         }
     }
     
-    public Rectangle[][] findTerminals(final Range[][] terminals, final int originX, final int originY) {
+    public Rectangle[] findTerminals(final Terminal[] terminals, final int maxY, final int originX, final int originY) {
         
         if (terminals == null) {
-            return new Rectangle[0][];
+            return new Rectangle[0];
         }
         
-        final Rectangle[][] rectangles = new Rectangle[terminals.length][];
+        final Rectangle[] rectangles = new Rectangle[terminals.length];
         
+        final int y = (terminals[0].getType() == TerminalType.INPUT) ? originY : originY + maxY;
         for (int i = terminals.length - 1; i >= 0; --i) {
-            final Range[] outs = terminals[i];
-            rectangles[i] = new Rectangle[outs.length >> 1];
-            final Rectangle[] rects = rectangles[i];
-            for (int j = 0; j < rects.length; ++j) {
-                final Range o1 = outs[j << 1];
-                final Range o2 = outs[(j << 1) + 1];
-                if (o1.getNum2() == null && o2.getNum2() == null) {
-                    rects[j] = new Rectangle(originX + o1.getNum(), originY + o2.getNum(), 1, 1);
-                } else if (o1.getNum2() == null && o2.getNum2() != null) {
-                    rects[j] = new Rectangle(originX + o1.getNum(), originY + Math.max(o2.getNum(), o2.getNum2()), 1, 
-                            Math.abs(o2.getNum2() - o2.getNum()) + 1);
-                } else if (o1.getNum2() != null && o2.getNum2() == null) {
-                    rects[j] = new Rectangle(originX + Math.min(o1.getNum(), o1.getNum2()), originY + o2.getNum(), 
-                            Math.abs(o1.getNum2() - o1.getNum()) + 1, 1);
-                } else {
-                    rects[j] = new Rectangle(
-                            originX + Math.min(o1.getNum(), o1.getNum2()), 
-                            originY + Math.max(o2.getNum(), o2.getNum2()), 
-                            Math.abs(o1.getNum2() - o1.getNum()) + 1, 
-                            Math.abs(o2.getNum2() - o2.getNum()) + 1);
-                }
-            }        
+            final Range range = terminals[i].getRange();
+            if (range.getNum2() == null) {
+                rectangles[i] = new Rectangle(originX + range.getNum(), y, 1, 1);
+            } else {
+                rectangles[i] = new Rectangle(originX + range.getNum(), y, range.getNum2() - range.getNum() + 1, 1);
+            }
         }
 
         return rectangles;
     }    
     
-    public void simulate(final Playfield playfield, final Component component) {
-        simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
+    public void simulate(final Playfield playfield, final Component component, final int depth) {
+        simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth);
     }
     
-    public void simulate(final Playfield playfield, final Component component, final int originX, final int originY) {
-        simulate(playfield, component, originX, originY, null);
+    public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
+            final int depth) {
+        simulate(playfield, component, originX, originY, depth, null);
     }
     
-    public void simulate(final Playfield playfield, final Component component, final TetriminoLockListener listener) {
-        simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, listener);
+    public void simulate(final Playfield playfield, final Component component, final int depth, 
+            final LockedElementListener listener) {
+        simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, listener);
     }
 
-    public void simulate(final Playfield playfield, final Component component, final int originX, final int originY,
-            final TetriminoLockListener listener) {
-        simulate(playfield, component.getInstructions(), originX, originY, listener);        
+    public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
+            final int depth, final LockedElementListener listener) {
+        simulate(playfield, component.getInstructions(), originX, originY, depth, listener);        
     }
     
-    public void simulate(final Playfield playfield, final Instruction[] instructions) {
-        simulate(playfield, instructions, playfield.getWidth() >> 1, playfield.getHeight() - 1);
-    }
-    
-    public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
-            final int originY) {
-        simulate(playfield, instructions, originX, originY, null);
+    public void simulate(final Playfield playfield, final Instruction[] instructions, final int depth) {
+        simulate(playfield, instructions, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth);
     }
     
     public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
-            final int originY, final TetriminoLockListener listener) {
+            final int originY, final int depth) {
+        simulate(playfield, instructions, originX, originY, depth, null);
+    }
+    
+    public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
+            final int originY, final int depth, final LockedElementListener listener) {
         if (instructions == null) {
             return;
         }
         for (int i = 0; i < instructions.length; ++i) {    
-            simulate(playfield, instructions[i], originX, originY, listener);
+            simulate(playfield, instructions[i], originX, originY, depth, listener);
         }
     }
     
     public void simulate(final Playfield playfield, final Instruction instruction, final int originX, final int originY,
-            final TetriminoLockListener listener) {
+            final int depth, final LockedElementListener listener) {
     
         final int[] moves = instruction.getMoves();
         
         final Component component = instruction.getComponent();
-        if (component != null) {            
-            simulate(playfield, component, originX + moves[0], originY - moves[1], listener);
+        if (component != null) {   
+            if (depth == 0) {
+                // TODO SIMULATE
+            } else {
+                simulate(playfield, component, originX + moves[0], originY - moves[1], depth - 1, listener);
+            }
             return;
         }
         
@@ -146,7 +146,7 @@ public class Simulator {
         lock(playfield, tetrimino, x, y);
         
         if (listener != null) {
-            listener.tetriminoLocked(new LockedTetrimino(tetrimino, x - (playfield.getWidth() >> 1), 
+            listener.elementLocked(new LockedElement(tetrimino, x - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - y));
         }
     }

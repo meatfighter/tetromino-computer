@@ -8,6 +8,7 @@ public class Component {
     private Border border;
     private Terminal[] inputs;
     private Terminal[] outputs;
+    private String script;
     
     public Component(final String name) {
         this.name = name;
@@ -49,6 +50,14 @@ public class Component {
         this.outputs = outputs;
     }
 
+    public String getScript() {
+        return script;
+    }
+
+    public void setScript(final String script) {
+        this.script = script;
+    }
+
     @Override 
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -62,6 +71,8 @@ public class Component {
         for (final Terminal terminal : outputs) {
             sb.append(terminal).append(System.lineSeparator());
         }
+        sb.append("----------").append(System.lineSeparator());
+        sb.append(script);
         return sb.toString();
     }
 }

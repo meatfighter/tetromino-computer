@@ -4,12 +4,12 @@ public class Terminal {
 
     private final TerminalType type;
     private final String name;
-    private final Range[] ranges;
+    private final HorizontalLine[] horizontalLines;
 
-    public Terminal(final TerminalType type, final String name, final Range[] ranges) {
+    public Terminal(final TerminalType type, final String name, final HorizontalLine[] horizontalLines) {
         this.type = type;
         this.name = name;
-        this.ranges = ranges;
+        this.horizontalLines = horizontalLines;
     }
 
     public TerminalType getType() {
@@ -20,17 +20,16 @@ public class Terminal {
         return name;
     }
 
-    public Range[] getRanges() {
-        return ranges;
+    public HorizontalLine[] getHorizontalLines() {
+        return horizontalLines;
     }
     
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(type).append(' ').append(name);
-        for (final Range range : ranges) {
-            sb.append(' ').append(range);
-        }
+        final StringBuilder sb = new StringBuilder().append(type).append(' ').append(name);
+        for (final HorizontalLine horizontalLine : horizontalLines) {
+            sb.append(' ').append(horizontalLine);
+        }        
         return sb.toString();
     }
 }

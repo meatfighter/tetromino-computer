@@ -95,7 +95,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }
     
     public void buildAndRun(final String code) {        
-        controller.buildAndRun(code, "[unknown]", testTextField.getText()); // TODO
+        controller.buildAndRun(code, "[unnamed]", testTextField.getText()); // TODO
     }
 
     /**
@@ -712,7 +712,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buildButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-        final String componentName = "[unknown]"; // TODO
+        final String componentName = "[unnamed]"; // TODO
         if (!componentName.isEmpty()) {
             controller.run(componentName, testTextField.getText().trim());
         } else {

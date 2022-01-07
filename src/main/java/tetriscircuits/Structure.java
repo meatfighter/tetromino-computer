@@ -2,16 +2,16 @@ package tetriscircuits;
 
 public class Structure {
 
-    private final LockedTetrimino[] lockedTetriminos;
-    private final Rectangle[][] inputs;
-    private final Rectangle[][] outputs;
+    private final LockedElement[] lockedTetriminos;
+    private final Rectangle[] inputs;
+    private final Rectangle[] outputs;
     private final boolean[] testBits;
     private final int minX;
     private final int maxX;
     private final int minY;
     private final int maxY;    
 
-    public Structure(final LockedTetrimino[] lockedTetriminos, final Rectangle[][] inputs, final Rectangle[][] outputs,
+    public Structure(final LockedElement[] lockedTetriminos, final Rectangle[] inputs, final Rectangle[] outputs,
             final boolean[] testBits, final int minX, final int maxX, final int minY, final int maxY) {
         this.lockedTetriminos = lockedTetriminos;
         this.inputs = inputs;
@@ -23,15 +23,15 @@ public class Structure {
         this.maxY = maxY;
     }
 
-    public Rectangle[][] getInputs() {
+    public Rectangle[] getInputs() {
         return inputs;
     }
 
-    public Rectangle[][] getOutputs() {
+    public Rectangle[] getOutputs() {
         return outputs;
     }
 
-    public LockedTetrimino[] getLockedTetriminos() {
+    public LockedElement[] getLockedTetriminos() {
         return lockedTetriminos;
     }
 

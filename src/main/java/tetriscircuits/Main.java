@@ -1,7 +1,6 @@
 package tetriscircuits;
 
 import com.bulenkov.darcula.DarculaLaf;
-import java.awt.Color;
 import java.awt.EventQueue;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -36,9 +35,10 @@ public class Main {
     }
     
     public static void main(final String... args) throws Exception {
-//        new Main().launch();
+        new Main().launch();
 
         ScriptEngineManager manager = new ScriptEngineManager();
+        
         ScriptEngine engine = manager.getEngineByName("nashorn");
 
         // evaluate JavaScript code

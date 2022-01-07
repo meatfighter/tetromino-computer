@@ -1,5 +1,5 @@
 package tetriscircuits;
 
-public interface TetriminoLockListener {
-    void tetriminoLocked(final LockedTetrimino lockedTetrimino);
+public interface LockedElementListener {
+    void elementLocked(final LockedElement lockedTetrimino);
 }

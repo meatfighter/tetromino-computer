@@ -1,7 +1,7 @@
 package tetriscircuits.ui;
 
 import java.awt.Graphics;
-import tetriscircuits.LockedTetrimino;
+import tetriscircuits.LockedElement;
 
 public class LockedTetriminoRenderer {
     
@@ -9,7 +9,7 @@ public class LockedTetriminoRenderer {
     private final int cellX;
     private final int cellY;
     
-    public LockedTetriminoRenderer(final LockedTetrimino lockedTetrimino) {
+    public LockedTetriminoRenderer(final LockedElement lockedTetrimino) {
         this(TetriminoRenderer.fromTetrimino(lockedTetrimino.getTetrimino()), lockedTetrimino.getX(), 
                 lockedTetrimino.getY());
     }

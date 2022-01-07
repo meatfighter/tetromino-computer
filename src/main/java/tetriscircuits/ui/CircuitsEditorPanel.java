@@ -310,10 +310,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
 
         horizontalSplitPane = new javax.swing.JSplitPane();
         verticalSplitPane = new javax.swing.JSplitPane();
-        outputScrollPane = new javax.swing.JScrollPane();
-        outputTextArea = new javax.swing.JTextArea();
         codeScrollPane = new javax.swing.JScrollPane();
         codeTextPane = new tetriscircuits.ui.CustomTextPane();
+        lowerSplitPane = new javax.swing.JSplitPane();
+        scriptScrollPane = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
+        outputScrollPane = new javax.swing.JScrollPane();
+        outputTextArea = new javax.swing.JTextArea();
         playfieldScrollPane = new javax.swing.JScrollPane();
         playfieldPanel = new tetriscircuits.ui.PlayfieldPanel();
 
@@ -326,6 +329,30 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         verticalSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         verticalSplitPane.setMaximumSize(null);
         verticalSplitPane.setPreferredSize(null);
+
+        codeScrollPane.setMaximumSize(null);
+        codeScrollPane.setMinimumSize(null);
+        codeScrollPane.setPreferredSize(null);
+
+        codeTextPane.setBackground(new java.awt.Color(43, 43, 43));
+        codeTextPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
+        codeTextPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        codeTextPane.setForeground(new java.awt.Color(169, 183, 198));
+        codeTextPane.setMaximumSize(null);
+        codeTextPane.setPreferredSize(null);
+        codeScrollPane.setViewportView(codeTextPane);
+
+        verticalSplitPane.setLeftComponent(codeScrollPane);
+
+        lowerSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        scriptScrollPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+
+        scriptTextArea.setColumns(20);
+        scriptTextArea.setRows(5);
+        scriptScrollPane.setViewportView(scriptTextArea);
+
+        lowerSplitPane.setLeftComponent(scriptScrollPane);
 
         outputScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         outputScrollPane.setMaximumSize(null);
@@ -344,21 +371,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputTextArea.setRequestFocusEnabled(false);
         outputScrollPane.setViewportView(outputTextArea);
 
-        verticalSplitPane.setRightComponent(outputScrollPane);
+        lowerSplitPane.setBottomComponent(outputScrollPane);
 
-        codeScrollPane.setMaximumSize(null);
-        codeScrollPane.setMinimumSize(null);
-        codeScrollPane.setPreferredSize(null);
-
-        codeTextPane.setBackground(new java.awt.Color(43, 43, 43));
-        codeTextPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
-        codeTextPane.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
-        codeTextPane.setForeground(new java.awt.Color(169, 183, 198));
-        codeTextPane.setMaximumSize(null);
-        codeTextPane.setPreferredSize(null);
-        codeScrollPane.setViewportView(codeTextPane);
-
-        verticalSplitPane.setLeftComponent(codeScrollPane);
+        verticalSplitPane.setRightComponent(lowerSplitPane);
 
         horizontalSplitPane.setLeftComponent(verticalSplitPane);
 
@@ -375,11 +390,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setLayout(playfieldPanelLayout);
         playfieldPanelLayout.setHorizontalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 32768, 32768)
+            .addGap(0, 1024, Short.MAX_VALUE)
         );
         playfieldPanelLayout.setVerticalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 763, Short.MAX_VALUE)
+            .addGap(0, 1024, Short.MAX_VALUE)
         );
 
         playfieldScrollPane.setViewportView(playfieldPanel);
@@ -390,11 +405,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -403,10 +418,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane codeScrollPane;
     private javax.swing.JTextPane codeTextPane;
     private javax.swing.JSplitPane horizontalSplitPane;
+    private javax.swing.JSplitPane lowerSplitPane;
     private javax.swing.JScrollPane outputScrollPane;
     private javax.swing.JTextArea outputTextArea;
     private tetriscircuits.ui.PlayfieldPanel playfieldPanel;
     private javax.swing.JScrollPane playfieldScrollPane;
+    private javax.swing.JScrollPane scriptScrollPane;
+    private javax.swing.JTextArea scriptTextArea;
     private javax.swing.JSplitPane verticalSplitPane;
     // End of variables declaration//GEN-END:variables
 }

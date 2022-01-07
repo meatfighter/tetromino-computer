@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
 
@@ -70,7 +69,8 @@ public class Controller {
     
     public void loadComponents() {
         execute(() -> {
-            for (final File file : new File("components").listFiles(file -> file.isFile())) {
+            for (final File file : new File("components").listFiles(
+                    file -> file.isFile() && file.getName().endsWith(".def"))) {
                 execute(() -> loadComponent(file));
             }
         });
@@ -128,7 +128,7 @@ public class Controller {
             outListener.clear();
         }
         
-        final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();         
+        final List<LockedElement> lockedTetriminos = new ArrayList<>();         
         
         Component component = components.get(componentName);
         int minX = 0;
@@ -164,9 +164,11 @@ public class Controller {
                 testBits[i] = testBitStr.charAt(i) == '1';
             }
             listener.runCompleted(new Structure(
-                    lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
-                    component == null ? new Rectangle[0][] : simulator.findTerminals(component.getInputRanges(), 0, 0),
-                    component == null ? new Rectangle[0][] : simulator.findTerminals(component.getOutputRanges(), 0, 0),
+                    lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
+                    component == null ? new Rectangle[0] 
+                            : simulator.findTerminals(component.getInputs(), component.getBorder().getMaxY(), 0, 0),
+                    component == null ? new Rectangle[0] 
+                            : simulator.findTerminals(component.getOutputs(), component.getBorder().getMaxY(), 0, 0),
                     testBits, minX, maxX, 0, maxY));
         }        
     }
@@ -217,32 +219,32 @@ public class Controller {
     
     private void createStructure(final Component component, final String testBitStr) {
         final OutputListener listener = outputListener;
-        final Range[][] inputRanges = component.getInputRanges();                
+        final Terminal[] inputs = component.getInputs();                
         final Playfield playfield = borrowPlayfield();
         try {
-            if (inputRanges == null) {
+            if (inputs == null) {
                 if (listener != null) {
                     listener.append("Error: Invalid input ranges for " + component.getName() + ".");
                 }
                 return;
             }
-            final boolean[] testBits = new boolean[inputRanges.length];
+            final boolean[] testBits = new boolean[inputs.length];
             final StringBuilder sb = new StringBuilder();
             for (int i = testBits.length - 1; i >= 0; --i) {
                 sb.append('1');
                 testBits[i] = true;
             }                                               
             simulator.init(playfield, component, sb.toString());
-            final List<LockedTetrimino> lockedTetriminos = new ArrayList<>();
+            final List<LockedElement> lockedTetriminos = new ArrayList<>();
             simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
             final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
             final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
             structures.put(component.getName(), new Structure(
-                    lockedTetriminos.toArray(new LockedTetrimino[lockedTetriminos.size()]),
-                    simulator.findTerminals(component.getInputRanges(), 0, 0),
-                    simulator.findTerminals(component.getOutputRanges(), 0, 0),
+                    lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
+                    simulator.findTerminals(component.getInputs(), component.getBorder().getMaxY(), 0, 0),
+                    simulator.findTerminals(component.getOutputs(), component.getBorder().getMaxY(), 0, 0),
                     testBits, minX, maxX, 0, maxY));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
