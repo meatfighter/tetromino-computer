@@ -5,7 +5,6 @@ public class Component {
     private final String name;
     
     private Instruction[] instructions;
-    private Border border;
     private Terminal[] inputs;
     private Terminal[] outputs;
     private String script;
@@ -16,14 +15,6 @@ public class Component {
 
     public String getName() {
         return name;
-    }
-
-    public Border getBorder() {
-        return border;
-    }
-
-    public void setBorder(final Border border) {
-        this.border = border;
     }
 
     public Instruction[] getInstructions() {
@@ -64,7 +55,6 @@ public class Component {
         for (final Instruction instruction : instructions) {
             sb.append(instruction).append(System.lineSeparator());
         }
-        sb.append(border).append(System.lineSeparator());
         for (final Terminal terminal : inputs) {
             sb.append(terminal).append(System.lineSeparator());
         }

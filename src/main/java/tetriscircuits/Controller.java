@@ -128,7 +128,7 @@ public class Controller {
             outListener.clear();
         }
         
-        final List<LockedElement> lockedTetriminos = new ArrayList<>();         
+        final List<LockedElement> lockedElements = new ArrayList<>();         
         
         Component component = components.get(componentName);
         int minX = 0;
@@ -142,7 +142,8 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+                simulator.simulate(playfield, component, Integer.MAX_VALUE, 
+                        lockedElement -> lockedElements.add(lockedElement));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
@@ -164,11 +165,11 @@ public class Controller {
                 testBits[i] = testBitStr.charAt(i) == '1';
             }
             listener.runCompleted(new Structure(
-                    lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
-                    component == null ? new Rectangle[0] 
-                            : simulator.findTerminals(component.getInputs(), component.getBorder().getMaxY(), 0, 0),
-                    component == null ? new Rectangle[0] 
-                            : simulator.findTerminals(component.getOutputs(), component.getBorder().getMaxY(), 0, 0),
+                    lockedElements.toArray(new LockedElement[lockedElements.size()]),
+                    component == null ? new Rectangle[0][] 
+                            : simulator.findTerminals(component.getInputs(), 0, 0),
+                    component == null ? new Rectangle[0][] 
+                            : simulator.findTerminals(component.getOutputs(), 0, 0),
                     testBits, minX, maxX, 0, maxY));
         }        
     }
@@ -236,15 +237,16 @@ public class Controller {
             }                                               
             simulator.init(playfield, component, sb.toString());
             final List<LockedElement> lockedTetriminos = new ArrayList<>();
-            simulator.simulate(playfield, component, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+            simulator.simulate(playfield, component, Integer.MAX_VALUE, 
+                    lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
             final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
             final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
             structures.put(component.getName(), new Structure(
                     lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
-                    simulator.findTerminals(component.getInputs(), component.getBorder().getMaxY(), 0, 0),
-                    simulator.findTerminals(component.getOutputs(), component.getBorder().getMaxY(), 0, 0),
+                    simulator.findTerminals(component.getInputs(), 0, 0),
+                    simulator.findTerminals(component.getOutputs(), 0, 0),
                     testBits, minX, maxX, 0, maxY));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {

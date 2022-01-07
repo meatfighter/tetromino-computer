@@ -88,12 +88,6 @@ class Token {
                 }
                 sb.append(num).append("..").append(num2);
                 break;
-            case BITS:
-                sb.append(": ");
-                for (final boolean bit : bits) {
-                    sb.append(bit ? '1' : '0');
-                }
-                break;
         }
         return sb.toString();
     }

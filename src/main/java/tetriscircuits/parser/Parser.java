@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import tetriscircuits.Border;
 import tetriscircuits.Instruction;
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
@@ -185,7 +184,6 @@ public class Parser {
         final List<Instruction> instructions = new ArrayList<>();
         final List<Terminal> inputs = new ArrayList<>();
         final List<Terminal> outputs = new ArrayList<>();
-        Border border = null;
         
         outer: while (true) {
             final Token operationToken = tokens.get(i);  
@@ -196,10 +194,6 @@ public class Parser {
             }
             final String operation = operationToken.getStr();
             switch(operation) {
-                case "border":
-                    border = processBorder(tokens, i + 1);
-                    i += 3;
-                    break;
                 case "in":
                     i = processTerminals(tokens, TerminalType.INPUT, inputs, i + 1);
                     break;
@@ -213,7 +207,6 @@ public class Parser {
         }
         
         component.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
-        component.setBorder(border);
         component.setInputs(inputs.toArray(new Terminal[inputs.size()]));
         component.setOutputs(outputs.toArray(new Terminal[outputs.size()]));
         
@@ -238,21 +231,6 @@ public class Parser {
                         + terminal.getName());
             }
         }
-    }
-    
-    private Border processBorder(final List<Token> tokens, final int index) throws ParseException {
-        
-        final Token rangeXToken = tokens.get(index);
-        if (rangeXToken.getType() != TokenType.RANGE || rangeXToken.getStr() != null) {
-            throw new ParseException(rangeXToken, "Expected X range.");
-        }
-        
-        final Token maxYToken = tokens.get(index + 1);
-        if (maxYToken.getType() != TokenType.NUMBER) {
-            throw new ParseException(maxYToken, "Expected max Y.");
-        }
-        
-        return new Border(new Range(rangeXToken.getNum(), rangeXToken.getNum2()), maxYToken.getNum());
     }
     
     private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 

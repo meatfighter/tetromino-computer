@@ -25,7 +25,7 @@ public class StructureRenderer {
         for (final Tetrimino[] tetriminos : Tetrimino.TETRIMINOS) {
             for (final Tetrimino ts : tetriminos) {
                 structureRenderers.put(ts.getName(), new StructureRenderer(new Structure(new LockedElement[] { 
-                    new LockedElement(ts, 0, 0) }, new Rectangle[0], new Rectangle[0], new boolean[0], 
+                    new LockedElement(ts, 0, 0) }, new Rectangle[0][], new Rectangle[0][], new boolean[0], 
                         -2, 2, -2, 2)));
             }
         }
@@ -73,25 +73,31 @@ public class StructureRenderer {
                     cellSize);
         }
 
-        final Rectangle[] inputs = structure.getInputs();
+        final Rectangle[][] inputs = structure.getInputs();
         final boolean[] testBits = structure.getTestBits();
         for (int i = inputs.length - 1; i >= 0; --i) {
             g.setColor(TERMINAL_FILLS[(i >= testBits.length) ? 0 : (testBits[i] ? 1 : 0)]);
-            final Rectangle input = inputs[i];
-            g.fillRect(
-                x + cellSize * (cellX + input.x), 
-                y - cellSize * (cellY + input.y), 
-                cellSize * input.width, cellSize * input.height);
+            final Rectangle[] ins = inputs[i];
+            for (int j = ins.length - 1; j >= 0; --j) {
+                final Rectangle input = ins[j];
+                g.fillRect(
+                    x + cellSize * (cellX + input.x), 
+                    y - cellSize * (cellY + input.y), 
+                    cellSize * input.width, cellSize * input.height);                
+            }
         }
         
-        final Rectangle[] outputs = structure.getOutputs();
+        final Rectangle[][] outputs = structure.getOutputs();
         for (int i = outputs.length - 1; i >= 0; --i) {
             g.setColor(TERMINAL_FILLS[1]);
-            final Rectangle output = outputs[i];
-            g.fillRect(
-                x + cellSize * (cellX + output.x), 
-                y - cellSize * (cellY + output.y), 
-                cellSize * output.width, cellSize * output.height);
+            final Rectangle[] outs = outputs[i];
+            for (int j = outs.length - 1; j >= 0; --j) {
+                final Rectangle output = outs[j];
+                g.fillRect(
+                    x + cellSize * (cellX + output.x), 
+                    y - cellSize * (cellY + output.y), 
+                    cellSize * output.width, cellSize * output.height);
+            }
         }   
     }
     

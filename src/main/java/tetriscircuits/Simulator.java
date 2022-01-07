@@ -14,18 +14,17 @@ public class Simulator {
         if (inputs == null) {
             return;
         }
-        final Border border = component.getBorder();
-        if (border == null) {
-            return;
-        }
-        
-        final int y = originY - border.getMaxY();                
+                    
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             if (inputBits.charAt(i) == '1') {
-                final Range range = inputs[i].getRange();
-                final int endX = range.getNum2() == null ? range.getNum() : range.getNum2();
-                for (int x = range.getNum(); x <= endX; ++x) {
-                    playfield.set(originX + x, y, cellValue);
+                final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
+                for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                    final HorizontalLine horizontalLine = horizontalLines[j];
+                    final int y = originY - horizontalLine.getY();
+                    final int maxX = horizontalLine.getMaxX();
+                    for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                        playfield.set(originX + x, y, cellValue);
+                    }
                 }
             }
         }
@@ -42,35 +41,35 @@ public class Simulator {
         if (outputs == null) {
             return;
         }
-        final Border border = component.getBorder();
-        if (border == null) {
-            return;
-        }
         
         for (int i = outputs.length - 1; i >= 0; --i) {
-            final Range range = outputs[i].getRange();
-            final int endX = range.getNum2() == null ? range.getNum() : range.getNum2();
-            for (int x = range.getNum(); x <= endX; ++x) {
-                playfield.set(originX + x, originY, cellValue);
-            }
+            final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY - horizontalLine.getY();
+                final int maxX = horizontalLine.getMaxX();
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    playfield.set(originX + x, y, cellValue);
+                }
+            }            
         }
     }
     
-    public Rectangle[] findTerminals(final Terminal[] terminals, final int maxY, final int originX, final int originY) {
+    public Rectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
         
         if (terminals == null) {
-            return new Rectangle[0];
+            return new Rectangle[0][];
         }
         
-        final Rectangle[] rectangles = new Rectangle[terminals.length];
-        
-        final int y = (terminals[0].getType() == TerminalType.INPUT) ? originY : originY + maxY;
+        final Rectangle[][] rectangles = new Rectangle[terminals.length][];
         for (int i = terminals.length - 1; i >= 0; --i) {
-            final Range range = terminals[i].getRange();
-            if (range.getNum2() == null) {
-                rectangles[i] = new Rectangle(originX + range.getNum(), y, 1, 1);
-            } else {
-                rectangles[i] = new Rectangle(originX + range.getNum(), y, range.getNum2() - range.getNum() + 1, 1);
+            final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();
+            final Rectangle[] rects = rectangles[i] = new Rectangle[horizontalLines.length];
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY + horizontalLine.getY();
+                rects[j] = new Rectangle(originX + horizontalLine.getMinX(), y, 
+                        horizontalLine.getMaxX() - horizontalLine.getMinX() + 1, 1);
             }
         }
 
