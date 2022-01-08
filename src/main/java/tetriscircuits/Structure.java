@@ -11,8 +11,9 @@ public class Structure {
     private final int minY;
     private final int maxY;    
 
-    public Structure(final LockedElement[] lockedTetriminos, final TerminalRectangle[][] inputs, final TerminalRectangle[][] outputs,
-            final boolean[] testBits, final int minX, final int maxX, final int minY, final int maxY) {
+    public Structure(final LockedElement[] lockedTetriminos, final TerminalRectangle[][] inputs, 
+            final TerminalRectangle[][] outputs, final boolean[] testBits, final int minX, final int maxX, 
+            final int minY, final int maxY) {
         this.lockedTetriminos = lockedTetriminos;
         this.inputs = inputs;
         this.outputs = outputs;

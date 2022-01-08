@@ -104,6 +104,6 @@ public class StructureRenderer {
         final int height = cellSize * (structure.getMaxY() - structure.getMinY() + 1);              
         final int originX = x + cellSize * (cellX + structure.getMinX());
         final int originY = y - cellSize * (cellY + structure.getMaxY());
-        panel.repaint(originX, originY, width, height);
+        panel.repaint(originX, originY, width + 1, height + 1);
     }
 }

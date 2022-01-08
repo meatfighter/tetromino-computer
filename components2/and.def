@@ -1,6 +1,0 @@
-# andLeft alias
-andLeft 0 0
-rect -5..5 4
-in a -1 0
-in b 0 0
-out c -1..0 4

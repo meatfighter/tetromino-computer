@@ -3,6 +3,8 @@ package tetriscircuits;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -164,13 +166,42 @@ public class Controller {
             for (int i = testBitStr.length() - 1; i >= 0; --i) {
                 testBits[i] = testBitStr.charAt(i) == '1';
             }
+            
+            final TerminalRectangle[][] inputs;
+            final TerminalRectangle[][] outputs;
+            if (component == null) {
+                inputs = new TerminalRectangle[0][];
+                outputs = new TerminalRectangle[0][];
+            } else {
+                inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
+                outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+            }
+            
+            for (int i = inputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] ins = inputs[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final TerminalRectangle input = ins[j];
+                    minX = min(minX, input.x);
+                    maxX = max(maxX, input.x + input.width - 1);
+                    maxY = max(maxY, input.y + 1);
+                    System.out.format("in: %d %d%n", maxY, input.y + 1);
+                }
+            }
+            
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] outs = outputs[i];
+                for (int j = outs.length - 1; j >= 0; --j) {
+                    final TerminalRectangle output = outs[j];
+                    minX = min(minX, output.x);
+                    maxX = max(maxX, output.x + output.width - 1);
+                    maxY = max(maxY, output.y + 1);
+                    System.out.format("out: %d %d%n", maxY, output.y + 1);
+                }
+            }
+            
             listener.runCompleted(new Structure(
                     lockedElements.toArray(new LockedElement[lockedElements.size()]),
-                    component == null ? new TerminalRectangle[0][] 
-                            : simulator.findTerminals(component.getInputs(), 0, 0, testBitStr),
-                    component == null ? new TerminalRectangle[0][] 
-                            : simulator.findTerminals(component.getOutputs(), 0, 0),
-                    testBits, minX, maxX, 0, maxY));
+                    inputs, outputs, testBits, minX, maxX, 0, maxY));
         }        
     }
     
@@ -220,16 +251,16 @@ public class Controller {
     
     private void createStructure(final Component component, final String testBitStr) {
         final OutputListener listener = outputListener;
-        final Terminal[] inputs = component.getInputs();                
+        final Terminal[] inTerms = component.getInputs();                
         final Playfield playfield = borrowPlayfield();
         try {
-            if (inputs == null) {
+            if (inTerms == null) {
                 if (listener != null) {
                     listener.append("Error: Invalid input ranges for " + component.getName() + ".");
                 }
                 return;
             }
-            final boolean[] testBits = new boolean[inputs.length];
+            final boolean[] testBits = new boolean[inTerms.length];
             final StringBuilder sb = new StringBuilder();
             for (int i = testBits.length - 1; i >= 0; --i) {
                 sb.append('1');
@@ -240,14 +271,37 @@ public class Controller {
             simulator.simulate(playfield, component, Integer.MAX_VALUE, 
                     lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
-            final int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
-            final int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-            final int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+            int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+            int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+            int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+            
+            final TerminalRectangle[][] inputs = simulator.findTerminals(component.getInputs(), 0, 0);           
+            for (int i = inputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] ins = inputs[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final TerminalRectangle input = ins[j];
+                    minX = min(minX, input.x);
+                    maxX = max(maxX, input.x + input.width - 1);
+                    maxY = max(maxY, input.y + 1);
+                    System.out.format("in: %d %d%n", maxY, input.y + 1);
+                }
+            }
+            
+            final TerminalRectangle[][] outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] outs = outputs[i];
+                for (int j = outs.length - 1; j >= 0; --j) {
+                    final TerminalRectangle output = outs[j];
+                    minX = min(minX, output.x);
+                    maxX = max(maxX, output.x + output.width - 1);
+                    maxY = max(maxY, output.y + 1);
+                    System.out.format("out: %d %d%n", maxY, output.y + 1);
+                }
+            }            
+                        
             structures.put(component.getName(), new Structure(
                     lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
-                    simulator.findTerminals(component.getInputs(), 0, 0),
-                    simulator.findTerminals(component.getOutputs(), 0, 0),
-                    testBits, minX, maxX, 0, maxY));
+                    inputs, outputs, testBits, minX, maxX, 0, maxY));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
                 listener.append("Error: The definition of " + component.getName() + " contains itself.");
