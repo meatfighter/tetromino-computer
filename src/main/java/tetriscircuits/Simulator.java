@@ -14,17 +14,16 @@ public class Simulator {
         if (inputs == null) {
             return;
         }
-                    
+        
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
-            if (inputBits.charAt(i) == '1') {
-                final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
-                for (int j = horizontalLines.length - 1; j >= 0; --j) {
-                    final HorizontalLine horizontalLine = horizontalLines[j];
-                    final int y = originY - horizontalLine.getY();
-                    final int maxX = horizontalLine.getMaxX();
-                    for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                        playfield.set(originX + x, y, cellValue);
-                    }
+            final int oy = originY - (inputBits.charAt(i) == '1' ? 1 : 0);
+            final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = oy - horizontalLine.getY();
+                final int maxX = horizontalLine.getMaxX();
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    playfield.set(originX + x, y, cellValue);
                 }
             }
         }
@@ -55,21 +54,30 @@ public class Simulator {
         }
     }
     
-    public Rectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
+    public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
+        return findTerminals(terminals, originX, originY, null);
+    }
+    
+    public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY, 
+            final String testBitsStr) {
         
         if (terminals == null) {
-            return new Rectangle[0][];
+            return new TerminalRectangle[0][];
         }
         
-        final Rectangle[][] rectangles = new Rectangle[terminals.length][];
+        final TerminalRectangle[][] rectangles = new TerminalRectangle[terminals.length][];
         for (int i = terminals.length - 1; i >= 0; --i) {
+            TerminalState state = TerminalState.UNKNOWN;
+            if (testBitsStr != null && i < testBitsStr.length()) {
+                state = testBitsStr.charAt(i) == '1' ? TerminalState.ONE : TerminalState.ZERO;
+            }
             final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();
-            final Rectangle[] rects = rectangles[i] = new Rectangle[horizontalLines.length];
+            final TerminalRectangle[] rects = rectangles[i] = new TerminalRectangle[horizontalLines.length];
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
                 final int y = originY + horizontalLine.getY();
-                rects[j] = new Rectangle(originX + horizontalLine.getMinX(), y, 
-                        horizontalLine.getMaxX() - horizontalLine.getMinX() + 1, 1);
+                rects[j] = new TerminalRectangle(originX + horizontalLine.getMinX(), y, 
+                        horizontalLine.getMaxX() - horizontalLine.getMinX() + 1, state);
             }
         }
 

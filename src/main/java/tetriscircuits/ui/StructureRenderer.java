@@ -6,17 +6,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import tetriscircuits.LockedElement;
-import tetriscircuits.Point;
-import tetriscircuits.Rectangle;
+import tetriscircuits.TerminalRectangle;
 import tetriscircuits.Structure;
+import tetriscircuits.TerminalState;
 import tetriscircuits.Tetrimino;
 
 public class StructureRenderer {
     
-    private static final Color[] TERMINAL_FILLS = {
-        new Color(0x7F_000000, true), 
-        new Color(0x7F_FFFFFF, true), 
-    };   
+    private static final Color TERMINAL_FILL = new Color(0xFFFFF0);
+    private static final Color TERMINAL_LINE = TERMINAL_FILL.darker();
     
     private static final Map<String, StructureRenderer> STRUCTURE_RENDERERS;
     
@@ -25,7 +23,7 @@ public class StructureRenderer {
         for (final Tetrimino[] tetriminos : Tetrimino.TETRIMINOS) {
             for (final Tetrimino ts : tetriminos) {
                 structureRenderers.put(ts.getName(), new StructureRenderer(new Structure(new LockedElement[] { 
-                    new LockedElement(ts, 0, 0) }, new Rectangle[0][], new Rectangle[0][], new boolean[0], 
+                    new LockedElement(ts, 0, 0) }, new TerminalRectangle[0][], new TerminalRectangle[0][], new boolean[0], 
                         -2, 2, -2, 2)));
             }
         }
@@ -72,33 +70,33 @@ public class StructureRenderer {
                     y - cellSize * (cellY + lockedTetrimino.getY()), 
                     cellSize);
         }
-
-        final Rectangle[][] inputs = structure.getInputs();
-        final boolean[] testBits = structure.getTestBits();
-        for (int i = inputs.length - 1; i >= 0; --i) {
-            g.setColor(TERMINAL_FILLS[(i >= testBits.length) ? 0 : (testBits[i] ? 1 : 0)]);
-            final Rectangle[] ins = inputs[i];
-            for (int j = ins.length - 1; j >= 0; --j) {
-                final Rectangle input = ins[j];
-                g.fillRect(
-                    x + cellSize * (cellX + input.x), 
-                    y - cellSize * (cellY + input.y), 
-                    cellSize * input.width, cellSize * input.height);                
-            }
-        }
         
-        final Rectangle[][] outputs = structure.getOutputs();
-        for (int i = outputs.length - 1; i >= 0; --i) {
-            g.setColor(TERMINAL_FILLS[1]);
-            final Rectangle[] outs = outputs[i];
-            for (int j = outs.length - 1; j >= 0; --j) {
-                final Rectangle output = outs[j];
-                g.fillRect(
-                    x + cellSize * (cellX + output.x), 
-                    y - cellSize * (cellY + output.y), 
-                    cellSize * output.width, cellSize * output.height);
+        renderTerminals(g, x, y, cellSize, structure.getInputs());
+        renderTerminals(g, x, y, cellSize, structure.getOutputs());
+    }
+    
+    private void renderTerminals(final Graphics g, final int x, final int y, int cellSize, 
+            final TerminalRectangle[][] terminals) {
+        
+        for (int i = terminals.length - 1; i >= 0; --i) {            
+            final TerminalRectangle[] terms = terminals[i];            
+            for (int j = terms.length - 1; j >= 0; --j) {
+                final TerminalRectangle terminal = terms[j];                
+                final int px = x + cellSize * (cellX + terminal.x);
+                final int py = y - cellSize * (cellY + terminal.y + 1);
+                final int width = cellSize * terminal.width;
+                final TerminalState state = terminal.getState();
+                if (state == TerminalState.ZERO) {
+                    g.setColor(TERMINAL_FILL);
+                    g.fillRect(px, py + cellSize, width, cellSize);
+                } else if (state == TerminalState.ONE) {
+                    g.setColor(TERMINAL_FILL);
+                    g.fillRect(px, py, width, cellSize);
+                }
+                g.setColor(TERMINAL_LINE);
+                g.drawRect(px, py, width, 2 * cellSize);
             }
-        }   
+        }        
     }
     
     public void repaint(final PlayfieldPanel panel, final int x, final int y, int cellSize) {

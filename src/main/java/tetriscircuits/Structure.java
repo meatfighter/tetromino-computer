@@ -3,15 +3,15 @@ package tetriscircuits;
 public class Structure {
 
     private final LockedElement[] lockedTetriminos;
-    private final Rectangle[][] inputs;
-    private final Rectangle[][] outputs;
+    private final TerminalRectangle[][] inputs;
+    private final TerminalRectangle[][] outputs;
     private final boolean[] testBits;
     private final int minX;
     private final int maxX;
     private final int minY;
     private final int maxY;    
 
-    public Structure(final LockedElement[] lockedTetriminos, final Rectangle[][] inputs, final Rectangle[][] outputs,
+    public Structure(final LockedElement[] lockedTetriminos, final TerminalRectangle[][] inputs, final TerminalRectangle[][] outputs,
             final boolean[] testBits, final int minX, final int maxX, final int minY, final int maxY) {
         this.lockedTetriminos = lockedTetriminos;
         this.inputs = inputs;
@@ -23,11 +23,11 @@ public class Structure {
         this.maxY = maxY;
     }
 
-    public Rectangle[][] getInputs() {
+    public TerminalRectangle[][] getInputs() {
         return inputs;
     }
 
-    public Rectangle[][] getOutputs() {
+    public TerminalRectangle[][] getOutputs() {
         return outputs;
     }
 

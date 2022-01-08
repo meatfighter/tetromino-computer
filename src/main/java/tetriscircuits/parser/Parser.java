@@ -301,6 +301,6 @@ public class Parser {
         terminals.add(new Terminal(type, nameToken.getStr(), horizontalLines.toArray(
                 new HorizontalLine[horizontalLines.size()])));
 
-        return i;
+        return i - 1;
     }
 }

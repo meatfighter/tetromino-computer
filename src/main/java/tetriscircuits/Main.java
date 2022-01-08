@@ -37,13 +37,13 @@ public class Main {
     public static void main(final String... args) throws Exception {
         new Main().launch();
 
-        ScriptEngineManager manager = new ScriptEngineManager();
-        
-        ScriptEngine engine = manager.getEngineByName("nashorn");
-
-        // evaluate JavaScript code
-        engine.put("a", false);
-        engine.eval("b = !a;");
-        System.out.println(engine.get("b"));
+//        ScriptEngineManager manager = new ScriptEngineManager();
+//        
+//        ScriptEngine engine = manager.getEngineByName("nashorn");
+//
+//        // evaluate JavaScript code
+//        engine.put("a", false);
+//        engine.eval("b = !a;");
+//        System.out.println(engine.get("b"));
     }
 }

@@ -1,4 +1,15 @@
 # not with square on left and single tap right
-o -1 #1 0
-in a 0 0
-out b 0 3
+#o -1 #1 0
+#in a 0 0
+#out b 0 3
+
+# not with square on left and single tap right
+#o -1 #1 0
+in a1 0 0
+in a2 5 0
+in a3 7 0
+in a3 10 0
+out b1 0 10
+out b2 5 10
+out b3 7 10
+out b3 10 10

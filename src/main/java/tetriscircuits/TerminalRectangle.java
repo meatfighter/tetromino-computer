@@ -1,17 +1,17 @@
 package tetriscircuits;
 
-public class Rectangle {
+public class TerminalRectangle {
 
     public final int x;
     public final int y;
     public final int width;
-    public final int height;
+    final TerminalState state;
     
-    public Rectangle(final int x, final int y, final int width, final int height) {
+    public TerminalRectangle(final int x, final int y, final int width, final TerminalState state) {
         this.x = x;
         this.y = y;
         this.width = width;
-        this.height = height;
+        this.state = state;
     }
 
     public int getX() {
@@ -25,13 +25,13 @@ public class Rectangle {
     public int getWidth() {
         return width;
     }
-
-    public int getHeight() {
-        return height;
+    
+    public TerminalState getState() {
+        return state;
     }
     
     @Override
     public String toString() {
-        return String.format("%d %d %d %d", x, y, width, height);
+        return String.format("%d %d %d %s", x, y, width, state);
     }    
 }

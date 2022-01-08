@@ -166,9 +166,9 @@ public class Controller {
             }
             listener.runCompleted(new Structure(
                     lockedElements.toArray(new LockedElement[lockedElements.size()]),
-                    component == null ? new Rectangle[0][] 
-                            : simulator.findTerminals(component.getInputs(), 0, 0),
-                    component == null ? new Rectangle[0][] 
+                    component == null ? new TerminalRectangle[0][] 
+                            : simulator.findTerminals(component.getInputs(), 0, 0, testBitStr),
+                    component == null ? new TerminalRectangle[0][] 
                             : simulator.findTerminals(component.getOutputs(), 0, 0),
                     testBits, minX, maxX, 0, maxY));
         }        
