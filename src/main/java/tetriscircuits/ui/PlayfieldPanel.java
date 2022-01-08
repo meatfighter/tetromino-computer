@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
@@ -222,7 +223,9 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    protected void paintComponent(final Graphics g) {
+    protected void paintComponent(final Graphics G) {
+        
+        final Graphics2D g = (Graphics2D)G;
         
         final Dimension size = getSize();
         

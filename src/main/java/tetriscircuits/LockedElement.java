@@ -7,7 +7,7 @@ public class LockedElement {
     
     private final Tetrimino tetrimino;
     
-    private final Component component;
+    private final String componentName;
     private final boolean[] inputValues;
     private final boolean[] outputValues;
 
@@ -15,14 +15,14 @@ public class LockedElement {
         this.tetrimino = tetrimino;
         this.x = x;
         this.y = y;
-        this.component = null;
+        this.componentName = null;
         this.inputValues = null;
         this.outputValues = null;
     }
     
-    public LockedElement(final Component component, final int x, final int y, final boolean[] inputValues, 
+    public LockedElement(final String componentName, final int x, final int y, final boolean[] inputValues, 
             final boolean[] outputValues) {
-        this.component = component;
+        this.componentName = componentName;
         this.x = x;
         this.y = y;
         this.tetrimino = null;
@@ -42,8 +42,8 @@ public class LockedElement {
         return y;
     }
 
-    public Component getComponent() {
-        return component;
+    public String getComponentName() {
+        return componentName;
     }
 
     public boolean[] getInputValues() {

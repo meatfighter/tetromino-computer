@@ -1,8 +1,12 @@
 package tetriscircuits;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import java.util.ArrayList;
@@ -16,12 +20,19 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.script.Compilable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
 
 public class Controller {
     
-    private final Simulator simulator = new Simulator();
+    private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
+    private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
+    
+    private final Simulator simulator = new Simulator(scriptEngine);
     
     private final Map<String, Component> components = new ConcurrentHashMap<>();    
     private final Map<String, Structure> structures = new ConcurrentHashMap<>();
@@ -71,37 +82,99 @@ public class Controller {
     
     public void loadComponents() {
         execute(() -> {
+            final OutputListener listener = outputListener;
+            final Map<String, Files> files = new HashMap<>();
             for (final File file : new File("components").listFiles(
-                    file -> file.isFile() && file.getName().endsWith(".def"))) {
-                execute(() -> loadComponent(file));
+                    file -> file.isFile() && (file.getName().endsWith(".def") || file.getName().endsWith(".js")))) {
+                final String filename = file.getName();
+                final String componentName = filename.substring(0, filename.indexOf('.'));
+                Files fs = files.get(componentName);
+                if (fs == null) {
+                    fs = new Files();
+                    files.put(componentName, fs);
+                }
+                if (filename.endsWith(".def")) {
+                    fs.setDefFile(file);
+                } else {
+                    fs.setJsFile(file);
+                }
+            }
+            for (Map.Entry<String, Files> entry : files.entrySet()) {
+                final Files fs = entry.getValue();
+                execute(() -> {
+                    loadComponentJavaScript(entry.getKey(), fs.getJsFile());
+                    loadComponentDefinition(entry.getKey(), fs.getDefFile());
+                });
             }
         });
     }
     
-    public void loadComponent(final File file) {
-        final String filename = file.getName();
-        final OutputListener listener = outputListener;        
-        final Parser parser = new Parser();
+    private void loadComponentJavaScript(final String componentName, final File file) {
+     
+        final OutputListener listener = outputListener;
         if (listener != null) {
-            listener.append("Loading " + filename);
+            if (file == null) {
+                listener.append("Error: " + componentName + " missing JavaScript file.");
+                return;
+            } else {
+                listener.append("Loading " + componentName + " JavaScript file...");
+            }
         }
+        
+        try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
+            loadComponentJavaScript(componentName, file, br);
+        } catch (final Exception e) {
+            if (listener != null) {
+                listener.append("Failed to load " + componentName + " Javascript.");
+                listener.append(e.getMessage());
+            }
+            return;
+        }
+        
+        if (listener != null) {
+            listener.append("Loaded " + componentName + " Javascript.");
+        } 
+    }
+    
+    private void loadComponentJavaScript(final String componentName, final File file, final Reader reader) 
+            throws ScriptException {
+        
+        components.computeIfAbsent(componentName, k -> new Component(componentName)).setCompiledScript(
+                ((Compilable)scriptEngine).compile(reader));
+    }
+    
+    private void loadComponentDefinition(final String componentName, final File file) {
+        
+        final OutputListener listener = outputListener;
+        if (listener != null) {
+            if (file == null) {
+                listener.append("Error: " + componentName + " missing definition file.");
+                return;
+            } else {
+                listener.append("Loading " + componentName + " definition file...");
+            }
+        }
+        
+        final String filename = file.getName();        
+        final Parser parser = new Parser();
+        
         try {
             createStructure(parser.parse(components, filename, new FileInputStream(file)));
         } catch (final ParseException e) {
             if (listener != null) {
-                listener.append("Failed to load " + filename);
+                listener.append("Failed to load " + componentName + " defintion file.");
                 listener.append(e.toString());
             }
             return;
         } catch (final Exception e) {
             if (listener != null) {
-                listener.append("Failed to load " + filename);
+                listener.append("Failed to load " + componentName + " defintion file.");
                 listener.append(e.getMessage());
             }
             return;
         }
         if (listener != null) {
-            listener.append("Loaded " + filename);
+            listener.append("Loaded " + componentName + " definition file.");
         }        
     }
     
@@ -144,7 +217,7 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, Integer.MAX_VALUE, 
+                simulator.simulate(playfield, component, 3, // TODO SET DEPTH
                         lockedElement -> lockedElements.add(lockedElement));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -268,8 +341,7 @@ public class Controller {
             }                                               
             simulator.init(playfield, component, sb.toString());
             final List<LockedElement> lockedTetriminos = new ArrayList<>();
-            simulator.simulate(playfield, component, Integer.MAX_VALUE, 
-                    lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+            simulator.simulate(playfield, component, 0, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
             int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -283,7 +355,6 @@ public class Controller {
                     minX = min(minX, input.x);
                     maxX = max(maxX, input.x + input.width - 1);
                     maxY = max(maxY, input.y + 1);
-                    System.out.format("in: %d %d%n", maxY, input.y + 1);
                 }
             }
             
@@ -295,7 +366,6 @@ public class Controller {
                     minX = min(minX, output.x);
                     maxX = max(maxX, output.x + output.width - 1);
                     maxY = max(maxY, output.y + 1);
-                    System.out.format("out: %d %d%n", maxY, output.y + 1);
                 }
             }            
                         
@@ -357,5 +427,27 @@ public class Controller {
             playfield = new Playfield(4096, 2048, 1);            
         }
         return playfield;
+    }
+    
+    private class Files {
+        
+        private File defFile;
+        private File jsFile;
+
+        public File getDefFile() {
+            return defFile;
+        }
+
+        public void setDefFile(final File defFile) {
+            this.defFile = defFile;
+        }
+
+        public File getJsFile() {
+            return jsFile;
+        }
+
+        public void setJsFile(final File jsFile) {
+            this.jsFile = jsFile;
+        }
     }
 }

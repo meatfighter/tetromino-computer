@@ -1,7 +1,22 @@
 package tetriscircuits;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.script.Bindings;
+import javax.script.CompiledScript;
+import javax.script.ScriptEngine;
+
 public class Simulator {
         
+    private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
+    
+    private final ScriptEngine scriptEngine;
+        
+    public Simulator(final ScriptEngine scriptEngine) {
+        this.scriptEngine = scriptEngine;
+    }
+    
     public void init(final Playfield playfield, final Component component, final String inputBits) {
         init(playfield, component, inputBits, playfield.getWidth() >> 1, playfield.getHeight() - 1, 
                 playfield.getMaxValue());
@@ -100,7 +115,11 @@ public class Simulator {
 
     public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
             final int depth, final LockedElementListener listener) {
-        simulate(playfield, component.getInstructions(), originX, originY, depth, listener);        
+        if (depth == 0) {
+            emulate(playfield, component, originX, originY, listener);
+        } else {
+            simulate(playfield, component.getInstructions(), originX, originY, depth, listener);
+        }
     }
     
     public void simulate(final Playfield playfield, final Instruction[] instructions, final int depth) {
@@ -130,7 +149,7 @@ public class Simulator {
         final Component component = instruction.getComponent();
         if (component != null) {   
             if (depth == 0) {
-                // TODO SIMULATE
+                emulate(playfield, component, originX + moves[0], originY - moves[1], listener);
             } else {
                 simulate(playfield, component, originX + moves[0], originY - moves[1], depth - 1, listener);
             }
@@ -155,6 +174,55 @@ public class Simulator {
         if (listener != null) {
             listener.elementLocked(new LockedElement(tetrimino, x - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - y));
+        }
+    }
+    
+    public void emulate(final Playfield playfield, final Component component, final int originX, final int originY,
+            final LockedElementListener listener) {
+
+        final Terminal[] inputs = component.getInputs();
+        final boolean[] inputValues = new boolean[inputs.length];
+        outer: for (int i = inputs.length - 1; i >= 0; --i) {
+            final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY - horizontalLine.getY() - 1;
+                final int maxX = horizontalLine.getMaxX();
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(x, y)) {
+                        inputValues[i] = true;
+                        continue outer;
+                    }
+                }
+            }
+        }
+        
+        final Terminal[] outputs = component.getOutputs();
+        final boolean[] outputValues = new boolean[outputs.length];
+        
+        final CompiledScript compiledScript = component.getCompiledScript();
+        if (compiledScript != null) {
+            final Bindings bindings = borrowBindings();
+            try {
+                for (int i = inputs.length - 1; i >= 0; --i) {
+                    bindings.put(inputs[i].getName(), inputValues[i]);
+                }
+                for (int i = outputs.length - 1; i >= 0; --i) {
+                    bindings.put(outputs[i].getName(), false);
+                }
+                compiledScript.eval(bindings);
+                for (int i = outputs.length - 1; i >= 0; --i) {
+                    outputValues[i] = (Boolean)bindings.get(outputs[i].getName());
+                }
+            } catch(final Exception e) {
+                e.printStackTrace(); // TODO OUTPUT LISTENER
+            } finally {
+                returnBindings(bindings);
+            }
+        }        
+        
+        if (listener != null) {
+            listener.elementLocked(new LockedElement(component.getName(), originX, originY, inputValues, outputValues));
         }
     }
     
@@ -244,4 +312,22 @@ public class Simulator {
             playfield.set(lockX + block.x, lockY + block.y, value);
         }
     }
+    
+    private void returnBindings(final Bindings bindings) {
+        bindings.clear();
+        bindingsPool.add(bindings);
+    }
+    
+    private Bindings borrowBindings() {
+        Bindings bindings = null;
+        synchronized(bindingsPool) {
+            if (!bindingsPool.isEmpty()) {
+                bindings = bindingsPool.remove(bindingsPool.size() - 1);
+            }
+        }
+        if (bindings == null) {
+            bindings = scriptEngine.createBindings();          
+        }
+        return bindings;
+    }     
 }

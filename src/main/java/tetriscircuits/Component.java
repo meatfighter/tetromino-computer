@@ -1,5 +1,7 @@
 package tetriscircuits;
 
+import javax.script.CompiledScript;
+
 public class Component {
     
     private final String name;
@@ -7,7 +9,7 @@ public class Component {
     private Instruction[] instructions;
     private Terminal[] inputs;
     private Terminal[] outputs;
-    private String script;
+    private CompiledScript compiledScript;
     
     public Component(final String name) {
         this.name = name;
@@ -41,12 +43,12 @@ public class Component {
         this.outputs = outputs;
     }
 
-    public String getScript() {
-        return script;
+    public CompiledScript getCompiledScript() {
+        return compiledScript;
     }
 
-    public void setScript(final String script) {
-        this.script = script;
+    public void setCompiledScript(CompiledScript compiledScript) {
+        this.compiledScript = compiledScript;
     }
 
     @Override 
@@ -61,8 +63,6 @@ public class Component {
         for (final Terminal terminal : outputs) {
             sb.append(terminal).append(System.lineSeparator());
         }
-        sb.append("----------").append(System.lineSeparator());
-        sb.append(script);
         return sb.toString();
     }
 }

@@ -2,8 +2,14 @@ package tetriscircuits;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
+import javax.script.Bindings;
+import javax.script.Compilable;
+import javax.script.CompiledScript;
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.SimpleBindings;
+import javax.script.SimpleScriptContext;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import tetriscircuits.ui.CircuitsFrame;
@@ -40,10 +46,16 @@ public class Main {
 //        ScriptEngineManager manager = new ScriptEngineManager();
 //        
 //        ScriptEngine engine = manager.getEngineByName("nashorn");
-//
-//        // evaluate JavaScript code
-//        engine.put("a", false);
-//        engine.eval("b = !a;");
-//        System.out.println(engine.get("b"));
+//        
+//        final CompiledScript compiledScript = ((Compilable)engine).compile("b = !a;");
+//        
+//        final Bindings bindings = engine.createBindings();
+//        bindings.put("a", true);
+//        bindings.put("b", false);        
+//        compiledScript.eval(bindings);
+//        System.out.println(bindings.get("b"));
+        
+        
+
     }
 }

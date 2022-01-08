@@ -62,6 +62,14 @@ public class Playfield {
         minY = height - 1;        
     }
     
+    public boolean isEmpty(final int x, final int y) {
+        return get(x, y) == 0;
+    }    
+    
+    public boolean isSolid(final int x, final int y) {
+        return get(x, y) != 0;
+    }
+    
     public int get(final int x, final int y) {
         if (x < 0 || x >= width || y >= height) {
             return mask;
