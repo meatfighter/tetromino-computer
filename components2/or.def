@@ -1,8 +1,0 @@
-o 0
-in -1 0 
-in 0 0
-out -1..0 2
-test 00 0
-test 01 1
-test 10 1
-test 11 1

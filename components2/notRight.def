@@ -1,6 +1,0 @@
-# not with square on right and single tap left
-o 2 1 1
-in 0 0
-out 0 1
-test 0 1
-test 1 0
