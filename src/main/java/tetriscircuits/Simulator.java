@@ -179,6 +179,8 @@ public class Simulator {
     
     public void emulate(final Playfield playfield, final Component component, final int originX, final int originY,
             final LockedElementListener listener) {
+        
+        System.out.format("emulating: %s%n", component.getName());
 
         final Terminal[] inputs = component.getInputs();
         final boolean[] inputValues = new boolean[inputs.length];

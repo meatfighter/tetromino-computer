@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -41,12 +40,16 @@ public class Controller {
     
     private final ExecutorService executor = Executors.newWorkStealingPool();
     
+    private final Object taskMonitor = new Object();
+    private final Object loadMonitor = new Object();
+    
     private volatile OutputListener outputListener;
     private volatile ProgressListener progressListener;
     private volatile BuildListener buildListener;
     private volatile RunListener runListener;
     
     private int taskCount;
+    private int loadCount;
     
     public void setOutputListener(final OutputListener outputListener) {
         this.outputListener = outputListener;
@@ -99,12 +102,21 @@ public class Controller {
                     fs.setJsFile(file);
                 }
             }
-            for (Map.Entry<String, Files> entry : files.entrySet()) {
-                final Files fs = entry.getValue();
-                execute(() -> {
-                    loadComponentJavaScript(entry.getKey(), fs.getJsFile());
-                    loadComponentDefinition(entry.getKey(), fs.getDefFile());
-                });
+            synchronized(loadMonitor) {
+                loadCount = files.size();
+                for (Map.Entry<String, Files> entry : files.entrySet()) {
+                    final Files fs = entry.getValue();
+                    execute(() -> {
+                        loadComponentJavaScript(entry.getKey(), fs.getJsFile());
+                        loadComponentDefinition(entry.getKey(), fs.getDefFile());
+                        synchronized(loadMonitor) {
+                            if (--loadCount == 0) {
+                                createStructures();
+                                notifyStructuresCreated();
+                            }
+                        }
+                    });
+                }
             }
         });
     }
@@ -159,7 +171,7 @@ public class Controller {
         final Parser parser = new Parser();
         
         try {
-            createStructure(parser.parse(components, filename, new FileInputStream(file)));
+            parser.parse(components, filename, new FileInputStream(file));
         } catch (final ParseException e) {
             if (listener != null) {
                 listener.append("Failed to load " + componentName + " defintion file.");
@@ -217,7 +229,7 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, 3, // TODO SET DEPTH
+                simulator.simulate(playfield, component, 3,//Integer.MAX_VALUE, // TODO SET DEPTH
                         lockedElement -> lockedElements.add(lockedElement));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -300,6 +312,7 @@ public class Controller {
         try {
             createStructure(parser.parse(components, "[unnamed]", new ByteArrayInputStream(text.getBytes())), 
                     testBitStr); // TODO FILENAME
+            notifyStructuresCreated();
         } catch (final ParseException e) {
             if (listener != null) {
                 listener.append("Build failed.");
@@ -315,6 +328,12 @@ public class Controller {
         }
         if (listener != null) {
             listener.append("Build success.");
+        }
+    }
+    
+    private void createStructures() {
+        for (final Component component : components.values()) {
+            createStructure(component);
         }
     }
     
@@ -340,8 +359,9 @@ public class Controller {
                 testBits[i] = true;
             }                                               
             simulator.init(playfield, component, sb.toString());
-            final List<LockedElement> lockedTetriminos = new ArrayList<>();
-            simulator.simulate(playfield, component, 0, lockedTetrimino -> lockedTetriminos.add(lockedTetrimino));
+            final List<LockedElement> lockedElements = new ArrayList<>();
+            simulator.simulate(playfield, component, 0,//Integer.MAX_VALUE, 
+                    lockedTetrimino -> lockedElements.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
             int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -370,7 +390,7 @@ public class Controller {
             }            
                         
             structures.put(component.getName(), new Structure(
-                    lockedTetriminos.toArray(new LockedElement[lockedTetriminos.size()]),
+                    lockedElements.toArray(new LockedElement[lockedElements.size()]),
                     inputs, outputs, testBits, minX, maxX, 0, maxY));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
@@ -380,6 +400,12 @@ public class Controller {
             returnPlayfield(playfield);
         }        
         
+        if (component.getName() != null && testBitStr != null) {
+            execute(() -> runComponent(component.getName(), testBitStr.trim(), false));
+        }        
+    }
+    
+    private void notifyStructuresCreated() {
         final Set<String> names = new HashSet<>(components.keySet());
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);
@@ -389,26 +415,24 @@ public class Controller {
         if (buildListener != null) {
             buildListener.buildCompleted(componentNames, new HashMap<>(structures));
         }
-        
-        if (component.getName() != null && testBitStr != null) {
-            execute(() -> runComponent(component.getName(), testBitStr.trim(), false));
-        }        
     }
     
-    private synchronized void execute(final Runnable runnable) {
-        ++taskCount;
-        final ProgressListener listener = progressListener;
-        if (listener != null) {
-            listener.update(true);
-        }
-        executor.execute(() -> {
-            runnable.run();
-            synchronized(Controller.this) {
-                if (--taskCount == 0 && listener != null) {
-                    listener.update(false);
-                }
+    private void execute(final Runnable runnable) {
+        synchronized(taskMonitor) {
+            ++taskCount;
+            final ProgressListener listener = progressListener;
+            if (listener != null) {
+                listener.update(true);
             }
-        });
+            executor.execute(() -> {
+                runnable.run();
+                synchronized(taskMonitor) {
+                    if (--taskCount == 0 && listener != null) {
+                        listener.update(false);
+                    }
+                }
+            });
+        }
     }
     
     private void returnPlayfield(final Playfield playfield) {
