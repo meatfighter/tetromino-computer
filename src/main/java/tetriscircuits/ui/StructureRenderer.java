@@ -21,7 +21,9 @@ public class StructureRenderer {
     private static final Color TERMINAL_FILL = new Color(0xFFFFF0);
     private static final Color TERMINAL_LINE = TERMINAL_FILL.darker();
     
-    private static final Color TEXT_COLOR = Color.BLACK;
+    private static final Color COMPONENT_FILL = new Color(0x7F000000, true);
+    
+    private static final Color TEXT_COLOR = TERMINAL_FILL;
     
     private static final Map<String, StructureRenderer> STRUCTURE_RENDERERS;
     
@@ -67,11 +69,25 @@ public class StructureRenderer {
     
     public void render(final Graphics2D g, final int x, final int y, int cellSize) {
         
+        g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, cellSize >> 1));
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        final FontMetrics fontMetrics = g.getFontMetrics();           
+                
         final Structure[] structures = structure.getStructures();
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
             final Tetrimino tetrimino = struct.getTetrimino();
-            if (tetrimino == null) {
+            if (tetrimino == null) {                
+                final int fillHeight = cellSize * (struct.getMaxY() - struct.getMinY() + 1);
+                final int fillWidth = cellSize * (struct.getMaxX() - struct.getMinX() + 1);
+                final int fillX = x + cellSize * (cellX + struct.getX() + struct.getMinX());
+                final int fillY = y - cellSize * (cellY + struct.getY() - struct.getMinY() - 1) - fillHeight;                
+                g.setColor(COMPONENT_FILL);
+                g.fillRect(fillX, fillY, fillWidth, fillHeight);
+                final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
+                g.setColor(TEXT_COLOR);
+                g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
+                        fillY + (fillHeight >> 1) + fontMetrics.getDescent());
                 renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY());
                 renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY());
             }
@@ -89,28 +105,7 @@ public class StructureRenderer {
                         y - cellSize * (cellY + struct.getY()), 
                         cellSize);
             } 
-        }        
-        
-//        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-//        
-//        for (int i = structures.length - 1; i >= 0; --i) {
-//            final Structure structure = structures[i];
-//            final String componentName = lockedElement.getComponentName();
-//            if (componentName != null) {
-//                g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (cellSize * 5) >> 3));
-//                final FontMetrics fontMetrics = g.getFontMetrics();
-//                final Rectangle2D rect = fontMetrics.getStringBounds(componentName, g);                  
-//                final int width = (int)rect.getWidth();
-//                final int height = (int)rect.getHeight();
-//                final int rectX = x - (width >> 1);
-//                g.setColor(TERMINAL_FILL);
-//                g.fillRect(rectX, averageY, width, height);
-//                g.setColor(TERMINAL_LINE);
-//                g.drawRect(rectX, averageY, width, height);
-//                g.setColor(TEXT_COLOR);
-//                g.drawString(componentName, rectX, averageY + fontMetrics.getAscent());
-//            }
-//        }
+        }   
     }
     
     private void renderTerminals(final Graphics g, final int x, final int y, int cellSize, 

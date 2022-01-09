@@ -259,13 +259,10 @@ public class Simulator {
         }
         
         if (listener != null) {  
-            final int x = originX - (playfield.getWidth() >> 1);
-            final int y = playfield.getHeight() - 1 - originY;
-            
-            int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
-            int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-            int minY = playfield.getHeight() - 1 - playfield.getMinY();
-            int maxY = minY;
+            int minX = Integer.MAX_VALUE;
+            int maxX = Integer.MIN_VALUE;
+            int minY = Integer.MAX_VALUE;
+            int maxY = Integer.MIN_VALUE;
             
             final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);           
             for (int i = inputRects.length - 1; i >= 0; --i) {
@@ -291,8 +288,8 @@ public class Simulator {
                 }
             }            
             
-            listener.structureLocked(new Structure(component.getName(), x, y, inputRects, 
-                    outputRects, minX, maxX, minY, maxY));
+            listener.structureLocked(new Structure(component.getName(), originX - (playfield.getWidth() >> 1), 
+                    playfield.getHeight() - 1 - originY, inputRects, outputRects, minX, maxX, minY, maxY));
         }
     }
     
