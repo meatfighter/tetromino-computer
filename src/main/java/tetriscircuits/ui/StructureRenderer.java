@@ -67,12 +67,24 @@ public class StructureRenderer {
     }
     
     public void render(final Graphics2D g, final int x, final int y, int cellSize) {
+
+        if (structure.getTetrimino() != null) {
+            TetriminoRenderer.fromTetrimino(structure.getTetrimino()).render(g, 
+                    x + cellSize * (cellX + structure.getX()), 
+                    y - cellSize * (cellY + structure.getY()), 
+                    cellSize);
+            return;
+        }
+        
+        final Structure[] structures = structure.getStructures();
+        if (structures == null) {
+            return;
+        }
         
         g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, cellSize >> 1));
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         final FontMetrics fontMetrics = g.getFontMetrics();           
                 
-        final Structure[] structures = structure.getStructures();
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
             final Tetrimino tetrimino = struct.getTetrimino();
@@ -130,7 +142,7 @@ public class StructureRenderer {
                     g.fillRect(px, py, width, cellSize);
                 }
                 g.setColor(TERMINAL_LINE);
-                g.drawRect(px, py, width, 2 * cellSize);
+                g.drawRect(px, py, width - 1, 2 * cellSize - 1);
             }
         }  
     }

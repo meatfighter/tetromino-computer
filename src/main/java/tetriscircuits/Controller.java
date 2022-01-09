@@ -83,8 +83,53 @@ public class Controller {
         return runListener;
     }
     
+    private void createBuffers() {
+        for (int i = 3; i <= 100; ++i) {
+            createBuffer(i);
+        }
+    }
+    
+    private void createBuffer(final int length) {                
+        final Component buffer = new Component(String.format("buffer%d", length));
+        final List<Instruction> instructions = new ArrayList<>();        
+        switch(length % 4) {
+            case 0:
+                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(0, 0) })});
+                break;
+            case 1:
+                instructions.add(new Instruction(Tetrimino.LR, buffer, new int[] { -1 }));
+                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                break;
+            case 2:
+                instructions.add(new Instruction(Tetrimino.OS, buffer, new int[] { 0 }));
+                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                break;
+            case 3:
+                instructions.add(new Instruction(Tetrimino.JL, buffer, new int[] { 0 }));
+                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                break;
+        }
+        for (int i = length >> 2; i > 0; --i) {
+            instructions.add(new Instruction(Tetrimino.IV, buffer, new int[] { 0 }));
+        }
+        buffer.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        buffer.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
+                new HorizontalLine[] { new HorizontalLine(0, length) })});  
+        try {
+            buffer.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
+        } catch (final ScriptException e) {
+            e.printStackTrace(); // TODO
+        }
+        components.put(buffer.getName(), buffer);        
+    }
+    
     public void loadComponents() {
         execute(() -> {
+            createBuffers();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             for (final File file : new File("components").listFiles(
