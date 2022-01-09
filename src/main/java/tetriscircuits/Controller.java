@@ -111,7 +111,7 @@ public class Controller {
                         loadComponentDefinition(entry.getKey(), fs.getDefFile());
                         synchronized(loadMonitor) {
                             if (--loadCount == 0) {
-                                createStructures();
+                                createStructures(0);
                                 notifyStructuresCreated();
                             }
                         }
@@ -308,7 +308,7 @@ public class Controller {
         }
         try {
             createStructure(parser.parse(components, "[unnamed]", new ByteArrayInputStream(text.getBytes())), 
-                    testBitStr); // TODO FILENAME
+                    2, testBitStr); // TODO FILENAME AND DEPTH
             notifyStructuresCreated();
         } catch (final ParseException e) {
             if (listener != null) {
@@ -328,17 +328,17 @@ public class Controller {
         }
     }
     
-    private void createStructures() {
+    private void createStructures(final int depth) {
         for (final Component component : components.values()) {
-            createStructure(component);
+            createStructure(component, depth);
         }
     }
     
-    private void createStructure(final Component component) {
-        createStructure(component, null);
+    private void createStructure(final Component component, final int depth) {
+        createStructure(component, depth, null);
     }
     
-    private void createStructure(final Component component, final String testBitStr) {
+    private void createStructure(final Component component, final int depth, final String testBitStr) {
         final OutputListener listener = outputListener;
         final Terminal[] inTerms = component.getInputs();                
         final Playfield playfield = borrowPlayfield();
@@ -357,8 +357,7 @@ public class Controller {
             }                                               
             simulator.init(playfield, component, sb.toString());
             final List<Structure> structs = new ArrayList<>();
-            simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, 
-                    structure -> structs.add(structure));
+            simulator.simulate(playfield, component, depth, structure -> structs.add(structure));
             simulator.addOutputs(playfield, component);
             int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);

@@ -18,7 +18,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.Instruction;
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
-import tetriscircuits.Range;
 import tetriscircuits.Terminal;
 import tetriscircuits.TerminalType;
 import tetriscircuits.Tetrimino;
@@ -210,9 +209,6 @@ public class Parser {
         component.setOutputs(outputs.toArray(new Terminal[outputs.size()]));
         
         verifyUniqueTerminalNames(tokens.get(0), component);
-        
-        // TODO REMOVE
-        System.out.println(component);
         
         return component;
     }
