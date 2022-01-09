@@ -229,7 +229,7 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, 3,//Integer.MAX_VALUE, // TODO SET DEPTH
+                simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, // TODO SET DEPTH
                         lockedElement -> lockedElements.add(lockedElement));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -360,7 +360,7 @@ public class Controller {
             }                                               
             simulator.init(playfield, component, sb.toString());
             final List<LockedElement> lockedElements = new ArrayList<>();
-            simulator.simulate(playfield, component, 0,//Integer.MAX_VALUE, 
+            simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, 
                     lockedTetrimino -> lockedElements.add(lockedTetrimino));
             simulator.addOutputs(playfield, component);
             int minX = playfield.getMinX() - (playfield.getWidth() >> 1);

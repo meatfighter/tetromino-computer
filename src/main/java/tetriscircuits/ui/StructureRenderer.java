@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import tetriscircuits.Component;
 import tetriscircuits.LockedElement;
 import tetriscircuits.TerminalRectangle;
 import tetriscircuits.Structure;

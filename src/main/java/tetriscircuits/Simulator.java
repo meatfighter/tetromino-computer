@@ -143,6 +143,7 @@ public class Simulator {
     
     public void simulate(final Playfield playfield, final Instruction instruction, final int originX, final int originY,
             final int depth, final LockedElementListener listener) {
+        System.out.format("1 depth = %d%n", depth);
     
         final int[] moves = instruction.getMoves();
         
@@ -223,8 +224,12 @@ public class Simulator {
             }
         }        
         
-        if (listener != null) {
-            listener.elementLocked(new LockedElement(component.getName(), originX, originY, inputValues, outputValues));
+        System.out.format("element locked: %s %d %d %d %d%n", component.getName(), 
+                originX - (playfield.getWidth() >> 1), playfield.getHeight() - 1 - originY, inputValues.length, outputValues.length);
+        
+        if (listener != null) {            
+            listener.elementLocked(new LockedElement(component.getName(), originX - (playfield.getWidth() >> 1), 
+                    playfield.getHeight() - 1 - originY, inputValues, outputValues));
         }
     }
     
