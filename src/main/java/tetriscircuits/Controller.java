@@ -98,23 +98,23 @@ public class Controller {
                         new HorizontalLine[] { new HorizontalLine(0, 0) })});
                 break;
             case 1:
-                instructions.add(new Instruction(Tetrimino.LR, buffer, new int[] { -1 }));
+                instructions.add(new Instruction(Tetrimino.LR, null, new int[] { -1 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
             case 2:
-                instructions.add(new Instruction(Tetrimino.OS, buffer, new int[] { 0 }));
+                instructions.add(new Instruction(Tetrimino.OS, null, new int[] { 0 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
             case 3:
-                instructions.add(new Instruction(Tetrimino.JL, buffer, new int[] { 0 }));
+                instructions.add(new Instruction(Tetrimino.JL, null, new int[] { 0 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
         }
         for (int i = length >> 2; i > 0; --i) {
-            instructions.add(new Instruction(Tetrimino.IV, buffer, new int[] { 0 }));
+            instructions.add(new Instruction(Tetrimino.IV, null, new int[] { 0 }));
         }
         buffer.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         buffer.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
@@ -356,12 +356,14 @@ public class Controller {
                     2, testBitStr); // TODO FILENAME AND DEPTH
             notifyStructuresCreated();
         } catch (final ParseException e) {
+            e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.append("Build failed.");
                 listener.append(e.toString());
             }
             return;
         } catch (final Exception e) {
+            e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.append("Build failed.");
                 listener.append(e.getMessage());

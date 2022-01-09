@@ -67,7 +67,7 @@ public class StructureRenderer {
     }
     
     public void render(final Graphics2D g, final int x, final int y, int cellSize) {
-
+        
         if (structure.getTetrimino() != null) {
             TetriminoRenderer.fromTetrimino(structure.getTetrimino()).render(g, 
                     x + cellSize * (cellX + structure.getX()), 
@@ -94,6 +94,7 @@ public class StructureRenderer {
                 final int fillX = x + cellSize * (cellX + struct.getX() + struct.getMinX());
                 final int fillY = y - cellSize * (cellY + struct.getY() - struct.getMinY() - 1) - fillHeight;                
                 g.setColor(COMPONENT_FILL);
+                g.setClip(fillX, fillY, fillWidth, fillHeight);
                 g.fillRect(fillX, fillY, fillWidth, fillHeight);
                 final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
                 g.setColor(TEXT_COLOR);
