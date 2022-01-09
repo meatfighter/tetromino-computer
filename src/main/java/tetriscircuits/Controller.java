@@ -215,7 +215,7 @@ public class Controller {
             outListener.clear();
         }
         
-        final List<LockedElement> lockedElements = new ArrayList<>();         
+        final List<Structure> structs = new ArrayList<>();         
         
         Component component = components.get(componentName);
         int minX = 0;
@@ -230,7 +230,7 @@ public class Controller {
             try {
                 simulator.init(playfield, component, testBitStr);
                 simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, // TODO SET DEPTH
-                        lockedElement -> lockedElements.add(lockedElement));
+                        structure -> structs.add(structure));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
@@ -269,7 +269,6 @@ public class Controller {
                     minX = min(minX, input.x);
                     maxX = max(maxX, input.x + input.width - 1);
                     maxY = max(maxY, input.y + 1);
-                    System.out.format("in: %d %d%n", maxY, input.y + 1);
                 }
             }
             
@@ -280,13 +279,11 @@ public class Controller {
                     minX = min(minX, output.x);
                     maxX = max(maxX, output.x + output.width - 1);
                     maxY = max(maxY, output.y + 1);
-                    System.out.format("out: %d %d%n", maxY, output.y + 1);
                 }
             }
             
-            listener.runCompleted(new Structure(
-                    lockedElements.toArray(new LockedElement[lockedElements.size()]),
-                    inputs, outputs, testBits, minX, maxX, 0, maxY));
+            listener.runCompleted(new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
+                    structs.toArray(new Structure[structs.size()])));
         }        
     }
     
@@ -359,9 +356,9 @@ public class Controller {
                 testBits[i] = true;
             }                                               
             simulator.init(playfield, component, sb.toString());
-            final List<LockedElement> lockedElements = new ArrayList<>();
+            final List<Structure> structs = new ArrayList<>();
             simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, 
-                    lockedTetrimino -> lockedElements.add(lockedTetrimino));
+                    structure -> structs.add(structure));
             simulator.addOutputs(playfield, component);
             int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
             int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
@@ -389,9 +386,8 @@ public class Controller {
                 }
             }            
                         
-            structures.put(component.getName(), new Structure(
-                    lockedElements.toArray(new LockedElement[lockedElements.size()]),
-                    inputs, outputs, testBits, minX, maxX, 0, maxY));
+            structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
+                    maxY, structs.toArray(new Structure[structs.size()])));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
                 listener.append("Error: The definition of " + component.getName() + " contains itself.");

@@ -80,6 +80,10 @@ public class Playfield {
         return (data[y][x >> shift] >> ((x & mask2) << power)) & mask;
     }
     
+    public void set(final int x, final int y) {
+        set(x, y, mask2);
+    }
+    
     public void set(final int x, final int y, final int color) {
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return;

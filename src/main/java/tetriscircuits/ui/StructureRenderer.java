@@ -28,10 +28,8 @@ public class StructureRenderer {
     static {
         final Map<String, StructureRenderer> structureRenderers = new HashMap<>();
         for (final Tetrimino[] tetriminos : Tetrimino.TETRIMINOS) {
-            for (final Tetrimino ts : tetriminos) {
-                structureRenderers.put(ts.getName(), new StructureRenderer(new Structure(new LockedElement[] { 
-                    new LockedElement(ts, 0, 0) }, new TerminalRectangle[0][], new TerminalRectangle[0][], new boolean[0], 
-                        -2, 2, -2, 2)));
+            for (final Tetrimino tetrimino : tetriminos) {
+                structureRenderers.put(tetrimino.getName(), new StructureRenderer(new Structure(tetrimino, 0, 0)));
             }
         }
         STRUCTURE_RENDERERS = Collections.unmodifiableMap(structureRenderers);
@@ -69,75 +67,67 @@ public class StructureRenderer {
     
     public void render(final Graphics2D g, final int x, final int y, int cellSize) {
         
-        final LockedElement[] lockedElements = structure.getLockedTetriminos();
-        for (int i = lockedElements.length - 1; i >= 0; --i) {
-            final LockedElement lockedElement = lockedElements[i];
-            final String componentName = lockedElement.getComponentName();
-            if (componentName == null) {
-                TetriminoRenderer.fromTetrimino(lockedElement.getTetrimino()).render(g, 
-                        x + cellSize * (cellX + lockedElement.getX()), 
-                        y - cellSize * (cellY + lockedElement.getY()), 
-                        cellSize);
-            } 
-        }
-        
-        final int inputsY = renderTerminals(g, x, y, cellSize, structure.getInputs());
-        final int outputsY = renderTerminals(g, x, y, cellSize, structure.getOutputs());
-        int averageY = 0;
-        int countY = 0;
-        if (inputsY != 0) {
-            averageY += inputsY;
-            ++countY;
-        }
-        if (outputsY != 0) {
-            averageY += outputsY;
-            ++countY;
-        }
-        if (countY == 0) {
-            averageY = y;
-        } else {
-            averageY /= countY;
-        }
-        averageY += cellSize >> 1;
-        
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        
-        for (int i = lockedElements.length - 1; i >= 0; --i) {
-            final LockedElement lockedElement = lockedElements[i];
-            final String componentName = lockedElement.getComponentName();
-            if (componentName != null) {
-                g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (cellSize * 5) >> 3));
-                final FontMetrics fontMetrics = g.getFontMetrics();
-                final Rectangle2D rect = fontMetrics.getStringBounds(componentName, g);                  
-                final int width = (int)rect.getWidth();
-                final int height = (int)rect.getHeight();
-                final int rectX = x - (width >> 1);
-                g.setColor(TERMINAL_FILL);
-                g.fillRect(rectX, averageY, width, height);
-                g.setColor(TERMINAL_LINE);
-                g.drawRect(rectX, averageY, width, height);
-                g.setColor(TEXT_COLOR);
-                g.drawString(componentName, rectX, averageY + fontMetrics.getAscent());
+        final Structure[] structures = structure.getStructures();
+        for (int i = structures.length - 1; i >= 0; --i) {
+            final Structure struct = structures[i];
+            final Tetrimino tetrimino = struct.getTetrimino();
+            if (tetrimino == null) {
+                renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY());
+                renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY());
             }
         }
+
+        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY);
+        renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY);
+        
+        for (int i = structures.length - 1; i >= 0; --i) {
+            final Structure struct = structures[i];
+            final Tetrimino tetrimino = struct.getTetrimino();
+            if (tetrimino != null) {
+                TetriminoRenderer.fromTetrimino(tetrimino).render(g, 
+                        x + cellSize * (cellX + struct.getX()), 
+                        y - cellSize * (cellY + struct.getY()), 
+                        cellSize);
+            } 
+        }        
+        
+//        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+//        
+//        for (int i = structures.length - 1; i >= 0; --i) {
+//            final Structure structure = structures[i];
+//            final String componentName = lockedElement.getComponentName();
+//            if (componentName != null) {
+//                g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, (cellSize * 5) >> 3));
+//                final FontMetrics fontMetrics = g.getFontMetrics();
+//                final Rectangle2D rect = fontMetrics.getStringBounds(componentName, g);                  
+//                final int width = (int)rect.getWidth();
+//                final int height = (int)rect.getHeight();
+//                final int rectX = x - (width >> 1);
+//                g.setColor(TERMINAL_FILL);
+//                g.fillRect(rectX, averageY, width, height);
+//                g.setColor(TERMINAL_LINE);
+//                g.drawRect(rectX, averageY, width, height);
+//                g.setColor(TEXT_COLOR);
+//                g.drawString(componentName, rectX, averageY + fontMetrics.getAscent());
+//            }
+//        }
     }
     
-    private int renderTerminals(final Graphics g, final int x, final int y, int cellSize, 
-            final TerminalRectangle[][] terminals) {
+    private void renderTerminals(final Graphics g, final int x, final int y, int cellSize, 
+            final TerminalRectangle[][] terminals, final int offsetX, final int offsetY) {
         
-        int averageY = 0;
-        int countY = 0;
+        if (terminals == null) {
+            return;
+        }
         
         for (int i = terminals.length - 1; i >= 0; --i) {            
             final TerminalRectangle[] terms = terminals[i];            
             for (int j = terms.length - 1; j >= 0; --j) {
                 final TerminalRectangle terminal = terms[j];                
-                final int px = x + cellSize * (cellX + terminal.x);
-                final int py = y - cellSize * (cellY + terminal.y + 1);
+                final int px = x + cellSize * (offsetX + terminal.x);
+                final int py = y - cellSize * (offsetY + terminal.y + 1);
                 final int width = cellSize * terminal.width;
                 final TerminalState state = terminal.getState();
-                averageY += py;
-                ++countY;
                 if (state == TerminalState.ZERO) {
                     g.setColor(TERMINAL_FILL);
                     g.fillRect(px, py + cellSize, width, cellSize);
@@ -149,11 +139,6 @@ public class StructureRenderer {
                 g.drawRect(px, py, width, 2 * cellSize);
             }
         }  
-        
-        if (countY > 0) {
-            averageY /= countY;
-        }
-        return averageY;
     }
     
     public void repaint(final PlayfieldPanel panel, final int x, final int y, int cellSize) {

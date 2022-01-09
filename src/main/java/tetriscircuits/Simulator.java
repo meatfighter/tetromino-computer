@@ -1,5 +1,7 @@
 package tetriscircuits;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +72,7 @@ public class Simulator {
     }
     
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
-        return findTerminals(terminals, originX, originY, null);
+        return findTerminals(terminals, originX, originY, (boolean[])null);
     }
     
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY, 
@@ -97,7 +99,33 @@ public class Simulator {
         }
 
         return rectangles;
-    }    
+    }  
+    
+    public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY, 
+            final boolean[] testBits) {
+        
+        if (terminals == null) {
+            return new TerminalRectangle[0][];
+        }
+        
+        final TerminalRectangle[][] rectangles = new TerminalRectangle[terminals.length][];
+        for (int i = terminals.length - 1; i >= 0; --i) {
+            TerminalState state = TerminalState.UNKNOWN;
+            if (testBits != null && i < testBits.length) {
+                state = testBits[i] ? TerminalState.ONE : TerminalState.ZERO;
+            }
+            final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();
+            final TerminalRectangle[] rects = rectangles[i] = new TerminalRectangle[horizontalLines.length];
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY + horizontalLine.getY();
+                rects[j] = new TerminalRectangle(originX + horizontalLine.getMinX(), y, 
+                        horizontalLine.getMaxX() - horizontalLine.getMinX() + 1, state);
+            }
+        }
+
+        return rectangles;
+    }
     
     public void simulate(final Playfield playfield, final Component component, final int depth) {
         simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth);
@@ -109,13 +137,13 @@ public class Simulator {
     }
     
     public void simulate(final Playfield playfield, final Component component, final int depth, 
-            final LockedElementListener listener) {
+            final StructureListener listener) {
         simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, listener);
     }
 
     public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
-            final int depth, final LockedElementListener listener) {
-        if (depth == 0) {
+            final int depth, final StructureListener listener) {
+        if (depth <= 0 && !component.getName().startsWith("_")) {
             emulate(playfield, component, originX, originY, listener);
         } else {
             simulate(playfield, component.getInstructions(), originX, originY, depth, listener);
@@ -132,7 +160,7 @@ public class Simulator {
     }
     
     public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
-            final int originY, final int depth, final LockedElementListener listener) {
+            final int originY, final int depth, final StructureListener listener) {
         if (instructions == null) {
             return;
         }
@@ -142,18 +170,13 @@ public class Simulator {
     }
     
     public void simulate(final Playfield playfield, final Instruction instruction, final int originX, final int originY,
-            final int depth, final LockedElementListener listener) {
-        System.out.format("1 depth = %d%n", depth);
+            final int depth, final StructureListener listener) {
     
         final int[] moves = instruction.getMoves();
         
         final Component component = instruction.getComponent();
         if (component != null) {   
-            if (depth == 0) {
-                emulate(playfield, component, originX + moves[0], originY - moves[1], listener);
-            } else {
-                simulate(playfield, component, originX + moves[0], originY - moves[1], depth - 1, listener);
-            }
+            simulate(playfield, component, originX + moves[0], originY - moves[1], depth - 1, listener);
             return;
         }
         
@@ -173,15 +196,13 @@ public class Simulator {
         lock(playfield, tetrimino, x, y);
         
         if (listener != null) {
-            listener.elementLocked(new LockedElement(tetrimino, x - (playfield.getWidth() >> 1), 
+            listener.structureLocked(new Structure(tetrimino, x - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - y));
         }
     }
     
     public void emulate(final Playfield playfield, final Component component, final int originX, final int originY,
-            final LockedElementListener listener) {
-        
-        System.out.format("emulating: %s%n", component.getName());
+            final StructureListener listener) {
 
         final Terminal[] inputs = component.getInputs();
         final boolean[] inputValues = new boolean[inputs.length];
@@ -192,7 +213,7 @@ public class Simulator {
                 final int y = originY - horizontalLine.getY() - 1;
                 final int maxX = horizontalLine.getMaxX();
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    if (playfield.isSolid(x, y)) {
+                    if (playfield.isSolid(originX + x, y)) {
                         inputValues[i] = true;
                         continue outer;
                     }
@@ -222,14 +243,56 @@ public class Simulator {
             } finally {
                 returnBindings(bindings);
             }
-        }        
+        } 
         
-        System.out.format("element locked: %s %d %d %d %d%n", component.getName(), 
-                originX - (playfield.getWidth() >> 1), playfield.getHeight() - 1 - originY, inputValues.length, outputValues.length);
+        for (int i = outputs.length - 1; i >= 0; --i) {
+            final int valueOffset = outputValues[i] ? 1 : 0;
+            final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY - horizontalLine.getY() - valueOffset;
+                final int maxX = horizontalLine.getMaxX();
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    playfield.set(originX + x, y);
+                }
+            }
+        }
         
-        if (listener != null) {            
-            listener.elementLocked(new LockedElement(component.getName(), originX - (playfield.getWidth() >> 1), 
-                    playfield.getHeight() - 1 - originY, inputValues, outputValues));
+        if (listener != null) {  
+            final int x = originX - (playfield.getWidth() >> 1);
+            final int y = playfield.getHeight() - 1 - originY;
+            
+            int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+            int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+            int minY = playfield.getHeight() - 1 - playfield.getMinY();
+            int maxY = minY;
+            
+            final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);           
+            for (int i = inputRects.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] ins = inputRects[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final TerminalRectangle input = ins[j];
+                    minX = min(minX, input.x);
+                    maxX = max(maxX, input.x + input.width - 1);
+                    minY = min(minY, input.y);
+                    maxY = max(maxY, input.y + 1);
+                }
+            }
+            
+            final TerminalRectangle[][] outputRects = findTerminals(outputs, 0, 0, outputValues);
+            for (int i = outputRects.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] outs = outputRects[i];
+                for (int j = outs.length - 1; j >= 0; --j) {
+                    final TerminalRectangle output = outs[j];
+                    minX = min(minX, output.x);
+                    maxX = max(maxX, output.x + output.width - 1);
+                    minY = min(minY, output.y);
+                    maxY = max(maxY, output.y + 1);
+                }
+            }            
+            
+            listener.structureLocked(new Structure(component.getName(), x, y, inputRects, 
+                    outputRects, minX, maxX, minY, maxY));
         }
     }
     
