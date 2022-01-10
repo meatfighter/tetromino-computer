@@ -36,7 +36,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private static final KeyStroke UNINDENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK);
     private static final KeyStroke COMMENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Event.CTRL_MASK);
     
-    
     private final UndoManager tetrisScriptUndoManager;
     private final UndoManager javaScriptUndoManager;
     
@@ -113,7 +112,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     }
                 }
             }
-        });        
+        });         
     }
     
     private void createUndoRedoUnIndentHandlers(final JScrollPane scrollPane, final JTextComponent textComponent, 
@@ -355,6 +354,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         javaScriptTextArea.setForeground(new java.awt.Color(169, 183, 198));
         javaScriptTextArea.setRows(10);
         javaScriptTextArea.setTabSize(4);
+        javaScriptTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
         javaScriptScrollPane.setViewportView(javaScriptTextArea);
 
         lowerSplitPane.setLeftComponent(javaScriptScrollPane);
@@ -371,9 +371,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputTextArea.setForeground(new java.awt.Color(169, 183, 198));
         outputTextArea.setRows(10);
         outputTextArea.setTabSize(4);
+        outputTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
         outputTextArea.setMaximumSize(null);
         outputTextArea.setPreferredSize(null);
-        outputTextArea.setRequestFocusEnabled(false);
         outputScrollPane.setViewportView(outputTextArea);
 
         lowerSplitPane.setBottomComponent(outputScrollPane);
