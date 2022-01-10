@@ -83,10 +83,52 @@ public class Controller {
         return runListener;
     }
     
-    private void createBuffers() {
-        for (int i = 3; i <= 100; ++i) {
+    private void createWires() {
+        for (int i = 3; i <= 101; ++i) {
             createBuffer(i);
         }
+        for (int i = 3; i <= 101; i += 2) {
+            createSs(i);
+            createZs(i);
+        }
+    }
+    
+    private void createSs(final int length) {
+        final Component ss = new Component(String.format("s%d", length));
+        final List<Instruction> instructions = new ArrayList<>();
+        for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
+            instructions.add(new Instruction(Tetrimino.SH, null, new int[] { x }));
+        }
+        ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                new HorizontalLine[] { new HorizontalLine(1 - length, -1, 0), new HorizontalLine(0, 1) })});
+        ss.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
+                new HorizontalLine[] { new HorizontalLine(1 - length, 1), new HorizontalLine(2 - length, 0, 2) })});
+        try {
+            ss.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
+        } catch (final ScriptException e) {
+            e.printStackTrace(); // TODO
+        }
+        components.put(ss.getName(), ss);
+    }    
+    
+    private void createZs(final int length) {
+        final Component zs = new Component(String.format("z%d", length));
+        final List<Instruction> instructions = new ArrayList<>();
+        for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
+            instructions.add(new Instruction(Tetrimino.ZH, null, new int[] { x }));
+        }
+        zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                new HorizontalLine[] { new HorizontalLine(0, 1), new HorizontalLine(1, length - 1, 0) })});
+        zs.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
+                new HorizontalLine[] { new HorizontalLine(0, length - 2, 2), new HorizontalLine(length - 1, 1) })});
+        try {
+            zs.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
+        } catch (final ScriptException e) {
+            e.printStackTrace(); // TODO
+        }
+        components.put(zs.getName(), zs);
     }
     
     private void createBuffer(final int length) {                
@@ -129,7 +171,7 @@ public class Controller {
     
     public void loadComponents() {
         execute(() -> {
-            createBuffers();
+            createWires();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             for (final File file : new File("components").listFiles(
