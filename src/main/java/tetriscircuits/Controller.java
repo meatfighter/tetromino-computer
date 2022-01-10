@@ -316,7 +316,7 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, 2,//Integer.MAX_VALUE, // TODO SET DEPTH
+                simulator.simulate(playfield, component, 100,//Integer.MAX_VALUE, // TODO SET DEPTH
                         structure -> structs.add(structure));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);

@@ -93,13 +93,14 @@ public class StructureRenderer {
                 final int fillWidth = cellSize * (struct.getMaxX() - struct.getMinX() + 1);
                 final int fillX = x + cellSize * (cellX + struct.getX() + struct.getMinX());
                 final int fillY = y - cellSize * (cellY + struct.getY() - struct.getMinY() - 1) - fillHeight;                
-                g.setColor(COMPONENT_FILL);
-                g.setClip(fillX, fillY, fillWidth, fillHeight);
+                g.setColor(COMPONENT_FILL);                
                 g.fillRect(fillX, fillY, fillWidth, fillHeight);
                 final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
                 g.setColor(TEXT_COLOR);
+                g.setClip(fillX, fillY, fillWidth, fillHeight);
                 g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
                         fillY + (fillHeight >> 1) + fontMetrics.getDescent());
+                g.setClip(null);
                 renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY());
                 renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY());
             }
