@@ -3,9 +3,12 @@ package tetriscircuits.ui;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
+import javax.swing.text.JTextComponent;
 
 // https://stackoverflow.com/questions/18768649/java-code-to-display-lines-number-in-jtextarea
 public class LineNumberingTextArea extends JTextArea {
@@ -13,7 +16,7 @@ public class LineNumberingTextArea extends JTextArea {
     private static final Color FOREGROUND = new Color(0x888888);    
     private static final Color BACKGROUND = new Color(0x313335);
     
-    private JTextPane textPane;
+    private JTextComponent textComponent;
     private int lastMaxLineNumber;
     
     private static int getDigits(final int number) {
@@ -56,8 +59,22 @@ public class LineNumberingTextArea extends JTextArea {
         }
     }
     
-    public LineNumberingTextArea(JTextPane textPane) {
-        this.textPane = textPane;
+    public LineNumberingTextArea(final JTextComponent textComponent) {
+        this.textComponent = textComponent;
+        textComponent.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(final DocumentEvent e) { 
+                updateLineNumbers();
+            }
+            @Override
+            public void removeUpdate(final DocumentEvent e) {
+                updateLineNumbers();
+            }
+            @Override
+            public void changedUpdate(final DocumentEvent e) {
+                updateLineNumbers();
+            }
+        });
         setForeground(FOREGROUND);
         setBackground(BACKGROUND);    
         setSelectedTextColor(FOREGROUND);
@@ -66,11 +83,11 @@ public class LineNumberingTextArea extends JTextArea {
                 BorderFactory.createMatteBorder(0, 0, 0, 1, FOREGROUND), 
                 BorderFactory.createEmptyBorder(2, 2, 2, 2)));        
         setFont(new Font("Monospaced", 0, 13));
-        setEditable(false);                 
+        setEditable(false);        
     }    
     
     public void updateLineNumbers() { 
-        final Document doc = textPane.getDocument();
+        final Document doc = textComponent.getDocument();
         final int maxLineNumber = doc.getDefaultRootElement().getElementIndex(doc.getLength()) + 1;
         
         if (maxLineNumber == lastMaxLineNumber) {

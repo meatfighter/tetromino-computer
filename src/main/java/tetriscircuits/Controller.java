@@ -175,7 +175,7 @@ public class Controller {
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             for (final File file : new File("components").listFiles(
-                    file -> file.isFile() && (file.getName().endsWith(".def") || file.getName().endsWith(".js")))) {
+                    file -> file.isFile() && (file.getName().endsWith(".t") || file.getName().endsWith(".js")))) {
                 final String filename = file.getName();
                 final String componentName = filename.substring(0, filename.indexOf('.'));
                 Files fs = files.get(componentName);
@@ -183,8 +183,8 @@ public class Controller {
                     fs = new Files();
                     files.put(componentName, fs);
                 }
-                if (filename.endsWith(".def")) {
-                    fs.setDefFile(file);
+                if (filename.endsWith(".t")) {
+                    fs.setTFile(file);
                 } else {
                     fs.setJsFile(file);
                 }
@@ -195,7 +195,7 @@ public class Controller {
                     final Files fs = entry.getValue();
                     execute(() -> {
                         loadComponentJavaScript(entry.getKey(), fs.getJsFile());
-                        loadComponentDefinition(entry.getKey(), fs.getDefFile());
+                        loadComponentDefinition(entry.getKey(), fs.getTFile());
                         synchronized(loadMonitor) {
                             if (--loadCount == 0) {
                                 createStructures(0);
@@ -539,15 +539,15 @@ public class Controller {
     
     private class Files {
         
-        private File defFile;
+        private File tFile;
         private File jsFile;
 
-        public File getDefFile() {
-            return defFile;
+        public File getTFile() {
+            return tFile;
         }
 
-        public void setDefFile(final File defFile) {
-            this.defFile = defFile;
+        public void setTFile(final File tFile) {
+            this.tFile = tFile;
         }
 
         public File getJsFile() {
