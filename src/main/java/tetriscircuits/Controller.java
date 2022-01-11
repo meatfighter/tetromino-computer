@@ -403,6 +403,7 @@ public class Controller {
                 listener.append("Build failed.");
                 listener.append(e.toString());
             }
+            notifyStructuresCreated();
             return;
         } catch (final Exception e) {
             e.printStackTrace(); // TODO REMOVE
@@ -410,6 +411,7 @@ public class Controller {
                 listener.append("Build failed.");
                 listener.append(e.getMessage());
             }
+            notifyStructuresCreated();
             return;
         }
         if (listener != null) {
