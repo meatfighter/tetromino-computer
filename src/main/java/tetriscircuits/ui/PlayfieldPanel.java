@@ -16,7 +16,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     private final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
     
-    private int cellSize = 12;
+    private int cellSize = 16;
     private int playfieldWidth = 64;
     private int playfieldHeight = 128;
 
@@ -41,6 +41,17 @@ public class PlayfieldPanel extends javax.swing.JPanel {
      */
     public PlayfieldPanel() {
         initComponents();
+    }
+    
+    public void setCellSize(final int cellSize) {
+        this.cellSize = cellSize;
+        updateDimensions();        
+    }
+    
+    private void updateDimensions() {
+        minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
+        revalidate();
+        repaint();
     }
     
     public void setCursorRenderer(final StructureRenderer cursorRenderer) {        
@@ -128,13 +139,13 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 lastCellX = cellX;
                 lastCellY = cellY;
                 repaintCursor(originX, originY);
-                circuitsFrame.getCoordinatesLabel().setText(String.format("%d:%d", lastCellX, lastCellY));
+                circuitsFrame.setComponentCoordinates(lastCellX, lastCellY);                
             }
             setMouseCursor(false);
         } else {
             repaintCursor(originX, originY);
             lastCellX = lastCellY = null;
-            circuitsFrame.getCoordinatesLabel().setText("");
+            circuitsFrame.clearComponentCoordinates();
             setMouseCursor(true);
         }
     }//GEN-LAST:event_formMouseMoved
@@ -192,7 +203,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         repaintCursor((size.width - playfieldWidth * cellSize) >> 1, size.height - 1 - playfieldHeight * cellSize);
 
         lastCellX = lastCellY = null;
-        circuitsFrame.getCoordinatesLabel().setText("");
+        circuitsFrame.clearComponentCoordinates();
     }//GEN-LAST:event_formMouseExited
 
     private void repaintCursor(final int originX, final int originY) {
@@ -239,17 +250,18 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final int centerX = originX + (width >> 1);
         final int centerY = originY + height - cellSize;
         
-        g.setColor(GRID);
-        for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
-            g.drawLine(x, originY, x, originY + height);
+        if (cellSize >= 3) {
+            g.setColor(GRID);
+            for (int i = 0, x = originX; i <= playfieldWidth; ++i, x += cellSize) {
+                g.drawLine(x, originY, x, originY + height);
+            }
+            for (int i = 0, y = originY; i <= playfieldHeight; ++i, y += cellSize) {
+                g.drawLine(originX, y, originX + width, y);
+            }
+            g.setColor(AXISES);
+            final int middleX = originX + (playfieldWidth >> 1) * cellSize;
+            g.drawLine(middleX, originY, middleX, originY + height - 1);
         }
-        for (int i = 0, y = originY; i <= playfieldHeight; ++i, y += cellSize) {
-            g.drawLine(originX, y, originX + width, y);
-        }
-        
-        g.setColor(AXISES);
-        final int middleX = originX + (playfieldWidth >> 1) * cellSize;
-        g.drawLine(middleX, originY, middleX, originY + height - 1);
         
         if (structureRenderer != null) {
             structureRenderer.render(g, centerX, centerY, cellSize);

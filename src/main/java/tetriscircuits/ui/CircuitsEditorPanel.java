@@ -232,6 +232,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
                 ESCAPE_PRESSED);
     }
+    
+    public void setCellSize(final int cellSize) {
+        playfieldPanel.setCellSize(cellSize);
+    }
         
     public void clearCursorRenderer() {
         componentName = null;
@@ -395,7 +399,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setLayout(playfieldPanelLayout);
         playfieldPanelLayout.setHorizontalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGap(0, 929, Short.MAX_VALUE)
         );
         playfieldPanelLayout.setVerticalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,11 +414,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 990, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
