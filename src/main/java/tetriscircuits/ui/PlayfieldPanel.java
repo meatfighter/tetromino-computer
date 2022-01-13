@@ -17,8 +17,8 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
     
     private int cellSize = 16;
-    private int playfieldWidth = 64;
-    private int playfieldHeight = 128;
+    private int playfieldWidth = 256;
+    private int playfieldHeight = 256;
 
     private StructureRenderer structureRenderer;
     
@@ -41,6 +41,16 @@ public class PlayfieldPanel extends javax.swing.JPanel {
      */
     public PlayfieldPanel() {
         initComponents();
+    }
+    
+    public void setPlayfieldWidth(final int playfieldWidth) {
+        this.playfieldWidth = playfieldWidth;
+        updateDimensions();        
+    }
+    
+    public void setPlayfieldHeight(final int playfieldHeight) {
+        this.playfieldHeight = playfieldHeight;
+        updateDimensions();        
     }
     
     public void setCellSize(final int cellSize) {

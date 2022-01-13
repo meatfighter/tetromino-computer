@@ -277,23 +277,24 @@ public class Controller {
         }        
     }
     
-    public void buildAndRun(final String text, final String componentName, final String testBitStr) {
+    public void buildAndRun(final String text, final String componentName, final String testBitStr, final int depth) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildText(text, testBitStr));
+        execute(() -> buildText(text, testBitStr, depth));
     }
     
-    public void run(final String componentName, final String testBitStr) {
-        execute(() -> runComponent(componentName, testBitStr.trim()));
+    public void run(final String componentName, final String testBitStr, final int depth) {
+        execute(() -> runComponent(componentName, testBitStr.trim(), depth));
     }
     
-    private void runComponent(final String componentName, final String testBitStr) {
-        runComponent(componentName, testBitStr, true);
+    private void runComponent(final String componentName, final String testBitStr, final int depth) {
+        runComponent(componentName, testBitStr, depth, true);
     }
     
-    private void runComponent(final String componentName, final String testBitStr, final boolean clearOutput) {
+    private void runComponent(final String componentName, final String testBitStr, final int depth, 
+            final boolean clearOutput) {
         
         final OutputListener outListener = outputListener;
         final RunListener listener = runListener;
@@ -316,8 +317,7 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, 100,//Integer.MAX_VALUE, // TODO SET DEPTH
-                        structure -> structs.add(structure));
+                simulator.simulate(playfield, component, depth, structure -> structs.add(structure));
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
@@ -374,19 +374,20 @@ public class Controller {
         }        
     }
     
-    public void build(final String text) {
+    public void build(final String tetrisScript, final String javaScript, final int depth) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildText(text));
+        execute(() -> buildText(tetrisScript, javaScript, depth));
     }
     
-    private void buildText(final String text) {
-        buildText(text, null);
+    private void buildText(final String tetrisScript, final String javaScript, final int depth) {
+        buildText(tetrisScript, javaScript, null, depth);
     }
     
-    private void buildText(final String text, final String testBitStr) {
+    private void buildText(final String tetrisScript, final String javaScript, final String testBitStr, 
+            final int depth) {
         final OutputListener listener = outputListener;        
         final Parser parser = new Parser();
         if (listener != null) {
@@ -394,8 +395,10 @@ public class Controller {
             listener.append("Building.");
         }
         try {
-            createStructure(parser.parse(components, "[unnamed]", new ByteArrayInputStream(text.getBytes())), 
-                    2, testBitStr); // TODO FILENAME AND DEPTH
+            final Component component = parser.parse(components, "[unnamed]", 
+                    new ByteArrayInputStream(tetrisScript.getBytes()));
+            component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
+            createStructure(component, depth, testBitStr); // TODO FILENAME
             notifyStructuresCreated();
         } catch (final ParseException e) {
             e.printStackTrace(); // TODO REMOVE
@@ -487,7 +490,7 @@ public class Controller {
         }        
         
         if (component.getName() != null && testBitStr != null) {
-            execute(() -> runComponent(component.getName(), testBitStr.trim(), false));
+            execute(() -> runComponent(component.getName(), testBitStr.trim(), depth, false));
         }        
     }
     

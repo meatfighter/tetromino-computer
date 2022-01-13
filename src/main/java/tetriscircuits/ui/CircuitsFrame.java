@@ -111,7 +111,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }
     
     public void buildAndRun(final String code) {        
-        controller.buildAndRun(code, "[unnamed]", testTextField.getText()); // TODO
+        controller.buildAndRun(code, "[unnamed]", testTextField.getText(), (int)depthSpinner.getValue()); // TODO
     }
 
     /**
@@ -161,6 +161,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
         cellSizeSpinner = new javax.swing.JSpinner();
         jSeparator8 = new javax.swing.JSeparator();
         coordinatesLabel = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
+        playfieldHeightSpinner = new javax.swing.JSpinner();
+        playfieldWidthSpinner = new javax.swing.JSpinner();
+        jSeparator10 = new javax.swing.JSeparator();
+        depthSpinner = new javax.swing.JSpinner();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -543,12 +548,50 @@ public class CircuitsFrame extends javax.swing.JFrame {
         coordinatesLabel.setText("               ");
         coordinatesLabel.setPreferredSize(null);
 
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        playfieldHeightSpinner.setModel(new javax.swing.SpinnerNumberModel(256, 4, 4096, 1));
+        playfieldHeightSpinner.setToolTipText("Playfield Height");
+        playfieldHeightSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                playfieldHeightSpinnerStateChanged(evt);
+            }
+        });
+
+        playfieldWidthSpinner.setModel(new javax.swing.SpinnerNumberModel(256, 4, 4096, 1));
+        playfieldWidthSpinner.setToolTipText("Playfield Width");
+        playfieldWidthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                playfieldWidthSpinnerStateChanged(evt);
+            }
+        });
+
+        jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        depthSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 0, 256, 1));
+        depthSpinner.setToolTipText("Rendering Recursive Depth");
+        depthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                depthSpinnerStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playfieldWidthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playfieldHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cellSizeSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -559,12 +602,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addGap(0, 0, 0)
                 .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(cellSizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(coordinatesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(coordinatesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playfieldHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playfieldWidthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
         );
 
         coordinatesLabel.getAccessibleContext().setAccessibleName("");
@@ -651,9 +699,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -749,13 +797,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ihButtonActionPerformed
 
     private void buildButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildButtonActionPerformed
-        circuitsEditorPanel.build();
+        circuitsEditorPanel.build((int)depthSpinner.getValue());
     }//GEN-LAST:event_buildButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         final String componentName = "[unnamed]"; // TODO
         if (!componentName.isEmpty()) {
-            controller.run(componentName, testTextField.getText().trim());
+            controller.run(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue());
         } else {
             final OutputListener outputListener = controller.getOutputListener();
             outputListener.clear();
@@ -779,6 +827,18 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.setCellSize((int)cellSizeSpinner.getValue());
     }//GEN-LAST:event_cellSizeSpinnerStateChanged
 
+    private void playfieldHeightSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_playfieldHeightSpinnerStateChanged
+        circuitsEditorPanel.setPlayfieldHeight((int)playfieldHeightSpinner.getValue());
+    }//GEN-LAST:event_playfieldHeightSpinnerStateChanged
+
+    private void playfieldWidthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_playfieldWidthSpinnerStateChanged
+        circuitsEditorPanel.setPlayfieldWidth((int)playfieldWidthSpinner.getValue());
+    }//GEN-LAST:event_playfieldWidthSpinnerStateChanged
+
+    private void depthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_depthSpinnerStateChanged
+        playButtonActionPerformed(null);
+    }//GEN-LAST:event_depthSpinnerStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addComponentButton;
     private javax.swing.JPanel bottomPanel;
@@ -787,17 +847,20 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
     private javax.swing.JComboBox<String> compEditComboBox;
     private javax.swing.JLabel coordinatesLabel;
+    private javax.swing.JSpinner depthSpinner;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JButton ihButton;
     private javax.swing.JButton ivButton;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JButton jdButton;
@@ -813,6 +876,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JButton oButton;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JButton playButton;
+    private javax.swing.JSpinner playfieldHeightSpinner;
+    private javax.swing.JSpinner playfieldWidthSpinner;
     private javax.swing.JMenuItem redoMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;

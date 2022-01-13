@@ -233,6 +233,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 ESCAPE_PRESSED);
     }
     
+    public void setPlayfieldWidth(final int playfieldWidth) {
+        playfieldPanel.setPlayfieldWidth(playfieldWidth);
+    }
+    
+    public void setPlayfieldHeight(final int playfieldHeight) {
+        playfieldPanel.setPlayfieldHeight(playfieldHeight);
+    }
+    
     public void setCellSize(final int cellSize) {
         playfieldPanel.setCellSize(cellSize);
     }
@@ -300,8 +308,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         }
     }
     
-    public void build() {
-        controller.build(tetrisScriptTextPane.getText());
+    public void build(final int depth) {
+        controller.build(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
     }
     
     /**
