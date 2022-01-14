@@ -439,6 +439,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldScrollPane.setMaximumSize(null);
         playfieldScrollPane.setMinimumSize(null);
         playfieldScrollPane.setPreferredSize(null);
+        playfieldScrollPane.setWheelScrollingEnabled(false);
 
         playfieldPanel.setMaximumSize(null);
         playfieldPanel.setMinimumSize(null);

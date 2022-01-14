@@ -93,6 +93,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.setCircuitsFrame(this);
     }
     
+    public void zoom(final int delta) {
+        int value = (int)cellSizeSpinner.getValue() + delta;
+        final int maximum = (int)((SpinnerNumberModel)cellSizeSpinner.getModel()).getMaximum();
+        if (value < 0) {
+            value = 0;
+        } else if (value > maximum) {
+            value = maximum;
+        } 
+        cellSizeSpinner.setValue(value);
+    }
+    
     public void clearComponentCoordinates() {
         coordinatesLabel.setText(padCoordinatesString(""));
     }

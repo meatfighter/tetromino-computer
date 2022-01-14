@@ -107,6 +107,11 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 formMouseMoved(evt);
             }
         });
+        addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                formMouseWheelMoved(evt);
+            }
+        });
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 formMouseEntered(evt);
@@ -239,6 +244,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
         formMouseMoved(evt);
     }//GEN-LAST:event_formMouseDragged
+
+    private void formMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_formMouseWheelMoved
+        if (evt.isControlDown()) {
+            circuitsFrame.zoom(evt.getWheelRotation());
+        }
+    }//GEN-LAST:event_formMouseWheelMoved
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
