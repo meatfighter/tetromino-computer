@@ -6,9 +6,11 @@ import java.awt.EventQueue;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import static java.lang.Math.round;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.KeyStroke;
@@ -241,8 +243,48 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setPlayfieldHeight(playfieldHeight);
     }
     
-    public void setCellSize(final int cellSize) {
+    public void setCellSize(final int cellSize) {    
+               
+        final Dimension viewportSize = playfieldScrollPane.getViewport().getSize();       
+        final JScrollBar horizontalScrollBar = playfieldScrollPane.getHorizontalScrollBar();
+        final JScrollBar verticalScrollBar = playfieldScrollPane.getVerticalScrollBar();
+        final double centerX = (horizontalScrollBar.getValue() + (viewportSize.width >> 1)) 
+                / (double)horizontalScrollBar.getMaximum();
+        final double centerY = (verticalScrollBar.getValue() + (viewportSize.height >> 1)) 
+                / (double)verticalScrollBar.getMaximum();
+        final boolean horizontalVisible = horizontalScrollBar.isVisible();
+        final boolean horizontalAtTop = horizontalVisible && (horizontalScrollBar.getValue() == 0);
+        final boolean horizontalAtBottom = horizontalVisible && (horizontalScrollBar.getValue() + viewportSize.width 
+                == horizontalScrollBar.getMaximum());
+        final boolean verticalVisible = verticalScrollBar.isVisible();        
+        final boolean verticalAtTop = verticalVisible && (verticalScrollBar.getValue() == 0);
+        final boolean verticalAtBottom = verticalVisible && (verticalScrollBar.getValue() + viewportSize.height 
+                == verticalScrollBar.getMaximum());
+        
         playfieldPanel.setCellSize(cellSize);
+        
+        EventQueue.invokeLater(() -> {
+            final Dimension size = playfieldScrollPane.getViewport().getSize();            
+            
+            if (horizontalAtTop) {
+                horizontalScrollBar.setValue(horizontalScrollBar.getMinimum());
+            } else if (horizontalAtBottom) {
+                horizontalScrollBar.setValue(horizontalScrollBar.getMaximum());
+            } else if (!horizontalVisible && horizontalScrollBar.isVisible()) {
+                horizontalScrollBar.setValue((horizontalScrollBar.getMaximum() - size.width) >> 1);
+            } else {
+                horizontalScrollBar.setValue((int)round(centerX * horizontalScrollBar.getMaximum()) 
+                        - (size.width >> 1));
+            }
+            
+            if (verticalAtTop) {
+                verticalScrollBar.setValue(verticalScrollBar.getMinimum());
+            } else if (verticalAtBottom || (!verticalVisible && verticalScrollBar.isVisible())) {
+                verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+            } else {
+                verticalScrollBar.setValue((int)round(centerY * verticalScrollBar.getMaximum()) - (size.height >> 1));
+            }
+        });
     }
         
     public void clearCursorRenderer() {
