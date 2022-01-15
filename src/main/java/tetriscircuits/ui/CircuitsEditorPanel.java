@@ -97,16 +97,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                             } else {                                
                                 doc.insertString(startOffset, "#", null);
                             }
-                            TetrisScriptDocumentFilter.processLine(doc, element);
+                            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                         } else if (comment) {
                             if (!line.startsWith("#")) {
                                 doc.insertString(startOffset, "#", null);
-                                TetrisScriptDocumentFilter.processLine(doc, element);
+                                TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                             }                            
                         } else {
                             if (line.startsWith("#")) {                                
                                 doc.remove(startOffset, 1);
-                                TetrisScriptDocumentFilter.processLine(doc, element);
+                                TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                             }                            
                         }                        
                     } catch (final BadLocationException e) {
@@ -183,7 +183,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     EventQueue.invokeLater(this::clear);
                     return;
                 }
-                outputTextArea.setText("");
+                clearOutput();
             }
             @Override
             public void append(final String text) {
@@ -191,7 +191,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     EventQueue.invokeLater(() -> append(text));
                     return;
                 }
-                outputTextArea.append(text + "\n");
+                appendOutput(text);
             }            
         });
         controller.setRunListener(new RunListener() {
@@ -204,6 +204,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 playfieldPanel.runCompleted(new StructureRenderer(structure));
             }
         });
+    }
+    
+    public void clearOutput() {
+        outputTextArea.setText("");
+    }
+    
+    public void appendOutput(final String text) {
+        outputTextArea.append(text + "\n");
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
@@ -319,7 +327,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 line += " " + cellY;
             } 
             doc.insertString(caretPos, line, null);
-            TetrisScriptDocumentFilter.processLine(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
             if (componentName != null) {
                 circuitsFrame.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText());
             }
@@ -352,6 +360,49 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void build(final int depth) {
         controller.build(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+    }
+    
+    public String getTetrisScriptLines(final boolean selection) {
+        final int selectionStart = tetrisScriptTextPane.getSelectionStart();
+        final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
+        if (!selection || selectionStart == selectionEnd) {
+            return tetrisScriptTextPane.getText();
+        }
+        
+        final Document doc = tetrisScriptTextPane.getDocument();
+        final Element root = doc.getDefaultRootElement();
+        final int start = root.getElementIndex(selectionStart);
+        final int end = root.getElementIndex(selectionEnd);
+        final StringBuilder sb = new StringBuilder();
+        try {
+            for (int i = start; i <= end; ++i) {
+                final Element line = root.getElement(i);
+                sb.append(doc.getText(line.getStartOffset(), line.getEndOffset() - line.getStartOffset()));
+            }
+        } catch (final BadLocationException e) {                
+        }
+        return sb.toString();
+    }
+    
+    public void replaceTetrisScriptLines(final String replacement, final boolean selection) {
+        final StyledDocument doc = tetrisScriptTextPane.getStyledDocument();
+        final int selectionStart = tetrisScriptTextPane.getSelectionStart();
+        final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
+        if (!selection || selectionStart == selectionEnd) {
+            tetrisScriptTextPane.setText(replacement);
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc);
+            return;
+        }
+                
+        final Element root = doc.getDefaultRootElement();
+        final Element start = root.getElement(root.getElementIndex(selectionStart));
+        final Element end = root.getElement(root.getElementIndex(selectionEnd));                
+        try {
+            doc.remove(start.getStartOffset(), end.getEndOffset() - start.getStartOffset());
+            doc.insertString(start.getStartOffset(), replacement, null);
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, selectionStart, selectionEnd);
+        } catch (final BadLocationException e) {                
+        }
     }
     
     /**

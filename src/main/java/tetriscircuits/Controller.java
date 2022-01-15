@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -616,6 +617,11 @@ public class Controller {
                 }
             });
         }
+    }
+    
+    public String translate(final String filename, final String tetrisScript, 
+            final int offsetX, final int offsetY) throws IOException, ParseException {
+        return new Parser().translate(components, filename, tetrisScript, offsetX, offsetY);
     }
     
     private void returnPlayfield(final Playfield playfield) {

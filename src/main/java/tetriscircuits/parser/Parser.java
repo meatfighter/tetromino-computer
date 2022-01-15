@@ -40,12 +40,14 @@ public class Parser {
                 toks.computeIfAbsent(token.getLineNumber(), lineNumber -> new ArrayList<>()).add(token);
             }            
         }
-        
-        final StringBuilder sb = new StringBuilder(tetrisScript);
+                
+        final StringBuilder text = new StringBuilder();
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(
                 new ByteArrayInputStream(tetrisScript.getBytes())))) {            
             int lineNumber = 1;
-             while (br.readLine() != null) {
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                final StringBuilder sb = new StringBuilder(line);
                 final List<Token> ts = toks.get(lineNumber);
                 if (ts != null) {
                     for (int i = ts.size() - 1; i >= 0; --i) {
@@ -66,11 +68,12 @@ public class Parser {
                                 ? Integer.toString(num) : String.format("%d..%d", num, num2));
                     }
                 }
+                text.append(sb).append('\n');
                 ++lineNumber;
             }
         }
         
-        return sb.toString();
+        return text.toString();
     }
     
     public Component parse(final Map<String, Component> components, final File file) 

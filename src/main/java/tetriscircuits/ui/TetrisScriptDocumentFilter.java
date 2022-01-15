@@ -39,9 +39,36 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         StyleConstants.setForeground(DECLARE_ATTRIBS, DECLARE_COLOR);
     }   
     
-    public static void processLine(final StyledDocument doc, final Element line) throws BadLocationException {
+    public static void applySyntaxHighlighting(final StyledDocument doc) {
+        final Element root = doc.getDefaultRootElement();
+        final int end = root.getElementIndex(doc.getLength());
+        try {
+            for (int i = 0; i <= end; ++i) {
+                applySyntaxHighlighting(doc, root.getElement(i));                
+            }
+        } catch (final BadLocationException e) {                
+        }
+    }
+    
+    public static void applySyntaxHighlighting(final StyledDocument doc, final int selectionStart, 
+            final int selectionEnd) {
+        
+        final Element root = doc.getDefaultRootElement();
+        final int start = root.getElementIndex(selectionStart);
+        final int end = root.getElementIndex(selectionEnd);        
+        try {
+            for (int i = start; i <= end; ++i) {
+                applySyntaxHighlighting(doc, root.getElement(i));                
+            }
+        } catch (final BadLocationException e) {                
+        }
+    }
+    
+    public static void applySyntaxHighlighting(final StyledDocument doc, final Element line) 
+            throws BadLocationException {
+        
         final int startOffset = line.getStartOffset();
-        final int endOffset = line.getEndOffset();
+        final int endOffset = line.getEndOffset();        
         final int lineLength = endOffset - startOffset;
         doc.setCharacterAttributes(startOffset, lineLength, NORMAL_ATTRIBS, true);
         final String lineText = doc.getText(startOffset, lineLength);
@@ -79,7 +106,7 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
             doc.setCharacterAttributes(startOffset + start, 
                         declareMatcher.end(2) - start, DECLARE_ATTRIBS, true);
         }
-    }    
+    }
 
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String string, final AttributeSet attr) 
@@ -92,7 +119,7 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         fb.remove(offset, length);
         final StyledDocument doc = (StyledDocument)fb.getDocument();
         final Element root = doc.getDefaultRootElement();
-        processLine(doc, root.getElement(root.getElementIndex(offset)));
+        applySyntaxHighlighting(doc, root.getElement(root.getElementIndex(offset)));
     }
     
     @Override
@@ -130,7 +157,7 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         
         final int endIndex = root.getElementIndex(offset + text.length());
         for (int i = startIndex; i <= endIndex; ++i) {
-            processLine(doc, root.getElement(i));
+            applySyntaxHighlighting(doc, root.getElement(i));
         }
     }
 }

@@ -2,9 +2,13 @@ package tetriscircuits.ui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -733,6 +737,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         translateMenuItem.setMnemonic('T');
         translateMenuItem.setText("Translate");
+        translateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                translateMenuItemActionPerformed(evt);
+            }
+        });
         toolsMenu.add(translateMenuItem);
 
         menuBar.add(toolsMenu);
@@ -905,6 +914,37 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void depthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_depthSpinnerStateChanged
         playButtonActionPerformed(null);
     }//GEN-LAST:event_depthSpinnerStateChanged
+
+    private void translateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translateMenuItemActionPerformed
+        
+        final JDialog translateDialog = new JDialog(this, "Translate");
+        final TranslatePanel translatePanel = new TranslatePanel(translateDialog);
+        translateDialog.setContentPane(translatePanel);
+        translateDialog.setModal(true);
+        translateDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        translateDialog.pack();
+        translateDialog.setLocationRelativeTo(this);
+        translateDialog.setVisible(true);
+        
+        if (!translatePanel.isOk()) {
+            return;            
+        }
+        
+        circuitsEditorPanel.clearOutput();
+        circuitsEditorPanel.appendOutput(String.format("Translating %s by (%d, %d)...", 
+                translatePanel.isTranslateSelection() ? "selection" : "all", 
+                translatePanel.getOffsetX(),
+                translatePanel.getOffsetY()));
+        try {
+            circuitsEditorPanel.replaceTetrisScriptLines(controller.translate("[unnamed", 
+                    circuitsEditorPanel.getTetrisScriptLines(translatePanel.isTranslateSelection()), 
+                    translatePanel.getOffsetX(), translatePanel.getOffsetY()), translatePanel.isTranslateSelection());
+        } catch (final Exception e) {
+            circuitsEditorPanel.appendOutput("Failed to translate: " + e.getMessage());
+            return;
+        }
+        circuitsEditorPanel.appendOutput("Translated.");        
+    }//GEN-LAST:event_translateMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
