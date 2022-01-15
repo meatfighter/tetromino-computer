@@ -83,7 +83,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 compEditComboBox.setModel(new DefaultComboBoxModel(componentNames));
                 if (selectedItem != null) {
                     EventQueue.invokeLater(() -> compEditComboBox.setSelectedItem(selectedItem));
-                }                
+                } 
             }
         });
     }
@@ -105,14 +105,22 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }
     
     public void clearComponentCoordinates() {
-        coordinatesLabel.setText(padCoordinatesString(""));
+        coordinatesLabel.setText(leftPadCoordinatesString(""));
     }
     
     public void setComponentCoordinates(final int cellX, final int cellY) {
-        coordinatesLabel.setText(padCoordinatesString(String.format("%d:%d", cellX, cellY)));
+        coordinatesLabel.setText(leftPadCoordinatesString(String.format("%d:%d", cellX, cellY)));
     }
     
-    private String padCoordinatesString(final String str) {
+    public void clearCursorCoordinates() {
+        cursorLabel.setText(rightPadCoordinatesString(""));
+    }
+    
+    public void setCursorCoordinates(final int lineNumber, final int columnNumber) {
+        cursorLabel.setText(rightPadCoordinatesString(String.format("%d:%d", lineNumber, columnNumber)));
+    }
+    
+    private String leftPadCoordinatesString(final String str) {
         final StringBuilder sb = new StringBuilder();
         for (int i = COORDINATES_SPACES - str.length() - 1; i >= 0; --i) {
             sb.append(' ');
@@ -121,8 +129,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
         return sb.toString();
     }
     
-    public void buildAndRun(final String code) {        
-        controller.buildAndRun(code, "[unnamed]", testTextField.getText(), (int)depthSpinner.getValue()); // TODO
+    private String rightPadCoordinatesString(final String str) {
+        final StringBuilder sb = new StringBuilder(str);
+        for (int i = COORDINATES_SPACES - str.length() - 1; i >= 0; --i) {
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+    
+    public void buildAndRun(final String tetrisScript, final String javaScript) {        
+        controller.buildAndRun(tetrisScript, javaScript, "[unnamed]", testTextField.getText(), 
+                (int)depthSpinner.getValue()); // TODO
     }
 
     /**
@@ -177,6 +194,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         playfieldWidthSpinner = new javax.swing.JSpinner();
         jSeparator10 = new javax.swing.JSeparator();
         depthSpinner = new javax.swing.JSpinner();
+        cursorLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -557,6 +575,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         coordinatesLabel.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         coordinatesLabel.setText("               ");
+        coordinatesLabel.setToolTipText("Playfield Coordinates");
+        coordinatesLabel.setMaximumSize(null);
+        coordinatesLabel.setMinimumSize(null);
         coordinatesLabel.setPreferredSize(null);
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -587,12 +608,22 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
 
+        cursorLabel.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        cursorLabel.setText("               ");
+        cursorLabel.setToolTipText("Cursor Coordinates");
+        cursorLabel.setMaximumSize(null);
+        cursorLabel.setMinimumSize(null);
+        cursorLabel.setName(""); // NOI18N
+        cursorLabel.setPreferredSize(null);
+
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(cursorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -622,7 +653,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     .addComponent(playfieldHeightSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(playfieldWidthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cursorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2))
         );
 
@@ -700,7 +732,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE))
                 .addContainerGap())
@@ -710,11 +742,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        circuitsEditorPanel.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -858,6 +892,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
     private javax.swing.JComboBox<String> compEditComboBox;
     private javax.swing.JLabel coordinatesLabel;
+    private javax.swing.JLabel cursorLabel;
     private javax.swing.JSpinner depthSpinner;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;

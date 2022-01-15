@@ -30,11 +30,12 @@ public class Controller {
     
     private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
     private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
-    
-    private final Simulator simulator = new Simulator(scriptEngine);
-    
-    private final Map<String, Component> components = new ConcurrentHashMap<>();    
+       
+    private final Map<String, Component> components = new ConcurrentHashMap<>();
+    private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();
     private final Map<String, Structure> structures = new ConcurrentHashMap<>();
+    
+    private final Simulator simulator = new Simulator(scriptEngine, componentExtents);
     
     private final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
     
@@ -195,9 +196,10 @@ public class Controller {
                     final Files fs = entry.getValue();
                     execute(() -> {
                         loadComponentJavaScript(entry.getKey(), fs.getJsFile());
-                        loadComponentDefinition(entry.getKey(), fs.getTFile());
+                        loadComponentTetrisScript(entry.getKey(), fs.getTFile());
                         synchronized(loadMonitor) {
                             if (--loadCount == 0) {
+                                updateComponentExtents();
                                 createStructures(0);
                                 notifyStructuresCreated();
                             }
@@ -242,15 +244,15 @@ public class Controller {
                 ((Compilable)scriptEngine).compile(reader));
     }
     
-    private void loadComponentDefinition(final String componentName, final File file) {
+    private void loadComponentTetrisScript(final String componentName, final File file) {
         
         final OutputListener listener = outputListener;
         if (listener != null) {
             if (file == null) {
-                listener.append("Error: " + componentName + " missing definition file.");
+                listener.append("Error: " + componentName + " missing TetrisScript file.");
                 return;
             } else {
-                listener.append("Loading " + componentName + " definition file...");
+                listener.append("Loading " + componentName + " TetrisScript file...");
             }
         }
         
@@ -273,16 +275,91 @@ public class Controller {
             return;
         }
         if (listener != null) {
-            listener.append("Loaded " + componentName + " definition file.");
+            listener.append("Loaded " + componentName + " TetrisScript file.");
         }        
     }
     
-    public void buildAndRun(final String text, final String componentName, final String testBitStr, final int depth) {
+    private void updateComponentExtents() {        
+        componentExtents.clear();
+        for (final Component component : components.values()) {
+            getComponentExtents(componentExtents, component);
+        }        
+    }
+    
+    private Extents getComponentExtents(final Map<String, Extents> componentExtents, final Component component) {
+        
+        Extents extents = componentExtents.get(component.getName());
+        if (extents != null) {
+            return extents;
+        }
+        
+        int minX = Integer.MAX_VALUE;        
+        int maxX = Integer.MIN_VALUE;
+        int maxY = 0;
+        
+        if (component.getInstructions() != null) {
+            for (final Instruction instruction : component.getInstructions()) {
+                Extents e = null;
+
+                final Tetrimino tetrimino = instruction.getTetrimino();
+                if (tetrimino != null) {
+                    e = tetrimino.getExtents();
+                } else {                         
+                    try {
+                        e = getComponentExtents(componentExtents, instruction.getComponent());
+                    } catch (final StackOverflowError s) {
+                    }                
+                }
+
+                if (e == null) {
+                    continue;
+                }
+
+                final int[] moves = instruction.getMoves();
+                for (int i = 0; i < moves.length; ++i) {
+                    final int move = moves[i];
+                    if ((i & 1) == 0) {
+                        minX = min(minX, move + e.getMinX());
+                        maxX = max(maxX, move + e.getMaxX());
+                    } else {
+                        maxY = max(maxY, move + e.getMaxY());
+                    }
+                }
+            }
+        }
+        
+        if (component.getInputs() != null) {
+            for (final Terminal terminal : component.getInputs()) {
+                for (final HorizontalLine horizontalLine : terminal.getHorizontalLines()) {
+                    minX = min(minX, horizontalLine.getMinX());
+                    maxX = max(maxX, horizontalLine.getMaxX());
+                    maxY = max(maxY, horizontalLine.getY() + 1); 
+                }
+            }
+        }
+        
+        if (component.getOutputs() != null) {
+            for (final Terminal terminal : component.getOutputs()) {
+                for (final HorizontalLine horizontalLine : terminal.getHorizontalLines()) {
+                    minX = min(minX, horizontalLine.getMinX());
+                    maxX = max(maxX, horizontalLine.getMaxX());
+                    maxY = max(maxY, horizontalLine.getY() + 1); 
+                }
+            }
+        }
+        
+        extents = new Extents(minX, maxX, 0, maxY);
+        componentExtents.put(component.getName(), extents);        
+        return extents;
+    }
+    
+    public void buildAndRun(final String tetrisScript, final String javaScript, final String componentName, 
+            final String testBitStr, final int depth) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildText(text, testBitStr, depth));
+        execute(() -> buildScripts(tetrisScript, javaScript, testBitStr, depth));
     }
     
     public void run(final String componentName, final String testBitStr, final int depth) {
@@ -349,23 +426,30 @@ public class Controller {
                 outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
             }
             
-            for (int i = inputs.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] ins = inputs[i];
-                for (int j = ins.length - 1; j >= 0; --j) {
-                    final TerminalRectangle input = ins[j];
-                    minX = min(minX, input.x);
-                    maxX = max(maxX, input.x + input.width - 1);
-                    maxY = max(maxY, input.y + 1);
+            final Extents extents = componentExtents.get(component.getName());
+            if (extents != null) {
+                minX = extents.getMinX();
+                maxX = extents.getMaxX();
+                maxY = extents.getMaxY();
+            } else {
+                for (int i = inputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] ins = inputs[i];
+                    for (int j = ins.length - 1; j >= 0; --j) {
+                        final TerminalRectangle input = ins[j];
+                        minX = min(minX, input.x);
+                        maxX = max(maxX, input.x + input.width - 1);
+                        maxY = max(maxY, input.y + 1);
+                    }
                 }
-            }
-            
-            for (int i = outputs.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] outs = outputs[i];
-                for (int j = outs.length - 1; j >= 0; --j) {
-                    final TerminalRectangle output = outs[j];
-                    minX = min(minX, output.x);
-                    maxX = max(maxX, output.x + output.width - 1);
-                    maxY = max(maxY, output.y + 1);
+
+                for (int i = outputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] outs = outputs[i];
+                    for (int j = outs.length - 1; j >= 0; --j) {
+                        final TerminalRectangle output = outs[j];
+                        minX = min(minX, output.x);
+                        maxX = max(maxX, output.x + output.width - 1);
+                        maxY = max(maxY, output.y + 1);
+                    }
                 }
             }
             
@@ -379,14 +463,14 @@ public class Controller {
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildText(tetrisScript, javaScript, depth));
+        execute(() -> buildScripts(tetrisScript, javaScript, depth));
     }
     
-    private void buildText(final String tetrisScript, final String javaScript, final int depth) {
-        buildText(tetrisScript, javaScript, null, depth);
+    private void buildScripts(final String tetrisScript, final String javaScript, final int depth) {
+        buildScripts(tetrisScript, javaScript, (String)null, depth);
     }
     
-    private void buildText(final String tetrisScript, final String javaScript, final String testBitStr, 
+    private void buildScripts(final String tetrisScript, final String javaScript, final String testBitStr, 
             final int depth) {
         final OutputListener listener = outputListener;        
         final Parser parser = new Parser();
@@ -398,6 +482,7 @@ public class Controller {
             final Component component = parser.parse(components, "[unnamed]", 
                     new ByteArrayInputStream(tetrisScript.getBytes()));
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
+            updateComponentExtents();
             createStructure(component, depth, testBitStr); // TODO FILENAME
             notifyStructuresCreated();
         } catch (final ParseException e) {
@@ -423,6 +508,7 @@ public class Controller {
     }
     
     private void createStructures(final int depth) {
+        structures.clear();
         for (final Component component : components.values()) {
             createStructure(component, depth);
         }
@@ -453,37 +539,45 @@ public class Controller {
             final List<Structure> structs = new ArrayList<>();
             simulator.simulate(playfield, component, depth, structure -> structs.add(structure));
             simulator.addOutputs(playfield, component);
-            int minX = playfield.getMinX() - (playfield.getWidth() >> 1);
-            int maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-            int maxY = playfield.getHeight() - 1 - playfield.getMinY();  
-            
-            final TerminalRectangle[][] inputs = simulator.findTerminals(component.getInputs(), 0, 0);           
-            for (int i = inputs.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] ins = inputs[i];
-                for (int j = ins.length - 1; j >= 0; --j) {
-                    final TerminalRectangle input = ins[j];
-                    minX = min(minX, input.x);
-                    maxX = max(maxX, input.x + input.width - 1);
-                    maxY = max(maxY, input.y + 1);
+
+            final Extents extents = componentExtents.get(component.getName());
+            final TerminalRectangle[][] inputs = simulator.findTerminals(component.getInputs(), 0, 0); 
+            final TerminalRectangle[][] outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+            int minX;
+            int maxX;
+            int maxY;
+            if (extents != null) {
+                minX = extents.getMinX();
+                maxX = extents.getMaxX();
+                maxY = extents.getMaxY();
+            } else {
+                minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+                maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+                maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+                for (int i = inputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] ins = inputs[i];
+                    for (int j = ins.length - 1; j >= 0; --j) {
+                        final TerminalRectangle input = ins[j];
+                        minX = min(minX, input.x);
+                        maxX = max(maxX, input.x + input.width - 1);
+                        maxY = max(maxY, input.y + 1);
+                    }
+                }
+                for (int i = outputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] outs = outputs[i];
+                    for (int j = outs.length - 1; j >= 0; --j) {
+                        final TerminalRectangle output = outs[j];
+                        minX = min(minX, output.x);
+                        maxX = max(maxX, output.x + output.width - 1);
+                        maxY = max(maxY, output.y + 1);
+                    }
                 }
             }
-            
-            final TerminalRectangle[][] outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
-            for (int i = outputs.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] outs = outputs[i];
-                for (int j = outs.length - 1; j >= 0; --j) {
-                    final TerminalRectangle output = outs[j];
-                    minX = min(minX, output.x);
-                    maxX = max(maxX, output.x + output.width - 1);
-                    maxY = max(maxY, output.y + 1);
-                }
-            }            
-                        
             structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
                     maxY, structs.toArray(new Structure[structs.size()])));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
-                listener.append("Error: The definition of " + component.getName() + " contains itself.");
+                listener.append("Error: Definition of " + component.getName() + " contains itself.");
             }
         } finally {
             returnPlayfield(playfield);
@@ -498,7 +592,7 @@ public class Controller {
         final Set<String> names = new HashSet<>(components.keySet());
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);
-        Arrays.sort(componentNames);  
+        Arrays.sort(componentNames); 
         
         final BuildListener buildListener = this.buildListener;
         if (buildListener != null) {

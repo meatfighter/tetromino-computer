@@ -5,6 +5,7 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
@@ -14,9 +15,11 @@ public class Simulator {
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
     private final ScriptEngine scriptEngine;
+    private final Map<String, Extents> componentExtents;
         
-    public Simulator(final ScriptEngine scriptEngine) {
+    public Simulator(final ScriptEngine scriptEngine, final Map<String, Extents> componentExtents) {
         this.scriptEngine = scriptEngine;
+        this.componentExtents = componentExtents;
     }
     
     public void init(final Playfield playfield, final Component component, final String inputBits) {
@@ -258,34 +261,40 @@ public class Simulator {
             }
         }
         
-        if (listener != null) {  
+        if (listener != null) { 
+            final Extents extents = componentExtents.get(component.getName());
+            final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);
+            final TerminalRectangle[][] outputRects = findTerminals(outputs, 0, 0, outputValues);
             int minX = Integer.MAX_VALUE;
             int maxX = Integer.MIN_VALUE;
             int minY = Integer.MAX_VALUE;
             int maxY = Integer.MIN_VALUE;
-            
-            final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);           
-            for (int i = inputRects.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] ins = inputRects[i];
-                for (int j = ins.length - 1; j >= 0; --j) {
-                    final TerminalRectangle input = ins[j];
-                    minX = min(minX, input.x);
-                    maxX = max(maxX, input.x + input.width - 1);
-                    minY = min(minY, input.y);
-                    maxY = max(maxY, input.y + 1);
+            if (extents != null) {
+                minX = extents.getMinX();
+                maxX = extents.getMaxX();
+                minY = 0;
+                maxY = extents.getMaxY();
+            } else {
+                for (int i = inputRects.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] ins = inputRects[i];
+                    for (int j = ins.length - 1; j >= 0; --j) {
+                        final TerminalRectangle input = ins[j];
+                        minX = min(minX, input.x);
+                        maxX = max(maxX, input.x + input.width - 1);
+                        minY = min(minY, input.y);
+                        maxY = max(maxY, input.y + 1);
+                    }
                 }
-            }
-            
-            final TerminalRectangle[][] outputRects = findTerminals(outputs, 0, 0, outputValues);
-            for (int i = outputRects.length - 1; i >= 0; --i) {
-                final TerminalRectangle[] outs = outputRects[i];
-                for (int j = outs.length - 1; j >= 0; --j) {
-                    final TerminalRectangle output = outs[j];
-                    minX = min(minX, output.x);
-                    maxX = max(maxX, output.x + output.width - 1);
-                    minY = min(minY, output.y);
-                    maxY = max(maxY, output.y + 1);
-                }
+                for (int i = outputRects.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] outs = outputRects[i];
+                    for (int j = outs.length - 1; j >= 0; --j) {
+                        final TerminalRectangle output = outs[j];
+                        minX = min(minX, output.x);
+                        maxX = max(maxX, output.x + output.width - 1);
+                        minY = min(minY, output.y);
+                        maxY = max(maxY, output.y + 1);
+                    }
+                } 
             }            
             
             listener.structureLocked(new Structure(component.getName(), originX - (playfield.getWidth() >> 1), 

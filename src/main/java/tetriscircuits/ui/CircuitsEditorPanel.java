@@ -321,7 +321,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             doc.insertString(caretPos, line, null);
             TetrisScriptDocumentFilter.processLine(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
             if (componentName != null) {
-                circuitsFrame.buildAndRun(tetrisScriptTextPane.getText());
+                circuitsFrame.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText());
             }
             clearCursorRenderer();            
         } catch (final BadLocationException e) {
@@ -394,6 +394,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         tetrisScriptTextPane.setForeground(new java.awt.Color(169, 183, 198));
         tetrisScriptTextPane.setMaximumSize(null);
         tetrisScriptTextPane.setPreferredSize(null);
+        tetrisScriptTextPane.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tetrisScriptTextPaneCaretUpdate(evt);
+            }
+        });
+        tetrisScriptTextPane.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tetrisScriptTextPaneFocusLost(evt);
+            }
+        });
         tetrisScriptScrollPane.setViewportView(tetrisScriptTextPane);
 
         verticalSplitPane.setLeftComponent(tetrisScriptScrollPane);
@@ -409,6 +419,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         javaScriptTextArea.setRows(10);
         javaScriptTextArea.setTabSize(4);
         javaScriptTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
+        javaScriptTextArea.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                javaScriptTextAreaCaretUpdate(evt);
+            }
+        });
+        javaScriptTextArea.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                javaScriptTextAreaFocusLost(evt);
+            }
+        });
         javaScriptScrollPane.setViewportView(javaScriptTextArea);
 
         lowerSplitPane.setLeftComponent(javaScriptScrollPane);
@@ -473,7 +493,32 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tetrisScriptTextPaneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tetrisScriptTextPaneCaretUpdate
+        updateCursorCoordinates((JTextComponent)evt.getSource());
+    }//GEN-LAST:event_tetrisScriptTextPaneCaretUpdate
 
+    private void tetrisScriptTextPaneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tetrisScriptTextPaneFocusLost
+        circuitsFrame.clearCursorCoordinates();
+    }//GEN-LAST:event_tetrisScriptTextPaneFocusLost
+
+    private void javaScriptTextAreaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_javaScriptTextAreaCaretUpdate
+        updateCursorCoordinates((JTextComponent)evt.getSource());
+    }//GEN-LAST:event_javaScriptTextAreaCaretUpdate
+
+    private void javaScriptTextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_javaScriptTextAreaFocusLost
+        circuitsFrame.clearCursorCoordinates();
+    }//GEN-LAST:event_javaScriptTextAreaFocusLost
+
+    private void updateCursorCoordinates(final JTextComponent textComponent) {
+        final Document doc = textComponent.getDocument();
+        final Element root = doc.getDefaultRootElement();
+        final int caretPos = textComponent.getCaretPosition();
+        final int lineNumber = root.getElementIndex(caretPos);
+        final Element line = root.getElement(lineNumber);
+        final int columnNumber = caretPos - line.getStartOffset();
+        circuitsFrame.setCursorCoordinates(lineNumber + 1, columnNumber + 1);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSplitPane horizontalSplitPane;
     private javax.swing.JScrollPane javaScriptScrollPane;

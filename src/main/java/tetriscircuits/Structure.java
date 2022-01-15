@@ -18,7 +18,8 @@ public class Structure {
     private final int maxY;
     
     public Structure(final Tetrimino tetrimino, final int x, final int y) {
-        this(tetrimino, x, y, null, null, null, -2, 2, -2, 2, null);
+        this(tetrimino, x, y, null, null, null, tetrimino.getMinX(), tetrimino.getMaxX(), tetrimino.getMinY(), 
+                tetrimino.getMaxY(), null);
     }
     
     public Structure(final String componentName, final int x, final int y, final TerminalRectangle[][] inputs, 

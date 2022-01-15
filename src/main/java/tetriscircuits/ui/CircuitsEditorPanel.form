@@ -110,6 +110,10 @@
                       <Connection code="null" type="code"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tetrisScriptTextPaneCaretUpdate"/>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tetrisScriptTextPaneFocusLost"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new tetriscircuits.ui.CustomTextPane()"/>
                   </AuxValues>
@@ -165,6 +169,10 @@
                           </Border>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="javaScriptTextAreaCaretUpdate"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="javaScriptTextAreaFocusLost"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

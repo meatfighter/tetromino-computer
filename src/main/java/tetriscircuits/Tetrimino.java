@@ -1,5 +1,7 @@
 package tetriscircuits;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,20 +78,10 @@ public class Tetrimino {
     private final Point[] rightBlocks;
     private final Point[] bottomBlocks;
     
+    private final Extents extents;
+    
     private Tetrimino cw;
     private Tetrimino ccw;
-    
-    private static void setMatrix(final int[][] blocks) {
-        for (int i = MATRIX.length - 1; i >= 0; --i) {
-            final boolean[] row = MATRIX[i];
-            for (int j = row.length - 1; j >= 0; --j) {
-                row[j] = false;
-            }
-        }
-        for (int[] bs : blocks) {
-            MATRIX[2 + bs[1]][2 + bs[0]] = true;
-        }
-    }
     
     private static Point[] findLeftBlocks() {
         final List<Point> leftBlocks = new ArrayList<>();
@@ -206,7 +198,25 @@ public class Tetrimino {
             this.blocks[i] = new Point(bs[0], bs[1]);
         }
         
-        setMatrix(blocks);
+        for (int i = MATRIX.length - 1; i >= 0; --i) {
+            final boolean[] row = MATRIX[i];
+            for (int j = row.length - 1; j >= 0; --j) {
+                row[j] = false;
+            }
+        }
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        for (int[] bs : blocks) {
+            minX = min(minX, bs[0]);
+            minY = min(minY, bs[1]);
+            maxX = max(maxX, bs[0]);
+            maxY = max(maxY, bs[1]);
+            MATRIX[2 + bs[1]][2 + bs[0]] = true;
+        }
+        this.extents = new Extents(minX, maxX, minY, maxY);
+                
         this.leftBlocks = findLeftBlocks();
         this.rightBlocks = findRightBlocks();
         this.bottomBlocks = findBottomBlocks();
@@ -260,5 +270,25 @@ public class Tetrimino {
 
     public Tetrimino getCcw() {
         return ccw;
+    }
+
+    public Extents getExtents() {
+        return extents;
+    }
+    
+    public int getMinX() {
+        return extents.getMinX();
+    }
+    
+    public int getMaxX() {
+        return extents.getMaxX();
+    }
+    
+    public int getMinY() {
+        return extents.getMinY();
+    }
+    
+    public int getMaxY() {
+        return extents.getMaxY();
     }
 }
