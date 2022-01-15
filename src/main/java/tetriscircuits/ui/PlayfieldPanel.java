@@ -247,7 +247,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
 
     private void formMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_formMouseWheelMoved
         if (evt.isControlDown()) {
-            circuitsFrame.zoom(evt.getWheelRotation());
+            circuitsFrame.zoom(-evt.getWheelRotation());
         }
     }//GEN-LAST:event_formMouseWheelMoved
 

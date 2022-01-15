@@ -5,17 +5,19 @@ class Token {
     private final String filename;
     private final int lineNumber;
     private final int lineColumn;
+    private final int length;
     
     private TokenType type;
+    private TokenValueType valueType = TokenValueType.UNKNOWN;
     private String str;
     private int num;
     private int num2;
-    private boolean[] bits;
 
-    public Token(final String filename, final int lineNumber, final int lineColumn) {
+    public Token(final String filename, final int lineNumber, final int lineColumn, final int length) {
         this.filename = filename;
         this.lineNumber = lineNumber;
         this.lineColumn = lineColumn;
+        this.length = length;
     }
 
     public String getFilename() {
@@ -28,6 +30,10 @@ class Token {
 
     public int getLineColumn() {
         return lineColumn;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public TokenType getType() {
@@ -62,14 +68,14 @@ class Token {
         this.num2 = num2;
     }
 
-    public boolean[] getBits() {
-        return bits;
+    public TokenValueType getValueType() {
+        return valueType;
     }
 
-    public void setBits(final boolean[] bits) {
-        this.bits = bits;
+    public void setValueType(final TokenValueType valueType) {
+        this.valueType = valueType;
     }
-    
+   
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

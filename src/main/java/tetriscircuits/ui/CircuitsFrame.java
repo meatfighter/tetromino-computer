@@ -208,6 +208,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         undoMenuItem = new javax.swing.JMenuItem();
         redoMenuItem = new javax.swing.JMenuItem();
+        toolsMenu = new javax.swing.JMenu();
+        translateMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(null);
@@ -724,6 +728,24 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
+        toolsMenu.setMnemonic('T');
+        toolsMenu.setText("Tools");
+
+        translateMenuItem.setMnemonic('T');
+        translateMenuItem.setText("Translate");
+        toolsMenu.add(translateMenuItem);
+
+        menuBar.add(toolsMenu);
+
+        helpMenu.setMnemonic('H');
+        helpMenu.setText("Help");
+
+        aboutMenuItem.setMnemonic('A');
+        aboutMenuItem.setText("About");
+        helpMenu.add(aboutMenuItem);
+
+        menuBar.add(helpMenu);
+
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -885,6 +907,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_depthSpinnerStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton buildButton;
@@ -897,6 +920,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu helpMenu;
     private javax.swing.JButton ihButton;
     private javax.swing.JButton ivButton;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -938,7 +962,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JTextField testTextField;
     private javax.swing.JButton tlButton;
     private javax.swing.JToolBar toolBar;
+    private javax.swing.JMenu toolsMenu;
     private javax.swing.JButton trButton;
+    private javax.swing.JMenuItem translateMenuItem;
     private javax.swing.JButton tuButton;
     private javax.swing.JMenuItem undoMenuItem;
     private javax.swing.JButton zhButton;

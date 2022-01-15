@@ -215,7 +215,7 @@ public class Tetrimino {
             maxY = max(maxY, bs[1]);
             MATRIX[2 + bs[1]][2 + bs[0]] = true;
         }
-        this.extents = new Extents(minX, maxX, minY, maxY);
+        this.extents = new Extents(minX, maxX, -maxY, -minY);
                 
         this.leftBlocks = findLeftBlocks();
         this.rightBlocks = findRightBlocks();

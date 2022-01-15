@@ -1,6 +1,7 @@
 package tetriscircuits.parser;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,51 @@ public class Parser {
     
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
+    public String translate(final Map<String, Component> components, final String filename, final String tetrisScript, 
+            final int offsetX, final int offsetY) throws IOException, ParseException {
+        
+        final List<Token> tokens = parseTokens(filename, new ByteArrayInputStream(tetrisScript.getBytes()));
+        createComponent(filename, tokens, components);
+        
+        final Map<Integer, List<Token>> toks = new HashMap<>();
+        for (final Token token : tokens) {
+            if (token.getValueType() != TokenValueType.UNKNOWN) {
+                toks.computeIfAbsent(token.getLineNumber(), lineNumber -> new ArrayList<>()).add(token);
+            }            
+        }
+        
+        final StringBuilder sb = new StringBuilder(tetrisScript);
+        try (final BufferedReader br = new BufferedReader(new InputStreamReader(
+                new ByteArrayInputStream(tetrisScript.getBytes())))) {            
+            int lineNumber = 1;
+             while (br.readLine() != null) {
+                final List<Token> ts = toks.get(lineNumber);
+                if (ts != null) {
+                    for (int i = ts.size() - 1; i >= 0; --i) {
+                        final Token token = ts.get(i);
+                        int num = token.getNum();
+                        int num2 = token.getNum2();
+                        if (offsetX != 0 && token.getValueType() == TokenValueType.X) {
+                            num += offsetX;
+                            num2 += offsetX;
+                        } else if (offsetY != 0 && token.getValueType() == TokenValueType.Y) {
+                            num += offsetY;
+                            num2 += offsetY;
+                        } else {
+                            continue;
+                        }
+                        final int start = token.getLineColumn() - 1;
+                        sb.replace(start, start + token.getLength(), (token.getType() == TokenType.NUMBER) 
+                                ? Integer.toString(num) : String.format("%d..%d", num, num2));
+                    }
+                }
+                ++lineNumber;
+            }
+        }
+        
+        return sb.toString();
+    }
+    
     public Component parse(final Map<String, Component> components, final File file) 
             throws IOException, ParseException {
         return parse(components, file.getPath(), new FileInputStream(file));
@@ -43,9 +90,10 @@ public class Parser {
     
     public Component parse(final Map<String, Component> components, final String filename, final InputStream in) 
             throws IOException, ParseException {
-        
-        final String componentName = deriveComponentName(filename);
-        
+        return createComponent(deriveComponentName(filename), parseTokens(filename, in), components);
+    }
+    
+    private List<Token> parseTokens(final String filename, final InputStream in) throws IOException, ParseException {
         final List<Token> tokens = new ArrayList<>();
         
         int lineNumber = 1;
@@ -56,12 +104,12 @@ public class Parser {
             }
         }
         
-        final Token token = new Token(filename, lineNumber, 0);
+        final Token token = new Token(filename, lineNumber, 0, 0);
         token.setType(TokenType.END);
         tokens.add(token);
         tokens.add(token);
         
-        return createComponent(componentName, tokens, components);
+        return tokens;
     }
     
     private String deriveComponentName(final String filename) {
@@ -103,7 +151,7 @@ public class Parser {
         }
         
         if (isIdentifier(value)) {
-            final Token token = new Token(filename, lineNumber, lineColumn);
+            final Token token = new Token(filename, lineNumber, lineColumn, value.length());
             token.setType(TokenType.STRING);
             token.setStr(value);
             tokens.add(token);
@@ -112,7 +160,7 @@ public class Parser {
         
         try {
             final int num = Integer.parseInt(value);
-            final Token token = new Token(filename, lineNumber, lineColumn);
+            final Token token = new Token(filename, lineNumber, lineColumn, value.length());
             token.setType(TokenType.NUMBER);
             token.setStr(value);
             token.setNum(num);
@@ -156,7 +204,7 @@ public class Parser {
             throw new ParseException(filename, lineNumber, lineColumn, "Invalid range: right value is not a number.");
         }
         
-        final Token token = new Token(filename, lineNumber, lineColumn);
+        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
         token.setType(TokenType.RANGE);
         token.setNum(leftValue);
         token.setNum2(rightValue);
@@ -243,9 +291,10 @@ public class Parser {
             final Token token = tokens.get(i);
             if (token.getType() != TokenType.NUMBER) {
                 break;
-            }
+            }            
             ++i;
-            moves.add(token.getNum());
+            token.setValueType((moves.size() & 1) == 0 ? TokenValueType.X : TokenValueType.Y);
+            moves.add(token.getNum());            
         }
         
         if (moves.isEmpty()) {
@@ -280,11 +329,13 @@ public class Parser {
             if (xToken.getType() != TokenType.NUMBER && xToken.getType() != TokenType.RANGE) {
                 break;
             }
+            xToken.setValueType(TokenValueType.X);
             
             final Token yToken = tokens.get(i++);
             if (yToken.getType() != TokenType.NUMBER) {
                 throw new ParseException(yToken, "Expected Y number.");
             }
+            yToken.setValueType(TokenValueType.Y);
             
             if (xToken.getType() == TokenType.NUMBER) {
                 horizontalLines.add(new HorizontalLine(xToken.getNum(), yToken.getNum()));
