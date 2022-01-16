@@ -3,19 +3,19 @@ package tetriscircuits.ui;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
-import tetriscircuits.OutputListener;
 import tetriscircuits.Structure;
 
 public class CircuitsFrame extends javax.swing.JFrame {
@@ -24,6 +24,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
     private Controller controller;
     private Map<String, Structure> structures;
+    
+    private String componentsDirectory;
+    private File tetrisScriptFile;
+    private File javaScriptFile;
+    private String componentName;
 
     /**
      * Creates new form CircuitsFrame
@@ -55,6 +60,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
         textField.setMinimumSize(textField.getPreferredSize());
         textField.setMaximumSize(textField.getPreferredSize());
         textField.setText("");
+    }
+    
+    private String getComponentDirectory() {
+        if (componentsDirectory == null) {
+            componentsDirectory = System.getProperty("user.dir") + "/components";
+            final File componentsDir = new File(componentsDirectory);
+            if (!(componentsDir.exists() && componentsDir.isDirectory())) {
+                componentsDirectory = System.getProperty("user.dir");
+            }            
+        }
+        return componentsDirectory;
     }
 
     public Controller getController() {
@@ -88,6 +104,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 } 
             }
         });
+        controller.setTetrisScriptOpenListener(tetrisScript -> circuitsEditorPanel.setTetrisScript(tetrisScript));
+        controller.setJavaScriptOpenListener(javaScript -> circuitsEditorPanel.setJavaScript(javaScript));
     }
     
     public void init() {
@@ -198,10 +216,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        newMenuItem = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         openMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        newMenuItem = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -680,26 +698,46 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileMenu.setText("File");
         fileMenu.setMinimumSize(null);
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open...");
-        openMenuItem.setToolTipText("");
-        fileMenu.add(openMenuItem);
-        fileMenu.add(jSeparator1);
-
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setMnemonic('n');
         newMenuItem.setText("New...");
+        newMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(newMenuItem);
-        fileMenu.add(jSeparator2);
+        fileMenu.add(jSeparator5);
+
+        openMenuItem.setMnemonic('o');
+        openMenuItem.setText("Open...");
+        openMenuItem.setToolTipText("");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openMenuItem);
+        fileMenu.add(jSeparator1);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setMnemonic('s');
         saveMenuItem.setText("Save");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setMnemonic('v');
         saveAsMenuItem.setText("Save As...");
         saveAsMenuItem.setToolTipText("");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(saveAsMenuItem);
         fileMenu.add(jSeparator3);
 
@@ -798,8 +836,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
                     .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)))
+                        .addGap(0, 0, 0)
+                        .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -998,6 +1036,47 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.centerPlayfield();
     }//GEN-LAST:event_centerButtonActionPerformed
 
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        final JFileChooser fileChooser = new JFileChooser(getComponentDirectory());
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        final FileFilter tsFileFilter = new FileNameExtensionFilter("TetrisScript file (*.t)", "t");
+        fileChooser.addChoosableFileFilter(tsFileFilter);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JavaScript file (*.js)", "js"));
+        fileChooser.setFileFilter(tsFileFilter);
+		
+        if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+                
+		final File selectedFile = fileChooser.getSelectedFile();
+        if (selectedFile.getName().endsWith(".js")) {
+            javaScriptFile = selectedFile;
+            componentName = selectedFile.getName().substring(0, selectedFile.getName().length() - 3);
+            tetrisScriptFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + componentName 
+                    + ".t");
+        } else {
+            tetrisScriptFile = selectedFile;
+            componentName = selectedFile.getName().substring(0, selectedFile.getName().length() - 2);
+            javaScriptFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + componentName 
+                    + ".js");
+        }
+        
+        controller.openComponent(componentName, tetrisScriptFile, javaScriptFile);
+    }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
@@ -1019,9 +1098,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;

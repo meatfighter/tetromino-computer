@@ -50,9 +50,19 @@ public class Controller {
     private volatile ProgressListener progressListener;
     private volatile BuildListener buildListener;
     private volatile RunListener runListener;
+    private volatile OpenListener tetrisScriptOpenListener;
+    private volatile OpenListener javaScriptOpenListener;
     
     private int taskCount;
     private int loadCount;
+
+    public void setTetrisScriptOpenListener(final OpenListener tetrisScriptOpenListener) {
+        this.tetrisScriptOpenListener = tetrisScriptOpenListener;
+    }
+
+    public void setJavaScriptOpenListener(final OpenListener javaScriptOpenListener) {
+        this.javaScriptOpenListener = javaScriptOpenListener;
+    }
     
     public void setOutputListener(final OutputListener outputListener) {
         this.outputListener = outputListener;
@@ -86,7 +96,7 @@ public class Controller {
         return runListener;
     }
     
-    private void createWires() {
+    private void createBuffersSsAndZs() {
         for (int i = 3; i <= 101; ++i) {
             createBuffer(i);
         }
@@ -172,9 +182,54 @@ public class Controller {
         components.put(buffer.getName(), buffer);        
     }
     
+    public void openComponent(final String componentName, final File tetrisScriptFile, final File javaScriptFile) {
+        execute(() -> {
+            components.remove(componentName);
+            componentExtents.remove(componentName);
+            structures.remove(componentName);
+            
+            final OpenListener tsOpenListener = tetrisScriptOpenListener;
+            if (tsOpenListener != null) {
+                tsOpenListener.openedFile(readFile(tetrisScriptFile));
+            }
+            
+            final OpenListener jsOpenListener = javaScriptOpenListener;
+            if (jsOpenListener != null) {
+                jsOpenListener.openedFile(readFile(javaScriptFile));
+            }            
+        });
+    }
+    
+    private String readFile(final File file) {
+        if (file == null || !file.exists() || !file.isFile()) {
+            final OutputListener listener = outputListener;
+            if (listener != null) {
+                listener.append("Failed to find " + file);
+            }
+            return "";
+        }
+        final StringBuilder sb = new StringBuilder();
+        try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                if (sb.length() > 0) {
+                    sb.append('\n');
+                }
+                sb.append(line);
+            }
+        } catch (final IOException e) {
+            final OutputListener listener = outputListener;
+            if (listener != null) {
+                listener.append("Failed to read " + file + ": " + e.getMessage());
+            }
+            return "";
+        }
+        return sb.toString();
+    }
+    
     public void loadComponents() {
         execute(() -> {
-            createWires();
+            createBuffersSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             for (final File file : new File("components").listFiles(
@@ -216,7 +271,7 @@ public class Controller {
      
         final OutputListener listener = outputListener;
         if (listener != null) {
-            if (file == null) {
+            if (file == null || !file.exists()) {
                 listener.append("Error: " + componentName + " missing JavaScript file.");
                 return;
             } else {
@@ -250,7 +305,7 @@ public class Controller {
         
         final OutputListener listener = outputListener;
         if (listener != null) {
-            if (file == null) {
+            if (file == null || !file.exists()) {
                 listener.append("Error: " + componentName + " missing TetrisScript file.");
                 return;
             } else {

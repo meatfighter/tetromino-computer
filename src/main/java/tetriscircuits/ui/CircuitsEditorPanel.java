@@ -293,6 +293,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
     }
     
+    public void setTetrisScript(final String tetrisScript) {
+        tetrisScriptTextPane.setText(tetrisScript);
+    }
+    
+    public void setJavaScript(final String javaScript) {
+        javaScriptTextArea.setText(javaScript);
+    }
+    
     public void centerPlayfield() {  
         final Dimension viewportSize = playfieldScrollPane.getViewport().getSize();   
         final JScrollBar horizontalScrollBar = playfieldScrollPane.getHorizontalScrollBar();
