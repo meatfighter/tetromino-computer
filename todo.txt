@@ -1,11 +1,9 @@
 find + replace
+new
 load
 save
 component directories
 detect recursive definitions
-sort order for _ components and buffers and ss and zs
 component stacking and loops
 animations
-move in's and out's to top of files
 run spinner and cancel button
-center button

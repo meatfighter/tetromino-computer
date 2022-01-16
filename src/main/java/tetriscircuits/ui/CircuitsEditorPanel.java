@@ -292,6 +292,15 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });
     }
+    
+    public void centerPlayfield() {  
+        final Dimension viewportSize = playfieldScrollPane.getViewport().getSize();   
+        final JScrollBar horizontalScrollBar = playfieldScrollPane.getHorizontalScrollBar();
+        final JScrollBar verticalScrollBar = playfieldScrollPane.getVerticalScrollBar();
+        horizontalScrollBar.setValue(horizontalScrollBar.getMinimum() + ((horizontalScrollBar.getMaximum() 
+                - horizontalScrollBar.getMinimum() - viewportSize.width) >> 1));
+        verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+    }
         
     public void clearCursorRenderer() {
         componentName = null;

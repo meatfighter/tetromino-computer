@@ -12,6 +12,7 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -589,11 +590,54 @@ public class Controller {
         }        
     }
     
+    private int findComponentNameSortGroup(final String componentName) {
+        switch(componentName.charAt(0)) {
+            case '_':
+                return 4;
+            case 's': {
+                final char c = componentName.charAt(1);
+                if (c >= '0' && c <= '9') {
+                    return 2;
+                }
+                break;
+            }
+            case 'z': {
+                final char c = componentName.charAt(1);
+                if (c >= '0' && c <= '9') {
+                    return 3;
+                }
+                break;
+            }
+        }
+        if (componentName.startsWith("buffer")) {
+            return 1;
+        }
+        return 0;
+    }
+    
     private void notifyStructuresCreated() {
         final Set<String> names = new HashSet<>(components.keySet());
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);
-        Arrays.sort(componentNames); 
+        Arrays.sort(componentNames, (a, b) -> {
+            final int groupA = findComponentNameSortGroup(a);
+            final int groupB = findComponentNameSortGroup(b);
+            if (groupA == groupB) {
+                switch(groupA) {
+                    case 1: 
+                        return Integer.compare(Integer.parseInt(a.substring(6)), Integer.parseInt(b.substring(6)));
+                    case 2:
+                    case 3:
+                        return Integer.compare(Integer.parseInt(a.substring(1)), Integer.parseInt(b.substring(1)));
+                    default:
+                        return a.compareTo(b);
+                }                
+            }
+            if (groupA < groupB) {
+                return -1;
+            }            
+            return 1;
+        }); 
         
         final BuildListener buildListener = this.buildListener;
         if (buildListener != null) {

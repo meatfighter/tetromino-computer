@@ -71,7 +71,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     EventQueue.invokeLater(this::buildStarted);
                     return;
                 }
-                playButton.setEnabled(false);
+                runButton.setEnabled(false);
             }
             @Override
             public void buildCompleted(final String[] componentNames, final Map<String, Structure> structures) {
@@ -80,7 +80,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     return;
                 }
                 CircuitsFrame.this.structures = structures;
-                playButton.setEnabled(true);
+                runButton.setEnabled(true);
                 final String selectedItem = (String)compEditComboBox.getSelectedItem();
                 compEditComboBox.setModel(new DefaultComboBoxModel(componentNames));
                 if (selectedItem != null) {
@@ -155,7 +155,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel = new tetriscircuits.ui.CircuitsEditorPanel();
         toolBar = new javax.swing.JToolBar();
         testTextField = new javax.swing.JTextField();
-        playButton = new javax.swing.JButton();
+        runButton = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
         compEditComboBox = new javax.swing.JComboBox<>();
         addComponentButton = new javax.swing.JButton();
@@ -194,6 +194,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator10 = new javax.swing.JSeparator();
         depthSpinner = new javax.swing.JSpinner();
         cursorLabel = new javax.swing.JLabel();
+        centerButton = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -239,18 +241,18 @@ public class CircuitsFrame extends javax.swing.JFrame {
         testTextField.setPreferredSize(null);
         toolBar.add(testTextField);
 
-        playButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/play.png"))); // NOI18N
-        playButton.setToolTipText("Run Component and Test");
-        playButton.setContentAreaFilled(false);
-        playButton.setFocusable(false);
-        playButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        playButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        playButton.addActionListener(new java.awt.event.ActionListener() {
+        runButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.png"))); // NOI18N
+        runButton.setToolTipText("Run");
+        runButton.setContentAreaFilled(false);
+        runButton.setFocusable(false);
+        runButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        runButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playButtonActionPerformed(evt);
+                runButtonActionPerformed(evt);
             }
         });
-        toolBar.add(playButton);
+        toolBar.add(runButton);
         toolBar.add(jSeparator6);
 
         compEditComboBox.setEditable(true);
@@ -263,6 +265,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(compEditComboBox);
 
         addComponentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
+        addComponentButton.setToolTipText("Add Component");
         addComponentButton.setContentAreaFilled(false);
         addComponentButton.setFocusable(false);
         addComponentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -602,6 +605,26 @@ public class CircuitsFrame extends javax.swing.JFrame {
         cursorLabel.setName(""); // NOI18N
         cursorLabel.setPreferredSize(null);
 
+        centerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/center.png"))); // NOI18N
+        centerButton.setToolTipText("Center Playfield");
+        centerButton.setBorder(null);
+        centerButton.setBorderPainted(false);
+        centerButton.setContentAreaFilled(false);
+        centerButton.setFocusPainted(false);
+        centerButton.setFocusable(false);
+        centerButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        centerButton.setOpaque(false);
+        centerButton.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/center-pressed.png"))); // NOI18N
+        centerButton.setRequestFocusEnabled(false);
+        centerButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/center-rollover.png"))); // NOI18N
+        centerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                centerButtonActionPerformed(evt);
+            }
+        });
+
+        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
@@ -610,6 +633,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(cursorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(centerButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -640,7 +667,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     .addComponent(playfieldWidthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cursorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cursorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(centerButton)
+                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2))
         );
 
@@ -766,9 +795,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
                     .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -776,8 +807,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -875,9 +906,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.tetriminoButtonPressed(evt);
     }//GEN-LAST:event_ihButtonActionPerformed
 
-    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+    private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         circuitsEditorPanel.buildAndRun(testTextField.getText().trim(), (int)depthSpinner.getValue());
-    }//GEN-LAST:event_playButtonActionPerformed
+    }//GEN-LAST:event_runButtonActionPerformed
 
     private void addComponentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComponentButtonActionPerformed
         final String name = compEditComboBox.getSelectedItem().toString();
@@ -904,7 +935,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_playfieldWidthSpinnerStateChanged
 
     private void depthSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_depthSpinnerStateChanged
-        playButtonActionPerformed(null);
+        runButtonActionPerformed(null);
     }//GEN-LAST:event_depthSpinnerStateChanged
 
     private void translateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translateMenuItemActionPerformed
@@ -963,11 +994,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_helpMenuItemActionPerformed
 
+    private void centerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centerButtonActionPerformed
+        circuitsEditorPanel.centerPlayfield();
+    }//GEN-LAST:event_centerButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JSpinner cellSizeSpinner;
+    private javax.swing.JButton centerButton;
     private tetriscircuits.ui.CircuitsEditorPanel circuitsEditorPanel;
     private javax.swing.JComboBox<String> compEditComboBox;
     private javax.swing.JLabel coordinatesLabel;
@@ -985,6 +1021,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
@@ -1002,10 +1039,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JButton oButton;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JButton playButton;
     private javax.swing.JSpinner playfieldHeightSpinner;
     private javax.swing.JSpinner playfieldWidthSpinner;
     private javax.swing.JMenuItem redoMenuItem;
+    private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JToolBar.Separator separator4;
