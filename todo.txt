@@ -1,16 +1,14 @@
+vertical text for long components
+input labels
 remove hammer, make build+run
 find + replace
 load
 save
 component directories
 detect recursive definitions
-instruction component aliases
-vertical text for long components
 sort order for _ components and buffers and ss and zs
 component stacking and loops
 animations
 move in's and out's to top of files
 run spinner and cancel button
-zoom without Ctrl
 center button
-help...

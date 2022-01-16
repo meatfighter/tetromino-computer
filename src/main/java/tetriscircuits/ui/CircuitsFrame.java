@@ -1,8 +1,13 @@
 package tetriscircuits.ui;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -96,8 +101,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     public void zoom(final int delta) {
         int value = (int)cellSizeSpinner.getValue() + delta;
         final int maximum = (int)((SpinnerNumberModel)cellSizeSpinner.getModel()).getMaximum();
-        if (value < 0) {
-            value = 0;
+        if (value < 1) {
+            value = 1;
         } else if (value > maximum) {
             value = maximum;
         } 
@@ -211,6 +216,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolsMenu = new javax.swing.JMenu();
         translateMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        helpMenuItem = new javax.swing.JMenuItem();
         licenseMenuItem = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -749,6 +755,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
 
+        helpMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        helpMenuItem.setText("Help...");
+        helpMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(helpMenuItem);
+
         licenseMenuItem.setMnemonic('L');
         licenseMenuItem.setText("License...");
         licenseMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -979,6 +994,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
         licenseDialog.setVisible(true);
     }//GEN-LAST:event_licenseMenuItemActionPerformed
 
+    private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
+        try {
+            Desktop.getDesktop().browse(new URI("https://meatfighter.com/")); // TODO TSE HELP URL
+        } catch (final Exception e) {
+        }
+    }//GEN-LAST:event_helpMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
@@ -994,6 +1016,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JButton ihButton;
     private javax.swing.JButton ivButton;
     private javax.swing.JPopupMenu.Separator jSeparator1;

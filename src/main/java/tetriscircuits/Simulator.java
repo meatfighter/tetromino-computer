@@ -136,18 +136,19 @@ public class Simulator {
     
     public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
             final int depth) {
-        simulate(playfield, component, originX, originY, depth, null);
+        simulate(playfield, component, component.getName(), originX, originY, depth, null);
     }
     
     public void simulate(final Playfield playfield, final Component component, final int depth, 
             final StructureListener listener) {
-        simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, listener);
+        simulate(playfield, component, component.getName(), playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, 
+                listener);
     }
 
-    public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
-            final int depth, final StructureListener listener) {
+    public void simulate(final Playfield playfield, final Component component, final String alias, final int originX, 
+            final int originY, final int depth, final StructureListener listener) {
         if (depth <= 0 && !component.getName().startsWith("_")) {
-            emulate(playfield, component, originX, originY, listener);
+            emulate(playfield, component, alias, originX, originY, listener);
         } else {
             simulate(playfield, component.getInstructions(), originX, originY, depth, listener);
         }
@@ -179,7 +180,8 @@ public class Simulator {
         
         final Component component = instruction.getComponent();
         if (component != null) {   
-            simulate(playfield, component, originX + moves[0], originY - moves[1], depth - 1, listener);
+            simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], depth - 1, 
+                    listener);
             return;
         }
         
@@ -204,8 +206,8 @@ public class Simulator {
         }
     }
     
-    public void emulate(final Playfield playfield, final Component component, final int originX, final int originY,
-            final StructureListener listener) {
+    public void emulate(final Playfield playfield, final Component component, final String alias, final int originX, 
+            final int originY, final StructureListener listener) {
 
         final Terminal[] inputs = component.getInputs();
         final boolean[] inputValues = new boolean[inputs.length];
@@ -297,7 +299,7 @@ public class Simulator {
                 } 
             }            
             
-            listener.structureLocked(new Structure(component.getName(), originX - (playfield.getWidth() >> 1), 
+            listener.structureLocked(new Structure(alias, originX - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - originY, inputRects, outputRects, minX, maxX, minY, maxY));
         }
     }

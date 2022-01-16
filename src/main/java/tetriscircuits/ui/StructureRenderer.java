@@ -6,6 +6,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +26,8 @@ public class StructureRenderer {
     private static final Color TEXT_COLOR = TERMINAL_FILL;
     
     private static final Map<String, StructureRenderer> STRUCTURE_RENDERERS;
+    
+    private static final AffineTransform ROTATION90 = AffineTransform.getQuadrantRotateInstance(3);
     
     static {
         final Map<String, StructureRenderer> structureRenderers = new HashMap<>();
@@ -81,8 +84,10 @@ public class StructureRenderer {
             return;
         }
         
-        g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, cellSize >> 1));
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        final Font normalFont = new Font(Font.MONOSPACED, Font.PLAIN, (cellSize << 1) / 3);
+        final Font rotatedFont = normalFont.deriveFont(ROTATION90);
+        g.setFont(normalFont);                
+        
         final FontMetrics fontMetrics = g.getFontMetrics();           
                 
         for (int i = structures.length - 1; i >= 0; --i) {
@@ -97,10 +102,15 @@ public class StructureRenderer {
                 g.fillRect(fillX, fillY, fillWidth, fillHeight);
                 final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
                 g.setColor(TEXT_COLOR);
-                g.setClip(fillX, fillY, fillWidth, fillHeight);
-                g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
-                        fillY + (fillHeight >> 1) + fontMetrics.getDescent());
-                g.setClip(null);
+                if (nameBounds.getWidth() >= fillWidth - 10) {                    
+                    g.setFont(rotatedFont);
+                    g.drawString(struct.getComponentName(), fillX + (fillWidth >> 1) + fontMetrics.getDescent(), 
+                            fillY + fillHeight - ((fillHeight - (int)nameBounds.getWidth()) >> 1));
+                    g.setFont(normalFont);
+                } else {
+                    g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
+                            fillY + (fillHeight >> 1) + fontMetrics.getDescent());
+                }
                 renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY());
                 renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY());
             }

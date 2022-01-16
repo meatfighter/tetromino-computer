@@ -288,8 +288,18 @@ public class Parser {
         final Component component = (tetrimino == null) ? components.computeIfAbsent(operation, n -> new Component(n)) 
                 : null;
         
-        final List<Integer> moves = new ArrayList<>();
+        String alias = null;
         int i = index;
+        if (component != null) {
+            alias = component.getName();
+            final Token aliasToken = tokens.get(i);
+            if (aliasToken.getType() == TokenType.STRING) {
+                ++i;
+                alias = aliasToken.getStr();
+            }
+        }        
+        
+        final List<Integer> moves = new ArrayList<>();
         while (true) {
             final Token token = tokens.get(i);
             if (token.getType() != TokenType.NUMBER) {
@@ -311,7 +321,7 @@ public class Parser {
             ms[j] = moves.get(j);
         }
                         
-        instructions.add(new Instruction(tetrimino, component, ms));
+        instructions.add(new Instruction(tetrimino, component, alias, ms));
         
         return i;
     }

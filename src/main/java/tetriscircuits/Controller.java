@@ -99,7 +99,7 @@ public class Controller {
         final Component ss = new Component(String.format("s%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
-            instructions.add(new Instruction(Tetrimino.SH, null, new int[] { x }));
+            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }));
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -118,7 +118,7 @@ public class Controller {
         final Component zs = new Component(String.format("z%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
-            instructions.add(new Instruction(Tetrimino.ZH, null, new int[] { x }));
+            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }));
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -142,23 +142,23 @@ public class Controller {
                         new HorizontalLine[] { new HorizontalLine(0, 0) })});
                 break;
             case 1:
-                instructions.add(new Instruction(Tetrimino.LR, null, new int[] { -1 }));
+                instructions.add(new Instruction(Tetrimino.LR, null, null, new int[] { -1 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
             case 2:
-                instructions.add(new Instruction(Tetrimino.OS, null, new int[] { 0 }));
+                instructions.add(new Instruction(Tetrimino.OS, null, null, new int[] { 0 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
             case 3:
-                instructions.add(new Instruction(Tetrimino.JL, null, new int[] { 0 }));
+                instructions.add(new Instruction(Tetrimino.JL, null, null, new int[] { 0 }));
                 buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                         new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
                 break;
         }
         for (int i = length >> 2; i > 0; --i) {
-            instructions.add(new Instruction(Tetrimino.IV, null, new int[] { 0 }));
+            instructions.add(new Instruction(Tetrimino.IV, null, null, new int[] { 0 }));
         }
         buffer.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         buffer.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
