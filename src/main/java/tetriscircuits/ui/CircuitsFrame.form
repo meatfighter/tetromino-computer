@@ -121,7 +121,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="licenseMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="76"/>
-                <Property name="text" type="java.lang.String" value="License"/>
+                <Property name="text" type="java.lang.String" value="License..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="licenseMenuItemActionPerformed"/>
@@ -132,7 +132,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="65"/>
-                <Property name="text" type="java.lang.String" value="About"/>
+                <Property name="text" type="java.lang.String" value="About..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aboutMenuItemActionPerformed"/>

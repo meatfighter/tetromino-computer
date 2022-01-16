@@ -750,7 +750,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         helpMenu.setText("Help");
 
         licenseMenuItem.setMnemonic('L');
-        licenseMenuItem.setText("License");
+        licenseMenuItem.setText("License...");
         licenseMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 licenseMenuItemActionPerformed(evt);
@@ -760,7 +760,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         helpMenu.add(jSeparator11);
 
         aboutMenuItem.setMnemonic('A');
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setText("About...");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutMenuItemActionPerformed(evt);

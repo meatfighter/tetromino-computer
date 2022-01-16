@@ -1,5 +1,6 @@
 package tetriscircuits.ui;
 
+import java.awt.EventQueue;
 import tetriscircuits.License;
 
 public class LicensePanel extends javax.swing.JPanel {
@@ -10,6 +11,11 @@ public class LicensePanel extends javax.swing.JPanel {
     public LicensePanel() {
         initComponents();
         licenseTextArea.setText(License.getLicense());
+        EventQueue.invokeLater(() -> {
+            licenseScrollPane.getVerticalScrollBar().setValue(licenseScrollPane.getVerticalScrollBar().getMinimum());
+            licenseScrollPane.getHorizontalScrollBar().setValue(licenseScrollPane.getHorizontalScrollBar()
+                    .getMinimum());
+        });
     }
 
     /**
