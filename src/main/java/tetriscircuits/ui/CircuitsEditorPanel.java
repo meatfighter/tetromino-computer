@@ -220,7 +220,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void init() {                
         lowerSplitPane.setDividerLocation(0.2);
-        verticalSplitPane.setDividerLocation(0.6);
+        verticalSplitPane.setDividerLocation(0.8);
         horizontalSplitPane.setDividerLocation(0.4);        
         
         EventQueue.invokeLater(() -> {
@@ -358,6 +358,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void build(final int depth) {
         controller.build(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+    }
+    
+    public void buildAndRun(final String testBitsStr, final int depth) {
+        controller.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), "[unnamed]", testBitsStr,
+                depth);
     }
     
     public String getTetrisScriptLines(final boolean selection) {

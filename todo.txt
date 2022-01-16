@@ -1,5 +1,3 @@
-input labels
-remove hammer, make build+run
 find + replace
 load
 save
