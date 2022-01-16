@@ -10,7 +10,8 @@ sort order for _ components and buffers and ss and zs
 component stacking and loops
 animations
 move in's and out's to top of files
-about box
 run spinner and cancel button
 zoom without Ctrl
 center button
+help...
+license...

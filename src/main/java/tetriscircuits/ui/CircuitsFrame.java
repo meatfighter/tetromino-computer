@@ -211,6 +211,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolsMenu = new javax.swing.JMenu();
         translateMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
+        licenseMenuItem = new javax.swing.JMenuItem();
+        jSeparator11 = new javax.swing.JPopupMenu.Separator();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -693,6 +695,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileMenu.add(saveAsMenuItem);
         fileMenu.add(jSeparator3);
 
+        exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -745,6 +748,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
+
+        licenseMenuItem.setMnemonic('L');
+        licenseMenuItem.setText("License");
+        licenseMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                licenseMenuItemActionPerformed(evt);
+            }
+        });
+        helpMenu.add(licenseMenuItem);
+        helpMenu.add(jSeparator11);
 
         aboutMenuItem.setMnemonic('A');
         aboutMenuItem.setText("About");
@@ -957,6 +970,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
+    private void licenseMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_licenseMenuItemActionPerformed
+        final JDialog licenseDialog = new JDialog(this, "License", true);
+        licenseDialog.setContentPane(new LicensePanel());
+        licenseDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        licenseDialog.pack();
+        licenseDialog.setLocationRelativeTo(this);
+        licenseDialog.setVisible(true);
+    }//GEN-LAST:event_licenseMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
@@ -976,6 +998,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JButton ivButton;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -989,6 +1012,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JButton jrButton;
     private javax.swing.JButton juButton;
     private javax.swing.JButton ldButton;
+    private javax.swing.JMenuItem licenseMenuItem;
     private javax.swing.JButton llButton;
     private javax.swing.JButton lrButton;
     private javax.swing.JButton luButton;
