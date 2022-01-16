@@ -248,6 +248,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
+        toolBar.setMargin(new java.awt.Insets(0, 4, 0, 4));
         toolBar.setMaximumSize(null);
         toolBar.setMinimumSize(null);
         toolBar.setName(""); // NOI18N

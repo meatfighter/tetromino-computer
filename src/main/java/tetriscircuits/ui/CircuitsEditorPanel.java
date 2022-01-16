@@ -295,6 +295,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void setTetrisScript(final String tetrisScript) {
         tetrisScriptTextPane.setText(tetrisScript);
+        TetrisScriptDocumentFilter.applySyntaxHighlighting(tetrisScriptTextPane.getStyledDocument());
     }
     
     public void setJavaScript(final String javaScript) {
