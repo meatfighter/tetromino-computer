@@ -2,14 +2,10 @@ package tetriscircuits.ui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import tetriscircuits.BuildListener;
@@ -218,6 +214,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TetrisScript Editor");
         setPreferredSize(null);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -751,6 +748,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         aboutMenuItem.setMnemonic('A');
         aboutMenuItem.setText("About");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -945,6 +947,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
         circuitsEditorPanel.appendOutput("Translated.");        
     }//GEN-LAST:event_translateMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        final JDialog aboutDialog = new JDialog(this, "About TetrisScript Editor", true);
+        aboutDialog.setContentPane(new AboutPanel());
+        aboutDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        aboutDialog.pack();
+        aboutDialog.setLocationRelativeTo(this);
+        aboutDialog.setVisible(true);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;

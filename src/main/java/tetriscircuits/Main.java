@@ -2,17 +2,10 @@ package tetriscircuits;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
-import javax.script.Bindings;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.SimpleBindings;
-import javax.script.SimpleScriptContext;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import tetriscircuits.ui.CircuitsFrame;
+import tetriscircuits.ui.WindowUtil;
 
 public class Main {
     
@@ -30,7 +23,8 @@ public class Main {
         }
         final CircuitsFrame frame = new CircuitsFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);      
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        WindowUtil.standardize(frame);
         frame.pack();
         frame.setLocationRelativeTo(null);        
         frame.init();        

@@ -16,7 +16,7 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
 
     private static final Pattern KEYWORD_PATTERN = Pattern.compile("(def|in|out|test)($|\\s)");
     private static final Pattern NUMBER_PATTERN 
-            = Pattern.compile("(([0-9]+)|([0-9]+\\.\\.[0-9]+)|([A-Za-z0-9]+[0-9]+\\.\\.[0-9]+))($|\\s)");
+            = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)");
     private static final Pattern DECLARE_PATTERN = Pattern.compile("(^|\\s)def\\s+([a-zA-Z_][a-zA-Z0-9_]*)($|\\s)");
     
     public static final Color NORMAL_COLOR = new Color(0xBBBBBB);
