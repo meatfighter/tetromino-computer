@@ -167,6 +167,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });
     }
+    
+    public void reset() {
+        tetrisScriptTextPane.setText("");
+        javaScriptTextArea.setText("");
+        outputTextArea.setText("");
+        playfieldPanel.reset();
+    }
 
     public Controller getController() {
         return controller;
@@ -293,9 +300,17 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
     }
     
+    public void clearTetrisScript() {
+        tetrisScriptTextPane.setText("");
+    }
+    
     public void setTetrisScript(final String tetrisScript) {
         tetrisScriptTextPane.setText(tetrisScript);
         TetrisScriptDocumentFilter.applySyntaxHighlighting(tetrisScriptTextPane.getStyledDocument());
+    }
+    
+    public void clearJavaScript() {
+        javaScriptTextArea.setText("");
     }
     
     public void setJavaScript(final String javaScript) {
@@ -343,7 +358,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 line += " " + cellY;
             } 
             doc.insertString(caretPos, line, null);
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, root.getElement(root.getElementIndex(caretPos + line.length())));
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, root.getElement(root.getElementIndex(caretPos 
+                    + line.length())));
             if (componentName != null) {
                 circuitsFrame.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText());
             }

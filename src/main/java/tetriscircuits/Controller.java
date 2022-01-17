@@ -12,7 +12,6 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +28,8 @@ import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
 
 public class Controller {
+    
+    public static final String CIRCUITS_DIR = "circuits";
     
     private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
     private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
@@ -190,12 +191,12 @@ public class Controller {
             
             final OpenListener tsOpenListener = tetrisScriptOpenListener;
             if (tsOpenListener != null) {
-                tsOpenListener.openedFile(readFile(tetrisScriptFile));
+                tsOpenListener.openedFile(componentName, tetrisScriptFile, readFile(tetrisScriptFile));
             }
             
             final OpenListener jsOpenListener = javaScriptOpenListener;
             if (jsOpenListener != null) {
-                jsOpenListener.openedFile(readFile(javaScriptFile));
+                jsOpenListener.openedFile(componentName, javaScriptFile, readFile(javaScriptFile));
             }            
         });
     }
@@ -227,26 +228,36 @@ public class Controller {
         return sb.toString();
     }
     
+    private void findSourceFiles(final File directory, final Map<String, Files> files) {
+        for (final File file : directory.listFiles()) {
+            if (file.isDirectory()) {
+                findSourceFiles(file, files);
+                continue;
+            }
+            if (!(file.getName().endsWith(".t") || file.getName().endsWith(".js"))) {
+                continue;
+            }
+            final String filename = file.getName();
+            final String componentName = filename.substring(0, filename.indexOf('.'));
+            Files fs = files.get(componentName);
+            if (fs == null) {
+                fs = new Files();
+                files.put(componentName, fs);
+            }
+            if (filename.endsWith(".t")) {
+                fs.setTFile(file);
+            } else {
+                fs.setJsFile(file);
+            }
+        }
+    }
+    
     public void loadComponents() {
         execute(() -> {
             createBuffersSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
-            for (final File file : new File("components").listFiles(
-                    file -> file.isFile() && (file.getName().endsWith(".t") || file.getName().endsWith(".js")))) {
-                final String filename = file.getName();
-                final String componentName = filename.substring(0, filename.indexOf('.'));
-                Files fs = files.get(componentName);
-                if (fs == null) {
-                    fs = new Files();
-                    files.put(componentName, fs);
-                }
-                if (filename.endsWith(".t")) {
-                    fs.setTFile(file);
-                } else {
-                    fs.setJsFile(file);
-                }
-            }
+            findSourceFiles(new File(CIRCUITS_DIR), files);
             synchronized(loadMonitor) {
                 loadCount = files.size();
                 for (Map.Entry<String, Files> entry : files.entrySet()) {

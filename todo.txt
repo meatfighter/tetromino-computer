@@ -1,5 +1,4 @@
 load 
-  show loaded name somewhere
   build+run on load
   show output messages
 
@@ -7,7 +6,6 @@ move cursor to new blank line when inserting
 find + replace
 new
 save
-component directories
 detect recursive definitions
 component stacking and loops
 animations

@@ -43,6 +43,17 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         initComponents();
     }
     
+    public void reset() {
+        setCellSize(16);
+        setPlayfieldWidth(256);
+        setPlayfieldHeight(256);
+        clearCursorRenderer();
+        structureRenderer = null;
+        cursorRenderer = null;
+        minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
+        repaint();
+    }
+    
     public void setPlayfieldWidth(final int playfieldWidth) {
         this.playfieldWidth = playfieldWidth;
         updateDimensions();        
