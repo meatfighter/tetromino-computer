@@ -348,18 +348,35 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         try {            
             final StyledDocument doc = tetrisScriptTextPane.getStyledDocument(); 
             final Element root = doc.getDefaultRootElement();
-            final int caretPos = tetrisScriptTextPane.getCaretPosition();
+            final Element caretLine = root.getElement(root.getElementIndex(tetrisScriptTextPane.getCaretPosition()));
+            final int offset;
+            boolean endWithNewline = false;
+            if (tetrisScriptTextPane.getCaretPosition() == caretLine.getStartOffset()) {
+                if (caretLine.getStartOffset() == 0) {
+                    offset = 0;                    
+                    endWithNewline = doc.getLength() > 0;
+                } else {
+                    offset = caretLine.getStartOffset() - 1;
+                }
+            } else {
+                offset = caretLine.getEndOffset() - 1;
+            }
+            
             String prefix = "";
-            if (caretPos > 0 && !Character.isWhitespace(doc.getText(caretPos - 1, 1).charAt(0))) {
+            if (offset > 0 && !Character.isWhitespace(doc.getText(offset - 1, 1).charAt(0))) {
                 prefix = (componentName == null) ? " " : "\n";
             }     
             String line = String.format("%s%s%d", prefix, (componentName == null) ? "" : (componentName + " "), cellX);
             if (aggregateComponent) {
                 line += " " + cellY;
             } 
-            doc.insertString(caretPos, line, null);
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, root.getElement(root.getElementIndex(caretPos 
-                    + line.length())));
+            if (endWithNewline) {
+                line += "\n";
+            }
+            doc.insertString(offset, line, null); 
+            final Element newLine = root.getElement(root.getElementIndex(offset + 1));
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, newLine);
+            tetrisScriptTextPane.setCaretPosition(newLine.getEndOffset() - 1);
             if (componentName != null) {
                 circuitsFrame.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText());
             }
