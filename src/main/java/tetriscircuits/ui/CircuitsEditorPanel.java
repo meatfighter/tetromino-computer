@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import static java.lang.Math.round;
 import javax.swing.AbstractAction;
+import javax.swing.FocusManager;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
@@ -44,6 +45,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     private String componentName;
     private boolean aggregateComponent;
+    
+    private boolean tetrisScriptHasFocus = true;
+    private boolean javaScriptHasFocus;
     
     /**
      * Creates new form NewJPanel
@@ -344,6 +348,39 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(componentName));
     }   
     
+    public void goToLine(final int lineNumber) {        
+        if (javaScriptHasFocus) {
+            goToLine(lineNumber, javaScriptTextArea, javaScriptScrollPane);
+        } else {
+            goToLine(lineNumber, tetrisScriptTextPane, tetrisScriptScrollPane);
+        }
+    }
+    
+    private void goToLine(final int lineNumber, final JTextComponent textComponent, final JScrollPane scrollPane) {
+        textComponent.requestFocusInWindow();
+        final Document doc = textComponent.getDocument();
+        final Element root = doc.getDefaultRootElement();
+        int lineNum = lineNumber - 1;
+        if (lineNum >= root.getElementCount()) {
+            lineNum = root.getElementCount() - 1;
+        }
+        if (lineNum < 0) {
+            lineNum = 0;
+        } 
+        final Element line = root.getElement(lineNum);
+        textComponent.setCaretPosition(line.getStartOffset());
+        
+        EventQueue.invokeLater(() -> {
+            try {
+                final Rectangle rect = textComponent.modelToView(line.getStartOffset());
+                final JViewport viewport = scrollPane.getViewport();
+                final JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+                scrollBar.setValue(rect.y - ((viewport.getHeight() - rect.height) >> 1));            
+            } catch (final BadLocationException e) { 
+            }
+        });
+    }
+    
     public void insertStructure(final int cellX, final int cellY) {               
         try {            
             final StyledDocument doc = tetrisScriptTextPane.getStyledDocument(); 
@@ -387,9 +424,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void undo() {
         try {
-            if (tetrisScriptTextPane.isFocusOwner()) {
+            if (tetrisScriptHasFocus) {
                 tetrisScriptUndoManager.undo();
-            } else if (javaScriptTextArea.isFocusOwner()) {
+            } else if (javaScriptHasFocus) {
                 javaScriptUndoManager.undo();
             }
         } catch (final CannotUndoException cue) {
@@ -398,9 +435,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void redo() {
         try {
-            if (tetrisScriptTextPane.isFocusOwner()) {
+            if (tetrisScriptHasFocus) {
                 tetrisScriptUndoManager.redo();
-            } else if (javaScriptTextArea.isFocusOwner()) {
+            } else if (javaScriptHasFocus) {
                 javaScriptUndoManager.redo();
             }
         } catch (final CannotRedoException cre) {
@@ -505,6 +542,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });
         tetrisScriptTextPane.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tetrisScriptTextPaneFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tetrisScriptTextPaneFocusLost(evt);
             }
@@ -530,6 +570,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });
         javaScriptTextArea.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                javaScriptTextAreaFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 javaScriptTextAreaFocusLost(evt);
             }
@@ -613,6 +656,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private void javaScriptTextAreaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_javaScriptTextAreaFocusLost
         circuitsFrame.clearCursorCoordinates();
     }//GEN-LAST:event_javaScriptTextAreaFocusLost
+
+    private void tetrisScriptTextPaneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tetrisScriptTextPaneFocusGained
+        tetrisScriptHasFocus = true;
+        javaScriptHasFocus = false;
+    }//GEN-LAST:event_tetrisScriptTextPaneFocusGained
+
+    private void javaScriptTextAreaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_javaScriptTextAreaFocusGained
+        javaScriptHasFocus = true;
+        tetrisScriptHasFocus = false;
+    }//GEN-LAST:event_javaScriptTextAreaFocusGained
 
     private void updateCursorCoordinates(final JTextComponent textComponent) {
         final Document doc = textComponent.getDocument();

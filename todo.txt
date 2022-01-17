@@ -2,7 +2,6 @@ load
   build+run on load
   show output messages
 
-move cursor to new blank line when inserting
 find + replace
 new
 save

@@ -3,6 +3,8 @@ package tetriscircuits.ui;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
@@ -10,10 +12,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.JTextComponent;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
@@ -30,6 +34,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private File tetrisScriptFile;
     private File javaScriptFile;
     private String componentName;
+    
+    private JDialog goToDialog;
 
     /**
      * Creates new form CircuitsFrame
@@ -237,6 +243,12 @@ public class CircuitsFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         undoMenuItem = new javax.swing.JMenuItem();
         redoMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        findMenuItem = new javax.swing.JMenuItem();
+        findNextMenuItem = new javax.swing.JMenuItem();
+        findPreviousMenuItem = new javax.swing.JMenuItem();
+        replaceMenuItem = new javax.swing.JMenuItem();
+        goToMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         translateMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -793,6 +805,57 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         editMenu.add(redoMenuItem);
+        editMenu.add(jSeparator2);
+
+        findMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        findMenuItem.setMnemonic('F');
+        findMenuItem.setText("Find...");
+        findMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(findMenuItem);
+
+        findNextMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        findNextMenuItem.setMnemonic('N');
+        findNextMenuItem.setText("Find Next");
+        findNextMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findNextMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(findNextMenuItem);
+
+        findPreviousMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.SHIFT_MASK));
+        findPreviousMenuItem.setMnemonic('v');
+        findPreviousMenuItem.setText("Find Previous");
+        findPreviousMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findPreviousMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(findPreviousMenuItem);
+
+        replaceMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        replaceMenuItem.setMnemonic('R');
+        replaceMenuItem.setText("Replace...");
+        replaceMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                replaceMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(replaceMenuItem);
+
+        goToMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        goToMenuItem.setMnemonic('G');
+        goToMenuItem.setText("Go To...");
+        goToMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goToMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(goToMenuItem);
 
         menuBar.add(editMenu);
 
@@ -1098,6 +1161,53 @@ public class CircuitsFrame extends javax.swing.JFrame {
         reset();
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
+    private void findMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findMenuItemActionPerformed
+
+    private void findNextMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findNextMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findNextMenuItemActionPerformed
+
+    private void findPreviousMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPreviousMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findPreviousMenuItemActionPerformed
+
+    private void replaceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_replaceMenuItemActionPerformed
+
+    private void goToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToMenuItemActionPerformed
+        if (goToDialog == null) {
+            goToDialog = new JDialog(this, "Go To");
+            final GoToPanel goToPanel = new GoToPanel();
+            goToPanel.setCircuitsFrame(this);
+            goToDialog.setContentPane(goToPanel);
+            goToDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            goToDialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(final WindowEvent e) {
+                    closeGoToDialog();
+                }
+            });
+            goToDialog.pack();
+            goToDialog.setLocationRelativeTo(this);
+            goToDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_goToMenuItemActionPerformed
+
+    public void goToLine(final int lineNumber) {
+        closeGoToDialog();
+        circuitsEditorPanel.goToLine(lineNumber);
+    }    
+    
+    public void closeGoToDialog() {
+        if (goToDialog != null) {
+            goToDialog.dispose();
+            goToDialog = null;
+        }
+    }
+    
     private void setComponentName(final String componentName) {
         this.componentName = componentName;
         String title = getTitle(); 
@@ -1136,6 +1246,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem findMenuItem;
+    private javax.swing.JMenuItem findNextMenuItem;
+    private javax.swing.JMenuItem findPreviousMenuItem;
+    private javax.swing.JMenuItem goToMenuItem;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JButton ihButton;
@@ -1143,6 +1257,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
@@ -1166,6 +1281,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner playfieldHeightSpinner;
     private javax.swing.JSpinner playfieldWidthSpinner;
     private javax.swing.JMenuItem redoMenuItem;
+    private javax.swing.JMenuItem replaceMenuItem;
     private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
