@@ -12,12 +12,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.JTextComponent;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
@@ -36,6 +34,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private String componentName;
     
     private JDialog goToDialog;
+    private JDialog findReplaceDialog;
 
     /**
      * Creates new form CircuitsFrame
@@ -43,7 +42,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     public CircuitsFrame() {
         initComponents();
         toolBar.setLayout(new WrapLayout(WrapLayout.LEFT, 0, 0));
-        initTextField(testTextField, 32);
+        UiUtil.setTextFieldColumns(testTextField, 32);
         initEditableComboBox(compEditComboBox);  
     }
     
@@ -55,18 +54,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         comboBox.setMinimumSize(testTextField.getMinimumSize());
         comboBox.setMaximumSize(testTextField.getMaximumSize());
         compEditComboBox.setModel(new DefaultComboBoxModel(new String[0]));
-    }
-    
-    private void initTextField(final JTextField textField, final int columns) {
-        textField.setColumns(columns);
-        final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < columns; ++i) {
-            sb.append('M');
-        }
-        textField.setText(sb.toString());
-        textField.setMinimumSize(textField.getPreferredSize());
-        textField.setMaximumSize(textField.getPreferredSize());
-        textField.setText("");
     }
     
     private String getComponentDirectory() {
@@ -1174,26 +1161,69 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_findPreviousMenuItemActionPerformed
 
     private void replaceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceMenuItemActionPerformed
-        // TODO add your handling code here:
+        if (findReplaceDialog != null) {
+            findReplaceDialog.requestFocus();
+            return;
+        }
+        
+        findReplaceDialog = new JDialog(this, "Replace");
+        final FindReplacePanel findReplacePanel = new FindReplacePanel();
+        findReplacePanel.setCircuitsFrame(this);
+        findReplaceDialog.setContentPane(findReplacePanel);
+        findReplaceDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        findReplaceDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(final WindowEvent e) {
+                closeFindReplaceDialog();
+            }
+        });
+        findReplaceDialog.pack();
+        findReplaceDialog.setLocationRelativeTo(this);
+        findReplaceDialog.setVisible(true);
     }//GEN-LAST:event_replaceMenuItemActionPerformed
 
-    private void goToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToMenuItemActionPerformed
-        if (goToDialog == null) {
-            goToDialog = new JDialog(this, "Go To");
-            final GoToPanel goToPanel = new GoToPanel();
-            goToPanel.setCircuitsFrame(this);
-            goToDialog.setContentPane(goToPanel);
-            goToDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-            goToDialog.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(final WindowEvent e) {
-                    closeGoToDialog();
-                }
-            });
-            goToDialog.pack();
-            goToDialog.setLocationRelativeTo(this);
-            goToDialog.setVisible(true);
+    public void findNext(final String findWhat, final boolean backwards, final boolean matchCase, final boolean regex, 
+            final boolean wrapAround) {
+        circuitsEditorPanel.findNext(findWhat, backwards, matchCase, regex, wrapAround);
+    }
+    
+    public void replace(final String findWhat, final String replaceWith, final boolean backwards, 
+            final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        circuitsEditorPanel.replace(findWhat, replaceWith, backwards, matchCase, regex, wrapAround);
+    }
+
+    public void replaceAll(final String findWhat, final String replaceWith, final boolean backwards, 
+            final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        circuitsEditorPanel.replaceAll(findWhat, replaceWith, backwards, matchCase, regex, wrapAround);
+    }    
+    
+    public void closeFindReplaceDialog() {
+        if (findReplaceDialog != null) {
+            findReplaceDialog.dispose();
+            findReplaceDialog = null;
         }
+    }
+    
+    private void goToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToMenuItemActionPerformed
+        if (goToDialog != null) {
+            goToDialog.requestFocus();
+            return;
+        }
+                
+        goToDialog = new JDialog(this, "Go To");
+        final GoToPanel goToPanel = new GoToPanel();
+        goToPanel.setCircuitsFrame(this);
+        goToDialog.setContentPane(goToPanel);
+        goToDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        goToDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(final WindowEvent e) {
+                closeGoToDialog();
+            }
+        });
+        goToDialog.pack();
+        goToDialog.setLocationRelativeTo(this);
+        goToDialog.setVisible(true);        
     }//GEN-LAST:event_goToMenuItemActionPerformed
 
     public void goToLine(final int lineNumber) {

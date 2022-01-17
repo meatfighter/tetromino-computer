@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import tetriscircuits.ui.CircuitsFrame;
-import tetriscircuits.ui.WindowUtil;
+import tetriscircuits.ui.UiUtil;
 
 public class Main {
     
@@ -26,7 +26,7 @@ public class Main {
         final CircuitsFrame frame = new CircuitsFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        WindowUtil.standardize(frame);
+        UiUtil.setIcons(frame);
         frame.pack();
         frame.setLocationRelativeTo(null);        
         frame.init();        

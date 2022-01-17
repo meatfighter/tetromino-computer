@@ -4,9 +4,15 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import static java.lang.Math.round;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.AbstractAction;
 import javax.swing.FocusManager;
 import javax.swing.JButton;
@@ -25,6 +31,7 @@ import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.Controller;
 import tetriscircuits.OutputListener;
 import tetriscircuits.RunListener;
@@ -381,6 +388,19 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
     }
     
+    private void scrollToCaretPosition(final JTextComponent textComponent, final JScrollPane scrollPane) {
+        textComponent.requestFocusInWindow();
+        EventQueue.invokeLater(() -> {
+            try {
+                final Rectangle rect = textComponent.modelToView(textComponent.getCaretPosition());
+                final JViewport viewport = scrollPane.getViewport();
+                final JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+                scrollBar.setValue(rect.y - ((viewport.getHeight() - rect.height) >> 1));            
+            } catch (final BadLocationException e) { 
+            }
+        });
+    }
+    
     public void insertStructure(final int cellX, final int cellY) {               
         try {            
             final StyledDocument doc = tetrisScriptTextPane.getStyledDocument(); 
@@ -675,6 +695,188 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         final Element line = root.getElement(lineNumber);
         final int columnNumber = caretPos - line.getStartOffset();
         circuitsFrame.setCursorCoordinates(lineNumber + 1, columnNumber + 1);
+    }
+    
+    public void findNext(final String findWhat, final boolean backwards, final boolean matchCase, final boolean regex, 
+            final boolean wrapAround) {        
+        if (javaScriptHasFocus) {
+            findNext(javaScriptTextArea, javaScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
+        } else {
+            findNext(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
+        }
+    }
+    
+    public void findNext(final JTextComponent textComponent, final JScrollPane scrollPane, final String findWhat, 
+            final boolean backwards, final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        
+        final int location = findNextLocation(textComponent, findWhat, backwards, matchCase, regex, wrapAround);
+        if (location < 0) {
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        }
+        
+        circuitsFrame.requestFocus();
+        textComponent.setCaretPosition(location);
+        scrollToCaretPosition(textComponent, scrollPane);
+    }
+    
+    public void replace(final String findWhat, final String replaceWith, final boolean backwards, 
+            final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        if (javaScriptHasFocus) {
+            replace(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+                    wrapAround);
+        } else {
+            replace(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+                    wrapAround);
+        }
+    }
+    
+    public void replace(final JTextComponent textComponent, final JScrollPane scrollPane, final String findWhat, 
+            final String replaceWith, final boolean backwards, final boolean matchCase, final boolean regex, 
+            final boolean wrapAround) {
+        
+        final int location = findNextLocation(textComponent, findWhat, backwards, matchCase, regex, wrapAround);
+        if (location < 0) {
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        }
+        
+        final StringBuilder sb = new StringBuilder(textComponent.getText().replaceAll("[\n\r]+", "\n"));
+        sb.replace(location, location + findWhat.length(), replaceWith);
+        textComponent.setText(sb.toString());
+        
+        circuitsFrame.requestFocus();
+        textComponent.setCaretPosition(location);
+        scrollToCaretPosition(textComponent, scrollPane);
+    }
+
+    public void replaceAll(final String findWhat, final String replaceWith, final boolean backwards, 
+            final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        if (javaScriptHasFocus) {
+            replaceAll(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+                    wrapAround);
+        } else {
+            replaceAll(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+                    wrapAround);
+        }
+    } 
+    
+    public void replaceAll(final JTextComponent textComponent, final JScrollPane scrollPane, final String findWhat, 
+            final String replaceWith, final boolean backwards, final boolean matchCase, final boolean regex, 
+            final boolean wrapAround) {
+        
+        final List<Integer> locations = findAll(textComponent, findWhat, matchCase, regex);
+        if (locations.isEmpty()) {
+            Toolkit.getDefaultToolkit().beep();                    
+            return;
+        }
+        
+        final int caretPosition = textComponent.getCaretPosition();
+        final int replaceLength = findWhat.length();
+        final StringBuilder sb = new StringBuilder(textComponent.getText().replaceAll("[\n\r]+", "\n"));
+        for (int i = locations.size() - 1; i >= 0; --i) {
+            final int location = locations.get(i);
+            if (!wrapAround) {
+                if (backwards) {
+                    if (location > caretPosition) {
+                        continue;
+                    }
+                } else if (location < caretPosition) {
+                    continue;
+                }
+            }
+            sb.replace(location, location + replaceLength, replaceWith);
+        }
+        textComponent.setText(sb.toString());        
+        
+        if (!javaScriptHasFocus) {
+            TetrisScriptDocumentFilter.applySyntaxHighlighting((StyledDocument)textComponent.getDocument());
+        }
+    }
+    
+    private int findNextLocation(final JTextComponent textComponent, final String findWhat, final boolean backwards, 
+            final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        
+        final List<Integer> locations = findAll(textComponent, findWhat, matchCase, regex);
+        if (locations.isEmpty()) {
+            return -1;
+        }
+        
+        final int caretPosition = textComponent.getCaretPosition();
+        if (backwards) {
+            for (int i = locations.size() - 1; i >= 0; --i) {
+                final int location = locations.get(i);
+                if (location < caretPosition) {
+                    return location;
+                }
+            }
+            if (wrapAround) {
+                for (int i = locations.size() - 1; i >= 0; --i) {
+                    final int location = locations.get(i);
+                    if (location >= caretPosition) {
+                        return location;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        } else {
+            for (int i = 0; i < locations.size(); ++i) {
+                final int location = locations.get(i);
+                if (location > caretPosition) {
+                    return location;
+                }
+            }
+            if (wrapAround) {
+                for (int i = 0; i < locations.size(); ++i) {
+                    final int location = locations.get(i);
+                    if (location <= caretPosition) {
+                        return location;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+        }
+        
+        return -1;
+    }
+    
+    private List<Integer> findAll(final JTextComponent textComponent, final String findWhat, final boolean matchCase, 
+            final boolean regex) {
+        
+        final List<Integer> locations = new ArrayList<>();
+        if (isBlank(findWhat)) {
+            return locations;
+        }
+        
+        String text = textComponent.getText().replaceAll("[\n\r]+", "\n");
+        String findStr = findWhat.trim();
+        
+        if (regex) {
+            try {
+                final Matcher matcher = Pattern.compile(findStr).matcher(text);
+                while (matcher.find()) {
+                    locations.add(matcher.start());
+                }
+            } catch (final PatternSyntaxException e) {                
+            }
+        } else {
+            if (!matchCase) {
+                text = text.toLowerCase();
+                findStr = findStr.toLowerCase();
+            }            
+            for (int i = 0; i < text.length(); ) {
+                final int index = text.indexOf(findStr, i);
+                if (index < 0) {
+                    break;
+                }
+                locations.add(index);
+                i = index + 1;
+            }
+        }        
+        
+        return locations;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
