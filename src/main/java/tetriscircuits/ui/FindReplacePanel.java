@@ -16,6 +16,18 @@ public class FindReplacePanel extends javax.swing.JPanel {
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
         this.circuitsFrame = circuitsFrame;
     }    
+    
+    public void setReplaceEnabled(final boolean replaceEnabled) {
+        replaceButton.setVisible(replaceEnabled);
+        replaceAllButton.setVisible(replaceEnabled);
+        replaceWithLabel.setVisible(replaceEnabled);
+        replaceWithTextField.setVisible(replaceEnabled);        
+    }
+    
+    public void init() {
+        findWhatTextField.requestFocusInWindow();
+        findWhatTextField.selectAll();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -79,12 +91,10 @@ public class FindReplacePanel extends javax.swing.JPanel {
         });
 
         findWhatTextField.setColumns(40);
-        findWhatTextField.setFocusCycleRoot(true);
         findWhatTextField.setNextFocusableComponent(replaceWithTextField);
         findWhatTextField.setPreferredSize(null);
 
         replaceWithTextField.setColumns(40);
-        replaceWithTextField.setFocusCycleRoot(true);
         replaceWithTextField.setNextFocusableComponent(findWhatTextField);
 
         backwardCheckBox.setMnemonic('b');

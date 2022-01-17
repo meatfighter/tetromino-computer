@@ -153,7 +153,6 @@
     <Component class="javax.swing.JTextField" name="findWhatTextField">
       <Properties>
         <Property name="columns" type="int" value="40"/>
-        <Property name="focusCycleRoot" type="boolean" value="true"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection component="replaceWithTextField" type="bean"/>
         </Property>
@@ -165,7 +164,6 @@
     <Component class="javax.swing.JTextField" name="replaceWithTextField">
       <Properties>
         <Property name="columns" type="int" value="40"/>
-        <Property name="focusCycleRoot" type="boolean" value="true"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection component="findWhatTextField" type="bean"/>
         </Property>

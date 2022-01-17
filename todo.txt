@@ -1,8 +1,6 @@
 load 
   build+run on load
   show output messages
-
-find + replace
 new
 save
 detect recursive definitions

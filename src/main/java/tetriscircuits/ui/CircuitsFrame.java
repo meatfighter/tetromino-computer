@@ -35,6 +35,12 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     private JDialog goToDialog;
     private JDialog findReplaceDialog;
+    
+    private String lastFindWhat;
+    private boolean lastBackwards; 
+    private boolean lastMatchCase;
+    private boolean lastRegex; 
+    private boolean lastWrapAround;
 
     /**
      * Creates new form CircuitsFrame
@@ -771,6 +777,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         editMenu.setMnemonic('e');
         editMenu.setText("Edit");
+        editMenu.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                editMenuMenuSelected(evt);
+            }
+        });
 
         undoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         undoMenuItem.setMnemonic('u');
@@ -1149,24 +1164,41 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
     private void findMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findMenuItemActionPerformed
-        // TODO add your handling code here:
+        showFindReplaceDialog(false);
     }//GEN-LAST:event_findMenuItemActionPerformed
 
     private void findNextMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findNextMenuItemActionPerformed
-        // TODO add your handling code here:
+        circuitsEditorPanel.findNext(lastFindWhat, lastBackwards, lastMatchCase, lastRegex, lastWrapAround);
     }//GEN-LAST:event_findNextMenuItemActionPerformed
 
     private void findPreviousMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPreviousMenuItemActionPerformed
-        // TODO add your handling code here:
+        circuitsEditorPanel.findNext(lastFindWhat, !lastBackwards, lastMatchCase, lastRegex, lastWrapAround);
     }//GEN-LAST:event_findPreviousMenuItemActionPerformed
 
     private void replaceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceMenuItemActionPerformed
+        showFindReplaceDialog(true);
+    }//GEN-LAST:event_replaceMenuItemActionPerformed
+
+    private void showFindReplaceDialog(final boolean replaceEnabled) {
+        final String title = replaceEnabled ? "Replace" : "Find";
+        
         if (findReplaceDialog != null) {
+            final FindReplacePanel findReplacePanel = (FindReplacePanel)findReplaceDialog.getContentPane();            
+            findReplaceDialog.setTitle(title);
+            if (!findReplaceDialog.isVisible()) {
+                findReplacePanel.setReplaceEnabled(true);
+                findReplaceDialog.pack();
+                findReplacePanel.setReplaceEnabled(replaceEnabled);
+                findReplaceDialog.setLocationRelativeTo(this);
+                findReplaceDialog.setVisible(true);
+            }
+            findReplacePanel.setReplaceEnabled(replaceEnabled);
             findReplaceDialog.requestFocus();
+            findReplacePanel.init();
             return;
         }
         
-        findReplaceDialog = new JDialog(this, "Replace");
+        findReplaceDialog = new JDialog(this, title);        
         final FindReplacePanel findReplacePanel = new FindReplacePanel();
         findReplacePanel.setCircuitsFrame(this);
         findReplaceDialog.setContentPane(findReplacePanel);
@@ -1177,18 +1209,30 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 closeFindReplaceDialog();
             }
         });
+        findReplacePanel.setReplaceEnabled(true);
         findReplaceDialog.pack();
+        findReplacePanel.setReplaceEnabled(replaceEnabled);
         findReplaceDialog.setLocationRelativeTo(this);
         findReplaceDialog.setVisible(true);
-    }//GEN-LAST:event_replaceMenuItemActionPerformed
-
+    }
+    
     public void findNext(final String findWhat, final boolean backwards, final boolean matchCase, final boolean regex, 
             final boolean wrapAround) {
+        lastFindWhat = findWhat;
+        lastBackwards = backwards;
+        lastMatchCase = matchCase;
+        lastRegex = regex;
+        lastWrapAround = wrapAround;
         circuitsEditorPanel.findNext(findWhat, backwards, matchCase, regex, wrapAround);
     }
     
     public void replace(final String findWhat, final String replaceWith, final boolean backwards, 
             final boolean matchCase, final boolean regex, final boolean wrapAround) {
+        lastFindWhat = findWhat;
+        lastBackwards = backwards;
+        lastMatchCase = matchCase;
+        lastRegex = regex;
+        lastWrapAround = wrapAround;
         circuitsEditorPanel.replace(findWhat, replaceWith, backwards, matchCase, regex, wrapAround);
     }
 
@@ -1199,14 +1243,19 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     public void closeFindReplaceDialog() {
         if (findReplaceDialog != null) {
-            findReplaceDialog.dispose();
-            findReplaceDialog = null;
+            findReplaceDialog.setVisible(false);
         }
     }
     
     private void goToMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goToMenuItemActionPerformed
         if (goToDialog != null) {
+            if (!goToDialog.isVisible()) {
+                goToDialog.pack();
+                goToDialog.setLocationRelativeTo(this);
+                goToDialog.setVisible(true);
+            }
             goToDialog.requestFocus();
+            EventQueue.invokeLater(() -> ((GoToPanel)goToDialog.getContentPane()).init());
             return;
         }
                 
@@ -1223,8 +1272,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         goToDialog.pack();
         goToDialog.setLocationRelativeTo(this);
-        goToDialog.setVisible(true);        
+        goToDialog.setVisible(true);
+        EventQueue.invokeLater(() -> ((GoToPanel)goToDialog.getContentPane()).init());        
     }//GEN-LAST:event_goToMenuItemActionPerformed
+
+    private void editMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_editMenuMenuSelected
+        final boolean findEnabled = isNotBlank(lastFindWhat);
+        findNextMenuItem.setEnabled(findEnabled);
+        findPreviousMenuItem.setEnabled(findEnabled);
+    }//GEN-LAST:event_editMenuMenuSelected
 
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
@@ -1233,8 +1289,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     public void closeGoToDialog() {
         if (goToDialog != null) {
-            goToDialog.dispose();
-            goToDialog = null;
+            goToDialog.setVisible(false);
         }
     }
     
