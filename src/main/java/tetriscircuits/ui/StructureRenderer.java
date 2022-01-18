@@ -99,7 +99,7 @@ public class StructureRenderer {
                 final int fillX = x + cellSize * (cellX + struct.getX() + struct.getMinX());
                 final int fillY = y - cellSize * (cellY + struct.getY() - struct.getMinY() - 1) - fillHeight;                
                 g.setColor(COMPONENT_FILL);                
-                g.fillRect(fillX, fillY, fillWidth, fillHeight);
+                g.fillRect(fillX, fillY + cellSize, fillWidth, fillHeight - (cellSize << 1));
                 final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
                 g.setColor(TEXT_COLOR);
                 if (nameBounds.getWidth() >= fillWidth - 10) {                    
@@ -151,7 +151,7 @@ public class StructureRenderer {
                     g.fillRect(px, py + cellSize, width, cellSize);
                 } else if (state == TerminalState.ONE) {
                     g.setColor(TERMINAL_FILL);
-                    g.fillRect(px, py, width, cellSize);
+                    g.fillRect(px, py, width, cellSize << 1);
                 }
                 g.setColor(TERMINAL_LINE);
                 g.drawRect(px, py, width - 1, 2 * cellSize - 1);

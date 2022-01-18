@@ -29,7 +29,7 @@ import tetriscircuits.parser.Parser;
 
 public class Controller {
     
-    public static final String CIRCUITS_DIR = "circuits";
+    public static final String WORKSPACE_DIR = "workspace";
     
     private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
     private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
@@ -257,7 +257,7 @@ public class Controller {
             createBuffersSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
-            findSourceFiles(new File(CIRCUITS_DIR), files);
+            findSourceFiles(new File(WORKSPACE_DIR), files);
             synchronized(loadMonitor) {
                 loadCount = files.size();
                 for (Map.Entry<String, Files> entry : files.entrySet()) {

@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.AbstractAction;
-import javax.swing.FocusManager;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
@@ -728,6 +727,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         } else {
             replace(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
+            TetrisScriptDocumentFilter.applySyntaxHighlighting(tetrisScriptTextPane.getStyledDocument());
         }
     }
     

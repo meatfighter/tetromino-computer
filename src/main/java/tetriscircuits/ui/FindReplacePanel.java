@@ -93,6 +93,11 @@ public class FindReplacePanel extends javax.swing.JPanel {
         findWhatTextField.setColumns(40);
         findWhatTextField.setNextFocusableComponent(replaceWithTextField);
         findWhatTextField.setPreferredSize(null);
+        findWhatTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findWhatTextFieldActionPerformed(evt);
+            }
+        });
 
         replaceWithTextField.setColumns(40);
         replaceWithTextField.setNextFocusableComponent(findWhatTextField);
@@ -203,6 +208,10 @@ public class FindReplacePanel extends javax.swing.JPanel {
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         circuitsFrame.closeFindReplaceDialog();
     }//GEN-LAST:event_closeButtonActionPerformed
+
+    private void findWhatTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findWhatTextFieldActionPerformed
+        findNextButtonActionPerformed(evt);
+    }//GEN-LAST:event_findWhatTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
