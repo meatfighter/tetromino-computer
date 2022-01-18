@@ -47,6 +47,21 @@ public class Structure {
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
+        
+        if (componentName != null && inputs == null) {
+            Thread.dumpStack(); // TODO REMOVE
+        }
+        if (componentName != null) {
+            System.out.println(componentName);
+            for (final TerminalRectangle[] ins : inputs) {
+                for (final TerminalRectangle i : ins) {
+                    System.out.println(i);
+                    if (i.getState() != TerminalState.UNKNOWN) {
+                        Thread.dumpStack();
+                    }
+                }
+            }
+        }
     }
 
     public Tetrimino getTetrimino() {

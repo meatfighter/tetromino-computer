@@ -75,7 +75,7 @@ public class Simulator {
     }
     
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
-        return findTerminals(terminals, originX, originY, (boolean[])null);
+        return findTerminals(terminals, originX, originY, (Boolean[])null);
     }
     
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY, 
@@ -105,7 +105,7 @@ public class Simulator {
     }  
     
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY, 
-            final boolean[] testBits) {
+            final Boolean[] testBits) {
         
         if (terminals == null) {
             return new TerminalRectangle[0][];
@@ -114,7 +114,7 @@ public class Simulator {
         final TerminalRectangle[][] rectangles = new TerminalRectangle[terminals.length][];
         for (int i = terminals.length - 1; i >= 0; --i) {
             TerminalState state = TerminalState.UNKNOWN;
-            if (testBits != null && i < testBits.length) {
+            if (testBits != null && i < testBits.length && testBits[i] != null) {                
                 state = testBits[i] ? TerminalState.ONE : TerminalState.ZERO;
             }
             final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();
@@ -210,16 +210,23 @@ public class Simulator {
             final int originY, final StructureListener listener) {
 
         final Terminal[] inputs = component.getInputs();
-        final boolean[] inputValues = new boolean[inputs.length];
+        final Boolean[] inputValues = new Boolean[inputs.length];
         outer: for (int i = inputs.length - 1; i >= 0; --i) {
             final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
-                final int y = originY - horizontalLine.getY() - 1;
-                final int maxX = horizontalLine.getMaxX();
+                final int maxX = horizontalLine.getMaxX();                
+                int y = originY - horizontalLine.getY() - 1;                
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
                     if (playfield.isSolid(originX + x, y)) {
                         inputValues[i] = true;
+                        continue outer;
+                    }
+                }
+                ++y;
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(originX + x, y)) {
+                        inputValues[i] = false;
                         continue outer;
                     }
                 }
@@ -227,7 +234,7 @@ public class Simulator {
         }
         
         final Terminal[] outputs = component.getOutputs();
-        final boolean[] outputValues = new boolean[outputs.length];
+        final Boolean[] outputValues = new Boolean[outputs.length];
         
         final CompiledScript compiledScript = component.getCompiledScript();
         if (compiledScript != null) {
@@ -251,6 +258,9 @@ public class Simulator {
         } 
         
         for (int i = outputs.length - 1; i >= 0; --i) {
+            if (outputValues[i] == null) {
+                continue;
+            }
             final int valueOffset = outputValues[i] ? 1 : 0;
             final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
