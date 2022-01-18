@@ -31,7 +31,7 @@ public class Simulator {
             final int originX, final int originY, final int cellValue) {
         
         final Terminal[] inputs = component.getInputs();
-        if (inputs == null) {
+        if (inputs == null || inputBits == null) {
             return;
         }
         

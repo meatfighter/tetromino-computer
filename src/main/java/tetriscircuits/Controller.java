@@ -588,67 +588,49 @@ public class Controller {
     
     private void createStructure(final Component component, final int depth, final String testBitStr) {
         final OutputListener listener = outputListener;
-        final Terminal[] inTerms = component.getInputs();                
         final Playfield playfield = borrowPlayfield();
-        try {
-            if (inTerms == null) {
-                if (listener != null) {
-                    listener.append("Error: Invalid input ranges for " + component.getName() + ".");
+        try {                        
+            simulator.init(playfield, component, testBitStr);
+            final List<Structure> structs = new ArrayList<>();
+            simulator.simulate(playfield, component, depth, structure -> structs.add(structure));            
+            simulator.addOutputs(playfield, component);
+
+            final Extents extents = componentExtents.get(component.getName());
+            final TerminalRectangle[][] inputs = simulator.findTerminals(component.getInputs(), 0, 0); 
+            final TerminalRectangle[][] outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+            
+            int minX;
+            int maxX;
+            int maxY;
+            if (extents != null) {
+                minX = extents.getMinX();
+                maxX = extents.getMaxX();
+                maxY = extents.getMaxY();
+            } else {
+                minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+                maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+                maxY = playfield.getHeight() - 1 - playfield.getMinY();  
+                for (int i = inputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] ins = inputs[i];
+                    for (int j = ins.length - 1; j >= 0; --j) {
+                        final TerminalRectangle input = ins[j];
+                        minX = min(minX, input.x);
+                        maxX = max(maxX, input.x + input.width - 1);
+                        maxY = max(maxY, input.y + 1);
+                    }
                 }
-                return;
+                for (int i = outputs.length - 1; i >= 0; --i) {
+                    final TerminalRectangle[] outs = outputs[i];
+                    for (int j = outs.length - 1; j >= 0; --j) {
+                        final TerminalRectangle output = outs[j];
+                        minX = min(minX, output.x);
+                        maxX = max(maxX, output.x + output.width - 1);
+                        maxY = max(maxY, output.y + 1);
+                    }
+                }
             }
-            final boolean[] testBits = new boolean[inTerms.length];
-            final StringBuilder sb = new StringBuilder();
-            for (int i = testBits.length - 1; i >= 0; --i) {
-                sb.append('1');
-                testBits[i] = true;
-            }                                               
-            simulator.init(playfield, component, sb.toString());
-            
-            final Structure[] s = new Structure[1];
-            simulator.simulate(playfield, component, depth, structure -> s[0] = structure);
-            structures.put(component.getName(), s[0]);
-            
-//            final List<Structure> structs = new ArrayList<>();
-//            simulator.simulate(playfield, component, depth, structure -> structs.add(structure));            
-//            simulator.addOutputs(playfield, component);
-//
-//            final Extents extents = componentExtents.get(component.getName());
-//            final TerminalRectangle[][] inputs = simulator.findTerminals(component.getInputs(), 0, 0); 
-//            final TerminalRectangle[][] outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
-//            
-//            int minX;
-//            int maxX;
-//            int maxY;
-//            if (extents != null) {
-//                minX = extents.getMinX();
-//                maxX = extents.getMaxX();
-//                maxY = extents.getMaxY();
-//            } else {
-//                minX = playfield.getMinX() - (playfield.getWidth() >> 1);
-//                maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-//                maxY = playfield.getHeight() - 1 - playfield.getMinY();  
-//                for (int i = inputs.length - 1; i >= 0; --i) {
-//                    final TerminalRectangle[] ins = inputs[i];
-//                    for (int j = ins.length - 1; j >= 0; --j) {
-//                        final TerminalRectangle input = ins[j];
-//                        minX = min(minX, input.x);
-//                        maxX = max(maxX, input.x + input.width - 1);
-//                        maxY = max(maxY, input.y + 1);
-//                    }
-//                }
-//                for (int i = outputs.length - 1; i >= 0; --i) {
-//                    final TerminalRectangle[] outs = outputs[i];
-//                    for (int j = outs.length - 1; j >= 0; --j) {
-//                        final TerminalRectangle output = outs[j];
-//                        minX = min(minX, output.x);
-//                        maxX = max(maxX, output.x + output.width - 1);
-//                        maxY = max(maxY, output.y + 1);
-//                    }
-//                }
-//            }
-//            structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
-//                    maxY, structs.toArray(new Structure[structs.size()])));
+            structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
+                    maxY, structs.toArray(new Structure[structs.size()])));
         } catch(final StackOverflowError e) {                    
             if (listener != null) {
                 listener.append("Error: Definition of " + component.getName() + " contains itself.");
