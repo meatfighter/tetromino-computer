@@ -97,9 +97,10 @@ public class Controller {
         return runListener;
     }
     
-    private void createBuffersSsAndZs() {
+    private void createIsSsAndZs() {
         for (int i = 3; i <= 101; ++i) {
-            createBuffer(i);
+            createIls(i);
+            createIrs(i);
         }
         for (int i = 3; i <= 101; i += 2) {
             createSs(i);
@@ -145,42 +146,92 @@ public class Controller {
         components.put(zs.getName(), zs);
     }
     
-    private void createBuffer(final int length) {                
-        final Component buffer = new Component(String.format("buffer%d", length));
-        final List<Instruction> instructions = new ArrayList<>();        
+    private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
+        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
+    }
+    
+    private void setInputs(final Component component, final int x, final int y) {
+        component.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(x, y) })});
+    }
+    
+    private void setInputs(final Component component, final int minX, final int maxX, final int y) {
+        component.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
+                        new HorizontalLine[] { new HorizontalLine(minX, maxX, y) })});
+    }
+    
+    private void setOutputs(final Component component, final int x, final int y) {
+        component.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
+                        new HorizontalLine[] { new HorizontalLine(x, y) })});
+    }
+    
+    private void setOutputs(final Component component, final int minX, final int maxX, final int y) {
+        component.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
+                        new HorizontalLine[] { new HorizontalLine(minX, maxX, y) })});
+    }
+
+    private void createIls(final int length) {                
+        final Component is = new Component(String.format("il%d", length));
+        final List<Instruction> instructions = new ArrayList<>();
+        final int remainder = length % 4;
         switch(length % 4) {
-            case 0:
-                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                        new HorizontalLine[] { new HorizontalLine(0, 0) })});
-                break;
             case 1:
-                instructions.add(new Instruction(Tetrimino.LR, null, null, new int[] { -1 }));
-                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                addInstruction(instructions, Tetrimino.JL, 1);
                 break;
             case 2:
-                instructions.add(new Instruction(Tetrimino.OS, null, null, new int[] { 0 }));
-                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                addInstruction(instructions, Tetrimino.OS, 1);
                 break;
             case 3:
-                instructions.add(new Instruction(Tetrimino.JL, null, null, new int[] { 0 }));
-                buffer.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                        new HorizontalLine[] { new HorizontalLine(-1, 0, 0) })});
+                addInstruction(instructions, Tetrimino.LR, 0);
                 break;
         }
+        if (remainder == 0) {
+            setInputs(is, 0, 0);
+        } else {
+            setInputs(is, 0, 1, 0);
+        }
         for (int i = length >> 2; i > 0; --i) {
-            instructions.add(new Instruction(Tetrimino.IV, null, null, new int[] { 0 }));
+            addInstruction(instructions, Tetrimino.IV, 0);
         }
-        buffer.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
-        buffer.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
-                new HorizontalLine[] { new HorizontalLine(0, length) })});  
+        is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        setOutputs(is, 0, length); 
         try {
-            buffer.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
+            is.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
         } catch (final ScriptException e) {
-            e.printStackTrace(); // TODO
         }
-        components.put(buffer.getName(), buffer);        
+        components.put(is.getName(), is);        
+    }    
+    
+    private void createIrs(final int length) {                
+        final Component is = new Component(String.format("ir%d", length));
+        final List<Instruction> instructions = new ArrayList<>();
+        final int remainder = length % 4;
+        switch(length % 4) {
+            case 1:
+                addInstruction(instructions, Tetrimino.LR, -1);
+                break;
+            case 2:
+                addInstruction(instructions, Tetrimino.OS, 0);
+                break;
+            case 3:
+                addInstruction(instructions, Tetrimino.JL, 0);
+                break;
+        }
+        if (remainder == 0) {
+            setInputs(is, 0, 0);
+        } else {
+            setInputs(is, -1, 0, 0);
+        }
+        for (int i = length >> 2; i > 0; --i) {
+            addInstruction(instructions, Tetrimino.IV, 0);
+        }
+        is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        setOutputs(is, 0, length); 
+        try {
+            is.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
+        } catch (final ScriptException e) {
+        }
+        components.put(is.getName(), is);        
     }
     
     public void openComponent(final String componentName, final File tetrisScriptFile, final File javaScriptFile) {
@@ -254,7 +305,7 @@ public class Controller {
     
     public void loadComponents() {
         execute(() -> {
-            createBuffersSsAndZs();
+            createIsSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             findSourceFiles(new File(WORKSPACE_DIR), files);
