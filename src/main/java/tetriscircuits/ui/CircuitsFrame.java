@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
@@ -1166,16 +1167,33 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JavaScript file (*.js)", "js"));
         fileChooser.setFileFilter(tsFileFilter);
         
+        
+               
         File selectedFile = null;
         outer: while (true) {
             if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
                 return;
             }
-
-            selectedFile = fileChooser.getSelectedFile();
-            if (selectedFile == null || !selectedFile.isFile()) {
-                JOptionPane.showInputDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
+            
+            selectedFile = fileChooser.getSelectedFile();            
+            if (selectedFile == null) {
+                JOptionPane.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
                 continue;
+            }
+            
+            final String name = selectedFile.getName();
+            final int index = name.indexOf('.');
+            String extension = null;
+            if (index >= 0) {
+                extension = name.substring(index);
+            }
+            if (isBlank(extension)) {
+                final FileFilter fileFilter = fileChooser.getFileFilter();
+                String ext = ".t";
+                if (fileFilter instanceof FileNameExtensionFilter) {
+                    ((FileNameExtensionFilter)fileFilter).getExtensions()[0];
+                }
+                selectedFile = new File(selectedFile.getPath();
             }
 
             if (selectedFile.exists()) {
