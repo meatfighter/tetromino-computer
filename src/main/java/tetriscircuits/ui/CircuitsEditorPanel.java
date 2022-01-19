@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.List;
@@ -463,12 +464,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         }
     }
     
-    public void build(final int depth) {
-        controller.build(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+    public void save(final String compName, final File tsFile, final File jsFile) {
+        controller.save(compName, tsFile, tetrisScriptTextPane.getText(), jsFile, javaScriptTextArea.getText());
     }
     
-    public void buildAndRun(final String testBitsStr, final int depth) {
-        controller.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), "[unnamed]", testBitsStr,
+    public void build(final String componentName, final int depth) {
+        controller.build(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+    }
+    
+    public void buildAndRun(final String componentName, final String testBitsStr, final int depth) {
+        controller.buildAndRun(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
                 depth);
     }
     

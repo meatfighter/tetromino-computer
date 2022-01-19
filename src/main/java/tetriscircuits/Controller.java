@@ -1,10 +1,12 @@
 package tetriscircuits;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import static java.lang.Math.max;
@@ -30,6 +32,7 @@ import tetriscircuits.parser.Parser;
 public class Controller {
     
     public static final String WORKSPACE_DIR = "workspace";
+    public static final String DEFAULT_COMPONENT_NAME = "unnamed";
     
     private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
     private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
@@ -472,13 +475,47 @@ public class Controller {
         return extents;
     }
     
-    public void buildAndRun(final String tetrisScript, final String javaScript, final String componentName, 
+    public void save(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
+            final String javaScript) {        
+        execute(() -> saveScripts(compName, tsFile, tetrisScript, jsFile, javaScript));
+    }
+    
+    private void saveScripts(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
+            final String javaScript) {
+        
+        final OutputListener outListener = outputListener;
+        if (outListener != null) {
+            outListener.clear();
+        }
+        
+        saveScript(tsFile, tetrisScript);
+        saveScript(jsFile, javaScript);
+        
+        
+    }
+    
+    private void saveScript(final File file, final String script) {
+        final OutputListener outListener = outputListener;        
+        try (final BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write(script);
+        } catch (final IOException e) {
+            if (outListener != null) {
+                outListener.append(String.format("Failed to write to %s: %s", file, e.getMessage()));
+            }
+            return;
+        }
+        if (outListener != null) {
+            outListener.append("Saved to " + file);
+        }
+    }
+    
+    public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final int depth) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildScripts(tetrisScript, javaScript, testBitStr, depth));
+        execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth));
     }
     
     public void run(final String componentName, final String testBitStr, final int depth) {
@@ -577,20 +614,21 @@ public class Controller {
         }        
     }
     
-    public void build(final String tetrisScript, final String javaScript, final int depth) {
+    public void build(final String componentName, final String tetrisScript, final String javaScript, final int depth) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildScripts(tetrisScript, javaScript, depth));
+        execute(() -> buildScripts(componentName, tetrisScript, javaScript, depth));
     }
     
-    private void buildScripts(final String tetrisScript, final String javaScript, final int depth) {
-        buildScripts(tetrisScript, javaScript, (String)null, depth);
-    }
-    
-    private void buildScripts(final String tetrisScript, final String javaScript, final String testBitStr, 
+    private void buildScripts(final String componentName, final String tetrisScript, final String javaScript, 
             final int depth) {
+        buildScripts(componentName, tetrisScript, javaScript, (String)null, depth);
+    }
+    
+    private void buildScripts(final String componentName, final String tetrisScript, final String javaScript, 
+            final String testBitStr, final int depth) {
         final OutputListener listener = outputListener;        
         final Parser parser = new Parser();
         if (listener != null) {
@@ -598,7 +636,7 @@ public class Controller {
             listener.append("Building.");
         }
         try {
-            final Component component = parser.parse(components, "[unnamed]", 
+            final Component component = parser.parse(components, componentName, 
                     new ByteArrayInputStream(tetrisScript.getBytes()));
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
             updateComponentExtents();
@@ -696,26 +734,36 @@ public class Controller {
     }
     
     private int findComponentNameSortGroup(final String componentName) {
-        switch(componentName.charAt(0)) {
-            case '_':
-                return 4;
-            case 's': {
-                final char c = componentName.charAt(1);
-                if (c >= '0' && c <= '9') {
-                    return 2;
+        if (componentName.length() >= 2) {
+            switch(componentName.charAt(0)) {
+                case 'i': 
+                    if (componentName.length() >= 3) {
+                        final char c = componentName.charAt(1);
+                        if (c == 'l' || c == 'r') {
+                            final char d = componentName.charAt(2);
+                            if (d >= '0' && d <= '9') {
+                                return 1;
+                            }
+                        }
+                    }
+                    break;
+                case 's': {
+                    final char c = componentName.charAt(1);
+                    if (c >= '0' && c <= '9') {
+                        return 2;
+                    }
+                    break;
                 }
-                break;
-            }
-            case 'z': {
-                final char c = componentName.charAt(1);
-                if (c >= '0' && c <= '9') {
-                    return 3;
+                case 'z': {
+                    final char c = componentName.charAt(1);
+                    if (c >= '0' && c <= '9') {
+                        return 3;
+                    }
+                    break;
                 }
-                break;
+                case '_':
+                    return 4;
             }
-        }
-        if (componentName.startsWith("buffer")) {
-            return 1;
         }
         return 0;
     }
@@ -730,7 +778,7 @@ public class Controller {
             if (groupA == groupB) {
                 switch(groupA) {
                     case 1: 
-                        return Integer.compare(Integer.parseInt(a.substring(6)), Integer.parseInt(b.substring(6)));
+                        return Integer.compare(Integer.parseInt(a.substring(2)), Integer.parseInt(b.substring(2)));
                     case 2:
                     case 3:
                         return Integer.compare(Integer.parseInt(a.substring(1)), Integer.parseInt(b.substring(1)));
@@ -744,9 +792,9 @@ public class Controller {
             return 1;
         }); 
         
-        final BuildListener buildListener = this.buildListener;
-        if (buildListener != null) {
-            buildListener.buildCompleted(componentNames, new HashMap<>(structures));
+        final BuildListener listener = this.buildListener;
+        if (listener != null) {
+            listener.buildCompleted(componentNames, new HashMap<>(structures));
         }
     }
     
