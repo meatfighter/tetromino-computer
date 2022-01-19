@@ -1167,8 +1167,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JavaScript file (*.js)", "js"));
         fileChooser.setFileFilter(tsFileFilter);
         
-        
-               
         File selectedFile = null;
         outer: while (true) {
             if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
@@ -1181,33 +1179,31 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 continue;
             }
             
-            final String name = selectedFile.getName();
-            final int index = name.indexOf('.');
-            String extension = null;
-            if (index >= 0) {
-                extension = name.substring(index);
-            }
-            if (isBlank(extension)) {
+            if (selectedFile.getName().indexOf('.') < 0) {
                 final FileFilter fileFilter = fileChooser.getFileFilter();
-                String ext = ".t";
+                String suffix = ".t";
                 if (fileFilter instanceof FileNameExtensionFilter) {
-                    ((FileNameExtensionFilter)fileFilter).getExtensions()[0];
+                    if ("js".equals(((FileNameExtensionFilter)fileFilter).getExtensions()[0])) {
+                        suffix = ".js";
+                    }
                 }
-                selectedFile = new File(selectedFile.getPath();
+                selectedFile = new File(selectedFile.getPath() + suffix);
             }
 
-            if (selectedFile.exists()) {
-                switch(JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
-                        selectedFile.getName()), "Overwrite Existing File", JOptionPane.QUESTION_MESSAGE, 
-                        JOptionPane.YES_NO_CANCEL_OPTION)) {
-                    case JOptionPane.YES_OPTION:
-                        break outer;
-                    case JOptionPane.NO_OPTION:
-                        continue;
-                    case JOptionPane.CANCEL_OPTION:
-                        return;    
-                }                    
+            if (!selectedFile.exists()) {
+                break;
             }
+            
+            switch(JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
+                    selectedFile.getName()), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE)) {
+                case JOptionPane.YES_OPTION:
+                    break outer;
+                case JOptionPane.NO_OPTION:
+                    continue;
+                case JOptionPane.CANCEL_OPTION:
+                    return;    
+            }                    
         }
         
         final File tsFile;
@@ -1226,6 +1222,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
         
         circuitsEditorPanel.save(compName, tsFile, jsFile);
+        
+        tetrisScriptFile = tsFile;
+        javaScriptFile = jsFile;
+        setComponentName(compName);
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
