@@ -107,15 +107,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 } 
             }
         });
-        controller.setTetrisScriptOpenListener((compName, tsFile, tetrisScript) -> {
+        controller.setOpenListener((compName, tsFile, tetrisScript, jsFile, javaScript, testBits) -> {
             setComponentName(compName);
             tetrisScriptFile = tsFile;
             circuitsEditorPanel.setTetrisScript(tetrisScript);
-        });
-        controller.setJavaScriptOpenListener((compName, jsFile, javaScript) -> {
-            setComponentName(compName);
             javaScriptFile = jsFile;
             circuitsEditorPanel.setJavaScript(javaScript);
+            testTextField.setText(testBits);
         });
     }
     
@@ -1151,11 +1149,18 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_openMenuItemActionPerformed
    
     private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
-        // TODO add your handling code here:
+        reset();
+        saveAsMenuItemActionPerformed(evt);
     }//GEN-LAST:event_newMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // TODO add your handling code here:
+        if (Controller.DEFAULT_COMPONENT_NAME.equals(componentName) || tetrisScriptFile == null 
+                || javaScriptFile == null) {
+            saveAsMenuItemActionPerformed(evt);
+            return;
+        }
+        
+        circuitsEditorPanel.save(componentName, tetrisScriptFile, javaScriptFile);
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
@@ -1166,14 +1171,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter(tsFileFilter);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JavaScript file (*.js)", "js"));
         fileChooser.setFileFilter(tsFileFilter);
-        
-        File selectedFile = null;
+                
+        File tsFile = null;
+        File jsFile = null;
+        String compName = null;
         outer: while (true) {
             if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
                 return;
             }
             
-            selectedFile = fileChooser.getSelectedFile();            
+            File selectedFile = fileChooser.getSelectedFile();            
             if (selectedFile == null) {
                 JOptionPane.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
                 continue;
@@ -1189,13 +1196,32 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 }
                 selectedFile = new File(selectedFile.getPath() + suffix);
             }
+            
+            if (selectedFile.getName().endsWith(".js")) {
+                jsFile = selectedFile;
+                compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 3);
+                tsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName + ".t");
+            } else if (selectedFile.getName().endsWith(".t")) {
+                tsFile = selectedFile;
+                compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 2);
+                jsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName + ".js");
+            } else {
+                tsFile = selectedFile;
+                compName = selectedFile.getName().substring(0, selectedFile.getName().indexOf('.'));
+                jsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName + ".js");
+            }           
 
-            if (!selectedFile.exists()) {
+            String existingFileName = null;
+            if (tsFile.exists()) {
+                existingFileName = tsFile.getName();
+            } else if (jsFile.exists()) {
+                existingFileName = jsFile.getName();
+            } else {
                 break;
             }
             
             switch(JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
-                    selectedFile.getName()), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
+                    existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
                     JOptionPane.QUESTION_MESSAGE)) {
                 case JOptionPane.YES_OPTION:
                     break outer;
@@ -1205,27 +1231,12 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     return;    
             }                    
         }
-        
-        final File tsFile;
-        final File jsFile;
-        final String compName;
-        if (selectedFile.getName().endsWith(".js")) {
-            jsFile = selectedFile;
-            compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 3);
-            tsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName 
-                    + ".t");
-        } else {
-            tsFile = selectedFile;
-            compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 2);
-            jsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName 
-                    + ".js");
-        }
-        
-        circuitsEditorPanel.save(compName, tsFile, jsFile);
-        
+
         tetrisScriptFile = tsFile;
         javaScriptFile = jsFile;
         setComponentName(compName);
+        
+        circuitsEditorPanel.save(compName, tsFile, jsFile);
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
@@ -1379,8 +1390,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
         depthSpinner.setValue(1);
         playfieldWidthSpinner.setValue(256);
         playfieldHeightSpinner.setValue(256);
-        cellSizeSpinner.setValue(16);
+        cellSizeSpinner.setValue(16);        
         circuitsEditorPanel.reset();
+        circuitsEditorPanel.centerPlayfield();
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);        
         tetrisScriptFile = javaScriptFile = null;
     }

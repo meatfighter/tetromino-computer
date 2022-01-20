@@ -54,18 +54,13 @@ public class Controller {
     private volatile ProgressListener progressListener;
     private volatile BuildListener buildListener;
     private volatile RunListener runListener;
-    private volatile OpenListener tetrisScriptOpenListener;
-    private volatile OpenListener javaScriptOpenListener;
+    private volatile OpenListener openListener;
     
     private int taskCount;
     private int loadCount;
 
-    public void setTetrisScriptOpenListener(final OpenListener tetrisScriptOpenListener) {
-        this.tetrisScriptOpenListener = tetrisScriptOpenListener;
-    }
-
-    public void setJavaScriptOpenListener(final OpenListener javaScriptOpenListener) {
-        this.javaScriptOpenListener = javaScriptOpenListener;
+    public void setOpenListener(final OpenListener openListener) {
+        this.openListener = openListener;
     }
     
     public void setOutputListener(final OutputListener outputListener) {
@@ -243,14 +238,26 @@ public class Controller {
             componentExtents.remove(componentName);
             structures.remove(componentName);
             
-            final OpenListener tsOpenListener = tetrisScriptOpenListener;
-            if (tsOpenListener != null) {
-                tsOpenListener.openedFile(componentName, tetrisScriptFile, readFile(tetrisScriptFile));
+            final String tetrisScript = readFile(tetrisScriptFile);
+            final String javaScript = readFile(javaScriptFile);
+            buildScripts(componentName, tetrisScript, javaScript, 0);
+            final Component component = components.get(componentName);
+            final StringBuilder testBits = new StringBuilder();
+            if (component != null) {
+                final Terminal[] inputs = component.getInputs();
+                if (inputs != null) {
+                    for (int i = inputs.length - 1; i >= 0; --i) {
+                        testBits.append('0');
+                    }
+                }
             }
             
-            final OpenListener jsOpenListener = javaScriptOpenListener;
-            if (jsOpenListener != null) {
-                jsOpenListener.openedFile(componentName, javaScriptFile, readFile(javaScriptFile));
+            buildScripts(componentName, tetrisScript, javaScript, testBits.toString(), 1);
+            
+            final OpenListener listener = openListener;
+            if (listener != null) {
+                listener.openedFiles(componentName, tetrisScriptFile, tetrisScript, javaScriptFile, javaScript, 
+                        testBits.toString());
             }            
         });
     }
@@ -640,7 +647,7 @@ public class Controller {
                     new ByteArrayInputStream(tetrisScript.getBytes()));
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
             updateComponentExtents();
-            createStructure(component, depth, testBitStr); // TODO FILENAME
+            createStructure(component, depth, testBitStr);
             notifyStructuresCreated();
         } catch (final ParseException e) {
             e.printStackTrace(); // TODO REMOVE

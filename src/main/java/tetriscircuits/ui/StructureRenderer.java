@@ -111,13 +111,15 @@ public class StructureRenderer {
                     g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
                             fillY + (fillHeight >> 1) + fontMetrics.getDescent());
                 }
-                renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY());
-                renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY());
+                renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY(), 
+                        false);
+                renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY(), 
+                        true);
             }
         }
 
-        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY);
-        renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY);
+        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
+        renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY, true);
         
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
@@ -132,7 +134,7 @@ public class StructureRenderer {
     }
     
     private void renderTerminals(final Graphics g, final int x, final int y, int cellSize, 
-            final TerminalRectangle[][] terminals, final int offsetX, final int offsetY) {
+            final TerminalRectangle[][] terminals, final int offsetX, final int offsetY, final boolean renderState) {
         
         if (terminals == null) {
             return;
@@ -145,13 +147,15 @@ public class StructureRenderer {
                 final int px = x + cellSize * (offsetX + terminal.x);
                 final int py = y - cellSize * (offsetY + terminal.y + 1);
                 final int width = cellSize * terminal.width;
-                final TerminalState state = terminal.getState();
-                if (state == TerminalState.ZERO) {
-                    g.setColor(TERMINAL_FILL);
-                    g.fillRect(px, py + cellSize, width, cellSize);
-                } else if (state == TerminalState.ONE) {
-                    g.setColor(TERMINAL_FILL);
-                    g.fillRect(px, py, width, cellSize << 1);
+                if (renderState) {
+                    final TerminalState state = terminal.getState();
+                    if (state == TerminalState.ZERO) {
+                        g.setColor(TERMINAL_FILL);
+                        g.fillRect(px, py + cellSize, width, cellSize);
+                    } else if (state == TerminalState.ONE) {
+                        g.setColor(TERMINAL_FILL);
+                        g.fillRect(px, py, width, cellSize << 1);
+                    }
                 }
                 g.setColor(TERMINAL_LINE);
                 g.drawRect(px, py, width - 1, 2 * cellSize - 1);

@@ -3,5 +3,6 @@ package tetriscircuits;
 import java.io.File;
 
 public interface OpenListener {
-    void openedFile(String componentName, File file, String text);
+    void openedFiles(String componentName, File tetrisScriptFile, String tetrisScript, File javaScriptFile, 
+            String javaScript, String testBits);
 }
