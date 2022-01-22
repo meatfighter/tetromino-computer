@@ -96,11 +96,11 @@ public class Controller {
     }
     
     private void createIsSsAndZs() {
-        for (int i = 3; i <= 1001; ++i) {
+        for (int i = 3; i <= 2001; ++i) {
             createIls(i);
             createIrs(i);
         }
-        for (int i = 3; i <= 1001; i += 2) {
+        for (int i = 3; i <= 2001; i += 2) {
             createSs(i);
             createZs(i);
         }
@@ -841,7 +841,7 @@ public class Controller {
             }
         }
         if (playfield == null) {
-            playfield = new Playfield(4096, 2048, 1);            
+            playfield = new Playfield(4096, 4096, 1);            
         }
         return playfield;
     }
