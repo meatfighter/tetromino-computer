@@ -37,6 +37,6 @@ nor -11 72
 ir6 -11 77
 in a -3..0 0
 in b 2..5 0
-in carryIn 8 0
+in carryIn 7..8 0
 out carryOut -11 83
 out sum 6..8 83

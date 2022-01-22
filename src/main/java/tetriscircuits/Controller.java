@@ -96,11 +96,11 @@ public class Controller {
     }
     
     private void createIsSsAndZs() {
-        for (int i = 3; i <= 101; ++i) {
+        for (int i = 3; i <= 1001; ++i) {
             createIls(i);
             createIrs(i);
         }
-        for (int i = 3; i <= 101; i += 2) {
+        for (int i = 3; i <= 1001; i += 2) {
             createSs(i);
             createZs(i);
         }
