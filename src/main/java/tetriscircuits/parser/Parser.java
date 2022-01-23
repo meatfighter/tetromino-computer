@@ -264,8 +264,6 @@ public class Parser {
         
         verifyUniqueTerminalNames(tokens.get(0), component);
         
-        System.out.println(component); // TODO REMOVE
-        
         return component;
     }
     

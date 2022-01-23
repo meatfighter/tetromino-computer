@@ -192,9 +192,10 @@ public class Simulator {
         final Component component = instruction.getComponent();
         if (component != null) {            
             final Extents extents = componentExtents.get(component.getName());
-            if (extents != null) {            
+            if (extents != null) {
+                final int ox = originX + moves[0];
                 for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
-                    playfield.setPopulated(originX + x);
+                    playfield.setPopulated(ox + x);
                 }
             }            
             simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], depth - 1, 

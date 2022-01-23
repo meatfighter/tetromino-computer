@@ -56,7 +56,7 @@ public class Playfield {
     }
     
     public void clear() {
-        for (int i = width - 1; i >= 0; --i) {
+        for (int i = populated.length - 1; i >= 0; --i) {
             populated[i] = false;
         }
         for (int y = height - 1; y >= minY; --y) {
@@ -72,10 +72,10 @@ public class Playfield {
     public void flatten(final int sourceRow) {
                
         for (int x = width - 1; x >= 0; --x) {
-            if (populated[x]) {
-                populated[x] = false;
+            if (populated[x]) {                 
                 set(x, height - 1, get(x, sourceRow));
                 set(x, height - 2, get(x, sourceRow - 1));
+                populated[x] = false;
             }
         }
         
