@@ -114,7 +114,7 @@ public class Controller {
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                new HorizontalLine[] { new HorizontalLine(1 - length, -1, 0), new HorizontalLine(0, 1) })});
+                new HorizontalLine[] { new HorizontalLine(-2, -1, 0), new HorizontalLine(0, 1) })});
         ss.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
                 new HorizontalLine[] { new HorizontalLine(1 - length, 1), new HorizontalLine(2 - length, 0, 2) })});
         try {
@@ -133,7 +133,7 @@ public class Controller {
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
-                new HorizontalLine[] { new HorizontalLine(0, 1), new HorizontalLine(1, length - 1, 0) })});
+                new HorizontalLine[] { new HorizontalLine(0, 1), new HorizontalLine(1, 2, 0) })});
         zs.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
                 new HorizontalLine[] { new HorizontalLine(0, length - 2, 2), new HorizontalLine(length - 1, 1) })});
         try {

@@ -12,10 +12,12 @@ nor nor4 -5 33
 il11 4 27
 s7 4 37
 nor nor5 -3 38
-il5 -6 38
+il6 -6 38
+z5 -2 42
+ih 4
 
 in a -4..-1 0
 in b 1..2 0
 
-out carry -6 43
-out sum -4..-2 43
+out carry -6 44
+out sum -2..5 44
