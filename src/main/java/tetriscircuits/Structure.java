@@ -1,6 +1,8 @@
 package tetriscircuits;
 
 public class Structure {
+    
+    private final int blockColorIndex;
 
     private final Tetrimino tetrimino;
     private final int x;
@@ -17,25 +19,30 @@ public class Structure {
     private final int minY;
     private final int maxY;
     
+    public Structure(final int blockColorIndex, final int x, final int y) {
+        this(null, x, y, null, null, null, 0, 0, 0, 0, null, blockColorIndex);
+    }
+    
     public Structure(final Tetrimino tetrimino, final int x, final int y) {
         this(tetrimino, x, y, null, null, null, tetrimino.getMinX(), tetrimino.getMaxX(), tetrimino.getMinY(), 
-                tetrimino.getMaxY(), null);
+                tetrimino.getMaxY(), null, -1);
     }
     
     public Structure(final String componentName, final int x, final int y, final TerminalRectangle[][] inputs, 
             final TerminalRectangle[][] outputs, final int minX, final int maxX, final int minY, final int maxY) {
-        this(null, x, y, componentName, inputs, outputs, minX, maxX, minY, maxY, null);
+        this(null, x, y, componentName, inputs, outputs, minX, maxX, minY, maxY, null, -1);
     }    
     
     public Structure(final String componentName, final int x, final int y, final TerminalRectangle[][] inputs, 
             final TerminalRectangle[][] outputs, final int minX, final int maxX, final int minY, final int maxY,
             final Structure[] structures) {
-        this(null, x, y, componentName, inputs, outputs, minX, maxX, minY, maxY, structures);
+        this(null, x, y, componentName, inputs, outputs, minX, maxX, minY, maxY, structures, -1);
     }
 
     public Structure(final Tetrimino tetrimino, final int x, final int y, final String componentName, 
             final TerminalRectangle[][] inputs, final TerminalRectangle[][] outputs,
-            final int minX, final int maxX, final int minY, final int maxY, final Structure[] structures) {
+            final int minX, final int maxX, final int minY, final int maxY, final Structure[] structures,
+            final int blockColorIndex) {
         this.tetrimino = tetrimino;
         this.x = x;
         this.y = y;
@@ -47,6 +54,7 @@ public class Structure {
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
+        this.blockColorIndex = blockColorIndex;
     }
 
     public Tetrimino getTetrimino() {
@@ -91,5 +99,9 @@ public class Structure {
 
     public int getMaxY() {
         return maxY;
+    }
+
+    public int getBlockColorIndex() {
+        return blockColorIndex;
     }
 }

@@ -19,8 +19,6 @@ public class Playfield {
     private int maxX;
     private int minY;
     
-    private int[] terminalYs;
-    
     public Playfield(final int width, final int height, final int bitsPerCell) {
         
         outer: {
@@ -47,15 +45,6 @@ public class Playfield {
         
         minX = maxX = width >> 1;
         minY = height - 1;
-        
-        terminalYs = new int[width];
-        for (int i = width - 1; i >= 0; --i) {
-            terminalYs[i] = height - 1;
-        }
-    }
-    
-    public int[] getTerminalYs() {
-        return terminalYs;
     }
 
     public int getMaxValue() {
@@ -70,22 +59,46 @@ public class Playfield {
             }
         }
         minX = maxX = width >> 1;
-        minY = height - 1;        
+        minY = height - 1;      
     }
     
-    public void flatten() {
-        minX = maxX = width >> 1;
-        minY = height - 1;
-        for (int x = width - 1; x >= 0; --x) {
-            if (terminalYs[x] < height - 1) {                
-                set(x, height - 1, get(x, terminalYs[x] - 1));
-                set(x, height - 2, get(x, terminalYs[x]));
-            }
+    public void flatten(final int sourceRow) {
+        
+        for (int x = minX; x <= maxX; ++x) {  
+            outer: if (get(x, height - 1) != 0 || get(x, height - 2) != 0) {
+                for (int y = height - 3; y >= minY; --y) {
+                    if (get(x, y) != 0) {
+                        break outer;
+                    }
+                }
+                continue;
+            }            
+            set(x, height - 1, get(x, sourceRow));
+            set(x, height - 2, get(x, sourceRow - 1));
         }
+        
         for (int y = height - 3; y >= minY; --y) {
             final int[] row = data[y];
             for (int x = minX; x <= maxX; ++x) {
                 row[x >> shift] = 0;
+            }
+        }
+        
+        minX = maxX = width >> 1;
+        minY = height - 1;
+        for (int y = height - 2; y <= height - 1; ++y) {
+            for (int x = width - 1; x >= 0; --x) {
+                if (get(x, y) > 0) {
+                    if (x < minX) {
+                        minX = x;
+                    }
+                    if (x > maxX) {
+                        maxX = x;
+                    }
+                    if (y < minY) {
+                        minY = y;
+                    }
+                }
             }
         }
     }
@@ -111,7 +124,7 @@ public class Playfield {
     public void set(final int x, final int y) {
         set(x, y, mask2);
     }
-    
+        
     public void set(final int x, final int y, final int color) {
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return;
@@ -121,6 +134,9 @@ public class Playfield {
         }
         if (x > maxX) {
             maxX = x;
+        }
+        if (y < minY) {
+            minY = y;
         }
         final int[] row = data[y];
         final int s = (x & mask2) << power;

@@ -42,7 +42,7 @@ public class Instruction {
     @Override
     public String toString() {
         if (flatten) {
-            return "flatten";
+            return String.format("flatten %d", moves[0]);
         }
         final StringBuilder sb = new StringBuilder();
         if (component != null) {

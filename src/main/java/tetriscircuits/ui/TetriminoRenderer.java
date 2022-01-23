@@ -24,34 +24,50 @@ public class TetriminoRenderer implements Icon {
         new Color(0xFFDE00),
         new Color(0x66FD00),
         new Color(0xFF7308),
-        new Color(0x00E6FE),        
-    };    
+        new Color(0x00E6FE), 
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+        new Color(0xFFFFF0),
+    };   
     
-    public static final TetriminoRenderer TD = new TetriminoRenderer(Tetrimino.TD, COLORS[0]);
-    public static final TetriminoRenderer TL = new TetriminoRenderer(Tetrimino.TL, COLORS[0]);
-    public static final TetriminoRenderer TU = new TetriminoRenderer(Tetrimino.TU, COLORS[0]);
-    public static final TetriminoRenderer TR = new TetriminoRenderer(Tetrimino.TR, COLORS[0]);
+    private static final Color[] DARK_COLORS = new Color[COLORS.length];
+    static {
+        for (int i = COLORS.length - 1; i >= 0; --i) {
+            DARK_COLORS[i] = COLORS[i].darker();
+        }
+    }
     
-    public static final TetriminoRenderer JD = new TetriminoRenderer(Tetrimino.JD, COLORS[1]);
-    public static final TetriminoRenderer JL = new TetriminoRenderer(Tetrimino.JL, COLORS[1]);
-    public static final TetriminoRenderer JU = new TetriminoRenderer(Tetrimino.JU, COLORS[1]);
-    public static final TetriminoRenderer JR = new TetriminoRenderer(Tetrimino.JR, COLORS[1]);
+    public static final TetriminoRenderer TD = new TetriminoRenderer(Tetrimino.TD, 0);
+    public static final TetriminoRenderer TL = new TetriminoRenderer(Tetrimino.TL, 0);
+    public static final TetriminoRenderer TU = new TetriminoRenderer(Tetrimino.TU, 0);
+    public static final TetriminoRenderer TR = new TetriminoRenderer(Tetrimino.TR, 0);
     
-    public static final TetriminoRenderer ZH = new TetriminoRenderer(Tetrimino.ZH, COLORS[2]);
-    public static final TetriminoRenderer ZV = new TetriminoRenderer(Tetrimino.ZV, COLORS[2]);
+    public static final TetriminoRenderer JD = new TetriminoRenderer(Tetrimino.JD, 1);
+    public static final TetriminoRenderer JL = new TetriminoRenderer(Tetrimino.JL, 1);
+    public static final TetriminoRenderer JU = new TetriminoRenderer(Tetrimino.JU, 1);
+    public static final TetriminoRenderer JR = new TetriminoRenderer(Tetrimino.JR, 1);
     
-    public static final TetriminoRenderer OS = new TetriminoRenderer(Tetrimino.OS, COLORS[3]);
+    public static final TetriminoRenderer ZH = new TetriminoRenderer(Tetrimino.ZH, 2);
+    public static final TetriminoRenderer ZV = new TetriminoRenderer(Tetrimino.ZV, 2);
     
-    public static final TetriminoRenderer SH = new TetriminoRenderer(Tetrimino.SH, COLORS[4]);
-    public static final TetriminoRenderer SV = new TetriminoRenderer(Tetrimino.SV, COLORS[4]);
+    public static final TetriminoRenderer OS = new TetriminoRenderer(Tetrimino.OS, 3);
     
-    public static final TetriminoRenderer LD = new TetriminoRenderer(Tetrimino.LD, COLORS[5]);
-    public static final TetriminoRenderer LL = new TetriminoRenderer(Tetrimino.LL, COLORS[5]);
-    public static final TetriminoRenderer LU = new TetriminoRenderer(Tetrimino.LU, COLORS[5]);
-    public static final TetriminoRenderer LR = new TetriminoRenderer(Tetrimino.LR, COLORS[5]);
+    public static final TetriminoRenderer SH = new TetriminoRenderer(Tetrimino.SH, 4);
+    public static final TetriminoRenderer SV = new TetriminoRenderer(Tetrimino.SV, 4);
     
-    public static final TetriminoRenderer IH = new TetriminoRenderer(Tetrimino.IH, COLORS[6]);
-    public static final TetriminoRenderer IV = new TetriminoRenderer(Tetrimino.IV, COLORS[6]);
+    public static final TetriminoRenderer LD = new TetriminoRenderer(Tetrimino.LD, 5);
+    public static final TetriminoRenderer LL = new TetriminoRenderer(Tetrimino.LL, 5);
+    public static final TetriminoRenderer LU = new TetriminoRenderer(Tetrimino.LU, 5);
+    public static final TetriminoRenderer LR = new TetriminoRenderer(Tetrimino.LR, 5);
+    
+    public static final TetriminoRenderer IH = new TetriminoRenderer(Tetrimino.IH, 6);
+    public static final TetriminoRenderer IV = new TetriminoRenderer(Tetrimino.IV, 6);
     
     public static final TetriminoRenderer[] T = { TD, TL, TU, TR };
     public static final TetriminoRenderer[] J = { JD, JL, JU, JR };
@@ -79,16 +95,26 @@ public class TetriminoRenderer implements Icon {
         return RENDERERS.get(tetrimino);
     }
     
+    public static void renderBlock(final Graphics g, final int x, final int y, int colorIndex, 
+            int cellSize) {
+        
+        g.setColor(COLORS[colorIndex]);
+        g.fillRect(x, y, cellSize, cellSize);
+        g.setColor(DARK_COLORS[colorIndex]);
+        g.drawRect(x, y, cellSize, cellSize);
+    }
+    
     private final Tetrimino tetrimino;    
     private final Color fillColor;
     private final Color lineColor;
     
     private final BlockFaces[] blockFaces;
     
-    public TetriminoRenderer(final Tetrimino tetrimino, final Color color) {
+    public TetriminoRenderer(final Tetrimino tetrimino, final int colorIndex) {
+        
         this.tetrimino = tetrimino;
-        this.fillColor = color;
-        this.lineColor = color.darker();
+        this.fillColor = COLORS[colorIndex];
+        this.lineColor = DARK_COLORS[colorIndex];
         
         for (int i = MATRIX.length - 1; i >= 0; --i) {
             final boolean[] row = MATRIX[i];
@@ -135,9 +161,8 @@ public class TetriminoRenderer implements Icon {
     public BlockFaces[] getBlockFaces() {
         return blockFaces;
     }
-        
-    public void render(final Graphics g, final int x, final int y, int cellSize) {
-        
+    
+    public void render(final Graphics g, final int x, final int y, int cellSize) {        
         final Point[] blocks = tetrimino.getBlocks();        
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];

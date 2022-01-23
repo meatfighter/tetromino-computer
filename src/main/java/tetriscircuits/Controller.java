@@ -416,8 +416,8 @@ public class Controller {
     }
     
     private Extents getComponentExtents(final Map<String, Extents> componentExtents, final Component component) {
-        
-        Extents extents = componentExtents.get(component.getName());
+
+        Extents extents = componentExtents.getOrDefault(component.getName(), null);
         if (extents != null) {
             return extents;
         }
@@ -428,8 +428,13 @@ public class Controller {
         
         if (component.getInstructions() != null) {
             for (final Instruction instruction : component.getInstructions()) {
-                Extents e = null;
 
+                if (instruction.isFlatten()) {
+                    continue;
+                }
+
+                Extents e = null;
+                
                 final Tetrimino tetrimino = instruction.getTetrimino();
                 if (tetrimino != null) {
                     e = tetrimino.getExtents();
@@ -557,7 +562,16 @@ public class Controller {
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
-                simulator.simulate(playfield, component, depth, structure -> structs.add(structure));
+                simulator.simulate(playfield, component, depth, new StructureListener() {
+                    @Override
+                    public void clear() {
+                        structs.clear();
+                    }
+                    @Override
+                    public void structureLocked(final Structure lockedStructure) {
+                        structs.add(lockedStructure);
+                    }
+                });
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
@@ -688,7 +702,16 @@ public class Controller {
         try {                        
             simulator.init(playfield, component, testBitStr);
             final List<Structure> structs = new ArrayList<>();
-            simulator.simulate(playfield, component, depth, structure -> structs.add(structure));            
+            simulator.simulate(playfield, component, depth, new StructureListener() {
+                @Override
+                public void clear() {
+                    structs.clear();
+                }
+                @Override
+                public void structureLocked(final Structure lockedStructure) {
+                    structs.add(lockedStructure);
+                }
+            });            
             simulator.addOutputs(playfield, component);
 
             final Extents extents = componentExtents.get(component.getName());
@@ -841,7 +864,7 @@ public class Controller {
             }
         }
         if (playfield == null) {
-            playfield = new Playfield(4096, 4096, 1);            
+            playfield = new Playfield(4096, 4096, 4);            
         }
         return playfield;
     }

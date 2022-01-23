@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Collections;
@@ -79,6 +78,13 @@ public class StructureRenderer {
             return;
         }
         
+        final int blockColorIndex = structure.getBlockColorIndex();
+        if (blockColorIndex >= 0) {
+            TetriminoRenderer.renderBlock(g, x + cellSize * (cellX + structure.getX()), 
+                    y - cellSize * (cellY + structure.getY()), blockColorIndex, cellSize);
+            return;
+        }        
+        
         final Structure[] structures = structure.getStructures();
         if (structures == null) {
             return;
@@ -90,17 +96,17 @@ public class StructureRenderer {
         
         final FontMetrics fontMetrics = g.getFontMetrics();           
                 
-        for (int i = structures.length - 1; i >= 0; --i) {
+        for (int i = structures.length - 1; i >= 0; --i) {            
             final Structure struct = structures[i];
-            final Tetrimino tetrimino = struct.getTetrimino();
-            if (tetrimino == null) {                
+            final String componentName = struct.getComponentName();
+            if (componentName != null) {                
                 final int fillHeight = cellSize * (struct.getMaxY() - struct.getMinY() + 1);
                 final int fillWidth = cellSize * (struct.getMaxX() - struct.getMinX() + 1);
                 final int fillX = x + cellSize * (cellX + struct.getX() + struct.getMinX());
                 final int fillY = y - cellSize * (cellY + struct.getY() - struct.getMinY() - 1) - fillHeight;                
                 g.setColor(COMPONENT_FILL);                
                 g.fillRect(fillX, fillY + cellSize, fillWidth, fillHeight - (cellSize << 1));
-                final Rectangle2D nameBounds = fontMetrics.getStringBounds(struct.getComponentName(), g);
+                final Rectangle2D nameBounds = fontMetrics.getStringBounds(componentName, g);
                 g.setColor(TEXT_COLOR);
                 if (nameBounds.getWidth() >= fillWidth - 10) {                    
                     g.setFont(rotatedFont);
@@ -118,18 +124,24 @@ public class StructureRenderer {
             }
         }
 
-        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
+//        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
         renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY, true);
         
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
-            final Tetrimino tetrimino = struct.getTetrimino();
+            final Tetrimino tetrimino = struct.getTetrimino();            
             if (tetrimino != null) {
                 TetriminoRenderer.fromTetrimino(tetrimino).render(g, 
                         x + cellSize * (cellX + struct.getX()), 
                         y - cellSize * (cellY + struct.getY()), 
                         cellSize);
+                continue;
             } 
+            final int colorIndex = struct.getBlockColorIndex();
+            if (colorIndex >= 0) {
+                TetriminoRenderer.renderBlock(g, x + cellSize * (cellX + struct.getX()), 
+                        y - cellSize * (cellY + struct.getY()), colorIndex, cellSize);
+            }
         }   
     }
     

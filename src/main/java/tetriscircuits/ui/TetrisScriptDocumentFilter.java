@@ -14,10 +14,9 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class TetrisScriptDocumentFilter extends DocumentFilter {
 
-    private static final Pattern KEYWORD_PATTERN = Pattern.compile("(def|in|out|test)($|\\s)");
+    private static final Pattern KEYWORD_PATTERN = Pattern.compile("(in|out|flatten)($|\\s)");
     private static final Pattern NUMBER_PATTERN 
             = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)");
-    private static final Pattern DECLARE_PATTERN = Pattern.compile("(^|\\s)def\\s+([a-zA-Z_][a-zA-Z0-9_]*)($|\\s)");
     
     public static final Color NORMAL_COLOR = new Color(0xBBBBBB);
     public static final Color COMMENT_COLOR = new Color(0x808080);
@@ -99,13 +98,6 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
                         numberMatcher.end(1) - start, NUMBER_ATTRIBS, true);
             }
         }
-        
-        final Matcher declareMatcher = DECLARE_PATTERN.matcher(lineStr);
-        while (declareMatcher.find()) {
-            final int start = declareMatcher.start(2);
-            doc.setCharacterAttributes(startOffset + start, 
-                        declareMatcher.end(2) - start, DECLARE_ATTRIBS, true);
-        }
     }
 
     @Override
@@ -133,7 +125,7 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         if ("\n".equals(text)) {            
             final Element line = root.getElement(root.getElementIndex(offset));
             final String lineText = doc.getText(line.getStartOffset(), line.getEndOffset() - line.getStartOffset());
-            if ((lineText.startsWith("    ") && !isBlank(lineText)) || DECLARE_PATTERN.matcher(lineText).find()) {
+            if (lineText.startsWith("    ") && !isBlank(lineText)) {
                 fb.insertString(offset, "\n    ", null);
             } else {
                 fb.insertString(offset, text, null);

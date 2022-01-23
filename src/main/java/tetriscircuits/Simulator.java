@@ -34,19 +34,22 @@ public class Simulator {
         if (inputs == null || inputBits == null) {
             return;
         }
-        
-        final int[] terminalYs = playfield.getTerminalYs();                
+                       
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
-            final int oy = originY - (inputBits.charAt(i) == '1' ? 1 : 0);
+            final boolean one = inputBits.charAt(i) == '1';
             final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
-                final int y = oy - horizontalLine.getY();          
-                final int inputHeight = originY - horizontalLine.getY() - 1;
-                final int maxX = horizontalLine.getMaxX();
+                final int maxX = horizontalLine.getMaxX();                
+                int y = originY - horizontalLine.getY();                          
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    playfield.set(originX + x, y, cellValue);
-                    terminalYs[originX + x] = inputHeight;
+                    playfield.set(originX + x, y, cellValue);                    
+                }
+                if (one) {
+                    --y;
+                    for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                        playfield.set(originX + x, y, cellValue);                    
+                    }                    
                 }
             }
         }
@@ -152,18 +155,6 @@ public class Simulator {
     public void simulate(final Playfield playfield, final Component component, final String alias, final int originX, 
             final int originY, final int depth, final StructureListener listener) {
         
-        final Extents extents = componentExtents.get(component.getName());
-        if (extents != null) {
-            final int[] terminalYs = playfield.getTerminalYs();
-            final int minY = originY - extents.getMaxY();
-            for (int x = extents.getMinX(); x <= extents.getMaxX(); ++x) {
-                final int index = originX + x;                
-                if (terminalYs[index] > minY) {
-                    terminalYs[index] = minY;
-                }
-            }
-        }        
-        
         if (depth <= 0 && !component.getName().startsWith("_")) {
             emulate(playfield, component, alias, originX, originY, listener);
         } else {
@@ -190,14 +181,14 @@ public class Simulator {
     
     private void simulate(final Playfield playfield, final Instruction instruction, final int originX, 
             final int originY, final int depth, final StructureListener listener) {
+
+        final int[] moves = instruction.getMoves();
         
         if (instruction.isFlatten()) {
-            playfield.flatten();
+            flatten(playfield, originY - moves[0], listener);
             return;
         }
     
-        final int[] moves = instruction.getMoves();
-        
         final Component component = instruction.getComponent();
         if (component != null) {   
             simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], depth - 1, 
@@ -331,6 +322,29 @@ public class Simulator {
             
             listener.structureLocked(new Structure(alias, originX - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - originY, inputRects, outputRects, minX, maxX, minY, maxY));
+        }
+    }
+    
+    private void flatten(final Playfield playfield, final int row, final StructureListener listener) {
+        
+        playfield.flatten(row);
+        
+        if (listener == null) {
+            return;
+        }
+        listener.clear();
+        
+        final int playfieldHeight = playfield.getHeight();
+        final int originX = playfield.getWidth() >> 1;
+        final int originY = playfieldHeight - 1;        
+        for (int y = 1; y >= 0; --y) {
+            for (int x = playfield.getWidth() - 1; x >= 0; --x) {
+                final int blockColorIndex = playfield.get(x, originY - y) - 1;
+                if (blockColorIndex < 0) {
+                    continue;
+                }
+                listener.structureLocked(new Structure(blockColorIndex, x - originX, y));
+            }
         }
     }
     
