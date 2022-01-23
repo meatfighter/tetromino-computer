@@ -96,8 +96,12 @@ public class StructureRenderer {
         
         final FontMetrics fontMetrics = g.getFontMetrics();           
                 
+        boolean renderInputTerminals = true;
         for (int i = structures.length - 1; i >= 0; --i) {            
             final Structure struct = structures[i];
+            if (struct.getBlockColorIndex() >= 0) {
+                renderInputTerminals = false;
+            }
             final String componentName = struct.getComponentName();
             if (componentName != null) {                
                 final int fillHeight = cellSize * (struct.getMaxY() - struct.getMinY() + 1);
@@ -124,7 +128,9 @@ public class StructureRenderer {
             }
         }
 
-//        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
+        if (renderInputTerminals) {
+            renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
+        }
         renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY, true);
         
         for (int i = structures.length - 1; i >= 0; --i) {

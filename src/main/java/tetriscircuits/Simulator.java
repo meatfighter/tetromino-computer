@@ -43,12 +43,12 @@ public class Simulator {
                 final int maxX = horizontalLine.getMaxX();                
                 int y = originY - horizontalLine.getY();                          
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    playfield.set(originX + x, y, cellValue);                    
+                    playfield.setInput(originX + x, y, cellValue);                    
                 }
                 if (one) {
                     --y;
                     for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                        playfield.set(originX + x, y, cellValue);                    
+                        playfield.setInput(originX + x, y, cellValue);                    
                     }                    
                 }
             }
@@ -190,7 +190,13 @@ public class Simulator {
         }
     
         final Component component = instruction.getComponent();
-        if (component != null) {   
+        if (component != null) {            
+            final Extents extents = componentExtents.get(component.getName());
+            if (extents != null) {            
+                for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
+                    playfield.setPopulated(originX + x);
+                }
+            }            
             simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], depth - 1, 
                     listener);
             return;
@@ -272,14 +278,20 @@ public class Simulator {
             if (outputValues[i] == null) {
                 continue;
             }
-            final int valueOffset = outputValues[i] ? 1 : 0;
+            final int color = playfield.getMaxValue();
             final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
-                final int y = originY - horizontalLine.getY() - valueOffset;
                 final int maxX = horizontalLine.getMaxX();
+                int y = originY - horizontalLine.getY();                
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    playfield.set(originX + x, y);
+                    playfield.set(originX + x, y, color);
+                }
+                if (outputValues[i]) {
+                    --y;
+                    for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                        playfield.set(originX + x, y, color);
+                    }                    
                 }
             }
         }

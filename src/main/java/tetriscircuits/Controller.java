@@ -503,7 +503,7 @@ public class Controller {
         saveScript(tsFile, tetrisScript);
         saveScript(jsFile, javaScript);
         
-        
+        // TODO COMPNAME???
     }
     
     private void saveScript(final File file, final String script) {
