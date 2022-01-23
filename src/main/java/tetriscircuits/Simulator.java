@@ -35,15 +35,18 @@ public class Simulator {
             return;
         }
         
+        final int[] terminalYs = playfield.getTerminalYs();                
         for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
             final int oy = originY - (inputBits.charAt(i) == '1' ? 1 : 0);
             final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
-                final int y = oy - horizontalLine.getY();
+                final int y = oy - horizontalLine.getY();          
+                final int inputHeight = originY - horizontalLine.getY() - 1;
                 final int maxX = horizontalLine.getMaxX();
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
                     playfield.set(originX + x, y, cellValue);
+                    terminalYs[originX + x] = inputHeight;
                 }
             }
         }
@@ -139,6 +142,7 @@ public class Simulator {
         simulate(playfield, component, component.getName(), originX, originY, depth, null);
     }
     
+    // Used by buildAndRun
     public void simulate(final Playfield playfield, final Component component, final int depth, 
             final StructureListener listener) {
         simulate(playfield, component, component.getName(), playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, 
@@ -147,34 +151,50 @@ public class Simulator {
 
     public void simulate(final Playfield playfield, final Component component, final String alias, final int originX, 
             final int originY, final int depth, final StructureListener listener) {
+        
+        final Extents extents = componentExtents.get(component.getName());
+        if (extents != null) {
+            final int[] terminalYs = playfield.getTerminalYs();
+            final int minY = originY - extents.getMaxY();
+            for (int x = extents.getMinX(); x <= extents.getMaxX(); ++x) {
+                final int index = originX + x;                
+                if (terminalYs[index] > minY) {
+                    terminalYs[index] = minY;
+                }
+            }
+        }        
+        
         if (depth <= 0 && !component.getName().startsWith("_")) {
             emulate(playfield, component, alias, originX, originY, listener);
         } else {
-            simulate(playfield, component.getInstructions(), originX, originY, depth, listener);
+            final Instruction[] instructions = component.getInstructions();
+            if (instructions == null) {
+                return;
+            }
+            final int lastFlatten = findLastFlatten(instructions);            
+            for (int i = 0; i < instructions.length; ++i) {
+                simulate(playfield, instructions[i], originX, originY, i <= lastFlatten ? 0 : depth, listener);
+            }
         }
     }
     
-    public void simulate(final Playfield playfield, final Instruction[] instructions, final int depth) {
-        simulate(playfield, instructions, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth);
+    private int findLastFlatten(final Instruction[] instructions) {
+        int i = instructions.length - 1;
+        for (; i >= 0; --i) {
+            if (instructions[i].isFlatten()) {
+                return i;
+            }
+        }
+        return i;
     }
     
-    public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
-            final int originY, final int depth) {
-        simulate(playfield, instructions, originX, originY, depth, null);
-    }
-    
-    public void simulate(final Playfield playfield, final Instruction[] instructions, final int originX, 
+    private void simulate(final Playfield playfield, final Instruction instruction, final int originX, 
             final int originY, final int depth, final StructureListener listener) {
-        if (instructions == null) {
+        
+        if (instruction.isFlatten()) {
+            playfield.flatten();
             return;
         }
-        for (int i = 0; i < instructions.length; ++i) {    
-            simulate(playfield, instructions[i], originX, originY, depth, listener);
-        }
-    }
-    
-    public void simulate(final Playfield playfield, final Instruction instruction, final int originX, final int originY,
-            final int depth, final StructureListener listener) {
     
         final int[] moves = instruction.getMoves();
         

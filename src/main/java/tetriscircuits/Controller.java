@@ -110,7 +110,7 @@ public class Controller {
         final Component ss = new Component(String.format("s%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
-            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }, false));
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -129,7 +129,7 @@ public class Controller {
         final Component zs = new Component(String.format("z%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
-            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }, false));
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -145,7 +145,7 @@ public class Controller {
     }
     
     private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
-        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
+        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }, false));
     }
     
     private void setInputs(final Component component, final int x, final int y) {

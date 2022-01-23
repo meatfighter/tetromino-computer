@@ -7,12 +7,16 @@ public class Instruction {
     
     private final String alias;
     private final int[] moves;
+    
+    private final boolean flatten;
 
-    public Instruction(final Tetrimino tetrimino, final Component component, final String alias, final int[] moves) {
+    public Instruction(final Tetrimino tetrimino, final Component component, final String alias, final int[] moves, 
+            final boolean flatten) {
         this.tetrimino = tetrimino;
         this.component = component;
         this.alias = alias;
         this.moves = moves;
+        this.flatten = flatten;
     }
 
     public Tetrimino getTetrimino() {
@@ -31,8 +35,15 @@ public class Instruction {
         return moves;
     }
 
+    public boolean isFlatten() {
+        return flatten;
+    }
+
     @Override
     public String toString() {
+        if (flatten) {
+            return "flatten";
+        }
         final StringBuilder sb = new StringBuilder();
         if (component != null) {
             sb.append(alias);

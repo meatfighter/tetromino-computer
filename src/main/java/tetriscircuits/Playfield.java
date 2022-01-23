@@ -19,6 +19,8 @@ public class Playfield {
     private int maxX;
     private int minY;
     
+    private int[] terminalYs;
+    
     public Playfield(final int width, final int height, final int bitsPerCell) {
         
         outer: {
@@ -45,6 +47,15 @@ public class Playfield {
         
         minX = maxX = width >> 1;
         minY = height - 1;
+        
+        terminalYs = new int[width];
+        for (int i = width - 1; i >= 0; --i) {
+            terminalYs[i] = height - 1;
+        }
+    }
+    
+    public int[] getTerminalYs() {
+        return terminalYs;
     }
 
     public int getMaxValue() {
@@ -60,6 +71,23 @@ public class Playfield {
         }
         minX = maxX = width >> 1;
         minY = height - 1;        
+    }
+    
+    public void flatten() {
+        minX = maxX = width >> 1;
+        minY = height - 1;
+        for (int x = width - 1; x >= 0; --x) {
+            if (terminalYs[x] < height - 1) {                
+                set(x, height - 1, get(x, terminalYs[x] - 1));
+                set(x, height - 2, get(x, terminalYs[x]));
+            }
+        }
+        for (int y = height - 3; y >= minY; --y) {
+            final int[] row = data[y];
+            for (int x = minX; x <= maxX; ++x) {
+                row[x >> shift] = 0;
+            }
+        }
     }
     
     public boolean isEmpty(final int x, final int y) {
@@ -94,12 +122,9 @@ public class Playfield {
         if (x > maxX) {
             maxX = x;
         }
-        if (y < minY) {
-            minY = y;
-        }
         final int[] row = data[y];
         final int s = (x & mask2) << power;
-        row[x >> shift] = (row[x >> shift] & ~(mask << s)) | ((color & mask) << s);        
+        row[x >> shift] = (row[x >> shift] & ~(mask << s)) | ((color & mask) << s);
     }
     
     public int getWidth() {
