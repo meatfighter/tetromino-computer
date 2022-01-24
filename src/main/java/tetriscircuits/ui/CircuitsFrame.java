@@ -1058,9 +1058,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         
         final JDialog translateDialog = new JDialog(this, "Translate");
         final TranslatePanel translatePanel = new TranslatePanel(translateDialog);
+        translatePanel.setTranslateSelection(circuitsEditorPanel.isTetrisScriptSelected());
         translateDialog.setContentPane(translatePanel);
         translateDialog.setModal(true);
-        translateDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        translateDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);        
         translateDialog.pack();
         translateDialog.setLocationRelativeTo(this);
         translateDialog.setVisible(true);

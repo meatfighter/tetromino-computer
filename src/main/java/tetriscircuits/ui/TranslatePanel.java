@@ -17,6 +17,8 @@ public class TranslatePanel extends javax.swing.JPanel {
     public TranslatePanel(final Window window) {
         this.window = window;
         initComponents();
+        xTextField.requestFocusInWindow();
+        xTextField.selectAll();
     }
 
     /**
@@ -56,12 +58,14 @@ public class TranslatePanel extends javax.swing.JPanel {
         xTextField.setColumns(5);
         xTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         xTextField.setText("0");
+        xTextField.setNextFocusableComponent(yTextField);
 
         yLabel.setText("Y");
 
         yTextField.setColumns(5);
         yTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         yTextField.setText("0");
+        yTextField.setNextFocusableComponent(xTextField);
 
         translateSelectionCheckBox.setSelected(true);
         translateSelectionCheckBox.setText("Translate selection");
@@ -143,6 +147,10 @@ public class TranslatePanel extends javax.swing.JPanel {
 
     public boolean isTranslateSelection() {
         return translateSelection;
+    }
+    
+    public void setTranslateSelection(final boolean translateSelection) {
+        translateSelectionCheckBox.setSelected(translateSelection);
     }
 
     public boolean isOk() {

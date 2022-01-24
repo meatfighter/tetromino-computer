@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import static java.lang.Math.min;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.List;
@@ -477,6 +478,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 depth);
     }
     
+    public boolean isTetrisScriptSelected() {
+        return tetrisScriptTextPane.getSelectionStart() != tetrisScriptTextPane.getSelectionEnd();
+    }
+    
     public String getTetrisScriptLines(final boolean selection) {
         final int selectionStart = tetrisScriptTextPane.getSelectionStart();
         final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
@@ -499,24 +504,25 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         return sb.toString();
     }
     
-    public void replaceTetrisScriptLines(final String replacement, final boolean selection) {
+    public void replaceTetrisScriptLines(final String replacement, final boolean selection) {        
         final StyledDocument doc = tetrisScriptTextPane.getStyledDocument();
         final int selectionStart = tetrisScriptTextPane.getSelectionStart();
         final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
         if (!selection || selectionStart == selectionEnd) {
-            tetrisScriptTextPane.setText(replacement);
+            tetrisScriptTextPane.setText(replacement.substring(0, replacement.length() - 1));
             TetrisScriptDocumentFilter.applySyntaxHighlighting(doc);
             return;
         }
                 
         final Element root = doc.getDefaultRootElement();
         final Element start = root.getElement(root.getElementIndex(selectionStart));
-        final Element end = root.getElement(root.getElementIndex(selectionEnd));                
+        final Element end = root.getElement(root.getElementIndex(selectionEnd));        
         try {
             doc.remove(start.getStartOffset(), end.getEndOffset() - start.getStartOffset());
             doc.insertString(start.getStartOffset(), replacement, null);
             TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, selectionStart, selectionEnd);
-        } catch (final BadLocationException e) {                
+        } catch (final BadLocationException e) {
+            e.printStackTrace();
         }
     }
     
