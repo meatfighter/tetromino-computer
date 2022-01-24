@@ -1082,6 +1082,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             circuitsEditorPanel.appendOutput("Failed to translate: " + e.getMessage());
             return;
         }
+        runButtonActionPerformed(evt);
         circuitsEditorPanel.appendOutput("Translated.");        
     }//GEN-LAST:event_translateMenuItemActionPerformed
 
