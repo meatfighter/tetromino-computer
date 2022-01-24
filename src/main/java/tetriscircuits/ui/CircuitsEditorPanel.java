@@ -516,13 +516,19 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 
         final Element root = doc.getDefaultRootElement();
         final Element start = root.getElement(root.getElementIndex(selectionStart));
-        final Element end = root.getElement(root.getElementIndex(selectionEnd));        
+        final int endIndex = root.getElementIndex(selectionEnd);
+        final Element end = root.getElement(endIndex);        
         try {
-            doc.remove(start.getStartOffset(), end.getEndOffset() - start.getStartOffset());
-            doc.insertString(start.getStartOffset(), replacement, null);
+            int length = end.getEndOffset() - start.getStartOffset();
+            String r = replacement;
+            if (length > doc.getLength() - start.getStartOffset()) {
+                length = doc.getLength() - start.getStartOffset();
+                r = replacement.substring(0, replacement.length() - 1);
+            }
+            doc.remove(start.getStartOffset(), length);
+            doc.insertString(start.getStartOffset(), r, null);
             TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, selectionStart, selectionEnd);
         } catch (final BadLocationException e) {
-            e.printStackTrace();
         }
     }
     
