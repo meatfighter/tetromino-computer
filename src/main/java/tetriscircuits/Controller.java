@@ -685,6 +685,37 @@ public class Controller {
         }
     }
     
+    public String translateToCenter(final String componentName, final String tetrisScript) {
+        final OutputListener listener = outputListener;
+        if (listener != null) {
+            listener.clear();
+        }
+        final Parser parser = new Parser();
+        try {
+            parser.parse(components, componentName, new ByteArrayInputStream(tetrisScript.getBytes()));
+            updateComponentExtents();
+            final Extents extents = componentExtents.get(componentName);
+            final int tx = -((extents.getMaxX() + extents.getMinX()) >> 1);
+            if (listener != null) {
+                listener.append("Translated " + tx);
+            }
+            return translate(componentName, tetrisScript, tx, 0);            
+        } catch (final ParseException e) {
+            if (listener != null) {
+                listener.append("Build failed.");
+                listener.append(e.toString());
+            }
+            notifyStructuresCreated();            
+        } catch (final IOException e) {
+            if (listener != null) {
+                listener.append("Build failed.");
+                listener.append(e.getMessage());
+            }
+            notifyStructuresCreated();
+        }
+        return tetrisScript;
+    }
+    
     private void createStructures(final int depth) {
         structures.clear();
         for (final Component component : components.values()) {

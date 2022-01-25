@@ -202,10 +202,19 @@
             <MenuItem class="javax.swing.JMenuItem" name="translateMenuItem">
               <Properties>
                 <Property name="mnemonic" type="int" value="84"/>
-                <Property name="text" type="java.lang.String" value="Translate"/>
+                <Property name="text" type="java.lang.String" value="Translate..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="translateMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="translateToCenterMenuItem">
+              <Properties>
+                <Property name="mnemonic" type="int" value="67"/>
+                <Property name="text" type="java.lang.String" value="Translate to Center"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="translateToCenterMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

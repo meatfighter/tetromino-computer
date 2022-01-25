@@ -245,6 +245,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         goToMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         translateMenuItem = new javax.swing.JMenuItem();
+        translateToCenterMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         helpMenuItem = new javax.swing.JMenuItem();
         licenseMenuItem = new javax.swing.JMenuItem();
@@ -866,13 +867,22 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolsMenu.setText("Tools");
 
         translateMenuItem.setMnemonic('T');
-        translateMenuItem.setText("Translate");
+        translateMenuItem.setText("Translate...");
         translateMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 translateMenuItemActionPerformed(evt);
             }
         });
         toolsMenu.add(translateMenuItem);
+
+        translateToCenterMenuItem.setMnemonic('C');
+        translateToCenterMenuItem.setText("Translate to Center");
+        translateToCenterMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                translateToCenterMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(translateToCenterMenuItem);
 
         menuBar.add(toolsMenu);
 
@@ -1364,6 +1374,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
         findPreviousMenuItem.setEnabled(findEnabled);
     }//GEN-LAST:event_editMenuMenuSelected
 
+    private void translateToCenterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_translateToCenterMenuItemActionPerformed
+        try {
+            circuitsEditorPanel.replaceTetrisScriptLines(controller.translateToCenter(componentName, 
+                    circuitsEditorPanel.getTetrisScriptLines(false)), false);
+        } catch (final Exception e) {
+            circuitsEditorPanel.appendOutput("Failed to translate: " + e.getMessage());
+            return;
+        }
+        runButtonActionPerformed(evt);
+    }//GEN-LAST:event_translateToCenterMenuItemActionPerformed
+
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
         circuitsEditorPanel.goToLine(lineNumber);
@@ -1467,6 +1488,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JButton trButton;
     private javax.swing.JMenuItem translateMenuItem;
+    private javax.swing.JMenuItem translateToCenterMenuItem;
     private javax.swing.JButton tuButton;
     private javax.swing.JMenuItem undoMenuItem;
     private javax.swing.JButton zhButton;
