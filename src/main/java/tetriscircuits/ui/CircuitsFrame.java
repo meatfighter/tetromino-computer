@@ -1408,7 +1408,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
     }
     
-    private void reset() {       
+    private void reset() { 
+        controller.close();
         circuitsEditorPanel.reset();
         circuitsEditorPanel.centerPlayfield();
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);        

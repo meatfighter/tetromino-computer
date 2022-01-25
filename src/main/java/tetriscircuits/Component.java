@@ -2,7 +2,7 @@ package tetriscircuits;
 
 import javax.script.CompiledScript;
 
-public class Component {
+public class Component implements Cloneable {
     
     private final String name;
     
@@ -49,6 +49,15 @@ public class Component {
 
     public void setCompiledScript(CompiledScript compiledScript) {
         this.compiledScript = compiledScript;
+    }
+
+    @Override
+    protected Component clone() {
+        try {
+            return (Component)super.clone();
+        } catch (final CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     @Override 

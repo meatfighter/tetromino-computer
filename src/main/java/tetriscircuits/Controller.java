@@ -58,6 +58,11 @@ public class Controller {
     
     private int taskCount;
     private int loadCount;
+    
+    private volatile String savedComponentName;
+    private volatile Component savedComponent;
+    private volatile Extents savedExtents;
+    private volatile Structure savedStructure;
 
     public void setOpenListener(final OpenListener openListener) {
         this.openListener = openListener;
@@ -254,6 +259,11 @@ public class Controller {
             
             buildScripts(componentName, tetrisScript, javaScript, testBits.toString(), 1);
             
+            savedComponentName = componentName;
+            savedComponent = components.get(componentName).clone();
+            savedExtents = componentExtents.get(componentName);
+            savedStructure = structures.get(componentName);
+            
             final OpenListener listener = openListener;
             if (listener != null) {
                 listener.openedFiles(componentName, tetrisScriptFile, tetrisScript, javaScriptFile, javaScript, 
@@ -430,6 +440,9 @@ public class Controller {
             for (final Instruction instruction : component.getInstructions()) {
 
                 if (instruction.isFlatten()) {
+                    minX = Integer.MAX_VALUE;
+                    maxX = Integer.MIN_VALUE;
+                    maxY = 0;
                     continue;
                 }
 
@@ -487,6 +500,23 @@ public class Controller {
         return extents;
     }
     
+    public void close() {
+        execute(() -> restoreLastSaved());
+    }
+    
+    private void restoreLastSaved() {
+        if (savedComponentName != null) {
+            components.put(savedComponentName, savedComponent);
+            componentExtents.put(savedComponentName, savedExtents);
+            structures.put(savedComponentName, savedStructure);
+            savedComponentName = null;
+            savedComponent = null;
+            savedExtents = null;
+            savedStructure = null;
+            notifyStructuresCreated();
+        }
+    }
+    
     public void save(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
             final String javaScript) {        
         execute(() -> saveScripts(compName, tsFile, tetrisScript, jsFile, javaScript));
@@ -503,7 +533,10 @@ public class Controller {
         saveScript(tsFile, tetrisScript);
         saveScript(jsFile, javaScript);
         
-        // TODO COMPNAME???
+        savedComponentName = compName;
+        savedComponent = components.get(compName);
+        savedExtents = componentExtents.get(compName);
+        savedStructure = structures.get(compName);
     }
     
     private void saveScript(final File file, final String script) {
