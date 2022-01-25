@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import static java.lang.Math.min;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,9 +180,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void reset() {
-        tetrisScriptTextPane.setText("");
-        javaScriptTextArea.setText("");
-        outputTextArea.setText("");
+        clearCursorRenderer();
+        clearTetrisScript();
+        clearJavaScript();
+        clearOutput();
         playfieldPanel.reset();
     }
 

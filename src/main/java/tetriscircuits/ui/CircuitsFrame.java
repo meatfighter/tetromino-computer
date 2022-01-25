@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import tetriscircuits.BuildListener;
 import tetriscircuits.Controller;
@@ -1409,15 +1408,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
     }
     
-    private void reset() {
-        depthSpinner.setValue(1);
-        playfieldWidthSpinner.setValue(256);
-        playfieldHeightSpinner.setValue(256);
-        cellSizeSpinner.setValue(16);        
+    private void reset() {       
         circuitsEditorPanel.reset();
         circuitsEditorPanel.centerPlayfield();
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);        
         tetrisScriptFile = javaScriptFile = null;
+        testTextField.setText("");
+        depthSpinner.setValue(1);
+        playfieldWidthSpinner.setValue(256);
+        playfieldHeightSpinner.setValue(256);
+        cellSizeSpinner.setValue(16);        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

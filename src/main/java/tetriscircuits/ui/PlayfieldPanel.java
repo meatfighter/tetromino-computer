@@ -51,6 +51,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         structureRenderer = null;
         cursorRenderer = null;
         minimalSize = new Dimension(playfieldWidth * cellSize, playfieldHeight * cellSize);
+        invalidate();
         repaint();
     }
     
