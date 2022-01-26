@@ -56,6 +56,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private boolean tetrisScriptHasFocus = true;
     private boolean javaScriptHasFocus;
     
+    private final TetrisScriptDocumentFilter tetrisScriptDocumentFilter = new TetrisScriptDocumentFilter();
+    private final JavaScriptDocumentFilter javaScriptDocumentFilter = new JavaScriptDocumentFilter();
+    
     /**
      * Creates new form NewJPanel
      */
@@ -64,11 +67,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         
         javaScriptUndoManager = new UndoManager();
         javaScriptTextArea.getDocument().addUndoableEditListener(e -> javaScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(javaScriptScrollPane, javaScriptTextArea, new JavaScriptDocumentFilter());
+        createUndoRedoUnIndentHandlers(javaScriptScrollPane, javaScriptTextArea, javaScriptDocumentFilter);
         
         tetrisScriptUndoManager = ((CustomTextPane)tetrisScriptTextPane).createUndoManager();
         tetrisScriptTextPane.getDocument().addUndoableEditListener(e -> tetrisScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(tetrisScriptScrollPane, tetrisScriptTextPane, new TetrisScriptDocumentFilter());
+        createUndoRedoUnIndentHandlers(tetrisScriptScrollPane, tetrisScriptTextPane, tetrisScriptDocumentFilter);
         tetrisScriptTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(COMMENT_KEYSTROKE, "commentKeyStroke");
         tetrisScriptTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
@@ -125,6 +128,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
         });         
     }
+    
+    public long getTetrisScriptChangeCount() {
+        return tetrisScriptDocumentFilter.getChangeCount();
+    }
+    
+    public long getJavaScriptChangeCount() {
+        return javaScriptDocumentFilter.getChangeCount();
+    }    
     
     private void createUndoRedoUnIndentHandlers(final JScrollPane scrollPane, final JTextComponent textComponent, 
             final DocumentFilter documentFilter) {
@@ -465,8 +476,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         }
     }
     
-    public void save(final String compName, final File tsFile, final File jsFile) {
-        controller.save(compName, tsFile, tetrisScriptTextPane.getText(), jsFile, javaScriptTextArea.getText());
+    public void save(final String compName, final File tsFile, final File jsFile, final Runnable runnable) {
+        controller.save(compName, tsFile, tetrisScriptTextPane.getText(), jsFile, javaScriptTextArea.getText(), 
+                runnable);
     }
     
     public void build(final String componentName, final int depth) {

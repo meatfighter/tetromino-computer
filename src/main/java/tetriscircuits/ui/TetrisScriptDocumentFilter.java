@@ -38,6 +38,8 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         StyleConstants.setForeground(DECLARE_ATTRIBS, DECLARE_COLOR);
     }   
     
+    private long changeCount;
+    
     public static void applySyntaxHighlighting(final StyledDocument doc) {
         final Element root = doc.getDefaultRootElement();
         final int end = root.getElementIndex(doc.getLength());
@@ -100,14 +102,24 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
         }
     }
 
+    public long getChangeCount() {
+        return changeCount;
+    }
+
     @Override
     public void insertString(final FilterBypass fb, final int offset, final String string, final AttributeSet attr) 
             throws BadLocationException {
+        
+        ++changeCount;
+        
         fb.insertString(offset, string, attr);
     }
 
     @Override
     public void remove(final FilterBypass fb, final int offset, final int length) throws BadLocationException {
+        
+        ++changeCount;
+        
         fb.remove(offset, length);
         final StyledDocument doc = (StyledDocument)fb.getDocument();
         final Element root = doc.getDefaultRootElement();
@@ -117,6 +129,8 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
     @Override
     public void replace(final DocumentFilter.FilterBypass fb, final int offset, final int length, String text, 
             final AttributeSet attrs) throws BadLocationException {
+        
+        ++changeCount;
 
         final StyledDocument doc = (StyledDocument)fb.getDocument();
         final Element root = doc.getDefaultRootElement();

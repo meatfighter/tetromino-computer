@@ -23,8 +23,7 @@ public class Main {
         } catch (final UnsupportedLookAndFeelException e) {
         }
         
-        final CircuitsFrame frame = new CircuitsFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        final CircuitsFrame frame = new CircuitsFrame();        
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         UiUtil.setIcons(frame);
         frame.pack();

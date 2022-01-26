@@ -518,12 +518,12 @@ public class Controller {
     }
     
     public void save(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
-            final String javaScript) {        
-        execute(() -> saveScripts(compName, tsFile, tetrisScript, jsFile, javaScript));
+            final String javaScript, final Runnable runnable) {        
+        execute(() -> saveScripts(compName, tsFile, tetrisScript, jsFile, javaScript, runnable));
     }
     
     private void saveScripts(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
-            final String javaScript) {
+            final String javaScript, final Runnable runnable) {
         
         final OutputListener outListener = outputListener;
         if (outListener != null) {
@@ -537,6 +537,10 @@ public class Controller {
         savedComponent = components.get(compName);
         savedExtents = componentExtents.get(compName);
         savedStructure = structures.get(compName);
+        
+        if (runnable != null) {
+            runnable.run();
+        }
     }
     
     private void saveScript(final File file, final String script) {

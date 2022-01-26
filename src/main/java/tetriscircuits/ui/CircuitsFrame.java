@@ -9,6 +9,8 @@ import java.io.File;
 import java.net.URI;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -25,6 +27,10 @@ import tetriscircuits.Structure;
 public class CircuitsFrame extends javax.swing.JFrame {
     
     private static final int COORDINATES_SPACES = 15;
+    
+    public static final Icon QUESTION_ICON = new ImageIcon(CircuitsFrame.class.getResource("/icons/question.png"));
+    public static final Icon EXCLAMATION_ICON = new ImageIcon(CircuitsFrame.class
+            .getResource("/icons/exclamation.png"));
 
     private Controller controller;
     private Map<String, Structure> structures;
@@ -42,6 +48,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private boolean lastMatchCase;
     private boolean lastRegex; 
     private boolean lastWrapAround;
+    
+    private long tetrisScriptChangeCount;
+    private long javaScriptChangeCount;
 
     /**
      * Creates new form CircuitsFrame
@@ -251,9 +260,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         aboutMenuItem = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("TetrisScript Editor");
         setPreferredSize(null);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         circuitsEditorPanel.setPreferredSize(null);
 
@@ -948,9 +962,27 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        System.exit(0);
+        promptSaveChanges(() -> System.exit(0));
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    // returns true if handled
+    private void promptSaveChanges(final Runnable runnable) {
+        if (tetrisScriptChangeCount != circuitsEditorPanel.getTetrisScriptChangeCount()
+                || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
+            switch (JOptionPane.showConfirmDialog(this, "Save changes?", "Unsaved Changes", 
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
+                case JOptionPane.YES_OPTION:
+                    save(runnable);
+                    break;
+                case JOptionPane.NO_OPTION:
+                    runnable.run();
+                    break;
+                default:
+                    return;
+            }
+        }
+    }    
+    
     private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoMenuItemActionPerformed
         circuitsEditorPanel.undo();
     }//GEN-LAST:event_undoMenuItemActionPerformed
@@ -1160,21 +1192,33 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_openMenuItemActionPerformed
    
     private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
-        reset();
-        saveAsMenuItemActionPerformed(evt);
+        promptSaveChanges(() -> EventQueue.invokeLater(() -> {
+            reset();
+            saveAsMenuItemActionPerformed(evt);
+        }));
     }//GEN-LAST:event_newMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        save(null);
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void save(final Runnable runnable) {
         if (Controller.DEFAULT_COMPONENT_NAME.equals(componentName) || tetrisScriptFile == null 
                 || javaScriptFile == null) {
-            saveAsMenuItemActionPerformed(evt);
+            saveAs(runnable);
             return;
         }
         
-        circuitsEditorPanel.save(componentName, tetrisScriptFile, javaScriptFile);
-    }//GEN-LAST:event_saveMenuItemActionPerformed
-
+        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
+        circuitsEditorPanel.save(componentName, tetrisScriptFile, javaScriptFile, runnable);
+    }
+    
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        saveAs(null);
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
+
+    private void saveAs(final Runnable runnable) {
         final JFileChooser fileChooser = new JFileChooser(getComponentDirectory());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
@@ -1233,7 +1277,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             
             switch(JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
                     existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
-                    JOptionPane.QUESTION_MESSAGE)) {
+                    JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
                 case JOptionPane.YES_OPTION:
                     break outer;
                 case JOptionPane.NO_OPTION:
@@ -1247,11 +1291,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
         javaScriptFile = jsFile;
         setComponentName(compName);
         
-        circuitsEditorPanel.save(compName, tsFile, jsFile);
-    }//GEN-LAST:event_saveAsMenuItemActionPerformed
-
+        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
+        circuitsEditorPanel.save(compName, tsFile, jsFile, runnable);
+    }
+    
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
-        reset();
+        promptSaveChanges(() -> EventQueue.invokeLater(this::reset));
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
     private void findMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findMenuItemActionPerformed
@@ -1383,6 +1429,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
         runButtonActionPerformed(evt);
     }//GEN-LAST:event_translateToCenterMenuItemActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        exitMenuItemActionPerformed(null);
+    }//GEN-LAST:event_formWindowClosing
 
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
