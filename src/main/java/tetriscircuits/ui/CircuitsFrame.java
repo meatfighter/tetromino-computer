@@ -981,6 +981,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                     return;
             }
         }
+        runnable.run();
     }    
     
     private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoMenuItemActionPerformed

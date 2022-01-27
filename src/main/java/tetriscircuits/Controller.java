@@ -340,7 +340,7 @@ public class Controller {
                             if (--loadCount == 0) {
                                 updateComponentExtents();
                                 createStructures(0);
-                                notifyStructuresCreated();
+                                notifyStructuresCreated(null);
                             }
                         }
                     });
@@ -513,7 +513,7 @@ public class Controller {
             savedComponent = null;
             savedExtents = null;
             savedStructure = null;
-            notifyStructuresCreated();
+            notifyStructuresCreated(null);
         }
     }
     
@@ -699,14 +699,14 @@ public class Controller {
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
             updateComponentExtents();
             createStructure(component, depth, testBitStr);
-            notifyStructuresCreated();
+            notifyStructuresCreated(componentName);
         } catch (final ParseException e) {
             e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.append("Build failed.");
                 listener.append(e.toString());
             }
-            notifyStructuresCreated();
+            notifyStructuresCreated(componentName);
             return;
         } catch (final Exception e) {
             e.printStackTrace(); // TODO REMOVE
@@ -714,7 +714,7 @@ public class Controller {
                 listener.append("Build failed.");
                 listener.append(e.getMessage());
             }
-            notifyStructuresCreated();
+            notifyStructuresCreated(componentName);
             return;
         }
         if (listener != null) {
@@ -742,13 +742,13 @@ public class Controller {
                 listener.append("Build failed.");
                 listener.append(e.toString());
             }
-            notifyStructuresCreated();            
+            notifyStructuresCreated(componentName);            
         } catch (final IOException e) {
             if (listener != null) {
                 listener.append("Build failed.");
                 listener.append(e.getMessage());
             }
-            notifyStructuresCreated();
+            notifyStructuresCreated(componentName);
         }
         return tetrisScript;
     }
@@ -866,8 +866,11 @@ public class Controller {
         return 0;
     }
     
-    private void notifyStructuresCreated() {
+    private void notifyStructuresCreated(final String currentComponentName) {
         final Set<String> names = new HashSet<>(components.keySet());
+        if (currentComponentName != null) {
+            names.remove(currentComponentName);
+        }
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);
         Arrays.sort(componentNames, (a, b) -> {
@@ -892,7 +895,11 @@ public class Controller {
         
         final BuildListener listener = this.buildListener;
         if (listener != null) {
-            listener.buildCompleted(componentNames, new HashMap<>(structures));
+            final Map structs = new HashMap<>(structures);
+            if (currentComponentName != null) {
+                structs.remove(currentComponentName);
+            }
+            listener.buildCompleted(componentNames, structs);
         }
     }
     

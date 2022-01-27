@@ -191,7 +191,7 @@ public class Simulator {
     
         final Component component = instruction.getComponent();
         if (component != null) {            
-            final Extents extents = componentExtents.get(component.getName());
+            final Extents extents = componentExtents.getOrDefault(component.getName(), null);
             if (extents != null) {
                 final int ox = originX + moves[0];
                 for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
@@ -227,7 +227,11 @@ public class Simulator {
     public void emulate(final Playfield playfield, final Component component, final String alias, final int originX, 
             final int originY, final StructureListener listener) {
 
-        final Terminal[] inputs = component.getInputs();
+        final Terminal[] inputs = component.getInputs();        
+        if (inputs == null) {
+            return;
+        }
+        
         final Boolean[] inputValues = new Boolean[inputs.length];
         outer: for (int i = inputs.length - 1; i >= 0; --i) {
             final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
@@ -252,6 +256,10 @@ public class Simulator {
         }
         
         final Terminal[] outputs = component.getOutputs();
+        if (outputs == null) {
+            return;
+        }
+        
         final Boolean[] outputValues = new Boolean[outputs.length];
         
         final CompiledScript compiledScript = component.getCompiledScript();
@@ -298,7 +306,7 @@ public class Simulator {
         }
         
         if (listener != null) { 
-            final Extents extents = componentExtents.get(component.getName());
+            final Extents extents = componentExtents.getOrDefault(component.getName(), null);
             final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);
             final TerminalRectangle[][] outputRects = findTerminals(outputs, 0, 0, outputValues);
             int minX = Integer.MAX_VALUE;
