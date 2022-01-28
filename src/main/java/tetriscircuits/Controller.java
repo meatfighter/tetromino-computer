@@ -40,6 +40,7 @@ public class Controller {
     private final Map<String, Component> components = new ConcurrentHashMap<>();
     private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();
     private final Map<String, Structure> structures = new ConcurrentHashMap<>();
+    private final Map<String, List<String>> dependencies = new ConcurrentHashMap<>();
     
     private final Simulator simulator = new Simulator(scriptEngine, components, componentExtents);
     
@@ -423,6 +424,44 @@ public class Controller {
         for (final Component component : components.values()) {
             getComponentExtents(componentExtents, component.getName());
         }        
+    }
+    
+    private void updateDependencies() {
+        dependencies.clear();
+        
+    }
+    
+    private Set<String> getDependencies(final Map<String, Set<String>> depends, final String componentName) {
+        
+        Set<String> ds = depends.get(componentName);
+        if (ds != null) {
+            return ds;
+        }
+        
+        ds = new HashSet<>();        
+        final Component component = components.getOrDefault(componentName, null);
+        if (component == null) {
+            return ds;
+        }
+        
+        final Instruction[] instructions = component.getInstructions();
+        if (instructions == null) {
+            return ds;
+        }
+        for (final Instruction instruction : instructions) {
+            if (instruction.isFlatten() || instruction.getTetrimino() != null) {
+                continue;
+            }
+            final String compName = instruction.getComponentName();
+            if (compName == null) {
+                continue;
+            }
+            ds.add(compName);
+            ds.addAll(getDependencies(depends, compName));
+            
+        }
+        
+        return ds;
     }
     
     private Extents getComponentExtents(final Map<String, Extents> componentExtents, final String componentName) {

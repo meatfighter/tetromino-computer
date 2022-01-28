@@ -1,10 +1,5 @@
-load 
-  build+run on load
-  show output messages
-new
-save
+
 detect recursive definitions
-component stacking and loops
 animations
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
