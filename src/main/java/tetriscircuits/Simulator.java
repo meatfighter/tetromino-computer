@@ -15,10 +15,13 @@ public class Simulator {
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
     private final ScriptEngine scriptEngine;
+    private final Map<String, Component> components;
     private final Map<String, Extents> componentExtents;
         
-    public Simulator(final ScriptEngine scriptEngine, final Map<String, Extents> componentExtents) {
+    public Simulator(final ScriptEngine scriptEngine, final Map<String, Component> components, 
+            final Map<String, Extents> componentExtents) {
         this.scriptEngine = scriptEngine;
+        this.components = components;
         this.componentExtents = componentExtents;
     }
     
@@ -189,17 +192,20 @@ public class Simulator {
             return;
         }
     
-        final Component component = instruction.getComponent();
-        if (component != null) {            
-            final Extents extents = componentExtents.getOrDefault(component.getName(), null);
-            if (extents != null) {
-                final int ox = originX + moves[0];
-                for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
-                    playfield.setPopulated(ox + x);
-                }
-            }            
-            simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], depth - 1, 
-                    listener);
+        final String componentName = instruction.getComponentName();
+        if (componentName != null) {
+            final Component component = components.getOrDefault(componentName, null);
+            if (component != null) {            
+                final Extents extents = componentExtents.getOrDefault(component.getName(), null);
+                if (extents != null) {
+                    final int ox = originX + moves[0];
+                    for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
+                        playfield.setPopulated(ox + x);
+                    }
+                }            
+                simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], 
+                        depth - 1, listener);                
+            }
             return;
         }
         

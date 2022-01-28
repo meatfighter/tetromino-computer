@@ -2,7 +2,7 @@ package tetriscircuits;
 
 public class Instruction {
     
-    private final Component component;
+    private final String componentName;
     private final Tetrimino tetrimino;
     
     private final String alias;
@@ -10,10 +10,10 @@ public class Instruction {
     
     private final boolean flatten;
 
-    public Instruction(final Tetrimino tetrimino, final Component component, final String alias, final int[] moves, 
+    public Instruction(final Tetrimino tetrimino, final String componentName, final String alias, final int[] moves, 
             final boolean flatten) {
         this.tetrimino = tetrimino;
-        this.component = component;
+        this.componentName = componentName;
         this.alias = alias;
         this.moves = moves;
         this.flatten = flatten;
@@ -23,8 +23,8 @@ public class Instruction {
         return tetrimino;
     }
 
-    public Component getComponent() {
-        return component;
+    public String getComponentName() {
+        return componentName;
     }
 
     public String getAlias() {
@@ -45,7 +45,7 @@ public class Instruction {
             return String.format("flatten %d", moves[0]);
         }
         final StringBuilder sb = new StringBuilder();
-        if (component != null) {
+        if (componentName != null) {
             sb.append(alias);
         } else {
             sb.append(tetrimino.getName());

@@ -306,9 +306,10 @@ public class Parser {
                 : null;
         
         String alias = null;
+        String name = null;
         int i = index;
         if (component != null) {
-            alias = component.getName();
+            name = alias = component.getName();
             final Token aliasToken = tokens.get(i);
             if (aliasToken.getType() == TokenType.STRING) {
                 ++i;
@@ -338,7 +339,7 @@ public class Parser {
             ms[j] = moves.get(j);
         }
                         
-        instructions.add(new Instruction(tetrimino, component, alias, ms, false));
+        instructions.add(new Instruction(tetrimino, name, alias, ms, false));
         
         return i;
     }

@@ -41,7 +41,7 @@ public class Controller {
     private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();
     private final Map<String, Structure> structures = new ConcurrentHashMap<>();
     
-    private final Simulator simulator = new Simulator(scriptEngine, componentExtents);
+    private final Simulator simulator = new Simulator(scriptEngine, components, componentExtents);
     
     private final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
     
@@ -421,21 +421,30 @@ public class Controller {
     private void updateComponentExtents() {        
         componentExtents.clear();
         for (final Component component : components.values()) {
-            getComponentExtents(componentExtents, component);
+            getComponentExtents(componentExtents, component.getName());
         }        
     }
     
-    private Extents getComponentExtents(final Map<String, Extents> componentExtents, final Component component) {
+    private Extents getComponentExtents(final Map<String, Extents> componentExtents, final String componentName) {
+        
+        if (componentName == null) {
+            return null;
+        }
 
-        Extents extents = componentExtents.getOrDefault(component.getName(), null);
+        Extents extents = componentExtents.getOrDefault(componentName, null);
         if (extents != null) {
             return extents;
+        }
+
+        final Component component = components.getOrDefault(componentName, null);
+        if (component == null) {
+            return null;
         }
         
         int minX = Integer.MAX_VALUE;        
         int maxX = Integer.MIN_VALUE;
         int maxY = 0;
-        
+
         if (component.getInstructions() != null) {
             for (final Instruction instruction : component.getInstructions()) {
 
@@ -453,7 +462,7 @@ public class Controller {
                     e = tetrimino.getExtents();
                 } else {                         
                     try {
-                        e = getComponentExtents(componentExtents, instruction.getComponent());
+                        e = getComponentExtents(componentExtents, instruction.getComponentName());
                     } catch (final StackOverflowError s) {
                     }                
                 }
@@ -496,7 +505,8 @@ public class Controller {
         }
         
         extents = new Extents(minX, maxX, 0, maxY);
-        componentExtents.put(component.getName(), extents);        
+        componentExtents.put(component.getName(), extents);   
+        
         return extents;
     }
     
