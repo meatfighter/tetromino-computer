@@ -40,7 +40,7 @@ public class Controller {
     private final Map<String, Component> components = new ConcurrentHashMap<>();
     private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();
     private final Map<String, Structure> structures = new ConcurrentHashMap<>();
-    private final Map<String, List<String>> dependencies = new ConcurrentHashMap<>();
+    private final Map<String, Set<String>> dependencies = new ConcurrentHashMap<>();
     
     private final Simulator simulator = new Simulator(scriptEngine, components, componentExtents);
     
@@ -426,9 +426,19 @@ public class Controller {
         }        
     }
     
-    private void updateDependencies() {
-        dependencies.clear();
+    private void updateDependencies() {        
+        final Map<String, Set<String>> depends = new HashMap<>();
+        for (final Component component : components.values()) {
+            getDependencies(depends, component.getName());
+        }
         
+        dependencies.clear();
+        for (Map.Entry<String, Set<String>> entry : depends.entrySet()) {
+            final String key = entry.getKey();
+            for (final String value : entry.getValue()) {
+                dependencies.computeIfAbsent(value, v -> new HashSet<>()).add(key);
+            }
+        }
     }
     
     private Set<String> getDependencies(final Map<String, Set<String>> depends, final String componentName) {
@@ -438,11 +448,13 @@ public class Controller {
             return ds;
         }
         
-        ds = new HashSet<>();        
         final Component component = components.getOrDefault(componentName, null);
         if (component == null) {
-            return ds;
+            return null;
         }
+        
+        ds = new HashSet<>();   
+        depends.put(componentName, ds);
         
         final Instruction[] instructions = component.getInstructions();
         if (instructions == null) {
@@ -453,12 +465,14 @@ public class Controller {
                 continue;
             }
             final String compName = instruction.getComponentName();
-            if (compName == null) {
+            if (compName == null || components.getOrDefault(compName, null) == null) {
                 continue;
             }
             ds.add(compName);
-            ds.addAll(getDependencies(depends, compName));
-            
+            final Set<String> set = getDependencies(depends, compName);
+            if (set != null) {
+                ds.addAll(set);
+            }            
         }
         
         return ds;
@@ -555,15 +569,21 @@ public class Controller {
     
     private void restoreLastSaved() {
         if (savedComponentName != null) {
-            components.put(savedComponentName, savedComponent);
-            componentExtents.put(savedComponentName, savedExtents);
-            structures.put(savedComponentName, savedStructure);
-            savedComponentName = null;
-            savedComponent = null;
-            savedExtents = null;
-            savedStructure = null;
-            notifyStructuresCreated(null);
+            if (savedComponent != null) {
+                components.put(savedComponentName, savedComponent);
+            }
+            if (savedExtents != null) {
+                componentExtents.put(savedComponentName, savedExtents);
+            }
+            if (savedStructure != null) {
+                structures.put(savedComponentName, savedStructure);
+            }
         }
+        savedComponentName = null;
+        savedComponent = null;
+        savedExtents = null;
+        savedStructure = null;
+        notifyStructuresCreated(null);
     }
     
     public void save(final String compName, final File tsFile, final String tetrisScript, final File jsFile, 
@@ -915,10 +935,15 @@ public class Controller {
         return 0;
     }
     
-    private void notifyStructuresCreated(final String currentComponentName) {
-        final Set<String> names = new HashSet<>(components.keySet());
+    private void notifyStructuresCreated(final String currentComponentName) {        
+        final Set<String> names = new HashSet<>(components.keySet());        
         if (currentComponentName != null) {
             names.remove(currentComponentName);
+            updateDependencies();
+            final Set<String> depends = dependencies.getOrDefault(currentComponentName, null);
+            if (depends != null) {
+                names.removeAll(depends);
+            }
         }
         final List<String> ns = new ArrayList<>(names);
         final String[] componentNames = ns.toArray(new String[ns.size()]);

@@ -122,6 +122,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
             javaScriptFile = jsFile;
             circuitsEditorPanel.setJavaScript(javaScript);
             testTextField.setText(testBits);
+            tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+            javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
         });
     }
     
@@ -962,14 +964,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        promptSaveChanges(() -> System.exit(0));
+        promptSaveChanges(() -> System.exit(0), "Save changes before exit?");
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     // returns true if handled
-    private void promptSaveChanges(final Runnable runnable) {
+    private void promptSaveChanges(final Runnable runnable, final String question) {
         if (tetrisScriptChangeCount != circuitsEditorPanel.getTetrisScriptChangeCount()
                 || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
-            switch (JOptionPane.showConfirmDialog(this, "Save changes?", "Unsaved Changes", 
+            switch (JOptionPane.showConfirmDialog(this, question, "Unsaved Changes", 
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
                 case JOptionPane.YES_OPTION:
                     save(runnable);
@@ -1195,8 +1197,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
         promptSaveChanges(() -> EventQueue.invokeLater(() -> {
             reset();
-            saveAsMenuItemActionPerformed(evt);
-        }));
+            saveAs(null, "New");
+        }), "Save changes before new?");
     }//GEN-LAST:event_newMenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
@@ -1204,9 +1206,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void save(final Runnable runnable) {
-        if (Controller.DEFAULT_COMPONENT_NAME.equals(componentName) || tetrisScriptFile == null 
-                || javaScriptFile == null) {
-            saveAs(runnable);
+        if (Controller.DEFAULT_COMPONENT_NAME.equals(componentName)) {
+            saveAs(runnable, "Save");
             return;
         }
         
@@ -1216,10 +1217,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }
     
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
-        saveAs(null);
+        saveAs(null, "Save");
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
-    private void saveAs(final Runnable runnable) {
+    private void saveAs(final Runnable runnable, final String title) {
         final JFileChooser fileChooser = new JFileChooser(getComponentDirectory());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
@@ -1227,6 +1228,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileChooser.addChoosableFileFilter(tsFileFilter);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JavaScript file (*.js)", "js"));
         fileChooser.setFileFilter(tsFileFilter);
+        fileChooser.setDialogTitle(title);
                 
         File tsFile = null;
         File jsFile = null;
@@ -1298,7 +1300,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }
     
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
-        promptSaveChanges(() -> EventQueue.invokeLater(this::reset));
+        promptSaveChanges(() -> EventQueue.invokeLater(this::reset), "Save changes before close?");
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
     private void findMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findMenuItemActionPerformed

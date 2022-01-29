@@ -1,5 +1,6 @@
-
-detect recursive definitions
 animations
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
+
+redo fullAdders
+rename halfAdders to incrementer
