@@ -877,7 +877,7 @@
         <Component class="javax.swing.JSpinner" name="playfieldHeightSpinner">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="256" maximum="4096" minimum="4" numberType="java.lang.Integer" stepSize="1" type="number"/>
+              <SpinnerModel initial="4096" maximum="4096" minimum="4" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Playfield Height"/>
           </Properties>
@@ -888,7 +888,7 @@
         <Component class="javax.swing.JSpinner" name="playfieldWidthSpinner">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="256" maximum="4096" minimum="4" numberType="java.lang.Integer" stepSize="1" type="number"/>
+              <SpinnerModel initial="8192" maximum="8192" minimum="4" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Playfield Width"/>
           </Properties>

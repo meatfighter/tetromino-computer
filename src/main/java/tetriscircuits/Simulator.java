@@ -37,9 +37,10 @@ public class Simulator {
         if (inputs == null || inputBits == null) {
             return;
         }
-                       
-        for (int i = 0; i < inputBits.length() && i < inputs.length; ++i) {
-            final boolean one = inputBits.charAt(i) == '1';
+                      
+        final String inBits = inputBits.replaceAll("\\s*", "");
+        for (int i = 0; i < inBits.length() && i < inputs.length; ++i) {
+            final boolean one = inBits.charAt(i) == '1';
             final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
             for (int j = horizontalLines.length - 1; j >= 0; --j) {
                 final HorizontalLine horizontalLine = horizontalLines[j];
@@ -94,11 +95,12 @@ public class Simulator {
             return new TerminalRectangle[0][];
         }
         
+        final String inBits = (testBitsStr == null) ? null : testBitsStr.replaceAll("\\s*", "");
         final TerminalRectangle[][] rectangles = new TerminalRectangle[terminals.length][];
         for (int i = terminals.length - 1; i >= 0; --i) {
             TerminalState state = TerminalState.UNKNOWN;
-            if (testBitsStr != null && i < testBitsStr.length()) {
-                state = testBitsStr.charAt(i) == '1' ? TerminalState.ONE : TerminalState.ZERO;
+            if (inBits != null && i < inBits.length()) {
+                state = inBits.charAt(i) == '1' ? TerminalState.ONE : TerminalState.ZERO;
             }
             final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();
             final TerminalRectangle[] rects = rectangles[i] = new TerminalRectangle[horizontalLines.length];

@@ -617,7 +617,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        playfieldHeightSpinner.setModel(new javax.swing.SpinnerNumberModel(256, 4, 4096, 1));
+        playfieldHeightSpinner.setModel(new javax.swing.SpinnerNumberModel(4096, 4, 4096, 1));
         playfieldHeightSpinner.setToolTipText("Playfield Height");
         playfieldHeightSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -625,7 +625,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
 
-        playfieldWidthSpinner.setModel(new javax.swing.SpinnerNumberModel(256, 4, 4096, 1));
+        playfieldWidthSpinner.setModel(new javax.swing.SpinnerNumberModel(8192, 4, 8192, 1));
         playfieldWidthSpinner.setToolTipText("Playfield Width");
         playfieldWidthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1469,9 +1469,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         tetrisScriptFile = javaScriptFile = null;
         testTextField.setText("");
         depthSpinner.setValue(1);
-        playfieldWidthSpinner.setValue(256);
-        playfieldHeightSpinner.setValue(256);
-        cellSizeSpinner.setValue(16);        
+        playfieldWidthSpinner.setValue(8192);
+        playfieldHeightSpinner.setValue(4096);
+        cellSizeSpinner.setValue(16);
+        controller.loadComponents();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

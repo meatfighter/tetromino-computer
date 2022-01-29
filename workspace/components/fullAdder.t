@@ -34,7 +34,7 @@ nor 7 78
 ir42 -12 30
 ih -8
 nor -11 72
-ir6 -11 77
+il6 -12 77
 in a -3..0 0
 in b 2..5 0
 in carryIn 7..8 0

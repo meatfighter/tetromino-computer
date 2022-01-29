@@ -252,8 +252,11 @@ public class Controller {
             if (component != null) {
                 final Terminal[] inputs = component.getInputs();
                 if (inputs != null) {
-                    for (int i = inputs.length - 1; i >= 0; --i) {
+                    for (int i = 0; i < inputs.length; ++i) {
                         testBits.append('0');
+                        if ((i & 3) == 3) {
+                            testBits.append(' ');
+                        }
                     }
                 }
             }
@@ -326,6 +329,10 @@ public class Controller {
     
     public void loadComponents() {
         execute(() -> {
+            components.clear();
+            componentExtents.clear();
+            structures.clear();
+            dependencies.clear();
             createIsSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
@@ -709,7 +716,8 @@ public class Controller {
                 outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
             }
             
-            final Extents extents = componentExtents.get(component.getName());
+            final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
+                    null);
             if (extents != null) {
                 minX = extents.getMinX();
                 maxX = extents.getMaxX();
@@ -1013,7 +1021,7 @@ public class Controller {
             }
         }
         if (playfield == null) {
-            playfield = new Playfield(4096, 4096, 4);            
+            playfield = new Playfield(8192, 4096, 4);            
         }
         return playfield;
     }
