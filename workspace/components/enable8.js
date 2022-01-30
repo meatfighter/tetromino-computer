@@ -1,0 +1,9 @@
+enabledOut = enabledIn;
+do7 = di7;
+do6 = di6;
+do5 = di5;
+do4 = di4;
+do3 = di3;
+do2 = di2;
+do1 = di1;
+do0 = di0;

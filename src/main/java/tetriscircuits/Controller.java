@@ -239,7 +239,7 @@ public class Controller {
     }
     
     public void openComponent(final String componentName, final File tetrisScriptFile, final File javaScriptFile) {
-        execute(() -> {
+        executeAfter(() -> {
             components.remove(componentName);
             componentExtents.remove(componentName);
             structures.remove(componentName);
@@ -571,7 +571,7 @@ public class Controller {
     }
     
     public void close() {
-        execute(() -> restoreLastSaved());
+        executeAfter(() -> restoreLastSaved());
     }
     
     private void restoreLastSaved() {
@@ -998,9 +998,24 @@ public class Controller {
                     if (--taskCount == 0 && listener != null) {
                         listener.update(false);
                     }
+                    taskMonitor.notifyAll();
                 }
             });
         }
+    }
+    
+    private void executeAfter(final Runnable runnable) {
+        new Thread(() -> {
+            synchronized(taskMonitor) {
+                while (taskCount != 0) {
+                    try {
+                        taskMonitor.wait();
+                    } catch (final InterruptedException e) {                        
+                    }
+                }
+            }
+            execute(runnable);
+        }).start();
     }
     
     public String translate(final String filename, final String tetrisScript, 

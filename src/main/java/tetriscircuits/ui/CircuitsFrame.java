@@ -1473,6 +1473,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         playfieldHeightSpinner.setValue(4096);
         cellSizeSpinner.setValue(16);
         controller.loadComponents();
+        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

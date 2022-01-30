@@ -1,5 +1,6 @@
 package tetriscircuits.ui;
 
+import java.awt.Dimension;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.AbstractDocument;
@@ -9,6 +10,7 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 // https://stackoverflow.com/questions/417480/hide-certain-actions-from-swings-undo-manager
+// https://stackoverflow.com/questions/7156038/jtextpane-line-wrapping
 public class CustomTextPane extends JTextPane {
     
     public NoStyleUndoManage createUndoManager() {
@@ -53,5 +55,18 @@ public class CustomTextPane extends JTextPane {
 
             setCaretPosition(caretPosition);
         }    
+    }  
+        
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        // Only track viewport width when the viewport is wider than the preferred width
+        return getUI().getPreferredSize(this).width
+                <= getParent().getSize().width;
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        // Avoid substituting the minimum width for the preferred width when the viewport is too narrow
+        return getUI().getPreferredSize(this);
     }    
 }
