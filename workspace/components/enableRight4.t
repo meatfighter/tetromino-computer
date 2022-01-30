@@ -1,11 +1,11 @@
-enable2 10 0
+enableRight2 10 0
 ir44 -14 0
 ir44 -4 0
 ir44 6 44
 ir44 7 44
 ir44 16 44
 ir44 17 44
-enable2 -10 44
+enableRight2 -10 44
 
 in di3 -14 0
 in di2 -4 0

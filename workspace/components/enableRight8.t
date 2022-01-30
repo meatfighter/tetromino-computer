@@ -1,4 +1,4 @@
-enable4 20 0
+enableRight4 20 0
 ir88 -4 0
 ir88 -14 0
 ir88 -24 0
@@ -11,7 +11,7 @@ ir88 26 88
 ir88 27 88
 ir88 36 88
 ir88 37 88
-enable4 -20 88
+enableRight4 -20 88
 
 in di7 -34 0
 in di6 -24 0

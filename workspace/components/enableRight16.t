@@ -1,4 +1,4 @@
-enable8 40 0
+enableRight8 40 0
 ir176 -74 0
 ir176 -64 0
 ir176 -54 0
@@ -23,7 +23,7 @@ ir176 66 176
 ir176 67 176
 ir176 76 176
 ir176 77 176
-enable8 -40 176
+enableRight8 -40 176
 
 in di15 -74 0
 in di14 -64 0

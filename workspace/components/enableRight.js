@@ -1,0 +1,2 @@
+dataOut = dataIn;
+enabledOut = enabledIn;

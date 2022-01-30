@@ -1,8 +1,8 @@
-enable 7 0
+enableRight 7 0
 ir22 -4 0
 ir22 6 22
 il22 7 22
-enable -3 22
+enableRight -3 22
 
 in di1 -4 0
 in di0 6 0
