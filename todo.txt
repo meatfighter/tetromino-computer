@@ -7,10 +7,9 @@ new seems to save twice?!
 new/open/save dialogs need to remember last directory
 
 redo inc (half adders) -- line up input with outputs
+study if adder can be aligned
 
 finish:
-decX
-xorX
 xnorX
 orX
 norX
