@@ -13,6 +13,5 @@ finish:
 xnorX
 orX
 norX
-notX
 
 test mechanism
