@@ -9,13 +9,12 @@ new/open/save dialogs need to remember last directory
 redo inc (half adders) -- line up input with outputs
 study if adder can be aligned
 
-remove flatten!!!
+remove flatten!!! -- tx takeover!!!
 
 finish:
-xnorX
-norX
+xnor8
+xnor16
 
 test mechanism
 
 tetris script extreme speed (.tx)
-remove 32-bit versions!!!
