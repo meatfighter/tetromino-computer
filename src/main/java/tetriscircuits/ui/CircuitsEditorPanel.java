@@ -436,7 +436,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 prefix = (componentName == null) ? " " : "\n";
             }     
             String line = String.format("%s%s%d", prefix, (componentName == null) ? "" : (componentName + " "), cellX);
-            if (aggregateComponent) {
+            if (componentName == null || aggregateComponent) {
                 line += " " + cellY;
             } 
             if (endWithNewline) {
