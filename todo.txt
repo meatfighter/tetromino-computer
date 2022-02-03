@@ -10,12 +10,10 @@ redo inc (half adders) -- line up input with outputs
 study if adder can be aligned
 
 subtractor
+inverter
+negator
 
 remove flatten!!! -- tx takeover!!!
-
-finish:
-xnor8
-xnor16
 
 test mechanism
 
