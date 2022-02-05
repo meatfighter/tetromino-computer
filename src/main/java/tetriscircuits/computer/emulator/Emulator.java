@@ -8,18 +8,18 @@ package tetriscircuits.computer.emulator;
 //00 sss ddd
 //
 //01 00ffff
-//A = ~C        // z, n
-//A = -C        // z, n
-//A = C >>> 1   // c, z, n
-//A = C >> 1    // c, z, n
-//A = C << 1    // c, z, n
-//A = C - 1     // z, n (not c)
-//A = C + 1     // z, n (not c)
-//A = C - D     // c, z, n
-//A = C + D     // c, z, n
-//A = C & D     // z, n
-//A = C | D     // z, n
-//A = C ^ D     // z, n
+//0b0100_0000 A = ~C        // z, n
+//0b0100_0001 A = -C        // z, n
+//0b0100_0010 A = C >>> 1   // c, z, n
+//0b0100_0011 A = C >> 1    // c, z, n
+//0b0100_0100 A = C << 1    // c, z, n
+//0b0100_0101 A = C - 1     // z, n (not c)
+//0b0100_0110 A = C + 1     // z, n (not c)
+//0b0100_0111 A = C - D     // c, z, n
+//0b0100_1000 A = C + D     // c, z, n
+//0b0100_1001 A = C & D     // z, n
+//0b0100_1010 A = C | D     // z, n
+//0b0100_1011 A = C ^ D     // z, n
 //
 //GOTO
 //1000effv aaaaaaaa aaaaaaaa
