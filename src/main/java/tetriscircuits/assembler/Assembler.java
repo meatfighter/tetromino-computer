@@ -39,9 +39,10 @@ public class Assembler {
             final Token token = tokens.get(tokenIndex);
             switch (token.getType()) {
                 case DATA: {
+                    ++tokenIndex;
                     out: while (true) {
                         boolean foundData = false;
-                        final Token dataToken = tokens.get(tokenIndex);
+                        final Token dataToken = tokens.get(tokenIndex);                        
                         switch (dataToken.getType()) {
                             case BYTE:
                                 bytes[address++ & 0xFFFF] = 0xFF & dataToken.getNum();

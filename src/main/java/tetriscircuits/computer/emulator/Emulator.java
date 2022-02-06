@@ -66,6 +66,9 @@ package tetriscircuits.computer.emulator;
 //1111 1000
 // P = EF
 
+//1111 1001 aaaaaaaa aaaaaaaa
+// M = address
+
 public class Emulator {
     
     public static final int MEMORY[] = new int[0x10000];
@@ -108,10 +111,17 @@ public class Emulator {
                             storeMemory();
                             break;
                         case 3:
-                            if (opcode == 01111_1000) {
-                                P = (E << 8) | F;
-                            } else {
-                                updateFlags(opcode & 0b0000_0111);
+                            switch (opcode) {
+                                case 0b1111_1000:
+                                    P = (E << 8) | F;
+                                    break;
+                                case 0b1111_1001:
+                                    MH = fetch();
+                                    ML = fetch();
+                                    break;
+                                default:
+                                    updateFlags(opcode & 0b0000_0111);
+                                    break;
                             }
                             break;
                     }

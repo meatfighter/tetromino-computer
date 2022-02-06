@@ -2,6 +2,8 @@ package tetriscircuits.assembler;
 
 enum Operator {
     
+    AA(2), // TODO
+    AM(3),
     ADC(0b0100_1001),
     ADD(0b0100_1000),
     AND(0b0100_1100),    
@@ -30,8 +32,7 @@ enum Operator {
     SBC(0b0100_1011),
     SEC(0b11110_011),
     SEN(0b11110_111),
-    SEZ(0b11110_101),
-    SET(2),
+    SEZ(0b11110_101),    
     SL(0b0100_0110),
     SSR(0b0100_0101),
     ST(0b1110_0000),
