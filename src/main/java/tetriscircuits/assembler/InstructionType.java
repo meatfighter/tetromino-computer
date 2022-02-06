@@ -1,31 +1,33 @@
 package tetriscircuits.assembler;
 
 enum InstructionType {
+    
     ADC,
     ADD,
     AND,    
-    BCC,
-    BCS,
-    BEQ,
-    BMI,
-    BNE,
-    BPL,
+    BCC(3),
+    BCS(3),
+    BEQ(3),
+    BMI(3),
+    BNE(3),
+    BPL(3),
     CLC,
     DEC,    
     INC,
-    JMP,    
-    JSCC,
-    JSCS,
-    JSEQ,
-    JSMI,
-    JSNE,
-    JSPL,
-    JSR,    
+    JMP(3),    
+    JSCC(3),
+    JSCS(3),
+    JSEQ(3),
+    JSMI(3),
+    JSNE(3),
+    JSPL(3),
+    JSR(3),    
     LD,
     OR,
     RTS,
     SBC,
     SEC,
+    SET(2),
     SL,
     SSR,
     ST,
@@ -73,5 +75,19 @@ enum InstructionType {
     TFMH,
     TFML,
     USR,
-    XOR,
+    XOR;
+    
+    private final int length;
+    
+    InstructionType() {
+        this(1);
+    }
+    
+    InstructionType(final int length) {
+        this.length = length;
+    }
+
+    public int getLength() {
+        return length;
+    }
 }

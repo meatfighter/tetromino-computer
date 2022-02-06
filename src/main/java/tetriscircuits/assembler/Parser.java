@@ -14,7 +14,7 @@ class Parser {
     
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
-    private List<Token> parseTokens(final String filename, final InputStream in) throws IOException, ParseException {
+    public List<Token> parseTokens(final String filename, final InputStream in) throws IOException, ParseException {
         final List<Token> tokens = new ArrayList<>();
         
         int lineNumber = 1;
@@ -158,6 +158,9 @@ class Parser {
             case ".ORIGIN":
                 tokenType = TokenType.ORIGIN;
                 break;
+            case ".SEGMENT":
+                tokenType = TokenType.SEGMENT;
+                break;    
             default:
                 return false;
         }
