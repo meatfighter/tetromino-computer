@@ -1,6 +1,13 @@
 package tetriscircuits.computer.emulator;
 
 //P
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 //c z n
 //A B C D E F MH ML
 //
@@ -71,7 +78,7 @@ package tetriscircuits.computer.emulator;
 
 public class Emulator {
     
-    public static final int MEMORY[] = new int[0x10000];
+    public final int[] memory = new int[0x10000];
     
     public int P;
     public int A;
@@ -86,8 +93,12 @@ public class Emulator {
     public boolean zero;
     public boolean negative;    
     
-    private void launch() throws Exception {
+    private void launch(final String binFilename) throws Exception {
+        
+        loadBinFile(binFilename);
+        
         while (true) {
+            System.out.format("%02X%n", memory[0]);
             final int opcode = fetch();
             switch (opcode >> 6) {
                 case 0:
@@ -127,6 +138,19 @@ public class Emulator {
                     }
                     break;
             } 
+        }
+    }
+    
+    private void loadBinFile(final String binFilename) throws IOException {
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
+            int address = 0;
+            while (address < memory.length) {
+                final int b = in.read();
+                if (b < 0) {
+                    break;
+                }
+                memory[address++] = b;
+            }
         }
     }
     
@@ -372,14 +396,20 @@ public class Emulator {
     }
     
     private void writeMemory(final int address, final int value) {
-        MEMORY[address & 0xFFFF] = value;
+        memory[address & 0xFFFF] = value;
     }
     
     private int readMemory(final int address) {
-        return MEMORY[address & 0xFFFF];
+        return memory[address & 0xFFFF];
     }
     
     public static void main(final String... args) throws Exception {
-        new Emulator().launch();
+        
+        if (args.length != 1) {
+            System.out.println("args: [ bin filename]");
+            return;
+        }
+        
+        new Emulator().launch(args[0]);
     }
 }

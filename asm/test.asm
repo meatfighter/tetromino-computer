@@ -1,6 +1,12 @@
 ; This is a test
 
-x: .data 123
+x: .data 0
+
+SEM x
 
 label:
-jmp label
+LD
+TAC
+INC
+ST
+JMP label
