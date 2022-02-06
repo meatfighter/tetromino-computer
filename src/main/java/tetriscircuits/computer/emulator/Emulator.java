@@ -6,6 +6,16 @@ package tetriscircuits.computer.emulator;
 //
 //T [ A B C D E F MH ML ] [ A B C D E F MH ML ]
 //00 sss ddd
+
+// A   000
+// B   001
+// C   010
+// D   011
+// E   100
+// F   101
+// MH  110
+// ML  111
+
 //
 //01 00ffff
 //0b0100_0000 A = ~C            // z, n
@@ -45,12 +55,16 @@ package tetriscircuits.computer.emulator;
 //1110 0000
 //[M] = A
 //
+
 //1111 0ffv
 //ff:
-//00 - PC = EF
+//00 - none
 //01 - c = v
 //10 - z = v
 //11 - n = v
+
+//1111 1000
+// P = EF
 
 public class Emulator {
     
@@ -94,7 +108,11 @@ public class Emulator {
                             storeMemory();
                             break;
                         case 3:
-                            updateFlags(opcode & 0b0000_1111);
+                            if (opcode == 01111_1000) {
+                                P = (E << 8) | F;
+                            } else {
+                                updateFlags(opcode & 0b0000_0111);
+                            }
                             break;
                     }
                     break;
@@ -156,22 +174,7 @@ public class Emulator {
         }
         throw new RuntimeException("Invalid register index.");
     }
-    
-//0b0100_0000 A = ~C            // z, n
-//0b0100_0001 A = -C            // z, n
-//0b0100_0010 A = C + 1         // z, n (not c)
-//0b0100_0011 A = C - 1         // z, n (not c)
-//0b0100_0100 A = C >>> 1       // c, z, n
-//0b0100_0101 A = C >> 1        // c, z, n
-//0b0100_0110 A = C << 1        // c, z, n
-
-//0b0100_1000 A = C + D         // c, z, n
-//0b0100_1001 A = C + D + carry // c, z, n
-//0b0100_1010 A = C - D         // c, z, n
-//0b0100_1011 A = C - D - carry // c, z, n
-//0b0100_1100 A = C & D         // z, n
-//0b0100_1101 A = C | D         // z, n
-//0b0100_1110 A = C ^ D         // z, n    
+     
     private void compute(final int function) {
         switch (function) {
             case 0:
@@ -332,8 +335,7 @@ public class Emulator {
     private void updateFlags(final int bits) {
         final boolean value = (bits & 1) != 0;
         switch (bits >> 1) {
-            case 0:
-                P = (E << 8) | F;
+            case 0:                
                 break;
             case 1:
                 carry = value;

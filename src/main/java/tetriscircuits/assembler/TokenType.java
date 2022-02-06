@@ -10,5 +10,6 @@ enum TokenType {
     INSTRUCTION,
     LABEL,
     ORIGIN,
+    SEGMENT,
     WORD,
 }

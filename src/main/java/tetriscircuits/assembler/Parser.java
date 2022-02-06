@@ -85,7 +85,7 @@ class Parser {
         
         final Token token = new Token(filename, lineNumber, lineColumn, value.length());
         token.setType(TokenType.IDENTIFIER);
-        token.setStr(value);
+        token.setStr(value.toUpperCase());
         tokens.add(token);
         return true;
     }    
