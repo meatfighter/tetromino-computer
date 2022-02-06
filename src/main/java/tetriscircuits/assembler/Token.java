@@ -10,7 +10,7 @@ class Token {
     private TokenType type;
     private String str;
     private int num;
-    private InstructionType instructionType;
+    private Operator operator;
 
     public Token(final String filename, final int lineNumber, final int lineColumn, final int length) {
         this.filename = filename;
@@ -59,11 +59,12 @@ class Token {
         this.num = num;
     }
 
-    public InstructionType getInstructionType() {
-        return instructionType;
+    public Operator getOperator() {
+        return operator;
     }
 
-    public void setInstructionType(final InstructionType instructionType) {
-        this.instructionType = instructionType;
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
+
 }

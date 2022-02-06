@@ -1,6 +1,6 @@
 package tetriscircuits.assembler;
 
-enum InstructionType {
+enum Operator {
     
     ADC(0b0100_1001),
     ADD(0b0100_1000),
@@ -98,11 +98,11 @@ enum InstructionType {
     private final int opcode;
     private final int length;
     
-    InstructionType(final int opcode) {
+    Operator(final int opcode) {
         this(opcode, 1);
     }
     
-    InstructionType(final int opcode, final int length) {
+    Operator(final int opcode, final int length) {
         this.opcode = opcode;
         this.length = length;
     }

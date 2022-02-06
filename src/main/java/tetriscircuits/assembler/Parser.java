@@ -107,7 +107,7 @@ class Parser {
         
         final Token token = new Token(filename, lineNumber, lineColumn, value.length());
         token.setType(TokenType.LABEL);
-        token.setStr(v);
+        token.setStr(v.toUpperCase());
         tokens.add(token);
         return true;
     }
@@ -129,9 +129,9 @@ class Parser {
     private boolean parseInstructionType(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
         
-        final InstructionType instructionType;
+        final Operator operator;
         try {
-            instructionType = InstructionType.valueOf(value.toUpperCase());
+            operator = Operator.valueOf(value.toUpperCase());
         } catch (final IllegalArgumentException e) {
             return false;
         }
@@ -139,7 +139,7 @@ class Parser {
         final Token token = new Token(filename, lineNumber, lineColumn, value.length());
         token.setType(TokenType.INSTRUCTION);
         token.setStr(value);
-        token.setInstructionType(instructionType);
+        token.setOperator(operator);
         tokens.add(token);
         return true;
     }

@@ -1,10 +1,13 @@
 package tetriscircuits.assembler;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +15,8 @@ import java.util.Map;
 public class Assembler {
     
     public void launch(final String asmFilename, final String binFilename) throws Exception {
-        try (final InputStream in = new FileInputStream(asmFilename);
-                final OutputStream out = new FileOutputStream(binFilename)) {
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFilename));
+                final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFilename))) {
              assemble(asmFilename, in, out);
         } catch (final Exception e) {
             System.out.println(e.getMessage());
@@ -28,21 +31,49 @@ public class Assembler {
         final Map<String, Integer> constantByteValues = new HashMap();
         final Map<String, Integer> constantWordValues = new HashMap();
         final int[] bytes = new int[0x10000];
-        int origin;
+        int origin = 0;
         
         int tokenIndex = 0;
         int address = 0;
         outer: while (true) {
             final Token token = tokens.get(tokenIndex);
             switch (token.getType()) {
+                case DATA: {
+                    out: while (true) {
+                        boolean foundData = false;
+                        final Token dataToken = tokens.get(tokenIndex);
+                        switch (dataToken.getType()) {
+                            case BYTE:
+                                bytes[address++ & 0xFFFF] = 0xFF & dataToken.getNum();
+                                foundData = true;
+                                break;
+                            case WORD:
+                                bytes[address++ & 0xFFFF] = 0xFF & (dataToken.getNum() >> 8);
+                                bytes[address++ & 0xFFFF] = 0xFF & dataToken.getNum();
+                                foundData = true;
+                                break;
+                            case COMMA:
+                                if (foundData) {
+                                    foundData = false;                                    
+                                } else {
+                                    throw new ParseException(dataToken, "Expected data byte or word");
+                                }
+                                break;
+                            default:
+                                break out;
+                        }
+                        ++tokenIndex;
+                    }   
+                    break;
+                }
                 case DEFINE:
                     tokenIndex = pullConstant(tokens, tokenIndex, constantByteValues, constantWordValues);
                     break;
                 case END:
                     break outer;
-                case INSTRUCTION:                 
-                    bytes[address] = token.getInstructionType().getOpcode();
-                    address += token.getInstructionType().getLength();
+                case INSTRUCTION:                                     
+                    tokenIndex = pullInstruction(tokens, tokenIndex, bytes, address, constantUsages);                    
+                    address += token.getOperator().getLength();
                     break;
                 case LABEL:
                     constantWordValues.put(token.getStr(), address);
@@ -58,11 +89,77 @@ public class Assembler {
                     break;
             }
         }
+        
+        for (Map.Entry<String, List<Integer>> entry : constantUsages.entrySet()) {
+            final Integer wordValue = constantWordValues.get(entry.getKey());
+            if (wordValue != null) {
+                for (final Integer addr : entry.getValue()) {
+                    bytes[addr] = 0xFF & (wordValue >> 8);
+                    bytes[addr + 1] = 0xFF & wordValue;
+                }
+            } else {
+                final Integer byteValue = constantByteValues.get(entry.getKey());
+                if (byteValue != null) {
+                    for (final Integer addr : entry.getValue()) {
+                        bytes[addr] = 0xFF & byteValue;
+                    }
+                } else {
+                    throw new ParseException(asmFilename, 0, 0, "Undefined constant or label: " + entry.getKey());
+                }
+            }
+        }
+        
+        for (int i = 0; i < bytes.length; ++i) {
+            out.write(bytes[i]);
+        }
+        out.write(0xFF & (origin >> 8));
+        out.write(0xFF & origin);
     }
     
-    private int pullInstruction(final List<Token> tokens, final int index, 
+    private int pullInstruction(final List<Token> tokens, final int index, final int[] bytes, final int address,
             final Map<String, List<Integer>> constantUsages) throws ParseException {
         
+        final Token operatorToken = tokens.get(index);
+        final Operator operator = operatorToken.getOperator();
+        bytes[address & 0xFFFF] = operator.getOpcode();
+        
+        switch (operator.getLength()) {
+            case 2: {
+                final Token operandToken = tokens.get(index + 1);
+                switch (operandToken.getType()) {
+                    case BYTE:
+                        bytes[(address + 1) & 0xFFFF] = 0xFF & operandToken.getNum();
+                        break;
+                    case IDENTIFIER:
+                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(address + 1);
+                        break;
+                    default:
+                        throw new ParseException(operandToken, "Expected immediate byte value or constant");
+                }
+                return index + 2;
+            }
+            case 3: {
+                final Token operandToken = tokens.get(index + 1);
+                switch (operandToken.getType()) {
+                    case BYTE:
+                        bytes[(address + 1) & 0xFFFF] = 0x00;
+                        bytes[(address + 2) & 0xFFFF] = 0xFF & operandToken.getNum();
+                        break;
+                    case WORD:
+                        bytes[(address + 1) & 0xFFFF] = 0xFF & (operandToken.getNum() >> 8);
+                        bytes[(address + 2) & 0xFFFF] = 0xFF & operandToken.getNum();
+                        break;
+                    case IDENTIFIER:
+                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(address + 1);
+                        break;
+                    default:
+                        throw new ParseException(operandToken, "Expected immediate address, constant, or label");
+                }
+                return index + 2;
+            }
+        }
+        
+        return index + 1;
     }
     
     private int pullConstant(final List<Token> tokens, final int index, final Map<String, Integer> constantByteValues, 
@@ -98,14 +195,6 @@ public class Assembler {
             default:
                 throw new ParseException(addressToken, "Expected origin address.");
         }
-    }
-
-    
-    private void addByte(final List<Integer> binary, final int value) {
-        if (binary.size() >= 0x10000) {
-            handleError("asm file too large.");
-        }
-        binary.add(value);
     }
     
     private void handleError(final String message) {
