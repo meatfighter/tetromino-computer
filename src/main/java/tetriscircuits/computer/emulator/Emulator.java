@@ -8,18 +8,22 @@ package tetriscircuits.computer.emulator;
 //00 sss ddd
 //
 //01 00ffff
-//0b0100_0000 A = ~C        // z, n
-//0b0100_0001 A = -C        // z, n
-//0b0100_0010 A = C >>> 1   // c, z, n
-//0b0100_0011 A = C >> 1    // c, z, n
-//0b0100_0100 A = C << 1    // c, z, n
-//0b0100_0101 A = C - 1     // z, n (not c)
-//0b0100_0110 A = C + 1     // z, n (not c)
-//0b0100_0111 A = C - D     // c, z, n
-//0b0100_1000 A = C + D     // c, z, n
-//0b0100_1001 A = C & D     // z, n
-//0b0100_1010 A = C | D     // z, n
-//0b0100_1011 A = C ^ D     // z, n
+//0b0100_0000 A = ~C            // z, n
+//0b0100_0001 A = -C            // z, n
+//0b0100_0010 A = C + 1         // z, n (not c)
+//0b0100_0011 A = C - 1         // z, n (not c)
+//0b0100_0100 A = C >>> 1       // c, z, n
+//0b0100_0101 A = C >> 1        // c, z, n
+//0b0100_0110 A = C << 1        // c, z, n
+
+//0b0100_1000 A = C + D         // c, z, n
+//0b0100_1001 A = C + D + carry // c, z, n
+//0b0100_1010 A = C - D         // c, z, n
+//0b0100_1011 A = C - D - carry // c, z, n
+//0b0100_1100 A = C & D         // z, n
+//0b0100_1101 A = C | D         // z, n
+//0b0100_1110 A = C ^ D         // z, n
+
 //
 //GOTO
 //1000effv aaaaaaaa aaaaaaaa
@@ -153,6 +157,21 @@ public class Emulator {
         throw new RuntimeException("Invalid register index.");
     }
     
+//0b0100_0000 A = ~C            // z, n
+//0b0100_0001 A = -C            // z, n
+//0b0100_0010 A = C + 1         // z, n (not c)
+//0b0100_0011 A = C - 1         // z, n (not c)
+//0b0100_0100 A = C >>> 1       // c, z, n
+//0b0100_0101 A = C >> 1        // c, z, n
+//0b0100_0110 A = C << 1        // c, z, n
+
+//0b0100_1000 A = C + D         // c, z, n
+//0b0100_1001 A = C + D + carry // c, z, n
+//0b0100_1010 A = C - D         // c, z, n
+//0b0100_1011 A = C - D - carry // c, z, n
+//0b0100_1100 A = C & D         // z, n
+//0b0100_1101 A = C | D         // z, n
+//0b0100_1110 A = C ^ D         // z, n    
     private void compute(final int function) {
         switch (function) {
             case 0:
@@ -162,33 +181,40 @@ public class Emulator {
                 negate();
                 break;
             case 2:
-                unsignedRightShift();
-                break;
-            case 3:
-                signedRightShift();
-                break;
-            case 4:
-                leftShift();
-                break;
-            case 5:
-                decrement();
-                break;
-            case 6:
                 increment();
                 break;
-            case 7:
-                subtract();
+            case 3:
+                decrement();
                 break;
+            case 4:
+                unsignedRightShift();
+                break;
+            case 5:
+                signedRightShift();
+                break;
+            case 6:
+                leftShift();
+                break;
+
             case 8:
                 add();
                 break;
             case 9:
-                and();
-                break;
+                addWithCarry();
+                break;                
             case 10:
-                or();
+                subtract();
                 break;
             case 11:
+                subtractWithBorrow();
+                break;                
+            case 12:
+                and();
+                break;
+            case 13:
+                or();
+                break;
+            case 14:
                 xor();
                 break;
             default:
@@ -235,10 +261,20 @@ public class Emulator {
         carry = (A & 0x100) != 0;
     }
     
+    private void subtractWithBorrow() {
+        A = C - D - (carry ? 1 : 0);
+        carry = (A & 0x100) != 0;
+    }    
+    
     private void add() {
         A = C + D;
         carry = (A & 0x100) != 0;
-    } 
+    }
+    
+    private void addWithCarry() {
+        A = C + D + (carry ? 1 : 0);
+        carry = (A & 0x100) != 0;
+    }    
     
     private void and() {
         A = C & D;

@@ -17,3 +17,7 @@ remove flatten!!! -- tx takeover!!!
 test mechanism
 
 tetris script extreme speed (.tx)
+
+refactor packages:
+
+tetrisscript
