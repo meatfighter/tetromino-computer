@@ -34,6 +34,31 @@ public class GenerateOperators {
             }
         }
         
+        addOp(ops, "JMP", 0b1000_0000);
+        addOp(ops, "BCC", 0b1000_0010);
+        addOp(ops, "BCS", 0b1000_0011);
+        addOp(ops, "BNE", 0b1000_0100);
+        addOp(ops, "BEQ", 0b1000_0101);
+        addOp(ops, "BPL", 0b1000_0110);
+        addOp(ops, "BMI", 0b1000_0111);
+        addOp(ops, "JSR", 0b1000_1000);
+        addOp(ops, "JCC", 0b1000_1010);
+        addOp(ops, "JCS", 0b1000_1011);
+        addOp(ops, "JNE", 0b1000_1100);
+        addOp(ops, "JEQ", 0b1000_1101);
+        addOp(ops, "JPL", 0b1000_1110);
+        addOp(ops, "JMI", 0b1000_1111);
+        
+        addOp(ops, "RTS", 0b1001_0000);
+        
+        for (int d = ALL_REGS_8.length - 1; d >= 0; --d) {
+            addOp(ops, String.format("ST%s", ALL_REGS_8[d]), 0b1100_0000 | d);
+            addOp(ops, String.format("PH%s", ALL_REGS_8[d]), 0b1100_1000 | d);
+            addOp(ops, String.format("LD%s", ALL_REGS_8[d]), 0b1101_0000 | d);
+            addOp(ops, String.format("PL%s", ALL_REGS_8[d]), 0b1101_1000 | d);
+            addOp(ops, String.format("SE%s", ALL_REGS_8[d]), 0b1110_0000 | d);
+        }
+        
         ops.stream().sorted().forEach((op) -> {
             System.out.println(op);
         });
