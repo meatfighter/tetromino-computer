@@ -22,7 +22,7 @@ import java.io.InputStream;
 // N  111
 
 //
-//01 ddffff
+// 01 ddffff
 // 0b0100_0000 A = ~I            // z, n
 // 0b0100_0001 A = -I            // z, n
 // 0b0100_0010 A = I + 1         // z, n (not c)
@@ -77,11 +77,8 @@ import java.io.InputStream;
 // 1111 00ss
 // P = AB,CD,IJ,MN
 
-// 1111 100v
+// 1111 010v
 // c = v
-
-// 1111 11dd
-// AB,CD,IJ,MN = [ M ]
 
 public class Emulator {
     
