@@ -5,22 +5,36 @@ import java.util.Set;
 
 public class GenerateOperators {
 
-    private static final String[] REGS_8 = { "A", "B", "C", "D", "I", "J", "M", "N" };
+    private static final String[] ALL_REGS_8 = { "A", "B", "C", "D", "I", "J", "M", "N" };
+    private static final String[] GEN_REGS = { "A", "B", "C", "D" };
+    
+    private static final String[] ALUS_1 = { "INV", "NEG", "INC", "DEC", "USR", "SSR", "SHL" };
+    private static final String[] ALUS_2 = { "ADD", "ADC", "SUB", "SBB", "AND", "OR", "XOR" };
     
     public void launch() throws Exception {
 
         final Set<Op> ops = new HashSet<>();
-        for (int s = REGS_8.length - 1; s >= 0; --s) {
-            for (int d = REGS_8.length - 1; d >= 0; --d) {
+        
+        for (int s = ALL_REGS_8.length - 1; s >= 0; --s) {
+            for (int d = ALL_REGS_8.length - 1; d >= 0; --d) {
                 if (s == d) {
-                    addOp(ops, String.format("ZR%s", REGS_8[s]), (s << 3) | d);
+                    addOp(ops, String.format("ZR%s", ALL_REGS_8[s]), (s << 3) | d);
                 } else {
-                    addOp(ops, String.format("T%s%s", REGS_8[s], REGS_8[d]), (s << 3) | d);
+                    addOp(ops, String.format("T%s%s", ALL_REGS_8[s], ALL_REGS_8[d]), (s << 3) | d);
                 }
             }
         }
         
-        ops.forEach((op) -> {
+        for (int d = GEN_REGS.length - 1; d >= 0; --d) {
+            for (int i = ALUS_1.length - 1; i >= 0; --i) {
+                addOp(ops, String.format("%s%s", ALUS_1[i], GEN_REGS[d]), 0b0100_0000 | (d << 4) | i);
+            }
+            for (int i = ALUS_2.length - 1; i >= 0; --i) {
+                addOp(ops, String.format("%s%s", ALUS_2[i], GEN_REGS[d]), 0b0100_1000 | (d << 4) | i);
+            }
+        }
+        
+        ops.stream().sorted().forEach((op) -> {
             System.out.println(op);
         });
     }
@@ -41,7 +55,7 @@ public class GenerateOperators {
         new GenerateOperators().launch();
     }
     
-    private static class Op {
+    private static class Op implements Comparable<Op> {
         
         private final String name;
         private final int opcode;
@@ -86,6 +100,11 @@ public class GenerateOperators {
         @Override
         public int hashCode() {
             return name.hashCode();
+        }
+
+        @Override
+        public int compareTo(final Op o) {
+            return name.compareTo(o.name);
         }
     }
 }
