@@ -12,16 +12,24 @@ public class GenerateOperators {
         final Set<Op> ops = new HashSet<>();
         for (int s = REGS_8.length - 1; s >= 0; --s) {
             for (int d = REGS_8.length - 1; d >= 0; --d) {
-                System.out.format("%08b%n", (s << 3) | d);
+                if (s == d) {
+                    addOp(ops, String.format("ZR%s", REGS_8[s]), (s << 3) | d);
+                } else {
+                    addOp(ops, String.format("T%s%s", REGS_8[s], REGS_8[d]), (s << 3) | d);
+                }
             }
         }
+        
+        ops.forEach((op) -> {
+            System.out.println(op);
+        });
     }
     
-    public void addOp(final Set<Op> ops, final String name) {
+    private void addOp(final Set<Op> ops, final String name) {
         addOp(ops, name, 1);
     }
     
-    public void addOp(final Set<Op> ops, final String name, final int length) throws IllegalArgumentException {
+    private void addOp(final Set<Op> ops, final String name, final int length) throws IllegalArgumentException {
         final Op op = new Op(name, length);
         if (ops.contains(op)) {
             throw new IllegalArgumentException("Duplicate: " + name);
@@ -36,14 +44,16 @@ public class GenerateOperators {
     private static class Op {
         
         private final String name;
+        private final int opcode;
         private final int length;
         
-        public Op(final String name) {
-            this(name, 1);
+        public Op(final String name, final int opcode) {
+            this(name, opcode, 1);
         }
         
-        public Op(final String name, final int length) {
+        public Op(final String name, final int opcode, final int length) {
             this.name = name;
+            this.opcode = opcode;
             this.length = length;
         }
 
@@ -53,6 +63,19 @@ public class GenerateOperators {
 
         public int getLength() {
             return length;
+        }
+        
+        public int getOpcode() {
+            return opcode;
+        }
+        
+        private String formatBin(final int value) {
+            return String.format("0b%8s", Integer.toBinaryString(value)).replace(' ', '0');
+        }        
+        
+        @Override
+        public String toString() {
+            return String.format("%s(%s%s),", name, formatBin(opcode), length == 1 ? "" : ", " + length);
         }
         
         @Override
