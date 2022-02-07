@@ -1,80 +1,87 @@
 package tetriscircuits.computer.emulator;
 
-//P
-
 import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-//c z n
-//A B C D E F MH ML
+// P S
+// c n z
+// A B C D I J M N
 //
-//T [ A B C D E F MH ML ] [ A B C D E F MH ML ]
-//00 sss ddd
+// T [ A B C D I J M N ] [ A B C D I J M N ]
+// 00 sss ddd
 
-// A   000
-// B   001
-// C   010
-// D   011
-// E   100
-// F   101
-// MH  110
-// ML  111
+// A  000
+// B  001
+// C  010
+// D  011
+// E  100
+// F  101
+// M  110
+// N  111
 
 //
-//01 00ffff
-//0b0100_0000 A = ~C            // z, n
-//0b0100_0001 A = -C            // z, n
-//0b0100_0010 A = C + 1         // z, n (not c)
-//0b0100_0011 A = C - 1         // z, n (not c)
-//0b0100_0100 A = C >>> 1       // c, z, n
-//0b0100_0101 A = C >> 1        // c, z, n
-//0b0100_0110 A = C << 1        // c, z, n
+//01 ddffff
+// 0b0100_0000 A = ~I            // z, n
+// 0b0100_0001 A = -I            // z, n
+// 0b0100_0010 A = I + 1         // z, n (not c)
+// 0b0100_0011 A = I - 1         // z, n (not c)
+// 0b0100_0100 A = I >>> 1       // c, z, n
+// 0b0100_0101 A = I >> 1        // c, z, n
+// 0b0100_0110 A = I << 1        // c, z, n
 
-//0b0100_1000 A = C + D         // c, z, n
-//0b0100_1001 A = C + D + carry // c, z, n
-//0b0100_1010 A = C - D         // c, z, n
-//0b0100_1011 A = C - D - carry // c, z, n
-//0b0100_1100 A = C & D         // z, n
-//0b0100_1101 A = C | D         // z, n
-//0b0100_1110 A = C ^ D         // z, n
+// 0b0100_1000 A = I + J         // c, z, n
+// 0b0100_1001 A = I + J + carry // c, z, n
+// 0b0100_1010 A = I - J         // c, z, n
+// 0b0100_1011 A = I - J - carry // c, z, n
+// 0b0100_1100 A = I & J         // z, n
+// 0b0100_1101 A = I | J         // z, n
+// 0b0100_1110 A = I ^ J         // z, n
+
+// d = A, B, C, D
 
 //
 //GOTO
-//1000effv aaaaaaaa aaaaaaaa
-//
+//1000sffv aaaaaaaa aaaaaaaa
+
+// s: push address + 3 onto stack
+
 //ff:
-//00 - none
+//00 - no condition
 //01 - c == v
 //10 - z == v
 //11 - n == v
-//
-//e: EF = P
-//
-//1100 0000 aaaaaaaa
-//A = V
-//
-//1101 0000
-//A = [M]
-//
-//1110 0000
-//[M] = A
-//
 
-//1111 0ffv
-//ff:
-//00 - none
-//01 - c = v
-//10 - z = v
-//11 - n = v
+// 1001 0000
+// RTS
 
-//1111 1000
-// P = EF
+// 1100 0ddd
+// [ M ] = r
 
-//1111 1001 aaaaaaaa aaaaaaaa
-// M = address
+// 1100 1ddd
+// PUSH r
+
+// 1101 0ddd
+// r = [ M ]
+
+// 1101 1ddd
+// POP r
+
+// 1110 0ddd vvvvvvvv
+// r = v
+
+// 1110 10dd vvvvvvvv vvvvvvvv
+// d : AB,CD,IJ,MN = v
+
+// 1111 00ss
+// P = AB,CD,IJ,MN
+
+// 1111 100v
+// c = v
+
+// 1111 11dd
+// AB,CD,IJ,MN = [ M ]
 
 public class Emulator {
     
