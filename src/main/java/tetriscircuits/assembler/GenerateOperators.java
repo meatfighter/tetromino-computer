@@ -6,7 +6,8 @@ import java.util.Set;
 public class GenerateOperators {
 
     private static final String[] ALL_REGS_8 = { "A", "B", "C", "D", "I", "J", "M", "N" };
-    private static final String[] GEN_REGS = { "A", "B", "C", "D" };
+    private static final String[] ALL_REGS_4 = { "AB", "CD", "IJ", "MN" };
+    private static final String[] GEN_REGS = { "A", "B", "C", "D" };    
     
     private static final String[] ALUS_1 = { "INV", "NEG", "INC", "DEC", "USR", "SSR", "SHL" };
     private static final String[] ALUS_2 = { "ADD", "ADC", "SUB", "SBB", "AND", "OR", "XOR" };
@@ -34,42 +35,50 @@ public class GenerateOperators {
             }
         }
         
-        addOp(ops, "JMP", 0b1000_0000);
-        addOp(ops, "BCC", 0b1000_0010);
-        addOp(ops, "BCS", 0b1000_0011);
-        addOp(ops, "BNE", 0b1000_0100);
-        addOp(ops, "BEQ", 0b1000_0101);
-        addOp(ops, "BPL", 0b1000_0110);
-        addOp(ops, "BMI", 0b1000_0111);
-        addOp(ops, "JSR", 0b1000_1000);
-        addOp(ops, "JCC", 0b1000_1010);
-        addOp(ops, "JCS", 0b1000_1011);
-        addOp(ops, "JNE", 0b1000_1100);
-        addOp(ops, "JEQ", 0b1000_1101);
-        addOp(ops, "JPL", 0b1000_1110);
-        addOp(ops, "JMI", 0b1000_1111);
+        addOp(ops, "JMP", 0b1000_0000, 3);
+        addOp(ops, "BCC", 0b1000_0010, 3);
+        addOp(ops, "BCS", 0b1000_0011, 3);
+        addOp(ops, "BNE", 0b1000_0100, 3);
+        addOp(ops, "BEQ", 0b1000_0101, 3);
+        addOp(ops, "BPL", 0b1000_0110, 3);
+        addOp(ops, "BMI", 0b1000_0111, 3);
+        addOp(ops, "JSR", 0b1000_1000, 3);
+        addOp(ops, "JCC", 0b1000_1010, 3);
+        addOp(ops, "JCS", 0b1000_1011, 3);
+        addOp(ops, "JNE", 0b1000_1100, 3);
+        addOp(ops, "JEQ", 0b1000_1101, 3);
+        addOp(ops, "JPL", 0b1000_1110, 3);
+        addOp(ops, "JMI", 0b1000_1111, 3);
         
         addOp(ops, "RTS", 0b1001_0000);
         
         for (int d = ALL_REGS_8.length - 1; d >= 0; --d) {
-            addOp(ops, String.format("ST%s", ALL_REGS_8[d]), 0b1100_0000 | d);
-            addOp(ops, String.format("PH%s", ALL_REGS_8[d]), 0b1100_1000 | d);
-            addOp(ops, String.format("LD%s", ALL_REGS_8[d]), 0b1101_0000 | d);
-            addOp(ops, String.format("PL%s", ALL_REGS_8[d]), 0b1101_1000 | d);
-            addOp(ops, String.format("SE%s", ALL_REGS_8[d]), 0b1110_0000 | d);
+            addOp(ops, String.format("ST%s", ALL_REGS_8[d]), 0b1100_0000 | d, 2);
+            addOp(ops, String.format("PH%s", ALL_REGS_8[d]), 0b1100_1000 | d, 2);
+            addOp(ops, String.format("LD%s", ALL_REGS_8[d]), 0b1101_0000 | d, 2);
+            addOp(ops, String.format("PL%s", ALL_REGS_8[d]), 0b1101_1000 | d, 2);
+            addOp(ops, String.format("AS%s", ALL_REGS_8[d]), 0b1110_0000 | d, 2);
         }
+        for (int d = ALL_REGS_4.length - 1; d >= 0; --d) {
+            addOp(ops, String.format("S%s", ALL_REGS_4[d]), 0b1110_1000 | d, 3);
+            addOp(ops, String.format("J%s", ALL_REGS_4[d]), 0b1111_0000 | d, 3);
+        }
+        
+        addOp(ops, "CLC", 0b1111_0100);
+        addOp(ops, "SEC", 0b1111_0101);
         
         ops.stream().sorted().forEach((op) -> {
             System.out.println(op);
         });
     }
     
-    private void addOp(final Set<Op> ops, final String name) {
-        addOp(ops, name, 1);
+    private void addOp(final Set<Op> ops, final String name, final int opcode) throws IllegalArgumentException {
+        addOp(ops, name, opcode, 1);
     }
     
-    private void addOp(final Set<Op> ops, final String name, final int length) throws IllegalArgumentException {
-        final Op op = new Op(name, length);
+    private void addOp(final Set<Op> ops, final String name, final int opcode, final int length) 
+            throws IllegalArgumentException {
+        final Op op = new Op(name, opcode, length);
         if (ops.contains(op)) {
             throw new IllegalArgumentException("Duplicate: " + name);
         }
@@ -85,10 +94,6 @@ public class GenerateOperators {
         private final String name;
         private final int opcode;
         private final int length;
-        
-        public Op(final String name, final int opcode) {
-            this(name, opcode, 1);
-        }
         
         public Op(final String name, final int opcode, final int length) {
             this.name = name;

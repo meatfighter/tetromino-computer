@@ -85,14 +85,15 @@ public class Emulator {
     public final int[] memory = new int[0x10000];
     
     public int P;
+    public int S;
     public int A;
     public int B;
     public int C;
     public int D;
     public int E;
     public int F;
-    public int MH;
-    public int ML;
+    public int M;
+    public int N;
     public boolean carry;
     public boolean zero;
     public boolean negative;    
@@ -109,10 +110,10 @@ public class Emulator {
                     transfer((opcode & 0b0011_1000) >> 3, opcode & 0b0000_0111);
                     break;
                 case 1:
-                    compute(opcode & 0b0011_1111);
+                    compute(opcode);
                     break;
                 case 2:
-                    jump(opcode & 0b0011_1111);
+                    jump(opcode);
                     break;
                 default:
                     switch ((opcode >> 4) & 3) {
@@ -159,6 +160,7 @@ public class Emulator {
     }
     
     private void transfer(final int source, final int destination) {
+        setRegister(destination, 0);
         setRegister(destination, getRegister(source));
     }
     
@@ -183,10 +185,10 @@ public class Emulator {
                 F = value;
                 break;
             case 6:
-                MH = value;
+                M = value;
                 break;
             case 7:
-                ML = value;
+                N = value;
                 break;
         }
     }
@@ -206,129 +208,135 @@ public class Emulator {
             case 5:
                 return F;
             case 6:
-                return MH;
+                return M;
             case 7:
-                return ML;
+                return N;
         }
         throw new RuntimeException("Invalid register index.");
     }
      
     private void compute(final int function) {
-        switch (function) {
+        int v;
+        switch (function & 0b0000_1111) {
             case 0:
-                invert();
+                v = invert();
                 break;
             case 1:
-                negate();
+                v = negate();
                 break;
             case 2:
-                increment();
+                v = increment();
                 break;
             case 3:
-                decrement();
+                v = decrement();
                 break;
             case 4:
-                unsignedRightShift();
+                v = unsignedRightShift();
                 break;
             case 5:
-                signedRightShift();
+                v = signedRightShift();
                 break;
             case 6:
-                leftShift();
+                v = leftShift();
                 break;
 
             case 8:
-                add();
+                v = add();
                 break;
             case 9:
-                addWithCarry();
+                v = addWithCarry();
                 break;                
             case 10:
-                subtract();
+                v = subtract();
                 break;
             case 11:
-                subtractWithBorrow();
+                v = subtractWithBorrow();
                 break;                
             case 12:
-                and();
+                v = and();
                 break;
             case 13:
-                or();
+                v = or();
                 break;
             case 14:
-                xor();
+                v = xor();
                 break;
             default:
                 throw new RuntimeException("Invalid function.");
         }        
-        A &= 0xFF;
-        zero = (A == 0);
-        negative = (A & 0x80) != 0;
+        v &= 0xFF;
+        zero = (v == 0);
+        negative = (v & 0x80) != 0;
+        setRegister(3 & (function >> 4), v);
     }
     
-    private void invert() {
-        A = ~C;
+    private int invert() {
+        return ~C;
     }
     
-    private void negate() {
-        A = -C;
+    private int negate() {
+        return -C;
     }    
     
-    private void unsignedRightShift() {
+    private int unsignedRightShift() {
         carry = (C & 0x01) != 0;
-        A = C >>> 1;
+        return C >>> 1;
     }
     
-    private void signedRightShift() {
+    private int signedRightShift() {
         carry = (C & 0x01) != 0;
-        A = C >> 1;
+        return C >> 1;
     }
     
-    private void leftShift() {
+    private int leftShift() {
         carry = (C & 0x80) != 0;
-        A = C << 1;
+        return C << 1;
     }
     
-    private void decrement() {
-        A = C - 1;
+    private int decrement() {
+        return C - 1;
     }
     
-    private void increment() {
-        A = C + 1;
+    private int increment() {
+        return C + 1;
     }
 
-    private void subtract() {
-        A = C - D;
-        carry = (A & 0x100) != 0;
+    private int subtract() {
+        final int v = C - D;
+        carry = (v & 0x100) != 0;
+        return v;
     }
     
-    private void subtractWithBorrow() {
-        A = C - D - (carry ? 1 : 0);
-        carry = (A & 0x100) != 0;
+    private int subtractWithBorrow() {
+        final int v = C - D - (carry ? 1 : 0);
+        carry = (v & 0x100) != 0;
+        return v;
     }    
     
-    private void add() {
-        A = C + D;
-        carry = (A & 0x100) != 0;
+    private int add() {
+        final int v = C + D;
+        carry = (v & 0x100) != 0;
+        return v;
     }
     
-    private void addWithCarry() {
-        A = C + D + (carry ? 1 : 0);
-        carry = (A & 0x100) != 0;
+    private int addWithCarry() {
+        final int v = C + D + (carry ? 1 : 0);
+        carry = (v & 0x100) != 0;
+        return v;
     }    
     
-    private void and() {
-        A = C & D;
+    private int and() {
+        return C & D;
     }
     
-    private void or() {
-        A = C | D;
+    private int or() {
+        return C | D;
     }    
     
-    private void xor() {
-        A = C ^ D;
+    private int xor() {
+        return C ^ D;
     }
-   
+     
     private void jump(final int bits) {
         final int target = (fetch() << 8) | fetch();
         final boolean value = (bits & 0b0000_0001) != 0;
@@ -352,8 +360,7 @@ public class Emulator {
                 break;
         }
         if ((bits & 0b0000_1000) != 0) {
-            E = P >> 8;
-            F = P & 0xFF;
+            
         }
         P = target;
     }
