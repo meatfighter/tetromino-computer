@@ -38,35 +38,13 @@ public class Assembler {
         outer: while (true) {
             final Token token = tokens.get(tokenIndex);
             switch (token.getType()) {
-                case DATA: {
-                    ++tokenIndex;
-                    out: while (true) {
-                        boolean foundData = false;
-                        final Token dataToken = tokens.get(tokenIndex);                        
-                        switch (dataToken.getType()) {
-                            case BYTE:
-                                bytes[address++ & 0xFFFF] = 0xFF & dataToken.getNum();
-                                foundData = true;
-                                break;
-                            case WORD:
-                                bytes[address++ & 0xFFFF] = 0xFF & (dataToken.getNum() >> 8);
-                                bytes[address++ & 0xFFFF] = 0xFF & dataToken.getNum();
-                                foundData = true;
-                                break;
-                            case COMMA:
-                                if (foundData) {
-                                    foundData = false;                                    
-                                } else {
-                                    throw new ParseException(dataToken, "Expected data byte or word");
-                                }
-                                break;
-                            default:
-                                break out;
-                        }
-                        ++tokenIndex;
-                    }   
+                case BYTE:
+                    bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
                     break;
-                }
+                case WORD:
+                    bytes[address++ & 0xFFFF] = 0xFF & (token.getNum() >> 8);
+                    bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
+                    break;
                 case DEFINE:
                     tokenIndex = pullConstant(tokens, tokenIndex, constantByteValues, constantWordValues);
                     break;

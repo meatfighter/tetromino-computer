@@ -49,10 +49,6 @@ class Parser {
     private void parseElement(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
         
-        if (parseComma(tokens, filename, lineNumber, lineColumn, value)) {
-            return;
-        }
-        
         if (parseNumber(tokens, filename, lineNumber, lineColumn, value)) {
             return;
         }
@@ -110,21 +106,7 @@ class Parser {
         token.setStr(v.toUpperCase());
         tokens.add(token);
         return true;
-    }
-    
-    private boolean parseComma(final List<Token> tokens, final String filename, final int lineNumber, 
-            final int lineColumn, final String value) throws ParseException {
-        
-        if (!",".equals(value)) {
-            return false;
-        }
-        
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
-        token.setType(TokenType.COMMA);
-        token.setStr(value);
-        tokens.add(token);
-        return true;
-    }    
+    } 
     
     private boolean parseInstructionType(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
@@ -149,9 +131,6 @@ class Parser {
         
         final TokenType tokenType;
         switch(value.toUpperCase()) {
-            case ".DATA":
-                tokenType = TokenType.DATA;
-                break;
             case ".DEFINE":
                 tokenType = TokenType.DEFINE;
                 break;            
@@ -175,54 +154,19 @@ class Parser {
     private boolean parseNumber(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
         
-        int num = 0;
-        TokenType tokenType = null;
-        
-        int start = 0;
-        int base = 0;
-        if (value.startsWith("$")) {
-            start = 1;
-            base = 16;
-        } else if (value.startsWith("#$")) {
-            start = 2;
-            base = 16;
-        } else if (value.startsWith("%")) {
-            start = 1;
-            base = 2;
-        } else if (value.startsWith("#%")) {
-            start = 2;
-            base = 2;
-        } else if (value.startsWith("-")) {
-            start = 0;
-            base = 10;
-        } else {
-            final char c = value.charAt(0);
-            if (c >= '0' && c <= '9') {
-                start = 0;
-                base = 10;
-            } else {
-                return false;
-            }
+        if (!(value.length() == 2 || value.length() == 4)) {
+            return false;
         }
         
-        final String v = value.substring(start).replaceAll("_", "");
-        if (isBlank(v)) {
-            throw new ParseException(filename, lineNumber, lineColumn, "Expected number");
-        }
-        if (base == 16) {
-            tokenType = (v.length() <= 2) ? TokenType.BYTE : TokenType.WORD;
-        } 
+        final int num;
         try {
-            num = Integer.parseInt(v, base);
+            num = Integer.parseInt(value, 16);
         } catch (final NumberFormatException e) {
-            throw new ParseException(filename, lineNumber, lineColumn, "Invalid number: " + value);
-        }
-        if (base == 10) {
-            tokenType = (num >= Byte.MIN_VALUE && num <= Byte.MAX_VALUE) ? TokenType.BYTE : TokenType.WORD;            
+            return false;
         }
         
         final Token token = new Token(filename, lineNumber, lineColumn, value.length());
-        token.setType(tokenType);
+        token.setType((value.length() == 2) ? TokenType.BYTE : TokenType.WORD);
         token.setStr(value);
         token.setNum(num);
         tokens.add(token);
