@@ -7,7 +7,6 @@ enum TokenType {
     IDENTIFIER,
     INSTRUCTION,
     LABEL,
-    ORIGIN,
     SEGMENT,
     WORD,
 }

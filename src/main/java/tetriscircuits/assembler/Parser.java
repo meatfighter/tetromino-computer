@@ -131,13 +131,10 @@ class Parser {
         
         final TokenType tokenType;
         switch(value.toUpperCase()) {
-            case ".DEFINE":
+            case "DEFINE":
                 tokenType = TokenType.DEFINE;
-                break;            
-            case ".ORIGIN":
-                tokenType = TokenType.ORIGIN;
                 break;
-            case ".SEGMENT":
+            case "SEGMENT":
                 tokenType = TokenType.SEGMENT;
                 break;    
             default:

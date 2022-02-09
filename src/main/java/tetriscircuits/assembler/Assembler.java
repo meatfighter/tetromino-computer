@@ -18,8 +18,10 @@ public class Assembler {
         try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFilename));
                 final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFilename))) {
              assemble(asmFilename, in, out);
+        } catch (final ParseException e) {
+            System.out.println(e);
         } catch (final Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     
@@ -31,7 +33,6 @@ public class Assembler {
         final Map<String, Integer> constantByteValues = new HashMap();
         final Map<String, Integer> constantWordValues = new HashMap();
         final int[] bytes = new int[0x10000];
-        int origin = 0;
         
         int tokenIndex = 0;
         int address = 0;
@@ -40,10 +41,12 @@ public class Assembler {
             switch (token.getType()) {
                 case BYTE:
                     bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
+                    ++tokenIndex;
                     break;
                 case WORD:
                     bytes[address++ & 0xFFFF] = 0xFF & (token.getNum() >> 8);
                     bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
+                    ++tokenIndex;
                     break;
                 case DEFINE:
                     tokenIndex = pullConstant(tokens, tokenIndex, constantByteValues, constantWordValues);
@@ -57,15 +60,13 @@ public class Assembler {
                 case LABEL:
                     constantWordValues.put(token.getStr(), address);
                     ++tokenIndex;
-                    break;
-                case ORIGIN:
-                    origin = pullAddress(tokens, tokenIndex);
-                    tokenIndex += 2;
                     break;       
                 case SEGMENT:
                     address = pullAddress(tokens, tokenIndex);
                     tokenIndex += 2;
                     break;
+                default:
+                    throw new ParseException(token, "Unexpected token.");
             }
         }
         
@@ -91,8 +92,13 @@ public class Assembler {
         for (int i = 0; i < bytes.length; ++i) {
             out.write(bytes[i]);
         }
-        out.write(0xFF & (origin >> 8));
-        out.write(0xFF & origin);
+        
+        Integer main = constantWordValues.get("MAIN");
+        if (main == null) {
+            main = 0;
+        }        
+        out.write(0xFF & (main >> 8));
+        out.write(0xFF & main);
     }
     
     private int pullInstruction(final List<Token> tokens, final int index, final int[] bytes, final int address,

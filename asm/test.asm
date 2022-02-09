@@ -1,12 +1,15 @@
 ; This is a test
 
-x: .data 0
+X: 00
+Y: 00
+Z: 00
 
-SEM x
+MAIN:
 
-label:
-LD
-TAC
+SMN Y
+
+LABEL:
+LDA
 INC
-ST
-JMP label
+STA
+JMP LABEL

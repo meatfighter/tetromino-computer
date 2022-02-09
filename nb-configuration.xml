@@ -10,7 +10,6 @@ Without this configuration present, some functionality in the IDE may be limited
         <configurations>
             <configuration id="Assembler" profiles=""/>
             <configuration id="Emulator" profiles=""/>
-            <configuration id="GenerateOperators" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

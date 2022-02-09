@@ -61,6 +61,11 @@ public class Emulator {
         loadBinFile(binFilename);
         
         while (true) {
+                        
+            System.out.format("P: %04X, A: %02X, B: %02X, M: %02X, N: %02X, Z: %b, %02X %02X %02X%n", 
+                    P, A, B, M, N, zero, memory[0], memory[1], memory[2]);
+            Thread.sleep(10);
+            
             final int opcode = fetch();
             switch ((opcode >> 4) & 0b1111) {
                 case 0b0000:
@@ -69,20 +74,40 @@ public class Emulator {
                 case 0b0001:
                     compute(opcode);
                     break;
+                case 0b0010:
+                    jump(opcode);
+                    break;
+                case 0b0011:
+                    store(opcode);
+                    break;
+                case 0b0100:
+                    load(opcode);
+                    break;
+                case 0b0101:
+                    loadByteImmediate(opcode);
+                    break;
+                case 0b0110:
+                    loadMN();
+                    break;
             }
         }
     }
     
     private void loadBinFile(final String binFilename) throws IOException {
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
-            int address = 0;
-            while (address < memory.length) {
+            for (int address = 0; address < 0x10000; ++address) {
                 final int b = in.read();
                 if (b < 0) {
-                    break;
+                    throw new IOException("Unexpected end of file.");
                 }
-                memory[address++] = b;
+                memory[address] = b;
             }
+            final int PH = in.read();
+            final int PL = in.read();
+            if (PH < 0 || PL < 0) {
+                throw new IOException("Unexpected end of file.");
+            }
+            P = (PH << 8) | PL;
         }
     }
     
@@ -165,42 +190,35 @@ public class Emulator {
      
     private void jump(final int bits) {
         final int target = (fetch() << 8) | fetch();
-        final boolean value = (bits & 0b0000_0001) != 0;
-        switch ((bits & 0b0000_0110) >> 1) {
-            case 0:
-                break;
-            case 1:
-                if (carry != value) {
-                    return;
-                }
-                break;
-            case 2:
-                if (zero != value) {
-                    return;
-                }
-                break;
-            case 3:
-                if (negative != value) {
-                    return;
-                }
-                break;
+        if ((bits & 1) == 0 || !zero) {
+            P = target;
         }
-        if ((bits & 0b0000_1000) != 0) {
-            
+    }
+    
+    private void loadByteImmediate(final int opcode) {
+        if ((opcode & 1) == 0) {
+            A = fetch();
+        } else {
+            B = fetch();
         }
-        P = target;
     }
     
-    private void loadImmediate() {
-        A = fetch();
+    private void loadMN() {
+        M = fetch();
+        N = fetch();
     }
     
-    private void loadMemory() {
-        A = readMemory((MH << 8) | ML);
+    private void load(final int opcode) {
+        final int value = readMemory((M << 8) | N);
+        if ((opcode & 1) == 0) {
+            A = value;
+        } else {
+            B = value;
+        }
     }
     
-    private void storeMemory() {
-        writeMemory((MH << 8) | ML, A);
+    private void store(final int opcode) {
+        writeMemory((M << 8) | N, (opcode & 1) == 0 ? A : B);
     }
     
     private int fetch() {
