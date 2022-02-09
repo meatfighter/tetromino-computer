@@ -18,18 +18,19 @@ import java.io.InputStream;
 // 11 N
 
 // 0001ffff
-// ++A
-// --A
-// A <<= 1
-// A >>= 1
-// A += B
-// A -= B
-// A &= B
-// A |= B
-// A ^= B
+// 0000 ++A
+// 0001 --A
+// 0010 A += B
+// 0011 A -= B
+// 0100 A <<= 1
+// 0101 A >>= 1
+// 0110 A &= B
+// 0111 A |= B
+// 1000 A ^= B
+// 1001 ~A
 
 // JMP
-// 0010000z aaaaaaaa aaaaaaaa
+// 0010 000z aaaaaaaa aaaaaaaa
 // z: jump if not zero
 
 // 0011 000r
@@ -49,64 +50,26 @@ public class Emulator {
     public final int[] memory = new int[0x10000];
     
     public int P;
-    public int S;
     public int A;
     public int B;
-    public int C;
-    public int D;
-    public int E;
-    public int F;
     public int M;
     public int N;
-    public boolean carry;
     public boolean zero;
-    public boolean negative;    
     
     private void launch(final String binFilename) throws Exception {
         
         loadBinFile(binFilename);
         
         while (true) {
-            System.out.format("%02X%n", memory[0]);
             final int opcode = fetch();
-            switch (opcode >> 6) {
-                case 0:
-                    transfer((opcode & 0b0011_1000) >> 3, opcode & 0b0000_0111);
+            switch ((opcode >> 4) & 0b1111) {
+                case 0b0000:
+                    transfer((opcode >> 2) & 0b11, opcode & 0b11);
                     break;
-                case 1:
+                case 0b0001:
                     compute(opcode);
                     break;
-                case 2:
-                    jump(opcode);
-                    break;
-                default:
-                    switch ((opcode >> 4) & 3) {
-                        case 0:
-                            loadImmediate();
-                            break;
-                        case 1:
-                            loadMemory();
-                            break;
-                        case 2:
-                            storeMemory();
-                            break;
-                        case 3:
-                            switch (opcode) {
-                                case 0b1111_1000:
-                                    P = (E << 8) | F;
-                                    break;
-                                case 0b1111_1001:
-                                    MH = fetch();
-                                    ML = fetch();
-                                    break;
-                                default:
-                                    updateFlags(opcode & 0b0000_0111);
-                                    break;
-                            }
-                            break;
-                    }
-                    break;
-            } 
+            }
         }
     }
     
@@ -128,8 +91,8 @@ public class Emulator {
         setRegister(destination, getRegister(source));
     }
     
-    private void setRegister(final int index, final int value) {
-        switch (index) {
+    private void setRegister(final int destination, final int value) {
+        switch (destination) {
             case 0:
                 A = value;
                 break;
@@ -137,168 +100,67 @@ public class Emulator {
                 B = value;
                 break;
             case 2:
-                C = value;
-                break;
-            case 3:
-                D = value;
-                break;
-            case 4:
-                E = value;
-                break;
-            case 5:
-                F = value;
-                break;
-            case 6:
                 M = value;
                 break;
-            case 7:
+            case 3:
                 N = value;
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid destination register.");                
         }
     }
     
-    private int getRegister(final int index) {
-        switch (index) {
+    private int getRegister(final int source) {
+        switch (source) {
             case 0:
                 return A;
             case 1:
                 return B;
             case 2:
-                return C;
-            case 3:
-                return D;
-            case 4:
-                return E;
-            case 5:
-                return F;
-            case 6:
                 return M;
-            case 7:
+            case 3:
                 return N;
-        }
-        throw new RuntimeException("Invalid register index.");
+            default:
+                throw new IllegalArgumentException("Invalid source register.");
+        }        
     }
      
     private void compute(final int function) {
-        int v;
-        switch (function & 0b0000_1111) {
-            case 0:
-                v = invert();
+        switch (function & 0b1111) {
+            case 0b0000:
+                ++A;
                 break;
-            case 1:
-                v = negate();
+            case 0b0001:
+                --A;
                 break;
-            case 2:
-                v = increment();
+            case 0b0010:
+                A += B;
                 break;
-            case 3:
-                v = decrement();
+            case 0b0011:
+                A -= B;
                 break;
-            case 4:
-                v = unsignedRightShift();
+            case 0b0100:
+                A <<= 1;
                 break;
-            case 5:
-                v = signedRightShift();
+            case 0b0101:
+                A >>= 1;
                 break;
-            case 6:
-                v = leftShift();
+            case 0b0110:
+                A &= B;
                 break;
-
-            case 8:
-                v = add();
+            case 0b0111:
+                A |= B;
                 break;
-            case 9:
-                v = addWithCarry();
-                break;                
-            case 10:
-                v = subtract();
+            case 0b1000:
+                A ^= B;
                 break;
-            case 11:
-                v = subtractWithBorrow();
-                break;                
-            case 12:
-                v = and();
+            case 0b1001:
+                A = ~A;
                 break;
-            case 13:
-                v = or();
-                break;
-            case 14:
-                v = xor();
-                break;
-            default:
-                throw new RuntimeException("Invalid function.");
-        }        
-        v &= 0xFF;
-        zero = (v == 0);
-        negative = (v & 0x80) != 0;
-        setRegister(3 & (function >> 4), v);
-    }
-    
-    private int invert() {
-        return ~C;
-    }
-    
-    private int negate() {
-        return -C;
-    }    
-    
-    private int unsignedRightShift() {
-        carry = (C & 0x01) != 0;
-        return C >>> 1;
-    }
-    
-    private int signedRightShift() {
-        carry = (C & 0x01) != 0;
-        return C >> 1;
-    }
-    
-    private int leftShift() {
-        carry = (C & 0x80) != 0;
-        return C << 1;
-    }
-    
-    private int decrement() {
-        return C - 1;
-    }
-    
-    private int increment() {
-        return C + 1;
-    }
-
-    private int subtract() {
-        final int v = C - D;
-        carry = (v & 0x100) != 0;
-        return v;
-    }
-    
-    private int subtractWithBorrow() {
-        final int v = C - D - (carry ? 1 : 0);
-        carry = (v & 0x100) != 0;
-        return v;
-    }    
-    
-    private int add() {
-        final int v = C + D;
-        carry = (v & 0x100) != 0;
-        return v;
-    }
-    
-    private int addWithCarry() {
-        final int v = C + D + (carry ? 1 : 0);
-        carry = (v & 0x100) != 0;
-        return v;
-    }    
-    
-    private int and() {
-        return C & D;
-    }
-    
-    private int or() {
-        return C | D;
-    }    
-    
-    private int xor() {
-        return C ^ D;
+        }
+        A &= 0xFF;
+        B &= 0xFF;
+        zero = (A == 0);
     }
      
     private void jump(final int bits) {
@@ -341,33 +203,10 @@ public class Emulator {
         writeMemory((MH << 8) | ML, A);
     }
     
-    private void updateFlags(final int bits) {
-        final boolean value = (bits & 1) != 0;
-        switch (bits >> 1) {
-            case 0:                
-                break;
-            case 1:
-                carry = value;
-                break;
-            case 2:
-                zero = value;
-                break;
-            case 3:
-                negative = value;
-                break;
-            default:
-                throw new RuntimeException("Invalid opcode.");
-        }
-    }
-    
     private int fetch() {
         final int value = readMemory(P);
-        incrementP();
-        return value;
-    }
-    
-    private void incrementP() {
         P = (P + 1) & 0xFFFF;
+        return value;
     }
     
     private void writeMemory(final int address, final int value) {
