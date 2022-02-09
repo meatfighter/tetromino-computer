@@ -56,7 +56,17 @@ public class Emulator {
     public int N;
     public boolean zero;
     
+    int generateNextPseudorandomNumber(int value) {
+        return ((((value >> 9) & 1) ^ ((value >> 1) & 1)) << 15) | (value >> 1);
+    }
+    
     private void launch(final String binFilename) throws Exception {
+        
+        int seed = 0x8988;
+        for (int i = 0; i < 5; ++i) {
+            System.out.format("%04X%n", seed);
+            seed = generateNextPseudorandomNumber(seed);
+        }
         
         loadBinFile(binFilename);
         
