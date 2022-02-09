@@ -5,80 +5,52 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-// P S
+// P
 // c n z
-// A B C D I J M N
+// A B M N
 //
-// T [ A B C D I J M N ] [ A B C D I J M N ]
-// 00 sss ddd
+// T [ A B M N ] [ A B M N ]
+// 0000 ss dd
 
-// A  000
-// B  001
-// C  010
-// D  011
-// E  100
-// F  101
-// M  110
-// N  111
+// 00 A
+// 01 B
+// 10 M
+// 11 N
 
-//
-// 01 ddffff
-// 0b0100_0000 A = ~I            // z, n
-// 0b0100_0001 A = -I            // z, n
-// 0b0100_0010 A = I + 1         // z, n (not c)
-// 0b0100_0011 A = I - 1         // z, n (not c)
-// 0b0100_0100 A = I >>> 1       // c, z, n
-// 0b0100_0101 A = I >> 1        // c, z, n
-// 0b0100_0110 A = I << 1        // c, z, n
+// 00010fff
 
-// 0b0100_1000 A = I + J         // c, z, n
-// 0b0100_1001 A = I + J + carry // c, z, n
-// 0b0100_1010 A = I - J         // c, z, n
-// 0b0100_1011 A = I - J - carry // c, z, n
-// 0b0100_1100 A = I & J         // z, n
-// 0b0100_1101 A = I | J         // z, n
-// 0b0100_1110 A = I ^ J         // z, n
+// A <<= 1
+// A >>= 1
+// ++A
+// --A
+// A += B
+// A -= B
+// A &= B
+// A |= B
 
-// d = A, B, C, D
+// JMP
+// 00100ffv aaaaaaaa aaaaaaaa
 
-//
-//GOTO
-//1000sffv aaaaaaaa aaaaaaaa
+// ff:
+// 00 - no condition
+// 01 - c == v
+// 10 - z == v
+// 11 - n == v
 
-// s: push address + 3 onto stack
-
-//ff:
-//00 - no condition
-//01 - c == v
-//10 - z == v
-//11 - n == v
-
-// 1001 0000
-// RTS
-
-// 1100 0ddd
+// 0011 00rr
 // [ M ] = r
 
-// 1100 1ddd
-// PUSH r
-
-// 1101 0ddd
+// 0100 00rr
 // r = [ M ]
 
-// 1101 1ddd
-// POP r
-
-// 1110 0ddd vvvvvvvv
+// 0101 00rr vvvvvvvv
 // r = v
 
-// 1110 10dd vvvvvvvv vvvvvvvv
-// d : AB,CD,IJ,MN = v
+// 0110 000r vvvvvvvv vvvvvvvv
+// r = v
 
-// 1111 00ss
-// P = AB,CD,IJ,MN
-
-// 1111 010v
-// c = v
+// 0 AB
+// 1 MN
 
 public class Emulator {
     
