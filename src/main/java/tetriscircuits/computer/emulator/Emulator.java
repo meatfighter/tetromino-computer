@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 // P
-// c n z
+// z
 // A B M N
 //
 // T [ A B M N ] [ A B M N ]
@@ -17,40 +17,32 @@ import java.io.InputStream;
 // 10 M
 // 11 N
 
-// 00010fff
-
-// A <<= 1
-// A >>= 1
+// 0001ffff
 // ++A
 // --A
+// A <<= 1
+// A >>= 1
 // A += B
 // A -= B
 // A &= B
 // A |= B
+// A ^= B
 
 // JMP
-// 00100ffv aaaaaaaa aaaaaaaa
+// 0010000z aaaaaaaa aaaaaaaa
+// z: jump if not zero
 
-// ff:
-// 00 - no condition
-// 01 - c == v
-// 10 - z == v
-// 11 - n == v
+// 0011 000r
+// [ M ] = A|B
 
-// 0011 00rr
-// [ M ] = r
+// 0100 000r
+// A|B = [ M ]
 
-// 0100 00rr
-// r = [ M ]
+// 0101 000r vvvvvvvv
+// A|B = v
 
-// 0101 00rr vvvvvvvv
-// r = v
-
-// 0110 000r vvvvvvvv vvvvvvvv
-// r = v
-
-// 0 AB
-// 1 MN
+// 0110 0000 vvvvvvvv vvvvvvvv
+// MN = v
 
 public class Emulator {
     
