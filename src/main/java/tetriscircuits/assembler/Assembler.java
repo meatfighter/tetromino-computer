@@ -38,6 +38,7 @@ public class Assembler {
         int address = 0;
         outer: while (true) {
             final Token token = tokens.get(tokenIndex);
+            System.out.println(token.getType());
             switch (token.getType()) {
                 case BYTE:
                     bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
