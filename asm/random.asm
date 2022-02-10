@@ -1,6 +1,6 @@
 seedHigh: 89
 seedLow:  88
-bit: 00
+nextBit: 00
 
 main:
 
@@ -10,45 +10,39 @@ SEB 02
 SMN seedLow
 LDA
 AND
-SMN bit
+SMN nextBit
 STA
 SMN seedHigh
 LDA
 AND
-SMN bit
+SMN nextBit
 LDB
 XOR
-LSH
-LSH
-LSH
-LSH
-LSH
-LSH
-STA                ; bit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
+BEQ bit9Clear
+SEA 80
+bit9Clear:
+STA                ; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
 
 SMN seedHigh
 LDA
-LSH
-LSH
-LSH
-LSH
-LSH
-LSH
-LSH
-TAB
+SEB 01
+AND
+BEQ bit8Clear
+SEB 80
+bit8Clear:
 SMN seedLow
 LDA
 RSH
 OR
 STA                ; seedLow = (seedHigh << 7) | (seedLow >> 1);
 
-SMN bit
+SMN nextBit
 LDB
 SMN seedHigh
 LDA
 RSH
 OR
-STA                ; seedHigh = bit | (seedHigh >> 1);
+STA                ; seedHigh = nextBit | (seedHigh >> 1);
 
 
 

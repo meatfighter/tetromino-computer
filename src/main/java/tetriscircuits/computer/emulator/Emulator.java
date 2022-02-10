@@ -30,8 +30,8 @@ import java.io.InputStream;
 // 1001 ~A
 
 // JMP
-// 0010 000z aaaaaaaa aaaaaaaa
-// z: jump if not zero
+// 0010 00zv aaaaaaaa aaaaaaaa
+// z: check zero flag against v
 
 // 0011 000r
 // [ M ] = A|B
@@ -200,9 +200,10 @@ public class Emulator {
      
     private void jump(final int bits) {
         final int target = (fetch() << 8) | fetch();
-        if ((bits & 1) == 0 || !zero) {
-            P = target;
+        if ((bits & 2) != 0 && ((bits & 1) != 0) != zero) {
+            return;
         }
+        P = target;
     }
     
     private void loadByteImmediate(final int opcode) {
