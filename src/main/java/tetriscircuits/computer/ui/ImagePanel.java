@@ -12,6 +12,10 @@ public class ImagePanel extends JPanel {
     
     private final BufferedImage image = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
     
+    private final Color BACKGROUND_COLOR = new Color(0x6A6D6A);
+    private final Color PLAYFIELD_COLOR = new Color(0x000000);
+    private final Color BLOCK_COLOR = new Color(0x4B30E3);    
+    
     public ImagePanel() {
         // TODO TESTING
         final Graphics2D g = image.createGraphics();
