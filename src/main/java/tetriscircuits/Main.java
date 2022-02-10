@@ -14,7 +14,7 @@ public class Main {
 
     public void launch() throws Exception {
         License.getLicense();
-        EventQueue.invokeLater(this::createFrame);        
+        EventQueue.invokeLater(this::createFrame);
     }
     
     private void createFrame() {        

@@ -4,7 +4,6 @@ nextBit: 00
 
 main:
 
-
 random:            
 SEB 02
 SMN seedLow
