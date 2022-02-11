@@ -2,6 +2,8 @@ package tetriscircuits.computer;
 
 import java.awt.EventQueue;
 import static java.awt.EventQueue.invokeAndWait;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.yield;
 import javax.swing.JFrame;
@@ -44,6 +46,16 @@ public class Computer {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setContentPane(imagePanel);
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                imagePanel.keyReleased(e);
+            }
+            @Override
+            public void keyPressed(final KeyEvent e) {
+                imagePanel.keyPressed(e);
+            }            
+        });
         UiUtil.setIcons(frame);
         frame.pack();
         frame.setLocationRelativeTo(null);

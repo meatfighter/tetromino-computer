@@ -2,11 +2,10 @@ package tetriscircuits.computer.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
@@ -17,30 +16,38 @@ public class ImagePanel extends JPanel {
     private final Color PLAYFIELD_COLOR = new Color(0x000000);
     private final Color BLOCK_COLOR = new Color(0x4B30E3); 
     
-    private int[] readBuffer = new int[32 * 32];
-    private int[] writeBuffer = new int[32 * 32];
-    private int[] thirdBuffer = new int[32 * 32];
+    private volatile int[] displayBuffer = new int[256 + 32 * 32];
+    private volatile int[] memoryBuffer = new int[256 + 32 * 32];
+    private volatile int[] thirdBuffer = new int[256 + 32 * 32];
     
     public ImagePanel() {
         setPreferredSize(new Dimension(512, 512));
     }
     
-    private synchronized int[] getNextWriteBuffer() {
-        final int[] tempBuffer = writeBuffer;
-        writeBuffer = thirdBuffer;
+    private synchronized int[] getNextMemoryBuffer() {
+        final int[] tempBuffer = memoryBuffer;
+        memoryBuffer = thirdBuffer;
         thirdBuffer = tempBuffer;
-        return writeBuffer;
+        return memoryBuffer;
     }
     
-    private synchronized int[] getNextReadBuffer() {
-        final int[] tempBuffer = readBuffer;
-        readBuffer = thirdBuffer;
+    private synchronized int[] getNextDisplayBuffer() {
+        final int[] tempBuffer = displayBuffer;
+        displayBuffer = thirdBuffer;
         thirdBuffer = tempBuffer;
-        return readBuffer;
-    }    
+        return displayBuffer;
+    }   
+    
+    public void keyPressed(final KeyEvent e) {
+        displayBuffer[1024 + (e.getKeyCode() & 0xFF)] = 0xFF;
+    }
+    
+    public void keyReleased(final KeyEvent e) {
+        displayBuffer[1024 + (e.getKeyCode() & 0xFF)] = 0x00;
+    }
     
     public void updateImage() {
-        final int[] buffer = getNextReadBuffer();
+        final int[] buffer = getNextDisplayBuffer();
         final Graphics2D g = image.createGraphics();
         for (int y = 31; y >= 0; --y) {
             for (int x = 31; x >= 0; --x) {
