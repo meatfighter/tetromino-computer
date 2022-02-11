@@ -39,11 +39,11 @@ public class ImagePanel extends JPanel {
     }   
     
     public void keyPressed(final KeyEvent e) {
-        displayBuffer[1024 + (e.getKeyCode() & 0xFF)] = 0xFF;
+        displayBuffer[e.getKeyCode() & 0xFF] = 0xFF;
     }
     
     public void keyReleased(final KeyEvent e) {
-        displayBuffer[1024 + (e.getKeyCode() & 0xFF)] = 0x00;
+        displayBuffer[e.getKeyCode() & 0xFF] = 0x00;
     }
     
     public void updateImage() {
@@ -52,7 +52,7 @@ public class ImagePanel extends JPanel {
         for (int y = 31; y >= 0; --y) {
             for (int x = 31; x >= 0; --x) {
                 final Color color;
-                switch (buffer[(y << 5) | x]) {
+                switch (buffer[256 + x + (y << 5)]) {
                     case 0:
                         color = PLAYFIELD_COLOR;
                         break;
