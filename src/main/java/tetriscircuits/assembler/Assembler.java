@@ -41,7 +41,7 @@ public class Assembler {
             System.out.println(token.getType());
             switch (token.getType()) {
                 case BYTE:
-                    bytes[address++ & 0xFFFF] = 0xFF & token.getNum();
+                    bytes[address++ & 0xFFFF] = 0xFF & token.getNum();                    
                     ++tokenIndex;
                     break;
                 case WORD:

@@ -22,12 +22,6 @@ public class ImagePanel extends JPanel {
     private int[] thirdBuffer = new int[32 * 32];
     
     public ImagePanel() {
-        // TODO TESTING
-        final Graphics2D g = image.createGraphics();
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, 256, 256);
-        g.dispose();
-        
         setPreferredSize(new Dimension(512, 512));
     }
     
@@ -45,7 +39,7 @@ public class ImagePanel extends JPanel {
         return readBuffer;
     }    
     
-    private void updateImage() {
+    public void updateImage() {
         final int[] buffer = getNextReadBuffer();
         final Graphics2D g = image.createGraphics();
         for (int y = 31; y >= 0; --y) {
@@ -67,6 +61,11 @@ public class ImagePanel extends JPanel {
             }
         }
         repaint();
+    }
+    
+    @Override
+    public void update(final Graphics g) {
+        paint(g);
     }
 
     @Override
