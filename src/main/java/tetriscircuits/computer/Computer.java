@@ -44,7 +44,7 @@ public class Computer {
         }
         imagePanel = new ImagePanel();
         final JFrame frame = new JFrame("Tetris Running On Tetris");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(imagePanel);
         frame.addKeyListener(new KeyAdapter() {
             @Override

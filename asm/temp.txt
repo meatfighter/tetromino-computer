@@ -1,0 +1,56 @@
+tableRow = (tetriminoType << 5) | (tetriminoRotation << 3);
+for (int i = 3; i >= 0; --i) {
+
+  mn = tetriminos;
+  a = i;
+  a <<= 1;
+  b = a;
+  a = tableRow;
+  a += b;
+  n = a;               
+  load a;
+  b = tetriminoY;
+  a += b;              ; a = *(tableRow + (i << 1)) + tetriminoY;
+  mn = p;
+  store p              ; p = a;
+
+  mn = playfieldRows;
+  b = n;
+  a += b;
+  n = a;
+  load a;
+  mn = addressHigh;
+  store a;             ; addressHigh = *(playfieldRows + p);
+
+  mn = p;
+  load a;
+  mn = playfieldRows;
+  b = n;
+  a += b;
+  ++a;
+  n = a;
+  load b;              ; b = *(playfieldRows + y + 1); // addressLow
+  mn = tetriminoX;
+  load a;
+  a += b;              ; a = addressLow + tetriminoX;
+  
+  mn = addressHigh;
+  load b;
+  m = b;
+  n = a;
+  a = 1;
+  store a;
+  
+
+
+  
+  u = tableRow | (i << 1);
+  y = *u + tetriminoY;
+  addressHigh = *(playfieldRows + y);
+  addressLow = *(playfieldRows + y + 1);
+  ++u;
+  addressLow += *u;
+  addressLow += tetriminoX;    
+  
+  *(addressHigh | addressLow) = 1;
+}

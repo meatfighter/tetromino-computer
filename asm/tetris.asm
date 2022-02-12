@@ -1,61 +1,144 @@
-define playfield         FCC0 
-define playfieldOffsetX  0B
-define halt              FB00
-define haltValue         FF
+define render            FB00
+define renderValue       FF
+define vramHigh          FC
+define playfield         CB
 
 tetriminos:
-; X0 Y0  X1 Y1  X2 Y2  X3 Y3
+; Y0 X0  Y1 X1  Y2 X2  Y3 X3
+  00 FF  00 00  00 01  01 00  ; 00 Td
+  FF 00  00 FF  00 00  01 00  ; 01 Tl
+  00 FF  00 00  00 01  FF 00  ; 02 Tu
+  FF 00  00 00  00 01  01 00  ; 03 Tr
 
-  FF 00  00 00  01 00  00 01  ; 00 Td
-  00 FF  FF 00  00 00  00 01  ; 01 Tl
-  FF 00  00 00  01 00  00 FF  ; 02 Tu
-  00 FF  00 00  01 00  00 01  ; 03 Tr
+  00 FF  00 00  00 01  01 01  ; 04 Jd
+  FF 00  00 00  01 FF  01 00  ; 05 Jl
+  FF FF  00 FF  00 00  00 01  ; 06 Ju
+  FF 00  FF 01  00 00  01 00  ; 07 Jr
 
-  FF 00  00 00  01 00  01 01  ; 04 Jd
-  00 FF  00 00  FF 01  00 01  ; 05 Jl
-  FF FF  FF 00  00 00  01 00  ; 06 Ju
-  00 FF  01 FF  00 00  00 01  ; 07 Jr
+  00 FF  00 00  01 00  01 01  ; 08 Zh
+  FF 01  00 00  00 01  01 00  ; 09 Zv
+  00 FF  00 00  01 00  01 01  ; 0A Zh
+  FF 01  00 00  00 01  01 00  ; 0B Zv
 
-  FF 00  00 00  00 01  01 01  ; 08 Zh
-  01 FF  00 00  01 00  00 01  ; 09 Zv
-  FF 00  00 00  00 01  01 01  ; 0A Zh
-  01 FF  00 00  01 00  00 01  ; 0B Zv
+  00 FF  00 00  01 FF  01 00  ; 0C O
+  00 FF  00 00  01 FF  01 00  ; 0D O
+  00 FF  00 00  01 FF  01 00  ; 0E O
+  00 FF  00 00  01 FF  01 00  ; 0F O
 
-  FF 00  00 00  FF 01  00 01  ; 0C O
-  FF 00  00 00  FF 01  00 01  ; OD O
-  FF 00  00 00  FF 01  00 01  ; OE O
-  FF 00  00 00  FF 01  00 01  ; OF O
+  00 00  00 01  01 FF  01 00  ; 10 Sh
+  FF 00  00 00  00 01  01 01  ; 11 Sv
+  00 00  00 01  01 FF  01 00  ; 12 Sh
+  FF 00  00 00  00 01  01 01  ; 13 Sv
 
-  00 00  01 00  FF 01  00 01  ; 10 Sh
-  00 FF  00 00  01 00  01 01  ; 11 Sv
-  00 00  01 00  FF 01  00 01  ; 12 Sh
-  00 FF  00 00  01 00  01 01  ; 13 Sv
+  00 FF  00 00  00 01  01 FF  ; 14 Ld
+  FF FF  FF 00  00 00  01 00  ; 15 Ll
+  FF 01  00 FF  00 00  00 01  ; 16 Lu
+  FF 00  00 00  01 00  01 01  ; 17 Lr
 
-  FF 00  00 00  01 00  FF 01  ; 14 Ld
-  FF FF  00 FF  00 00  00 01  ; 15 Ll
-  01 FF  FF 00  00 00  01 00  ; 16 Lu
-  00 FF  00 00  00 01  01 01  ; 17 Lr
+  00 FE  00 FF  00 00  00 01  ; 18 Ih
+  FE 00  FF 00  00 00  01 00  ; 19 Iv
+  00 FE  00 FF  00 00  00 01  ; 1A Ih
+  FE 00  FF 00  00 00  01 00  ; 1B Iv
 
-  FE 00  FF 00  00 00  01 00  ; 18 Ih
-  00 FE  00 FF  00 00  00 01  ; 19 Iv
-  FE 00  FF 00  00 00  01 00  ; 1A Ih
-  00 FE  00 FF  00 00  00 01  ; 1B Iv
+;                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF
+playfieldRowsLow:  CB EB 0B 2B 4B 6B 8B AB CB EB 0B 2B 4B 6B 8B AB CB EB 0B 2B
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 00 ; 00--03
 tetriminoX:        05 ; 00--09
 tetriminoY:        05 ; 00--14
+
 i:                 00
+x:                 00
+y:                 00
+tableRow:          00
+addressHigh:       00
 
 main:
 
-for (int i = 3; i >= 0; --i) {
-  (tetriminoType << 5) | (tetriminoRotation << 3)
-}
+; Draw tetrimino
 
+SMN tetriminoType
+LDA
+LSH
+LSH
+LSH
+LSH
+LSH
+TAB
+SMN tetriminoRotation
+LDA
+LSH
+LSH
+LSH
+ADD
+SMN tableRow
+STA                     ; tableRow = (tetriminoType << 5) + (tetriminoRotation << 3); 
 
-SMN halt           ; Display frame
-SEA haltValue
+SMN i
+SEA 03
+STA                     ; i = 3;
+
+drawLoop:
+
+LSH
+TAB
+SMN tableRow
+LDA
+ADD
+SMN tetriminos
+TAN
+LDA
+SMN tetriminoY
+LDB
+ADD
+SMN y
+STA                     ; y = *(tetriminos + tableRow + (i << 1)) + tetriminoY;
+
+SMN playfieldRowsHigh
+TNB
+ADD
+TAN
+LDA
+SMN addressHigh         ; addressHigh = playfieldRowsHigh[y];
+STA
+
+TAB
+SMN i
+LDA
+LSH
+ADD
+TAB
+SMN tableRow
+LDA
+ADD
+INC
+SMN tetriminos
+TAN
+LDA
+
+SMN addressHigh
+LDB
+TBM
+TAN  
+SEA 01
+STA                     ; *((addressHigh << 8) | a) = 1;
+
+SMN i
+LDA
+CLB                     
+SUB                     ; if (i == 0) {
+BEQ endDrawLoop         ;   goto endDrawLoop;
+                        ; }
+DEC                     
+STA                     ; --i;
+JMP drawLoop            ; goto drawLoop;
+
+endDrawLoop:
+
+SMN render              ; Render frame
+SEA renderValue
 STA
 
 JMP main

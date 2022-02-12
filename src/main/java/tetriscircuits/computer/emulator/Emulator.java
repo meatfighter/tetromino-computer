@@ -104,6 +104,9 @@ public class Emulator {
             case 0b0110:
                 loadMN();
                 break;
+            case 0b1111:
+                print();
+                break;
         }
     }
     
@@ -221,6 +224,11 @@ public class Emulator {
     private void loadMN() {
         M = fetch();
         N = fetch();
+    }
+    
+    private void print() {
+        final int v = readMemory((fetch() << 8) | fetch());
+        System.out.format("%d %02X%n", v, v);
     }
     
     private void load(final int opcode) {

@@ -37,7 +37,9 @@ enum Operator {
     TNA(0b0000_11_00),
     TNB(0b0000_11_01),
     TNM(0b0000_11_10),
-    XOR(0b0001_1000);
+    XOR(0b0001_1000),
+    
+    PRINT(0b1111_1111, 3); // TODO REMOVE
     
     private final int opcode;
     private final int length;
