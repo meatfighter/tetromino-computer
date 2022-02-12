@@ -14,40 +14,26 @@ public class ImagePanel extends JPanel {
     
     private final Color BACKGROUND_COLOR = new Color(0x6A6D6A);
     private final Color PLAYFIELD_COLOR = new Color(0x000000);
-    private final Color BLOCK_COLOR = new Color(0x4B30E3); 
+    private final Color BLOCK_COLOR = new Color(0x4B30E3);
     
-    private volatile int[] displayBuffer = new int[256 + 32 * 32];
-    private volatile int[] memoryBuffer = new int[256 + 32 * 32];
-    private volatile int[] thirdBuffer = new int[256 + 32 * 32];
-    
+    private final int[] buffer = new int[256 + 32 * 32];
+       
     public ImagePanel() {
         setPreferredSize(new Dimension(512, 512));
     }
     
-    private synchronized int[] getNextMemoryBuffer() {
-        final int[] tempBuffer = memoryBuffer;
-        memoryBuffer = thirdBuffer;
-        thirdBuffer = tempBuffer;
-        return memoryBuffer;
-    }
-    
-    private synchronized int[] getNextDisplayBuffer() {
-        final int[] tempBuffer = displayBuffer;
-        displayBuffer = thirdBuffer;
-        thirdBuffer = tempBuffer;
-        return displayBuffer;
-    }   
-    
     public void keyPressed(final KeyEvent e) {
-        displayBuffer[e.getKeyCode() & 0xFF] = 0xFF;
+        buffer[e.getKeyCode() & 0xFF] = 0xFF;
     }
     
     public void keyReleased(final KeyEvent e) {
-        displayBuffer[e.getKeyCode() & 0xFF] = 0x00;
+        buffer[e.getKeyCode() & 0xFF] = 0x00;
     }
     
-    public void updateImage() {
-        final int[] buffer = getNextDisplayBuffer();
+    public void updateImage(final int[] memory) {
+        System.arraycopy(memory, 0xFC00, buffer, 0x0100, 0x0400);
+        System.arraycopy(buffer, 0x0000, memory, 0xFB00, 0x0100);
+        
         final Graphics2D g = image.createGraphics();
         for (int y = 31; y >= 0; --y) {
             for (int x = 31; x >= 0; --x) {

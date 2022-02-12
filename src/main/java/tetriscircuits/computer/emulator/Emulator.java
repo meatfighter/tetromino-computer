@@ -47,14 +47,14 @@ import java.io.InputStream;
 
 public class Emulator {
     
-    public final int[] memory = new int[0x10000];
+    private final int[] memory = new int[0x10000];
     
-    public int P;
-    public int A;
-    public int B;
-    public int M;
-    public int N;
-    public boolean zero;
+    private int P;
+    private int A;
+    private int B;
+    private int M;
+    private int N;
+    private boolean zero;
     
     int generateNextPseudorandomNumber(int value) {
         return ((((value >> 9) & 1) ^ ((value >> 1) & 1)) << 15) | (value >> 1);
@@ -76,34 +76,38 @@ public class Emulator {
                     P, A, B, M, N, zero, memory[0], memory[1], memory[2]);
             Thread.sleep(10);
             
-            final int opcode = fetch();
-            switch ((opcode >> 4) & 0b1111) {
-                case 0b0000:
-                    transfer((opcode >> 2) & 0b11, opcode & 0b11);
-                    break;
-                case 0b0001:
-                    compute(opcode);
-                    break;
-                case 0b0010:
-                    jump(opcode);
-                    break;
-                case 0b0011:
-                    store(opcode);
-                    break;
-                case 0b0100:
-                    load(opcode);
-                    break;
-                case 0b0101:
-                    loadByteImmediate(opcode);
-                    break;
-                case 0b0110:
-                    loadMN();
-                    break;
-            }
+            runInstruction();
         }
     }
     
-    private void loadBinFile(final String binFilename) throws IOException {
+    public void runInstruction() {
+        final int opcode = fetch();
+        switch ((opcode >> 4) & 0b1111) {
+            case 0b0000:
+                transfer((opcode >> 2) & 0b11, opcode & 0b11);
+                break;
+            case 0b0001:
+                compute(opcode);
+                break;
+            case 0b0010:
+                jump(opcode);
+                break;
+            case 0b0011:
+                store(opcode);
+                break;
+            case 0b0100:
+                load(opcode);
+                break;
+            case 0b0101:
+                loadByteImmediate(opcode);
+                break;
+            case 0b0110:
+                loadMN();
+                break;
+        }
+    }
+    
+    public void loadBinFile(final String binFilename) throws IOException {
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
             for (int address = 0; address < 0x10000; ++address) {
                 final int b = in.read();
@@ -244,6 +248,10 @@ public class Emulator {
     
     private int readMemory(final int address) {
         return memory[address & 0xFFFF];
+    }
+
+    public int[] getMemory() {
+        return memory;
     }
     
     public static void main(final String... args) throws Exception {
