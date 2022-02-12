@@ -50,12 +50,12 @@ public class GenerateTetriminoTable {
 
     public static void main(final String... args) {
         System.out.println("tetriminos:");
-        System.out.println("; Y0 X0  Y1 X1  Y2 X2  Y3 X3");
+        System.out.println("; X0 Y0  X1 Y1  X2 Y2  X3 Y3");
         for (int i = 0; i < TETRIMINOS.length; ++i) {
             final int[][] blocks = TETRIMINOS[i];
             System.out.print("  ");
             for (final int[] bs : blocks) {
-                System.out.format("%02X %02X  ", 0xFF & bs[1], 0xFF & bs[0]);
+                System.out.format("%02X %02X  ", 0xFF & bs[0], 0xFF & bs[1]);
             }
             System.out.format("; %02X %s%n", i, NAMES[i]);
             if ((i & 3) == 3) {
@@ -69,12 +69,12 @@ public class GenerateTetriminoTable {
         System.out.println();
         System.out.print("playfieldRowsHigh: ");
         for (int i = 0; i < 20; ++i) {
-            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCB + (i << 5)) >> 8);
+            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCC + (i << 5)) >> 8);
         }
         System.out.println();
         System.out.print("playfieldRowsLow:  ");
         for (int i = 0; i < 20; ++i) {
-            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCB + (i << 5)) & 0xFF);
+            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCC + (i << 5)) & 0xFF);
         }
         System.out.println();
     }

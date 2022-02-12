@@ -2,57 +2,61 @@ define render            FB00
 define renderValue       FF
 define vramHigh          FC
 define playfield         CB
+define solid             01
 
+segment 0000
 tetriminos:
-; Y0 X0  Y1 X1  Y2 X2  Y3 X3
-  00 FF  00 00  00 01  01 00  ; 00 Td
-  FF 00  00 FF  00 00  01 00  ; 01 Tl
-  00 FF  00 00  00 01  FF 00  ; 02 Tu
-  FF 00  00 00  00 01  01 00  ; 03 Tr
+; X0 Y0  X1 Y1  X2 Y2  X3 Y3
+  FF 00  00 00  01 00  00 01  ; 00 Td
+  00 FF  FF 00  00 00  00 01  ; 01 Tl
+  FF 00  00 00  01 00  00 FF  ; 02 Tu
+  00 FF  00 00  01 00  00 01  ; 03 Tr
 
-  00 FF  00 00  00 01  01 01  ; 04 Jd
-  FF 00  00 00  01 FF  01 00  ; 05 Jl
-  FF FF  00 FF  00 00  00 01  ; 06 Ju
-  FF 00  FF 01  00 00  01 00  ; 07 Jr
+  FF 00  00 00  01 00  01 01  ; 04 Jd
+  00 FF  00 00  FF 01  00 01  ; 05 Jl
+  FF FF  FF 00  00 00  01 00  ; 06 Ju
+  00 FF  01 FF  00 00  00 01  ; 07 Jr
 
-  00 FF  00 00  01 00  01 01  ; 08 Zh
-  FF 01  00 00  00 01  01 00  ; 09 Zv
-  00 FF  00 00  01 00  01 01  ; 0A Zh
-  FF 01  00 00  00 01  01 00  ; 0B Zv
+  FF 00  00 00  00 01  01 01  ; 08 Zh
+  01 FF  00 00  01 00  00 01  ; 09 Zv
+  FF 00  00 00  00 01  01 01  ; 0A Zh
+  01 FF  00 00  01 00  00 01  ; 0B Zv
 
-  00 FF  00 00  01 FF  01 00  ; 0C O
-  00 FF  00 00  01 FF  01 00  ; 0D O
-  00 FF  00 00  01 FF  01 00  ; 0E O
-  00 FF  00 00  01 FF  01 00  ; 0F O
+  FF 00  00 00  FF 01  00 01  ; 0C O
+  FF 00  00 00  FF 01  00 01  ; 0D O
+  FF 00  00 00  FF 01  00 01  ; 0E O
+  FF 00  00 00  FF 01  00 01  ; 0F O
 
-  00 00  00 01  01 FF  01 00  ; 10 Sh
-  FF 00  00 00  00 01  01 01  ; 11 Sv
-  00 00  00 01  01 FF  01 00  ; 12 Sh
-  FF 00  00 00  00 01  01 01  ; 13 Sv
+  00 00  01 00  FF 01  00 01  ; 10 Sh
+  00 FF  00 00  01 00  01 01  ; 11 Sv
+  00 00  01 00  FF 01  00 01  ; 12 Sh
+  00 FF  00 00  01 00  01 01  ; 13 Sv
 
-  00 FF  00 00  00 01  01 FF  ; 14 Ld
-  FF FF  FF 00  00 00  01 00  ; 15 Ll
-  FF 01  00 FF  00 00  00 01  ; 16 Lu
-  FF 00  00 00  01 00  01 01  ; 17 Lr
+  FF 00  00 00  01 00  FF 01  ; 14 Ld
+  FF FF  00 FF  00 00  00 01  ; 15 Ll
+  01 FF  FF 00  00 00  01 00  ; 16 Lu
+  00 FF  00 00  00 01  01 01  ; 17 Lr
 
-  00 FE  00 FF  00 00  00 01  ; 18 Ih
-  FE 00  FF 00  00 00  01 00  ; 19 Iv
-  00 FE  00 FF  00 00  00 01  ; 1A Ih
-  FE 00  FF 00  00 00  01 00  ; 1B Iv
+  FE 00  FF 00  00 00  01 00  ; 18 Ih
+  00 FE  00 FF  00 00  00 01  ; 19 Iv
+  FE 00  FF 00  00 00  01 00  ; 1A Ih
+  00 FE  00 FF  00 00  00 01  ; 1B Iv
 
+segment 0100
 ;                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
 playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF
-playfieldRowsLow:  CB EB 0B 2B 4B 6B 8B AB CB EB 0B 2B 4B 6B 8B AB CB EB 0B 2B
+playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 00 ; 00--03
-tetriminoX:        05 ; 00--09
-tetriminoY:        05 ; 00--14
+tetriminoX:        00 ; 00--09
+tetriminoY:        00 ; 00--13
 
 i:                 00
-x:                 00
-y:                 00
-tableRow:          00
+blockX:            00
+blockY:            00
+rowOffset:         00
+tableIndex:        00
 addressHigh:       00
 
 main:
@@ -73,8 +77,8 @@ LSH
 LSH
 LSH
 ADD
-SMN tableRow
-STA                     ; tableRow = (tetriminoType << 5) + (tetriminoRotation << 3); 
+SMN rowOffset
+STA                     ; rowOffset = (tetriminoType << 5) + (tetriminoRotation << 3); 
 
 SMN i
 SEA 03
@@ -83,47 +87,58 @@ STA                     ; i = 3;
 drawLoop:
 
 LSH
-TAB
-SMN tableRow
-LDA
+SMN rowOffset
+LDB
 ADD
+SMN tableIndex          
+STA                     ; tableIndex = rowOffset + (i << 1);
+
+SMN tetriminos
+TAN
+LDA
+SMN tetriminoX
+LDB
+ADD
+SMN blockX              
+STA                     ; blockX = tetriminos[tableIndex] + tetriminoX;
+
+SMN tableIndex
+LDA
+INC
 SMN tetriminos
 TAN
 LDA
 SMN tetriminoY
 LDB
-ADD
-SMN y
-STA                     ; y = *(tetriminos + tableRow + (i << 1)) + tetriminoY;
+ADD                     
+SMN blockY              
+STA                     ; blockY = tetriminos[tableIndex + 1] + tetriminoY;
 
 SMN playfieldRowsHigh
 TNB
 ADD
 TAN
 LDA
-SMN addressHigh         ; addressHigh = playfieldRowsHigh[y];
+SMN addressHigh         ; addressHigh = playfieldRowsHigh[blockY];
 STA
 
-TAB
-SMN i
+SMN blockY
 LDA
-LSH
+SMN playfieldRowsLow
+TNB
 ADD
-TAB
-SMN tableRow
-LDA
-ADD
-INC
-SMN tetriminos
 TAN
-LDA
+LDA                    
+SMN blockX
+LDB
+ADD                     ; A = playfieldRowsLow[blockY] + blockX;
 
 SMN addressHigh
 LDB
 TBM
 TAN  
-SEA 01
-STA                     ; *((addressHigh << 8) | a) = 1;
+SEA solid
+STA                     ; *((addressHigh << 8) | A) = solid;
 
 SMN i
 LDA
