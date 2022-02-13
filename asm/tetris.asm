@@ -1,6 +1,11 @@
 define render            FB00
 define renderValue       FF
 define empty             00
+define solid             01
+define releasedValue     00
+define pressedValue      FF
+define ccwButton         FB5A
+define cwButton          FB58     
 
 segment 0000
 tetriminos:
@@ -46,14 +51,17 @@ playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF F
 playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
-tetriminoRotation: 00 ; 00--03
-tetriminoX:        05 ; 00--09
-tetriminoY:        00 ; 00--13
+tetriminoRotation: 01 ; 00--03
+tetriminoX:        09 ; 00--09
+tetriminoY:        05 ; 00--13
 
 testType:          00 ; 00--06 (T, J, Z, O, S, L, I)
 testRotation:      00 ; 00--03
-testX:             05 ; 00--09
+testX:             00 ; 00--09
 testY:             00 ; 00--13
+
+lastCcw:           00 ; prior value of counterclockwise rotation button
+lastCw:            00 ; prior value of clockwise rotation button
 
 tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
@@ -62,21 +70,162 @@ blockY:            00
 tableIndex:        00
 addressHigh:       00
 
-
 main: ; ----------------------------------------------------------------------------------------------------------------
 
-; init drawTile
 SEA 01
 SMN drawTile+1
 STA
+JSR drawTetrimino
 
 mainLoop:
 
-JSR testTetrimino
-BNE doNotDraw
-JSR drawTetrimino
+; Handle counterclockwise rotation -------------------------------------------------------------------------------------
+SMN ccwButton
+LDA
+SEB pressedValue
+SUB                     ; if (ccwButton != pressedValue) {
+BNE noCcw               ;   goto noCcw;
+                        ; }
+SMN lastCcw
+LDA
+SEB releasedValue
+SUB                     ; if (lastCcw != releasedValue) {
+BNE noCcw               ;   goto noCcw;
+                        ; }
+SMN tetriminoType
+LDA
+SMN testType
+STA                     ; testType = tetriminoType;
+SMN tetriminoX
+LDA
+SMN testX
+STA                     ; testX = tetriminoX;
+SMN tetriminoY
+LDA
+SMN testY
+STA                     ; testY = tetriminoY;
 
-doNotDraw:
+SMN tetriminoRotation
+LDA
+DEC
+BPL noCcwRollover       ; if (tetriminoRotation - 1 < 0) {
+SEA 03                  ;   testRotation = 3;
+noCcwRollover:          ; } else {
+SMN testRotation        ;   testRotation = tetriminoRotation - 1;
+STA                     ; }
+
+SEA empty
+SMN drawTile+1
+STA                     ; [drawTile+1] = empty;
+JSR drawTetrimino       ; drawTetrimino();
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE drawCcw             ;   goto drawCcw;
+                        ; }
+SMN testType
+LDA
+SMN tetriminoType
+STA                     ; tetriminoType = testType;
+SMN testRotation
+LDA
+SMN tetriminoRotation
+STA                     ; tetriminoRotation = testRotation;
+SMN testX
+LDA
+SMN tetriminoX
+STA                     ; tetriminoX = testX;
+SMN testY
+LDA
+SMN tetriminoY
+STA                     ; tetriminoY = testY;
+
+drawCcw:
+SEA solid
+SMN drawTile+1
+STA                     ; [drawTile+1] = solid;
+JSR drawTetrimino       ; drawTetrimino();
+
+noCcw:
+SMN ccwButton
+LDA
+SMN lastCcw
+STA                     ; lastCcw = ccwButton;  // ---------------------------------------------------------------------
+
+
+; Handle clockwise rotation --------------------------------------------------------------------------------------------
+SMN cwButton
+LDA
+SEB pressedValue
+SUB                     ; if (cwButton != pressedValue) {
+BNE noCw                ;   goto noCw;
+                        ; }
+SMN lastCw
+LDA
+SEB releasedValue
+SUB                     ; if (lastCw != releasedValue) {
+BNE noCw                ;   goto noCw;
+                        ; }
+SMN tetriminoType
+LDA
+SMN testType
+STA                     ; testType = tetriminoType;
+SMN tetriminoX
+LDA
+SMN testX
+STA                     ; testX = tetriminoX;
+SMN tetriminoY
+LDA
+SMN testY
+STA                     ; testY = tetriminoY;
+
+SMN tetriminoRotation
+LDA
+INC
+TAB
+SEA 04
+SUB
+BNE noCwRollover        ; if (tetriminoRotation + 1 == 4) {
+SEB 00                  ;   testRotation = 0;
+noCwRollover:           ; } else {
+SMN testRotation        ;   testRotation = tetriminoRotation + 1;
+STB                     ; }
+
+SEA empty
+SMN drawTile+1
+STA                     ; [drawTile+1] = empty;
+JSR drawTetrimino       ; drawTetrimino();
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE drawCw              ;    goto drawCw;
+                        ; }
+SMN testType
+LDA
+SMN tetriminoType
+STA                     ; tetriminoType = testType;
+SMN testRotation
+LDA
+SMN tetriminoRotation
+STA                     ; tetriminoRotation = testRotation;
+SMN testX
+LDA
+SMN tetriminoX
+STA                     ; tetriminoX = testX;
+SMN testY
+LDA
+SMN tetriminoY
+STA                     ; tetriminoY = testY;
+
+drawCw:
+SEA solid
+SMN drawTile+1
+STA                     ; [drawTile+1] = solid;
+JSR drawTetrimino       ; drawTetrimino();
+
+noCw:
+SMN cwButton
+LDA
+SMN lastCw
+STA                     ; lastCw = cwButton;  // -----------------------------------------------------------------------
 
 
 SMN render              ; Render frame
