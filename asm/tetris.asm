@@ -55,13 +55,21 @@ segment 0100
 playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF FF
 playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
 
+segment 0200
+;       level:  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+framesPerDrop: 30 2B 26 21 1C 17 12 0D 08 06 05 05 05 04 04 04 03 03 03 02 02 02 02 02 02 02 02 02 02 01
+
+level:             03
+fallTimer:         01
+holdDownPoints:    00
 autorepeatX:       00
-autorepeatY:       00 
+autorepeatY:       01
+dropSpeed:         01
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
-tetriminoRotation: 01 ; 00--03
+tetriminoRotation: 00 ; 00--03
 tetriminoX:        05 ; 00--09
-tetriminoY:        05 ; 00--13
+tetriminoY:        00 ; 00--13
 
 lastLeft:          00 ; prior value of left button
 lastRight:         00 ; prior value of right button
@@ -266,6 +274,11 @@ STA                     ; lastRight = rightButton; // --------------------------
 
 
 ; Handle drop ----------------------------------------------------------------------------------------------------------
+SMN fallTimer
+LDA
+INC
+STA                     ; ++fallTimer;
+
 SMN autorepeatY
 LDA                     ; if (autorepeatY > 0) {
 BPL autorepeating       ;   goto autorepeating;
@@ -273,6 +286,166 @@ BPL autorepeating       ;   goto autorepeating;
 BEQ playing             ;   goto playing;
                         ; }
 
+                        ; game just started
+                        ; initial Tetrimino hanging at spawn point
+
+SMN lastDown
+LDA                     ; if (lastDown != releasedButton) {
+BNE incrementAutorepeatY;   goto incrementAutorepeatY;
+                        ; }
+SMN downButton
+LDA                     ; if (downButton == releasedButton) {
+BEQ incrementAutorepeatY;   goto incrementAutorepeatY;
+                        ; }
+
+                        ; player just pressed down ending startup delay
+
+SMN autorepeatY
+SEA 00
+STA                     ; autorpeatY = 0;
+
+playing:
+SMN leftButton
+LDA                     ; if (leftButton != releasedButton) {
+BNE lookupDropSpeed     ;   goto lookupDropSpeed;
+                        ; }
+SMN rightButton
+LDA                     ; if (rightButton != releasedButton) {
+BNE lookupDropSpeed     ;   goto lookupDropSpeed;
+                        ; }
+
+                        ; left/right not pressed
+
+SMN lastDown
+LDA                     ; if (lastDown != releasedButton) {
+BNE lookupDropSpeed     ;   goto lookupDropSpeed;
+                        ; }
+SMN downButton
+LDA                     ; if (downButton == releasedButton) {
+BEQ lookupDropSpeed     ;   goto lookupDropSpeed;
+                        ; }
+
+                        ; player exclusively just presssed down
+
+SMN autorepeatY
+SEA 01
+STA                     ; autorepeatY = 1;
+
+JMP lookupDropSpeed     ; goto lookupDropSpeed;
+
+autorepeating:
+SMN leftButton
+LDA                     ; if (leftButton != releasedButton) {
+BNE downReleased        ;   goto downReleased;
+                        ; }
+SMN rightButton
+LDA                     ; if (rightButton != releasedButton) {
+BNE downReleased        ;   goto downReleased;
+                        ; }
+SMN downButton
+LDA                     ; if (downButton != releasedButton) {
+BNE downPressed         ;   goto downPressed;
+                        ; }
+downReleased:
+SEA 00
+SMN autorepeatY         
+STA                     ; autorepeatY = 0;
+SMN holdDownPoints      
+STA                     ; holdDownPoints = 0;
+
+JMP lookupDropSpeed     ; goto lookupDropSpeed;
+
+downPressed:
+SMN autorepeatY
+LDA
+INC
+STA                     
+SEB 03
+SUB                     ; if (++autorepeatY < 3) {
+BMI lookupDropSpeed     ;   goto lookupDropSpeed;
+                        ; }
+SEA 01
+SMN autorepeatY         
+STA                     ; autorepeatY = 1;
+
+SMN holdDownPoints
+LDA
+INC
+STA                     ; ++holdDownPoints;
+
+drop:
+SEA 00
+SMN fallTimer
+STA                     ; fallTimer = 0;
+
+SMN tetriminoY
+LDA
+SMN originalValue
+STA                     ; originalValue = tetriminoY;
+
+SMN tetriminoY
+LDA
+INC
+STA                     ; ++tetriminoY
+
+JSR testTetrimino       ; if (testTetrimino()) {
+BEQ endDrop             ;   goto endDrop;
+                        ; }
+
+                        ; the piece is locked
+
+SMN originalValue
+LDA
+SMN tetriminoY
+STA                     ; tetriminoY = originalValue;
+
+; TODO PIECE LOCKED <------------------------------------------ !!!!!!!!!!!!!!!!!!!!!
+
+JMP endDrop             ; goto endDrop;
+
+lookupDropSpeed:
+SMN level
+LDA
+SEB 1D
+SUB                     ; if (level < 29) {
+BMI tableLookup         ;   goto tableLookup;
+                        ; }
+SEA 01                  ; A = 1;
+JMP noTableLookup       ; goto noTableLookup;
+
+tableLookup:
+SMN level
+LDA
+SMN framesPerDrop
+TNB
+ADD
+TAN
+LDA                     ; A = framesPerDrop[level];
+
+noTableLookup:
+SMN dropSpeed
+STA                     ; dropSpeed = A;
+
+SMN fallTimer
+LDB
+SUB
+BEQ drop                ; if (fallTimer >= dropSpeed) {
+BMI drop                ;   goto drop;
+                        ; }
+
+JMP endDrop             ; goto endDrop;
+
+incrementAutorepeatY:
+SMN autorepeatY
+LDA
+INC
+STA                     ; ++autorepeatY;
+
+endDrop:
+SMN downButton
+LDA
+SMN lastDown
+STA                     ; lastDown = downButton;  // -------------------------------------------------------------------
 
 
 SEA solid
