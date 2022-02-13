@@ -4,8 +4,13 @@ define empty             00
 define solid             01
 define releasedValue     00
 define pressedValue      FF
+define leftButton        FB25
+define rightButton       FB27
+define downButton        FB28
 define ccwButton         FB5A
-define cwButton          FB58     
+define cwButton          FB58
+define longRepeat        10
+define shortRepeat       0A
 
 segment 0000
 tetriminos:
@@ -50,16 +55,16 @@ segment 0100
 playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF FF
 playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
 
+autorepeatX:       00 
+
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 01 ; 00--03
-tetriminoX:        09 ; 00--09
+tetriminoX:        05 ; 00--09
 tetriminoY:        05 ; 00--13
 
-testType:          00 ; 00--06 (T, J, Z, O, S, L, I)
-testRotation:      00 ; 00--03
-testX:             00 ; 00--09
-testY:             00 ; 00--13
-
+lastLeft:          00 ; prior value of left button
+lastRight:         00 ; prior value of right button
+lastDown:          00 ; prior value of down button
 lastCcw:           00 ; prior value of counterclockwise rotation button
 lastCw:            00 ; prior value of clockwise rotation button
 
@@ -69,6 +74,7 @@ blockX:            00
 blockY:            00
 tableIndex:        00
 addressHigh:       00
+originalValue:     00
 
 main: ; ----------------------------------------------------------------------------------------------------------------
 
@@ -79,73 +85,46 @@ JSR drawTetrimino
 
 mainLoop:
 
-; Handle counterclockwise rotation -------------------------------------------------------------------------------------
-SMN ccwButton
-LDA
-SEB pressedValue
-SUB                     ; if (ccwButton != pressedValue) {
-BNE noCcw               ;   goto noCcw;
-                        ; }
-SMN lastCcw
-LDA
-SEB releasedValue
-SUB                     ; if (lastCcw != releasedValue) {
-BNE noCcw               ;   goto noCcw;
-                        ; }
-SMN tetriminoType
-LDA
-SMN testType
-STA                     ; testType = tetriminoType;
-SMN tetriminoX
-LDA
-SMN testX
-STA                     ; testX = tetriminoX;
-SMN tetriminoY
-LDA
-SMN testY
-STA                     ; testY = tetriminoY;
-
-SMN tetriminoRotation
-LDA
-DEC
-BPL noCcwRollover       ; if (tetriminoRotation - 1 < 0) {
-SEA 03                  ;   testRotation = 3;
-noCcwRollover:          ; } else {
-SMN testRotation        ;   testRotation = tetriminoRotation - 1;
-STA                     ; }
-
 SEA empty
 SMN drawTile+1
 STA                     ; [drawTile+1] = empty;
 JSR drawTetrimino       ; drawTetrimino();
 
-JSR testTetrimino       ; if (!testTetrimino()) {
-BNE drawCcw             ;   goto drawCcw;
-                        ; }
-SMN testType
+; Handle counterclockwise rotation -------------------------------------------------------------------------------------
+SMN ccwButton
 LDA
-SMN tetriminoType
-STA                     ; tetriminoType = testType;
-SMN testRotation
+SEB pressedValue
+SUB                     ; if (ccwButton != pressedValue) {
+BNE endCcw              ;   goto endCcw;
+                        ; }
+SMN lastCcw
+LDA
+SEB releasedValue
+SUB                     ; if (lastCcw != releasedValue) {
+BNE endCcw              ;   goto endCcw;
+                        ; }
+SMN tetriminoRotation
+LDA
+SMN originalValue
+STA                     ; originalValue = tetriminoRotation;
+
+SMN tetriminoRotation
+LDA
+DEC
+BPL noCcwRollover       
+SEA 03                  ; if (--tetriminoRotation == 0) {
+noCcwRollover:          ;   tetriminoRotation = 3;
+STA                     ; }
+
+JSR testTetrimino       ; if (testTetrimino()) {
+BEQ endCcw              ;   goto endCcw;
+                        ; }
+SMN originalValue
 LDA
 SMN tetriminoRotation
-STA                     ; tetriminoRotation = testRotation;
-SMN testX
-LDA
-SMN tetriminoX
-STA                     ; tetriminoX = testX;
-SMN testY
-LDA
-SMN tetriminoY
-STA                     ; tetriminoY = testY;
+STA                     ; tetriminoRotation = originalValue;
 
-drawCcw:
-SEA solid
-SMN drawTile+1
-STA                     ; [drawTile+1] = solid;
-JSR drawTetrimino       ; drawTetrimino();
-
-noCcw:
+endCcw:
 SMN ccwButton
 LDA
 SMN lastCcw
@@ -157,76 +136,154 @@ SMN cwButton
 LDA
 SEB pressedValue
 SUB                     ; if (cwButton != pressedValue) {
-BNE noCw                ;   goto noCw;
+BNE endCw               ;   goto endCw;
                         ; }
 SMN lastCw
 LDA
 SEB releasedValue
 SUB                     ; if (lastCw != releasedValue) {
-BNE noCw                ;   goto noCw;
+BNE endCw               ;   goto endCw;
                         ; }
-SMN tetriminoType
+SMN tetriminoRotation
 LDA
-SMN testType
-STA                     ; testType = tetriminoType;
-SMN tetriminoX
-LDA
-SMN testX
-STA                     ; testX = tetriminoX;
-SMN tetriminoY
-LDA
-SMN testY
-STA                     ; testY = tetriminoY;
+SMN originalValue
+STA                     ; originalValue = tetriminoRotation;
 
 SMN tetriminoRotation
 LDA
-INC
-TAB
-SEA 04
-SUB
-BNE noCwRollover        ; if (tetriminoRotation + 1 == 4) {
-SEB 00                  ;   testRotation = 0;
-noCwRollover:           ; } else {
-SMN testRotation        ;   testRotation = tetriminoRotation + 1;
-STB                     ; }
+DEC
+BPL noCwRollover       
+SEA 03                  ; if (--tetriminoRotation == 0) {
+noCwRollover:           ;   tetriminoRotation = 3;
+STA                     ; }
 
-SEA empty
-SMN drawTile+1
-STA                     ; [drawTile+1] = empty;
-JSR drawTetrimino       ; drawTetrimino();
-
-JSR testTetrimino       ; if (!testTetrimino()) {
-BNE drawCw              ;    goto drawCw;
+JSR testTetrimino       ; if (testTetrimino()) {
+BEQ endCw               ;   goto endCw;
                         ; }
-SMN testType
-LDA
-SMN tetriminoType
-STA                     ; tetriminoType = testType;
-SMN testRotation
+SMN originalValue
 LDA
 SMN tetriminoRotation
-STA                     ; tetriminoRotation = testRotation;
-SMN testX
-LDA
-SMN tetriminoX
-STA                     ; tetriminoX = testX;
-SMN testY
-LDA
-SMN tetriminoY
-STA                     ; tetriminoY = testY;
+STA                     ; tetriminoRotation = originalValue;
 
-drawCw:
-SEA solid
-SMN drawTile+1
-STA                     ; [drawTile+1] = solid;
-JSR drawTetrimino       ; drawTetrimino();
-
-noCw:
+endCw:
 SMN cwButton
 LDA
 SMN lastCw
 STA                     ; lastCw = cwButton;  // -----------------------------------------------------------------------
 
+
+; Handle shifting ------------------------------------------------------------------------------------------------------
+SMN tetriminoX
+LDA
+SMN originalValue
+STA                     ; originalValue = tetriminoX;
+
+SMN downButton
+LDA
+SEB pressedValue        
+SUB                     ; if (downButton == pressedValue) {
+BEQ endShift            ;   goto endShift;
+                        ; }
+SEB pressedValue
+SMN leftButton
+LDA
+SUB                     ; if (leftButton != pressedValue) {
+BNE notPressingLeft     ;   goto notPressingLeft;
+                        ; }
+SMN lastLeft
+LDA
+SUB                     ; if (lastLeft != pressedValue) {
+BNE resetAutorepeatX    ;   goto resetAutorepeatX;
+                        ; }
+
+JMP incAutorepeatX      ; goto incAutorepeatX;
+
+notPressingLeft:
+SMN rightButton
+LDA
+SUB                     ; if (rightButton != pressedValue) {
+BNE endShift            ;   goto endShift;
+                        ; }
+SMN lastRight
+LDA
+SUB                     ; if (lastRight != pressedValue) {
+BNE resetAutorepeatX    ;   goto resetAutorepeatX;
+                        ; }
+incAutorepeatX:
+SMN autorepeatX
+LDA
+INC
+STA                     
+SEB 10
+SUB                     ; if (++autorepeatX != 16) {
+BNE endShift            ;   goto endShift;
+                        ; }
+SEA 0A
+STA                     ; autorepeatX = 10;
+
+JMP buttonHeldDown      ; goto buttonHeldDown;
+
+resetAutorepeatX:
+SMN autorepeatX
+SEA 00
+STA                     ; autorepeatX = 0;
+
+buttonHeldDown:
+SEB pressedValue
+SMN rightButton
+LDA
+SUB                     ; if (rightButton != pressedValue) {
+BNE notPressingRight    ;   goto notPressingRight;
+                        ; }
+SMN tetriminoX
+LDA
+INC                    
+STA                     ; ++tetriminoX;
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE restoreX            ;   goto restoreX;
+                        ; }
+
+JMP endShift            ; goto endShift;
+
+notPressingRight:
+SEB pressedValue
+SMN leftButton
+LDA
+SUB                     ; if (leftButton != pressedValue) {
+BNE endShift            ;   goto endShift;
+                        ; }
+SMN tetriminoX
+LDA
+DEC                    
+STA                     ; --tetriminoX;
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE restoreX            ;   goto restoreX;
+                        ; }
+
+JMP endShift            ; goto endShift;
+
+restoreX:
+SMN originalValue
+LDA
+SMN tetriminoX
+STA                     ; tetriminoX = originalValue;
+
+endShift:
+SMN leftButton
+LDA
+SMN lastLeft            ; lastLeft = leftButton;
+STA
+SMN rightButton
+LDA
+SMN lastRight           ; lastRight = rightButton; // ------------------------------------------------------------------
+STA
+
+SEA solid
+SMN drawTile+1
+STA                     ; [drawTile+1] = solid;
+JSR drawTetrimino       ; drawTetrimino();
 
 SMN render              ; Render frame
 SEA renderValue
@@ -236,14 +293,14 @@ JMP mainLoop ; -----------------------------------------------------------------
 
 
 testTetrimino: ; -------------------------------------------------------------------------------------------------------
-; testType     - type
-; testRotation - rotation
-; testX        - x
-; testY        - y
+; tetriminoType     - type
+; tetriminoRotation - rotation
+; tetriminoX        - x
+; tetriminoY        - y
 
 ; z: 0 = valid position, 1 = invalid position
 
-SMN testType
+SMN tetriminoType
 LDA
 LSH
 LSH
@@ -251,14 +308,14 @@ LSH
 LSH
 LSH
 TAB
-SMN testRotation
+SMN tetriminoRotation
 LDA
 LSH
 LSH
 LSH
 ADD
 SMN tetriminoRow
-STA                     ; tetriminoRow = (testType << 5) + (testRotation << 3);
+STA                     ; tetriminoRow = (tetriminoType << 5) + (tetriminoRotation << 3);
 
 SMN i
 SEA 03
@@ -276,11 +333,11 @@ STA                     ; tableIndex = tetriminoRow + (i << 1);
 SMN tetriminos
 TAN
 LDA
-SMN testX
+SMN tetriminoX
 LDB
 ADD
 SMN blockX              
-STA                     ; blockX = tetriminos[tableIndex] + testX;
+STA                     ; blockX = tetriminos[tableIndex] + tetriminoX;
 
 SMN tableIndex
 LDA
@@ -288,8 +345,8 @@ INC
 SMN tetriminos
 TAN
 LDA
-SMN testY
-LDB                     ; A = tetriminos[tableIndex + 1] + testY;
+SMN tetriminoY
+LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
 ADD                     ; if (A < 0) {
 BMI continueTestLoop    ;   goto continueTestLoop;                 
 SMN blockY              ; }
