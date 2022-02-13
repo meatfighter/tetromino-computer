@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 // P R
-// z
+// z n
 // A B M N
 //
 // T [ A B M N ] [ A B M N ]
@@ -30,8 +30,10 @@ import java.io.InputStream;
 // 1001 ~A
 
 // JMP
-// 0010 s0zv aaaaaaaa aaaaaaaa
-// z: check zero flag against v
+// 0010 sffv aaaaaaaa aaaaaaaa
+// ff:
+// 01: test z == v
+// 10: test n == v
 // s: R = P on jump
 
 // 0011 000r
@@ -59,7 +61,8 @@ public class Emulator {
     private int B;
     private int M;
     private int N;
-    private boolean zero;
+    private boolean z;
+    private boolean n;
     
     int generateNextPseudorandomNumber(int value) {
         return ((((value >> 9) & 1) ^ ((value >> 1) & 1)) << 15) | (value >> 1);
@@ -78,7 +81,7 @@ public class Emulator {
         while (true) {
                         
             System.out.format("P: %04X, A: %02X, B: %02X, M: %02X, N: %02X, Z: %b, %02X %02X %02X%n", 
-                    P, A, B, M, N, zero, memory[0], memory[1], memory[2]);
+                    P, A, B, M, N, z, memory[0], memory[1], memory[2]);
             Thread.sleep(10);
             
             runInstruction();
@@ -209,13 +212,23 @@ public class Emulator {
         }
         A &= 0xFF;
         B &= 0xFF;
-        zero = (A == 0);
+        z = (A == 0);
+        n = (A & 0x80) != 0;
     }
      
     private void jump(final int bits) {
         final int target = (fetch() << 8) | fetch();
-        if ((bits & 0b0000_0010) != 0 && ((bits & 0b0000_0001) != 0) != zero) {
-            return;
+        switch ((bits & 0b0000_0110) >> 1) {
+            case 1:
+                if (((bits & 0b0000_0001) != 0) != z) {
+                    return;
+                }
+                break;
+            case 2:
+                if (((bits & 0b0000_0001) != 0) != n) {
+                    return;
+                }
+                break;
         }
         if ((bits & 0b0000_1000) != 0) {
             R = P;

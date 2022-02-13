@@ -41,19 +41,19 @@ tetriminos:
   00 FE  00 FF  00 00  00 01  ; 1B Iv
 
 segment 0100
-;                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
-playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF
-playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C
+;                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF FF
+playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 00 ; 00--03
-tetriminoX:        00 ; 00--09
-tetriminoY:        02 ; 00--13
+tetriminoX:        05 ; 00--09
+tetriminoY:        00 ; 00--13
 
 testType:          00 ; 00--06 (T, J, Z, O, S, L, I)
 testRotation:      00 ; 00--03
-testX:             00 ; 00--09
-testY:             02 ; 00--13
+testX:             05 ; 00--09
+testY:             00 ; 00--13
 
 tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
@@ -140,10 +140,11 @@ SMN tetriminos
 TAN
 LDA
 SMN testY
-LDB
-ADD                     
-SMN blockY              
-STA                     ; blockY = tetriminos[tableIndex + 1] + testY;
+LDB                     ; A = tetriminos[tableIndex + 1] + testY;
+ADD                     ; if (A < 0) {
+BMI continueTestLoop    ;   goto continueTestLoop;                 
+SMN blockY              ; }
+STA                     ; blockY = A;
 
 SMN playfieldRowsHigh
 TNB
@@ -173,6 +174,7 @@ SEB empty
 SUB                     ; if (*((addressHigh << 8) | A) != empty) {
 BNE endTestLoop         ;   goto endTestLoop;
                         ; }                       
+continueTestLoop:
 SMN i
 LDA
 SEB 00
@@ -241,10 +243,11 @@ SMN tetriminos
 TAN
 LDA
 SMN tetriminoY
-LDB
-ADD                     
-SMN blockY              
-STA                     ; blockY = tetriminos[tableIndex + 1] + tetriminoY;
+LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
+ADD                     ; if (A < 0) {    
+BMI continueDrawLoop    ;   goto continueDrawLoop;
+SMN blockY              ; }
+STA                     ; blockY = A;
 
 SMN playfieldRowsHigh
 TNB
@@ -273,6 +276,7 @@ drawTile:
 SEA 00
 STA                     ; *((addressHigh << 8) | A) = [drawTile+1];
 
+continueDrawLoop:
 SMN i
 LDA
 SEB 00
