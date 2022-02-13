@@ -9,8 +9,8 @@ define rightButton       FB27
 define downButton        FB28
 define ccwButton         FB5A
 define cwButton          FB58
-define longRepeat        10
-define shortRepeat       0A
+define longRepeatX       10
+define shortRepeatX      0A
 
 segment 0000
 tetriminos:
@@ -55,7 +55,8 @@ segment 0100
 playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF FF
 playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
 
-autorepeatX:       00 
+autorepeatX:       00
+autorepeatY:       00 
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 01 ; 00--03
@@ -92,15 +93,11 @@ JSR drawTetrimino       ; drawTetrimino();
 
 ; Handle counterclockwise rotation -------------------------------------------------------------------------------------
 SMN ccwButton
-LDA
-SEB pressedValue
-SUB                     ; if (ccwButton != pressedValue) {
-BNE endCcw              ;   goto endCcw;
+LDA                     ; if (ccwButton == releasedValue) {
+BEQ endCcw              ;   goto endCcw;
                         ; }
 SMN lastCcw
-LDA
-SEB releasedValue
-SUB                     ; if (lastCcw != releasedValue) {
+LDA                     ; if (lastCcw != releasedValue) {
 BNE endCcw              ;   goto endCcw;
                         ; }
 SMN tetriminoRotation
@@ -133,15 +130,11 @@ STA                     ; lastCcw = ccwButton;  // -----------------------------
 
 ; Handle clockwise rotation --------------------------------------------------------------------------------------------
 SMN cwButton
-LDA
-SEB pressedValue
-SUB                     ; if (cwButton != pressedValue) {
-BNE endCw               ;   goto endCw;
+LDA                     ; if (cwButton == releasedValue) {
+BEQ endCw               ;   goto endCw;
                         ; }
 SMN lastCw
-LDA
-SEB releasedValue
-SUB                     ; if (lastCw != releasedValue) {
+LDA                     ; if (lastCw != releasedValue) {
 BNE endCw               ;   goto endCw;
                         ; }
 SMN tetriminoRotation
@@ -179,46 +172,41 @@ SMN originalValue
 STA                     ; originalValue = tetriminoX;
 
 SMN downButton
-LDA
-SEB pressedValue        
-SUB                     ; if (downButton == pressedValue) {
-BEQ endShift            ;   goto endShift;
+LDA                     ; if (downButton != releasedValue) { 
+BNE endShift            ;   goto endShift;
                         ; }
-SEB pressedValue
+
 SMN leftButton
-LDA
-SUB                     ; if (leftButton != pressedValue) {
-BNE notPressingLeft     ;   goto notPressingLeft;
+LDA                     ; if (leftButton == releasedValue) {
+BEQ notPressingLeft     ;   goto notPressingLeft;
                         ; }
 SMN lastLeft
-LDA
-SUB                     ; if (lastLeft != pressedValue) {
-BNE resetAutorepeatX    ;   goto resetAutorepeatX;
+LDA                     ; if (lastLeft == releasedValue) {
+BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
                         ; }
 
 JMP incAutorepeatX      ; goto incAutorepeatX;
 
 notPressingLeft:
 SMN rightButton
-LDA
-SUB                     ; if (rightButton != pressedValue) {
-BNE endShift            ;   goto endShift;
+LDA                     ; if (rightButton == releasedValue) {
+BEQ endShift            ;   goto endShift;
                         ; }
+
 SMN lastRight
-LDA
-SUB                     ; if (lastRight != pressedValue) {
-BNE resetAutorepeatX    ;   goto resetAutorepeatX;
+LDA                     ; if (lastRight == releasedValue) {
+BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
                         ; }
 incAutorepeatX:
 SMN autorepeatX
 LDA
 INC
 STA                     
-SEB 10
+SEB longRepeatX
 SUB                     ; if (++autorepeatX != 16) {
 BNE endShift            ;   goto endShift;
                         ; }
-SEA 0A
+SEA shortRepeatX
 STA                     ; autorepeatX = 10;
 
 JMP buttonHeldDown      ; goto buttonHeldDown;
@@ -229,11 +217,9 @@ SEA 00
 STA                     ; autorepeatX = 0;
 
 buttonHeldDown:
-SEB pressedValue
 SMN rightButton
-LDA
-SUB                     ; if (rightButton != pressedValue) {
-BNE notPressingRight    ;   goto notPressingRight;
+LDA                     ; if (rightButton == releasedValue) {
+BEQ notPressingRight    ;   goto notPressingRight;
                         ; }
 SMN tetriminoX
 LDA
@@ -247,11 +233,9 @@ BNE restoreX            ;   goto restoreX;
 JMP endShift            ; goto endShift;
 
 notPressingRight:
-SEB pressedValue
 SMN leftButton
-LDA
-SUB                     ; if (leftButton != pressedValue) {
-BNE endShift            ;   goto endShift;
+LDA                     ; if (leftButton == releasedValue) {
+BEQ endShift            ;   goto endShift;
                         ; }
 SMN tetriminoX
 LDA
@@ -277,8 +261,19 @@ SMN lastLeft            ; lastLeft = leftButton;
 STA
 SMN rightButton
 LDA
-SMN lastRight           ; lastRight = rightButton; // ------------------------------------------------------------------
-STA
+SMN lastRight           
+STA                     ; lastRight = rightButton; // ------------------------------------------------------------------
+
+
+; Handle drop ----------------------------------------------------------------------------------------------------------
+SMN autorepeatY
+LDA                     ; if (autorepeatY > 0) {
+BPL autorepeating       ;   goto autorepeating;
+                        ; } else if (autorepeatY == 0) {
+BEQ playing             ;   goto playing;
+                        ; }
+
+
 
 SEA solid
 SMN drawTile+1
@@ -375,20 +370,17 @@ SMN addressHigh
 LDB
 TBM
 TAN
-LDA
-SEB empty
-SUB                     ; if (*((addressHigh << 8) | A) != empty) {
+LDA                     ; if (*((addressHigh << 8) | A) != empty) {
 BNE endTestLoop         ;   goto endTestLoop;
-                        ; }                       
+                        ; }                      
 continueTestLoop:
 SMN i
-LDA
-SEB 00
-SUB                     ; if (i == 0) {
+LDA                     ; if (i == 0) {
 BEQ endTestLoop         ;   goto endTestLoop;
-                        ; }
+                        ; } 
 DEC                     
 STA                     ; --i;
+
 JMP testLoop            ; goto testLoop;
 
 endTestLoop:
@@ -484,14 +476,13 @@ STA                     ; *((addressHigh << 8) | A) = [drawTile+1];
 
 continueDrawLoop:
 SMN i
-LDA
-SEB 00
-SUB                     ; if (i == 0) {
+LDA                     ; if (i == 0) {
 BEQ endDrawLoop         ;   goto endDrawLoop;
-                        ; }
+                        ; } 
 DEC                     
 STA                     ; --i;
-JMP drawLoop            ; goto drawLoop;
+
+JMP drawLoop            ; goto drawLoop
 
 endDrawLoop:
 RTS ; ------------------------------------------------------------------------------------------------------------------

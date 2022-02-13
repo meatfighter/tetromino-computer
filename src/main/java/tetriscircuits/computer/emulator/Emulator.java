@@ -40,10 +40,10 @@ import java.io.InputStream;
 // [ M ] = A|B
 
 // 0100 000r
-// A|B = [ M ]
+// A|B = [ M ], sets n and z
 
 // 0101 000r vvvvvvvv
-// A|B = v
+// A|B = v, sets n and z
 
 // 0110 0000 vvvvvvvv vvvvvvvv
 // MN = v
@@ -241,10 +241,13 @@ public class Emulator {
     }
     
     private void loadByteImmediate(final int opcode) {
+        final int value = fetch();
+        z = (value == 0);
+        n = (value & 0x80) != 0;
         if ((opcode & 1) == 0) {
-            A = fetch();
+            A = value;
         } else {
-            B = fetch();
+            B = value;
         }
     }
     
@@ -260,6 +263,8 @@ public class Emulator {
     
     private void load(final int opcode) {
         final int value = readMemory((M << 8) | N);
+        z = (value == 0);
+        n = (value & 0x80) != 0;
         if ((opcode & 1) == 0) {
             A = value;
         } else {
