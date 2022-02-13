@@ -1,8 +1,6 @@
 define render            FB00
 define renderValue       FF
-define vramHigh          FC
-define playfield         CB
-define solid             01
+define empty             00
 
 segment 0000
 tetriminos:
@@ -50,18 +48,152 @@ playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 00 ; 00--03
 tetriminoX:        00 ; 00--09
-tetriminoY:        00 ; 00--13
+tetriminoY:        02 ; 00--13
 
+testType:          00 ; 00--06 (T, J, Z, O, S, L, I)
+testRotation:      00 ; 00--03
+testX:             00 ; 00--09
+testY:             02 ; 00--13
+
+tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
 blockX:            00
 blockY:            00
-rowOffset:         00
 tableIndex:        00
 addressHigh:       00
 
-main:
 
-; Draw tetrimino
+main: ; ----------------------------------------------------------------------------------------------------------------
+
+; init drawTile
+SEA 01
+SMN drawTile+1
+STA
+
+mainLoop:
+
+JSR testTetrimino
+BNE doNotDraw
+JSR drawTetrimino
+
+doNotDraw:
+
+
+SMN render              ; Render frame
+SEA renderValue
+STA
+
+JMP mainLoop ; ---------------------------------------------------------------------------------------------------------
+
+
+testTetrimino: ; -------------------------------------------------------------------------------------------------------
+; testType     - type
+; testRotation - rotation
+; testX        - x
+; testY        - y
+
+; z: 0 = valid position, 1 = invalid position
+
+SMN testType
+LDA
+LSH
+LSH
+LSH
+LSH
+LSH
+TAB
+SMN testRotation
+LDA
+LSH
+LSH
+LSH
+ADD
+SMN tetriminoRow
+STA                     ; tetriminoRow = (testType << 5) + (testRotation << 3);
+
+SMN i
+SEA 03
+STA                     ; i = 3;
+
+testLoop:
+
+LSH
+SMN tetriminoRow
+LDB
+ADD
+SMN tableIndex          
+STA                     ; tableIndex = tetriminoRow + (i << 1);
+
+SMN tetriminos
+TAN
+LDA
+SMN testX
+LDB
+ADD
+SMN blockX              
+STA                     ; blockX = tetriminos[tableIndex] + testX;
+
+SMN tableIndex
+LDA
+INC
+SMN tetriminos
+TAN
+LDA
+SMN testY
+LDB
+ADD                     
+SMN blockY              
+STA                     ; blockY = tetriminos[tableIndex + 1] + testY;
+
+SMN playfieldRowsHigh
+TNB
+ADD
+TAN
+LDA
+SMN addressHigh         ; addressHigh = playfieldRowsHigh[blockY];
+STA
+
+SMN blockY
+LDA
+SMN playfieldRowsLow
+TNB
+ADD
+TAN
+LDA                    
+SMN blockX
+LDB
+ADD                     ; A = playfieldRowsLow[blockY] + blockX;
+
+SMN addressHigh
+LDB
+TBM
+TAN
+LDA
+SEB empty
+SUB                     ; if (*((addressHigh << 8) | A) != empty) {
+BNE endTestLoop         ;   goto endTestLoop;
+                        ; }                       
+SMN i
+LDA
+SEB 00
+SUB                     ; if (i == 0) {
+BEQ endTestLoop         ;   goto endTestLoop;
+                        ; }
+DEC                     
+STA                     ; --i;
+JMP testLoop            ; goto testLoop;
+
+endTestLoop:
+RTS ; ------------------------------------------------------------------------------------------------------------------
+
+
+
+drawTetrimino: ; -------------------------------------------------------------------------------------------------------
+; tetriminoType     - type
+; tetriminoRotation - rotation
+; tetriminoX        - x
+; tetriminoY        - y
+; drawTile+1        - tile
 
 SMN tetriminoType
 LDA
@@ -77,8 +209,8 @@ LSH
 LSH
 LSH
 ADD
-SMN rowOffset
-STA                     ; rowOffset = (tetriminoType << 5) + (tetriminoRotation << 3); 
+SMN tetriminoRow
+STA                     ; tetriminoRow = (tetriminoType << 5) + (tetriminoRotation << 3);
 
 SMN i
 SEA 03
@@ -87,11 +219,11 @@ STA                     ; i = 3;
 drawLoop:
 
 LSH
-SMN rowOffset
+SMN tetriminoRow
 LDB
 ADD
 SMN tableIndex          
-STA                     ; tableIndex = rowOffset + (i << 1);
+STA                     ; tableIndex = tetriminoRow + (i << 1);
 
 SMN tetriminos
 TAN
@@ -136,13 +268,14 @@ ADD                     ; A = playfieldRowsLow[blockY] + blockX;
 SMN addressHigh
 LDB
 TBM
-TAN  
-SEA solid
-STA                     ; *((addressHigh << 8) | A) = solid;
+TAN
+drawTile:  
+SEA 00
+STA                     ; *((addressHigh << 8) | A) = [drawTile+1];
 
 SMN i
 LDA
-CLB                     
+SEB 00
 SUB                     ; if (i == 0) {
 BEQ endDrawLoop         ;   goto endDrawLoop;
                         ; }
@@ -151,16 +284,16 @@ STA                     ; --i;
 JMP drawLoop            ; goto drawLoop;
 
 endDrawLoop:
-
-SMN render              ; Render frame
-SEA renderValue
-STA
-
-JMP main
+RTS ; ------------------------------------------------------------------------------------------------------------------
 
 
 
-segment FC00 ; screen
+
+
+
+
+
+segment FC00 ; vram
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02

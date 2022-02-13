@@ -75,13 +75,23 @@ class Parser {
     private boolean parseIdentifier(final List<Token> tokens, final String filename, final int lineNumber, 
             final int lineColumn, final String value) throws ParseException {
                      
-        if (!isIdentifier(value)) {
+        if (!isJumpIdentifier(value)) {
             return false;
+        }
+        
+        Integer offset = null;
+        final String[] tkns = value.split("[+-]");
+        if (tkns.length == 2) {
+            offset = Integer.parseInt(tkns[1]);
+            if (value.contains("-")) {
+                offset = -offset;
+            }
         }
         
         final Token token = new Token(filename, lineNumber, lineColumn, value.length());
         token.setType(TokenType.IDENTIFIER);
-        token.setStr(value.toUpperCase());
+        token.setStr(tkns[0].toUpperCase());
+        token.setOffset(offset);
         tokens.add(token);
         return true;
     }    
@@ -177,14 +187,32 @@ class Parser {
             return line.substring(0, index);
         }
         return line;
-    }    
+    }  
     
-    private boolean isIdentifier(final String value) {
+    private boolean isIdentifier(final String value) {        
         if (!Character.isJavaIdentifierStart(value.charAt(0))) {
             return false;
-        }
+        }        
         for (int i = 1; i < value.length(); ++i) {
             if (!Character.isJavaIdentifierPart(value.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }  
+    
+    private boolean isJumpIdentifier(final String value) {                       
+        final String[] tokens = value.split("[+-]");
+        if (tokens.length > 2) {
+            return false;
+        }
+        if (!isIdentifier(tokens[0])) {
+            return false;
+        }
+        if (tokens.length == 2) {
+            try {
+                Integer.parseInt(tokens[1]);
+            } catch (final NumberFormatException e) {
                 return false;
             }
         }

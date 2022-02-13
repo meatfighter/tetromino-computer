@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-// P
+// P R
 // z
 // A B M N
 //
@@ -30,8 +30,9 @@ import java.io.InputStream;
 // 1001 ~A
 
 // JMP
-// 0010 00zv aaaaaaaa aaaaaaaa
+// 0010 s0zv aaaaaaaa aaaaaaaa
 // z: check zero flag against v
+// s: R = P on jump
 
 // 0011 000r
 // [ M ] = A|B
@@ -45,11 +46,15 @@ import java.io.InputStream;
 // 0110 0000 vvvvvvvv vvvvvvvv
 // MN = v
 
+// 0111 0000
+// P = R
+
 public class Emulator {
     
     private final int[] memory = new int[0x10000];
     
     private int P;
+    private int R;
     private int A;
     private int B;
     private int M;
@@ -104,6 +109,9 @@ public class Emulator {
             case 0b0110:
                 loadMN();
                 break;
+            case 0b0111:
+                returnSubroutine();
+                break;
             case 0b1111:
                 print();
                 break;
@@ -129,7 +137,6 @@ public class Emulator {
     }
     
     private void transfer(final int source, final int destination) {
-        setRegister(destination, 0);
         setRegister(destination, getRegister(source));
     }
     
@@ -207,10 +214,17 @@ public class Emulator {
      
     private void jump(final int bits) {
         final int target = (fetch() << 8) | fetch();
-        if ((bits & 2) != 0 && ((bits & 1) != 0) != zero) {
+        if ((bits & 0b0000_0010) != 0 && ((bits & 0b0000_0001) != 0) != zero) {
             return;
         }
+        if ((bits & 0b0000_1000) != 0) {
+            R = P;
+        }
         P = target;
+    }
+    
+    private void returnSubroutine() {
+        P = R;
     }
     
     private void loadByteImmediate(final int opcode) {
@@ -243,7 +257,7 @@ public class Emulator {
     private void store(final int opcode) {
         writeMemory((M << 8) | N, (opcode & 1) == 0 ? A : B);
     }
-    
+
     private int fetch() {
         final int value = readMemory(P);
         P = (P + 1) & 0xFFFF;

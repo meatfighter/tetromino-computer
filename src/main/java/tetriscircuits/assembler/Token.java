@@ -10,6 +10,7 @@ class Token {
     private TokenType type;
     private String str;
     private int num;
+    private Integer offset;
     private Operator operator;
 
     public Token(final String filename, final int lineNumber, final int lineColumn, final int length) {
@@ -57,6 +58,14 @@ class Token {
 
     public void setNum(final int num) {
         this.num = num;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(final Integer offset) {
+        this.offset = offset;
     }
 
     public Operator getOperator() {

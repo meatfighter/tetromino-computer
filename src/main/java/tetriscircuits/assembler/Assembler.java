@@ -14,6 +14,25 @@ import java.util.Map;
 
 public class Assembler {
     
+    private static class ConstantUsage {
+        
+        private final int address;
+        private final Integer offset;
+
+        public ConstantUsage(final int address, final Integer offset) {
+            this.address = address;
+            this.offset = offset;
+        }
+
+        public int getAddress() {
+            return address;
+        }
+
+        public Integer getOffset() {
+            return offset;
+        }
+    }
+    
     public void launch(final String asmFilename, final String binFilename) throws Exception {
         try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFilename));
                 final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFilename))) {
@@ -29,7 +48,7 @@ public class Assembler {
             throws IOException, ParseException {
         
         final List<Token> tokens = new Parser().parseTokens(asmFilename, in);                        
-        final Map<String, List<Integer>> constantUsages = new HashMap<>();
+        final Map<String, List<ConstantUsage>> constantUsages = new HashMap<>();
         final Map<String, Integer> constantByteValues = new HashMap();
         final Map<String, Integer> constantWordValues = new HashMap();
         final int[] bytes = new int[0x10000];
@@ -59,6 +78,9 @@ public class Assembler {
                     address += token.getOperator().getLength();
                     break;
                 case LABEL:
+                    if (constantWordValues.containsKey(token.getStr())) {
+                        throw new ParseException(token, "Duplicate label");
+                    }
                     constantWordValues.put(token.getStr(), address);
                     ++tokenIndex;
                     break;       
@@ -67,22 +89,31 @@ public class Assembler {
                     tokenIndex += 2;
                     break;
                 default:
-                    throw new ParseException(token, "Unexpected token.");
+                    throw new ParseException(token, "Unexpected token");
             }
         }
         
-        for (Map.Entry<String, List<Integer>> entry : constantUsages.entrySet()) {
+        for (Map.Entry<String, List<ConstantUsage>> entry : constantUsages.entrySet()) {
             final Integer wordValue = constantWordValues.get(entry.getKey());
             if (wordValue != null) {
-                for (final Integer addr : entry.getValue()) {
-                    bytes[addr] = 0xFF & (wordValue >> 8);
-                    bytes[addr + 1] = 0xFF & wordValue;
+                for (final ConstantUsage usage : entry.getValue()) {
+                    final int addr = usage.getAddress();
+                    int value = wordValue;
+                    if (usage.getOffset() != null) {
+                        value += usage.getOffset();
+                    }
+                    bytes[addr] = 0xFF & (value >> 8);
+                    bytes[addr + 1] = 0xFF & value;
                 }
             } else {
                 final Integer byteValue = constantByteValues.get(entry.getKey());
                 if (byteValue != null) {
-                    for (final Integer addr : entry.getValue()) {
-                        bytes[addr] = 0xFF & byteValue;
+                    for (final ConstantUsage usage : entry.getValue()) {
+                        int value = byteValue;
+                        if (usage.getOffset() != null) {
+                            value += usage.getOffset();
+                        }
+                        bytes[usage.getAddress()] = 0xFF & value;
                     }
                 } else {
                     throw new ParseException(asmFilename, 0, 0, "Undefined constant or label: " + entry.getKey());
@@ -103,7 +134,7 @@ public class Assembler {
     }
     
     private int pullInstruction(final List<Token> tokens, final int index, final int[] bytes, final int address,
-            final Map<String, List<Integer>> constantUsages) throws ParseException {
+            final Map<String, List<ConstantUsage>> constantUsages) throws ParseException {
         
         final Token operatorToken = tokens.get(index);
         final Operator operator = operatorToken.getOperator();
@@ -117,7 +148,8 @@ public class Assembler {
                         bytes[(address + 1) & 0xFFFF] = 0xFF & operandToken.getNum();
                         break;
                     case IDENTIFIER:
-                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(address + 1);
+                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(
+                                new ConstantUsage(address + 1, operandToken.getOffset()));
                         break;
                     default:
                         throw new ParseException(operandToken, "Expected immediate byte value or constant");
@@ -136,7 +168,8 @@ public class Assembler {
                         bytes[(address + 2) & 0xFFFF] = 0xFF & operandToken.getNum();
                         break;
                     case IDENTIFIER:
-                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(address + 1);
+                        constantUsages.computeIfAbsent(operandToken.getStr(), k -> new ArrayList<>()).add(
+                                new ConstantUsage(address + 1, operandToken.getOffset()));
                         break;
                     default:
                         throw new ParseException(operandToken, "Expected immediate address, constant, or label");
@@ -154,7 +187,10 @@ public class Assembler {
         final Token nameToken = tokens.get(index + 1);
         if (nameToken.getType() != TokenType.IDENTIFIER) {
             throw new ParseException(nameToken, "Expected constant name");
-        }        
+        }   
+        if (nameToken.getOffset() != null) {
+            throw new ParseException(nameToken, "Unexpected offset");
+        }
         
         final Token valueToken = tokens.get(index + 2);
         switch(valueToken.getType()) {
@@ -182,12 +218,7 @@ public class Assembler {
                 throw new ParseException(addressToken, "Expected origin address.");
         }
     }
-    
-    private void handleError(final String message) {
-        System.out.format("Error: %s%n", message);
-        System.exit(0);
-    }
-    
+
     public static void main(final String... args) throws Exception {
         
         if (args.length != 2) {
