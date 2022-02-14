@@ -1,16 +1,16 @@
-define render            FB00
-define renderValue       FF
-define empty             00
-define solid             01
-define releasedValue     00
-define pressedValue      FF
-define leftButton        FB25
-define rightButton       FB27
-define downButton        FB28
-define ccwButton         FB5A
-define cwButton          FB58
-define longRepeatX       10
-define shortRepeatX      0A
+define RENDER           FB00
+define RENDER_VALUE     FF
+define EMPTY            00
+define SOLID            01
+define RELEASED_VALUE   00
+define PRESSED_VALUE    FF
+define LEFT_BUTTON      FB25
+define RIGHT_BUTTON     FB27
+define DOWN_BUTTON      FB28
+define CCW_BUTTON       FB5A
+define CW_BUTTON        FB58
+define LONG_REPEAT_X    10
+define SHORT_REPEAT_X   0A
 
 segment 0000
 tetriminos:
@@ -77,6 +77,12 @@ lastDown:          00 ; prior value of down button
 lastCcw:           00 ; prior value of counterclockwise rotation button
 lastCw:            00 ; prior value of clockwise rotation button
 
+seedHigh:          89 ; RNG high
+seedLow:           88 ; RNG low
+nextBit:           00 ; RNG bit
+randomType0:       00 ; Randomly selected tetrimino type
+randomType1:       03 ; Randomly selected tetrimino type
+
 tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
 blockX:            00
@@ -94,18 +100,168 @@ JSR drawTetrimino
 
 mainLoop:
 
-SEA empty
+; Update RNG -----------------------------------------------------------------------------------------------------------
+SEB 02
+SMN seedLow
+LDA
+AND
+SMN nextBit
+STA
+SMN seedHigh
+LDA
+AND
+SMN nextBit
+LDB
+XOR
+BEQ bit9Clear
+SEA 80
+bit9Clear:
+STA                     ; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
+
+SMN seedHigh
+LDA
+SEB 01
+AND
+BEQ bit8Clear
+SEB 80
+bit8Clear:
+SMN seedLow
+LDA
+RSH
+OR
+STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
+
+SMN nextBit
+LDB
+SMN seedHigh
+LDA
+RSH
+OR
+STA                     ; seedHigh = nextBit | (seedHigh >> 1);
+
+                        ; if (randomBit is 1) {
+JMI updateRandomType0   ;   updateRandomType0();
+                        ; }
+JSR updateRandomType1;  ; updateRandomType1();
+
+PRINT randomType0
+; ----------------------------------------------------------------------------------------------------------------------
+
+
+SEA EMPTY
 SMN drawTile+1
-STA                     ; [drawTile+1] = empty;
+STA                     ; [drawTile+1] = EMPTY;
 JSR drawTetrimino       ; drawTetrimino();
 
+; Handle shifting ------------------------------------------------------------------------------------------------------
+SMN tetriminoX
+LDA
+SMN originalValue
+STA                     ; originalValue = tetriminoX;
+
+SMN DOWN_BUTTON
+LDA                     ; if (DOWN_BUTTON != RELEASED_VALUE) { 
+BNE endShift            ;   goto endShift;
+                        ; }
+
+SMN LEFT_BUTTON
+LDA                     ; if (LEFT_BUTTON == RELEASED_VALUE) {
+BEQ notPressingLeft     ;   goto notPressingLeft;
+                        ; }
+SMN lastLeft
+LDA                     ; if (lastLeft == RELEASED_VALUE) {
+BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
+                        ; }
+
+JMP incAutorepeatX      ; goto incAutorepeatX;
+
+notPressingLeft:
+SMN RIGHT_BUTTON
+LDA                     ; if (RIGHT_BUTTON == RELEASED_VALUE) {
+BEQ endShift            ;   goto endShift;
+                        ; }
+
+SMN lastRight
+LDA                     ; if (lastRight == RELEASED_VALUE) {
+BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
+                        ; }
+incAutorepeatX:
+SMN autorepeatX
+LDA
+INC
+STA                     
+SEB LONG_REPEAT_X
+SUB                     ; if (++autorepeatX != 16) {
+BNE endShift            ;   goto endShift;
+                        ; }
+SEA SHORT_REPEAT_X
+STA                     ; autorepeatX = 10;
+
+JMP buttonHeldDown      ; goto buttonHeldDown;
+
+resetAutorepeatX:
+SMN autorepeatX
+SEA 00
+STA                     ; autorepeatX = 0;
+
+buttonHeldDown:
+SMN RIGHT_BUTTON
+LDA                     ; if (RIGHT_BUTTON == RELEASED_VALUE) {
+BEQ notPressingRight    ;   goto notPressingRight;
+                        ; }
+SMN tetriminoX
+LDA
+INC                    
+STA                     ; ++tetriminoX;
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE restoreX            ;   goto restoreX;
+                        ; }
+
+JSR updateRandomType0;  ; updateRandomType0();
+JMP endShift            ; goto endShift;
+
+notPressingRight:
+SMN LEFT_BUTTON
+LDA                     ; if (LEFT_BUTTON == RELEASED_VALUE) {
+BEQ endShift            ;   goto endShift;
+                        ; }
+SMN tetriminoX
+LDA
+DEC                    
+STA                     ; --tetriminoX;
+
+JSR testTetrimino       ; if (!testTetrimino()) {
+BNE restoreX            ;   goto restoreX;
+                        ; }
+
+JSR updateRandomType1;  ; updateRandomType1();
+JMP endShift            ; goto endShift;
+
+restoreX:
+SMN originalValue
+LDA
+SMN tetriminoX
+STA                     ; tetriminoX = originalValue;
+
+endShift:
+SMN LEFT_BUTTON
+LDA
+SMN lastLeft            ; lastLeft = LEFT_BUTTON;
+STA
+SMN RIGHT_BUTTON
+LDA
+SMN lastRight           
+STA                     ; lastRight = RIGHT_BUTTON; // ------------------------------------------------------------------
+
+
 ; Handle counterclockwise rotation -------------------------------------------------------------------------------------
-SMN ccwButton
-LDA                     ; if (ccwButton == releasedValue) {
+SMN CCW_BUTTON
+LDA                     ; if (CCW_BUTTON == RELEASED_VALUE) {
 BEQ endCcw              ;   goto endCcw;
                         ; }
 SMN lastCcw
-LDA                     ; if (lastCcw != releasedValue) {
+LDA                     ; if (lastCcw != RELEASED_VALUE) {
 BNE endCcw              ;   goto endCcw;
                         ; }
 SMN tetriminoRotation
@@ -121,6 +277,8 @@ SEA 03                  ; if (--tetriminoRotation == 0) {
 noCcwRollover:          ;   tetriminoRotation = 3;
 STA                     ; }
 
+JSR updateRandomType0;  ; updateRandomType0();
+
 JSR testTetrimino       ; if (testTetrimino()) {
 BEQ endCcw              ;   goto endCcw;
                         ; }
@@ -130,19 +288,19 @@ SMN tetriminoRotation
 STA                     ; tetriminoRotation = originalValue;
 
 endCcw:
-SMN ccwButton
+SMN CCW_BUTTON
 LDA
 SMN lastCcw
-STA                     ; lastCcw = ccwButton;  // ---------------------------------------------------------------------
+STA                     ; lastCcw = CCW_BUTTON;  // ---------------------------------------------------------------------
 
 
 ; Handle clockwise rotation --------------------------------------------------------------------------------------------
-SMN cwButton
-LDA                     ; if (cwButton == releasedValue) {
+SMN CW_BUTTON
+LDA                     ; if (CW_BUTTON == RELEASED_VALUE) {
 BEQ endCw               ;   goto endCw;
                         ; }
 SMN lastCw
-LDA                     ; if (lastCw != releasedValue) {
+LDA                     ; if (lastCw != RELEASED_VALUE) {
 BNE endCw               ;   goto endCw;
                         ; }
 SMN tetriminoRotation
@@ -158,6 +316,8 @@ SEA 03                  ; if (--tetriminoRotation == 0) {
 noCwRollover:           ;   tetriminoRotation = 3;
 STA                     ; }
 
+JSR updateRandomType1;  ; updateRandomType1();
+
 JSR testTetrimino       ; if (testTetrimino()) {
 BEQ endCw               ;   goto endCw;
                         ; }
@@ -167,110 +327,10 @@ SMN tetriminoRotation
 STA                     ; tetriminoRotation = originalValue;
 
 endCw:
-SMN cwButton
+SMN CW_BUTTON
 LDA
 SMN lastCw
-STA                     ; lastCw = cwButton;  // -----------------------------------------------------------------------
-
-
-; Handle shifting ------------------------------------------------------------------------------------------------------
-SMN tetriminoX
-LDA
-SMN originalValue
-STA                     ; originalValue = tetriminoX;
-
-SMN downButton
-LDA                     ; if (downButton != releasedValue) { 
-BNE endShift            ;   goto endShift;
-                        ; }
-
-SMN leftButton
-LDA                     ; if (leftButton == releasedValue) {
-BEQ notPressingLeft     ;   goto notPressingLeft;
-                        ; }
-SMN lastLeft
-LDA                     ; if (lastLeft == releasedValue) {
-BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
-                        ; }
-
-JMP incAutorepeatX      ; goto incAutorepeatX;
-
-notPressingLeft:
-SMN rightButton
-LDA                     ; if (rightButton == releasedValue) {
-BEQ endShift            ;   goto endShift;
-                        ; }
-
-SMN lastRight
-LDA                     ; if (lastRight == releasedValue) {
-BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
-                        ; }
-incAutorepeatX:
-SMN autorepeatX
-LDA
-INC
-STA                     
-SEB longRepeatX
-SUB                     ; if (++autorepeatX != 16) {
-BNE endShift            ;   goto endShift;
-                        ; }
-SEA shortRepeatX
-STA                     ; autorepeatX = 10;
-
-JMP buttonHeldDown      ; goto buttonHeldDown;
-
-resetAutorepeatX:
-SMN autorepeatX
-SEA 00
-STA                     ; autorepeatX = 0;
-
-buttonHeldDown:
-SMN rightButton
-LDA                     ; if (rightButton == releasedValue) {
-BEQ notPressingRight    ;   goto notPressingRight;
-                        ; }
-SMN tetriminoX
-LDA
-INC                    
-STA                     ; ++tetriminoX;
-
-JSR testTetrimino       ; if (!testTetrimino()) {
-BNE restoreX            ;   goto restoreX;
-                        ; }
-
-JMP endShift            ; goto endShift;
-
-notPressingRight:
-SMN leftButton
-LDA                     ; if (leftButton == releasedValue) {
-BEQ endShift            ;   goto endShift;
-                        ; }
-SMN tetriminoX
-LDA
-DEC                    
-STA                     ; --tetriminoX;
-
-JSR testTetrimino       ; if (!testTetrimino()) {
-BNE restoreX            ;   goto restoreX;
-                        ; }
-
-JMP endShift            ; goto endShift;
-
-restoreX:
-SMN originalValue
-LDA
-SMN tetriminoX
-STA                     ; tetriminoX = originalValue;
-
-endShift:
-SMN leftButton
-LDA
-SMN lastLeft            ; lastLeft = leftButton;
-STA
-SMN rightButton
-LDA
-SMN lastRight           
-STA                     ; lastRight = rightButton; // ------------------------------------------------------------------
+STA                     ; lastCw = CW_BUTTON;  // -----------------------------------------------------------------------
 
 
 ; Handle drop ----------------------------------------------------------------------------------------------------------
@@ -293,8 +353,8 @@ SMN lastDown
 LDA                     ; if (lastDown != releasedButton) {
 BNE incrementAutorepeatY;   goto incrementAutorepeatY;
                         ; }
-SMN downButton
-LDA                     ; if (downButton == releasedButton) {
+SMN DOWN_BUTTON
+LDA                     ; if (DOWN_BUTTON == releasedButton) {
 BEQ incrementAutorepeatY;   goto incrementAutorepeatY;
                         ; }
 
@@ -305,12 +365,12 @@ SEA 00
 STA                     ; autorpeatY = 0;
 
 playing:
-SMN leftButton
-LDA                     ; if (leftButton != releasedButton) {
+SMN LEFT_BUTTON
+LDA                     ; if (LEFT_BUTTON != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
-SMN rightButton
-LDA                     ; if (rightButton != releasedButton) {
+SMN RIGHT_BUTTON
+LDA                     ; if (RIGHT_BUTTON != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
 
@@ -320,8 +380,8 @@ SMN lastDown
 LDA                     ; if (lastDown != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
-SMN downButton
-LDA                     ; if (downButton == releasedButton) {
+SMN DOWN_BUTTON
+LDA                     ; if (DOWN_BUTTON == releasedButton) {
 BEQ lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
 
@@ -334,16 +394,16 @@ STA                     ; autorepeatY = 1;
 JMP lookupDropSpeed     ; goto lookupDropSpeed;
 
 autorepeating:
-SMN leftButton
-LDA                     ; if (leftButton != releasedButton) {
+SMN LEFT_BUTTON
+LDA                     ; if (LEFT_BUTTON != releasedButton) {
 BNE downReleased        ;   goto downReleased;
                         ; }
-SMN rightButton
-LDA                     ; if (rightButton != releasedButton) {
+SMN RIGHT_BUTTON
+LDA                     ; if (RIGHT_BUTTON != releasedButton) {
 BNE downReleased        ;   goto downReleased;
                         ; }
-SMN downButton
-LDA                     ; if (downButton != releasedButton) {
+SMN DOWN_BUTTON
+LDA                     ; if (DOWN_BUTTON != releasedButton) {
 BNE downPressed         ;   goto downPressed;
                         ; }
 downReleased:
@@ -442,22 +502,22 @@ INC
 STA                     ; ++autorepeatY;
 
 endDrop:
-SMN downButton
+SMN DOWN_BUTTON
 LDA
 SMN lastDown
-STA                     ; lastDown = downButton;  // -------------------------------------------------------------------
+STA                     ; lastDown = DOWN_BUTTON;  // ------------------------------------------------------------------
 
 
-SEA solid
+SEA SOLID
 SMN drawTile+1
-STA                     ; [drawTile+1] = solid;
+STA                     ; [drawTile+1] = SOLID;
 JSR drawTetrimino       ; drawTetrimino();
 
-SMN render              ; Render frame
-SEA renderValue
+SMN RENDER              ; Render frame
+SEA RENDER_VALUE
 STA
 
-JMP mainLoop ; ---------------------------------------------------------------------------------------------------------
+JMP mainLoop            ; goto mainLoop; // ----------------------------------------------------------------------------
 
 
 testTetrimino: ; -------------------------------------------------------------------------------------------------------
@@ -543,7 +603,7 @@ SMN addressHigh
 LDB
 TBM
 TAN
-LDA                     ; if (*((addressHigh << 8) | A) != empty) {
+LDA                     ; if (*((addressHigh << 8) | A) != EMPTY) {
 BNE endTestLoop         ;   goto endTestLoop;
                         ; }                      
 continueTestLoop:
@@ -557,7 +617,7 @@ STA                     ; --i;
 JMP testLoop            ; goto testLoop;
 
 endTestLoop:
-RTS ; ------------------------------------------------------------------------------------------------------------------
+RTS                     ; return; // -----------------------------------------------------------------------------------
 
 
 
@@ -658,13 +718,41 @@ STA                     ; --i;
 JMP drawLoop            ; goto drawLoop
 
 endDrawLoop:
-RTS ; ------------------------------------------------------------------------------------------------------------------
+RTS                     ; return; // -----------------------------------------------------------------------------------
 
 
+updateRandomType0: ; ---------------------------------------------------------------------------------------------------
+
+SMN randomType0
+LDA                     ; if (randomType0 == 0) {
+BEQ randomType0Zero     ;   goto randomType0Zero;
+                        ; }
+DEC                     ; --randomType0;
+STA
+RTS                     ; return;
+
+randomType0Zero:
+SEA 06
+STA                     ; randomType0Zero = 6;
+
+RTS                     ; return; // -----------------------------------------------------------------------------------
 
 
+updateRandomType1: ; ---------------------------------------------------------------------------------------------------
 
+SMN randomType1
+LDA                     ; if (randomType1 == 0) {
+BEQ randomType1Zero     ;   goto randomType1Zero;
+                        ; }
+DEC                     ; --randomType1;
+STA
+RTS                     ; return;
 
+randomType1Zero:
+SEA 06
+STA                     ; randomType1Zero = 6;
+
+RTS                     ; return; // -----------------------------------------------------------------------------------
 
 
 segment FC00 ; vram
