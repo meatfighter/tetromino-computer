@@ -15,6 +15,7 @@ public class ImagePanel extends JPanel {
     private final Color BACKGROUND_COLOR = new Color(0x6A6D6A);
     private final Color PLAYFIELD_COLOR = new Color(0x000000);
     private final Color BLOCK_COLOR = new Color(0x4B30E3);
+    private final Color CURTAIN_COLOR = new Color(0x9CFCF0);
     
     private final int[] buffer = new int[256 + 32 * 32];
        
@@ -44,6 +45,9 @@ public class ImagePanel extends JPanel {
                         break;
                     case 1:
                         color = BLOCK_COLOR;
+                        break;
+                    case 3:
+                        color = CURTAIN_COLOR;
                         break;
                     default:
                         color = BACKGROUND_COLOR;

@@ -9,7 +9,7 @@ public class GeneratePlayfieldScreen {
                     System.out.print(' ');
                 }
                 if (x >= 12 && x <= 21 && y >= 6 && y <= 25) {
-                    System.out.format("00");
+                    System.out.format("03");
                 } else {
                     System.out.format("02");
                 }

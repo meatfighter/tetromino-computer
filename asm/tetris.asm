@@ -2,15 +2,31 @@ define RENDER           FB00
 define RENDER_VALUE     FF
 define EMPTY            00
 define SOLID            01
+define BACKGROUND       02
+define CURTAIN          03
 define RELEASED_VALUE   00
 define PRESSED_VALUE    FF
-define LEFT_BUTTON      FB25
-define RIGHT_BUTTON     FB27
-define DOWN_BUTTON      FB28
-define CCW_BUTTON       FB5A
-define CW_BUTTON        FB58
 define LONG_REPEAT_X    10
 define SHORT_REPEAT_X   0A
+
+define BUTTON_LEFT      FB25
+define BUTTON_RIGHT     FB27
+define BUTTON_DOWN      FB28
+define BUTTON_CCW       FB5A
+define BUTTON_CW        FB58
+define BUTTON_0         FB30
+define BUTTON_1         FB31
+define BUTTON_2         FB32
+define BUTTON_3         FB33
+define BUTTON_4         FB34
+define BUTTON_5         FB35
+define BUTTON_6         FB36
+define BUTTON_7         FB37
+define BUTTON_8         FB38
+define BUTTON_9         FB39
+
+define STATE_GAME_OVER  00
+define STATE_PLAYING    01
 
 segment 0000
 tetriminos:
@@ -59,17 +75,20 @@ segment 0200
 ;       level:  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
 framesPerDrop: 30 2B 26 21 1C 17 12 0D 08 06 05 05 05 04 04 04 03 03 03 02 02 02 02 02 02 02 02 02 02 01
 
-level:             03
-fallTimer:         01
+state:             00
+level:             00
+fallTimer:         00
 holdDownPoints:    00
 autorepeatX:       00
-autorepeatY:       01
-dropSpeed:         01
+autorepeatY:       00
+dropSpeed:         00
 
 tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation: 00 ; 00--03
-tetriminoX:        05 ; 00--09
+tetriminoX:        00 ; 00--09
 tetriminoY:        00 ; 00--13
+
+tetriminoNextType: 00 ; 00--06 (T, J, Z, O, S, L, I)
 
 lastLeft:          00 ; prior value of left button
 lastRight:         00 ; prior value of right button
@@ -93,12 +112,11 @@ originalValue:     00
 
 main: ; ----------------------------------------------------------------------------------------------------------------
 
-SEA 01
-SMN drawTile+1
-STA
-JSR drawTetrimino
-
 mainLoop:
+
+SMN RENDER              ; Render frame
+SEA RENDER_VALUE
+STA
 
 ; Update RNG -----------------------------------------------------------------------------------------------------------
 SEB 02
@@ -142,12 +160,57 @@ STA                     ; seedHigh = nextBit | (seedHigh >> 1);
                         ; if (randomBit is 1) {
 JMI updateRandomType0   ;   updateRandomType0();
                         ; }
-JSR updateRandomType1;  ; updateRandomType1();
-
-PRINT randomType0
-; ----------------------------------------------------------------------------------------------------------------------
+JSR updateRandomType1;  ; updateRandomType1(); // ----------------------------------------------------------------------
 
 
+SMN state
+LDA
+SEB STATE_PLAYING
+SUB
+BEQ statePlaying
+
+SMN BUTTON_0
+SEA 09                  ; A = 9;
+
+startLoop:
+TAB
+SEA 30
+ADD
+TAN                     
+TBA
+LDB                     ; if (*((M << 8) | (0x30 + A)) != RELEASED_VALUE) {
+BNE startButtonPressed  ;   goto startButtonPressed;
+                        ; }
+DEC                     ; if (--A >= 0) {
+BPL startLoop           ;   goto startLoop;
+                        ; }
+JMP mainLoop            ; goto mainLoop;
+
+startButtonPressed:
+DEC                     ; if (--A >= 0) {
+BPL startPositive       ;   goto startPositive;
+                        ; }
+SEA 0A                  ; A = 10;
+
+startPositive:
+SMN BUTTON_CCW
+LDB                     ; if (BUTTON_CCW == RELEASED_VALUE) {
+BEQ ccwNotPressed       ;   goto ccwNotPressed;
+                        ; }
+SEB 0A
+ADD                     ; A += 10;
+
+ccwNotPressed:
+SMN level
+STA                     ; level = A;
+
+SMN state
+SEA STATE_PLAYING
+STA                     ; state = STATE_PLAYING;
+
+; TODO <<<<---- CLEAR THE CURTAIN AND INIT PLAYING !!!!
+
+statePlaying:
 SEA EMPTY
 SMN drawTile+1
 STA                     ; [drawTile+1] = EMPTY;
@@ -159,13 +222,13 @@ LDA
 SMN originalValue
 STA                     ; originalValue = tetriminoX;
 
-SMN DOWN_BUTTON
-LDA                     ; if (DOWN_BUTTON != RELEASED_VALUE) { 
+SMN BUTTON_DOWN
+LDA                     ; if (BUTTON_DOWN != RELEASED_VALUE) { 
 BNE endShift            ;   goto endShift;
                         ; }
 
-SMN LEFT_BUTTON
-LDA                     ; if (LEFT_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_LEFT
+LDA                     ; if (BUTTON_LEFT == RELEASED_VALUE) {
 BEQ notPressingLeft     ;   goto notPressingLeft;
                         ; }
 SMN lastLeft
@@ -176,8 +239,8 @@ BEQ resetAutorepeatX    ;   goto resetAutorepeatX;
 JMP incAutorepeatX      ; goto incAutorepeatX;
 
 notPressingLeft:
-SMN RIGHT_BUTTON
-LDA                     ; if (RIGHT_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_RIGHT
+LDA                     ; if (BUTTON_RIGHT == RELEASED_VALUE) {
 BEQ endShift            ;   goto endShift;
                         ; }
 
@@ -205,8 +268,8 @@ SEA 00
 STA                     ; autorepeatX = 0;
 
 buttonHeldDown:
-SMN RIGHT_BUTTON
-LDA                     ; if (RIGHT_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_RIGHT
+LDA                     ; if (BUTTON_RIGHT == RELEASED_VALUE) {
 BEQ notPressingRight    ;   goto notPressingRight;
                         ; }
 SMN tetriminoX
@@ -222,8 +285,8 @@ JSR updateRandomType0;  ; updateRandomType0();
 JMP endShift            ; goto endShift;
 
 notPressingRight:
-SMN LEFT_BUTTON
-LDA                     ; if (LEFT_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_LEFT
+LDA                     ; if (BUTTON_LEFT == RELEASED_VALUE) {
 BEQ endShift            ;   goto endShift;
                         ; }
 SMN tetriminoX
@@ -245,19 +308,19 @@ SMN tetriminoX
 STA                     ; tetriminoX = originalValue;
 
 endShift:
-SMN LEFT_BUTTON
+SMN BUTTON_LEFT
 LDA
-SMN lastLeft            ; lastLeft = LEFT_BUTTON;
+SMN lastLeft            ; lastLeft = BUTTON_LEFT;
 STA
-SMN RIGHT_BUTTON
+SMN BUTTON_RIGHT
 LDA
 SMN lastRight           
-STA                     ; lastRight = RIGHT_BUTTON; // ------------------------------------------------------------------
+STA                     ; lastRight = BUTTON_RIGHT; // ------------------------------------------------------------------
 
 
 ; Handle counterclockwise rotation -------------------------------------------------------------------------------------
-SMN CCW_BUTTON
-LDA                     ; if (CCW_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_CCW
+LDA                     ; if (BUTTON_CCW == RELEASED_VALUE) {
 BEQ endCcw              ;   goto endCcw;
                         ; }
 SMN lastCcw
@@ -288,15 +351,15 @@ SMN tetriminoRotation
 STA                     ; tetriminoRotation = originalValue;
 
 endCcw:
-SMN CCW_BUTTON
+SMN BUTTON_CCW
 LDA
 SMN lastCcw
-STA                     ; lastCcw = CCW_BUTTON;  // ---------------------------------------------------------------------
+STA                     ; lastCcw = BUTTON_CCW;  // ---------------------------------------------------------------------
 
 
 ; Handle clockwise rotation --------------------------------------------------------------------------------------------
-SMN CW_BUTTON
-LDA                     ; if (CW_BUTTON == RELEASED_VALUE) {
+SMN BUTTON_CW
+LDA                     ; if (BUTTON_CW == RELEASED_VALUE) {
 BEQ endCw               ;   goto endCw;
                         ; }
 SMN lastCw
@@ -327,10 +390,10 @@ SMN tetriminoRotation
 STA                     ; tetriminoRotation = originalValue;
 
 endCw:
-SMN CW_BUTTON
+SMN BUTTON_CW
 LDA
 SMN lastCw
-STA                     ; lastCw = CW_BUTTON;  // -----------------------------------------------------------------------
+STA                     ; lastCw = BUTTON_CW;  // -----------------------------------------------------------------------
 
 
 ; Handle drop ----------------------------------------------------------------------------------------------------------
@@ -353,8 +416,8 @@ SMN lastDown
 LDA                     ; if (lastDown != releasedButton) {
 BNE incrementAutorepeatY;   goto incrementAutorepeatY;
                         ; }
-SMN DOWN_BUTTON
-LDA                     ; if (DOWN_BUTTON == releasedButton) {
+SMN BUTTON_DOWN
+LDA                     ; if (BUTTON_DOWN == releasedButton) {
 BEQ incrementAutorepeatY;   goto incrementAutorepeatY;
                         ; }
 
@@ -365,12 +428,12 @@ SEA 00
 STA                     ; autorpeatY = 0;
 
 playing:
-SMN LEFT_BUTTON
-LDA                     ; if (LEFT_BUTTON != releasedButton) {
+SMN BUTTON_LEFT
+LDA                     ; if (BUTTON_LEFT != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
-SMN RIGHT_BUTTON
-LDA                     ; if (RIGHT_BUTTON != releasedButton) {
+SMN BUTTON_RIGHT
+LDA                     ; if (BUTTON_RIGHT != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
 
@@ -380,8 +443,8 @@ SMN lastDown
 LDA                     ; if (lastDown != releasedButton) {
 BNE lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
-SMN DOWN_BUTTON
-LDA                     ; if (DOWN_BUTTON == releasedButton) {
+SMN BUTTON_DOWN
+LDA                     ; if (BUTTON_DOWN == releasedButton) {
 BEQ lookupDropSpeed     ;   goto lookupDropSpeed;
                         ; }
 
@@ -394,16 +457,16 @@ STA                     ; autorepeatY = 1;
 JMP lookupDropSpeed     ; goto lookupDropSpeed;
 
 autorepeating:
-SMN LEFT_BUTTON
-LDA                     ; if (LEFT_BUTTON != releasedButton) {
+SMN BUTTON_LEFT
+LDA                     ; if (BUTTON_LEFT != releasedButton) {
 BNE downReleased        ;   goto downReleased;
                         ; }
-SMN RIGHT_BUTTON
-LDA                     ; if (RIGHT_BUTTON != releasedButton) {
+SMN BUTTON_RIGHT
+LDA                     ; if (BUTTON_RIGHT != releasedButton) {
 BNE downReleased        ;   goto downReleased;
                         ; }
-SMN DOWN_BUTTON
-LDA                     ; if (DOWN_BUTTON != releasedButton) {
+SMN BUTTON_DOWN
+LDA                     ; if (BUTTON_DOWN != releasedButton) {
 BNE downPressed         ;   goto downPressed;
                         ; }
 downReleased:
@@ -502,20 +565,16 @@ INC
 STA                     ; ++autorepeatY;
 
 endDrop:
-SMN DOWN_BUTTON
+SMN BUTTON_DOWN
 LDA
 SMN lastDown
-STA                     ; lastDown = DOWN_BUTTON;  // ------------------------------------------------------------------
+STA                     ; lastDown = BUTTON_DOWN;  // ------------------------------------------------------------------
 
 
 SEA SOLID
 SMN drawTile+1
 STA                     ; [drawTile+1] = SOLID;
 JSR drawTetrimino       ; drawTetrimino();
-
-SMN RENDER              ; Render frame
-SEA RENDER_VALUE
-STA
 
 JMP mainLoop            ; goto mainLoop; // ----------------------------------------------------------------------------
 
@@ -762,26 +821,26 @@ segment FC00 ; vram
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
-02 02 02 02 02 02 02 02 02 02 02 02 00 00 00 00 00 00 00 00 00 00 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
+02 02 02 02 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 03 03 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02 02
