@@ -206,6 +206,30 @@ SMN state
 SEA STATE_PLAYING
 STA                     ; state = STATE_PLAYING;
 
+SMN randomType0
+LDA
+SMN tetriminoType
+STA                     ; tetriminoType = randomType0;
+
+SMN randomType1
+LDA
+SMN tetriminoNextType   ; tetriminoNextType = randomType1;
+STA
+
+SMN tetriminoRotation
+SEA 00
+STA                     ; tetriminoRotation = 0;
+SMN tetriminoY
+STA                     ; tetriminoY = 0;
+
+SMN tetriminoX
+SEA 05
+STA                     ; tetriminoX = 5;
+
+SMN autorepeatY
+SEA A0
+STA                     ; autorepeatY = -96;
+
 SEA 13
 SMN i
 STA                     ; i = 13;
@@ -242,8 +266,6 @@ DEC
 STA                     ; if (--i >= 0) {
 BPL clearCurtainOuter   ;   goto clearCurtainOuter;
                         ; }
-
-; TODO <<<<---- INIT PLAYING !!!!
 
 statePlaying:
 SEA EMPTY
