@@ -62,19 +62,14 @@ public class GenerateTetriminoTable {
                 System.out.println();
             }
         }
-        System.out.print(";                  ");
-        for (int i = 0; i < 20; ++i) {
-            System.out.format("%s%s%d", (i == 0) ? "" : " ", (i < 10) ? " " : "", i);
+        System.out.print(";                ");
+        for (int i = 0; i < 21; ++i) {
+            System.out.format("%s%s%d", (i == 0) ? "" : "   ", (i < 10) ? " " : "", i);
         }
         System.out.println();
-        System.out.print("playfieldRowsHigh: ");
-        for (int i = 0; i < 20; ++i) {
-            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCC + (i << 5)) >> 8);
-        }
-        System.out.println();
-        System.out.print("playfieldRowsLow:  ");
-        for (int i = 0; i < 20; ++i) {
-            System.out.format("%s%02X", (i == 0) ? "" : " ", (0xFCCC + (i << 5)) & 0xFF);
+        System.out.print("playfieldRows: ");
+        for (int i = 0; i < 21; ++i) {
+            System.out.format("%s%04X", (i == 0) ? "" : " ", 0xFCCC + (i << 5));
         }
         System.out.println();
     }

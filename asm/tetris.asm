@@ -67,11 +67,10 @@ tetriminos:
   00 FE  00 FF  00 00  00 01  ; 1B Iv
 
 segment 0100
-;                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
-playfieldRowsHigh: FC FC FD FD FD FD FD FD FD FD FE FE FE FE FE FE FE FE FF FF FF
-playfieldRowsLow:  CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C 6C 8C AC CC EC 0C 2C 4C
+;                 0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20
+playfieldRows: FCCC FCEC FD0C FD2C FD4C FD6C FD8C FDAC FDCC FDEC FE0C FE2C FE4C FE6C FE8C FEAC FECC FEEC FF0C FF2C FF4C
 
-segment 0200
+segment 0300
 ;       level:  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
 framesPerDrop: 30 2B 26 21 1C 17 12 0D 08 06 05 05 05 04 04 04 03 03 03 02 02 02 02 02 02 02 02 02 02 01
 
@@ -105,7 +104,6 @@ randomType1:       03 ; Randomly selected tetrimino type
 tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
 blockX:            00
-blockY:            00
 tableIndex:        00
 addressHigh:       00
 originalValue:     00
@@ -208,7 +206,44 @@ SMN state
 SEA STATE_PLAYING
 STA                     ; state = STATE_PLAYING;
 
-; TODO <<<<---- CLEAR THE CURTAIN AND INIT PLAYING !!!!
+SEA 13
+SMN i
+STA                     ; i = 13;
+
+clearCurtainOuter:
+SMN playfieldRows
+LSH                     ; A = i << 1;
+TAN
+LDB                     ; B = playfieldRows[A];
+INC
+TAN
+LDA                     ; A = playfieldRows[A + 1];
+TBM                     ; M = B;
+TAN                     ; N = A;
+
+SEB 09                  ; B = 9;
+
+clearCurtainInner:
+SEA EMPTY
+STA                     ; *((M << 8) | N) = EMPTY;
+
+TNA
+INC
+TAN                     ; ++N;
+
+TBA
+DEC
+TAB                     ; if (--B >= 0) {
+BPL clearCurtainInner   ;   goto clearCurtainInner;
+                        ; }
+SMN i
+LDA
+DEC 
+STA                     ; if (--i >= 0) {
+BPL clearCurtainOuter   ;   goto clearCurtainOuter;
+                        ; }
+
+; TODO <<<<---- INIT PLAYING !!!!
 
 statePlaying:
 SEA EMPTY
@@ -636,33 +671,24 @@ SMN tetriminoY
 LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
 ADD                     ; if (A < 0) {
 BMI continueTestLoop    ;   goto continueTestLoop;                 
-SMN blockY              ; }
-STA                     ; blockY = A;
-
-SMN playfieldRowsHigh
-TNB
-ADD
+                        ; }
+SMN playfieldRows
+LSH                     ; A <<= 1;
 TAN
-LDA
-SMN addressHigh         ; addressHigh = playfieldRowsHigh[blockY];
-STA
-
-SMN blockY
-LDA
-SMN playfieldRowsLow
-TNB
-ADD
+LDB                     ; B = playfieldRows[A];
+INC
 TAN
-LDA                    
+LDA                     ; A = playfieldRows[A + 1];
+SMN addressHigh
+STB                     ; addressHigh = B;                  
 SMN blockX
 LDB
-ADD                     ; A = playfieldRowsLow[blockY] + blockX;
-
+ADD                     ; A += blockX;
 SMN addressHigh
 LDB
 TBM
 TAN
-LDA                     ; if (*((addressHigh << 8) | A) != EMPTY) {
+LDA                     ; if (*((addressHigh << 8) + A) != EMPTY) {
 BNE endTestLoop         ;   goto endTestLoop;
                         ; }                      
 continueTestLoop:
@@ -736,35 +762,26 @@ SMN tetriminoY
 LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
 ADD                     ; if (A < 0) {    
 BMI continueDrawLoop    ;   goto continueDrawLoop;
-SMN blockY              ; }
-STA                     ; blockY = A;
-
-SMN playfieldRowsHigh
-TNB
-ADD
+                        ; }
+SMN playfieldRows
+LSH                     ; A <<= 1;
 TAN
-LDA
-SMN addressHigh         ; addressHigh = playfieldRowsHigh[blockY];
-STA
-
-SMN blockY
-LDA
-SMN playfieldRowsLow
-TNB
-ADD
+LDB                     ; B = playfieldRows[A];
+INC
 TAN
-LDA                    
+LDA                     ; A = playfieldRows[A + 1];
+SMN addressHigh
+STB                     ; addressHigh = B;                  
 SMN blockX
 LDB
-ADD                     ; A = playfieldRowsLow[blockY] + blockX;
-
+ADD                     ; A += blockX;
 SMN addressHigh
 LDB
 TBM
 TAN
 drawTile:  
 SEA 00
-STA                     ; *((addressHigh << 8) | A) = [drawTile+1];
+STA                     ; *((addressHigh << 8) + A) = [drawTile+1];
 
 continueDrawLoop:
 SMN i
