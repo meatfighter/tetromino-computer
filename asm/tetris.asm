@@ -1,32 +1,33 @@
-define RENDER           FB00
-define RENDER_VALUE     FF
-define EMPTY            00
-define SOLID            01
-define BACKGROUND       02
-define CURTAIN          03
-define RELEASED_VALUE   00
-define PRESSED_VALUE    FF
-define LONG_REPEAT_X    10
-define SHORT_REPEAT_X   0A
+define RENDER            FB00
+define RENDER_VALUE      FF
+define EMPTY             00
+define SOLID             01
+define BACKGROUND        02
+define CURTAIN           03
+define RELEASED_VALUE    00
+define PRESSED_VALUE     FF
+define LONG_REPEAT_X     10
+define SHORT_REPEAT_X    0A
 
-define BUTTON_LEFT      FB25
-define BUTTON_RIGHT     FB27
-define BUTTON_DOWN      FB28
-define BUTTON_CCW       FB5A
-define BUTTON_CW        FB58
-define BUTTON_0         FB30
-define BUTTON_1         FB31
-define BUTTON_2         FB32
-define BUTTON_3         FB33
-define BUTTON_4         FB34
-define BUTTON_5         FB35
-define BUTTON_6         FB36
-define BUTTON_7         FB37
-define BUTTON_8         FB38
-define BUTTON_9         FB39
+define BUTTON_LEFT       FB25
+define BUTTON_RIGHT      FB27
+define BUTTON_DOWN       FB28
+define BUTTON_CCW        FB5A
+define BUTTON_CW         FB58
+define BUTTON_0          FB30
+define BUTTON_1          FB31
+define BUTTON_2          FB32
+define BUTTON_3          FB33
+define BUTTON_4          FB34
+define BUTTON_5          FB35
+define BUTTON_6          FB36
+define BUTTON_7          FB37
+define BUTTON_8          FB38
+define BUTTON_9          FB39
 
-define STATE_GAME_OVER  00
-define STATE_PLAYING    01
+define STATE_GAME_OVER   00
+define STATE_PLAYING     01
+define STATE_CLEAR_LINES 02
 
 segment 0000
 tetriminos:
@@ -162,10 +163,15 @@ JSR updateRandomType1;  ; updateRandomType1(); // ------------------------------
 
 
 SMN state
-LDA
-SEB STATE_PLAYING
-SUB
-BEQ statePlaying
+LDB
+SEA STATE_PLAYING
+SUB                     ; if (state == STATE_PLAYING) {
+BEQ statePlaying        ;   goto statePlaying;
+                        ; }
+SEA STATE_CLEAR_LINES   
+SUB                     ; if (state == STATE_CLEAR_LINES) {
+BEQ stateClearLines     ;   goto stateClearLines;
+                        ; }
 
 SMN BUTTON_0
 SEA 09                  ; A = 9;
@@ -266,6 +272,45 @@ DEC
 STA                     ; if (--i >= 0) {
 BPL clearCurtainOuter   ;   goto clearCurtainOuter;
                         ; }
+
+
+stateClearLines:
+SMN tetriminoNextType
+LDA                     ; A = tetriminoNextType;
+SMN tetriminoType
+STA                     ; tetriminoType = A;
+
+SMN randomType0
+LDB                     ; B = randomType0;
+SUB                     ; if (A != B) { 
+BNE setTetriminoNextType;   goto setTetriminoNextType;
+                        ; }
+SMN randomType1
+LDA                     ; A = randomType1
+STB                     ; randomType1 = B;
+TAB                     ; B = A;
+SMN randomType0
+STB                     ; randomType0 = B;
+
+setTetriminoNextType:
+SMN tetriminoNextType
+STB                     ; tetriminoNextType = B;
+
+SEA 05
+SMN tetriminoX
+STA                     ; tetriminoX = 5;
+
+SEA 00
+SMN tetriminoY
+STA                     ; tetriminoY = 0;
+SMN tetriminoRotation
+STA                     ; tetriminoRotation = 0;
+
+SMN state
+SEA STATE_PLAYING
+STA                     ; state = STATE_PLAYING;
+
+
 
 statePlaying:
 SEA EMPTY
@@ -579,7 +624,9 @@ LDA
 SMN tetriminoY
 STA                     ; tetriminoY = originalValue;
 
-; TODO PIECE LOCKED <------------------------------------------ !!!!!!!!!!!!!!!!!!!!!
+SMN state
+SEA STATE_CLEAR_LINES
+STA                     ; state = STATE_CLEAR_LINES;
 
 JMP endDrop             ; goto endDrop;
 
