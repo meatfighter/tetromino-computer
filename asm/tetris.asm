@@ -275,6 +275,88 @@ BPL clearCurtainOuter   ;   goto clearCurtainOuter;
 
 
 stateClearLines:
+SMN i
+SEA FE
+STA                     ; i = -2;
+
+scanClears:
+SMN i
+LDA
+SMN tetriminoY
+LDB
+ADD
+TAB                     ; B = tetriminoY + i;
+                        ; if (B < 0) {
+BMI continueScanClears  ;   goto continueScanClears;
+                        ; }
+SEA 13
+SUB                     ; if (B > 19) {
+BMI continueScanClears  ;   goto continueScanClears;
+                        ; }
+SMN playfieldRows
+TBA
+LSH                     ; A = B << 1;
+LDB                     ; B = playfieldRows[A];
+INC
+LDA                     ; A = playfieldRows[A + 1];
+TAM                     ; M = A;
+TBN                     ; N = B;
+
+SEB 09                  ; B = 9;
+scanAcross:
+LDA                     ; if (*((M << 8) | N) == EMPTY) {                                  
+BEQ continueScanClears  ;   goto continueScanClears
+                        ; }
+TNA
+INC
+TAN                     ; ++N;
+
+TBA
+DEC
+TAB                     ; if (--B >= 0) {
+BPL scanAcross          ;   goto scanAcross;
+                        ; }
+
+
+; TODO LOOP!!!!!
+
+SEB 09                  ; B = 9
+copySource:
+SMN 0000
+LDA
+copyDestination:
+SMN 0000 
+STA                     ; *copyDestination = *copySource;
+
+SMN copySource+2
+LDA
+INC
+STA                     ; ++copySource;
+
+SMN copyDestination+2
+LDA
+INC
+STA                     ; ++copyDestination;
+
+TBA
+DEC
+TAB                     ; if (--B >= 0) {
+BPL copySource          ;   goto scanAcross;
+                        ; }
+
+
+continueScanClears:
+SMN i
+LDA
+INC
+STA                     
+SEB 02
+SUB                     ; if (++i != 2) {
+BNE scanForClears       ;   goto scanForClears;
+                        }
+endScanClears:
+
+
 SMN tetriminoNextType
 LDA                     ; A = tetriminoNextType;
 SMN tetriminoType
