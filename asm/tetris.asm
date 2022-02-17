@@ -104,6 +104,7 @@ randomType1:       03 ; Randomly selected tetrimino type
 
 tetriminoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
+j:                 00
 blockX:            00
 tableIndex:        00
 addressHigh:       00
@@ -273,6 +274,8 @@ STA                     ; if (--i >= 0) {
 BPL clearCurtainOuter   ;   goto clearCurtainOuter;
                         ; }
 
+JMP statePlaying        ; goto statePlaying;
+
 
 stateClearLines:
 SMN i
@@ -293,14 +296,18 @@ SEA 13
 SUB                     ; if (B > 19) {
 BMI continueScanClears  ;   goto continueScanClears;
                         ; }
+SMN j
+STB                     ; j = B;
 SMN playfieldRows
 TBA
 LSH                     ; A = B << 1;
+TAN
 LDB                     ; B = playfieldRows[A];
 INC
+TAN
 LDA                     ; A = playfieldRows[A + 1];
-TAM                     ; M = A;
-TBN                     ; N = B;
+TBM                     ; M = B;
+TAN                     ; N = A;
 
 SEB 09                  ; B = 9;
 scanAcross:
@@ -317,8 +324,40 @@ TAB                     ; if (--B >= 0) {
 BPL scanAcross          ;   goto scanAcross;
                         ; }
 
+clearLine:
+SMN j
+LDA
+DEC
+STA                     ; if (--j == 0) {
+BEQ endClearLine        ;   goto endClearLine;
+                        ; }
+SMN playfieldRows
+LSH                     ; A = j << 1;
+TAN
+LDB                     ; B = playfield[A];
+INC
+TAN
+LDA                     ; A = playfield[A + 1];
+SMN copySource+1
+STB                     ; copySource[1] = B;
+SMN copySource+2
+STA                     ; copySource[2] = A;
 
-; TODO LOOP!!!!!
+SMN j
+LDA
+INC
+SMN playfieldRows
+LSH                     ; A = (j + 1) << 1;
+TAN
+LDB                     ; B = playfield[A];
+INC
+TAN
+LDA                     ; A = playfield[A + 1];
+SMN copyDestination+1
+STB                     ; copyDestination[1] = B;
+SMN copyDestination+2
+STA                     ; copyDestination[2] = A;
+
 
 SEB 09                  ; B = 9
 copySource:
@@ -341,9 +380,25 @@ STA                     ; ++copyDestination;
 TBA
 DEC
 TAB                     ; if (--B >= 0) {
-BPL copySource          ;   goto scanAcross;
+BPL copySource          ;   goto copySource;
                         ; }
 
+JMP clearLine           ; goto clearLine
+
+endClearLine:
+SMN FCCC                ; MN = FCCC
+SEB 09                  ; B = 9
+clearLine0:
+SEA EMPTY
+STA                     ; *((M << 8) | N) = EMPTY;
+TNA
+INC
+TAN                     ; ++N;
+TBA
+DEC
+TAB                     ; if (--B >= 0) {          
+BPL clearLine0          ;   goto clearLine0;
+                        ; }
 
 continueScanClears:
 SMN i
@@ -352,8 +407,8 @@ INC
 STA                     
 SEB 02
 SUB                     ; if (++i != 2) {
-BNE scanForClears       ;   goto scanForClears;
-                        }
+BNE scanClears          ;   goto scanClears;
+                        ; }
 endScanClears:
 
 
