@@ -442,6 +442,8 @@ SMN tetriminoY
 STA                     ; tetriminoY = 0;
 SMN tetriminoRotation
 STA                     ; tetriminoRotation = 0;
+SMN autorepeatY
+STA                     ; autorepeatY = 0;
 
 SMN state
 SEA STATE_PLAYING
@@ -612,11 +614,14 @@ STA                     ; originalValue = tetriminoRotation;
 
 SMN tetriminoRotation
 LDA
-DEC
-BPL noCwRollover       
-SEA 03                  ; if (--tetriminoRotation == 0) {
-noCwRollover:           ;   tetriminoRotation = 3;
-STA                     ; }
+INC
+TAB
+SEA 04
+SUB
+BNE noCwRollover
+SEB 00                  ; if (++tetriminoRotation == 4) {
+noCwRollover:           ;   tetriminoRotation = 0;
+STB                     ; }
 
 JSR updateRandomType1;  ; updateRandomType1();
 
@@ -642,10 +647,10 @@ INC
 STA                     ; ++fallTimer;
 
 SMN autorepeatY
-LDA                     ; if (autorepeatY > 0) {
-BPL autorepeating       ;   goto autorepeating;
-                        ; } else if (autorepeatY == 0) {
+LDA                     ; if (autorepeatY == 0) {
 BEQ playing             ;   goto playing;
+                        ; else if (autorepeatY > 0) {
+BPL autorepeating       ;   goto autorepeating;
                         ; }
 
                         ; game just started
@@ -664,7 +669,7 @@ BEQ incrementAutorepeatY;   goto incrementAutorepeatY;
 
 SMN autorepeatY
 SEA 00
-STA                     ; autorpeatY = 0;
+STA                     ; autorepeatY = 0;
 
 playing:
 SMN BUTTON_LEFT
