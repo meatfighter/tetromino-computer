@@ -9,8 +9,9 @@ Without this configuration present, some functionality in the IDE may be limited
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
             <configuration id="Assembler" profiles=""/>
-            <configuration id="Emulator" profiles=""/>
             <configuration id="Computer" profiles=""/>
+            <configuration id="Emulator" profiles=""/>
+            <configuration id="BitOperations" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

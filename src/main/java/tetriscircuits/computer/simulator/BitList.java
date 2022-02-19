@@ -2,38 +2,38 @@ package tetriscircuits.computer.simulator;
 
 public class BitList {
 
-    private static final long[] MASKS = new long[65];
+    private static final int[] MASKS = new int[33];
     
     static {
-        long value = 0;
+        int value = 0;
         for (int i = 0; i < MASKS.length; ++i) {
             MASKS[i] = value;
-            value = (value << 1) | 1L;
+            value = (value << 1) | 1;
         }
     }
     
-    // 00 11 22 33
-    // AA BB CC DD EE FF GG HH
+    //       00 11
+    //       AA BB CC DD   
+    // AA BB CC DD AA BB CC DD
     
-    // 0000 0000 0011 1111 1111 2222 2222 2233
-    // 0123 4567 8901 2345 6789 0123 4567 8901
-    // aaaa aaaa bbbb bbbb cccc cccc dddd dddd
-    
-    private final long[] bits;
+    private final int[] bits;
     
     public BitList(final int size) {
-        bits = new long[(size >> 5) + 2];
+        bits = new int[(size >> 4) + 3];
     }
     
-    public int read(final int index, final int length) {
-        return (int)(MASKS[length] & (bits[index >> 5] >> (64 - (index & 0x1F) - length)));
+    public int read(final int i, final int length) {
+        final int index = i + 32;
+        return (int)(MASKS[length] & (bits[index >> 4] >> (32 - (index & 0x0F) - length)));
     }
     
-    public void write(final int index, final int length, final int value) {
-        final int i = index >> 5;
-        final int shift = 64 - (index & 0x1F) - length;
-        bits[i] = (bits[i] & ~(MASKS[length] << shift)) | (((long)value) << shift);
-        bits[i + 1] = (bits[i] << 32) | (0x00000000_FFFFFFFFL & bits[i + 1]);
+    public void write(final int i, final int length, final int value) {
+        final int index = i + 32;
+        final int j = index >> 4;
+        final int shift = 32 - (index & 0x0F) - length;
+        bits[j] = (bits[j] & ~(MASKS[length] << shift)) | (value << shift);        
+        bits[j - 1] = (0xFFFF_0000 & bits[j - 1]) | (bits[j] >>> 16);
+        bits[j + 1] = (bits[j] << 16) | (0x0000_FFFF & bits[j + 1]);
     }
     
     public void apply(final int index, final int length, final int[] map) {
