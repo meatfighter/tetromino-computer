@@ -56,25 +56,44 @@ public final class BitOperations {
         }
     }
     
-    private final BitList bitList = new BitList((0x10000 + 2 + 19) << 3);
+    private final BitList bitList = new BitList((0x0400 + 3 + 21) << 3);
     
-    public void runMemoryCycle(final int address) {
+    private void ascendMemoryCycle() {
+        for (int address = 0; address <= 0x03FE; ++address) {
+            runMemoryCycle(address);
+            ascend(address);
+        }
+        runMemoryCycle(0x03FF);
+    }
+    
+    private void descendMemoryCycle() {
+        for (int address = 0x03FF; address > 0; --address) {
+            runMemoryCycle(address);
+            descend(address);
+        }
+        runMemoryCycle(0x0000);
+    }
+    
+    private void runMemoryCycle(final int address) {
        copyInstructionIfPEqualsA(address);
        readOrWriteMemoryIfMNEqualsA(address);
     }
     
-    private void moveRight(final int address) {
+    private void ascend(final int address) {       
         apply(address, 13, INC_16);
-        for (int i = 21; i >= 3; --i) {
+        for (int i = 23; i >= 3; --i) {
             apply(address, i, SWAP);
         }
     }
     
-    private void readOrWriteMemoryIfMNEqualsA(final int address) {   
-        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // J  K  i [j  k  I  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
-        
+    private void descend(final int address) {
+        apply(address, 13, DEC_16);
+        for (int i = 3; i <= 23; ++i) {
+            apply(address, i, SWAP);
+        }
+    }    
+    
+    private void readOrWriteMemoryIfMNEqualsA(final int address) {          
         apply(address, 14, SWAP);
         apply(address, 12, SWAP);
         apply(address, 13, SWAP);
@@ -181,23 +200,34 @@ public final class BitOperations {
     
     public void launch() {
         
-        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2   2
-        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1   2
-        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  A  B  R1 R0] Q        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+               
+        bitList.write((0x0034 + 21) << 3, 8, 123);
         
-         bitList.write((0 << 3), 8, 5);
-        bitList.write((6 << 3), 8, 123);
-        bitList.write((8 << 3), 8, 0xFF);
+        bitList.write(6 << 3, 8, 32);
+        bitList.write(8 << 3, 8, 0xFF);
         
-        bitList.write((15 << 3), 8, 0);
-        bitList.write((16 << 3), 8, 0);
+        bitList.write(15 << 3, 8, 0x00);
+        bitList.write(16 << 3, 8, 0x34);
         
-        System.out.println(bitList.read((6 << 3), 8));        
-        System.out.println();
+        for (int i = 0; i < 3; ++i) {
+            ascendMemoryCycle();
+        }
         
-        runMemoryCycle(0);
+        long startTime = System.nanoTime();
+        for (int i = 0; i < 10_000; ++i) {
+            ascendMemoryCycle();
+        }
+        long endTime = System.nanoTime();
+        System.out.format("%f%n", (endTime - startTime) / 1_000_000_000.0);
         
-        System.out.println(bitList.read((6 << 3), 8));
+//        
+//        System.out.println(bitList.read(0x1234 << 3, 8));
+//        System.out.println(bitList.read((0xFFFF + 6) << 3, 8));
+//        System.out.println(bitList.read((0xFFFF + 13) << 3, 8));
+//        System.out.println(bitList.read((0xFFFF + 14) << 3, 8));
     }
     
     public static void main(final String... args) {
