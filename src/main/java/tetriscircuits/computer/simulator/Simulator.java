@@ -5,6 +5,11 @@ package tetriscircuits.computer.simulator;
 // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
 
 public final class Simulator {
+    
+    private static final int[][][] ZERO_C = new int[256][2][2];
+    private static final int[][][] C_ZERO = new int[2][256][2];
+    private static final int[][][] MINUS_C = new int[256][2][2];
+    private static final int[][][] C_MINUS = new int[2][256][2];    
 
     private static final int[][][] SWAP = new int[256][256][2];
     private static final int[][][] COPY_A_B = new int[256][256][2];
@@ -29,6 +34,27 @@ public final class Simulator {
     
     static {
         for (int a = 0xFF; a >= 0; --a) {
+            
+            ZERO_C[a][0][0] = a;
+            ZERO_C[a][0][1] = (a == 0) ? 1 : 0;
+            ZERO_C[a][1][0] = a;
+            ZERO_C[a][1][1] = (a == 0) ? 1 : 0;  
+            
+            C_ZERO[0][a][0] = (a == 0) ? 1 : 0;
+            C_ZERO[0][a][1] = a;
+            C_ZERO[1][a][0] = (a == 0) ? 1 : 0;
+            C_ZERO[1][a][1] = a;
+            
+            MINUS_C[a][0][0] = a;
+            MINUS_C[a][0][1] = ((a & 0x80) != 0) ? 1 : 0;
+            MINUS_C[a][1][0] = a;
+            MINUS_C[a][1][1] = ((a & 0x80) != 0) ? 1 : 0;  
+            
+            C_MINUS[0][a][0] = ((a & 0x80) != 0) ? 1 : 0;
+            C_MINUS[0][a][1] = a;
+            C_MINUS[1][a][0] = ((a & 0x80) != 0) ? 1 : 0;
+            C_MINUS[1][a][1] = a;            
+            
             for (int b = 0xFF; b >= 0; --b) {
                 SWAP[a][b][0] = b;
                 SWAP[a][b][1] = a;
@@ -337,7 +363,9 @@ public final class Simulator {
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
-        apply(address + 18, SWAP);
+        apply(address + 17, C_MINUS);       // n = (m < 0);
+        apply(address + 18, ZERO_C);        // z = (m == 0);
+        apply(address + 18, SWAP);        
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
@@ -417,14 +445,15 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
          
-        write(6, 123);
+        write(6, 0x0);
         write(8, 0xFF);
         
         write(17, 1);
         
         finishLoad(0);
         
-        System.out.println(read(6));
+        System.out.println(read(18));
+        System.out.println(read(19));
         
         
 //        for (int i = 0; i < 3; ++i) {
