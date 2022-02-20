@@ -124,10 +124,24 @@ ih -8
 ih -16
 swap -5 281
 z7 0 301
-ir300 75 4
-ir152 -75 149
+ih -6
+lu -6
+lu 4
 
-
+ir156 -75 149
+ir134 -65 171
+ir112 -55 193
+ir90 -45 215
+ir68 -35 237
+ir46 -25 259
+ir24 -15 281
+ir48 15 257
+ir94 25 211
+ir140 35 165
+ir186 45 119
+ir232 55 73
+ir278 65 27
+il301 75 4
 
 in ai7 -75 0
 in ai6 -65 0
@@ -146,3 +160,21 @@ in bi3 45 0
 in bi2 55 0
 in bi1 65 0
 in bi0 75 0
+
+out ao7 -75 305
+out ao6 -65 305
+out ao5 -55 305
+out ao4 -45 305
+out ao3 -35 305
+out ao2 -25 305
+out ao1 -15 305
+out ao0 -5 305
+
+out bo7 5 305
+out bo6 15 305
+out bo5 25 305
+out bo4 35 305
+out bo3 45 305
+out bo2 55 305
+out bo1 65 305
+out bo0 75 305
