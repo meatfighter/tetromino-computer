@@ -411,6 +411,12 @@ public final class Simulator {
         apply(address + 12, SWAP);          // order restored
     }
     
+    private void transfer(final int address) {
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+    }
+    
     private int read(final int index) {
         return bytes[index];
     }
