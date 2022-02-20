@@ -1,5 +1,9 @@
 package tetriscircuits.computer.simulator;
 
+// 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+// 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+// I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+
 public final class Simulator {
 
     private static final int[][][] SWAP = new int[256][256][2];
@@ -17,7 +21,11 @@ public final class Simulator {
     private static final int[][][][] C_COPY_A_B = new int[2][256][256][3];
     private static final int[][][][] C_COPY_B_A = new int[2][256][256][3];
     private static final int[][][][] COPY_A_B_C = new int[256][256][2][3];
-    private static final int[][][][] COPY_B_A_C = new int[256][256][2][3];    
+    private static final int[][][][] COPY_B_A_C = new int[256][256][2][3];
+    private static final int[][][][] AND_A_B_C = new int[256][256][2][3];
+    private static final int[][][][] AND_C_A_B = new int[2][256][256][3];
+    private static final int[][][][] AND_A_NOT_B_C = new int[256][256][2][3];
+    private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3];    
     
     static {
         for (int a = 0xFF; a >= 0; --a) {
@@ -100,6 +108,34 @@ public final class Simulator {
                 COPY_B_A_C[a][b][1][0] = b;
                 COPY_B_A_C[a][b][1][1] = b;
                 COPY_B_A_C[a][b][1][2] = 1;
+                
+                AND_A_B_C[a][b][0][0] = a;
+                AND_A_B_C[a][b][0][1] = b;
+                AND_A_B_C[a][b][0][2] = a & b;
+                AND_A_B_C[a][b][1][0] = a;
+                AND_A_B_C[a][b][1][1] = b;
+                AND_A_B_C[a][b][1][2] = a & b;
+                
+                AND_C_A_B[0][a][b][0] = a & b;
+                AND_C_A_B[0][a][b][1] = a;
+                AND_C_A_B[0][a][b][2] = b;
+                AND_C_A_B[1][a][b][0] = a & b;
+                AND_C_A_B[1][a][b][1] = a;
+                AND_C_A_B[1][a][b][2] = b;
+                
+                AND_A_NOT_B_C[a][b][0][0] = a;
+                AND_A_NOT_B_C[a][b][0][1] = b;
+                AND_A_NOT_B_C[a][b][0][2] = a & (b == 0 ? 1 : 0);
+                AND_A_NOT_B_C[a][b][1][0] = a;
+                AND_A_NOT_B_C[a][b][1][1] = b;
+                AND_A_NOT_B_C[a][b][1][2] = a & (b == 0 ? 1 : 0);
+                
+                C_AND_A_NOT_B[0][a][b][0] = a & (b == 0 ? 1 : 0);
+                C_AND_A_NOT_B[0][a][b][1] = a;
+                C_AND_A_NOT_B[0][a][b][2] = b;
+                C_AND_A_NOT_B[1][a][b][0] = a & (b == 0 ? 1 : 0);
+                C_AND_A_NOT_B[1][a][b][1] = a;
+                C_AND_A_NOT_B[1][a][b][2] = b;                
             }
         }
     }
@@ -182,19 +218,19 @@ public final class Simulator {
         apply(address + 11, SWAP);
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);        
-        apply(address + 9, CMP_C);      // s1 = (P1 == a1);
+        apply(address + 9, CMP_C);          // s1 = (P1 == a1);
         apply(address + 11, SWAP);
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
-        apply(address + 12, SWAP);      // order restored
+        apply(address + 12, SWAP);          // order restored
         
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);
         apply(address + 11, SWAP);
-        apply(address + 10, CMP_AND_C); // s1 = (P1 == a1) & (P0 == a0);
+        apply(address + 10, CMP_AND_C);     // s1 = (P1 == a1) & (P0 == a0);
         apply(address + 11, SWAP);
         apply(address + 12, SWAP);
-        apply(address + 13, SWAP);      // order restored
+        apply(address + 13, SWAP);          // order restored
         
         apply(address + 10, SWAP);
         apply(address + 9, SWAP);
@@ -205,65 +241,65 @@ public final class Simulator {
         apply(address + 4, SWAP);
         apply(address + 0, SWAP);
         apply(address + 1, SWAP);
-        apply(address + 2, COPY_A_B_C); // if (s1) i = I;
+        apply(address + 2, COPY_A_B_C);     // if (s1) i = I;
         apply(address + 1, SWAP);
         apply(address + 0, SWAP);
         apply(address + 4, SWAP);
         apply(address + 1, SWAP);
         apply(address + 2, SWAP);
-        apply(address + 3, COPY_A_B_C); // if (s1) j = J;
+        apply(address + 3, COPY_A_B_C);     // if (s1) j = J;
         apply(address + 2, SWAP);
         apply(address + 1, SWAP);
         apply(address + 2, SWAP);
         apply(address + 3, SWAP);
         apply(address + 5, SWAP);
-        apply(address + 4, COPY_A_B_C); // if (s1) k = K;
+        apply(address + 4, COPY_A_B_C);     // if (s1) k = K;
         apply(address + 3, SWAP);
         apply(address + 2, SWAP);
         apply(address + 6, SWAP);
         apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
-        apply(address + 10, SWAP);      // order restored
+        apply(address + 10, SWAP);          // order restored
     }    
     
     private void readOrWriteMemoryIfMNEqualsA(final int address) {          
         apply(address + 14, SWAP);
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
-        apply(address + 12, CMP_C);     // s0 = (M == a1);
+        apply(address + 12, CMP_C);         // s0 = (M == a1);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
-        apply(address + 14, CMP_AND_C); // s0 = (M == a1) & (N == a0);
+        apply(address + 14, CMP_AND_C);     // s0 = (M == a1) & (N == a0);
         apply(address + 15, SWAP);
         apply(address + 14, SWAP);
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);
-        apply(address + 14, SWAP);      // order restored
+        apply(address + 14, SWAP);          // order restored
         
         apply(address + 0, SWAP);
         apply(address + 1, SWAP);
         apply(address + 2, SWAP);
         apply(address + 3, SWAP);
         apply(address + 4, SWAP);
-        apply(address + 11, COPY_B_A);  // s1 = s0;
+        apply(address + 11, COPY_B_A);      // s1 = s0;
         apply(address + 10, SWAP);
         apply(address + 9, SWAP);
-        apply(address + 8, AND_B);      // s1 &= r;
+        apply(address + 8, AND_B);          // s1 &= r;
         apply(address + 8, SWAP);
         apply(address + 7, SWAP);
-        apply(address + 5, COPY_A_B_C); // if (s1) m = I;
+        apply(address + 5, COPY_A_B_C);     // if (s1) m = I;
         apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
-        apply(address + 11, COPY_B_A);  // s1 = s0;
+        apply(address + 11, COPY_B_A);      // s1 = s0;
         apply(address + 10, SWAP);
         apply(address + 9, SWAP);
         apply(address + 8, SWAP);
-        apply(address + 7, AND_B);      // s1 &= w;
+        apply(address + 7, AND_B);          // s1 &= w;
         apply(address + 7, SWAP);
-        apply(address + 5, COPY_B_A_C); // if (s1) I = m;
+        apply(address + 5, COPY_B_A_C);     // if (s1) I = m;
         apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
@@ -272,8 +308,80 @@ public final class Simulator {
         apply(address + 3, SWAP);
         apply(address + 2, SWAP);
         apply(address + 1, SWAP);
-        apply(address + 0, SWAP);       // order restored
-    }    
+        apply(address + 0, SWAP);           // order restored
+    }  
+    
+    private void finishLoad(final int address) {
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, C_AND_A_NOT_B); // s0 = r & !d;        
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, C_COPY_A_B);    // if (s0) A = m;
+        apply(address + 19, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 14, AND_A_B_C);     // s0 = r & d;
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, C_COPY_A_B);    // if (s0) B = m;       
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);          // order restored
+    }
     
     private int read(final int index) {
         return bytes[index];
@@ -309,17 +417,15 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
          
-        write(0x0123 + 21, 57);
-        
-        write(6, 68);
+        write(6, 123);
         write(8, 0xFF);
         
-        write(15, 0x01);
-        write(16, 0x23);
+        write(17, 1);
         
-        ascendMemoryCycle();
-        System.out.println(read(0x03FF + 6));
-        System.out.println(read(0x0123));
+        finishLoad(0);
+        
+        System.out.println(read(6));
+        
         
 //        for (int i = 0; i < 3; ++i) {
 //            ascendMemoryCycle();
