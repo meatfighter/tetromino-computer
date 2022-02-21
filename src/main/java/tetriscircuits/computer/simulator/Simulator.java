@@ -9,7 +9,17 @@ public final class Simulator {
     private static final int[][][] ZERO_C = new int[256][2][2];
     private static final int[][][] C_ZERO = new int[2][256][2];
     private static final int[][][] MINUS_C = new int[256][2][2];
-    private static final int[][][] C_MINUS = new int[2][256][2];    
+    private static final int[][][] C_MINUS = new int[2][256][2];
+    
+    private static final int[][][] T_A_X_C = new int[256][2][2];
+    private static final int[][][] T_B_X_C = new int[256][2][2];
+    private static final int[][][] T_M_X_C = new int[256][2][2];
+    private static final int[][][] T_N_X_C = new int[256][2][2];
+    
+    private static final int[][][] T_X_A_C = new int[256][2][2];
+    private static final int[][][] T_X_B_C = new int[256][2][2];
+    private static final int[][][] T_X_M_C = new int[256][2][2];
+    private static final int[][][] T_X_N_C = new int[256][2][2];    
 
     private static final int[][][] SWAP = new int[256][256][2];
     private static final int[][][] COPY_A_B = new int[256][256][2];
@@ -53,7 +63,48 @@ public final class Simulator {
             C_MINUS[0][a][0] = ((a & 0x80) != 0) ? 1 : 0;
             C_MINUS[0][a][1] = a;
             C_MINUS[1][a][0] = ((a & 0x80) != 0) ? 1 : 0;
-            C_MINUS[1][a][1] = a;            
+            C_MINUS[1][a][1] = a;      
+            
+            T_A_X_C[a][0][0] = a;
+            T_A_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
+            T_A_X_C[a][1][0] = a;
+            T_A_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
+            
+            T_B_X_C[a][0][0] = a;
+            T_B_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
+            T_B_X_C[a][1][0] = a;
+            T_B_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
+            
+            T_M_X_C[a][0][0] = a;
+            T_M_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
+            T_M_X_C[a][1][0] = a;
+            T_M_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
+
+            T_N_X_C[a][0][0] = a;
+            T_N_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0;
+            T_N_X_C[a][1][0] = a;
+            T_N_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0; 
+            
+            
+            T_X_A_C[a][0][0] = a;
+            T_X_A_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
+            T_X_A_C[a][1][0] = a;
+            T_X_A_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
+            
+            T_X_B_C[a][0][0] = a;
+            T_X_B_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
+            T_X_B_C[a][1][0] = a;
+            T_X_B_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
+            
+            T_X_M_C[a][0][0] = a;
+            T_X_M_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
+            T_X_M_C[a][1][0] = a;
+            T_X_M_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
+
+            T_X_N_C[a][0][0] = a;
+            T_X_N_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;
+            T_X_N_C[a][1][0] = a;
+            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;            
             
             for (int b = 0xFF; b >= 0; --b) {
                 SWAP[a][b][0] = b;
@@ -411,10 +462,80 @@ public final class Simulator {
         apply(address + 12, SWAP);          // order restored
     }
     
-    private void transfer(final int address) {
+    private void transfer(final int address) {       
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 0, SWAP);
+        apply(address + 1, SWAP);
+        apply(address + 2, SWAP);
+        apply(address + 3, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, T_M_X_C);       // s1 = (I == TMx);
+        apply(address + 13, C_COPY_A_B);    // if (s1) s0 = M;
+        apply(address + 15, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, T_N_X_C);       // s1 = (I == TNx);
+        apply(address + 14, C_COPY_A_B);    // if (s1) s0 = N;
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);        
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);        
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, T_A_X_C);       // s1 = (I == TAx);
+        apply(address + 18, C_COPY_A_B);    // if (s1) s0 = A;
+        apply(address + 20, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, T_B_X_C);       // s1 = (I == TBx);
+        apply(address + 19, C_COPY_A_B);    // if (s1) s0 = B;
+        apply(address + 18, T_X_B_C);       // s1 = (I == TxB);
+        apply(address + 19, C_COPY_B_A);    // if (s1) B = s0;
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 17, T_X_A_C);       // s1 = (I == TxA);
+        apply(address + 18, C_COPY_B_A);    // if (s1) A = s0;        
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);        
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 13, T_X_N_C);       // s1 = (I == TxN);
+        apply(address + 14, C_COPY_B_A);    // if (s1) N = s0;
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 12, T_X_M_C);       // s1 = (I == TxM);
+        apply(address + 13, C_COPY_B_A);    // if (s1) M = s0;        
+        
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+        // J  K  i [j  k  m  w  r  P1 P0 a1 a0 I  s1 M  s0 N  d  n  z  A  B  R1 R0] Q        
     }
     
     private int read(final int index) {
@@ -450,16 +571,24 @@ public final class Simulator {
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
-         
-        write(6, 0x0);
-        write(8, 0xFF);
         
-        write(17, 1);
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // J  K  i [j  k  m  w  r  P1 P0 a1 a0 I  s1 M  s0 N  d  n  z  A  B  R1 R0] Q
+                 
+        write(20, 1); // A
+        write(21, 2); // B
+        write(15, 3); // M
+        write(16, 4); // N
         
-        finishLoad(0);
+        write(3, 0b0000_00_01);
         
-        System.out.println(read(18));
-        System.out.println(read(19));
+        transfer(0);
+        
+        System.out.println(read(20));
+        System.out.println(read(21));
+        System.out.println(read(14));
+        System.out.println(read(16));
         
         
 //        for (int i = 0; i < 3; ++i) {
