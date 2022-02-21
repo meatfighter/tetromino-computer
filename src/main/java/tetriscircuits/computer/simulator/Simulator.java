@@ -388,7 +388,7 @@ public final class Simulator {
         apply(address + 0, SWAP);           // order restored
     }  
     
-    private void finishLoad(final int address) {
+    private void finishLoad(final int address) {        
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
@@ -414,8 +414,16 @@ public final class Simulator {
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [i  j  k  m  w  P1 P0 s1 s0 a1 a0 M  N  r  d  n  z  A  B  R1 R0] Q
+        
+        // TODO r m n  // if (r) n = (m < 0);
+        // TODO r m z  // if (r) z = (m == 0);
+        
         apply(address + 17, C_MINUS);       // n = (m < 0);
-        apply(address + 18, ZERO_C);        // z = (m == 0);
+        apply(address + 18, ZERO_C);        // z = (m == 0); // TODO DON'T SET THESE FLAGS UNLESS r == 1
         apply(address + 18, SWAP);        
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
@@ -564,6 +572,25 @@ public final class Simulator {
     }
     
     public void launch() {
+        
+        // TODO:
+        // apply(address + 9, INC_16);         // ++P;
+
+//    DEC(0b0001_0001),
+//    INC(0b0001_0000),
+//    LSH(0b0001_0100),    
+//    NOT(0b0001_1001),
+//    RSH(0b0001_0101),
+//    
+//    I -> s1, A -> s0, f(s0) -> s0, s1,s0 -> A,n,z
+
+//    ADD(0b0001_0010),    
+//    AND(0b0001_0110),
+//    OR(0b0001_0111),
+//    SUB(0b0001_0011),
+//    XOR(0b0001_1000),        
+
+//    I -> s1, A -> s0, B -> d, f(s0, d) -> s0, s1,s0,d -> A,n,z
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
