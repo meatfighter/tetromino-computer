@@ -467,10 +467,7 @@ public final class Simulator {
         apply(address + 13, SWAP);
         apply(address + 14, SWAP);
         apply(address + 11, SWAP);
-        apply(address + 12, SWAP);
-        apply(address + 0, SWAP);
-        apply(address + 1, SWAP);
-        apply(address + 2, SWAP);
+        apply(address + 12, SWAP);        
         apply(address + 3, SWAP);
         apply(address + 4, SWAP);
         apply(address + 5, SWAP);
@@ -535,7 +532,7 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // J  K  i [j  k  m  w  r  P1 P0 a1 a0 I  s1 M  s0 N  d  n  z  A  B  R1 R0] Q        
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q        
     }
     
     private int read(final int index) {
@@ -574,14 +571,14 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // J  K  i [j  k  m  w  r  P1 P0 a1 a0 I  s1 M  s0 N  d  n  z  A  B  R1 R0] Q
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q 
                  
         write(20, 1); // A
         write(21, 2); // B
         write(15, 3); // M
         write(16, 4); // N
         
-        write(3, 0b0000_00_01);
+        write(3, 0b0000_11_10);
         
         transfer(0);
         
