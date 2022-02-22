@@ -388,21 +388,18 @@ public final class Simulator {
         apply(address + 0, SWAP);           // order restored
     }  
     
-    private void finishLoad(final int address) {        
+    private void finishLoad(final int address) {  
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
-        apply(address + 11, SWAP);
+        apply(address + 11, MINUS_C);       // s0 = (m < 0);
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
-        apply(address + 11, SWAP);
-        apply(address + 12, SWAP);
-        apply(address + 13, SWAP);
-        apply(address + 14, SWAP);
-        apply(address + 15, C_AND_A_NOT_B); // s0 = r & !d;        
-        apply(address + 6, SWAP);
+        apply(address + 16, SWAP);
         apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
@@ -412,33 +409,39 @@ public final class Simulator {
         apply(address + 13, SWAP);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
+        apply(address + 16, C_COPY_A_B);    // if (r) n = s0;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, ZERO_C);        // s0 = (m == 0);
+        apply(address + 17, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, C_COPY_A_B);    // if (r) z = s0;
+        apply(address + 17, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
-        
-        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [i  j  k  m  w  P1 P0 s1 s0 a1 a0 M  N  r  d  n  z  A  B  R1 R0] Q
-        
-        // TODO r m n  // if (r) n = (m < 0);
-        // TODO r m z  // if (r) z = (m == 0);
-        
-        apply(address + 17, C_MINUS);       // n = (m < 0);
-        apply(address + 18, ZERO_C);        // z = (m == 0); // TODO DON'T SET THESE FLAGS UNLESS r == 1
-        apply(address + 18, SWAP);        
+        apply(address + 16, C_AND_A_NOT_B); // s0 = r & !d;
         apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
         apply(address + 18, C_COPY_A_B);    // if (s0) A = m;
+        apply(address + 17, SWAP);
+        apply(address + 15, AND_A_B_C);     // s0 = r & d;
         apply(address + 19, SWAP);
         apply(address + 17, SWAP);
-        apply(address + 16, SWAP);
-        apply(address + 14, AND_A_B_C);     // s0 = r & d;
-        apply(address + 16, SWAP);
-        apply(address + 17, SWAP);
         apply(address + 18, SWAP);
-        apply(address + 19, C_COPY_A_B);    // if (s0) B = m;       
-        apply(address + 20, SWAP);
+        apply(address + 19, C_COPY_A_B);    // if (s0) B = m;
         apply(address + 19, SWAP);
         apply(address + 18, SWAP);
         apply(address + 17, SWAP);
@@ -452,7 +455,8 @@ public final class Simulator {
         apply(address + 9, SWAP);
         apply(address + 8, SWAP);
         apply(address + 7, SWAP);
-        apply(address + 6, SWAP);
+        apply(address + 6, SWAP); 
+        apply(address + 15, SWAP);
         apply(address + 14, SWAP);
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);
@@ -467,7 +471,8 @@ public final class Simulator {
         apply(address + 15, SWAP);
         apply(address + 14, SWAP);
         apply(address + 13, SWAP);
-        apply(address + 12, SWAP);          // order restored
+        apply(address + 12, SWAP);           
+        apply(address + 17, SWAP);          // order restored 
     }
     
     private void transfer(final int address) {       
@@ -600,19 +605,19 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q 
                  
-        write(20, 1); // A
-        write(21, 2); // B
-        write(15, 3); // M
-        write(16, 4); // N
-        
-        write(3, 0b0000_11_10);
-        
-        transfer(0);
-        
-        System.out.println(read(20));
-        System.out.println(read(21));
-        System.out.println(read(14));
-        System.out.println(read(16));
+//        write(20, 1); // A
+//        write(21, 2); // B
+//        write(15, 3); // M
+//        write(16, 4); // N
+//        
+//        write(3, 0b0000_11_10);
+//        
+//        transfer(0);
+//        
+//        System.out.println(read(20));
+//        System.out.println(read(21));
+//        System.out.println(read(14));
+//        System.out.println(read(16));
         
         
 //        for (int i = 0; i < 3; ++i) {
@@ -627,7 +632,37 @@ public final class Simulator {
 //        }
 //        long endTime = System.nanoTime();
 //        System.out.format("%f%n", (endTime - startTime) / 1_000_000_000.0);
+
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+
+        write(6, 0x3F);
+        write(8, 0);
+        write(17, 0);
+        write(18, 1);
+        write(19, 1);
+        write(20, 11);
+        write(21, 22);  
         
+        System.out.println("m = " + read(6));
+        System.out.println("r = " + read(8));
+        System.out.println("d = " + read(17));
+        System.out.println("n = " + read(18));
+        System.out.println("z = " + read(19));
+        System.out.println("A = " + read(20));
+        System.out.println("B = " + read(21));        
+        
+        finishLoad(0);
+        System.out.println();
+        
+        System.out.println("m = " + read(6));
+        System.out.println("r = " + read(8));
+        System.out.println("d = " + read(17));
+        System.out.println("n = " + read(18));
+        System.out.println("z = " + read(19));
+        System.out.println("A = " + read(20));
+        System.out.println("B = " + read(21));
     }
     
     public static void main(final String... args) {
