@@ -587,7 +587,24 @@ public final class Simulator {
 //    NOT(0b0001_1001),
 //    RSH(0b0001_0101),
 //    
-//    I -> s1, A -> s0, f(s0) -> s0, s1,s0 -> A,n,z
+//    d = 0;
+
+//    loop:
+//
+//    s1 = test(i);
+//    d |= s1;
+//
+//    so = A;
+//    s0 = f(s0);
+//    if (s1) A = s0;
+
+//    ... repeat ...
+
+//    s0 = minus(A);
+//    if (d) n = s0;
+
+//    s0 = zero(A);
+//    if (d) z = s0;
 
 //    ADD(0b0001_0010),    
 //    AND(0b0001_0110),
@@ -595,7 +612,25 @@ public final class Simulator {
 //    SUB(0b0001_0011),
 //    XOR(0b0001_1000),        
 
-//    I -> s1, A -> s0, B -> d, f(s0, d) -> s0, s1,s0,d -> A,n,z
+//    d = 0;
+
+//    loop:
+//
+//    s1 = test(i);
+//    d |= s1;
+//
+//    s0 = A;
+//    r  = B;
+//    s0 = f(s0, r); // r only needed for ADD and SUB
+//    if (s1) A = s0;
+
+//    ... repeat ...
+
+//    s0 = minus(A);
+//    if (d) n = s0;
+
+//    s0 = zero(A);
+//    if (d) z = s0;    
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
