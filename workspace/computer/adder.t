@@ -1,11 +1,13 @@
-ih 0
+ih 6
+ih -4
+s7 -6 0
+z5 -3 0
 ih 3
-jd 7
+ih 7
 nor 5 2
 ir5 8 2
 nor 7 7
-s11 -2 0
-ir8 -5 2
+il9 -5 2
 ih 3
 ju 0
 swap -3 10
@@ -35,22 +37,20 @@ nor 11 79
 ir42 -8 31
 ih -4
 nor -7 73
-
-
 ir76 -12 1
 ih -10
 jr -9
 ih -4
 o -3
-
-
-
 swap -4 81
+ir19 11 84
+ih -8
+ih 0
 
+in ai -6..-3 0
+in bi 4..7 0
+in ci 11..12 0
 
-in a -2..1 0
-in b 8 0
-in carryIn 11..12 0
-
-out carryOut -8 84
-out sum 10..12 84
+out co -10..-7 103
+out a0 -2..1 103
+out s 11 103

@@ -1,3 +1,4 @@
-aXorB = (a != b);
-sum = (carryIn != aXorB);
-carryOut = (a && b) || (carryIn && aXorB);
+sum = (ai ? 1 : 0) + (bi ? 1 : 0) + (ci ? 1 : 0);
+co = ((sum >> 1) & 1) != 0;
+a0 = ai;
+s = (sum & 1) != 0;
