@@ -35,3 +35,20 @@ in ai7 69 0
 in bi7 79 0
 in ci 83..84 0
 
+out co -77..-76 824
+out ao7 -67 824
+out s7 -57 824
+out ao6 -47 824
+out s6 -37 824
+out ao5 -27 824
+out s5 -17 824
+out ao4 -7 824
+out s4 3 824
+out ao3 13 824
+out s3 23 824
+out ao2 33 824
+out s2 43 824
+out ao1 53 824
+out s1 63 824
+out ao0 73 824
+out s0 83 824
