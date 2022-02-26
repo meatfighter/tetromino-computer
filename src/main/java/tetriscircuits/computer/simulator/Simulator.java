@@ -28,6 +28,18 @@ public final class Simulator {
     private static final int[][][] INC_16 = new int[256][256][2];
     private static final int[][][] AND_A = new int[256][256][2];
     private static final int[][][] AND_B = new int[256][256][2];
+
+    private static final int[][][] ADD_AB_FB = new int[256][256][2];
+    private static final int[][][] AND_AB_FB = new int[256][256][2];
+    private static final int[][][] OR_AB_FB = new int[256][256][2];
+    private static final int[][][] SUB_AB_FB = new int[256][256][2];
+    private static final int[][][] XOR_AB_FB = new int[256][256][2];
+    
+    private static final int[] DEC = new int[256];
+    private static final int[] INC = new int[256];
+    private static final int[] LSH = new int[256];
+    private static final int[] NOT = new int[256];
+    private static final int[] RSH = new int[256];
     
     private static final int[][][][] C_CMP = new int[2][256][256][3];
     private static final int[][][][] CMP_C = new int[256][256][2][3];
@@ -40,7 +52,7 @@ public final class Simulator {
     private static final int[][][][] AND_A_B_C = new int[256][256][2][3];
     private static final int[][][][] AND_C_A_B = new int[2][256][256][3];
     private static final int[][][][] AND_A_NOT_B_C = new int[256][256][2][3];
-    private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3];    
+    private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3]; 
     
     static {
         for (int a = 0xFF; a >= 0; --a) {
@@ -104,7 +116,13 @@ public final class Simulator {
             T_X_N_C[a][0][0] = a;
             T_X_N_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;
             T_X_N_C[a][1][0] = a;
-            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;            
+            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;   
+
+            DEC[a] = 0xFF & (a - 1);
+            INC[a] = 0xFF & (a + 1);
+            LSH[a] = 0xFF & (a << 1);
+            NOT[a] = (a == 0) ? 1 : 0;
+            RSH[a] = 0xFF & (a >> 1);            
             
             for (int b = 0xFF; b >= 0; --b) {
                 SWAP[a][b][0] = b;
@@ -212,7 +230,22 @@ public final class Simulator {
                 C_AND_A_NOT_B[0][a][b][2] = b;
                 C_AND_A_NOT_B[1][a][b][0] = a & (b == 0 ? 1 : 0);
                 C_AND_A_NOT_B[1][a][b][1] = a;
-                C_AND_A_NOT_B[1][a][b][2] = b;                
+                C_AND_A_NOT_B[1][a][b][2] = b;    
+
+                ADD_AB_FB[a][b][0] = 0xFF & (a + b);
+                ADD_AB_FB[a][b][1] = b;
+                
+                AND_AB_FB[a][b][0] = 0xFF & (a & b);
+                AND_AB_FB[a][b][1] = b;
+                
+                OR_AB_FB[a][b][0] = 0xFF & (a | b);
+                OR_AB_FB[a][b][1] = b;
+                
+                SUB_AB_FB[a][b][0] = 0xFF & (a - b);
+                SUB_AB_FB[a][b][1] = b;
+                
+                XOR_AB_FB[a][b][0] = 0xFF & (a ^ b);
+                XOR_AB_FB[a][b][1] = b;
             }
         }
     }
