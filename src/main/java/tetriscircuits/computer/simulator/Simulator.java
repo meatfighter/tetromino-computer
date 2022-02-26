@@ -170,14 +170,14 @@ public final class Simulator {
             RSH_C[a][1][1] = (a == 0b0001_0101) ? 1 : 0; 
             
             SUB_C[a][0][0] = a;
-            SUB_C[a][0][1] = (a == 0b0001_0111) ? 1 : 0;
+            SUB_C[a][0][1] = (a == 0b0001_0011) ? 1 : 0;
             SUB_C[a][1][0] = a;
-            SUB_C[a][1][1] = (a == 0b0001_0111) ? 1 : 0;
+            SUB_C[a][1][1] = (a == 0b0001_0011) ? 1 : 0;
             
             XOR_C[a][0][0] = a;
-            XOR_C[a][0][1] = (a == 0b0001_0101) ? 1 : 0;
+            XOR_C[a][0][1] = (a == 0b0001_1000) ? 1 : 0;
             XOR_C[a][1][0] = a;
-            XOR_C[a][1][1] = (a == 0b0001_0101) ? 1 : 0;            
+            XOR_C[a][1][1] = (a == 0b0001_1000) ? 1 : 0;            
 
             CLEAR[a] = 0;
             DEC[a] = 0xFF & (a - 1);
@@ -660,7 +660,7 @@ public final class Simulator {
         apply(address + 18, SWAP); // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         apply(address + 17, SWAP); // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 d  s0 A  B  M  N  n  z  R1 R0] Q
         
-        apply(address + 14, CLEAR);         // d = 0;
+        apply(address + 14, CLEAR);         // d = 0;      
         
         apply(address + 12, ADD_C);         // s1 = (i == ADD);
         apply(address + 13, SWAP);
@@ -750,7 +750,9 @@ public final class Simulator {
         apply(address + 16, XOR_AB_FB);     // s0 ^= B;
         apply(address + 15, SWAP);
         apply(address + 14, C_COPY_A_B);    // if (s1) A = s0;
-        apply(address + 13, SWAP);        
+        apply(address + 13, SWAP);
+        
+        apply(address + 15, CLEAR);         // so = 0; since it is not a flag
         
         apply(address + 15, C_MINUS);       // so = (A < 0);
         apply(address + 19, SWAP);
@@ -812,71 +814,25 @@ public final class Simulator {
         
         // TODO:
         // apply(address + 9, INC_16);         // ++P;
-
-//    DEC(0b0001_0001),
-//    INC(0b0001_0000),
-//    LSH(0b0001_0100),    
-//    NOT(0b0001_1001),
-//    RSH(0b0001_0101),
-//    
-//    d = 0;
-
-//    loop:
-//
-//    s1 = test(i);
-//    d |= s1;
-//
-//    so = A;
-//    s0 = f(s0);
-//    if (s1) A = s0;
-
-//    ... repeat ...
-
-//    s0 = minus(A);
-//    if (d) n = s0;
-
-//    s0 = zero(A);
-//    if (d) z = s0;
-
-//    ADD(0b0001_0010),    
-//    AND(0b0001_0110),
-//    OR(0b0001_0111),
-//    SUB(0b0001_0011),
-//    XOR(0b0001_1000),        
-
-//    d = 0;
-
-//    loop:
-//
-//    s1 = test(i);
-//    d |= s1;
-//
-//    s0 = A;
-//    s0 = f(s0, B); 
-//    if (s1) A = s0;
-
-//    ... repeat ...
-
-//    s0 = minus(A);
-//    if (d) n = s0;
-
-//    s0 = zero(A);
-//    if (d) z = s0;    
-        
-        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q 
-                 
-//        write(20, 1); // A
-//        write(21, 2); // B
-//        write(15, 3); // M
-//        write(16, 4); // N
-//        
-//        write(3, 0b0000_11_10);
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 d  s0 A  B  M  N  n  z  R1 R0] Q
+        
+        transfer(0);
+        
+        write(12, 0b0001_1000); // i
+        write(20, 0xFF & 10); // A
+        write(21, 0xFF & 20); // B
+                
+        runALU(0);
+        
+        System.out.format("A = %d, B = %d, n = %d, z = %d%n", read(16), read(17), read(20), read(21));
+                
 //        
 //        transfer(0);
 //        
@@ -903,32 +859,32 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
 
-        write(6, 0x3F);
-        write(8, 0);
-        write(17, 0);
-        write(18, 1);
-        write(19, 1);
-        write(20, 11);
-        write(21, 22);  
-        
-        System.out.println("m = " + read(6));
-        System.out.println("r = " + read(8));
-        System.out.println("d = " + read(17));
-        System.out.println("n = " + read(18));
-        System.out.println("z = " + read(19));
-        System.out.println("A = " + read(20));
-        System.out.println("B = " + read(21));        
-        
-        finishLoad(0);
-        System.out.println();
-        
-        System.out.println("m = " + read(6));
-        System.out.println("r = " + read(8));
-        System.out.println("d = " + read(17));
-        System.out.println("n = " + read(18));
-        System.out.println("z = " + read(19));
-        System.out.println("A = " + read(20));
-        System.out.println("B = " + read(21));
+//        write(6, 0x3F);
+//        write(8, 0);
+//        write(17, 0);
+//        write(18, 1);
+//        write(19, 1);
+//        write(20, 11);
+//        write(21, 22);  
+//        
+//        System.out.println("m = " + read(6));
+//        System.out.println("r = " + read(8));
+//        System.out.println("d = " + read(17));
+//        System.out.println("n = " + read(18));
+//        System.out.println("z = " + read(19));
+//        System.out.println("A = " + read(20));
+//        System.out.println("B = " + read(21));        
+//        
+//        finishLoad(0);
+//        System.out.println();
+//        
+//        System.out.println("m = " + read(6));
+//        System.out.println("r = " + read(8));
+//        System.out.println("d = " + read(17));
+//        System.out.println("n = " + read(18));
+//        System.out.println("z = " + read(19));
+//        System.out.println("A = " + read(20));
+//        System.out.println("B = " + read(21));
     }
     
     public static void main(final String... args) {
