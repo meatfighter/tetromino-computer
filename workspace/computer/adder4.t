@@ -20,7 +20,7 @@ in bi0 37 0
 in ci 41..42 0
 
 out co -39..-38 412
-out ao3 -29 412
+out ao3 -32..-29 412
 out s3 -19 412
 out ao2 -9 412
 out s2 1 412

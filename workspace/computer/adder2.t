@@ -12,7 +12,7 @@ in bi0 17 0
 in ci 21..22 0
 
 out co -19..-18 206
-out ao1 -9 206
+out ao1 -12..-9 206
 out s1 1 206
 out ao0 11 206
 out s0 21 206
