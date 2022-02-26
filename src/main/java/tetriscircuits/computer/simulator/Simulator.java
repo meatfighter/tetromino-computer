@@ -35,11 +35,23 @@ public final class Simulator {
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
     private static final int[][][] XOR_AB_FB = new int[256][256][2];
     
+    private static final int[] CLEAR = new int[256];
     private static final int[] DEC = new int[256];
     private static final int[] INC = new int[256];
     private static final int[] LSH = new int[256];
     private static final int[] NOT = new int[256];
     private static final int[] RSH = new int[256];
+    
+    private static final int[][][] ADD_C = new int[256][2][2];
+    private static final int[][][] AND_C = new int[256][2][2];
+    private static final int[][][] DEC_C = new int[256][2][2];
+    private static final int[][][] INC_C = new int[256][2][2];
+    private static final int[][][] LSH_C = new int[256][2][2];
+    private static final int[][][] NOT_C = new int[256][2][2];
+    private static final int[][][] OR_C = new int[256][2][2];
+    private static final int[][][] RSH_C = new int[256][2][2];
+    private static final int[][][] SUB_C = new int[256][2][2];
+    private static final int[][][] XOR_C = new int[256][2][2];    
     
     private static final int[][][][] C_CMP = new int[2][256][256][3];
     private static final int[][][][] CMP_C = new int[256][256][2][3];
@@ -96,8 +108,7 @@ public final class Simulator {
             T_N_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0;
             T_N_X_C[a][1][0] = a;
             T_N_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0; 
-            
-            
+                        
             T_X_A_C[a][0][0] = a;
             T_X_A_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
             T_X_A_C[a][1][0] = a;
@@ -116,8 +127,59 @@ public final class Simulator {
             T_X_N_C[a][0][0] = a;
             T_X_N_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;
             T_X_N_C[a][1][0] = a;
-            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;   
+            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0; 
+            
+            ADD_C[a][0][0] = a;
+            ADD_C[a][0][1] = (a == 0b0001_0010) ? 1 : 0;
+            ADD_C[a][1][0] = a;
+            ADD_C[a][1][1] = (a == 0b0001_0010) ? 1 : 0;
+            
+            AND_C[a][0][0] = a;
+            AND_C[a][0][1] = (a == 0b0001_0110) ? 1 : 0;
+            AND_C[a][1][0] = a;
+            AND_C[a][1][1] = (a == 0b0001_0110) ? 1 : 0;
+            
+            DEC_C[a][0][0] = a;
+            DEC_C[a][0][1] = (a == 0b0001_0001) ? 1 : 0;
+            DEC_C[a][1][0] = a;
+            DEC_C[a][1][1] = (a == 0b0001_0001) ? 1 : 0;
+            
+            INC_C[a][0][0] = a;
+            INC_C[a][0][1] = (a == 0b0001_0000) ? 1 : 0;
+            INC_C[a][1][0] = a;
+            INC_C[a][1][1] = (a == 0b0001_0000) ? 1 : 0;            
+            
+            LSH_C[a][0][0] = a;
+            LSH_C[a][0][1] = (a == 0b0001_0100) ? 1 : 0;
+            LSH_C[a][1][0] = a;
+            LSH_C[a][1][1] = (a == 0b0001_0100) ? 1 : 0;
+            
+            NOT_C[a][0][0] = a;
+            NOT_C[a][0][1] = (a == 0b0001_1001) ? 1 : 0;
+            NOT_C[a][1][0] = a;
+            NOT_C[a][1][1] = (a == 0b0001_1001) ? 1 : 0;
+            
+            OR_C[a][0][0] = a;
+            OR_C[a][0][1] = (a == 0b0001_0111) ? 1 : 0;
+            OR_C[a][1][0] = a;
+            OR_C[a][1][1] = (a == 0b0001_0111) ? 1 : 0;
+            
+            RSH_C[a][0][0] = a;
+            RSH_C[a][0][1] = (a == 0b0001_0101) ? 1 : 0;
+            RSH_C[a][1][0] = a;
+            RSH_C[a][1][1] = (a == 0b0001_0101) ? 1 : 0; 
+            
+            SUB_C[a][0][0] = a;
+            SUB_C[a][0][1] = (a == 0b0001_0111) ? 1 : 0;
+            SUB_C[a][1][0] = a;
+            SUB_C[a][1][1] = (a == 0b0001_0111) ? 1 : 0;
+            
+            XOR_C[a][0][0] = a;
+            XOR_C[a][0][1] = (a == 0b0001_0101) ? 1 : 0;
+            XOR_C[a][1][0] = a;
+            XOR_C[a][1][1] = (a == 0b0001_0101) ? 1 : 0;            
 
+            CLEAR[a] = 0;
             DEC[a] = 0xFF & (a - 1);
             INC[a] = 0xFF & (a + 1);
             LSH[a] = 0xFF & (a << 1);
@@ -581,6 +643,91 @@ public final class Simulator {
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q        
     }
     
+    private void runALU(final int address) {
+        
+        // execute after transfer()
+        
+        apply(address + 14, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);        
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP); // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        apply(address + 18, SWAP); // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        apply(address + 17, SWAP); // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 d  s0 A  B  M  N  n  z  R1 R0] Q
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  d  s1 s0 A  B  M  N  n  z  R1 R0] Q 
+        
+        apply(address + 14, CLEAR);         // d = 0;
+        
+        apply(address + 12, ADD_C);         // s1 = (i == ADD);
+        apply(address + 13, SWAP);
+        apply(address + 13, OR_AB_FB);      // d |= s1;
+        apply(address + 13, COPY_B_A);      // s0 = A;
+        
+        
+        
+        // i s1 d s0 A B
+        // i d s1 s0 A B
+        // i d s1 A s0 B
+        
+//    DEC(0b0001_0001),
+//    INC(0b0001_0000),
+//    LSH(0b0001_0100),    
+//    NOT(0b0001_1001),
+//    RSH(0b0001_0101),
+//    
+//    d = 0;
+
+//    loop:
+//
+//    s1 = test(i);
+//    d |= s1;
+//
+//    s0 = A;
+//    s0 = f(s0);
+//    if (s1) A = s0;
+
+//    ... repeat ...
+
+//    s0 = minus(A);
+//    if (d) n = s0;
+
+//    s0 = zero(A);
+//    if (d) z = s0;
+
+//    ADD(0b0001_0010),    
+//    AND(0b0001_0110),
+//    OR(0b0001_0111),
+//    SUB(0b0001_0011),
+//    XOR(0b0001_1000),        
+
+//    d = 0;
+
+//    loop:
+//
+//    s1 = test(i);
+//    d |= s1;
+//
+//    s0 = A;
+//    s0 = f(s0, B); 
+//    if (s1) A = s0;
+
+//    ... repeat ...
+
+//    s0 = minus(A);
+//    if (d) n = s0;
+
+//    s0 = zero(A);
+//    if (d) z = s0; 
+    }
+    
     private int read(final int index) {
         return bytes[index];
     }
@@ -653,8 +800,7 @@ public final class Simulator {
 //    d |= s1;
 //
 //    s0 = A;
-//    r  = B;
-//    s0 = f(s0, r); // r only needed for ADD and SUB
+//    s0 = f(s0, B); 
 //    if (s1) A = s0;
 
 //    ... repeat ...
