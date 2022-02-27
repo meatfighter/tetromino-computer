@@ -31,6 +31,7 @@ public final class Simulator {
 
     private static final int[][][] ADD_AB_FB = new int[256][256][2];
     private static final int[][][] AND_AB_FB = new int[256][256][2];
+    private static final int[][][] AND_NOT_AB_FB = new int[256][256][2];
     private static final int[][][] OR_AB_FB = new int[256][256][2];
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
     private static final int[][][] XOR_AB_FB = new int[256][256][2];
@@ -51,7 +52,21 @@ public final class Simulator {
     private static final int[][][] OR_C = new int[256][2][2];
     private static final int[][][] RSH_C = new int[256][2][2];
     private static final int[][][] SUB_C = new int[256][2][2];
-    private static final int[][][] XOR_C = new int[256][2][2];    
+    private static final int[][][] XOR_C = new int[256][2][2];
+
+    private static final int[][][] SER_C = new int[256][2][2];
+    private static final int[][][] THREE_C = new int[256][2][2];
+    
+    private static final int[][][] SEA_C = new int[256][2][2];
+    private static final int[][][] SEB_C = new int[256][2][2];
+    private static final int[][][] SMN_C = new int[256][2][2];
+    private static final int[][][] JMP_C = new int[256][2][2];
+    private static final int[][][] BEQ_C = new int[256][2][2];
+    private static final int[][][] BMI_C = new int[256][2][2];
+    private static final int[][][] BNE_C = new int[256][2][2];
+    private static final int[][][] BPL_C = new int[256][2][2];
+    private static final int[][][] JSR_C = new int[256][2][2];
+    private static final int[][][] RTS_C = new int[256][2][2];    
     
     private static final int[][][][] C_CMP = new int[2][256][256][3];
     private static final int[][][][] CMP_C = new int[256][256][2][3];
@@ -65,6 +80,8 @@ public final class Simulator {
     private static final int[][][][] AND_C_A_B = new int[2][256][256][3];
     private static final int[][][][] AND_A_NOT_B_C = new int[256][256][2][3];
     private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3]; 
+    
+    private static final int[][][][] INC_16_C = new int[256][256][2][3];
     
     static {
         for (int a = 0xFF; a >= 0; --a) {
@@ -177,7 +194,67 @@ public final class Simulator {
             XOR_C[a][0][0] = a;
             XOR_C[a][0][1] = (a == 0b0001_1000) ? 1 : 0;
             XOR_C[a][1][0] = a;
-            XOR_C[a][1][1] = (a == 0b0001_1000) ? 1 : 0;            
+            XOR_C[a][1][1] = (a == 0b0001_1000) ? 1 : 0;
+
+            SER_C[a][0][0] = a;
+            SER_C[a][0][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
+            SER_C[a][1][0] = a;
+            SER_C[a][1][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
+            
+            THREE_C[a][0][0] = a;
+            THREE_C[a][0][1] = ((a & 0b1111_0000) == 0b0010_0000) ? 1 : 0;
+            THREE_C[a][1][0] = a;
+            THREE_C[a][1][1] = ((a & 0b1111_0000) == 0b0010_0000) ? 1 : 0;
+            
+            SEA_C[a][0][0] = a;
+            SEA_C[a][0][1] = (a == 0b0101_0000) ? 1 : 0;
+            SEA_C[a][1][0] = a;
+            SEA_C[a][1][1] = (a == 0b0101_0000) ? 1 : 0;
+
+            SEB_C[a][0][0] = a;
+            SEB_C[a][0][1] = (a == 0b0101_0001) ? 1 : 0;
+            SEB_C[a][1][0] = a;
+            SEB_C[a][1][1] = (a == 0b0101_0001) ? 1 : 0;
+
+            SMN_C[a][0][0] = a;
+            SMN_C[a][0][1] = (a == 0b0010_1111) ? 1 : 0;
+            SMN_C[a][1][0] = a;
+            SMN_C[a][1][1] = (a == 0b0010_1111) ? 1 : 0; 
+            
+            JMP_C[a][0][0] = a;
+            JMP_C[a][0][1] = (a == 0b0010_0000) ? 1 : 0;
+            JMP_C[a][1][0] = a;
+            JMP_C[a][1][1] = (a == 0b0010_0000) ? 1 : 0; 
+            
+            BEQ_C[a][0][0] = a;
+            BEQ_C[a][0][1] = (a == 0b0010_0011) ? 1 : 0;
+            BEQ_C[a][1][0] = a;
+            BEQ_C[a][1][1] = (a == 0b0010_0011) ? 1 : 0; 
+            
+            BMI_C[a][0][0] = a;            
+            BMI_C[a][0][1] = (a == 0b0010_0101) ? 1 : 0;
+            BMI_C[a][1][0] = a;
+            BMI_C[a][1][1] = (a == 0b0010_0101) ? 1 : 0; 
+            
+            BNE_C[a][0][0] = a;            
+            BNE_C[a][0][1] = (a == 0b0010_0010) ? 1 : 0;
+            BNE_C[a][1][0] = a;
+            BNE_C[a][1][1] = (a == 0b0010_0010) ? 1 : 0;
+            
+            BPL_C[a][0][0] = a;            
+            BPL_C[a][0][1] = (a == 0b0010_0100) ? 1 : 0;
+            BPL_C[a][1][0] = a;
+            BPL_C[a][1][1] = (a == 0b0010_0100) ? 1 : 0;
+            
+            JSR_C[a][0][0] = a;            
+            JSR_C[a][0][1] = (a == 0b0010_1000) ? 1 : 0;
+            JSR_C[a][1][0] = a;
+            JSR_C[a][1][1] = (a == 0b0010_1000) ? 1 : 0; 
+            
+            RTS_C[a][0][0] = a;
+            RTS_C[a][0][1] = (a == 0b0111_0000) ? 1 : 0;
+            RTS_C[a][1][0] = a;
+            RTS_C[a][1][1] = (a == 0b0111_0000) ? 1 : 0; 
 
             CLEAR[a] = 0;
             DEC[a] = 0xFF & (a - 1);
@@ -292,13 +369,23 @@ public final class Simulator {
                 C_AND_A_NOT_B[0][a][b][2] = b;
                 C_AND_A_NOT_B[1][a][b][0] = a & (b == 0 ? 1 : 0);
                 C_AND_A_NOT_B[1][a][b][1] = a;
-                C_AND_A_NOT_B[1][a][b][2] = b;    
+                C_AND_A_NOT_B[1][a][b][2] = b;
+                                  
+                INC_16_C[a][b][0][0] = a;
+                INC_16_C[a][b][0][1] = b;
+                INC_16_C[a][b][0][2] = 0;
+                INC_16_C[a][b][1][0] = 0xFF & ((((a << 8) | b) + 1) >> 8);
+                INC_16_C[a][b][1][1] = 0xFF & (((a << 8) | b) + 1);
+                INC_16_C[a][b][1][2] = 1;
 
                 ADD_AB_FB[a][b][0] = 0xFF & (a + b);
                 ADD_AB_FB[a][b][1] = b;
                 
                 AND_AB_FB[a][b][0] = 0xFF & (a & b);
                 AND_AB_FB[a][b][1] = b;
+                
+                AND_NOT_AB_FB[a][b][0] = 0xFF & (a & (b == 0 ? 1 : 0));
+                AND_NOT_AB_FB[a][b][1] = b;                
                 
                 OR_AB_FB[a][b][0] = 0xFF & (a | b);
                 OR_AB_FB[a][b][1] = b;
@@ -568,6 +655,8 @@ public final class Simulator {
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);           
         apply(address + 17, SWAP);          // order restored 
+        apply(address + 7, CLEAR);          // w = 0;
+        apply(address + 8, CLEAR);          // r = 0;
     }
     
     private void transfer(final int address) {       
@@ -585,12 +674,29 @@ public final class Simulator {
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
-        apply(address + 12, T_M_X_C);       // s1 = (I == TMx);
+        apply(address + 8, INC_16);         // ++P;
+        apply(address + 12, SER_C);         // s1 = (i == SEx);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, INC_16_C);       // if (s1) ++P;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 12, THREE_C);       // s1 = (i == [3 byte instruction]);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, INC_16_C);       // if (s1) ++P;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);        
+        apply(address + 12, T_M_X_C);       // s1 = (i == TMx);
         apply(address + 13, C_COPY_A_B);    // if (s1) s0 = M;
         apply(address + 15, SWAP);
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);
-        apply(address + 13, T_N_X_C);       // s1 = (I == TNx);
+        apply(address + 13, T_N_X_C);       // s1 = (i == TNx);
         apply(address + 14, C_COPY_A_B);    // if (s1) s0 = N;
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
@@ -604,19 +710,19 @@ public final class Simulator {
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
-        apply(address + 17, T_A_X_C);       // s1 = (I == TAx);
+        apply(address + 17, T_A_X_C);       // s1 = (i == TAx);
         apply(address + 18, C_COPY_A_B);    // if (s1) s0 = A;
         apply(address + 20, SWAP);
         apply(address + 18, SWAP);
         apply(address + 17, SWAP);
-        apply(address + 18, T_B_X_C);       // s1 = (I == TBx);
+        apply(address + 18, T_B_X_C);       // s1 = (i == TBx);
         apply(address + 19, C_COPY_A_B);    // if (s1) s0 = B;
-        apply(address + 18, T_X_B_C);       // s1 = (I == TxB);
+        apply(address + 18, T_X_B_C);       // s1 = (i == TxB);
         apply(address + 19, C_COPY_B_A);    // if (s1) B = s0;
         apply(address + 17, SWAP);
         apply(address + 18, SWAP);
         apply(address + 20, SWAP);
-        apply(address + 17, T_X_A_C);       // s1 = (I == TxA);
+        apply(address + 17, T_X_A_C);       // s1 = (i == TxA);
         apply(address + 18, C_COPY_B_A);    // if (s1) A = s0;        
         apply(address + 16, SWAP);
         apply(address + 15, SWAP);
@@ -630,12 +736,12 @@ public final class Simulator {
         apply(address + 18, SWAP);
         apply(address + 17, SWAP);
         apply(address + 16, SWAP);
-        apply(address + 13, T_X_N_C);       // s1 = (I == TxN);
+        apply(address + 13, T_X_N_C);       // s1 = (i == TxN);
         apply(address + 14, C_COPY_B_A);    // if (s1) N = s0;
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
         apply(address + 15, SWAP);
-        apply(address + 12, T_X_M_C);       // s1 = (I == TxM);
+        apply(address + 12, T_X_M_C);       // s1 = (i == TxM);
         apply(address + 13, C_COPY_B_A);    // if (s1) M = s0;        
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
@@ -780,6 +886,101 @@ public final class Simulator {
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 d  s0 A  B  M  N  n  z  R1 R0] Q
+    }
+    
+    private void setAndJump(final int address) {
+        
+        // execute after runALU()
+               
+        apply(address + 12, SEA_C);         // s1 = (i == SEA);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 3, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) A = j;
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 11, SEB_C);         // s1 = (i == SEB);
+        apply(address + 12, C_COPY_A_B);    // if (s1) B = j;
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);        
+        apply(address + 11, SMN_C);         // s1 = (i == SMN);
+        apply(address + 12, C_COPY_A_B);    // if (s1) M = j;
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [k  m  w  r  P1 P0 a1 a0 i  s1 j  M  B  A  d  s0 N  n  z  R1 R0] Q
+        
+        apply(address + 3, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 11, C_COPY_A_B);    // if (s1) N = k;
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  P1 P0 a1 a0 i  s1 k  N  j  M  B  A  d  s0 n  z  R1 R0] Q
+        
+                
+        // s1 = (i == JMP);
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+        
+        // s1 = (i == BEQ);
+        // s1 &= z;
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+
+        // s1 = (i == BNE);
+        // s1 &= !z;
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+
+        // s1 = (i == BMI);
+        // s1 &= n;
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+
+        // s1 = (i == BPL);
+        // s1 &= !n;
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+
+        // s1 = (i == JSR);
+        // if (s1) R1 = P1;
+        // if (s1) R0 = P0;
+        // if (s1) P1 = j;
+        // if (s1) P0 = k;
+        
+        // s1 = (i == RTS);
+        // if (s1) P1 = R1;
+        // if (s1) P0 = R0;
     }
     
     private int read(final int index) {

@@ -109,9 +109,6 @@ public class Emulator {
             case 0b0101:
                 loadByteImmediate(opcode);
                 break;
-            case 0b0110:
-                loadMN();
-                break;
             case 0b0111:
                 returnSubroutine();
                 break;
@@ -217,6 +214,11 @@ public class Emulator {
     }
      
     private void jump(final int bits) {
+        if (bits == 0b0010_1111) {
+            loadMN();
+            return;
+        }
+        
         final int target = (fetch() << 8) | fetch();
         switch ((bits & 0b0000_0110) >> 1) {
             case 1:
