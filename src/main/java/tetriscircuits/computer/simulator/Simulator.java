@@ -945,13 +945,12 @@ public final class Simulator {
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [m  w  r  P1 P0 a1 a0 i  s1 k  N  j  M  B  A  d  s0 n  z  R1 R0] Q
-        
+               
         apply(address + 7, SWAP);
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
-        apply(address + 12, SWAP);
         
         apply(address + 9, JMP_C);          // s1 = (i == JMP);
         apply(address + 10, C_COPY_A_B);    // if (s1) P0 = k;
@@ -965,7 +964,6 @@ public final class Simulator {
         apply(address + 8, SWAP);
         apply(address + 9, SWAP);
         apply(address + 10, SWAP);
-        apply(address + 11, SWAP);
         
         apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
         
@@ -973,210 +971,210 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q 
         
-//        apply(address + 20, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 8, BEQ_C);          // s1 = (i == BEQ);
-//        apply(address + 9, AND_AB_FB);      // s1 &= z;
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 8, BNE_C);          // s1 = (i == BNE);
-//        apply(address + 9, AND_NOT_AB_FB);  // s1 &= !z;
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);        
-//        apply(address + 12, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 z  n  R1 R0] Q
-//
-//        apply(address + 20, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 8, BMI_C);          // s1 = (i == BMI);
-//        apply(address + 9, AND_AB_FB);      // s1 &= n;
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 8, BPL_C);          // s1 = (i == BPL);
-//        apply(address + 9, AND_NOT_AB_FB);  // s1 &= !n;
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 20, SWAP);
-//        
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 z  n  R1 R0] Q 
-//
-//        apply(address + 21, SWAP);
-//        apply(address + 20, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 12, SWAP);       
-//        apply(address + 22, SWAP);
-//        apply(address + 21, SWAP);
-//        apply(address + 20, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 15, SWAP);        
-//        apply(address + 8, JSR_C);          // s1 = (i == JSR);       
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 13, C_COPY_A_B);    // if (s1) R0 = P0;
-//        apply(address + 12, SWAP);
-//        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 10, C_COPY_A_B);    // if (s1) R1 = P1;
-//        apply(address + 9, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//                
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 R1 k  P0 R0 N  M  B  A  d  s0 z  n]  Q        
-//        
-//        apply(address + 8, RTS_C);          // s1 = (i == RTS); 
-//        apply(address + 9, SWAP);
-//        apply(address + 10, C_COPY_B_A);    // if (s1) P1 = R1;
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 13, C_COPY_B_A);    // if (s1) P0 = R0;
-//        
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [m  w  r  a1 a0 i  j  P1 R1 k  s1 P0 R0 N  M  B  A  d  s0 z  n]  Q
-//        
-//        apply(address + 8, SWAP);
-//        apply(address + 7, SWAP);
-//        apply(address + 6, SWAP);
-//        apply(address + 5, SWAP);
-//        apply(address + 4, SWAP);
-//        apply(address + 3, SWAP);        
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP); 
-//        apply(address + 8, SWAP);
-//        apply(address + 7, SWAP);
-//        apply(address + 6, SWAP);
-//        apply(address + 5, SWAP);
-//        apply(address + 4, SWAP); 
-//        apply(address + 12, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 20, SWAP);
-//        apply(address + 21, SWAP);        
-//        apply(address + 22, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 20, SWAP);
-//        apply(address + 21, SWAP);        
-//        apply(address + 22, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 8, SWAP);        
-//        apply(address + 12, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 20, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 19, SWAP);
-//        apply(address + 20, SWAP);
-//        
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q         
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, BEQ_C);          // s1 = (i == BEQ);
+        apply(address + 9, AND_AB_FB);      // s1 &= z;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, BNE_C);          // s1 = (i == BNE);
+        apply(address + 9, AND_NOT_AB_FB);  // s1 &= !z;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);        
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 z  n  R1 R0] Q
+
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, BMI_C);          // s1 = (i == BMI);
+        apply(address + 9, AND_AB_FB);      // s1 &= n;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 8, BPL_C);          // s1 = (i == BPL);
+        apply(address + 9, AND_NOT_AB_FB);  // s1 &= !n;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 z  n  R1 R0] Q 
+
+        apply(address + 21, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);       
+        apply(address + 22, SWAP);
+        apply(address + 21, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);        
+        apply(address + 8, JSR_C);          // s1 = (i == JSR);       
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, C_COPY_A_B);    // if (s1) R0 = P0;
+        apply(address + 12, SWAP);
+        apply(address + 12, C_COPY_A_B);    // if (s1) P0 = k;
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 10, C_COPY_A_B);    // if (s1) R1 = P1;
+        apply(address + 9, SWAP);
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+                
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 R1 k  P0 R0 N  M  B  A  d  s0 z  n]  Q        
+        
+        apply(address + 8, RTS_C);          // s1 = (i == RTS); 
+        apply(address + 9, SWAP);
+        apply(address + 10, C_COPY_B_A);    // if (s1) P1 = R1;
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 13, C_COPY_B_A);    // if (s1) P0 = R0;
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  a1 a0 i  j  P1 R1 k  s1 P0 R0 N  M  B  A  d  s0 z  n]  Q
+        
+        apply(address + 8, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 3, SWAP);        
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP); 
+        apply(address + 8, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 4, SWAP); 
+        apply(address + 12, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 21, SWAP);        
+        apply(address + 22, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 21, SWAP);        
+        apply(address + 22, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 8, SWAP);        
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q         
     }
     
     private int read(final int index) {
@@ -1213,7 +1211,12 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
         
-        write(3, 0b0101_0000);
+        //write(18, 1);
+        //write(19, 1);
+        write(22, 0x66);
+        write(23, 0x77);
+        
+        write(3, 0b0111_0000);
         write(4, 0x44);
         write(5, 0x55);
         
@@ -1224,16 +1227,16 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q  
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q 
 
         System.out.format("i = %02X, s1 = %02X, k = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
-                read(8),
-                read(9),
                 read(12),
-                read(17),
-                read(16),
-                (read(15) << 8) | read(14),
-                (read(11) << 8) | read(13), 
+                read(13),
+                read(4),
+                read(20),
+                read(21),
+                (read(14) << 8) | read(15),
+                (read(8) << 8) | read(9), 
                 (read(22) << 8) | read(23));
         
 //        System.out.format("A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n", 
