@@ -892,7 +892,7 @@ public final class Simulator {
     private void setAndJump(final int address) {
         
         // execute after runALU()
-               
+                      
         apply(address + 12, SEA_C);         // s1 = (i == SEA);
         apply(address + 15, SWAP);
         apply(address + 14, SWAP);
@@ -906,12 +906,9 @@ public final class Simulator {
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
         apply(address + 12, SWAP);
-        apply(address + 13, SWAP);
         apply(address + 12, C_COPY_A_B);    // if (s1) A = j;
         apply(address + 16, SWAP);
         apply(address + 15, SWAP);
-        apply(address + 14, SWAP);
-        apply(address + 13, SWAP);
         apply(address + 14, SWAP);
         apply(address + 11, SEB_C);         // s1 = (i == SEB);
         apply(address + 12, C_COPY_A_B);    // if (s1) B = j;
@@ -926,46 +923,56 @@ public final class Simulator {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [k  m  w  r  P1 P0 a1 a0 i  s1 j  M  B  A  d  s0 N  n  z  R1 R0] Q
         
-//        apply(address + 3, SWAP);
-//        apply(address + 4, SWAP);
-//        apply(address + 5, SWAP);
-//        apply(address + 6, SWAP);
-//        apply(address + 7, SWAP);
-//        apply(address + 8, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 18, SWAP);
-//        apply(address + 17, SWAP);
-//        apply(address + 16, SWAP);
-//        apply(address + 15, SWAP);
-//        apply(address + 14, SWAP);
-//        apply(address + 13, SWAP);
-//        apply(address + 11, C_COPY_A_B);    // if (s1) N = k;        
-//        apply(address + 7, SWAP);
-//        apply(address + 8, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 9, JMP_C);          // s1 = (i == JMP);
-//        apply(address + 10, C_COPY_A_B);    // if (s1) P0 = k;
-//        apply(address + 13, SWAP);
-//        apply(address + 12, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 6, SWAP);
-//        apply(address + 7, SWAP);
-//        apply(address + 8, SWAP);
-//        apply(address + 9, SWAP);
-//        apply(address + 10, SWAP);
-//        apply(address + 11, SWAP);
-//        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
-//        
-//        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
-//        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-//        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q 
-//        
+        apply(address + 3, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        
+        apply(address + 18, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        
+        apply(address + 11, C_COPY_A_B);    // if (s1) N = k;        
+
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  P1 P0 a1 a0 i  s1 k  N  j  M  B  A  d  s0 n  z  R1 R0] Q
+        
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        
+        apply(address + 9, JMP_C);          // s1 = (i == JMP);
+        apply(address + 10, C_COPY_A_B);    // if (s1) P0 = k;
+        
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        
+        apply(address + 9, C_COPY_A_B);     // if (s1) P1 = j;
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q 
+        
 //        apply(address + 20, SWAP);
 //        apply(address + 19, SWAP);
 //        apply(address + 18, SWAP);
@@ -1217,13 +1224,16 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [k  m  w  r  P1 P0 a1 a0 i  s1 j  M  B  A  d  s0 N  n  z  R1 R0] Q        
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q  
 
-        System.out.format("A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n", 
+        System.out.format("i = %02X, s1 = %02X, k = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
+                read(8),
+                read(9),
+                read(12),
+                read(17),
                 read(16),
-                read(15),
-                (read(14) << 8) | read(19),
-                (read(7) << 8) | read(8), 
+                (read(15) << 8) | read(14),
+                (read(11) << 8) | read(13), 
                 (read(22) << 8) | read(23));
         
 //        System.out.format("A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n", 
