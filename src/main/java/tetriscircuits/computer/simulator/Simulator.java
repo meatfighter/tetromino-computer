@@ -1279,7 +1279,15 @@ public final class Simulator {
         apply(address + 6, STX_C);         // w = (i == STx);
         apply(address + 5, SWAP);
         apply(address + 4, SWAP);
-        apply(address + 3, SWAP);          // order restored        
+        apply(address + 3, SWAP);          // order restored
+    }
+    
+    private void executeInstruction(final int address) {
+        finishLoad(address);
+        transfer(address);
+        runALU(address);
+        setAndJump(address);
+        loadAndStore(address);
     }
     
     private int read(final int index) {
@@ -1318,36 +1326,32 @@ public final class Simulator {
         
         //write(18, 1);
         //write(19, 1);
-        write(22, 0x66);
-        write(23, 0x77);
-        write(20, 0x88);
-        write(21, 0x99);
+//        write(22, 0x66);
+//        write(23, 0x77);
+//        write(20, 0x88);
+//        write(21, 0x99);
+//        
+//        write(3, 0b0100_0001);
+//        write(4, 0x44);
+//        write(5, 0x55);
         
-        write(3, 0b0100_0001);
-        write(4, 0x44);
-        write(5, 0x55);
-        
-        finishLoad(0);
-        transfer(0);
-        runALU(0);
-        setAndJump(0);
-        loadAndStore(0);
+//        executeInstruction(0);
         
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q 
 
-        System.out.format("m = %02X, w = %02X, r = %02X, d = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
-                read(6),
-                read(7),
-                read(8),
-                read(17),
-                read(20),
-                read(21),
-                (read(15) << 8) | read(16),
-                (read(9) << 8) | read(10), 
-                (read(22) << 8) | read(23));
+//        System.out.format("m = %02X, w = %02X, r = %02X, d = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
+//                read(6),
+//                read(7),
+//                read(8),
+//                read(17),
+//                read(20),
+//                read(21),
+//                (read(15) << 8) | read(16),
+//                (read(9) << 8) | read(10), 
+//                (read(22) << 8) | read(23));
         
 //        System.out.format("A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n", 
 //                read(20),
@@ -1365,18 +1369,22 @@ public final class Simulator {
 //        System.out.println(read(16));
         
         
-//        for (int i = 0; i < 3; ++i) {
-//            ascendMemoryCycle();
-//            descendMemoryCycle();
-//        }
-//        
-//        long startTime = System.nanoTime();
-//        for (int i = 0; i < 50_000; ++i) {
-//            ascendMemoryCycle();
-//            descendMemoryCycle();
-//        }
-//        long endTime = System.nanoTime();
-//        System.out.format("%f%n", (endTime - startTime) / 1_000_000_000.0);
+        for (int i = 0; i < 3; ++i) {            
+            //ascendMemoryCycle();
+            executeInstruction(0x03FF);
+            //descendMemoryCycle();
+            executeInstruction(0x0000);
+        }
+        
+        long startTime = System.nanoTime();
+        for (int i = 0; i < 50_000; ++i) {
+            //ascendMemoryCycle();
+            executeInstruction(0x03FF);
+            //descendMemoryCycle();
+            executeInstruction(0x0000);
+        }
+        long endTime = System.nanoTime();
+        System.out.format("%f%n", (endTime - startTime) / 1_000_000_000.0);
 
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
