@@ -66,7 +66,13 @@ public final class Simulator {
     private static final int[][][] BNE_C = new int[256][2][2];
     private static final int[][][] BPL_C = new int[256][2][2];
     private static final int[][][] JSR_C = new int[256][2][2];
-    private static final int[][][] RTS_C = new int[256][2][2];    
+    private static final int[][][] RTS_C = new int[256][2][2];
+
+    private static final int[][][] STA_C = new int[256][2][2];
+    private static final int[][][] STB_C = new int[256][2][2];
+    private static final int[][][] STX_C = new int[256][2][2];
+    private static final int[][][] LDX_C = new int[256][2][2];
+    private static final int[][][] LDB_C = new int[256][2][2];
     
     private static final int[][][][] C_CMP = new int[2][256][256][3];
     private static final int[][][][] CMP_C = new int[256][256][2][3];
@@ -255,6 +261,31 @@ public final class Simulator {
             RTS_C[a][0][1] = (a == 0b0111_0000) ? 1 : 0;
             RTS_C[a][1][0] = a;
             RTS_C[a][1][1] = (a == 0b0111_0000) ? 1 : 0; 
+
+            STA_C[a][0][0] = a;
+            STA_C[a][0][1] = (a == 0b0011_0000) ? 1 : 0;
+            STA_C[a][1][0] = a;
+            STA_C[a][1][1] = (a == 0b0011_0000) ? 1 : 0;
+            
+            STB_C[a][0][0] = a;
+            STB_C[a][0][1] = (a == 0b0011_0001) ? 1 : 0;
+            STB_C[a][1][0] = a;
+            STB_C[a][1][1] = (a == 0b0011_0001) ? 1 : 0;
+
+            STX_C[a][0][0] = a;
+            STX_C[a][0][1] = ((a & 0b1111_1110) == 0b0011_0000) ? 1 : 0;
+            STX_C[a][1][0] = a;
+            STX_C[a][1][1] = ((a & 0b1111_1110) == 0b0011_0000) ? 1 : 0; 
+            
+            LDX_C[a][0][0] = a;
+            LDX_C[a][0][1] = ((a & 0b1111_1110) == 0b0100_0000) ? 1 : 0;
+            LDX_C[a][1][0] = a;
+            LDX_C[a][1][1] = ((a & 0b1111_1110) == 0b0100_0000) ? 1 : 0;            
+            
+            LDB_C[a][0][0] = a;
+            LDB_C[a][0][1] = (a == 0b0100_0001) ? 1 : 0;
+            LDB_C[a][1][0] = a;
+            LDB_C[a][1][1] = (a == 0b0100_0001) ? 1 : 0;            
 
             CLEAR[a] = 0;
             DEC[a] = 0xFF & (a - 1);
@@ -654,9 +685,7 @@ public final class Simulator {
         apply(address + 14, SWAP);
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);           
-        apply(address + 17, SWAP);          // order restored 
-        apply(address + 7, CLEAR);          // w = 0;
-        apply(address + 8, CLEAR);          // r = 0;
+        apply(address + 17, SWAP);          // order restored
     }
     
     private void transfer(final int address) {       
@@ -1066,11 +1095,10 @@ public final class Simulator {
         apply(address + 17, SWAP);
         apply(address + 18, SWAP);
         apply(address + 19, SWAP);
-        apply(address + 20, SWAP);
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 z  n  R1 R0] Q 
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 k  P0 N  M  B  A  d  s0 n  z  R1 R0] Q 
 
         apply(address + 21, SWAP);
         apply(address + 20, SWAP);
@@ -1106,7 +1134,7 @@ public final class Simulator {
                 
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 R1 k  P0 R0 N  M  B  A  d  s0 z  n]  Q        
+        // I  J  K [m  w  r  a1 a0 i  s1 j  P1 R1 k  P0 R0 N  M  B  A  d  s0 n  z]  Q        
         
         apply(address + 8, RTS_C);          // s1 = (i == RTS); 
         apply(address + 9, SWAP);
@@ -1118,7 +1146,7 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [m  w  r  a1 a0 i  j  P1 R1 k  s1 P0 R0 N  M  B  A  d  s0 z  n]  Q
+        // I  J  K [m  w  r  a1 a0 i  j  P1 R1 k  s1 P0 R0 N  M  B  A  d  s0 n  z]  Q
         
         apply(address + 8, SWAP);
         apply(address + 7, SWAP);
@@ -1165,25 +1193,93 @@ public final class Simulator {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  B  A  d  s0 z  n  R1 R0] Q          
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  B  A  d  s0 n  z  R1 R0] Q          
     }
     
     private void loadAndStore(final int address) {
         
+        // run after setAndJump()
+        
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 5, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 12, SWAP);
+        
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q
+        // I  J  K [j  k  w  r  P1 P0 a1 a0 i  s1 m  B  M  N  A  d  s0 n  z  R1 R0] Q  
         
-        // r = (i == LDx);
-        // d = (i == LDB);
+        apply(address + 11, STB_C);         // s1 = (i == STB);
+        apply(address + 12, C_COPY_B_A);    // if (s1) m = B;
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 20, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  w  r  P1 P0 a1 a0 i  s1 m  A  M  N  d  s0 n  z  B  R1 R0] Q  
         
-        // w = (i == STx);
+        apply(address + 11, STA_C);         // s1 = (i == STA);
+        apply(address + 12, C_COPY_B_A);    // if (s1) m = A;
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 16, SWAP);
+        apply(address + 17, SWAP);
+        apply(address + 18, SWAP);
+        apply(address + 19, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);        
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 7, SWAP);
+        apply(address + 6, SWAP);
+        apply(address + 5, SWAP);
+               
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  d  s1 M  N  s0 n  z  A  B  R1 R0] Q
         
-        // s1 = (i == STA);
-        // if (s1) m = A;
+        apply(address + 12, LDB_C);         // d = (i == STA);
+        apply(address + 13, SWAP);
+        apply(address + 14, SWAP);
+        apply(address + 15, SWAP);        
+        apply(address + 16, SWAP);
+        apply(address + 15, SWAP);
+        apply(address + 14, SWAP);        
+        apply(address + 11, SWAP);
+        apply(address + 10, SWAP);
+        apply(address + 9, SWAP);
+        apply(address + 8, SWAP);
+        apply(address + 7, SWAP);
         
-        // s1 = (i == STB);
-        // if (s1) m = B;
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  i  r  P1 P0 a1 a0 s1 s0 M  N  d  n  z  A  B  R1 R0] Q
+        
+        apply(address + 7, LDX_C);         // r = (i == LDx);
+        apply(address + 6, SWAP);
+        apply(address + 6, STX_C);         // w = (i == STx);
+        apply(address + 5, SWAP);
+        apply(address + 4, SWAP);
+        apply(address + 3, SWAP);          // order restored        
     }
     
     private int read(final int index) {
@@ -1224,8 +1320,10 @@ public final class Simulator {
         //write(19, 1);
         write(22, 0x66);
         write(23, 0x77);
+        write(20, 0x88);
+        write(21, 0x99);
         
-        write(3, 0b0010_1000);
+        write(3, 0b0100_0001);
         write(4, 0x44);
         write(5, 0x55);
         
@@ -1233,19 +1331,22 @@ public final class Simulator {
         transfer(0);
         runALU(0);
         setAndJump(0);
+        loadAndStore(0);
+        
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  B  A  d  s0 z  n  R1 R0] Q 
+        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q 
 
-        System.out.format("i = %02X, s1 = %02X, k = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
-                read(12),
-                read(13),
-                read(4),
+        System.out.format("m = %02X, w = %02X, r = %02X, d = %02X, A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n",
+                read(6),
+                read(7),
+                read(8),
                 read(17),
-                read(16),
-                (read(14) << 8) | read(15),
-                (read(8) << 8) | read(9), 
+                read(20),
+                read(21),
+                (read(15) << 8) | read(16),
+                (read(9) << 8) | read(10), 
                 (read(22) << 8) | read(23));
         
 //        System.out.format("A = %02X, B = %02X, MN = %04X, P = %04X, R = %04X%n", 
