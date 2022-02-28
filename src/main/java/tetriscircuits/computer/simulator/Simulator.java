@@ -1177,6 +1177,24 @@ public final class Simulator {
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q         
     }
     
+    private void loadAndStore(final int address) {
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  d  s0 z  n  A  B  R1 R0] Q
+        
+        // r = (i == LDx);
+        // d = (i == LDB);
+        
+        // w = (i == STX);
+        
+        // s1 = (i == STA);
+        // if (s1) m = A;
+        
+        // s1 = (i == STB);
+        // if (s1) m = B;
+    }
+    
     private int read(final int index) {
         return bytes[index];
     }
