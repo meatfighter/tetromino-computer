@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import tetriscircuits.computer.emulator.Emulator;
-import tetriscircuits.computer.ui.ImagePanel;
+import tetriscircuits.computer.ui.OldImagePanel;
 import tetriscircuits.ui.UiUtil;
 
 public class Computer {
@@ -27,7 +27,7 @@ public class Computer {
     
     private final Emulator emulator = new Emulator();
     
-    private volatile ImagePanel imagePanel;
+    private volatile OldImagePanel imagePanel;
     
     public void launch() throws Exception {
         emulator.loadBinFile("tetris.bin");
@@ -42,7 +42,7 @@ public class Computer {
                 | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
         }
-        imagePanel = new ImagePanel();
+        imagePanel = new OldImagePanel();
         final JFrame frame = new JFrame("Tetris Running On Tetris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(imagePanel);
