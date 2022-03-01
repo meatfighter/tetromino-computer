@@ -430,7 +430,7 @@ public final class Simulator {
         }
     }
     
-    private final int[] bytes = new int[1024 + 3 + 21];
+    private final int[] bytes = new int[1024 + 2 + 21];
     
     private void ascendMemoryCycle() {
         for (int address = 0; address <= 0x03FE; ++address) {
@@ -453,7 +453,7 @@ public final class Simulator {
        readOrWriteMemoryIfMNEqualsA(address);
     }
     
-    private void ascend(final int address) {       
+    private void ascend(final int address) {         
         apply(address + 13, INC_16);
         apply(address + 23, SWAP);
         apply(address + 22, SWAP);
@@ -475,11 +475,12 @@ public final class Simulator {
         apply(address + 6, SWAP);
         apply(address + 5, SWAP);
         apply(address + 4, SWAP);
-        apply(address + 3, SWAP);
+        apply(address + 3, SWAP);     
     }
     
     private void descend(final int address) {
         apply(address + 13, DEC_16);
+        apply(address + 2, SWAP);
         apply(address + 3, SWAP);
         apply(address + 4, SWAP);
         apply(address + 5, SWAP);
@@ -500,7 +501,6 @@ public final class Simulator {
         apply(address + 20, SWAP);
         apply(address + 21, SWAP);
         apply(address + 22, SWAP);
-        apply(address + 23, SWAP);
     }    
     
     private void copyInstructionIfPEqualsA(final int address) {
@@ -1280,6 +1280,8 @@ public final class Simulator {
         apply(address + 5, SWAP);
         apply(address + 4, SWAP);
         apply(address + 3, SWAP);          // order restored
+        apply(address + 11, CLEAR);        // s1 = 0;
+        apply(address + 12, CLEAR);        // s0 = 0;
     }
     
     private void executeInstruction(final int address) {
@@ -1370,17 +1372,17 @@ public final class Simulator {
         
         
         for (int i = 0; i < 3; ++i) {            
-            //ascendMemoryCycle();
+            ascendMemoryCycle();
             executeInstruction(0x03FF);
-            //descendMemoryCycle();
+            descendMemoryCycle();
             executeInstruction(0x0000);
         }
         
         long startTime = System.nanoTime();
         for (int i = 0; i < 50_000; ++i) {
-            //ascendMemoryCycle();
+            ascendMemoryCycle();
             executeInstruction(0x03FF);
-            //descendMemoryCycle();
+            descendMemoryCycle();
             executeInstruction(0x0000);
         }
         long endTime = System.nanoTime();
