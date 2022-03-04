@@ -2,13 +2,27 @@ package tetriscircuits.computer.ui;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
+import javafx.scene.input.KeyCode;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import tetriscircuits.ui.UiUtil;
 
 public class PlayfieldFrame extends javax.swing.JFrame {
 
+    private static final int LEFT_KEY_CODE = KeyEvent.VK_LEFT;
+    private static final int RIGHT_KEY_CODE = KeyEvent.VK_RIGHT;
+    private static final int START_KEY_CODE = KeyEvent.VK_ENTER;
+    
     private final PlayfieldPanel playfieldPanel = new PlayfieldPanel();
+    
+    private int leftAsserted;
+    private int rightAsserted;
+
+    private boolean leftPressed;
+    private boolean rightPressed;    
+    private boolean startPressed;
+    private boolean rotatePressed;    
     
     /**
      * Creates new form PlayfieldFrame
@@ -29,6 +43,14 @@ public class PlayfieldFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris running on Tetris");
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -44,6 +66,86 @@ public class PlayfieldFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        switch (evt.getKeyCode()) {
+            case LEFT_KEY_CODE:
+                leftPressed = true;
+                leftAsserted = 1;
+                rightPressed = false;
+                rightAsserted = 0;
+                break;
+            case RIGHT_KEY_CODE:
+                rightPressed = true;
+                rightAsserted = 1;
+                leftPressed = false;
+                leftAsserted = 0;
+                break;
+            case START_KEY_CODE:
+                startPressed = true;
+                break;
+            default:
+                rotatePressed = true;
+                break;
+        }
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        switch (evt.getKeyCode()) {
+            case LEFT_KEY_CODE:
+                leftPressed = false;
+                if (leftAsserted == 2) {
+                    leftAsserted = 0;
+                }
+                break;
+            case RIGHT_KEY_CODE:
+                rightPressed = false;
+                if (rightAsserted == 2) {
+                    rightAsserted = 0;
+                }
+                break;
+        }
+    }//GEN-LAST:event_formKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    public void update(final PlayfieldModel playfieldModel) {
+        if (!EventQueue.isDispatchThread()) {
+            try {
+                EventQueue.invokeAndWait(() -> update(playfieldModel));
+            } catch (final Exception e) {                
+            }
+            return;
+        }
+        
+        if (leftAsserted > 0) {
+            if (leftPressed) {
+                leftAsserted = 2;
+            } else {
+                leftAsserted = 0;
+            }
+            playfieldModel.setLeftPressed(true);
+        } else {
+            playfieldModel.setLeftPressed(false);
+        }
+        
+        if (rightAsserted > 0) {
+            if (rightPressed) {
+                rightAsserted = 2;
+            } else {
+                rightAsserted = 0;
+            }
+            playfieldModel.setRightPressed(true);
+        } else {
+            playfieldModel.setRightPressed(false);
+        }
+        
+        playfieldModel.setStartPressed(startPressed);
+        startPressed = false;
+        
+        playfieldModel.setRotatePressed(rotatePressed);
+        rotatePressed = false;
+        
+        playfieldPanel.update(playfieldModel);
+    }
 }

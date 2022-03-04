@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_HEIGHT;
+import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_WIDTH;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     
@@ -36,12 +38,10 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         }
     }
     
-    private static final int PLAYFIELD_WIDTH = 10;
-    private static final int PLAYFIELD_HEIGHT = 20;
     private static final int CELL_SIZE = 32;
     private static final int PLAYFIELD_PADDING = 10;
     
-    private static final float BORDER_ARC_SIZE = 20;
+    private static final float BORDER_ARC_SIZE = 7;
     private static final float BLOCK_ARC_SIZE = 14;
     
     private static final float GRID_STROKE_WIDTH = 2.5f;
@@ -82,14 +82,14 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         }
     }
     
-    private final int[][] playfield = new int[PLAYFIELD_HEIGHT][PLAYFIELD_WIDTH];
+    private int[][] cells = new int[PLAYFIELD_HEIGHT][PLAYFIELD_WIDTH];
     
     public PlayfieldPanel() {
         initComponents();
         
         for (int i = 19; i >= 10; --i) {
             for (int j = 9; j >=0; --j) {
-                playfield[i][j] = 1 + ThreadLocalRandom.current().nextInt(7);
+                cells[i][j] = 1 + ThreadLocalRandom.current().nextInt(7);
             }
         }
     }    
@@ -118,6 +118,12 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    public void update(final PlayfieldModel playfieldModel) {
+        final int[][] cells = playfieldModel.getCells();
+        playfieldModel.setCells(this.cells);
+        this.cells = cells;
+    }
+    
     @Override
     protected void paintComponent(final Graphics G) {
         
@@ -173,7 +179,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         for (int i = PLAYFIELD_HEIGHT - 1; i >= 0; --i) {
             float ty = PLAYFIELD_PADDING + i * CELL_SIZE;
             for (int j = PLAYFIELD_WIDTH - 1; j >= 0; --j) {
-                int index = playfield[i][j];
+                int index = cells[i][j];
                 if (index == 0) {
                     continue;
                 }
@@ -193,5 +199,4 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     public Dimension getPreferredSize() {
         return PREFERRED_SIZE;
     }
-
 }
