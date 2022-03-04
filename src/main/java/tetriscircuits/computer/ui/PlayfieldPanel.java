@@ -6,7 +6,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     
@@ -29,16 +33,36 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final int CELL_SIZE = 32;
     private static final int PLAYFIELD_PADDING = 10;
     
-    private static final float BORDER_STROKE = 3f;
+    private static final Stroke GRID_STROKE = new BasicStroke(2.5f);
+    private static final Stroke BORDER_STROKE = new BasicStroke(3.5f);
     
     private static final int PREFERRED_WIDTH = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
     private static final int PREFERRED_HEIGHT = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_HEIGHT;
     private static final Dimension PREFERRED_SIZE = new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT);
     
+    private static final Path2D.Float GRID_PATH = new Path2D.Float();
+    private static final Shape BORDER_SHAPE = new RoundRectangle2D.Float(PLAYFIELD_PADDING, PLAYFIELD_PADDING, 
+            CELL_SIZE * PLAYFIELD_WIDTH, CELL_SIZE * PLAYFIELD_HEIGHT, 5, 5);
+    
+    static {
+        final float maxX = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
+        for (int i = PLAYFIELD_HEIGHT - 1; i >= 1; --i) {
+            float y = PLAYFIELD_PADDING + i * CELL_SIZE;
+            GRID_PATH.moveTo(PLAYFIELD_PADDING, y);
+            GRID_PATH.lineTo(maxX, y);
+        }
+        final float maxY = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_HEIGHT;
+        for (int i = PLAYFIELD_WIDTH - 1; i >= 1; --i) {
+            float x = PLAYFIELD_PADDING + i * CELL_SIZE;
+            GRID_PATH.moveTo(x, PLAYFIELD_PADDING);
+            GRID_PATH.lineTo(x, maxY);
+        }
+    }
     
     public PlayfieldPanel() {
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -107,28 +131,17 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, PREFERRED_WIDTH, PREFERRED_HEIGHT);
+        
         g.setColor(GRID_COLOR);
-        g.setStroke(new BasicStroke(2f));
-        final int rightX = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
-        for (int i = PLAYFIELD_HEIGHT; i >= 0; --i) {
-            final int y = PLAYFIELD_PADDING + CELL_SIZE * i;
-            g.drawLine(PLAYFIELD_PADDING, y, rightX, y);
-        }
-        final int bottomY = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_HEIGHT;
-        for (int i = PLAYFIELD_WIDTH; i >= 0; --i) {
-            final int x = PLAYFIELD_PADDING + CELL_SIZE * i;
-            g.drawLine(x, PLAYFIELD_PADDING, x, bottomY);
-        }
+        g.setStroke(GRID_STROKE);
+        g.draw(GRID_PATH);
+        
         g.setColor(BORDER_COLOR);
-        g.setStroke(new BasicStroke(BORDER_STROKE));
-        g.drawRoundRect(PLAYFIELD_PADDING, PLAYFIELD_PADDING, CELL_SIZE * PLAYFIELD_WIDTH, CELL_SIZE * PLAYFIELD_HEIGHT, 
-                8, 8);
+        g.setStroke(BORDER_STROKE);
+        g.draw(BORDER_SHAPE);
+        
         g.setTransform(t);
     }
-    
-//    private void drawRoundRect(final Graphics2D g, final int x, final int y, final int width, final int height) {
-//        g.drawRoundRect(x + 
-//    }
 
     @Override
     public Dimension getPreferredSize() {
