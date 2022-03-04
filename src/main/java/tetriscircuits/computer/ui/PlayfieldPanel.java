@@ -11,6 +11,7 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     
@@ -18,7 +19,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color BORDER_COLOR = new Color(0xFFFFFF);
     private static final Color BACKGROUND_COLOR = new Color(0x090909);
     
-    private static final Color[] TETRIMINO_COLORS = {
+    private static final Color[] BLOCK_FILL_COLORS = {
         new Color(0xB802FD),
         new Color(0x1801FF),
         new Color(0xFE103C),
@@ -28,21 +29,43 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         new Color(0x00E6FE),
     };    
     
+    private static final Color[] BLOCK_DRAW_COLORS = new Color[BLOCK_FILL_COLORS.length];
+    static {
+        for (int i = BLOCK_FILL_COLORS.length - 1; i >= 0; --i) {
+            BLOCK_DRAW_COLORS[i] = BLOCK_FILL_COLORS[i].darker();
+        }
+    }
+    
     private static final int PLAYFIELD_WIDTH = 10;
     private static final int PLAYFIELD_HEIGHT = 20;
     private static final int CELL_SIZE = 32;
     private static final int PLAYFIELD_PADDING = 10;
     
-    private static final Stroke GRID_STROKE = new BasicStroke(2.5f);
-    private static final Stroke BORDER_STROKE = new BasicStroke(3.5f);
+    private static final float BORDER_ARC_SIZE = 20;
+    private static final float BLOCK_ARC_SIZE = 14;
+    
+    private static final float GRID_STROKE_WIDTH = 2.5f;
+    private static final Stroke GRID_STROKE = new BasicStroke(GRID_STROKE_WIDTH);
+    
+    private static final float BORDER_STROKE_WIDTH = 3.5f;
+    private static final Stroke BORDER_STROKE = new BasicStroke(BORDER_STROKE_WIDTH);
+    
+    private static final float BLOCK_STROKE_WIDTH = 8f / 3f;
+    private static final Stroke BLOCK_STROKE = new BasicStroke(BLOCK_STROKE_WIDTH);
     
     private static final int PREFERRED_WIDTH = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
     private static final int PREFERRED_HEIGHT = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_HEIGHT;
     private static final Dimension PREFERRED_SIZE = new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT);
     
     private static final Path2D.Float GRID_PATH = new Path2D.Float();
-    private static final Shape BORDER_SHAPE = new RoundRectangle2D.Float(PLAYFIELD_PADDING, PLAYFIELD_PADDING, 
-            CELL_SIZE * PLAYFIELD_WIDTH, CELL_SIZE * PLAYFIELD_HEIGHT, 5, 5);
+    private static final Shape BORDER_SHAPE = new RoundRectangle2D.Float(
+            PLAYFIELD_PADDING - BLOCK_STROKE_WIDTH / 2, PLAYFIELD_PADDING - BLOCK_STROKE_WIDTH / 2, 
+            CELL_SIZE * PLAYFIELD_WIDTH + BLOCK_STROKE_WIDTH, CELL_SIZE * PLAYFIELD_HEIGHT + BLOCK_STROKE_WIDTH, 
+            BORDER_ARC_SIZE, BORDER_ARC_SIZE);    
+    private static final Shape BLOCK_SHAPE = new RoundRectangle2D.Float(
+            0, 0, 
+            CELL_SIZE - BLOCK_STROKE_WIDTH, CELL_SIZE - BLOCK_STROKE_WIDTH, 
+            BLOCK_ARC_SIZE, BLOCK_ARC_SIZE);
     
     static {
         final float maxX = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
@@ -59,10 +82,17 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         }
     }
     
+    private final int[][] playfield = new int[PLAYFIELD_HEIGHT][PLAYFIELD_WIDTH];
+    
     public PlayfieldPanel() {
         initComponents();
-    }
-    
+        
+        for (int i = 19; i >= 10; --i) {
+            for (int j = 9; j >=0; --j) {
+                playfield[i][j] = 1 + ThreadLocalRandom.current().nextInt(7);
+            }
+        }
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -92,8 +122,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     protected void paintComponent(final Graphics G) {
         
         final Graphics2D g = (Graphics2D)G; 
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);        
         
         final Dimension size = getSize();
         final int wH = PREFERRED_WIDTH * size.height;
@@ -124,8 +153,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             g.fillRect(0, 0, width, oy);
             g.fillRect(0, oy + height, width, size.height - (oy + height));
         }
-        
-        final AffineTransform t = g.getTransform();        
+             
         g.translate(ox, oy);
         g.scale(width / (double)PREFERRED_WIDTH, height / (double)PREFERRED_HEIGHT);
         
@@ -140,7 +168,25 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         g.setStroke(BORDER_STROKE);
         g.draw(BORDER_SHAPE);
         
-        g.setTransform(t);
+        g.translate(GRID_STROKE_WIDTH / 2, GRID_STROKE_WIDTH / 2);
+        g.setStroke(BLOCK_STROKE);
+        for (int i = PLAYFIELD_HEIGHT - 1; i >= 0; --i) {
+            float ty = PLAYFIELD_PADDING + i * CELL_SIZE;
+            for (int j = PLAYFIELD_WIDTH - 1; j >= 0; --j) {
+                int index = playfield[i][j];
+                if (index == 0) {
+                    continue;
+                }
+                --index;
+                float tx = PLAYFIELD_PADDING + j * CELL_SIZE;
+                g.translate(tx, ty);
+                g.setColor(BLOCK_FILL_COLORS[index]);
+                g.fill(BLOCK_SHAPE);
+                g.setColor(BLOCK_DRAW_COLORS[index]);
+                g.draw(BLOCK_SHAPE);
+                g.translate(-tx, -ty);
+            }
+        }
     }
 
     @Override
