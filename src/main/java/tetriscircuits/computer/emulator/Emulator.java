@@ -1,6 +1,7 @@
 package tetriscircuits.computer.emulator;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,19 +71,19 @@ public class Emulator {
     
     private void launch(final String binFilename) throws Exception {
         
-        int seed = 0x8988;
-        for (int i = 0; i < 5; ++i) {
-            System.out.format("%04X%n", seed);
-            seed = generateNextPseudorandomNumber(seed);
-        }
+//        int seed = 0x8988;
+//        for (int i = 0; i < 5; ++i) {
+//            System.out.format("%04X%n", seed);
+//            seed = generateNextPseudorandomNumber(seed);
+//        }
         
         loadBinFile(binFilename);
         
         while (true) {
                         
-            System.out.format("P: %04X, A: %02X, B: %02X, M: %02X, N: %02X, Z: %b, %02X %02X %02X%n", 
-                    P, A, B, M, N, z, memory[0], memory[1], memory[2]);
-            Thread.sleep(10);
+//            System.out.format("P: %04X, A: %02X, B: %02X, M: %02X, N: %02X, Z: %b, %02X %02X %02X%n", 
+//                    P, A, B, M, N, z, memory[0], memory[1], memory[2]);
+//            Thread.sleep(10);
             
             runInstruction();
         }
@@ -119,8 +120,11 @@ public class Emulator {
     }
     
     public void loadBinFile(final String binFilename) throws IOException {
+        final File binFile = new File(binFilename);
+        final int maxAddress = (int)binFile.length() - 3;        
+        
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
-            for (int address = 0; address < 0x10000; ++address) {
+            for (int address = 0; address <= maxAddress; ++address) {
                 final int b = in.read();
                 if (b < 0) {
                     throw new IOException("Unexpected end of file.");

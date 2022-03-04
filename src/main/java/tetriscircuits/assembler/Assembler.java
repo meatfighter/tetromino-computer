@@ -121,7 +121,7 @@ public class Assembler {
             }
         }
         
-        for (int i = 0; i < bytes.length; ++i) {
+        for (int i = 0; i < address; ++i) {
             out.write(bytes[i]);
         }
         
