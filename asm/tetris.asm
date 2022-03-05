@@ -74,15 +74,98 @@ rotateButton:        00 ; 00 = released; otherwise, pressed
 
 tetriminoType:       00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation:   00 ; 00--03
-tetriminoX:          00 ; 00--09
-tetriminoY:          00 ; 02--15
+tetriminoX:          05 ; 00--09
+tetriminoY:          02 ; 02--15
 
 tetriminoNextType:   00 ; 00--06 (T, J, Z, O, S, L, I)
 
-main:
+i:                   00
+origin:              00
+tetriminosIndex:     00
+
+main: ; ----------------------------------------------------------------------------------------------------------------
+
+SMN drawBlock+1
+SEA 01
+STA                     ; [drawBlock+1] = 1;
+
+JSR drawTetrimino       ; drawTetrimino();
 
 SMN drawFrame
 SEA 01
 STA                     ; render frame
 
 JMP main
+
+drawTetrimino: ; -------------------------------------------------------------------------------------------------------
+; drawBlock+1 - block to draw
+
+SMN i
+SEA 03
+STA                     ; i = 3;
+
+SMN tetriminoY
+LDA
+LSH
+LSH
+LSH
+TAB
+LDA
+LSH
+ADD
+TAB
+LDA
+ADD                     
+TAB
+SMN tetriminoX
+LDA
+ADD
+SMN origin
+STA                     ; origin = 11 * tetriminoY + tetriminoX;
+
+SMN tetriminoType
+LDA
+LSH
+LSH
+LSH
+LSH
+TAB
+SMN tetriminoRotation
+LDA
+LSH
+LSH
+ADD                     ; A = 16 * tetriminoType + 4 * tetriminoRotation;
+SMN tetriminosIndex
+STA                     ; tetriminosIndex = A;
+
+SMN origin
+LDB                     ; B = origin;
+
+drawLoop:
+
+SMN tetriminos
+TAN
+LDA
+ADD
+SMN playfield
+TAN
+drawBlock:
+SEA 00
+STA                     ; playfield[tetriminos[tetriminosIndex] + origin] = [drawBlock+1];
+
+SMN i
+LDA
+DEC                     ; if (--i < 0) {
+BMI endDrawLoop;        ;   goto endDrawLoop;
+STA                     ; }
+
+SMN tetriminosIndex
+LDA                     
+INC                     ; A = tetriminosIndex + 1;
+STA                     ; tetriminosIndex = A;
+
+JMP drawLoop            ; goto drawLoop;
+
+endDrawLoop:
+ 
+RTS                     ; return; // -----------------------------------------------------------------------------------
