@@ -1,23 +1,22 @@
 package tetriscircuits.computer;
 
+import com.bulenkov.darcula.DarculaLaf;
+
 import java.awt.EventQueue;
-import static java.awt.EventQueue.invokeAndWait;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.yield;
-import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import tetriscircuits.computer.emulator.Emulator;
-import tetriscircuits.computer.ui.OldImagePanel;
-import tetriscircuits.ui.UiUtil;
+import tetriscircuits.computer.ui.PlayfieldFrame;
+
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.yield;
+import tetriscircuits.computer.ui.PlayfieldModel;
+
 
 public class Computer {
 
-    private static final double FRAMES_PER_SECOND = 60;
+    private static final double FRAMES_PER_SECOND = 3;
     private static final int MAX_FRAMES_LOST = 3;
     private static final int MIN_SLEEP_MILLIS = 2;    
     
@@ -26,63 +25,49 @@ public class Computer {
     private static final long MAX_LOST_NANOS = -MAX_FRAMES_LOST * NANOS_PER_FRAME;
     
     private final Emulator emulator = new Emulator();
+    private final PlayfieldModel playfieldModel = new PlayfieldModel();
     
-    private volatile OldImagePanel imagePanel;
+    private volatile PlayfieldFrame playfieldFrame;
     
     public void launch() throws Exception {
         emulator.loadBinFile("tetris.bin");
-        EventQueue.invokeLater(this::createFrame);
+        EventQueue.invokeAndWait(this::createFrame);
+        runGameLoop();
     }
 
     private void createFrame() {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (final ClassNotFoundException
-                | InstantiationException
-                | IllegalAccessException
-                | UnsupportedLookAndFeelException e) {
+            UIManager.setLookAndFeel(new DarculaLaf()); 
+        } catch (final UnsupportedLookAndFeelException e) {
         }
-        imagePanel = new OldImagePanel();
-        final JFrame frame = new JFrame("Tetris Running On Tetris");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(imagePanel);
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(final KeyEvent e) {
-                imagePanel.keyReleased(e);
-            }
-            @Override
-            public void keyPressed(final KeyEvent e) {
-                imagePanel.keyPressed(e);
-            }            
-        });
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(final WindowEvent e) {
-                new Thread(() -> runGameLoop()).start();
-            }
-        });
-        UiUtil.setIcons(frame);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        playfieldFrame = new PlayfieldFrame();        
+        playfieldFrame.pack();
+        playfieldFrame.setLocationRelativeTo(null);
+        playfieldFrame.setVisible(true);        
     }
     
-    private void updateEmulator() {
+    private void update() {
         final int[] memory = emulator.getMemory();
-        memory[0xFB00] = 0;
-        while (memory[0xFB00] == 0) {
+        memory[0x00FD] = 0;
+        do {
             emulator.runInstruction();
+        } while (memory[0x00FD] == 0);
+        
+        final int[][] cells = playfieldModel.getCells();
+        for (int y = 19; y >= 0; --y) {
+            for (int x = 9; x >= 0; --x) {
+                cells[y][x] = memory[11 * (2 + y) + x];
+            }
         }
+        playfieldFrame.update(playfieldModel);
+        System.out.println(System.currentTimeMillis());
     }
     
     private void runGameLoop() {
         long clock = System.nanoTime();
         while (true) {
-            updateEmulator();
+            update();
             try {
-                final int[] memory = emulator.getMemory();
-                invokeAndWait(() -> imagePanel.updateImage(memory));
                 clock += NANOS_PER_FRAME;
                 final long remainingTime = clock - System.nanoTime();
                 if (remainingTime < MAX_LOST_NANOS) {

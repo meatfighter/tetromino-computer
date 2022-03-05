@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,7 @@ public class Assembler {
         
         int tokenIndex = 0;
         int address = 0;
+        int maxAddress = 0;
         outer: while (true) {
             final Token token = tokens.get(tokenIndex);
             System.out.println(token.getType());
@@ -91,6 +93,7 @@ public class Assembler {
                 default:
                     throw new ParseException(token, "Unexpected token");
             }
+            maxAddress = max(maxAddress, address);
         }
         
         for (Map.Entry<String, List<ConstantUsage>> entry : constantUsages.entrySet()) {
@@ -121,7 +124,7 @@ public class Assembler {
             }
         }
         
-        for (int i = 0; i < address; ++i) {
+        for (int i = 0; i < maxAddress; ++i) {
             out.write(bytes[i]);
         }
         

@@ -49,28 +49,44 @@ public class GenerateTetriminoTable {
     };        
 
     public static void main(final String... args) {
+//        System.out.println("tetriminos:");
+//        System.out.println("; X0 Y0  X1 Y1  X2 Y2  X3 Y3");
+//        for (int i = 0; i < TETRIMINOS.length; ++i) {
+//            final int[][] blocks = TETRIMINOS[i];
+//            System.out.print("  ");
+//            for (final int[] bs : blocks) {
+//                System.out.format("%02X %02X  ", 0xFF & bs[0], 0xFF & bs[1]);
+//            }
+//            System.out.format("; %02X %s%n", i, NAMES[i]);
+//            if ((i & 3) == 3) {
+//                System.out.println();
+//            }
+//        }
+//        System.out.print(";                ");
+//        for (int i = 0; i < 21; ++i) {
+//            System.out.format("%s%s%d", (i == 0) ? "" : "   ", (i < 10) ? " " : "", i);
+//        }
+//        System.out.println();
+//        System.out.print("playfieldRows: ");
+//        for (int i = 0; i < 21; ++i) {
+//            System.out.format("%s%04X", (i == 0) ? "" : " ", 0xFCCC + (i << 5));
+//        }
+//        System.out.println();
+
+        final int ROW_LENGTH = 11;
+        
         System.out.println("tetriminos:");
-        System.out.println("; X0 Y0  X1 Y1  X2 Y2  X3 Y3");
+        System.out.println("; B0 B1 B2 B3");
         for (int i = 0; i < TETRIMINOS.length; ++i) {
             final int[][] blocks = TETRIMINOS[i];
             System.out.print("  ");
             for (final int[] bs : blocks) {
-                System.out.format("%02X %02X  ", 0xFF & bs[0], 0xFF & bs[1]);
+                System.out.format("%02X ", 0xFF & (bs[0] + ROW_LENGTH * bs[1]));
             }
             System.out.format("; %02X %s%n", i, NAMES[i]);
             if ((i & 3) == 3) {
                 System.out.println();
             }
         }
-        System.out.print(";                ");
-        for (int i = 0; i < 21; ++i) {
-            System.out.format("%s%s%d", (i == 0) ? "" : "   ", (i < 10) ? " " : "", i);
-        }
-        System.out.println();
-        System.out.print("playfieldRows: ");
-        for (int i = 0; i < 21; ++i) {
-            System.out.format("%s%04X", (i == 0) ? "" : " ", 0xFCCC + (i << 5));
-        }
-        System.out.println();
     }
 }

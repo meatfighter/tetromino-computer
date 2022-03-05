@@ -10,7 +10,6 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_HEIGHT;
 import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_WIDTH;
@@ -86,12 +85,6 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     
     public PlayfieldPanel() {
         initComponents();
-        
-        for (int i = 19; i >= 10; --i) {
-            for (int j = 9; j >=0; --j) {
-                cells[i][j] = 1 + ThreadLocalRandom.current().nextInt(7);
-            }
-        }
     }    
 
     /**
@@ -122,6 +115,7 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         final int[][] cells = playfieldModel.getCells();
         playfieldModel.setCells(this.cells);
         this.cells = cells;
+        repaint();
     }
     
     @Override

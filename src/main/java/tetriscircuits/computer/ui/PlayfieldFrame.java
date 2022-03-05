@@ -1,11 +1,8 @@
 package tetriscircuits.computer.ui;
 
-import com.bulenkov.darcula.DarculaLaf;
-import java.awt.EventQueue;
+import static java.awt.EventQueue.invokeAndWait;
+import static java.awt.EventQueue.isDispatchThread;
 import java.awt.event.KeyEvent;
-import javafx.scene.input.KeyCode;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import tetriscircuits.ui.UiUtil;
 
 public class PlayfieldFrame extends javax.swing.JFrame {
@@ -110,9 +107,9 @@ public class PlayfieldFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void update(final PlayfieldModel playfieldModel) {
-        if (!EventQueue.isDispatchThread()) {
+        if (!isDispatchThread()) {
             try {
-                EventQueue.invokeAndWait(() -> update(playfieldModel));
+                invokeAndWait(() -> update(playfieldModel));
             } catch (final Exception e) {                
             }
             return;
