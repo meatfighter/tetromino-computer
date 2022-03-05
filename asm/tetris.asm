@@ -170,8 +170,29 @@ LDA                     ; if (startButton == 0) {
 BEQ mainLoop;           ;   goto mainLoop;
                         ; }
 
-; TODO CLEAR PLAYFIELD
+SEA F1                  ; A = 0xF1;
+SEB 00                  
+SMN playfield
+clearLoop:
+TAN
+STB                     ; playfield[A] = 0;
+DEC                     ; if (--A != 0) {
+BNE clearLoop           ;   goto clearLoop;
+                        ; }
+STB                     ; playfield[0] = 0;
 
+SMN 00F1                ; MN = 0x00F1;
+SEB FF                  
+edgeLoop:
+STB                     ; *MN = 0xFF;
+TNA
+SEB 0B
+SUB
+TAN                     ; MN -= 11;
+SEB FF
+SUB                     ; if (*MN != -1) {
+BNE edgeLoop            ;   goto edgeLoop;
+                        ; }
 spawn:
 SMN state
 SEA STATE_PLAYING
