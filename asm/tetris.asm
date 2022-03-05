@@ -76,7 +76,9 @@ tetriminos:
 
 segment 0170
 startButton:         00 ; 00 = released; otherwise, pressed
-rotateButton:        00 ; 00 = released; otherwise, pressed 
+ccwRotateButton:     00 ; 00 = released; otherwise, pressed 
+cwRotateButton:      00 ; 00 = released; otherwise, pressed
+downButton:          00 ; 00 = released; otherwise, pressed
 
 tetriminoType:       00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation:   00 ; 00--03
@@ -106,6 +108,8 @@ mainLoop:
 SMN drawFrame
 SEA 01
 STA                     ; render frame
+
+JSR updateNext          ; updateNext();
 
 SEB 02
 SMN seedLow
@@ -148,13 +152,7 @@ STA                     ; seedHigh = nextBit | (seedHigh >> 1);
                         ; if (randomBit is 1) {
 BMI skipNextUpdate      ;   goto skipNextUpdate;
                         ; }
-SMN nextType
-LDA
-DEC
-BPL endUpdate
-SEA 06
-endUpdate:
-STA                     ; nextType = (nextType == 0) ? 6 : (nextType - 1);
+JSR updateNext          ; updateNext();
 
 skipNextUpdate:
 SMN state
@@ -233,30 +231,47 @@ SMN tetriminoX
 LDA
 DEC
 STA                     ; --tetriminoX;
-JMP testRotateButton    ; goto testRotateButton;
+JSR updateNext          ; updateNext();
+JMP testCcwRotateButton ; goto testCcwRotateButton;
 
 testRightButton:
 SMN rightButton
 LDA                     ; if (rightButton == 0) {
-BEQ testRotateButton    ;   goto testRotateButton;
+BEQ testCcwRotateButton ;   goto testCcwRotateButton;
                         ; }
 SMN tetriminoX
 LDA
 INC
 STA                     ; ++tetriminoX;
+JSR updateNext          ; updateNext();
 
-testRotateButton:
-SMN rotateButton
-LDA                     ; if (rotateButton == 0) {
-BEQ validatePosition    ;   goto validatePosition;
+testCcwRotateButton:
+SEB 03                  ; B = 3;
+SMN ccwRotateButton
+LDA                     ; if (ccwRotateButton == 0) {
+BEQ testCwRotateButton  ;   goto testCwRotateButton;
                         ; }
 SMN tetriminoRotation
 LDA
 DEC
-BPL positiveRotation
-SEA 03
-positiveRotation:
-STA                     ; tetriminoRotation = (tetriminoRotation == 0) ? 3 : tetriminoRotation - 1;
+AND
+STA                     ; tetriminoRotation = (tetriminoRotation - 1) & 3;
+
+JSR updateNext          ; updateNext();
+JMP validatePosition    ; goto validatePosition;
+
+testCwRotateButton:
+SMN cwRotateButton
+LDA                     ; if (cwRotateButton == 0) {
+BEQ validatePosition    ;   goto validatePosition;
+                        ; }
+SMN tetriminoRotation
+LDA
+INC
+AND
+STA                     ; tetriminoRotation = (tetriminoRotation + 1) & 3;
+
+JSR updateNext          ; updateNext();
 
 validatePosition: 
 SMN drawOrTest
@@ -275,7 +290,15 @@ SMN tetriminoX
 STA                     ; tetriminoX = lastX;
 
 keepPosition:
-SMN fallTimer
+SMN downButton
+LDA                     
+SMN fallTimer           ; if (downButton == 0) {
+BEQ updateFallTimer     ;   goto updateFallTimer;
+                        ; }
+SEA 00
+STA                     ; fallTimer = 0;                  
+
+updateFallTimer:
 LDA                     ; if (fallTimer != 0) {
 BNE decFallTimer        ;   goto decFallTimer;
 SEA FALL_SPEED          ; } 
@@ -417,4 +440,17 @@ JMP drawLoop            ; goto drawLoop;
 
 endDrawLoop:
  
+RTS                     ; return; // -----------------------------------------------------------------------------------
+
+
+updateNext: ; ----------------------------------------------------------------------------------------------------------
+
+SMN nextType
+LDA
+DEC
+BPL endUpdateNext
+SEA 06
+endUpdateNext:
+STA                     ; nextType = (nextType == 0) ? 6 : (nextType - 1);
+
 RTS                     ; return; // -----------------------------------------------------------------------------------

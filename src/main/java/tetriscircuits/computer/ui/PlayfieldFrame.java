@@ -9,21 +9,29 @@ public class PlayfieldFrame extends javax.swing.JFrame {
 
     private static final int LEFT_KEY_CODE = KeyEvent.VK_LEFT;
     private static final int RIGHT_KEY_CODE = KeyEvent.VK_RIGHT;
+    private static final int DOWN_KEY_CODE = KeyEvent.VK_DOWN;
     private static final int START_KEY_CODE = KeyEvent.VK_ENTER;
+    private static final int CCW_ROTATE_CODE = KeyEvent.VK_Z;
+    private static final int CW_ROTATE_CODE = KeyEvent.VK_X;
     
     private final PlayfieldPanel playfieldPanel = new PlayfieldPanel();
 
     private boolean left;
     private boolean right;
-    private boolean rotate;
+    private boolean down;
+    private boolean ccwRotate;
+    private boolean cwRotate;
     private boolean start;
     
     private int leftAsserted;
     private int rightAsserted;
-    private int rotateAsserted;
+    private int downAsserted;    
+    private int ccwRotateAsserted;
+    private int cwRotateAsserted;
     private int startAsserted;
     
-    private boolean lastRotate;
+    private boolean lastCcwRotate;
+    private boolean lastCwRotate;
     private boolean lastStart;
   
     
@@ -83,18 +91,30 @@ public class PlayfieldFrame extends javax.swing.JFrame {
                     rightAsserted = 1;
                 }
                 break;
+            case DOWN_KEY_CODE:                
+                down = true;
+                if (downAsserted == 0) {
+                    downAsserted = 1;
+                }
+                break;    
             case START_KEY_CODE:
                 start = true;
                 if (startAsserted == 0) {
                     startAsserted = 1;
                 }
                 break;
-            default:                
-                rotate = true;
-                if (rotateAsserted == 0) {
-                    rotateAsserted = 1;
+            case CCW_ROTATE_CODE:                
+                ccwRotate = true;
+                if (ccwRotateAsserted == 0) {
+                    ccwRotateAsserted = 1;
                 }
-                break;    
+                break;
+            case CW_ROTATE_CODE:                
+                cwRotate = true;
+                if (cwRotateAsserted == 0) {
+                    cwRotateAsserted = 1;
+                }
+                break;                 
         }
     }//GEN-LAST:event_formKeyPressed
 
@@ -112,18 +132,30 @@ public class PlayfieldFrame extends javax.swing.JFrame {
                     rightAsserted = 0;
                 }
                 break;
+            case DOWN_KEY_CODE:
+                down = false;
+                if (downAsserted == 2) {
+                    downAsserted = 0;
+                }
+                break;                
             case START_KEY_CODE:
                 start = false;
                 if (startAsserted == 2) {
                     startAsserted = 0;
                 }
                 break;                
-            default:
-                rotate = false;
-                if (rotateAsserted == 2) {
-                    rotateAsserted = 0;
+            case CCW_ROTATE_CODE:                
+                ccwRotate = false;
+                if (ccwRotateAsserted == 2) {
+                    ccwRotateAsserted = 0;
                 }
                 break;
+            case CW_ROTATE_CODE:                
+                cwRotate = false;
+                if (cwRotateAsserted == 2) {
+                    cwRotateAsserted = 0;
+                }
+                break; 
         }
     }//GEN-LAST:event_formKeyReleased
 
@@ -149,11 +181,22 @@ public class PlayfieldFrame extends javax.swing.JFrame {
             rightAsserted = right ? 2 : 0;
         }
         
-        playfieldModel.setRotatePressed((rotate || rotateAsserted == 1) && !lastRotate);
-        lastRotate = rotate || rotateAsserted == 1;
-        if (rotateAsserted == 1) {
-            rotateAsserted = rotate ? 2 : 0;
+        playfieldModel.setDownPressed(down || downAsserted == 1);
+        if (downAsserted == 1) {
+            downAsserted = down ? 2 : 0;
+        }        
+        
+        playfieldModel.setCcwRotatePressed((ccwRotate || ccwRotateAsserted == 1) && !lastCcwRotate);
+        lastCcwRotate = ccwRotate || ccwRotateAsserted == 1;
+        if (ccwRotateAsserted == 1) {
+            ccwRotateAsserted = ccwRotate ? 2 : 0;
         }
+        
+        playfieldModel.setCwRotatePressed((cwRotate || cwRotateAsserted == 1) && !lastCwRotate);
+        lastCwRotate = cwRotate || cwRotateAsserted == 1;
+        if (cwRotateAsserted == 1) {
+            cwRotateAsserted = cwRotate ? 2 : 0;
+        }        
         
         playfieldModel.setStartPressed((start || startAsserted == 1) && !lastStart);
         lastStart = start || startAsserted == 1;

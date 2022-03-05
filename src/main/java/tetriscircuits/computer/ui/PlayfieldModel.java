@@ -10,7 +10,9 @@ public class PlayfieldModel {
     private boolean startPressed;
     private boolean leftPressed;
     private boolean rightPressed;
-    private boolean rotatePressed;
+    private boolean downPressed;
+    private boolean ccwRotatePressed;
+    private boolean cwRotatePressed;
 
     public int[][] getCells() {
         return cells;
@@ -44,11 +46,27 @@ public class PlayfieldModel {
         this.rightPressed = rightPressed;
     }
 
-    public boolean isRotatePressed() {
-        return rotatePressed;
+    public boolean isDownPressed() {
+        return downPressed;
     }
 
-    public void setRotatePressed(final boolean rotatePressed) {
-        this.rotatePressed = rotatePressed;
+    public void setDownPressed(final boolean downPressed) {
+        this.downPressed = downPressed;
+    }
+
+    public boolean isCcwRotatePressed() {
+        return ccwRotatePressed;
+    }
+
+    public void setCcwRotatePressed(final boolean ccwRotatePressed) {
+        this.ccwRotatePressed = ccwRotatePressed;
+    }
+
+    public boolean isCwRotatePressed() {
+        return cwRotatePressed;
+    }
+
+    public void setCwRotatePressed(final boolean cwRotatePressed) {
+        this.cwRotatePressed = cwRotatePressed;
     }
 }

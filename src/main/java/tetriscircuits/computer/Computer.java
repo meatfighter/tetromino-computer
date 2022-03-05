@@ -63,7 +63,9 @@ public class Computer {
         memory[0x00FE] = playfieldModel.isLeftPressed() ? 0xFF : 00;
         memory[0x00FF] = playfieldModel.isRightPressed() ? 0xFF : 00;
         memory[0x0170] = playfieldModel.isStartPressed() ? 0xFF : 00;
-        memory[0x0171] = playfieldModel.isRotatePressed() ? 0xFF : 00;
+        memory[0x0171] = playfieldModel.isCcwRotatePressed() ? 0xFF : 00;
+        memory[0x0172] = playfieldModel.isCwRotatePressed() ? 0xFF : 00;
+        memory[0x0173] = playfieldModel.isDownPressed() ? 0xFF : 00;
     }
     
     private void runGameLoop() {
