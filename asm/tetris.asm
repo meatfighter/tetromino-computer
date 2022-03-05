@@ -1,3 +1,5 @@
+define FALL_SPEED 03
+
 segment 0000
 playfield:
 ;  0  1  2  3  4  5  6  7  8  9 10
@@ -82,11 +84,71 @@ lastX:               05 ; 00--09
 
 nextType:            00 ; 00--06 (T, J, Z, O, S, L, I)
 
+seedHigh:            89
+seedLow:             88
+nextBit:             00
+
 i:                   00
 origin:              00
 tetriminosIndex:     00
 
+fallTimer:           00
+
 main: ; ----------------------------------------------------------------------------------------------------------------
+
+mainLoop:
+
+SEB 02
+SMN seedLow
+LDA
+AND
+SMN nextBit
+STA
+SMN seedHigh
+LDA
+AND
+SMN nextBit
+LDB
+XOR
+BEQ bit9Clear
+SEA 80
+bit9Clear:
+STA                     ; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
+
+SMN seedHigh
+LDA
+SEB 01
+AND
+BEQ bit8Clear
+SEB 80
+bit8Clear:
+SMN seedLow
+LDA
+RSH
+OR
+STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
+
+SMN nextBit
+LDB
+SMN seedHigh
+LDA
+RSH
+OR
+STA                     ; seedHigh = nextBit | (seedHigh >> 1);
+
+                        ; if (randomBit is 1) {
+BMI skipNextUpdate      ;   goto skipNextUpdate;
+                        ; }
+SMN nextType
+LDA
+DEC
+BPL endUpdate
+SEA 06
+endUpdate:
+STA                     ; nextType = (nextType == 0) ? 6 : (nextType - 1);
+
+skipNextUpdate:
+
 
 SMN drawOrTest
 SEA 22
@@ -113,21 +175,21 @@ SMN tetriminoX
 LDA
 DEC
 STA                     ; --tetriminoX;
-JMP testRotationButton  ; goto testRotationButton;
+JMP testRotateButton    ; goto testRotateButton;
 
 testRightButton:
 SMN rightButton
 LDA                     ; if (rightButton == 0) {
-BEQ testRotationButton  ;   goto testRotationButton;
+BEQ testRotateButton    ;   goto testRotateButton;
                         ; }
 SMN tetriminoX
 LDA
 INC
 STA                     ; ++tetriminoX;
 
-testRotationButton:
-SMN rotationButton
-LDA                     ; if (rotationButton == 0) {
+testRotateButton:
+SMN rotateButton
+LDA                     ; if (rotateButton == 0) {
 BEQ validatePosition    ;   goto validatePosition;
                         ; }
 SMN tetriminoRotation
@@ -139,7 +201,51 @@ positiveRotation:
 STA                     ; tetriminoRotation = (tetriminoRotation == 0) ? 3 : tetriminoRotation - 1;
 
 validatePosition: 
+SMN drawOrTest
+SEA 23
+STA                     ; drawOrTest = 23;
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) {
+BEQ keepPosition        ;   goto keepPosition;
+                        ; }
+SMN lastRotation
+LDA
+SMN tetriminoRotation
+STA                     ; tetriminoRotation = lastRotation;
+SMN lastX
+LDA
+SMN tetriminoX
+STA                     ; tetriminoX = lastX;
 
+keepPosition:
+SMN fallTimer
+LDA                     ; if (fallTimer != 0) {
+BNE decFallTimer        ;   goto decFallTimer;
+SEA FALL_SPEED          ; } 
+STA                     ; fallTimer = FALL_SPEED;
+
+SMN tetriminoY
+LDA
+INC
+STA                     ; ++tetriminoY;
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) {
+BEQ endFall             ;   goto endFall;
+                        ; }
+SMN tetriminoY
+LDA
+DEC
+STA                     ; --tetriminoY;
+
+; TODO
+
+JMP endFall            ; goto endFall;
+
+decFallTimer:
+SMN fallTimer
+LDA
+DEC
+STA
+
+endFall:
 
 SMN drawOrTest
 SEA 22
@@ -155,11 +261,19 @@ SMN drawFrame
 SEA 01
 STA                     ; render frame
 
-JMP main
+JMP mainLoop
 
 drawOrTestTetrimino: ; -------------------------------------------------------------------------------------------------
-; drawOrTest - 22 = draw, 23 = test
-; drawBlock+1 - block to draw
+; drawOrTest        - 22 = draw, 23 = test
+; drawBlock+1       - block to draw
+;
+; tetriminoType     - type
+; tetriminoRotation - rotation
+; tetriminoX        - x
+; tetriminoY        - y
+;
+; z: 0 = valid position, 1 = invalid position
+
 
 SMN i
 SEA 03
@@ -226,15 +340,16 @@ STA                     ; playfield[tetriminos[tetriminosIndex] + origin] = [dra
 
 incDrawLoop:
 SMN i
-LDA
-DEC                     ; if (--i < 0) {
-BMI endDrawLoop;        ;   goto endDrawLoop;
-STA                     ; }
+LDA                     ; if (i == 0) {
+BEQ endDrawLoop         ;   goto endDrawLoop;
+                        ; }
+DEC                     
+STA                     ; --i;
 
 SMN tetriminosIndex
 LDA                     
-INC                     ; A = tetriminosIndex + 1;
-STA                     ; tetriminosIndex = A;
+INC
+STA                     ; A = ++tetriminosIndex;
 
 JMP drawLoop            ; goto drawLoop;
 

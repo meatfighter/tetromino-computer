@@ -60,7 +60,10 @@ public class Computer {
             }
         }
         playfieldFrame.update(playfieldModel);
-        System.out.println(System.currentTimeMillis());
+        memory[0x00FE] = playfieldModel.isLeftPressed() ? 0xFF : 00;
+        memory[0x00FF] = playfieldModel.isRightPressed() ? 0xFF : 00;
+        memory[0x0170] = playfieldModel.isStartPressed() ? 0xFF : 00;
+        memory[0x0171] = playfieldModel.isRotatePressed() ? 0xFF : 00;
     }
     
     private void runGameLoop() {

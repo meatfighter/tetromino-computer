@@ -12,14 +12,20 @@ public class PlayfieldFrame extends javax.swing.JFrame {
     private static final int START_KEY_CODE = KeyEvent.VK_ENTER;
     
     private final PlayfieldPanel playfieldPanel = new PlayfieldPanel();
+
+    private boolean left;
+    private boolean right;
+    private boolean rotate;
+    private boolean start;
     
     private int leftAsserted;
     private int rightAsserted;
-
-    private boolean leftPressed;
-    private boolean rightPressed;    
-    private boolean startPressed;
-    private boolean rotatePressed;    
+    private int rotateAsserted;
+    private int startAsserted;
+    
+    private boolean lastRotate;
+    private boolean lastStart;
+  
     
     /**
      * Creates new form PlayfieldFrame
@@ -66,38 +72,56 @@ public class PlayfieldFrame extends javax.swing.JFrame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         switch (evt.getKeyCode()) {
             case LEFT_KEY_CODE:
-                leftPressed = true;
-                leftAsserted = 1;
-                rightPressed = false;
-                rightAsserted = 0;
+                left = true;
+                if (leftAsserted == 0) {
+                    leftAsserted = 1;
+                }
                 break;
-            case RIGHT_KEY_CODE:
-                rightPressed = true;
-                rightAsserted = 1;
-                leftPressed = false;
-                leftAsserted = 0;
+            case RIGHT_KEY_CODE:                
+                right = true;
+                if (rightAsserted == 0) {
+                    rightAsserted = 1;
+                }
                 break;
             case START_KEY_CODE:
-                startPressed = true;
+                start = true;
+                if (startAsserted == 0) {
+                    startAsserted = 1;
+                }
                 break;
-            default:
-                rotatePressed = true;
-                break;
+            default:                
+                rotate = true;
+                if (rotateAsserted == 0) {
+                    rotateAsserted = 1;
+                }
+                break;    
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         switch (evt.getKeyCode()) {
-            case LEFT_KEY_CODE:
-                leftPressed = false;
+            case LEFT_KEY_CODE:                
+                left = false;
                 if (leftAsserted == 2) {
                     leftAsserted = 0;
                 }
                 break;
             case RIGHT_KEY_CODE:
-                rightPressed = false;
+                right = false;
                 if (rightAsserted == 2) {
                     rightAsserted = 0;
+                }
+                break;
+            case START_KEY_CODE:
+                start = false;
+                if (startAsserted == 2) {
+                    startAsserted = 0;
+                }
+                break;                
+            default:
+                rotate = false;
+                if (rotateAsserted == 2) {
+                    rotateAsserted = 0;
                 }
                 break;
         }
@@ -115,33 +139,27 @@ public class PlayfieldFrame extends javax.swing.JFrame {
             return;
         }
         
-        if (leftAsserted > 0) {
-            if (leftPressed) {
-                leftAsserted = 2;
-            } else {
-                leftAsserted = 0;
-            }
-            playfieldModel.setLeftPressed(true);
-        } else {
-            playfieldModel.setLeftPressed(false);
+        playfieldModel.setLeftPressed(left || leftAsserted == 1);
+        if (leftAsserted == 1) {
+            leftAsserted = left ? 2 : 0;
         }
         
-        if (rightAsserted > 0) {
-            if (rightPressed) {
-                rightAsserted = 2;
-            } else {
-                rightAsserted = 0;
-            }
-            playfieldModel.setRightPressed(true);
-        } else {
-            playfieldModel.setRightPressed(false);
+        playfieldModel.setRightPressed(right || rightAsserted == 1);
+        if (rightAsserted == 1) {
+            rightAsserted = right ? 2 : 0;
         }
         
-        playfieldModel.setStartPressed(startPressed);
-        startPressed = false;
+        playfieldModel.setRotatePressed((rotate || rotateAsserted == 1) && !lastRotate);
+        lastRotate = rotate || rotateAsserted == 1;
+        if (rotateAsserted == 1) {
+            rotateAsserted = rotate ? 2 : 0;
+        }
         
-        playfieldModel.setRotatePressed(rotatePressed);
-        rotatePressed = false;
+        playfieldModel.setStartPressed((start || startAsserted == 1) && !lastStart);
+        lastStart = start || startAsserted == 1;
+        if (startAsserted == 1) {
+            startAsserted = start ? 2 : 0;
+        }
         
         playfieldPanel.update(playfieldModel);
     }
