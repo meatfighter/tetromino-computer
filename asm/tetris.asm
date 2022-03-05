@@ -77,7 +77,10 @@ tetriminoRotation:   00 ; 00--03
 tetriminoX:          05 ; 00--09
 tetriminoY:          02 ; 02--15
 
-tetriminoNextType:   00 ; 00--06 (T, J, Z, O, S, L, I)
+lastRotation:        00 ; 00--03
+lastX:               05 ; 00--09
+
+nextType:            00 ; 00--06 (T, J, Z, O, S, L, I)
 
 i:                   00
 origin:              00
@@ -85,11 +88,68 @@ tetriminosIndex:     00
 
 main: ; ----------------------------------------------------------------------------------------------------------------
 
+SMN drawOrTest
+SEA 22
+STA                     ; drawOrTest = 22;
 SMN drawBlock+1
-SEA 01
-STA                     ; [drawBlock+1] = 1;
+SEA 00
+STA                     ; *(drawBlock+1) = 0;
+JSR drawOrTestTetrimino ; drawOrTestTetrimino();
 
-JSR drawTetrimino       ; drawTetrimino();
+SMN tetriminoRotation
+LDA
+SMN lastRotation
+STA                     ; lastRotation = tetriminoRotation;
+SMN tetriminoX
+LDA
+SMN lastX
+STA                     ; lastX = tetriminoX;
+
+SMN leftButton
+LDA                     ; if (leftButton == 0) {
+BEQ testRightButton     ;   goto testRightButton;
+                        ; }
+SMN tetriminoX
+LDA
+DEC
+STA                     ; --tetriminoX;
+JMP testRotationButton  ; goto testRotationButton;
+
+testRightButton:
+SMN rightButton
+LDA                     ; if (rightButton == 0) {
+BEQ testRotationButton  ;   goto testRotationButton;
+                        ; }
+SMN tetriminoX
+LDA
+INC
+STA                     ; ++tetriminoX;
+
+testRotationButton:
+SMN rotationButton
+LDA                     ; if (rotationButton == 0) {
+BEQ validatePosition    ;   goto validatePosition;
+                        ; }
+SMN tetriminoRotation
+LDA
+DEC
+BPL positiveRotation
+SEA 03
+positiveRotation:
+STA                     ; tetriminoRotation = (tetriminoRotation == 0) ? 3 : tetriminoRotation - 1;
+
+validatePosition: 
+
+
+SMN drawOrTest
+SEA 22
+STA                     ; drawOrTest = 22;
+SMN tetriminoType
+LDA
+INC
+SMN drawBlock+1
+STA                     ; *(drawBlock+1) = tetriminoType + 1;
+JSR drawOrTestTetrimino ; drawOrTestTetrimino();
 
 SMN drawFrame
 SEA 01
@@ -97,7 +157,8 @@ STA                     ; render frame
 
 JMP main
 
-drawTetrimino: ; -------------------------------------------------------------------------------------------------------
+drawOrTestTetrimino: ; -------------------------------------------------------------------------------------------------
+; drawOrTest - 22 = draw, 23 = test
 ; drawBlock+1 - block to draw
 
 SMN i
@@ -149,10 +210,21 @@ LDA
 ADD
 SMN playfield
 TAN
+
+drawOrTest:
+BNE drawBlock           ; *** self-modifying code [BNE = draw, BEQ = test] ***
+
+LDA                     ; if (playfield[tetriminos[tetriminosIndex] + origin] != 0) {
+BNE endDrawLoop         ;   goto endDrawLoop;
+                        ; } else {
+JMP incDrawLoop         ;   goto incDrawLoop;
+                        ; }
+
 drawBlock:
 SEA 00
 STA                     ; playfield[tetriminos[tetriminosIndex] + origin] = [drawBlock+1];
 
+incDrawLoop:
 SMN i
 LDA
 DEC                     ; if (--i < 0) {
