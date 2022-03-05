@@ -1,4 +1,8 @@
-define FALL_SPEED 03
+define FALL_SPEED 01
+
+define STATE_GAME_OVER   00
+define STATE_PLAYING     01
+define STATE_CLEAR_LINES 02
 
 segment 0000
 playfield:
@@ -93,10 +97,15 @@ origin:              00
 tetriminosIndex:     00
 
 fallTimer:           00
+state:               00
 
 main: ; ----------------------------------------------------------------------------------------------------------------
 
 mainLoop:
+
+SMN drawFrame
+SEA 01
+STA                     ; render frame
 
 SEB 02
 SMN seedLow
@@ -148,8 +157,57 @@ endUpdate:
 STA                     ; nextType = (nextType == 0) ? 6 : (nextType - 1);
 
 skipNextUpdate:
+SMN state
+LDB
+SEA STATE_PLAYING
+SUB                     ; if (state == STATE_PLAYING) {
+BEQ playing             ;   goto playing;
+                        ; }
+SEA STATE_CLEAR_LINES
+SUB                     ; if (state == STATE_CLEAR_LINES) {
+BEQ clearLines          ;   goto clearLines;
+                        ; }
+SMN startButton
+LDA                     ; if (startButton == 0) {
+BEQ mainLoop;           ;   goto mainLoop;
+                        ; }
 
+; TODO CLEAR PLAYFIELD
 
+spawn:
+SMN state
+SEA STATE_PLAYING
+STA                     ; state = STATE_PLAYING;
+SMN nextType
+LDA
+SMN tetriminoType       ; tetriminoType = nextType;
+STA
+SMN tetriminoRotation
+SEA 00
+STA                     ; tetriminoRotation = 0;
+SMN tetriminoX
+SEA 05
+STA                     ; tetriminoX = 5;
+SMN tetriminoY
+SEA 02
+STA                     ; tetriminoY = 2;
+SMN fallTimer
+SEA FALL_SPEED
+STA                     ; fallTimer = FALL_SPEED;
+
+SMN drawOrTest
+SEA 23
+STA                     ; drawOrTest = 23;
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) {
+BEQ keepPosition        ;   goto playing;
+                        ; }
+SMN state
+SEA STATE_GAME_OVER
+STA                     ; state = STATE_GAME_OVER;
+
+JMP mainLoop            ; goto mainLoop;
+
+playing:
 SMN drawOrTest
 SEA 22
 STA                     ; drawOrTest = 22;
@@ -235,9 +293,11 @@ LDA
 DEC
 STA                     ; --tetriminoY;
 
-; TODO
+SMN state
+SEA STATE_CLEAR_LINES
+STA                     ; state = STATE_CLEAR_LINES;
 
-JMP endFall            ; goto endFall;
+JMP endFall             ; goto endFall;
 
 decFallTimer:
 SMN fallTimer
@@ -257,11 +317,13 @@ SMN drawBlock+1
 STA                     ; *(drawBlock+1) = tetriminoType + 1;
 JSR drawOrTestTetrimino ; drawOrTestTetrimino();
 
-SMN drawFrame
-SEA 01
-STA                     ; render frame
-
 JMP mainLoop
+
+clearLines:
+
+; TODO CLEAR LINES
+
+JMP spawn;              ; goto spawn;
 
 drawOrTestTetrimino: ; -------------------------------------------------------------------------------------------------
 ; drawOrTest        - 22 = draw, 23 = test
