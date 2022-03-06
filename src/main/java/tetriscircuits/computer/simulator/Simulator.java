@@ -1,10 +1,17 @@
 package tetriscircuits.computer.simulator;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import tetriscircuits.computer.Processor;
+
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
 // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
 // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
 
-public final class Simulator {
+public final class Simulator implements Processor {
     
     private static final int[][][] ZERO_C = new int[256][2][2];
     private static final int[][][] C_ZERO = new int[2][256][2];
@@ -430,18 +437,20 @@ public final class Simulator {
         }
     }
     
-    private final int[] bytes = new int[1024 + 2 + 21];
+    private int[] bytes;
+    private int maxAddress;
+    private boolean descend = true;
     
     private void ascendMemoryCycle() {
-        for (int address = 0; address <= 0x03FE; ++address) {
+        for (int address = 0; address < maxAddress; ++address) {
             runMemoryCycle(address);
             ascend(address);
         }
-        runMemoryCycle(0x03FF);
+        runMemoryCycle(maxAddress);
     }
     
     private void descendMemoryCycle() {
-        for (int address = 0x03FF; address > 0; --address) {
+        for (int address = maxAddress; address > 0; --address) {
             runMemoryCycle(address);
             descend(address);
         }
@@ -553,10 +562,13 @@ public final class Simulator {
         apply(address + 10, SWAP);          // order restored
     }    
     
-    private void readOrWriteMemoryIfMNEqualsA(final int address) {          
+    private void readOrWriteMemoryIfMNEqualsA(final int address) {  
         apply(address + 14, SWAP);
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
+
+
+        apply(address + 14, CLEAR);         // s0 = 0; TODO ???
         apply(address + 12, CMP_C);         // s0 = (M == a1);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
@@ -1317,7 +1329,57 @@ public final class Simulator {
         bytes[index + 2] = m[2];
     }
     
-    private Simulator() {        
+    // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+    // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+    // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q   
+    @Override
+    public void loadBinFile(final String binFilename) throws IOException {
+        final File binFile = new File(binFilename);
+        maxAddress = (int)binFile.length() - 3; 
+        
+        bytes = new int[maxAddress + 24];
+        
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
+            for (int address = 0; address <= maxAddress; ++address) {                
+                final int b = in.read();
+                if (b < 0) {
+                    throw new IOException("Unexpected end of file.");
+                }
+                bytes[address] = b;
+            }
+            bytes[maxAddress + 9] = in.read();
+            bytes[maxAddress + 10] = in.read();
+            if (bytes[maxAddress + 9] < 0 || bytes[maxAddress + 10] < 0) {
+                throw new IOException("Unexpected end of file.");
+            }
+        }
+    }    
+
+    int count = 0;
+    
+    @Override
+    public void runInstruction() {
+        System.out.println(++count);
+        if (descend) {
+            descendMemoryCycle();
+            executeInstruction(0x0000);    
+        } else {
+            ascendMemoryCycle();
+            executeInstruction(maxAddress);            
+        }
+    }
+
+    @Override
+    public int readMemory(int address) {
+        return bytes[(descend || address < 3) ? address : (address + 21)];    
+    }
+
+    @Override
+    public void writeMemory(int address, int value) {
+        bytes[(descend || address < 3) ? address : (address + 21)] = value;
+    }
+        
+    public Simulator() {        
     }
     
     public void launch() {

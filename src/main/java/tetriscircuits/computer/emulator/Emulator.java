@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import tetriscircuits.computer.Processor;
 
 // P R
 // z n
@@ -52,7 +53,7 @@ import java.io.InputStream;
 // 0111 0000
 // P = R
 
-public class Emulator {
+public class Emulator implements Processor {
     
     private final int[] memory = new int[0x10000];
     
@@ -89,6 +90,7 @@ public class Emulator {
         }
     }
     
+    @Override
     public void runInstruction() {
         final int opcode = fetch();
         switch ((opcode >> 4) & 0b1111) {
@@ -288,16 +290,14 @@ public class Emulator {
         return value;
     }
     
-    private void writeMemory(final int address, final int value) {
+    @Override
+    public void writeMemory(final int address, final int value) {
         memory[address & 0xFFFF] = value;
     }
     
-    private int readMemory(final int address) {
+    @Override
+    public int readMemory(final int address) {
         return memory[address & 0xFFFF];
-    }
-
-    public int[] getMemory() {
-        return memory;
     }
     
     public static void main(final String... args) throws Exception {
