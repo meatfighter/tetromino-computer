@@ -341,8 +341,6 @@ SMN state
 SEA STATE_CLEAR_LINES
 STA                     ; state = STATE_CLEAR_LINES;
 
-JMP endFall             ; goto endFall;
-
 decFallTimer:
 SMN fallTimer
 LDA
@@ -350,7 +348,6 @@ DEC
 STA
 
 endFall:
-
 SMN drawOrTest
 SEA 22
 STA                     ; drawOrTest = 22;
@@ -364,10 +361,95 @@ JSR drawOrTestTetrimino ; drawOrTestTetrimino();
 JMP mainLoop
 
 clearLines:
+SMN i
+SEA 03
+STA                     ; i = 3;
 
-; TODO CLEAR LINES
+SMN tetriminoY
+LDA
+LSH
+LSH
+LSH
+LDB
+ADD
+ADD
+ADD
+SEB 0B
+ADD
+SMN origin
+STA                     ; origin = 11 * tetriminoY + 11;
 
-JMP spawn;              ; goto spawn;
+clearLinesLoop:
+SMN origin
+LDA
+SMN playfield
+TAN                     ; MN = playfield + origin;
+
+SEB 09                  ; B = 9;
+scanLine:
+LDA                     ; if (*MN == 0) {
+BEQ continueClearLines  ;   goto continueClearLines;
+                        ; }
+TNA
+INC
+TAN                     ; ++N;
+
+TBA
+DEC
+TAB                     ; if (--B >= 0) {
+BPL scanLine            ;   goto scanLine;
+                        ; }
+
+copyLines:
+SEB 0B
+TNA
+SUB
+TAN                     ; N -= 11;
+LDA                     
+TAM                     ; M = *MN;
+TNA
+ADD
+TAN                     ; N += 11;
+TMA                     ; A = M;
+SEB 00
+TBM                     ; M = 0;
+STA                     ; *MN = A;
+
+TNA
+DEC
+TAN
+SEB 0B
+SUB                     ; if (--N >= 11) {
+BPL copyLines           ;   goto copyLines;
+                        ; }
+
+SEA 0A
+TAN                     ; N = 10;
+SEB 00
+clearTopLine:
+STB                     ; *MN = 0;
+
+TNA
+DEC
+TAN                     ; if (--N >= 0) {
+BPL clearTopLine        ;   goto clearTopLine;
+                        ; }
+
+continueClearLines:
+SMN origin
+LDA
+SEB 0B
+SUB
+STA                     ; origin -= 11;
+
+SMN i
+LDA
+DEC
+STA                     ; if (--i > 0) {
+BPL clearLinesLoop      ;   goto clearLinesLoop;
+                        ; } else {
+JMP spawn               ;   goto spawn;
+                        ; }
 
 drawOrTestTetrimino: ; -------------------------------------------------------------------------------------------------
 ; drawOrTest        - 22 = draw, 23 = test
@@ -380,7 +462,6 @@ drawOrTestTetrimino: ; ---------------------------------------------------------
 ;
 ; z: 0 = valid position, 1 = invalid position
 
-
 SMN i
 SEA 03
 STA                     ; i = 3;
@@ -390,16 +471,12 @@ LDA
 LSH
 LSH
 LSH
-TAB
-LDA
-LSH
+LDB
 ADD
-TAB
-LDA
-ADD                     
-TAB
+ADD
+ADD
 SMN tetriminoX
-LDA
+LDB
 ADD
 SMN origin
 STA                     ; origin = 11 * tetriminoY + tetriminoX;
