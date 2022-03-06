@@ -206,4 +206,16 @@ public class PlayfieldFrame extends javax.swing.JFrame {
         
         playfieldPanel.update(playfieldModel);
     }
+    
+    public void setFramesPerSecond(final double framesPerSecond) {
+        if (!isDispatchThread()) {
+            try {
+                invokeAndWait(() -> setFramesPerSecond(framesPerSecond));
+            } catch (final Exception e) {                
+            }
+            return;
+        }
+        
+        setTitle(String.format("Tetris running on Tetris [%.2f]", framesPerSecond));
+    }
 }

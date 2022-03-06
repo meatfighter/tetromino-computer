@@ -16,7 +16,7 @@ import tetriscircuits.computer.ui.PlayfieldModel;
 
 public class Computer {
 
-    private static final double FRAMES_PER_SECOND = 60;//3;
+    private static final double FRAMES_PER_SECOND = 5;
     private static final int MAX_FRAMES_LOST = 3;
     private static final int MIN_SLEEP_MILLIS = 2;    
     
@@ -68,9 +68,12 @@ public class Computer {
     }
     
     private void runGameLoop() {
+        int frames = 0;
         long clock = System.nanoTime();
-        while (true) {
-            update();
+        long framesStart = System.nanoTime();        
+        while (true) {            
+            update();          
+            
             try {
                 clock += NANOS_PER_FRAME;
                 final long remainingTime = clock - System.nanoTime();
@@ -86,6 +89,14 @@ public class Computer {
                     }
                 }
             } catch (final Exception e) {                
+            }
+            
+            ++frames;
+            final double framesDuration = System.nanoTime() - framesStart;
+            if (framesDuration > 1.0E10) {
+                playfieldFrame.setFramesPerSecond(frames / (framesDuration / 1.0E9));
+                frames = 0;
+                framesStart = System.nanoTime();
             }
         }
     }    

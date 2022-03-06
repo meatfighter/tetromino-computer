@@ -1330,8 +1330,8 @@ public final class Simulator implements Processor {
         apply(address + 5, SWAP);
         apply(address + 4, SWAP);
         apply(address + 3, SWAP);
-        apply(address + 13, CLEAR);        // s1 = 0;
-        apply(address + 14, CLEAR);        // s0 = 0;
+//        apply(address + 13, CLEAR);        // s1 = 0;
+//        apply(address + 14, CLEAR);        // s0 = 0;
         apply(address + 12, SWAP);
         apply(address + 11, SWAP);
         apply(address + 13, SWAP);
