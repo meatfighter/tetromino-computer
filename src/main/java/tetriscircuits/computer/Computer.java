@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import tetriscircuits.computer.emulator.Emulator;
 import tetriscircuits.computer.ui.PlayfieldFrame;
 
 import static java.lang.Thread.sleep;
@@ -17,7 +16,7 @@ import tetriscircuits.computer.ui.PlayfieldModel;
 
 public class Computer {
 
-    private static final double FRAMES_PER_SECOND = 3;
+    private static final double FRAMES_PER_SECOND = 60;//3;
     private static final int MAX_FRAMES_LOST = 3;
     private static final int MIN_SLEEP_MILLIS = 2;    
     

@@ -566,9 +566,6 @@ public final class Simulator implements Processor {
         apply(address + 14, SWAP);
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
-
-
-        apply(address + 14, CLEAR);         // s0 = 0; TODO ???
         apply(address + 12, CMP_C);         // s0 = (M == a1);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
@@ -788,7 +785,18 @@ public final class Simulator implements Processor {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q        
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  s0 N  d  n  z  A  B  R1 R0] Q  
+        
+        
+//        System.out.println("transfer:");
+//        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+//                readReg(12), readReg(3), readReg(4), readReg(5), readReg(6), readReg(7));
+//        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+//                readReg(8), readReg(9), readReg(13), readReg(15), readReg(10), readReg(11));
+//        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+//                readReg(14), readReg(16), readReg(17), readReg(18), readReg(19));
+//        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+//                readReg(20), readReg(21), readReg(22), readReg(23));        
     }
     
     private void runALU(final int address) {
@@ -928,6 +936,16 @@ public final class Simulator implements Processor {
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 d  s0 A  B  M  N  n  z  R1 R0] Q
+        
+//        System.out.println("runALU:");
+//        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+//                readReg(12), readReg(3), readReg(4), readReg(5), readReg(6), readReg(7));
+//        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+//                readReg(8), readReg(9), readReg(13), readReg(15), readReg(10), readReg(11));
+//        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+//                readReg(18), readReg(19), readReg(14), readReg(20), readReg(21));
+//        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+//                readReg(16), readReg(17), readReg(22), readReg(23));
     }
     
     private void setAndJump(final int address) {
@@ -1205,7 +1223,17 @@ public final class Simulator implements Processor {
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
-        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  B  A  d  s0 n  z  R1 R0] Q          
+        // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  s1 M  N  B  A  d  s0 n  z  R1 R0] Q 
+        
+//        System.out.println("setAndJump:");
+//        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+//                readReg(12), readReg(3), readReg(4), readReg(5), readReg(6), readReg(7));
+//        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+//                readReg(8), readReg(9), readReg(13), readReg(19), readReg(10), readReg(11));
+//        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+//                readReg(14), readReg(15), readReg(18), readReg(20), readReg(21));
+//        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+//                readReg(17), readReg(16), readReg(22), readReg(23));        
     }
     
     private void loadAndStore(final int address) {
@@ -1285,15 +1313,44 @@ public final class Simulator implements Processor {
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  i  r  P1 P0 a1 a0 s1 s0 M  N  d  n  z  A  B  R1 R0] Q
+
+//        System.out.println("loadAndStore:");
+//        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+//                readReg(7), readReg(3), readReg(4), readReg(5), readReg(6), readReg(8));
+//        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+//                readReg(9), readReg(10), readReg(13), readReg(14), readReg(11), readReg(12));
+//        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+//                readReg(15), readReg(16), readReg(17), readReg(18), readReg(19));
+//        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+//                readReg(20), readReg(21), readReg(22), readReg(23));
         
         apply(address + 7, LDX_C);         // r = (i == LDx);
         apply(address + 6, SWAP);
         apply(address + 6, STX_C);         // w = (i == STx);
         apply(address + 5, SWAP);
         apply(address + 4, SWAP);
-        apply(address + 3, SWAP);          // order restored
-        apply(address + 11, CLEAR);        // s1 = 0;
-        apply(address + 12, CLEAR);        // s0 = 0;
+        apply(address + 3, SWAP);
+        apply(address + 13, CLEAR);        // s1 = 0;
+        apply(address + 14, CLEAR);        // s0 = 0;
+        apply(address + 12, SWAP);
+        apply(address + 11, SWAP);
+        apply(address + 13, SWAP);
+        apply(address + 12, SWAP);         // order restored
+        
+        
+        // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
+        // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
+        // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
+        
+//        System.out.println("loadAndStore2:");
+//        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+//                readReg(3), readReg(4), readReg(5), readReg(6), readReg(7), readReg(8));
+//        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+//                readReg(9), readReg(10), readReg(11), readReg(12), readReg(13), readReg(14));
+//        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+//                readReg(15), readReg(16), readReg(17), readReg(18), readReg(19));
+//        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+//                readReg(20), readReg(21), readReg(22), readReg(23));
     }
     
     private void executeInstruction(final int address) {
@@ -1329,6 +1386,21 @@ public final class Simulator implements Processor {
         bytes[index + 2] = m[2];
     }
     
+    private int readReg(final int offset) {
+        return bytes[descend ? maxAddress + offset : offset];
+    }
+    
+    private void printRegisters() {
+        System.out.format("i = %02X, j = %02X, k = %02X, m = %02X, w = %02X, r = %02X%n",
+                readReg(3), readReg(4), readReg(5), readReg(6), readReg(7), readReg(8));
+        System.out.format("P1 = %02X, P0 = %02X, s1 = %02X, s0 = %02X, a1 = %02X, a0 = %02X%n",
+                readReg(9), readReg(10), readReg(11), readReg(12), readReg(13), readReg(14));
+        System.out.format("M = %02X, N = %02X, d = %02X, n = %02X, z = %02X%n",
+                readReg(15), readReg(16), readReg(17), readReg(18), readReg(19));
+        System.out.format("A = %02X, B = %02X, R1 = %02X, R0 = %02X%n",
+                readReg(20), readReg(21), readReg(22), readReg(23));
+    }
+    
     // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
     // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
     // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q   
@@ -1353,20 +1425,33 @@ public final class Simulator implements Processor {
                 throw new IOException("Unexpected end of file.");
             }
         }
+        
+        bytes[maxAddress + 13] = maxAddress >> 8;
+        bytes[maxAddress + 14] = 0xFF & maxAddress;
+        
+//        System.out.format("maxAddress = %04X%n", maxAddress);
     }    
 
-    int count = 0;
+    int cycleCounter = 0;
     
     @Override
     public void runInstruction() {
-        System.out.println(++count);
+//        System.out.format("cycle: %d%n", cycleCounter++);
         if (descend) {
+            descend = false;
+//            System.out.println("descend");
             descendMemoryCycle();
-            executeInstruction(0x0000);    
+//            printRegisters();
+            executeInstruction(0x0000);
+//            printRegisters();
         } else {
+            descend = true;
+//            System.out.println("ascend");
             ascendMemoryCycle();
+//            printRegisters();
             executeInstruction(maxAddress);            
-        }
+//            printRegisters();
+        }        
     }
 
     @Override
