@@ -21,3 +21,5 @@ tetris script extreme speed (.tx)
 refactor packages:
 
 tetrisscript
+
+found a bug in the tetris program: it failed to clear a row!!!!
