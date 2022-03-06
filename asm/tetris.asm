@@ -29,7 +29,7 @@ playfield:
   00 00 00 00 00 00 00 00 00 00 FF  ; 19
   00 00 00 00 00 00 00 00 00 00 FF  ; 20
   00 00 00 00 00 00 00 00 00 00 FF  ; 21
-  FF FF FF FF FF FF FF FF FF FF FF  ; 22
+  FF FF FF FF FF FF FF FF FF FF 00  ; 22
 
 segment 00FD
 drawFrame:           00 ; 00 = generating frame; otherwise, finished generating frame
@@ -393,7 +393,7 @@ LDA
 SMN playfield
 TAN                     ; MN = playfield + origin;
 
-SEB 09                  ; B = 9;
+SEB 0A                  ; B = 10;
 scanLine:
 LDA                     ; if (*MN == 0) {
 BEQ continueClearLines  ;   goto continueClearLines;
