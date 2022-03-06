@@ -179,7 +179,7 @@ STB                     ; playfield[A] = 0;
 DEC                     ; if (--A != 0) {
 BNE clearLoop           ;   goto clearLoop;
                         ; }
-STB                     ; playfield[0] = 0;
+STB                     ; playfield[0] = 0
 
 SMN 00F1                ; MN = 0x00F1;
 SEB FF                  
@@ -197,10 +197,6 @@ spawn:
 SMN state
 SEA STATE_PLAYING
 STA                     ; state = STATE_PLAYING;
-SMN nextType
-LDA
-SMN tetriminoType       ; tetriminoType = nextType;
-STA
 SMN tetriminoRotation
 SEA 00
 STA                     ; tetriminoRotation = 0;
@@ -213,6 +209,18 @@ STA                     ; tetriminoY = 2;
 SMN fallTimer
 SEA FALL_SPEED
 STA                     ; fallTimer = FALL_SPEED;
+
+SMN tetriminoType
+LDA
+SMN nextType
+LDB
+SUB
+BNE uniqueType          ; if (tetriminoType == nextType) {
+JSR updateNext          ;   updateNext(); 
+LDB                     ; }
+uniqueType:
+SMN tetriminoType       
+STB                     ; tetriminoType = nextType; 
 
 SMN drawOrTest
 SEA 23
@@ -399,7 +407,6 @@ DEC
 TAB                     ; if (--B >= 0) {
 BPL scanLine            ;   goto scanLine;
                         ; }
-
 copyLines:
 SEB 0B
 TNA
@@ -418,13 +425,13 @@ STA                     ; *MN = A;
 TNA
 DEC
 TAN
-SEB 0B
-SUB                     ; if (--N >= 11) {
-BPL copyLines           ;   goto copyLines;
+SEB 0A
+SUB                     ; if (--N != 10) {
+BNE copyLines           ;   goto copyLines;
                         ; }
 
-SEA 0A
-TAN                     ; N = 10;
+SEA 09
+TAN                     ; N = 9;
 SEB 00
 clearTopLine:
 STB                     ; *MN = 0;
@@ -435,6 +442,8 @@ TAN                     ; if (--N >= 0) {
 BPL clearTopLine        ;   goto clearTopLine;
                         ; }
 
+JMP continueClear       ; goto continueClear;
+
 continueClearLines:
 SMN origin
 LDA
@@ -442,6 +451,7 @@ SEB 0B
 SUB
 STA                     ; origin -= 11;
 
+continueClear:
 SMN i
 LDA
 DEC
