@@ -82,11 +82,11 @@ downButton:          00 ; 00 = released; otherwise, pressed
 
 tetriminoType:       00 ; 00--06 (T, J, Z, O, S, L, I)
 tetriminoRotation:   00 ; 00--03
-tetriminoX:          05 ; 00--09
-tetriminoY:          02 ; 02--15
+tetriminoX:          00 ; 00--09
+tetriminoY:          00 ; 02--15
 
 lastRotation:        00 ; 00--03
-lastX:               05 ; 00--09
+lastX:               00 ; 00--09
 
 nextType:            00 ; 00--06 (T, J, Z, O, S, L, I)
 
@@ -373,15 +373,11 @@ SMN i
 SEA 03
 STA                     ; i = 3;
 
-SMN tetriminoY
+SMN origin
 LDA
-LSH
-LSH
-LSH
+SMN tetriminoX
 LDB
-ADD
-ADD
-ADD
+SUB
 SEB 0B
 ADD
 SMN origin
