@@ -116,7 +116,7 @@ public class Emulator implements Processor {
                 returnSubroutine();
                 break;
             case 0b1111:
-                print();
+                print(opcode);
                 break;
         }
     }
@@ -264,9 +264,14 @@ public class Emulator implements Processor {
         N = fetch();
     }
     
-    private void print() {
-        final int v = readMemory((fetch() << 8) | fetch());
-        System.out.format("%d %02X%n", v, v);
+    private void print(final int opcode) {
+        if ((opcode & 0b0000_1111) == 0b0000_1110) {
+            System.out.format("A = %02X, B = %02X, M = %02X, N = %02X, P = %04X, R = %04X, z = %b, n = %b%n",
+                    A, B, M, N, P, R, z, n);
+        } else {
+            final int v = readMemory((fetch() << 8) | fetch());
+            System.out.format("%d %02X%n", v, v);
+        }
     }
     
     private void load(final int opcode) {

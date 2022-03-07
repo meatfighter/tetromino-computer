@@ -45,6 +45,7 @@ enum Operator {
     
     RTS(0b0111_0000),
     
+    PRINT_REGS(0b1111_1110), // TODO REMOVE
     PRINT(0b1111_1111, 3); // TODO REMOVE
     
     private final int opcode;
