@@ -10,6 +10,7 @@ import tetriscircuits.computer.ui.PlayfieldFrame;
 
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.yield;
+import tetriscircuits.computer.emulator.Emulator;
 import tetriscircuits.computer.simulator.Simulator;
 import tetriscircuits.computer.ui.PlayfieldModel;
 

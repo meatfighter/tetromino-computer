@@ -100,6 +100,7 @@ tetriminosIndex:     00
 
 fallTimer:           00
 state:               00
+minY:                00
 
 main: ; ----------------------------------------------------------------------------------------------------------------
 
@@ -169,6 +170,10 @@ SMN startButton
 LDA                     ; if (startButton == 0) {
 BEQ mainLoop;           ;   goto mainLoop;
                         ; }
+
+SMN minY
+SEA 16
+STA                     ; minY = 22;
 
 SEA F1                  ; A = 0xF1;
 SEB 00                  
@@ -345,6 +350,14 @@ LDA
 DEC
 STA                     ; --tetriminoY;
 
+TAB
+SMN minY
+LDA
+SUB
+BMI keepMinY
+STB                     ; minY = min(minY, tetriminoY);
+
+keepMinY:
 SMN state
 SEA STATE_CLEAR_LINES
 STA                     ; state = STATE_CLEAR_LINES;
@@ -384,6 +397,24 @@ SMN origin
 STA                     ; origin = 11 * tetriminoY + 11;
 
 clearLinesLoop:
+SMN minY
+LDA
+LSH
+LSH
+LSH
+LDB
+ADD
+ADD
+ADD
+SEB 16
+SUB
+BNE notLine0
+SEA 0B
+notLine0:
+DEC
+SMN minN+1
+STA                     ; *(minN+1) = max(11, 11 * minY - 22) - 1;
+
 SMN origin
 LDA
 SMN playfield
@@ -421,11 +452,11 @@ STA                     ; *MN = A;
 TNA
 DEC
 TAN
-SEB 0A
-SUB                     ; if (--N != 10) {
+minN:
+SEB 00                  ; *** self-modifying code [minN] ***
+SUB                     ; if (--N != minN) {
 BNE copyLines           ;   goto copyLines;
                         ; }
-
 SEA 09
 TAN                     ; N = 9;
 SEB 00
@@ -437,6 +468,10 @@ DEC
 TAN                     ; if (--N >= 0) {
 BPL clearTopLine        ;   goto clearTopLine;
                         ; }
+SMN minY
+LDA
+INC
+STA                     ; ++minY;
 
 JMP continueClear       ; goto continueClear;
 
