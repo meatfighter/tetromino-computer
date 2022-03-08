@@ -25,7 +25,7 @@ public class Computer {
     private static final long MIN_SLEEP_NANOS = 1_000_000L * MIN_SLEEP_MILLIS;    
     private static final long MAX_LOST_NANOS = -MAX_FRAMES_LOST * NANOS_PER_FRAME;
     
-    private final Processor processor = new Emulator();//new Emulator();
+    private final Processor processor = new Simulator();//new Emulator();
     private final PlayfieldModel playfieldModel = new PlayfieldModel();
     
     private volatile PlayfieldFrame playfieldFrame;

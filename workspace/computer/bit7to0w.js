@@ -1,0 +1,16 @@
+o15 = i15;
+o14 = i14;
+o13 = i13;
+o12 = i12;
+o11 = i11;
+o10 = i10;
+o9 = i9;
+o8 = i8;
+o7 = false;
+o6 = false;
+o5 = false;
+o4 = false;
+o3 = false;
+o2 = false;
+o1 = false;
+o0 = i7;
