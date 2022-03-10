@@ -1,10 +1,17 @@
-o7 = i7;
-o6 = i6;
-o5 = i5;
-o4 = i4;
-o3 = i3;
-o2 = i2;
-o1 = i1;
-o0 = i0;
+io7 = ii7;
+io6 = ii6;
+io5 = ii5;
+io4 = ii4;
+io3 = ii3;
+io2 = ii2;
+io1 = ii1;
+io0 = ii0;
 
-co = (a7 == 0) && (a6 == 0) && (a5 == 0) && (a4 == 0) && (a3 == 0) && (a2 == 0);
+co7 = false;
+co6 = false;
+co5 = false;
+co4 = false;
+co3 = false;
+co2 = false;
+co1 = false;
+co0 = (ii7 == 0) && (ii6 == 0) && (ii5 == 0) && (ii4 == 0) && (ii3 == 0) && (ii2 == 0);
