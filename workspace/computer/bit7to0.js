@@ -14,4 +14,4 @@ co4 = false;
 co3 = false;
 co2 = false;
 co1 = false;
-co0 = i7;
+co0 = ci;
