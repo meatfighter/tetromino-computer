@@ -1,67 +1,83 @@
-ih 2
-ih 5
-jd 9
-swap 10 2
-ih 9
-ir22 20 0
-jd 19
-ih 15
-swap 20 24
-ih 19
-ih 25
-ir44 30 0
-jd 29
-swap 30 46
-ih 29
-ih 35
-ir66 40 0
-jd 39
-swap 40 68
-ih 39
-ih 45
-not 50 0
-ir83 50 0
-jd 49
-swap 50 90
-ih 57
-ih 49
-ir112 60 0
-swap 60 112
-ih 59
-ih 67
-ir134 70 0
-swap 70 134
-ih 69
-not 76 155
-ih 79
-lu 79
-ir7 70 156
-ir29 60 134
-not 50 112
-ir46 50 112
-ir73 40 90
-ir95 30 68
-ir117 20 46
-ir139 10 24
-il162 0 1
+ih -73
+ih -70
+jd -66
+swap -65 2
+ih -66
+ir22 -55 0
+jd -56
+ih -60
+swap -55 24
+ih -56
+ih -50
+ir44 -45 0
+jd -46
+swap -45 46
+ih -46
+ih -40
+ir66 -35 0
+jd -36
+swap -35 68
+ih -36
+ih -30
+not -25 0
+ir83 -25 5
+jd -26
+swap -25 90
+ih -18
+ih -26
+ir112 -15 0
+swap -15 112
+ih -16
+ih -8
+ir134 -5 0
+swap -5 134
+ih -6
+not 1 155
+ih 4
+lu 4
+ir7 -5 156
+ir29 -15 134
+not -25 112
+ir46 -25 117
+ir73 -35 90
+ir95 -45 68
+ir117 -55 46
+ir139 -65 24
+il162 -75 1
+bit7to0 0 163
 
-in i7 0 0
-in i6 10 0
-in i5 20 0
-in i4 30 0
-in i3 40 0
-in i2 50 0
-in i1 60 0
-in i0 70 0
-in ci 80 0
+in ii7 -75 0
+in ii6 -65 0
+in ii5 -55 0
+in ii4 -45 0
+in ii3 -35 0
+in ii2 -25 0
+in ii1 -15 0
+in ii0 -5 0
 
-out o7 0 163
-out o6 10 163
-out o5 20 163
-out o4 30 163
-out o3 40 163
-out o2 50 163
-out o1 60 163
-out o0 70 163
+in ci7 5 0
+in ci6 15 0
+in ci5 25 0
+in ci4 35 0
+in ci3 45 0
+in ci2 55 0
+in ci1 65 0
+in ci0 75 0
 
-out co 80 163
+out io7 -75 178
+out io6 -65 178
+out io5 -55 178
+out io4 -45 178
+out io3 -35 178
+out io2 -25 178
+out io1 -15 178
+out io0 -5 178
+
+out co7 4..7 178
+out co6 14..17 178
+out co5 24..27 178
+out co4 34..37 178
+out co3 44..47 178
+out co2 54..57 178
+out co1 64..67 178
+out co0 75 178
