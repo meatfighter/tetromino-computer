@@ -171,15 +171,29 @@ public final class Simulator2 implements Processor {
             switch (mapping.getLength()) {
                 case 1: {
                     final int[] map = mapping.getOne();                    
-                    return () -> apply(index, map);
+                    return () -> { 
+                        bytes[index] = map[bytes[index]]; 
+                    };
                 }
                 case 2: {
-                    final int[][][] map = mapping.getTwo();                    
-                    return () -> apply(index, map);
+                    final int[][][] map = mapping.getTwo();   
+                    final int index1 = index + 1;                    
+                    return () -> {               
+                        final int[] m = map[bytes[index]][bytes[index1]];
+                        bytes[index] = m[0];
+                        bytes[index1] = m[1];
+                    };
                 }
                 case 3: {
-                    final int[][][][] map = mapping.getThree();                    
-                    return () -> apply(index, map);
+                    final int[][][][] map = mapping.getThree();
+                    final int index1 = index + 1;
+                    final int index2 = index + 2;                    
+                    return () -> {               
+                        final int[] m = map[bytes[index]][bytes[index1]][bytes[index2]];
+                        bytes[index] = m[0];
+                        bytes[index1] = m[1];
+                        bytes[index2] = m[2];
+                    };
                 }
             }
             throw new IOException("Invalid map length: " + componentName);
