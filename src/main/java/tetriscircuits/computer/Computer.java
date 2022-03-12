@@ -31,7 +31,7 @@ public class Computer {
     private volatile PlayfieldFrame playfieldFrame;
     
     public void launch() throws Exception {
-        processor.loadBinFile("tetris.bin");
+        processor.init();
         EventQueue.invokeAndWait(this::createFrame);
         runGameLoop();
     }

@@ -1469,18 +1469,6 @@ public final class GenerateTetrisExecutable {
 //        System.out.format("maxAddress = %04X%n", maxAddress);
     }    
     
-    public void runInstruction() {
-        if (descend) {
-            descend = false;
-            descendMemoryCycle();
-            executeInstruction(0x0000);
-        } else {
-            descend = true;
-            ascendMemoryCycle();
-            executeInstruction(maxAddress);            
-        }        
-    }
-    
     private void saveMap(final String fileName, final int[] map) throws IOException {
         try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileName))) {
             saveMap(out, map);
@@ -1567,11 +1555,22 @@ public final class GenerateTetrisExecutable {
         }
     }
     
-    private void saveTetrisExecutable() throws IOException {
-        try (final PrintStream o = new PrintStream(new FileOutputStream("executable/tetris.tx"))) {
+    public void runInstruction() {
+        if (descend) {
+            descend = false;
+            descendMemoryCycle();
+            executeInstruction(0x0000);
+        } else {
+            descend = true;
+            ascendMemoryCycle();
+            executeInstruction(maxAddress);            
+        }        
+    }    
+    
+    private void saveTetrisExecutable(final String name, final Runnable runnable) throws IOException {
+        try (final PrintStream o = new PrintStream(new FileOutputStream(String.format("executables/%s.tx", name)))) {
             out = o;
-            runInstruction();
-            runInstruction();            
+            runnable.run();            
         }
     }
     
@@ -1579,7 +1578,14 @@ public final class GenerateTetrisExecutable {
         loadBinFile("asm/tetris.bin");
 //        saveInputData();
 //        saveMaps();
-        saveTetrisExecutable();        
+        saveTetrisExecutable("tetris-descend", () -> {
+            descendMemoryCycle();
+            executeInstruction(0x0000);
+        });
+        saveTetrisExecutable("tetris-ascend", () -> {
+            ascendMemoryCycle();
+            executeInstruction(maxAddress);
+        });        
     }
     
     public static void main(final String... args) throws Exception {

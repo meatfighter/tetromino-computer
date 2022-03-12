@@ -1405,13 +1405,13 @@ public final class Simulator implements Processor {
     // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
     // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q   
     @Override
-    public void loadBinFile(final String binFilename) throws IOException {
-        final File binFile = new File(binFilename);
+    public void init() throws IOException {
+        final File binFile = new File("asm/tetris.bin");
         maxAddress = (int)binFile.length() - 3; 
         
         bytes = new int[maxAddress + 24];
         
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFile))){
             for (int address = 0; address <= maxAddress; ++address) {                
                 final int b = in.read();
                 if (b < 0) {

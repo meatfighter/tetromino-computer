@@ -78,7 +78,7 @@ public class Emulator implements Processor {
 //            seed = generateNextPseudorandomNumber(seed);
 //        }
         
-        loadBinFile(binFilename);
+        init();
         
         while (true) {
                         
@@ -121,11 +121,12 @@ public class Emulator implements Processor {
         }
     }
     
-    public void loadBinFile(final String binFilename) throws IOException {
-        final File binFile = new File(binFilename);
+    @Override
+    public void init() throws Exception {
+        final File binFile = new File("asm/tetris.asm");
         final int maxAddress = (int)binFile.length() - 3;        
         
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFile))){
             for (int address = 0; address <= maxAddress; ++address) {
                 final int b = in.read();
                 if (b < 0) {
