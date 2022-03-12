@@ -116,7 +116,7 @@ public class Controller {
         final Component ss = new Component(String.format("s%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
-            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }, false));
+            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }));
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -135,7 +135,7 @@ public class Controller {
         final Component zs = new Component(String.format("z%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
-            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }, false));
+            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }));
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -151,7 +151,7 @@ public class Controller {
     }
     
     private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
-        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }, false));
+        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
     }
     
     private void setInputs(final Component component, final int x, final int y) {
@@ -468,7 +468,7 @@ public class Controller {
             return ds;
         }
         for (final Instruction instruction : instructions) {
-            if (instruction.isFlatten() || instruction.getTetrimino() != null) {
+            if (instruction.getTetrimino() != null) {
                 continue;
             }
             final String compName = instruction.getComponentName();
@@ -507,13 +507,6 @@ public class Controller {
 
         if (component.getInstructions() != null) {
             for (final Instruction instruction : component.getInstructions()) {
-
-                if (instruction.isFlatten()) {
-                    minX = Integer.MAX_VALUE;
-                    maxX = Integer.MIN_VALUE;
-                    maxY = 0;
-                    continue;
-                }
 
                 Extents e = null;
                 
@@ -1036,7 +1029,7 @@ public class Controller {
             }
         }
         if (playfield == null) {
-            playfield = new Playfield(8192, 4096, 4);            
+            playfield = new Playfield(8192, 4096, 1);
         }
         return playfield;
     }

@@ -1,6 +1,6 @@
 package tetriscircuits.parser;
 
-public enum TokenValueType {
+enum TokenValueType {
     UNKNOWN,
     X,
     Y,    

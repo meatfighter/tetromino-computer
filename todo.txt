@@ -1,18 +1,15 @@
 animations
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
+remove playfield size spinner
 
 new seems to save twice?!
 
 new/open/save dialogs need to remember last directory
 
-study if adder can be aligned
-
 subtractor
 inverter
 negator
-
-remove flatten!!! -- tx takeover!!!
 
 test mechanism
 
@@ -21,5 +18,3 @@ tetris script extreme speed (.tx)
 refactor packages:
 
 tetrisscript
-
-found a bug in the tetris program: it failed to clear a row!!!!

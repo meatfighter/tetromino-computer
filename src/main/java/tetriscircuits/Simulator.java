@@ -167,21 +167,10 @@ public class Simulator {
             if (instructions == null) {
                 return;
             }
-            final int lastFlatten = findLastFlatten(instructions);            
             for (int i = 0; i < instructions.length; ++i) {
-                simulate(playfield, instructions[i], originX, originY, i <= lastFlatten ? 0 : depth, listener);
+                simulate(playfield, instructions[i], originX, originY, depth, listener);
             }
         }
-    }
-    
-    private int findLastFlatten(final Instruction[] instructions) {
-        int i = instructions.length - 1;
-        for (; i >= 0; --i) {
-            if (instructions[i].isFlatten()) {
-                return i;
-            }
-        }
-        return i;
     }
     
     private void simulate(final Playfield playfield, final Instruction instruction, final int originX, 
@@ -189,11 +178,6 @@ public class Simulator {
 
         final int[] moves = instruction.getMoves();
         
-        if (instruction.isFlatten()) {
-            flatten(playfield, originY - moves[0], listener);
-            return;
-        }
-    
         final String componentName = instruction.getComponentName();
         if (componentName != null) {
             final Component component = components.getOrDefault(componentName, null);
@@ -351,29 +335,6 @@ public class Simulator {
             
             listener.structureLocked(new Structure(alias, originX - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - originY, inputRects, outputRects, minX, maxX, minY, maxY));
-        }
-    }
-    
-    private void flatten(final Playfield playfield, final int row, final StructureListener listener) {
-        
-        playfield.flatten(row);
-        
-        if (listener == null) {
-            return;
-        }
-        listener.clear();
-        
-        final int playfieldHeight = playfield.getHeight();
-        final int originX = playfield.getWidth() >> 1;
-        final int originY = playfieldHeight - 1;        
-        for (int y = 1; y >= 0; --y) {
-            for (int x = playfield.getWidth() - 1; x >= 0; --x) {
-                final int blockColorIndex = playfield.get(x, originY - y) - 1;
-                if (blockColorIndex < 0) {
-                    continue;
-                }
-                listener.structureLocked(new Structure(blockColorIndex, x - originX, y));
-            }
         }
     }
     

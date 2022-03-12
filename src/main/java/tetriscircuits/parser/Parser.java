@@ -249,9 +249,6 @@ public class Parser {
                 case "out":
                     i = processTerminals(tokens, TerminalType.OUTPUT, outputs, i + 1);
                     break;
-                case "flatten":
-                    i = processFlatten(tokens, instructions, i + 1);
-                    break;
                 default:
                     i = processInstruction(tokens, instructions, operationToken, components, i + 1);
                     break;
@@ -280,20 +277,6 @@ public class Parser {
                         + terminal.getName());
             }
         }
-    }
-    
-    private int processFlatten(final List<Token> tokens, final List<Instruction> instructions, final int index) {
-        
-        int i = index;
-        
-        final Token flattenRowToken = tokens.get(i++);
-        if (flattenRowToken.getType() != TokenType.NUMBER) {
-            throw new ParseException(flattenRowToken, "Missing row number.");
-        }
-        
-        instructions.add(new Instruction(null, null, null, new int[] { flattenRowToken.getNum() }, true));
-        
-        return i;
     }
     
     private int processInstruction(final List<Token> tokens, final List<Instruction> instructions, 
@@ -339,7 +322,7 @@ public class Parser {
             ms[j] = moves.get(j);
         }
                         
-        instructions.add(new Instruction(tetrimino, name, alias, ms, false));
+        instructions.add(new Instruction(tetrimino, name, alias, ms));
         
         return i;
     }
