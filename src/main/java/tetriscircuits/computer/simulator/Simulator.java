@@ -1463,9 +1463,6 @@ public final class Simulator implements Processor {
     public void writeMemory(int address, int value) {
         bytes[(descend || address < 3) ? address : (address + 21)] = value;
     }
-        
-    public Simulator() {        
-    }
     
     public void launch() {
                 

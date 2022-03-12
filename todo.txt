@@ -18,3 +18,5 @@ tetris script extreme speed (.tx)
 refactor packages:
 
 tetrisscript
+
+bug in tetris.asm: it is still possible to fill lines, but it doesn't detect them

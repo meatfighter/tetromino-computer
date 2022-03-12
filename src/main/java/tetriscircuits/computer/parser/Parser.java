@@ -40,7 +40,7 @@ public class Parser {
             }
             
             final Token indexToken = tokens.get(i++);
-            if (componentToken.getType() != TokenType.NUMBER) {
+            if (indexToken.getType() != TokenType.NUMBER) {
                 throw new ParseException(indexToken, "Component index expected.");
             } 
             
