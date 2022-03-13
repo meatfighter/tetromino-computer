@@ -28,4 +28,25 @@ public class ComponentMapping {
     public int[] getMap() {
         return map;
     }
+    
+    public int setInputBit(final int input, final int bit) {
+        switch (mappingType) {
+            case ANY:
+                return input | (1 << bit);
+            case BIT_TWO_BYTES:
+                if (bit <= 16) {
+                    return input | (1 << bit);
+                }
+                break;
+            case TWO_BYTES_BIT:
+                if (bit == 0) {
+                    return input | 1;
+                }
+                if (bit >= 8) {
+                    return input | (1 << (bit - 7));
+                }
+                break;
+        }
+        return input;
+    }
 }
