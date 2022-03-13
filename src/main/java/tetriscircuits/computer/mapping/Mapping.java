@@ -18,9 +18,29 @@ public class Mapping {
             throw new IOException("Invalid map type.");
         }
         
-        switch (mapTypeValue) {
-            
+        final int length;
+        switch (mapType) {
+            case ONE_BYTE:
+                length = 256;
+                break;
+            case TWO_BYTES:
+                length = 256 * 256 * 2;
+                break;
+            default:
+                length = 256 * 256 * 2 * 3;
+                break;
         }
+        final int[] map = new int[length];
+        
+        for (int i = 0; i < length; ++i) {
+            final int b = in.read();
+            if (b < 0) {
+                throw new IOException("Unexpected end of file.");
+            }
+            map[i] = b;
+        }
+        
+        return new Mapping(mapType, map);
     }
     
     private final MapType mapType;

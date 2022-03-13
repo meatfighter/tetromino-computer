@@ -77,29 +77,40 @@ public final class Simulator2 implements Processor {
             }
             switch (mapping.getMapType()) {
                 case ONE_BYTE: {
-                    final int[] map = mapping.getOne();                    
+                    final int[] map = mapping.getMap();
                     return (Runnable) () -> {
                         bytes[index] = map[bytes[index]];
                     };
                 }
                 case TWO_BYTES: {
-                    final int[][][] map = mapping.getTwo();   
+                    final int[] map = mapping.getMap();   
                     final int index1 = index + 1;                    
                     return (Runnable) () -> {
-                        final int[] m = map[bytes[index]][bytes[index1]];
-                        bytes[index] = m[0];
-                        bytes[index1] = m[1];
+                        final int i = 512 * bytes[index] + 2 * bytes[index1];
+                        bytes[index] = map[i];
+                        bytes[index1] = map[i + 1];
+                    };
+                }
+                case BIT_TWO_BYTES: {
+                    final int[] map = mapping.getMap();
+                    final int index1 = index + 1;
+                    final int index2 = index + 2;
+                    return (Runnable) () -> {
+                        final int i = 196608 * bytes[index] + 768 * bytes[index1] + 3 * bytes[index2];                        
+                        bytes[index] = map[i];
+                        bytes[index1] = map[i + 1];
+                        bytes[index2] = map[i + 2];
                     };
                 }
                 default: {
-                    final int[][][][] map = mapping.getThree();
+                    final int[] map = mapping.getMap();
                     final int index1 = index + 1;
-                    final int index2 = index + 2;                    
+                    final int index2 = index + 2;
                     return (Runnable) () -> {
-                        final int[] m = map[bytes[index]][bytes[index1]][bytes[index2]];
-                        bytes[index] = m[0];
-                        bytes[index1] = m[1];
-                        bytes[index2] = m[2];
+                        final int i = 1536 * bytes[index] + 6 * bytes[index1] + 3 * bytes[index2];
+                        bytes[index] = map[i];
+                        bytes[index1] = map[i + 1];
+                        bytes[index2] = map[i + 2];
                     };
                 }
             }
