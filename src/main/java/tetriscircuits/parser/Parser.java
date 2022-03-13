@@ -78,7 +78,7 @@ public class Parser {
     
     public Component parse(final Map<String, Component> components, final File file) 
             throws IOException, ParseException {
-        return parse(components, file.getPath(), new FileInputStream(file));
+        return parse(components, file.getName(), new FileInputStream(file));
     }
 
     public Component parse(final Map<String, Component> components, final String filename) 
@@ -88,7 +88,7 @@ public class Parser {
     
     public Component parse(final Map<String, Component> components, final File file, final InputStream in) 
             throws IOException, ParseException {
-        return parse(components, file.getPath(), in);
+        return parse(components, file.getName(), in);
     }
     
     public Component parse(final Map<String, Component> components, final String filename, final InputStream in) 

@@ -75,7 +75,7 @@ public final class Simulator2 implements Processor {
             if (mapping == null) {
                 throw new IOException("Unknown component: " + componentName);
             }
-            switch (mapping.getMapType()) {
+            switch (mapping.getMappingType()) {
                 case ONE_BYTE: {
                     final int[] map = mapping.getMap();
                     return (Runnable) () -> {
