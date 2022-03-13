@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import tetriscircuits.computer.mapping.Mapping;
 
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
 // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
@@ -1469,85 +1470,24 @@ public final class GenerateTetrisExecutable {
 //        System.out.format("maxAddress = %04X%n", maxAddress);
     }    
     
-    private void saveMap(final String fileName, final int[] map) throws IOException {
-        try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileName))) {
-            saveMap(out, map);
-        }
-    }
-    
-    private void saveMap(final OutputStream out, final int[] map) throws IOException {
-        out.write(1);
-        for (int i = 0; i < 256; ++i) {
-            out.write(map[i]);
-        }
-    }
-    
-    private void saveMap(final String fileName, final int[][][] map) throws IOException {
-        try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileName))) {
-            saveMap(out, map);
-        }
-    }
-    
-    private void saveMap(final OutputStream out, final int[][][] map) throws IOException {
-        out.write(2);
-        for (int i = 0; i < 256; ++i) {
-            final int[][] p = map[(map.length == 2) ? (i & 1) : i];
-            for (int j = 0; j < 256; ++j) {
-                final int[] q = p[(p.length == 2) ? (j & 1) : j];
-                for (int k = 0; k < 2; ++k) {
-                    out.write(q[k]);
-                }
-            }
-        }
-    }
-
-    private void saveMap(final String fileName, final int[][][][] map) throws IOException {
-        try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileName))) {
-            saveMap(out, map);
-        }
-    }
-
-    private void saveMap(final OutputStream out, final int[][][][] map) throws IOException {
-        if (map.length == 2) {
-            out.write(3);
-            for (int i = 0; i < 2; ++i) {
-                for (int j = 0; j < 256; ++j) {
-                    for (int k = 0; k < 256; ++k) {
-                        for (int l = 0; l < 3; ++l) {
-                            out.write(map[i][j][k][l]);
-                        }
-                    }
-                }
-            }
-        } else {
-            out.write(4);
-            for (int i = 0; i < 256; ++i) {
-                for (int j = 0; j < 256; ++j) {
-                    for (int k = 0; k < 2; ++k) {
-                        for (int l = 0; l < 3; ++l) {
-                            out.write(map[i][j][k][l]);
-                        }
-                    }
-                }
-            }
-        }
-    } 
-    
-    private void saveMaps() throws IOException {
+    private void writeMaps() throws IOException {
         for (final Object[] name : NAMES) {
             final String filename = String.format("maps/%s.map", name[1]);
-            System.out.println(filename);
-            if (name[0].getClass() == int[].class) {
-                saveMap(filename, (int[])name[0]);
-            } else if (name[0].getClass() == int[][][].class) {
-                saveMap(filename, (int[][][])name[0]);
-            } else {
-                saveMap(filename, (int[][][][])name[0]);
+            try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filename))) {
+                if (name[0].getClass() == int[].class) {
+                    new Mapping((int[])name[0]).write(out);
+                } else if (name[0].getClass() == int[][][].class) {
+                    new Mapping((int[][][])name[0]).write(out);
+                } else {
+                    new Mapping((int[][][][])name[0]).write(out);
+                }
+            } catch (final IOException e) {
+                throw new IOException("Failed to write: " + filename, e);
             }
         }
     }
     
-    private void saveInputData() throws IOException {
+    private void writeInputData() throws IOException {
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream("data/inputData.dat"))) {
             for (int i = 0; i < bytes.length; ++i) {
                 out.write(bytes[i]);
@@ -1576,8 +1516,8 @@ public final class GenerateTetrisExecutable {
     
     public void launch() throws Exception {
         loadBinFile("asm/tetris.bin");
-//        saveInputData();
-//        saveMaps();
+        writeInputData();
+        writeMaps();
         saveTetrisExecutable("tetris-descend", () -> {
             descendMemoryCycle();
             executeInstruction(0x0000);
