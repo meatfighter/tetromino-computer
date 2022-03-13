@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import tetriscircuits.computer.mapping.Mapping;
+import tetriscircuits.computer.mapping.ByteMapping;
 
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
 // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
@@ -1475,11 +1475,11 @@ public final class GenerateTetrisExecutable {
             final String filename = String.format("maps/%s.map", name[1]);
             try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filename))) {
                 if (name[0].getClass() == int[].class) {
-                    new Mapping((int[])name[0]).write(out);
+                    new ByteMapping((int[])name[0]).write(out);
                 } else if (name[0].getClass() == int[][][].class) {
-                    new Mapping((int[][][])name[0]).write(out);
+                    new ByteMapping((int[][][])name[0]).write(out);
                 } else {
-                    new Mapping((int[][][][])name[0]).write(out);
+                    new ByteMapping((int[][][][])name[0]).write(out);
                 }
             } catch (final IOException e) {
                 throw new IOException("Failed to write: " + filename, e);

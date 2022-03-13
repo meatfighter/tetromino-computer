@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import tetriscircuits.computer.Processor;
-import tetriscircuits.computer.mapping.Mapping;
+import tetriscircuits.computer.mapping.ByteMapping;
 import tetriscircuits.computer.parser.Parser;
 import tetriscircuits.parser.ParseException;
 
@@ -54,12 +54,12 @@ public final class Simulator2 implements Processor {
         bytes[(descend || address < 3) ? address : (address + 21)] = value;
     }
     
-    private Map<String, Mapping> loadMaps() throws IOException {
-        final Map<String, Mapping> mappings = new HashMap<>();
+    private Map<String, ByteMapping> loadMaps() throws IOException {
+        final Map<String, ByteMapping> mappings = new HashMap<>();
         for (final File file : new File("maps").listFiles((dir, name) -> name.endsWith(".map"))) {
             final String filename = file.getName();
             try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-                mappings.put(filename.substring(0, filename.length() - 4), Mapping.read(in));
+                mappings.put(filename.substring(0, filename.length() - 4), ByteMapping.read(in));
             } catch (final IOException e) {
                 throw new IOException("Failed to load " + filename, e);
             }
@@ -67,11 +67,11 @@ public final class Simulator2 implements Processor {
         return mappings;
     } 
     
-    private Runnable[] loadExecutable(final Map<String, Mapping> mappings, final String filename) 
+    private Runnable[] loadExecutable(final Map<String, ByteMapping> mappings, final String filename) 
             throws IOException, ParseException {
         
         return new Parser().parse((componentName, index) -> {
-            final Mapping mapping = mappings.get(componentName);
+            final ByteMapping mapping = mappings.get(componentName);
             if (mapping == null) {
                 throw new IOException("Unknown component: " + componentName);
             }
@@ -129,7 +129,7 @@ public final class Simulator2 implements Processor {
     
     @Override
     public void init() throws Exception {
-        final Map<String, Mapping> mappings = loadMaps();
+        final Map<String, ByteMapping> mappings = loadMaps();
         tetrisDescend = loadExecutable(mappings, "executables/tetris-descend.tx");
         tetrisAscend = loadExecutable(mappings, "executables/tetris-ascend.tx");
         loadInputData();

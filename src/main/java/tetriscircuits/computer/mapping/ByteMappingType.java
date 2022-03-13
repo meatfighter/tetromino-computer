@@ -4,30 +4,30 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum MapType {
+public enum ByteMappingType {
     
     ONE_BYTE(1),
     TWO_BYTES(2),
     BIT_TWO_BYTES(3),
     TWO_BYTES_BIT(4);
     
-    private static final Map<Integer, MapType> mapTypes;
+    private static final Map<Integer, ByteMappingType> mapTypes;
 
     static {
-        final Map<Integer, MapType> types = new HashMap<>();
-        for (MapType mapType : MapType.values()) {
+        final Map<Integer, ByteMappingType> types = new HashMap<>();
+        for (ByteMappingType mapType : ByteMappingType.values()) {
             types.put(mapType.value, mapType);
         }
         mapTypes = Collections.unmodifiableMap(types);
     }
 
-    public static MapType fromValue(final int value) {
+    public static ByteMappingType fromValue(final int value) {
         return mapTypes.get(value);
     }    
     
     private final int value;    
     
-    MapType(final int value) {
+    ByteMappingType(final int value) {
         this.value = value;
     }
     

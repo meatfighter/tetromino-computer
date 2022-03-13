@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Mapping {
+public class ByteMapping {
     
-    public static Mapping read(final InputStream in) throws IOException {
+    public static ByteMapping read(final InputStream in) throws IOException {
         
         final int mapTypeValue = in.read();
         if (mapTypeValue < 0) {
             throw new IOException("Unexpected end of file.");
         }
         
-        final MapType mapType = MapType.fromValue(mapTypeValue);
+        final ByteMappingType mapType = ByteMappingType.fromValue(mapTypeValue);
         if (mapType == null) {
             throw new IOException("Invalid map type.");
         }
@@ -40,23 +40,23 @@ public class Mapping {
             map[i] = b;
         }
         
-        return new Mapping(mapType, map);
+        return new ByteMapping(mapType, map);
     }
     
-    private final MapType mapType;
+    private final ByteMappingType mapType;
     private final int[] map;
 
-    public Mapping(final MapType mapType, final int[] map) {
+    public ByteMapping(final ByteMappingType mapType, final int[] map) {
         this.mapType = mapType;
         this.map = map;
     }
     
-    public Mapping(final int[] map) {
-        this(MapType.ONE_BYTE, map);
+    public ByteMapping(final int[] map) {
+        this(ByteMappingType.ONE_BYTE, map);
     }
 
-    public Mapping(final int[][][] map) {
-        mapType = MapType.TWO_BYTES;
+    public ByteMapping(final int[][][] map) {
+        mapType = ByteMappingType.TWO_BYTES;
         this.map = new int[256 * 256 * 2];
         int index = 0;
         for (int i = 0; i < 256; ++i) {
@@ -70,10 +70,10 @@ public class Mapping {
         }
     }
 
-    public Mapping(final int[][][][] map) {
+    public ByteMapping(final int[][][][] map) {
         this.map = new int[256 * 256 * 2 * 3];
         if (map.length == 2) {
-            mapType = MapType.BIT_TWO_BYTES;
+            mapType = ByteMappingType.BIT_TWO_BYTES;
             int index = 0;
             for (int i = 0; i < 2; ++i) {
                 for (int j = 0; j < 256; ++j) {
@@ -85,7 +85,7 @@ public class Mapping {
                 }
             }
         } else {
-            mapType = MapType.TWO_BYTES_BIT;
+            mapType = ByteMappingType.TWO_BYTES_BIT;
             int index = 0;
             for (int i = 0; i < 256; ++i) {
                 for (int j = 0; j < 256; ++j) {
@@ -99,7 +99,7 @@ public class Mapping {
         }        
     }
 
-    public MapType getMapType() {
+    public ByteMappingType getMapType() {
         return mapType;
     }
 
