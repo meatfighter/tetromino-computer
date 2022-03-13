@@ -9,6 +9,7 @@ import java.util.Map;
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
 import tetriscircuits.Instruction;
+import tetriscircuits.Playfield;
 import tetriscircuits.Terminal;
 import tetriscircuits.TerminalType;
 import tetriscircuits.Tetrimino;
@@ -23,10 +24,35 @@ public class MapMaker {
         final Map<String, Component> components = new HashMap<>();
         createIsSsAndZs(components);
         loadComponents(new File(WORKSPACE_DIR), components);
-        for (final String name : components.keySet()) {
-            System.out.println(name);
-        }
+        
     }
+    
+    private void setInputs(final Playfield playfield, final Component component, final int inputBits) {
+        setInputs(playfield, component, inputBits, playfield.getWidth() >> 1, playfield.getHeight() - 1, 
+                playfield.getMaxValue());
+    }
+    
+    private void setInputs(final Playfield playfield, final Component component, final int inputBits, 
+            final int originX, final int originY, final int cellValue) {
+        
+        playfield.clear();
+        final Terminal[] inputs = component.getInputs();                      
+        for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
+            final boolean one = (inBits & 1) != 0;
+            final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();                
+                int y = originY - horizontalLine.getY();
+                if (one) {
+                    --y;
+                }
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    playfield.set(originX + x, y, cellValue);                    
+                }
+            }
+        }
+    }    
     
     private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
         instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
