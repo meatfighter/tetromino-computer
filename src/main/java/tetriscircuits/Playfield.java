@@ -19,8 +19,6 @@ public class Playfield {
     private int maxX;
     private int minY;
     
-    private boolean[] populated;
-    
     public Playfield(final int width, final int height, final int bitsPerCell) {
         
         outer: {
@@ -47,8 +45,6 @@ public class Playfield {
         
         minX = maxX = width >> 1;
         minY = height - 1;
-        
-        populated = new boolean[width];
     }
 
     public int getMaxValue() {
@@ -56,9 +52,6 @@ public class Playfield {
     }
     
     public void clear() {
-        for (int i = populated.length - 1; i >= 0; --i) {
-            populated[i] = false;
-        }
         for (int y = height - 1; y >= minY; --y) {
             final int[] row = data[y];
             for (int x = minX; x <= maxX; ++x) {
@@ -68,43 +61,7 @@ public class Playfield {
         minX = maxX = width >> 1;
         minY = height - 1;          
     }
-    
-    public void flatten(final int sourceRow) {
-               
-        for (int x = width - 1; x >= 0; --x) {
-            if (populated[x]) {                 
-                set(x, height - 1, get(x, sourceRow));
-                set(x, height - 2, get(x, sourceRow - 1));
-                populated[x] = false;
-            }
-        }
-        
-        for (int y = height - 3; y >= minY; --y) {
-            final int[] row = data[y];
-            for (int x = minX; x <= maxX; ++x) {
-                row[x >> shift] = 0;
-            }
-        }
-        
-        minX = maxX = width >> 1;
-        minY = height - 1;
-        for (int y = height - 2; y <= height - 1; ++y) {
-            for (int x = width - 1; x >= 0; --x) {
-                if (get(x, y) > 0) {
-                    if (x < minX) {
-                        minX = x;
-                    }
-                    if (x > maxX) {
-                        maxX = x;
-                    }
-                    if (y < minY) {
-                        minY = y;
-                    }
-                }
-            }
-        }
-    }
-    
+       
     public boolean isEmpty(final int x, final int y) {
         return get(x, y) == 0;
     }    
@@ -140,25 +97,6 @@ public class Playfield {
         if (y < minY) {
             minY = y;
         }
-        populated[x] = true;
-        final int[] row = data[y];
-        final int s = (x & mask2) << power;
-        row[x >> shift] = (row[x >> shift] & ~(mask << s)) | ((color & mask) << s);
-    }
-    
-    public void setInput(final int x, final int y, final int color) {
-        if (x < 0 || y < 0 || x >= width || y >= height) {
-            return;
-        }
-        if (x < minX) {
-            minX = x;
-        }
-        if (x > maxX) {
-            maxX = x;
-        }
-        if (y < minY) {
-            minY = y;
-        }
         final int[] row = data[y];
         final int s = (x & mask2) << power;
         row[x >> shift] = (row[x >> shift] & ~(mask << s)) | ((color & mask) << s);
@@ -182,10 +120,6 @@ public class Playfield {
 
     public int getMinY() {
         return minY;
-    }
-    
-    public void setPopulated(final int x) {
-        populated[x] = true;
     }
 
     @Override

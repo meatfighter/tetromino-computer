@@ -47,12 +47,12 @@ public class Simulator {
                 final int maxX = horizontalLine.getMaxX();                
                 int y = originY - horizontalLine.getY();                          
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    playfield.setInput(originX + x, y, cellValue);                    
+                    playfield.set(originX + x, y, cellValue);                    
                 }
                 if (one) {
                     --y;
                     for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                        playfield.setInput(originX + x, y, cellValue);                    
+                        playfield.set(originX + x, y, cellValue);                    
                     }                    
                 }
             }
@@ -181,14 +181,7 @@ public class Simulator {
         final String componentName = instruction.getComponentName();
         if (componentName != null) {
             final Component component = components.getOrDefault(componentName, null);
-            if (component != null) {            
-                final Extents extents = componentExtents.getOrDefault(component.getName(), null);
-                if (extents != null) {
-                    final int ox = originX + moves[0];
-                    for (int x = extents.getMinX(), end = extents.getMaxX(); x <= end; ++x) {
-                        playfield.setPopulated(ox + x);
-                    }
-                }            
+            if (component != null) {          
                 simulate(playfield, component, instruction.getAlias(), originX + moves[0], originY - moves[1], 
                         depth - 1, listener);                
             }
