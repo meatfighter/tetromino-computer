@@ -54,6 +54,8 @@ public class Computer {
             processor.runInstruction();
         } while (processor.readMemory(0x00FD) == 0);
         
+        printExtendedPlayfield();
+        
         final int[][] cells = playfieldModel.getCells();
         for (int y = 19; y >= 0; --y) {
             for (int x = 9; x >= 0; --x) {
@@ -67,6 +69,17 @@ public class Computer {
         processor.writeMemory(0x0171, playfieldModel.isCcwRotatePressed() ? 0xFF : 00);
         processor.writeMemory(0x0172, playfieldModel.isCwRotatePressed() ? 0xFF : 00);
         processor.writeMemory(0x0173, playfieldModel.isDownPressed() ? 0xFF : 00);
+    }
+    
+    private void printExtendedPlayfield() {
+        for (int r = 0; r <= 22; ++r) {
+            final StringBuilder sb = new StringBuilder();
+            for (int c = 0; c <= 10; ++c) {
+                sb.append(String.format("%02X ", processor.readMemory(r * 11 + c)));
+            }
+            System.out.println(sb);
+        }
+        System.out.println();
     }
     
     private void runGameLoop() {
