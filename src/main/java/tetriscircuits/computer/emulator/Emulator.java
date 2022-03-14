@@ -119,11 +119,14 @@ public class Emulator implements Processor {
                 print(opcode);
                 break;
         }
+        
+//            System.out.format("P: %04X, A: %02X, B: %02X, M: %02X, N: %02X, R: %04X, z: %b, n: %b%n", 
+//                    P, A, B, M, N, R, z, n);        
     }
     
     @Override
     public void init() throws Exception {
-        final File binFile = new File("asm/tetris.asm");
+        final File binFile = new File("asm/tetris.bin");
         final int maxAddress = (int)binFile.length() - 3;        
         
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFile))){

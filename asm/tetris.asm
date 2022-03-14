@@ -425,9 +425,16 @@ scanLine:
 LDA                     ; if (*MN == 0) {
 BEQ continueClearLines  ;   goto continueClearLines;
                         ; }
+TBA
+DEC                     ; if (--B < 0) { 
+BMI copyLines           ;   goto copyLines;          
+TAB                     ; }
+
 TNA
 INC
 TAN                     ; ++N;
+
+JMP scanLine            ; goto scanLine;
 
 TBA
 DEC
