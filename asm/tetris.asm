@@ -88,7 +88,7 @@ tetriminoY:          00 ; 02--15
 lastRotation:        00 ; 00--03
 lastX:               00 ; 00--09
 
-nextType:            00 ; 00--06 (T, J, Z, O, S, L, I)
+frameCounter:        00
 
 seedHigh:            89
 seedLow:             88
@@ -110,52 +110,11 @@ SMN drawFrame
 SEA 01
 STA                     ; render frame
 
-JSR updateNext          ; updateNext();
-
-SEB 02
-SMN seedLow
+SMN frameCounter
 LDA
-AND
-SMN nextBit
-STA
-SMN seedHigh
-LDA
-AND
-SMN nextBit
-LDB
-XOR
-BEQ bit9Clear
-SEA 80
-bit9Clear:
-STA                     ; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
+INC
+STA                     ; ++frameCounter;
 
-SMN seedHigh
-LDA
-SEB 01
-AND
-BEQ bit8Clear
-SEB 80
-bit8Clear:
-SMN seedLow
-LDA
-RSH
-OR
-STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
-
-SMN nextBit
-LDB
-SMN seedHigh
-LDA
-RSH
-OR
-STA                     ; seedHigh = nextBit | (seedHigh >> 1);
-
-                        ; if (randomBit is 1) {
-BMI skipNextUpdate      ;   goto skipNextUpdate;
-                        ; }
-JSR updateNext          ; updateNext();
-
-skipNextUpdate:
 SMN state
 LDB
 SEA STATE_PLAYING
@@ -215,17 +174,67 @@ SMN fallTimer
 SEA FALL_SPEED
 STA                     ; fallTimer = FALL_SPEED;
 
+randomlyChoose:
+SEB 02
+SMN seedLow
+LDA
+AND
+SMN nextBit
+STA
+SMN seedHigh
+LDA
+AND
+SMN nextBit
+LDB
+XOR
+BEQ bit9Clear
+SEA 80
+bit9Clear:
+STA                     ; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;
+
+SMN seedHigh
+LDA
+SEB 01
+AND
+BEQ bit8Clear
+SEB 80
+bit8Clear:
+SMN seedLow
+LDA
+RSH
+OR
+STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
+
+SMN nextBit
+LDB
+SMN seedHigh
+LDA
+RSH
+OR
+STA                     ; seedHigh = nextBit | (seedHigh >> 1);
+
+SMN frameCounter
+LDB
+XOR
+SEB 1F
+AND
+TAB
+LSH
+LSH
+LSH
+SUB
+RSH
+RSH
+RSH
+RSH
+RSH                     
+TAB                     ; B = ((seedHigh ^ frameCounter) & 0x1F) * 7 / 32;
 SMN tetriminoType
 LDA
-SMN nextType
-LDB
-SUB
-BNE uniqueType          ; if (tetriminoType == nextType) {
-JSR updateNext          ;   updateNext(); 
-LDB                     ; }
-uniqueType:
-SMN tetriminoType       
-STB                     ; tetriminoType = nextType; 
+SUB                     ; if (B == tetriminoType) {
+BEQ randomlyChoose      ;   goto randomlyChoose;
+                        ; }
+STB                     ; tetriminoType = B;
 
 SMN drawOrTest
 SEA 23
@@ -265,7 +274,6 @@ SMN tetriminoX
 LDA
 DEC
 STA                     ; --tetriminoX;
-JSR updateNext          ; updateNext();
 JMP testCcwRotateButton ; goto testCcwRotateButton;
 
 testRightButton:
@@ -277,7 +285,6 @@ SMN tetriminoX
 LDA
 INC
 STA                     ; ++tetriminoX;
-JSR updateNext          ; updateNext();
 
 testCcwRotateButton:
 SEB 03                  ; B = 3;
@@ -291,7 +298,6 @@ DEC
 AND
 STA                     ; tetriminoRotation = (tetriminoRotation - 1) & 3;
 
-JSR updateNext          ; updateNext();
 JMP validatePosition    ; goto validatePosition;
 
 testCwRotateButton:
@@ -304,8 +310,6 @@ LDA
 INC
 AND
 STA                     ; tetriminoRotation = (tetriminoRotation + 1) & 3;
-
-JSR updateNext          ; updateNext();
 
 validatePosition: 
 SMN drawOrTest
@@ -586,17 +590,4 @@ JMP drawLoop            ; goto drawLoop;
 
 endDrawLoop:
  
-RTS                     ; return; // -----------------------------------------------------------------------------------
-
-
-updateNext: ; ----------------------------------------------------------------------------------------------------------
-
-SMN nextType
-LDA
-DEC
-BPL endUpdateNext
-SEA 06
-endUpdateNext:
-STA                     ; nextType = (nextType == 0) ? 6 : (nextType - 1);
-
 RTS                     ; return; // -----------------------------------------------------------------------------------
