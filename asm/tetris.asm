@@ -246,7 +246,7 @@ SMN state
 SEA STATE_GAME_OVER
 STA                     ; state = STATE_GAME_OVER;
 
-JMP mainLoop            ; goto mainLoop;
+JMP endFall             ; goto endFall;
 
 playing:
 SMN drawOrTest
