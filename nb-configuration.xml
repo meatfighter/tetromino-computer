@@ -14,8 +14,9 @@ Without this configuration present, some functionality in the IDE may be limited
             <configuration id="Computer UI" profiles=""/>
             <configuration id="Emulator" profiles=""/>
             <configuration id="GenerateTetrisExecutable" profiles=""/>
-            <configuration id="Simulator" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
+            <configuration id="Simulator" profiles=""/>
+            <configuration id="Generate Instruction Detectors" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
