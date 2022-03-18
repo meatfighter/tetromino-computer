@@ -19,4 +19,40 @@ refactor packages:
 
 tetrisscript
 
-bug in tetris.asm: it is still possible to fill lines, but it doesn't detect them
+C_ZERO
+MINUS_C
+C_MINUS
+    
+DEC_16
+INC_16
+AND_A
+AND_B
+
+AND_AB_FB
+AND_NOT_AB_FB
+OR_AB_FB
+XOR_AB_FB
+    
+CLEAR
+DEC
+INC
+LSH
+NOT
+RSH
+    
+SEX_C
+THREE_C
+    
+STX_C
+LDX_C
+    
+C_CMP
+CMP_C
+CMP_AND_C
+C_COPY_A_B
+C_COPY_B_A
+COPY_B_A_C
+AND_A_B_C
+C_AND_A_NOT_B 
+    
+INC_16_C

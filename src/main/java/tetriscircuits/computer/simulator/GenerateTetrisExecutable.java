@@ -22,15 +22,15 @@ public final class GenerateTetrisExecutable {
     private static final int[][][] MINUS_C = new int[256][2][2];
     private static final int[][][] C_MINUS = new int[2][256][2];
     
-    private static final int[][][] T_A_X_C = new int[256][2][2];
-    private static final int[][][] T_B_X_C = new int[256][2][2];
-    private static final int[][][] T_M_X_C = new int[256][2][2];
-    private static final int[][][] T_N_X_C = new int[256][2][2];
+    private static final int[][][] TAX_C = new int[256][2][2];
+    private static final int[][][] TBX_C = new int[256][2][2];
+    private static final int[][][] TMX_C = new int[256][2][2];
+    private static final int[][][] TNX_C = new int[256][2][2];
     
-    private static final int[][][] T_X_A_C = new int[256][2][2];
-    private static final int[][][] T_X_B_C = new int[256][2][2];
-    private static final int[][][] T_X_M_C = new int[256][2][2];
-    private static final int[][][] T_X_N_C = new int[256][2][2];    
+    private static final int[][][] TXA_C = new int[256][2][2];
+    private static final int[][][] TXB_C = new int[256][2][2];
+    private static final int[][][] TXM_C = new int[256][2][2];
+    private static final int[][][] TXN_C = new int[256][2][2];    
 
     private static final int[][][] SWAP = new int[256][256][2];
     private static final int[][][] COPY_B_A = new int[256][256][2];
@@ -64,7 +64,7 @@ public final class GenerateTetrisExecutable {
     private static final int[][][] SUB_C = new int[256][2][2];
     private static final int[][][] XOR_C = new int[256][2][2];
 
-    private static final int[][][] SER_C = new int[256][2][2];
+    private static final int[][][] SEX_C = new int[256][2][2];
     private static final int[][][] THREE_C = new int[256][2][2];
     
     private static final int[][][] SEA_C = new int[256][2][2];
@@ -102,15 +102,15 @@ public final class GenerateTetrisExecutable {
         { MINUS_C, "MINUS_C", },
         { C_MINUS, "C_MINUS", },
         
-        { T_A_X_C, "T_A_X_C", },
-        { T_B_X_C, "T_B_X_C", },
-        { T_M_X_C, "T_M_X_C", },
-        { T_N_X_C, "T_N_X_C", },        
+        { TAX_C, "TAX_C", },
+        { TBX_C, "TBX_C", },
+        { TMX_C, "TMX_C", },
+        { TNX_C, "TNX_C", },        
 
-        { T_X_A_C, "T_X_A_C", },
-        { T_X_B_C, "T_X_B_C", },
-        { T_X_M_C, "T_X_M_C", },
-        { T_X_N_C, "T_X_N_C", },    
+        { TXA_C, "TXA_C", },
+        { TXB_C, "TXB_C", },
+        { TXM_C, "TXM_C", },
+        { TXN_C, "TXN_C", },    
     
         { SWAP, "SWAP", },
         { COPY_B_A, "COPY_B_A", },
@@ -144,7 +144,7 @@ public final class GenerateTetrisExecutable {
         { SUB_C, "SUB_C", },
         { XOR_C, "XOR_C", },
         
-        { SER_C, "SER_C", },
+        { SEX_C, "SEX_C", },
         { THREE_C, "THREE_C", },        
     
         { SEA_C, "SEA_C", },
@@ -200,45 +200,45 @@ public final class GenerateTetrisExecutable {
             C_MINUS[1][a][0] = ((a & 0x80) != 0) ? 1 : 0;
             C_MINUS[1][a][1] = a;      
             
-            T_A_X_C[a][0][0] = a;
-            T_A_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
-            T_A_X_C[a][1][0] = a;
-            T_A_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
+            TAX_C[a][0][0] = a;
+            TAX_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
+            TAX_C[a][1][0] = a;
+            TAX_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_00_00) ? 1 : 0;
             
-            T_B_X_C[a][0][0] = a;
-            T_B_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
-            T_B_X_C[a][1][0] = a;
-            T_B_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
+            TBX_C[a][0][0] = a;
+            TBX_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
+            TBX_C[a][1][0] = a;
+            TBX_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_01_00) ? 1 : 0;
             
-            T_M_X_C[a][0][0] = a;
-            T_M_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
-            T_M_X_C[a][1][0] = a;
-            T_M_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
+            TMX_C[a][0][0] = a;
+            TMX_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
+            TMX_C[a][1][0] = a;
+            TMX_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_10_00) ? 1 : 0;
 
-            T_N_X_C[a][0][0] = a;
-            T_N_X_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0;
-            T_N_X_C[a][1][0] = a;
-            T_N_X_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0; 
+            TNX_C[a][0][0] = a;
+            TNX_C[a][0][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0;
+            TNX_C[a][1][0] = a;
+            TNX_C[a][1][1] = ((a & 0b1111_11_00) == 0b0000_11_00) ? 1 : 0; 
                         
-            T_X_A_C[a][0][0] = a;
-            T_X_A_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
-            T_X_A_C[a][1][0] = a;
-            T_X_A_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
+            TXA_C[a][0][0] = a;
+            TXA_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
+            TXA_C[a][1][0] = a;
+            TXA_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_00) ? 1 : 0;
             
-            T_X_B_C[a][0][0] = a;
-            T_X_B_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
-            T_X_B_C[a][1][0] = a;
-            T_X_B_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
+            TXB_C[a][0][0] = a;
+            TXB_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
+            TXB_C[a][1][0] = a;
+            TXB_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_01) ? 1 : 0;
             
-            T_X_M_C[a][0][0] = a;
-            T_X_M_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
-            T_X_M_C[a][1][0] = a;
-            T_X_M_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
+            TXM_C[a][0][0] = a;
+            TXM_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
+            TXM_C[a][1][0] = a;
+            TXM_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_10) ? 1 : 0;
 
-            T_X_N_C[a][0][0] = a;
-            T_X_N_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;
-            T_X_N_C[a][1][0] = a;
-            T_X_N_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0; 
+            TXN_C[a][0][0] = a;
+            TXN_C[a][0][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0;
+            TXN_C[a][1][0] = a;
+            TXN_C[a][1][1] = ((a & 0b1111_00_11) == 0b0000_00_11) ? 1 : 0; 
             
             ADD_C[a][0][0] = a;
             ADD_C[a][0][1] = (a == 0b0001_0010) ? 1 : 0;
@@ -290,10 +290,10 @@ public final class GenerateTetrisExecutable {
             XOR_C[a][1][0] = a;
             XOR_C[a][1][1] = (a == 0b0001_1000) ? 1 : 0;
 
-            SER_C[a][0][0] = a;
-            SER_C[a][0][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
-            SER_C[a][1][0] = a;
-            SER_C[a][1][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
+            SEX_C[a][0][0] = a;
+            SEX_C[a][0][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
+            SEX_C[a][1][0] = a;
+            SEX_C[a][1][1] = ((a & 0b1111_1110) == 0b0101_0000) ? 1 : 0;
             
             THREE_C[a][0][0] = a;
             THREE_C[a][0][1] = ((a & 0b1111_0000) == 0b0010_0000) ? 1 : 0;
@@ -780,7 +780,7 @@ public final class GenerateTetrisExecutable {
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
         apply(address + 8, INC_16);         // ++P;
-        apply(address + 12, SER_C);         // s1 = (i == SEx);
+        apply(address + 12, SEX_C);         // s1 = (i == SEx);
         apply(address + 12, SWAP);
         apply(address + 11, SWAP);
         apply(address + 10, SWAP);
@@ -797,12 +797,12 @@ public final class GenerateTetrisExecutable {
         apply(address + 10, SWAP);
         apply(address + 11, SWAP);
         apply(address + 12, SWAP);        
-        apply(address + 12, T_M_X_C);       // s1 = (i == TMx);
+        apply(address + 12, TMX_C);       // s1 = (i == TMx);
         apply(address + 13, C_COPY_A_B);    // if (s1) s0 = M;
         apply(address + 15, SWAP);
         apply(address + 13, SWAP);
         apply(address + 12, SWAP);
-        apply(address + 13, T_N_X_C);       // s1 = (i == TNx);
+        apply(address + 13, TNX_C);       // s1 = (i == TNx);
         apply(address + 14, C_COPY_A_B);    // if (s1) s0 = N;
         apply(address + 16, SWAP);
         apply(address + 17, SWAP);
@@ -816,19 +816,19 @@ public final class GenerateTetrisExecutable {
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);
         apply(address + 16, SWAP);
-        apply(address + 17, T_A_X_C);       // s1 = (i == TAx);
+        apply(address + 17, TAX_C);       // s1 = (i == TAx);
         apply(address + 18, C_COPY_A_B);    // if (s1) s0 = A;
         apply(address + 20, SWAP);
         apply(address + 18, SWAP);
         apply(address + 17, SWAP);
-        apply(address + 18, T_B_X_C);       // s1 = (i == TBx);
+        apply(address + 18, TBX_C);       // s1 = (i == TBx);
         apply(address + 19, C_COPY_A_B);    // if (s1) s0 = B;
-        apply(address + 18, T_X_B_C);       // s1 = (i == TxB);
+        apply(address + 18, TXB_C);       // s1 = (i == TxB);
         apply(address + 19, C_COPY_B_A);    // if (s1) B = s0;
         apply(address + 17, SWAP);
         apply(address + 18, SWAP);
         apply(address + 20, SWAP);
-        apply(address + 17, T_X_A_C);       // s1 = (i == TxA);
+        apply(address + 17, TXA_C);       // s1 = (i == TxA);
         apply(address + 18, C_COPY_B_A);    // if (s1) A = s0;        
         apply(address + 16, SWAP);
         apply(address + 15, SWAP);
@@ -842,12 +842,12 @@ public final class GenerateTetrisExecutable {
         apply(address + 18, SWAP);
         apply(address + 17, SWAP);
         apply(address + 16, SWAP);
-        apply(address + 13, T_X_N_C);       // s1 = (i == TxN);
+        apply(address + 13, TXN_C);       // s1 = (i == TxN);
         apply(address + 14, C_COPY_B_A);    // if (s1) N = s0;
         apply(address + 12, SWAP);
         apply(address + 13, SWAP);
         apply(address + 15, SWAP);
-        apply(address + 12, T_X_M_C);       // s1 = (i == TxM);
+        apply(address + 12, TXM_C);       // s1 = (i == TxM);
         apply(address + 13, C_COPY_B_A);    // if (s1) M = s0;        
         
         // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
