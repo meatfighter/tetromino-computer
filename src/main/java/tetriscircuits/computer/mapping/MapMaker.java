@@ -33,8 +33,9 @@ public class MapMaker {
         loadComponents(new File(WORKSPACE_DIR), components);  
         final List<Component> order = orderComponents(components);
         final Playfield playfield = new Playfield(8192, 4096, 1);
-        
-        generateComponentMapping(components, mappings, playfield, components.get("COPY_A_B_C"));
+        for (final Component component : order) {
+            generateComponentMapping(components, mappings, playfield, component);
+        }
     }
     
     private void generateComponentMapping(final Map<String, Component> components, 
@@ -42,13 +43,66 @@ public class MapMaker {
         
         final ComponentMappingType componentMappingType = solveComponentMappingType(components, mappings, playfield, 
                 component);
-
-        System.out.format("%s -> %s%n", component.getName(), componentMappingType);
-
         if (componentMappingType == null) {
             return;
+        }        
+        
+        System.out.println(component.getName()); // TODO REMOVE
+        
+        switch (componentMappingType) {
+            case BIT_TWO_BYTES:
+                generateComponentMappingBitTwoBytes(components, mappings, playfield, component);
+                break;
+            case TWO_BYTES_BIT:
+                generateComponentMappingTwoBytesBit(components, mappings, playfield, component);                
+                break;
+            default:
+                generateComponentMappingAny(components, mappings, playfield, component);
+                break;
         }
     }
+    
+    private void generateComponentMappingAny(final Map<String, Component> components, 
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+        
+        final ComponentMapping componentMapping = new ComponentMapping(component.getInputs().length);
+        final int[] map = componentMapping.getMap();
+        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+            playfield.clear();
+            setInputs(playfield, component, inputBits);
+            simulate(components, mappings, playfield, component);
+            map[inputBits] = getOutputs(playfield, component);
+        }
+        mappings.put(component.getName(), componentMapping);
+    }
+    
+    private void generateComponentMappingBitTwoBytes(final Map<String, Component> components, 
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+        
+        final ComponentMapping componentMapping = new ComponentMapping(ComponentMappingType.BIT_TWO_BYTES);
+        final int[] map = componentMapping.getMap();
+        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+            playfield.clear();
+            setInputs(playfield, component, inputBits);
+            simulate(components, mappings, playfield, component);
+            map[inputBits] = getOutputs(playfield, component);
+        }
+        mappings.put(component.getName(), componentMapping);
+    }
+
+    private void generateComponentMappingTwoBytesBit(final Map<String, Component> components, 
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+        
+        final ComponentMapping componentMapping = new ComponentMapping(ComponentMappingType.TWO_BYTES_BIT);
+        final int[] map = componentMapping.getMap();
+        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+            playfield.clear();
+            setInputs(playfield, component, (inputBits & 0x1FFFE << 7) | (inputBits & 1));
+            simulate(components, mappings, playfield, component);
+            map[inputBits] = getOutputs(playfield, component);
+        }
+        mappings.put(component.getName(), componentMapping);
+    }    
     
     private ComponentMappingType solveComponentMappingType(final Map<String, Component> components, 
             final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
