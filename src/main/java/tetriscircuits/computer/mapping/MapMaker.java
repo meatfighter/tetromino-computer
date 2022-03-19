@@ -3,13 +3,19 @@ package tetriscircuits.computer.mapping;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
@@ -27,16 +33,97 @@ public class MapMaker {
     public static final String WORKSPACE_DIR = "workspace";
     
     public void launch() throws Exception {
-        final Map<String, Component> components = new HashMap<>();
-        final Map<String, ComponentMapping> mappings = new HashMap<>();
+        final Map<String, Component> components = new ConcurrentHashMap<>();
+        final Map<String, ComponentMapping> mappings = new ConcurrentHashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(WORKSPACE_DIR), components);  
-        final List<Component> order = orderComponents(components);
-        final Playfield playfield = new Playfield(8192, 4096, 1);
-        for (final Component component : order) {
-            generateComponentMapping(components, mappings, playfield, component);
+        loadComponents(new File(WORKSPACE_DIR), components);          
+        final Map<String, Set<String>> dependencies = findDependencies(components);
+        final Map<String, Set<String>> reverseDependencies = reverseDependencies(dependencies);
+        final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
+        final List<String> removeList = new ArrayList<>();
+        final ExecutorService executor = Executors.newWorkStealingPool();
+        
+        while (true) {
+            
+            boolean remaining = false;
+            for (final Iterator<Map.Entry<String, Set<String>>> i = dependencies.entrySet().iterator(); i.hasNext(); ) {
+                final Map.Entry<String, Set<String>> entry = i.next();
+                final String name = entry.getKey();
+                remaining = true;
+                if (entry.getValue().isEmpty()) {
+                    i.remove();
+                    final Component component = components.get(name);
+                    executor.execute(() -> {
+                        Playfield playfield = null;
+                        try {
+                            playfield = borrowPlayfield(playfieldPool);
+                            generateComponentMapping(components, mappings, playfield, component);
+                        } catch (final Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            returnPlayfield(playfieldPool, playfield);
+                        }
+                        synchronized (removeList) {
+                            removeList.add(name);
+                            removeList.notifyAll();
+                        }
+                    });
+                }
+            }
+            
+            if (!remaining) {
+                break;
+            }
+            
+            synchronized (removeList) {
+                while (removeList.isEmpty()) {
+                    try {
+                        removeList.wait();
+                    } catch (final InterruptedException e) {                        
+                    }
+                }
+                
+                for (final String remove : removeList) {
+                    final Set<String> names = reverseDependencies.get(remove);
+                    if (names == null) {
+                        continue;
+                    }
+                    for (final String name : names) {
+                        dependencies.get(name).remove(remove);
+                    }
+                }
+                
+                removeList.clear();
+            }
         }
+        
+        System.out.println("--1");
+        
+        executor.awaitTermination(1, TimeUnit.DAYS);
+        
+        System.out.println("--2");
     }
+    
+    private void returnPlayfield(final List<Playfield> playfieldPool, final Playfield playfield) {
+        if (playfield == null) {
+            return;
+        }
+        playfield.clear();
+        playfieldPool.add(playfield);
+    }
+    
+    private Playfield borrowPlayfield(final List<Playfield> playfieldPool) {
+        Playfield playfield = null;
+        synchronized (playfieldPool) {
+            if (!playfieldPool.isEmpty()) {
+                playfield = playfieldPool.remove(playfieldPool.size() - 1);
+            }
+        }
+        if (playfield == null) {
+            playfield = new Playfield(8192, 4096, 1);
+        }
+        return playfield;
+    }    
     
     private void generateComponentMapping(final Map<String, Component> components, 
             final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
@@ -118,13 +205,15 @@ public class MapMaker {
         final Random random = ThreadLocalRandom.current();
         while (true) {
             playfield.clear();
-            setInputs(playfield, component, random.nextInt() & 0xFFFFFF);
+            final int inputs = random.nextInt() & 0xFFFFFF;
+            setInputs(playfield, component, inputs);
             simulate(components, mappings, playfield, component);
             final int outputs = getOutputs(playfield, component);
             final int high = 0xFF & (outputs >> 16);
             final int low = 0xFF & outputs;
             if (high > 1 && low > 1) {
-                throw new RuntimeException("Invalid output: " + component.getName());
+                throw new RuntimeException(String.format("Invalid output: name=%s, inputs=%X, outputs=%X%n", 
+                        component.getName(), inputs, outputs));
             }
             if (low > 1) {
                 return ComponentMappingType.BIT_TWO_BYTES;
@@ -135,33 +224,61 @@ public class MapMaker {
         }
     }
     
-    private List<Component> orderComponents(final Map<String, Component> components) {
-        final List<Component> order = new ArrayList<>();
-        final Set<String> visited = new HashSet<>();
-        
+    private Map<String, Set<String>> findDependencies(final Map<String, Component> components) {        
+        final Map<String, Set<String>> depends = new HashMap<>();
         for (final Component component : components.values()) {
-            orderComponents(components, order, visited, component);
+            findDependencies(components, depends, component.getName());
         }
-        
-        return order;
+        return depends;
     }
     
-    private void orderComponents(final Map<String, Component> components, final List<Component> order, 
-            final Set<String> visited, final Component component) {
+    private Map<String, Set<String>> reverseDependencies(final Map<String, Set<String>> depends) {
+        final Map<String, Set<String>> dependencies = new HashMap<>();
+        for (Map.Entry<String, Set<String>> entry : depends.entrySet()) {
+            final String key = entry.getKey();
+            for (final String value : entry.getValue()) {
+                dependencies.computeIfAbsent(value, v -> new HashSet<>()).add(key);
+            }
+        }
+        return dependencies;
+    }
+    
+    private Set<String> findDependencies(final Map<String, Component> components, 
+            final Map<String, Set<String>> depends, final String componentName) {
         
-        if (component == null || visited.contains(component.getName()) || component.getName().startsWith("_")) {
-            return;
+        Set<String> ds = depends.get(componentName);
+        if (ds != null) {
+            return ds;
         }
         
-        for (final Instruction instruction : component.getInstructions()) {
-            if (instruction.getComponentName() == null) {
+        final Component component = components.getOrDefault(componentName, null);
+        if (component == null) {
+            return null;
+        }
+        
+        ds = new HashSet<>();   
+        depends.put(componentName, ds);
+        
+        final Instruction[] instructions = component.getInstructions();
+        if (instructions == null) {
+            return ds;
+        }
+        for (final Instruction instruction : instructions) {
+            if (instruction.getTetrimino() != null) {
                 continue;
             }
-            orderComponents(components, order, visited, components.get(instruction.getComponentName()));
+            final String compName = instruction.getComponentName();
+            if (compName == null || components.getOrDefault(compName, null) == null) {
+                continue;
+            }
+            ds.add(compName);
+            final Set<String> set = findDependencies(components, depends, compName);
+            if (set != null) {
+                ds.addAll(set);
+            }            
         }
         
-        order.add(component);
-        visited.add(component.getName());
+        return ds;
     }
     
     private void setInputs(final Playfield playfield, final Component component, final int inputBits) {
