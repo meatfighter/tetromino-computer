@@ -34,7 +34,7 @@ public class MapMaker {
         final List<Component> order = orderComponents(components);
         final Playfield playfield = new Playfield(8192, 4096, 1);
         
-        generateComponentMapping(components, mappings, playfield, components.get("ADD_AD_FB"));
+        generateComponentMapping(components, mappings, playfield, components.get("COPY_A_B_C"));
     }
     
     private void generateComponentMapping(final Map<String, Component> components, 
@@ -51,7 +51,7 @@ public class MapMaker {
     }
     
     private ComponentMappingType solveComponentMappingType(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component){
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
         
         final int inputsCount = component.getInputs().length;
         if (inputsCount <= 20) {
