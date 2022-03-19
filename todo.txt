@@ -20,7 +20,6 @@ refactor packages:
 tetrisscript
 
 C_ZERO
-MINUS_C
 C_MINUS
     
 DEC_16
