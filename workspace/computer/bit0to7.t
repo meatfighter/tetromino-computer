@@ -8,14 +8,7 @@ false 46 3
 false 56 3
 false 66 3
 false 76 3
-il15 -75 0
-il15 -65 0
-il15 -55 0
-il15 -45 0
-il15 -35 0
-il15 -25 0
-il15 -15 0
-il15 -5 0
+comb15_8 -40 0
 
 in i7 -75 0
 in i6 -65 0
