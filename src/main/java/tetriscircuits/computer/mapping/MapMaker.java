@@ -8,23 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import tetriscircuits.Component;
-import tetriscircuits.Extents;
 import tetriscircuits.HorizontalLine;
 import tetriscircuits.Instruction;
 import tetriscircuits.Playfield;
 import tetriscircuits.Point;
-import tetriscircuits.Structure;
-import tetriscircuits.StructureListener;
 import tetriscircuits.Terminal;
-import tetriscircuits.TerminalRectangle;
 import tetriscircuits.TerminalType;
 import tetriscircuits.Tetrimino;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
-
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 
 public class MapMaker {
     
@@ -34,8 +26,7 @@ public class MapMaker {
         final Map<String, Component> components = new HashMap<>();
         final Map<String, ComponentMapping> mappings = new HashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(WORKSPACE_DIR), components);
-        
+        loadComponents(new File(WORKSPACE_DIR), components);       
     }
     
     private void setInputs(final Playfield playfield, final Component component, final int inputBits) {
@@ -45,8 +36,6 @@ public class MapMaker {
     
     private void setInputs(final Playfield playfield, final Component component, final int inputBits, 
             final int originX, final int originY, final int cellValue) {
-        
-        playfield.clear();
         final Terminal[] inputs = component.getInputs();                      
         for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
             final boolean one = (inBits & 1) != 0;
@@ -64,152 +53,145 @@ public class MapMaker {
             }
         }
     } 
+    
+    private int getOutputs(final Playfield playfield, final Component component) {
+        return getOutputs(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
+    }
+    
+    private int getOutputs(final Playfield playfield, final Component component, final int originX, final int originY) {
+        
+        int out = 0;
+        
+        final Terminal[] outputs = component.getOutputs();        
+        if (outputs == null) {
+            return out;
+        }
+                
+        outer: for (int i = 0; i < outputs.length; ++i) {
+            out <<= 1;
+            final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();                
+                int y = originY - horizontalLine.getY() - 1;                
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {                    
+                    if (playfield.isSolid(originX + x, y)) {
+                        out |= 1;
+                        continue outer;
+                    }
+                }
+            }
+        }
+        
+        return out;
+    }
        
-//    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
-//            final Playfield playfield, final Component component) {
-//        simulate(components, mappings, playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
-//    }
+    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+            final Playfield playfield, final Component component) {
+        simulate(components, mappings, playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
+    }
 
-//    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
-//            final Playfield playfield, final Component component, final int originX, final int originY) {
-//        
-//        if (mappings.containsKey(component.getName())) {
-//            emulate(components, mappings, playfield, component, originX, originY);
-//            return;
-//        } 
-//        
-//        final Instruction[] instructions = component.getInstructions();
-//        if (instructions == null) {
-//            return;
-//        }
-//        
-//        for (int i = 0; i < instructions.length; ++i) {
-//            simulate(components, mappings, playfield, instructions[i], originX, originY);
-//        }
-//    }  
-//    
-//    public void emulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings,
-//            final Playfield playfield, final Component component, final int originX, final int originY) {
-//
-//        final ComponentMapping mapping = mappings.get(component.getName());
-//        if (mapping == null) {
-//            return;
-//        }
-//        
-//        final Terminal[] inputs = component.getInputs();        
-//        if (inputs == null) {
-//            return;
-//        }
-//        
-//        int input = 0;
-//        outer: for (int i = inputs.length - 1; i >= 0; --i) {
-//            final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
-//            for (int j = horizontalLines.length - 1; j >= 0; --j) {
-//                final HorizontalLine horizontalLine = horizontalLines[j];
-//                final int maxX = horizontalLine.getMaxX();                
-//                int y = originY - horizontalLine.getY() - 1;                
-//                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-//                    if (playfield.isSolid(originX + x, y)) {
-//                        input = mapping.setInputBit(input, inputs.length - 1 - i);
-//                        continue outer;
-//                    }
-//                }
-//            }
-//        }
-//        
-//        final int output = mapping.getMap()[input];
-//        
-//        final Terminal[] outputs = component.getOutputs();
-//        if (outputs == null) {
-//            return;
-//        }
-//        
-//        final Boolean[] outputValues = new Boolean[outputs.length];
-//        
-//                
-//        if (mapping != null) {
-//            final Bindings bindings = borrowBindings();
-//            try {
-//                for (int i = inputs.length - 1; i >= 0; --i) {
-//                    bindings.put(inputs[i].getName(), inputValues[i]);
-//                }
-//                for (int i = outputs.length - 1; i >= 0; --i) {
-//                    bindings.put(outputs[i].getName(), false);
-//                }
-//                compiledScript.eval(bindings);
-//                for (int i = outputs.length - 1; i >= 0; --i) {
-//                    outputValues[i] = (Boolean)bindings.get(outputs[i].getName());
-//                }
-//            } catch(final Exception e) {
-//                e.printStackTrace(); // TODO OUTPUT LISTENER
-//            } finally {
-//                returnBindings(bindings);
-//            }
-//        } 
-//        
-//        for (int i = outputs.length - 1; i >= 0; --i) {
-//            if (outputValues[i] == null) {
-//                continue;
-//            }
-//            final int color = playfield.getMaxValue();
-//            final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
-//            for (int j = horizontalLines.length - 1; j >= 0; --j) {
-//                final HorizontalLine horizontalLine = horizontalLines[j];
-//                final int maxX = horizontalLine.getMaxX();
-//                int y = originY - horizontalLine.getY();                
-//                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-//                    playfield.set(originX + x, y, color);
-//                }
-//                if (outputValues[i]) {
-//                    --y;
-//                    for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-//                        playfield.set(originX + x, y, color);
-//                    }                    
-//                }
-//            }
-//        }
-//        
-//        if (listener != null) { 
-//            final Extents extents = componentExtents.getOrDefault(component.getName(), null);
-//            final TerminalRectangle[][] inputRects = findTerminals(inputs, 0, 0, inputValues);
-//            final TerminalRectangle[][] outputRects = findTerminals(outputs, 0, 0, outputValues);
-//            int minX = Integer.MAX_VALUE;
-//            int maxX = Integer.MIN_VALUE;
-//            int minY = Integer.MAX_VALUE;
-//            int maxY = Integer.MIN_VALUE;
-//            if (extents != null) {
-//                minX = extents.getMinX();
-//                maxX = extents.getMaxX();
-//                minY = 0;
-//                maxY = extents.getMaxY();
-//            } else {
-//                for (int i = inputRects.length - 1; i >= 0; --i) {
-//                    final TerminalRectangle[] ins = inputRects[i];
-//                    for (int j = ins.length - 1; j >= 0; --j) {
-//                        final TerminalRectangle input = ins[j];
-//                        minX = min(minX, input.x);
-//                        maxX = max(maxX, input.x + input.width - 1);
-//                        minY = min(minY, input.y);
-//                        maxY = max(maxY, input.y + 1);
-//                    }
-//                }
-//                for (int i = outputRects.length - 1; i >= 0; --i) {
-//                    final TerminalRectangle[] outs = outputRects[i];
-//                    for (int j = outs.length - 1; j >= 0; --j) {
-//                        final TerminalRectangle output = outs[j];
-//                        minX = min(minX, output.x);
-//                        maxX = max(maxX, output.x + output.width - 1);
-//                        minY = min(minY, output.y);
-//                        maxY = max(maxY, output.y + 1);
-//                    }
-//                } 
-//            }            
-//            
-//            listener.structureLocked(new Structure(alias, originX - (playfield.getWidth() >> 1), 
-//                    playfield.getHeight() - 1 - originY, inputRects, outputRects, minX, maxX, minY, maxY));
-//        }
-//    }    
-//    
+    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+            final Playfield playfield, final Component component, final int originX, final int originY) {
+        
+        if (mappings.containsKey(component.getName())) {
+            emulate(components, mappings, playfield, component, originX, originY);
+            return;
+        } 
+        
+        final Instruction[] instructions = component.getInstructions();
+        if (instructions == null) {
+            return;
+        }
+        
+        for (int i = 0; i < instructions.length; ++i) {
+            simulate(components, mappings, playfield, instructions[i], originX, originY);
+        }
+    } 
+    
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+            final Playfield playfield, final Instruction instruction, final int originX, final int originY) {
+
+        final int[] moves = instruction.getMoves();
+        
+        final String componentName = instruction.getComponentName();
+        if (componentName != null) {
+            final Component component = components.getOrDefault(componentName, null);
+            if (component != null) {          
+                simulate(components, mappings, playfield, component, originX + moves[0], originY - moves[1]);                
+            }
+            return;
+        }
+        
+        final Tetrimino tetrimino = instruction.getTetrimino();
+        int x = originX + moves[0];
+        int y = playfield.getMinY() - 3;
+        
+        for (int i = 1; i < moves.length; ++i) {
+            if ((i & 1) == 1) {
+                y = moveDown(playfield, tetrimino, x, y, originY - moves[i]);
+            } else {
+                x = moveHorizontally(playfield, tetrimino, x, y, originX + moves[i]);
+            }
+        }
+        
+        y = hardDrop(playfield, tetrimino, x, y);
+        lock(playfield, tetrimino, x, y);
+    }    
+    
+    public void emulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings,
+            final Playfield playfield, final Component component, final int originX, final int originY) {
+
+        final ComponentMapping mapping = mappings.get(component.getName());
+        if (mapping == null) {
+            return;
+        }
+        
+        final Terminal[] inputs = component.getInputs();        
+        if (inputs == null) {
+            return;
+        }
+        
+        int input = 0;
+        outer: for (int i = inputs.length - 1; i >= 0; --i) {
+            final HorizontalLine[] horizontalLines = inputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();                
+                int y = originY - horizontalLine.getY() - 1;                
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(originX + x, y)) {
+                        input = mapping.setInputBit(input, inputs.length - 1 - i);
+                        continue outer;
+                    }
+                }
+            }
+        }
+        
+        final int output = mapping.getMap()[input];
+        
+        final Terminal[] outputs = component.getOutputs();
+        if (outputs == null) {
+            return;
+        }
+        
+        for (int i = outputs.length - 1; i >= 0; --i) {
+            final int color = playfield.getMaxValue();
+            final HorizontalLine[] horizontalLines = outputs[i].getHorizontalLines();
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();
+                int y = originY - horizontalLine.getY();                
+                if (((output >> (outputs.length - 1 - i)) & 1) != 0) {
+                    --y;
+                }
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    playfield.set(originX + x, y, color);
+                }
+            }
+        }
+    }    
+    
     private int moveHorizontally(final Playfield playfield, final Tetrimino tetrimino, final int startX, 
             final int startY, final int targetX) {        
         

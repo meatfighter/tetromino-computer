@@ -74,8 +74,8 @@ public class ByteMapping {
                             int index = (i << 9) | (j << 1) | k;
                             final int value = map[index];
                             index *= 3;
-                            this.map[index] = 0xFF & (value >> 9);
-                            this.map[index + 1] = 0xFF & (value >> 1);
+                            this.map[index] = 0xFF & (value >> 16);
+                            this.map[index + 1] = 0xFF & (value >> 8);
                             this.map[index + 2] = 0x01 & value;
                         }
                     }

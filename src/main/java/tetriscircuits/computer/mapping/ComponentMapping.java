@@ -3,7 +3,7 @@ package tetriscircuits.computer.mapping;
 public class ComponentMapping {
     
     private final ComponentMappingType mappingType;
-    private final int[] map;
+    private final int[] map; // index is compressed, value is not
     
     public ComponentMapping(final int inputBits) {
         if (inputBits > 16) {
