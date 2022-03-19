@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
@@ -26,7 +30,84 @@ public class MapMaker {
         final Map<String, Component> components = new HashMap<>();
         final Map<String, ComponentMapping> mappings = new HashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(WORKSPACE_DIR), components);       
+        loadComponents(new File(WORKSPACE_DIR), components);  
+        final List<Component> order = orderComponents(components);
+        final Playfield playfield = new Playfield(8192, 4096, 1);
+        
+        generateComponentMapping(components, mappings, playfield, components.get("ADD_AD_FB"));
+    }
+    
+    private void generateComponentMapping(final Map<String, Component> components, 
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+        
+        final ComponentMappingType componentMappingType = solveComponentMappingType(components, mappings, playfield, 
+                component);
+
+        System.out.format("%s -> %s%n", component.getName(), componentMappingType);
+
+        if (componentMappingType == null) {
+            return;
+        }
+    }
+    
+    private ComponentMappingType solveComponentMappingType(final Map<String, Component> components, 
+            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component){
+        
+        final int inputsCount = component.getInputs().length;
+        if (inputsCount <= 20) {
+            return ComponentMappingType.ANY;
+        }
+        if (inputsCount != 24) {
+            return null;
+        }
+        
+        final Random random = ThreadLocalRandom.current();
+        while (true) {
+            playfield.clear();
+            setInputs(playfield, component, random.nextInt() & 0xFFFFFF);
+            simulate(components, mappings, playfield, component);
+            final int outputs = getOutputs(playfield, component);
+            final int high = 0xFF & (outputs >> 16);
+            final int low = 0xFF & outputs;
+            if (high > 1 && low > 1) {
+                throw new RuntimeException("Invalid output: " + component.getName());
+            }
+            if (low > 1) {
+                return ComponentMappingType.BIT_TWO_BYTES;
+            }
+            if (high > 1) {
+                return ComponentMappingType.TWO_BYTES_BIT;
+            }
+        }
+    }
+    
+    private List<Component> orderComponents(final Map<String, Component> components) {
+        final List<Component> order = new ArrayList<>();
+        final Set<String> visited = new HashSet<>();
+        
+        for (final Component component : components.values()) {
+            orderComponents(components, order, visited, component);
+        }
+        
+        return order;
+    }
+    
+    private void orderComponents(final Map<String, Component> components, final List<Component> order, 
+            final Set<String> visited, final Component component) {
+        
+        if (component == null || visited.contains(component.getName()) || component.getName().startsWith("_")) {
+            return;
+        }
+        
+        for (final Instruction instruction : component.getInstructions()) {
+            if (instruction.getComponentName() == null) {
+                continue;
+            }
+            orderComponents(components, order, visited, components.get(instruction.getComponentName()));
+        }
+        
+        order.add(component);
+        visited.add(component.getName());
     }
     
     private void setInputs(final Playfield playfield, final Component component, final int inputBits) {
