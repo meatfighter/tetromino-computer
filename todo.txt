@@ -2,6 +2,7 @@ animations
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
 remove playfield size spinner
+remove annoying tooltips
 
 new seems to save twice?!
 
@@ -12,8 +13,6 @@ inverter
 negator
 
 test mechanism
-
-tetris script extreme speed (.tx)
 
 refactor packages:
 
@@ -34,9 +33,7 @@ Missing: C_COPY_A_B.map
 Missing: C_COPY_B_A.map
 Missing: C_MINUS.map
 Missing: C_ZERO.map
-Missing: DEC.map
 Missing: DEC_16.map
-Missing: INC.map
 Missing: INC_16.map
 Missing: INC_16_C.map
 Missing: LDX_C.map
@@ -61,9 +58,6 @@ AND_AB_FB
 AND_NOT_AB_FB
 OR_AB_FB
 XOR_AB_FB
-    
-DEC
-INC
     
 SEX_C
 THREE_C
