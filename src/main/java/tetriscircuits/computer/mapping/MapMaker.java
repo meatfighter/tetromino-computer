@@ -1,7 +1,13 @@
 package tetriscircuits.computer.mapping;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
@@ -32,18 +39,65 @@ public class MapMaker {
     
     public static final String WORKSPACE_DIR = "workspace";
     
-    public void launch() throws Exception {
+    public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
+    
+    public void launch() throws Exception {                  
+        saveMaps(computeMappings());
+        compareMaps();
+    }
+    
+    private void compareMaps() throws Exception {
+        for (final File fileA : new File("maps2").listFiles()) {
+            if (!(fileA.isFile() && fileA.getName().endsWith(".map"))) {
+                continue;
+            }
+            final File fileB = new File("maps/" + fileA.getName());
+            if (!fileB.exists()) {
+                continue;
+            }            
+            final ByteMapping mappingA = loadByteMapping(fileA);
+            final ByteMapping mappingB = loadByteMapping(fileB);
+            if (!mappingA.equals(mappingB)) {
+                System.out.format("Mismatch: %s%n", fileA);
+            }
+        }
+    }
+    
+    private void saveMaps(final Map<String, ComponentMapping> mappings) throws Exception {        
+        for (final Map.Entry<String, ComponentMapping> entry : mappings.entrySet()) {
+            final String name = entry.getKey();
+            if (UPPERCASE_PATTERN.matcher(name).matches()) {
+                saveMap(name, entry.getValue());
+            }
+        }
+    }
+    
+    private ByteMapping loadByteMapping(final File file) throws Exception {
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+            return ByteMapping.read(in);
+        }
+    }
+    
+    private void saveMap(final String name, final ComponentMapping componentMapping) throws Exception {
+        try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(
+                String.format("maps2/%s.map", name)))) {
+            new ByteMapping(componentMapping).write(out);
+        }
+    }
+    
+    private Map<String, ComponentMapping> computeMappings() throws Exception {
+        
         final Map<String, Component> components = new ConcurrentHashMap<>();
         final Map<String, ComponentMapping> mappings = new ConcurrentHashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(WORKSPACE_DIR), components);          
+        loadComponents(new File(WORKSPACE_DIR), components);
         final Map<String, Set<String>> dependencies = findDependencies(components);
         final Map<String, Set<String>> reverseDependencies = reverseDependencies(dependencies);
         final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
         final List<String> removeList = new ArrayList<>();
         final ExecutorService executor = Executors.newWorkStealingPool();
         
-        while (true) {
+        /*outer:*/ while (true) {
             
             boolean remaining = false;
             for (final Iterator<Map.Entry<String, Set<String>>> i = dependencies.entrySet().iterator(); i.hasNext(); ) {
@@ -68,6 +122,10 @@ public class MapMaker {
                             removeList.notifyAll();
                         }
                     });
+                    
+//                    if ("swap".equals(name)) {
+//                        break outer; // TODO TESTING
+//                    }
                 }
             }
             
@@ -97,11 +155,43 @@ public class MapMaker {
             }
         }
         
-        System.out.println("--1");
-        
+        executor.shutdown();        
         executor.awaitTermination(1, TimeUnit.DAYS);
         
-        System.out.println("--2");
+//        final ComponentMapping mapping = mappings.get("swap");
+//        final int[] map = mapping.getMap();
+//        System.out.format("00 -> %d%n", map[0]);
+//        System.out.format("01 -> %d%n", map[1]);
+//        System.out.format("10 -> %d%n", map[2]);
+//        System.out.format("11 -> %d%n", map[3]);        
+//        for (int i = 0; i < 0xFFFF; ++i) {
+//            System.out.format("%04X -> %04X%n", i, mapping.getMap()[i]);
+//        }
+        
+//        for (int a = 0; a <= 0x01; ++a) {
+//            for (int b = 0; b <= 0x01; ++b) {
+//                for (int c = 0; c <= 0x01; ++c) {
+//                    int inputBits = c;
+//                    for (int i = 7; i >= 0; --i) {
+//                        inputBits |= ((a >> i) & 1) << (2 * i + 2);
+//                        inputBits |= ((b >> i) & 1) << (2 * i + 1);                        
+//                    }
+//                    final int outputBits = map[inputBits];
+//                    int sum = 0;
+//                    int aOut = 0;
+//                    for (int i = 7; i >= 0; --i) {
+//                        aOut |= ((outputBits >> (i * 2 + 1)) & 1) << i;
+//                    }
+//                    for (int i = 8; i >= 0; --i) {
+//                        sum |= ((outputBits >> (i * 2)) & 1) << i;
+//                    }
+//                    System.out.format("inputBits = %02X, outputBits = %02X, a = %02X, b = %02X, c = %X, sum = %02X, aOut = %02X%n", 
+//                            inputBits, outputBits, a, b, c, sum, aOut);
+//                }
+//            }
+//        }
+        
+        return mappings;
     }
     
     private void returnPlayfield(final List<Playfield> playfieldPool, final Playfield playfield) {
@@ -288,6 +378,7 @@ public class MapMaker {
     
     private void setInputs(final Playfield playfield, final Component component, final int inputBits, 
             final int originX, final int originY, final int cellValue) {
+        
         final Terminal[] inputs = component.getInputs();                      
         for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
             final boolean one = (inBits & 1) != 0;
@@ -300,7 +391,7 @@ public class MapMaker {
                     --y;
                 }
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
-                    playfield.set(originX + x, y, cellValue);                    
+                    playfield.set(originX + x, y, cellValue); 
                 }
             }
         }
@@ -346,7 +437,7 @@ public class MapMaker {
     public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
             final Playfield playfield, final Component component, final int originX, final int originY) {
         
-        if (mappings.containsKey(component.getName())) {
+        if (!component.getName().startsWith("_") && mappings.containsKey(component.getName())) {
             emulate(components, mappings, playfield, component, originX, originY);
             return;
         } 

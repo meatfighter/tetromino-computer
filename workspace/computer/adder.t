@@ -7,7 +7,7 @@ ih 7
 nor 5 2
 ir5 8 2
 nor 7 7
-il9 -5 2
+il9 -5 1
 ih 3
 ju 0
 swap -3 10
@@ -52,5 +52,5 @@ in bi 4..7 0
 in ci 11..12 0
 
 out co -10..-7 103
-out a0 -2..1 103
+out ao -2..1 103
 out s 11 103

@@ -175,4 +175,33 @@ public class ByteMapping {
             out.write(map[i]);
         }
     }
+    
+    @Override
+    public boolean equals(final Object obj) {
+        if (!(obj instanceof ByteMapping)) {
+            return false;
+        }
+        
+        final ByteMapping mapping = (ByteMapping)obj;
+        
+        if (mappingType != mapping.mappingType) {
+            return false;
+        }
+        
+        if (map == null) {
+            return mapping.map == null;
+        }
+        
+        if (map.length != mapping.map.length) {
+            return false;
+        }
+        
+        for (int i = map.length - 1; i >= 0; --i) {
+            if (map[i] != mapping.map[i]) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }

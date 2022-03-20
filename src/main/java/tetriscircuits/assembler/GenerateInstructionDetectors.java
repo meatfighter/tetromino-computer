@@ -34,7 +34,6 @@ public class GenerateInstructionDetectors {
             }
             saveFiles(name, operator.getOpcode());
         }
-        saveFiles("MINUS", 0b1000_0000);
     }
     
     private void saveFiles(final String name, final int opcode) throws Exception {

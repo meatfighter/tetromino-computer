@@ -19,10 +19,10 @@ refactor packages:
 
 tetrisscript
 
-COPY_A_B_C <-- in progress
+MINUS_C <-- 7 don't cares
 
 C_ZERO
-C_MINUS
+C_MINUS <-- 7 don't cares
     
 DEC_16
 INC_16
