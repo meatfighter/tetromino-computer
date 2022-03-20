@@ -958,8 +958,13 @@ public class Controller {
                     case 2:
                     case 3:
                         return Integer.compare(Integer.parseInt(a.substring(1)), Integer.parseInt(b.substring(1)));
-                    default:
-                        return a.compareTo(b);
+                    default: {
+                        final int result = a.compareToIgnoreCase(b);
+                        if (result != 0) {
+                            return result;
+                        }
+                        return b.compareTo(a);
+                    }
                 }                
             }
             if (groupA < groupB) {

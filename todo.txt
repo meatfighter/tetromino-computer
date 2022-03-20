@@ -43,7 +43,6 @@ Missing: INC_16_C.map
 Missing: LDX_C.map
 Missing: LSH.map
 Missing: MINUS_C.map
-Missing: NOT.map
 Missing: OR_AB_FB.map
 Missing: RSH.map
 Missing: SEX_C.map
@@ -70,7 +69,6 @@ CLEAR
 DEC
 INC
 LSH
-NOT
 RSH
     
 SEX_C
