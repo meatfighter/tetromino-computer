@@ -42,7 +42,6 @@ Missing: INC_16_C.map
 Missing: LDX_C.map
 Missing: MINUS_C.map
 Missing: OR_AB_FB.map
-Missing: RSH.map
 Missing: SEX_C.map
 Missing: STX_C.map
 Missing: THREE_C.map
@@ -65,7 +64,6 @@ XOR_AB_FB
     
 DEC
 INC
-RSH
     
 SEX_C
 THREE_C

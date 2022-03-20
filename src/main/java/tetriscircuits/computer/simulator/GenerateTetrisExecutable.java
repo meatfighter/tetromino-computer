@@ -379,7 +379,7 @@ public final class GenerateTetrisExecutable {
             DEC[a] = 0xFF & (a - 1);
             INC[a] = 0xFF & (a + 1);
             LSH[a] = 0xFF & (a << 1);
-            NOT[a] = (a == 0) ? 1 : 0;
+            NOT[a] = (~a) & 1;
             RSH[a] = 0xFF & (a >> 1);            
             
             for (int b = 0xFF; b >= 0; --b) {

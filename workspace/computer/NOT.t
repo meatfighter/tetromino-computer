@@ -1,11 +1,12 @@
-not -35 0
-not -25 0
-not -15 0
-not -5 0
-not 5 0
-not 15 0
-not 25 0
+false -35 0
+false -25 0
+false -15 0
+false -5 0
+false 5 0
+false 15 0
+false 25 0
 not 35 0
+ir7 35 5
 
 in i7 -35 0
 in i6 -25 0
@@ -16,11 +17,11 @@ in i2 15 0
 in i1 25 0
 in i0 35 0
 
-out o7 -36..-34 5
-out o6 -26..-24 5
-out o5 -16..-14 5
-out o4 -6..-4 5
-out o3 4..6 5
-out o2 14..16 5
-out o1 24..26 5
-out o0 34..36 5
+out o7 -37..-34 12
+out o6 -27..-24 12
+out o5 -17..-14 12
+out o4 -7..-4 12
+out o3 3..6 12
+out o2 13..16 12
+out o1 23..26 12
+out o0 35 12

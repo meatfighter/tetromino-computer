@@ -1,8 +1,8 @@
-o7 = !i7;
-o6 = !i6;
-o5 = !i5;
-o4 = !i4;
-o3 = !i3;
-o2 = !i2;
-o1 = !i1;
+o7 = false;
+o6 = false;
+o5 = false;
+o4 = false;
+o3 = false;
+o2 = false;
+o1 = false;
 o0 = !i0;
