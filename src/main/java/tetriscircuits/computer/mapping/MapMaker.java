@@ -44,6 +44,18 @@ public class MapMaker {
     public void launch() throws Exception {                  
         saveMaps(computeMappings());
         compareMaps();
+        findMissingMaps();
+    }
+    
+    private void findMissingMaps() throws Exception {
+        for (final File file : new File("maps").listFiles()) {
+            if (!(file.isFile() && file.getName().endsWith(".map"))) {
+                continue;
+            }
+            if (!new File("maps2/" + file.getName()).exists()) {
+                System.out.format("Missing: %s%n", file.getName());
+            }
+        }
     }
     
     private void compareMaps() throws Exception {
@@ -123,7 +135,7 @@ public class MapMaker {
                         }
                     });
                     
-//                    if ("swap".equals(name)) {
+//                    if ("COPY_A_B_C".equals(name)) {
 //                        break outer; // TODO TESTING
 //                    }
                 }
@@ -158,14 +170,25 @@ public class MapMaker {
         executor.shutdown();        
         executor.awaitTermination(1, TimeUnit.DAYS);
         
-//        final ComponentMapping mapping = mappings.get("swap");
+//        final ComponentMapping mapping = mappings.get("COPY_A_B_C");
+//        System.out.println(mapping.getMappingType());
 //        final int[] map = mapping.getMap();
+//        for (int i = 0; i < 0x1FF; ++i) {
+//            System.out.format("%02X, %X -> %04X%n", (i >> 1), i & 1, map[i]);
+//        }
 //        System.out.format("00 -> %d%n", map[0]);
 //        System.out.format("01 -> %d%n", map[1]);
 //        System.out.format("10 -> %d%n", map[2]);
 //        System.out.format("11 -> %d%n", map[3]);        
-//        for (int i = 0; i < 0xFFFF; ++i) {
-//            System.out.format("%04X -> %04X%n", i, mapping.getMap()[i]);
+//        for (int i = 0; i < 0x1FFFF; ++i) {
+//            final int ai = 0xFF & (i >> 9);
+//            final int bi = 0xFF & (i >> 1);
+//            final int ci = 0x01 & i;
+//            final int v = map[i];
+//            final int ao = 0xFF & (v >> 16);
+//            final int bo = 0xFF & (v >> 8);
+//            final int co = 0xFF & v;
+//            System.out.format("ai = %02X, bi = %02X, ci = %X, ao = %02X, bo = %02X, co = %X%n", ai, bi, ci, ao, bo, co);
 //        }
         
 //        for (int a = 0; a <= 0x01; ++a) {
@@ -274,7 +297,7 @@ public class MapMaker {
         final int[] map = componentMapping.getMap();
         for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
             playfield.clear();
-            setInputs(playfield, component, (inputBits & 0x1FFFE << 7) | (inputBits & 1));
+            setInputs(playfield, component, ((inputBits & 0x1FFFE) << 7) | (inputBits & 1));
             simulate(components, mappings, playfield, component);
             map[inputBits] = getOutputs(playfield, component);
         }
@@ -429,16 +452,16 @@ public class MapMaker {
         return out;
     }
        
-    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
             final Playfield playfield, final Component component) {
         simulate(components, mappings, playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
     }
 
-    public void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
             final Playfield playfield, final Component component, final int originX, final int originY) {
         
         if (!component.getName().startsWith("_") && mappings.containsKey(component.getName())) {
-            emulate(components, mappings, playfield, component, originX, originY);
+            emulate(mappings, playfield, component, originX, originY);
             return;
         } 
         
@@ -482,8 +505,8 @@ public class MapMaker {
         lock(playfield, tetrimino, x, y);
     }    
     
-    public void emulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings,
-            final Playfield playfield, final Component component, final int originX, final int originY) {
+    private void emulate(final Map<String, ComponentMapping> mappings, final Playfield playfield, 
+            final Component component, final int originX, final int originY) {
 
         final ComponentMapping mapping = mappings.get(component.getName());
         if (mapping == null) {
