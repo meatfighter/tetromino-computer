@@ -34,7 +34,6 @@ Missing: C_COPY_A_B.map
 Missing: C_COPY_B_A.map
 Missing: C_MINUS.map
 Missing: C_ZERO.map
-Missing: DEC_16.map
 Missing: INC_16.map
 Missing: INC_16_C.map
 Missing: LDX_C.map
@@ -50,7 +49,6 @@ MINUS_C <-- 7 don't cares
 C_ZERO
 C_MINUS <-- 7 don't cares
     
-DEC_16
 INC_16
 
 AND_AB_AF
