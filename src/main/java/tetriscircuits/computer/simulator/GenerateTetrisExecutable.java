@@ -36,10 +36,9 @@ public final class GenerateTetrisExecutable {
     private static final int[][][] COPY_B_A = new int[256][256][2];
     private static final int[][][] DEC_16 = new int[256][256][2];
     private static final int[][][] INC_16 = new int[256][256][2];
-    private static final int[][][] AND_A = new int[256][256][2];
-    private static final int[][][] AND_B = new int[256][256][2];
-
+    
     private static final int[][][] ADD_AB_FB = new int[256][256][2];
+    private static final int[][][] AND_AB_AF = new int[256][256][2];
     private static final int[][][] AND_AB_FB = new int[256][256][2];
     private static final int[][][] AND_NOT_AB_FB = new int[256][256][2];
     private static final int[][][] OR_AB_FB = new int[256][256][2];
@@ -116,10 +115,9 @@ public final class GenerateTetrisExecutable {
         { COPY_B_A, "COPY_B_A", },
         { DEC_16, "DEC_16", },
         { INC_16, "INC_16", },
-        { AND_A, "AND_A", },
-        { AND_B, "AND_B", },
         
         { ADD_AB_FB, "ADD_AB_FB", },
+        { AND_AB_AF, "AND_AB_AF", },
         { AND_AB_FB, "AND_AB_FB", },
         { AND_NOT_AB_FB, "AND_NOT_AB_FB", },
         { OR_AB_FB, "OR_AB_FB", },
@@ -397,12 +395,6 @@ public final class GenerateTetrisExecutable {
                 INC_16[a][b][0] = inc16 >> 8;
                 INC_16[a][b][1] = inc16 & 0xFF;
                 
-                AND_A[a][b][0] = a & b;
-                AND_A[a][b][1] = b;
-                
-                AND_B[a][b][0] = a;
-                AND_B[a][b][1] = a & b;
-                
                 C_CMP[0][a][b][0] = (a == b) ? 1 : 0;
                 C_CMP[0][a][b][1] = a;
                 C_CMP[0][a][b][2] = b;
@@ -651,7 +643,7 @@ public final class GenerateTetrisExecutable {
         apply(address + 11, COPY_B_A);      // s1 = s0;
         apply(address + 10, SWAP);
         apply(address + 9, SWAP);
-        apply(address + 8, AND_B);          // s1 &= r;
+        apply(address + 8, AND_AB_AF);      // s1 &= r;
         apply(address + 8, SWAP);
         apply(address + 7, SWAP);
         apply(address + 5, COPY_A_B_C);     // if (s1) m = I;
@@ -663,7 +655,7 @@ public final class GenerateTetrisExecutable {
         apply(address + 10, SWAP);
         apply(address + 9, SWAP);
         apply(address + 8, SWAP);
-        apply(address + 7, AND_B);          // s1 &= w;
+        apply(address + 7, AND_AB_AF);      // s1 &= w;
         apply(address + 7, SWAP);
         apply(address + 5, COPY_B_A_C);     // if (s1) I = m;
         apply(address + 7, SWAP);

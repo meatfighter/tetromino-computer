@@ -21,10 +21,9 @@ tetrisscript
 redo NOT
 remove NOT opcode
 
-Missing: AND_A.map
 Missing: AND_AB_FB.map
 Missing: AND_A_B_C.map
-Missing: AND_B.map
+Missing: AND_AB_AF.map
 Missing: AND_NOT_AB_FB.map
 Missing: CMP_AND_C.map
 Missing: CMP_C.map
@@ -54,9 +53,8 @@ C_MINUS <-- 7 don't cares
     
 DEC_16
 INC_16
-AND_A
-AND_B
 
+AND_AB_AF
 AND_AB_FB
 AND_NOT_AB_FB
 OR_AB_FB
