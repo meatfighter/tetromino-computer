@@ -3,6 +3,7 @@ run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
 remove playfield size spinner
 remove annoying tooltips
+not warning about saving when opening
 
 new seems to save twice?!
 
@@ -34,8 +35,6 @@ Missing: C_COPY_A_B.map
 Missing: C_COPY_B_A.map
 Missing: C_MINUS.map
 Missing: C_ZERO.map
-Missing: INC_16.map
-Missing: INC_16_C.map
 Missing: LDX_C.map
 Missing: MINUS_C.map
 Missing: OR_AB_FB.map
@@ -49,8 +48,6 @@ MINUS_C <-- 7 don't cares
 C_ZERO
 C_MINUS <-- 7 don't cares
     
-INC_16
-
 AND_AB_AF
 AND_AB_FB
 AND_NOT_AB_FB
@@ -70,6 +67,4 @@ C_COPY_A_B
 C_COPY_B_A
 COPY_B_A_C
 AND_A_B_C
-C_AND_A_NOT_B 
-    
-INC_16_C
+C_AND_A_NOT_B
