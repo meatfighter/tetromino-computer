@@ -19,7 +19,6 @@ refactor packages:
 
 tetrisscript
 
-redo NOT
 remove NOT opcode
 
 Missing: AND_A_B_C.map
