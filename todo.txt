@@ -38,7 +38,6 @@ Missing: MINUS_C.map
 Missing: SEX_C.map
 Missing: STX_C.map
 Missing: THREE_C.map
-Missing: XOR_AB_FB.map
 
 MINUS_C <-- 7 don't cares
 
@@ -47,7 +46,6 @@ C_MINUS <-- 7 don't cares
     
 AND_AB_AF
 AND_NOT_AB_FB
-XOR_AB_FB
     
 SEX_C
 THREE_C
