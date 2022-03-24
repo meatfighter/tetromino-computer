@@ -22,7 +22,6 @@ tetrisscript
 remove NOT opcode
 
 Missing: AND_A_B_C.map
-Missing: AND_AB_AF.map
 Missing: AND_NOT_AB_FB.map
 Missing: CMP_AND_C.map
 Missing: CMP_C.map
@@ -44,7 +43,6 @@ MINUS_C <-- 7 don't cares
 C_ZERO
 C_MINUS <-- 7 don't cares
     
-AND_AB_AF
 AND_NOT_AB_FB
     
 SEX_C
