@@ -24,7 +24,6 @@ remove NOT opcode
 DOUBLE_SWAP_LEFT
 DOUBLE_SWAP_RIGHT
 
-Missing: AND_A_B_C.map
 Missing: AND_NOT_AB_FB.map
 Missing: CMP_AND_C.map
 Missing: CMP_C.map
@@ -60,5 +59,4 @@ CMP_AND_C
 C_COPY_A_B
 C_COPY_B_A
 COPY_B_A_C
-AND_A_B_C
 C_AND_A_NOT_B
