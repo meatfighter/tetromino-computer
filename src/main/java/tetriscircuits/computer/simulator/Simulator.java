@@ -89,8 +89,6 @@ public final class Simulator implements Processor {
     private static final int[][][][] COPY_A_B_C = new int[256][256][2][3];
     private static final int[][][][] COPY_B_A_C = new int[256][256][2][3];
     private static final int[][][][] AND_A_B_C = new int[256][256][2][3];
-    private static final int[][][][] AND_C_A_B = new int[2][256][256][3];
-    private static final int[][][][] AND_A_NOT_B_C = new int[256][256][2][3];
     private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3]; 
     
     private static final int[][][][] INC_16_C = new int[256][256][2][3];
@@ -376,24 +374,10 @@ public final class Simulator implements Processor {
                 
                 AND_A_B_C[a][b][0][0] = a;
                 AND_A_B_C[a][b][0][1] = b;
-                AND_A_B_C[a][b][0][2] = a & b;
+                AND_A_B_C[a][b][0][2] = a & b & 1;
                 AND_A_B_C[a][b][1][0] = a;
                 AND_A_B_C[a][b][1][1] = b;
-                AND_A_B_C[a][b][1][2] = a & b;
-                
-                AND_C_A_B[0][a][b][0] = a & b;
-                AND_C_A_B[0][a][b][1] = a;
-                AND_C_A_B[0][a][b][2] = b;
-                AND_C_A_B[1][a][b][0] = a & b;
-                AND_C_A_B[1][a][b][1] = a;
-                AND_C_A_B[1][a][b][2] = b;
-                
-                AND_A_NOT_B_C[a][b][0][0] = a;
-                AND_A_NOT_B_C[a][b][0][1] = b;
-                AND_A_NOT_B_C[a][b][0][2] = a & (b == 0 ? 1 : 0);
-                AND_A_NOT_B_C[a][b][1][0] = a;
-                AND_A_NOT_B_C[a][b][1][1] = b;
-                AND_A_NOT_B_C[a][b][1][2] = a & (b == 0 ? 1 : 0);
+                AND_A_B_C[a][b][1][2] = a & b & 1;
                 
                 C_AND_A_NOT_B[0][a][b][0] = a & (b == 0 ? 1 : 0);
                 C_AND_A_NOT_B[0][a][b][1] = a;
