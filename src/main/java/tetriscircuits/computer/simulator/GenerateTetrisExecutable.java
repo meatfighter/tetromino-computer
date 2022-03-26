@@ -96,9 +96,9 @@ public final class GenerateTetrisExecutable {
     private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3]; 
     
     private static final int[][][][] INC_16_C = new int[256][256][2][3];
-    
-    private static final int[][][][] SWAP_UP = new int[256][256][256][3];
-    private static final int[][][][] SWAP_DOWN = new int[256][256][256][3];
+//    
+//    private static final int[][][][] SWAP_UP = new int[256][256][256][3];
+//    private static final int[][][][] SWAP_DOWN = new int[256][256][256][3];
     
     private static final Object[][] NAMES = {
         { ZERO_C, "ZERO_C", },
@@ -493,16 +493,16 @@ public final class GenerateTetrisExecutable {
                 
                 XOR_AB_FB[a][b][0] = 0xFF & (a ^ b);
                 XOR_AB_FB[a][b][1] = b;
-                
-                for (int c = 0xFF; c >= 0; --c) {
-                    SWAP_UP[a][b][c][0] = b;
-                    SWAP_UP[a][b][c][1] = c;
-                    SWAP_UP[a][b][c][2] = a;
-                    
-                    SWAP_DOWN[a][b][c][0] = c;
-                    SWAP_DOWN[a][b][c][1] = a;
-                    SWAP_DOWN[a][b][c][2] = b;
-                }
+//                
+//                for (int c = 0xFF; c >= 0; --c) {
+//                    SWAP_UP[a][b][c][0] = b;
+//                    SWAP_UP[a][b][c][1] = c;
+//                    SWAP_UP[a][b][c][2] = a;
+//                    
+//                    SWAP_DOWN[a][b][c][0] = c;
+//                    SWAP_DOWN[a][b][c][1] = a;
+//                    SWAP_DOWN[a][b][c][2] = b;
+//                }
             }
         }
     }    

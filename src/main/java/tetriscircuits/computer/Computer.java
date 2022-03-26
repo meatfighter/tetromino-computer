@@ -13,20 +13,23 @@ import static java.lang.Thread.yield;
 import tetriscircuits.computer.emulator.Emulator;
 import tetriscircuits.computer.simulator.Simulator;
 import tetriscircuits.computer.simulator.Simulator2;
+import tetriscircuits.computer.simulator.Simulator3;
 import tetriscircuits.computer.ui.PlayfieldModel;
 
 
 public class Computer {
 
-    private static final double FRAMES_PER_SECOND = 5;
+    private static final double MAX_FRAMES_PER_SECOND = 5.25;
     private static final int MAX_FRAMES_LOST = 3;
-    private static final int MIN_SLEEP_MILLIS = 2;    
+    private static final int MIN_SLEEP_MILLIS = 2;
+    private static final int SECONDS_PER_SAMPLE_FPS = 5;
     
-    private static final long NANOS_PER_FRAME = (long)Math.round(1_000_000_000L / FRAMES_PER_SECOND);
+    private static final long NANOS_PER_FRAME = (long)Math.round(1_000_000_000L / MAX_FRAMES_PER_SECOND);
     private static final long MIN_SLEEP_NANOS = 1_000_000L * MIN_SLEEP_MILLIS;    
     private static final long MAX_LOST_NANOS = -MAX_FRAMES_LOST * NANOS_PER_FRAME;
+    private static final double NANOS_PER_SAMPLE_FPS = SECONDS_PER_SAMPLE_FPS * 1.0E9;
     
-    private final Processor processor = new Simulator2(); //new Emulator();
+    private final Processor processor = new Simulator3(); //new Emulator();
     private final PlayfieldModel playfieldModel = new PlayfieldModel();
     
     private volatile PlayfieldFrame playfieldFrame;
@@ -108,7 +111,7 @@ public class Computer {
             
             ++frames;
             final double framesDuration = System.nanoTime() - framesStart;
-            if (framesDuration > 1.0E10) {
+            if (framesDuration > NANOS_PER_SAMPLE_FPS) {
                 playfieldFrame.setFramesPerSecond(frames / (framesDuration / 1.0E9));
                 frames = 0;
                 framesStart = System.nanoTime();
