@@ -21,9 +21,6 @@ tetrisscript
 
 remove NOT opcode
 
-DOUBLE_SWAP_LEFT
-DOUBLE_SWAP_RIGHT
-
 Missing: AND_NOT_AB_FB.map
 Missing: CMP_AND_C.map
 Missing: CMP_C.map
@@ -34,21 +31,11 @@ Missing: C_COPY_A_B.map
 Missing: C_COPY_B_A.map
 Missing: C_MINUS.map
 Missing: C_ZERO.map
-Missing: LDX_C.map
-Missing: SEX_C.map
-Missing: STX_C.map
-Missing: THREE_C.map
 
 C_ZERO
 C_MINUS <-- 7 don't cares
     
 AND_NOT_AB_FB
-    
-SEX_C
-THREE_C
-    
-STX_C
-LDX_C
     
 C_CMP
 CMP_C
