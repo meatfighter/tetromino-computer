@@ -9,7 +9,8 @@ public enum ByteMappingType {
     ONE_BYTE(1),
     TWO_BYTES(2),
     BIT_TWO_BYTES(3),
-    TWO_BYTES_BIT(4);
+    TWO_BYTES_BIT(4),
+    THREE_BYTES(5);
     
     private static final Map<Integer, ByteMappingType> mapTypes;
 

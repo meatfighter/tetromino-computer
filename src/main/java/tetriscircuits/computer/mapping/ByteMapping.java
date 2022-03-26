@@ -26,7 +26,10 @@ public class ByteMapping {
             case TWO_BYTES:
                 length = 256 * 256 * 2;
                 break;
-            default:
+            case THREE_BYTES:
+                length = 256 * 256 * 256 * 3;
+                break;
+            default:    
                 length = 256 * 256 * 2 * 3;
                 break;
         }
@@ -132,9 +135,9 @@ public class ByteMapping {
         }
     }
 
-    public ByteMapping(final int[][][][] map) {
-        this.map = new int[256 * 256 * 2 * 3];
+    public ByteMapping(final int[][][][] map) {        
         if (map.length == 2) {
+            this.map = new int[256 * 256 * 2 * 3];
             mappingType = ByteMappingType.BIT_TWO_BYTES;
             int index = 0;
             for (int i = 0; i < 2; ++i) {
@@ -146,7 +149,8 @@ public class ByteMapping {
                     }
                 }
             }
-        } else {
+        } else if (map[0][0].length == 2) {
+            this.map = new int[256 * 256 * 2 * 3];
             mappingType = ByteMappingType.TWO_BYTES_BIT;
             int index = 0;
             for (int i = 0; i < 256; ++i) {
@@ -158,7 +162,20 @@ public class ByteMapping {
                     }
                 }
             }
-        }        
+        } else {
+            this.map = new int[256 * 256 * 256 * 3];
+            mappingType = ByteMappingType.THREE_BYTES;
+            int index = 0;
+            for (int i = 0; i < 256; ++i) {
+                for (int j = 0; j < 256; ++j) {
+                    for (int k = 0; k < 256; ++k) {
+                        for (int l = 0; l < 3; ++l) {
+                            this.map[index++] = map[i][j][k][l];
+                        }
+                    }
+                }
+            }
+        }       
     }
 
     public ByteMappingType getMappingType() {

@@ -91,18 +91,7 @@ public final class Simulator2 implements Processor {
                         bytes[index1] = map[i + 1];
                     };
                 }
-                case BIT_TWO_BYTES: {
-                    final int[] map = mapping.getMap();
-                    final int index1 = index + 1;
-                    final int index2 = index + 2;
-                    return (Runnable) () -> {
-                        final int i = 196608 * bytes[index] + 768 * bytes[index1] + 3 * bytes[index2];                        
-                        bytes[index] = map[i];
-                        bytes[index1] = map[i + 1];
-                        bytes[index2] = map[i + 2];
-                    };
-                }
-                default: {
+                case TWO_BYTES_BIT: {
                     final int[] map = mapping.getMap();
                     final int index1 = index + 1;
                     final int index2 = index + 2;
@@ -113,6 +102,17 @@ public final class Simulator2 implements Processor {
                         bytes[index2] = map[i + 2];
                     };
                 }
+                default: {
+                    final int[] map = mapping.getMap();
+                    final int index1 = index + 1;
+                    final int index2 = index + 2;
+                    return (Runnable) () -> {
+                        final int i = 196608 * bytes[index] + 768 * bytes[index1] + 3 * bytes[index2];                        
+                        bytes[index] = map[i];
+                        bytes[index1] = map[i + 1];
+                        bytes[index2] = map[i + 2];
+                    };
+                }                
             }
         }, filename);
     }

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import tetriscircuits.computer.mapping.ByteMapping;
 
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
@@ -95,6 +97,9 @@ public final class GenerateTetrisExecutable {
     
     private static final int[][][][] INC_16_C = new int[256][256][2][3];
     
+    private static final int[][][][] SWAP_UP = new int[256][256][256][3];
+    private static final int[][][][] SWAP_DOWN = new int[256][256][256][3];
+    
     private static final Object[][] NAMES = {
         { ZERO_C, "ZERO_C", },
         { C_ZERO, "C_ZERO", },
@@ -173,6 +178,9 @@ public final class GenerateTetrisExecutable {
         { C_AND_A_NOT_B, "C_AND_A_NOT_B", },        
         
         { INC_16_C, "INC_16_C", }, 
+//        
+//        { SWAP_UP, "SWAP_UP", },
+//        { SWAP_DOWN, "SWAP_DOWN", },
     };
     
     static {
@@ -485,6 +493,16 @@ public final class GenerateTetrisExecutable {
                 
                 XOR_AB_FB[a][b][0] = 0xFF & (a ^ b);
                 XOR_AB_FB[a][b][1] = b;
+                
+                for (int c = 0xFF; c >= 0; --c) {
+                    SWAP_UP[a][b][c][0] = b;
+                    SWAP_UP[a][b][c][1] = c;
+                    SWAP_UP[a][b][c][2] = a;
+                    
+                    SWAP_DOWN[a][b][c][0] = c;
+                    SWAP_DOWN[a][b][c][1] = a;
+                    SWAP_DOWN[a][b][c][2] = b;
+                }
             }
         }
     }    
@@ -501,7 +519,8 @@ public final class GenerateTetrisExecutable {
     private int[] bytes;
     private int maxAddress;
     private boolean descend = true;
-    private PrintStream out;
+    
+    private final List<NameAndIndex> NAME_AND_INDICES = new ArrayList<>();
     
     private void ascendMemoryCycle() {
         for (int address = 0; address < maxAddress; ++address) {
@@ -1424,15 +1443,15 @@ public final class GenerateTetrisExecutable {
     }
        
     private void apply(final int index, final int[] map) {
-        out.format("%s %d%n", toString(map), index);
+        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
     }
     
     private void apply(final int index, final int[][][] map) {
-        out.format("%s %d%n", toString(map), index);
+        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
     }
 
     private void apply(final int index, final int[][][][] map) {
-        out.format("%s %d%n", toString(map), index);
+        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
     }
     
     // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
@@ -1500,30 +1519,80 @@ public final class GenerateTetrisExecutable {
             ascendMemoryCycle();
             executeInstruction(maxAddress);            
         }        
-    }    
-    
-    private void saveTetrisExecutable(final String name, final Runnable runnable) throws IOException {
-        try (final PrintStream o = new PrintStream(new FileOutputStream(String.format("executables/%s.tx", name)))) {
-            out = o;
-            runnable.run();            
-        }
     }
+
+//    private void applyDoubleSwap() {
+//        for (int i = NAME_AND_INDICES.size() - 2; i >= 0; --i) {
+//            final NameAndIndex a = NAME_AND_INDICES.get(i);
+//            final NameAndIndex b = NAME_AND_INDICES.get(i + 1);
+//            if (!("SWAP".equals(a.getName()) && "SWAP".equals(b.getName()))) {
+//                continue;
+//            }
+//            final int ai = a.getIndex();
+//            final int bi = b.getIndex();
+//            if (ai == bi - 1) {
+//                NAME_AND_INDICES.remove(i + 1);
+//                NAME_AND_INDICES.set(i, new NameAndIndex("SWAP_UP", ai));
+//            } else if (ai == bi + 1) {
+//                NAME_AND_INDICES.remove(i + 1);
+//                NAME_AND_INDICES.set(i, new NameAndIndex("SWAP_DOWN", bi));
+//            }
+//        }
+//    }
     
     public void launch() throws Exception {
         loadBinFile("asm/tetris.bin");
         writeInputData();
         writeMaps();
-        saveTetrisExecutable("tetris-descend", () -> {
-            descendMemoryCycle();
-            executeInstruction(0x0000);
-        });
-        saveTetrisExecutable("tetris-ascend", () -> {
-            ascendMemoryCycle();
-            executeInstruction(maxAddress);
-        });        
+        
+        NAME_AND_INDICES.clear();
+        descendMemoryCycle();
+        executeInstruction(0x0000);
+//        applyDoubleSwap();
+
+        try (final PrintStream out = new PrintStream(new FileOutputStream("executables/tetris-descend.tx"))) {
+            for (final NameAndIndex nameAndIndex : NAME_AND_INDICES) {
+                out.println(nameAndIndex);
+            }
+        }
+        
+        NAME_AND_INDICES.clear();
+        ascendMemoryCycle();
+        executeInstruction(maxAddress);
+//        applyDoubleSwap();
+        
+        try (final PrintStream out = new PrintStream(new FileOutputStream("executables/tetris-ascend.tx"))) {
+            for (final NameAndIndex nameAndIndex : NAME_AND_INDICES) {
+                out.println(nameAndIndex);
+            }
+        }        
     }
     
     public static void main(final String... args) throws Exception {
         new GenerateTetrisExecutable().launch();
+    }    
+    
+    private static class NameAndIndex {
+    
+        private final String name;
+        private final int index;
+        
+        public NameAndIndex(final String name, final int index) {
+            this.name = name;
+            this.index = index;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+        
+        @Override
+        public String toString() {
+            return String.format("%s %d", name, index);
+        }
     }    
 }
