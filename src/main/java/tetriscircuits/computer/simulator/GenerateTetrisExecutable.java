@@ -468,6 +468,9 @@ public final class GenerateTetrisExecutable {
                 ADD_AB_FB[a][b][0] = 0xFF & (a + b);
                 ADD_AB_FB[a][b][1] = b;
                 
+                AND_AB_AF[a][b][0] = a;
+                AND_AB_AF[a][b][1] = 0xFF & (a & b);                
+                
                 AND_AB_FB[a][b][0] = 0xFF & (a & b);
                 AND_AB_FB[a][b][1] = b;
                 
