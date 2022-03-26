@@ -29,11 +29,9 @@ Missing: C_AND_A_NOT_B.map
 Missing: C_CMP.map
 Missing: C_COPY_A_B.map
 Missing: C_COPY_B_A.map
-Missing: C_MINUS.map
 Missing: C_ZERO.map
 
 C_ZERO
-C_MINUS <-- 7 don't cares
     
 AND_NOT_AB_FB
     
