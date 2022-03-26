@@ -35,12 +35,9 @@ Missing: C_COPY_B_A.map
 Missing: C_MINUS.map
 Missing: C_ZERO.map
 Missing: LDX_C.map
-Missing: MINUS_C.map
 Missing: SEX_C.map
 Missing: STX_C.map
 Missing: THREE_C.map
-
-MINUS_C <-- 7 don't cares
 
 C_ZERO
 C_MINUS <-- 7 don't cares
