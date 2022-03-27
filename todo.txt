@@ -28,10 +28,7 @@ Missing: COPY_B_A_C.map
 Missing: C_AND_A_NOT_B.map
 Missing: C_CMP.map
 Missing: C_COPY_B_A.map
-Missing: C_ZERO.map
-
-C_ZERO
-    
+   
 AND_NOT_AB_FB
     
 C_CMP
