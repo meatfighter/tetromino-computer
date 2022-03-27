@@ -135,7 +135,7 @@ public class MapMaker {
                         }
                     });
                     
-//                    if ("COPY_A_B_C".equals(name)) {
+//                    if ("C_CMP".equals(name)) {
 //                        break outer; // TODO TESTING
 //                    }
                 }
@@ -170,9 +170,23 @@ public class MapMaker {
         executor.shutdown();        
         executor.awaitTermination(1, TimeUnit.DAYS);
         
-//        final ComponentMapping mapping = mappings.get("COPY_A_B_C");
+//        final ComponentMapping mapping = mappings.get("C_CMP");
 //        System.out.println(mapping.getMappingType());
 //        final int[] map = mapping.getMap();
+//        for (int c = 0; c <= 1; ++c) {
+//            for (int a = 0; a <= 0xFF; ++a) {
+//                for (int b = 0; b <= 0xFF; ++b) {
+//                    final int i = (c << 16) | (a << 8) | b;
+//                    final int v = map[i];
+//                    final int C = 1 & (v >> 16);
+//                    final int A = 0xFF & (v >> 8);
+//                    final int B = 0xFF & v;
+//                    if (C != ((a == b) ? 1 : 0) || a != A || b != B) {
+//                        System.out.format("a = %02X, b = %02X, c = %X, A = %02X, B = %02X, C = %X%n", a, b, c, A, B, C);
+//                    }
+//                }
+//            }
+//        }
 //        for (int i = 0; i < 0x1FF; ++i) {
 //            System.out.format("%02X, %X -> %04X%n", (i >> 1), i & 1, map[i]);
 //        }

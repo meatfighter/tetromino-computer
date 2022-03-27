@@ -464,7 +464,32 @@ ih -33
 and -43 561
 ih -43
 
+s75 -45 571
+false -105 573
+false -95 573
+false -115 573
+false -85 573
+false -75 573
+false -65 573
+false -55 573
+ir12 -45 573
 
+ir24 -35 561
+il46 -25 539
+il68 -15 517
+il90 -5 495
+il112 5 473
+il134 15 451
+il156 25 429
+il196 35 389
+il219 45 366
+il241 55 344
+il263 65 322
+il285 75 300
+il307 85 278
+il329 95 256
+il351 105 234
+il374 115 211
 
 in ci7 -115 0
 in ci6 -105 0
@@ -492,3 +517,30 @@ in bi3 85 0
 in bi2 95 0
 in bi1 105 0
 in bi0 115 0
+
+out co7 -117..-114 585
+out co6 -107..-104 585
+out co5 -97..-94 585
+out co4 -87..-84 585
+out co3 -77..-74 585
+out co2 -67..-64 585
+out co1 -57..-54 585
+out co0 -45 585
+
+out ao7 -35 585
+out ao6 -25 585
+out ao5 -15 585
+out ao4 -5 585
+out ao3 5 585
+out ao2 15 585
+out ao1 25 585
+out ao0 35 585
+
+out bo7 45 585
+out bo6 55 585
+out bo5 65 585
+out bo4 75 585
+out bo3 85 585
+out bo2 95 585
+out bo1 105 585
+out bo0 115 585
