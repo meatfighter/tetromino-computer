@@ -134,7 +134,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     public void zoom(final int delta) {
         int value = (int)cellSizeSpinner.getValue() + delta;
-        final int maximum = (int)((SpinnerNumberModel)cellSizeSpinner.getModel()).getMaximum();
+        final int maximum = ((Number)((SpinnerNumberModel)cellSizeSpinner.getModel()).getMaximum()).intValue();
         if (value < 1) {
             value = 1;
         } else if (value > maximum) {

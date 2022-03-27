@@ -8,8 +8,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tetriscircuits.computer.ui.PlayfieldFrame;
 
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.yield;
 import tetriscircuits.computer.emulator.Emulator;
 import tetriscircuits.computer.simulator.Simulator;
 import tetriscircuits.computer.simulator.Simulator2;
@@ -100,10 +98,10 @@ public class Computer {
                 } else if (remainingTime > 0) {
                     if (remainingTime < MIN_SLEEP_NANOS) {                        
                         do {
-                            yield();
+                            Thread.yield();
                         } while (clock - System.nanoTime() > 0);
                     } else {                        
-                        sleep(remainingTime / 1_000_000L);
+                        Thread.sleep(remainingTime / 1_000_000L);
                     }
                 }
             } catch (final Exception e) {                
