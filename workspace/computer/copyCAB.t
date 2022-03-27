@@ -246,13 +246,163 @@ il154 33 311
 il153 35 312
 muxLeft 33 465
 
+ir57 -35 334
+ih -33
+ih -30
+ir37 -25 356
+swap -25 393
+ih -18
+ih -26
+ir37 -15 378
+swap -15 415
+ih -8
+ih -16
+ir37 -5 400
+swap -5 437
+ih 2
+ih -6
+ir37 5 422
+swap 5 459
+ih 12
+ih 4
+ir37 15 444
+swap 15 481
+ih 22
+ih 14
+ir37 25 466
+swap 25 503
+ih 32
+ih 24
+ih 36
+il46 35 479
+swap 35 525
+ih 34
+il213 43 333
+ir212 45 334
+muxLeft 43 546
 
+ir57 -25 415
+ih -23
+ih -20
+ir37 -15 437
+swap -15 474
+ih -8
+ih -16
+ir37 -5 459
+swap -5 496
+ih 2
+ih -6
+ir37 5 481
+swap 5 518
+ih 12
+ih 4
+ir37 15 503
+swap 15 540
+ir37 25 525
+ih 22
+ih 14
+swap 25 562
+ih 32
+ih 24
+ir37 35 547
+swap 35 584
+ih 46
+ih 42
+ih 34
+il46 45 560
+swap 45 606
+ih 44
+il272 53 355
+ir271 56 356
+muxLeft 53 627
+ih 56
 
+ir57 -15 496
+ir37 -5 518
+ih -13
+ih -10
+swap -5 555
+ih 2
+ih -6
+ir37 5 540
+swap 5 577
+ih 12
+ih 4
+ir37 15 562
+swap 15 599
+ih 22
+ih 14
+ir37 25 584
+swap 25 621
+ih 32
+ih 24
+ir37 35 606
+swap 35 643
+ih 42
+ih 34
+ir37 45 628
+swap 45 665
+ih 44
+il46 55 641
+ih 52
+swap 55 687
+ih 54
+ir331 64 377
+il330 66 378
+muxLeft 63 708
+ih 66
 
+ir57 -5 577
+ih -3
+ih 0
+ir37 5 599
+swap 5 636
+ih 4
+ih 12
+ir37 15 621
+swap 15 658
+ih 22
+ih 14
+ir37 25 643
+swap 25 680
+ih 32
+ih 24
+ir37 35 665
+swap 35 702
+ih 42
+ih 34
+ir37 45 687
+swap 45 724
+ih 52
+ih 44
+ir37 55 709
+swap 55 746
+ih 62
+ih 54
+il46 65 722
+swap 65 768
+ih 64
+ir390 74 399
+il389 76 400
+muxLeft 73 789
 
-
-
-
+lu 74
+ir14 65 790
+ir36 55 768
+ir58 45 746
+ir80 35 724
+ir102 25 702
+ir124 15 680
+ir146 5 658
+ir169 -5 635
+ir250 -15 554
+ir331 -25 473
+ir412 -35 392
+ir493 -45 311
+ir574 -55 230
+ir655 -65 149
+ir736 -75 68
+il803 -85 1
 
 in ci -85 0
 
@@ -273,3 +423,23 @@ in bi3 45 0
 in bi2 55 0
 in bi1 65 0
 in bi0 75 0
+
+out co -85 804
+
+out ao7 -75 804
+out ao6 -65 804
+out ao5 -55 804
+out ao4 -45 804
+out ao3 -35 804
+out ao2 -25 804
+out ao1 -15 804
+out ao0 -5 804
+
+out bo7 5 804
+out bo6 15 804
+out bo5 25 804
+out bo4 35 804
+out bo3 45 804
+out bo2 55 804
+out bo1 65 804
+out bo0 75 804
