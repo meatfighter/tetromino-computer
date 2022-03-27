@@ -8,12 +8,14 @@ import java.util.regex.Pattern;
 
 public class MirrorTetrisScript {
     
-    public static final String INPUT_FILENAME = "workspace/computer/func_AB_FB.t";
+    public static final String INPUT_FILENAME = "workspace/computer/C_CMP.t";
     
     private static final Pattern SINGLE_PATTERN = Pattern.compile("((o)|(ih)) (-?\\d+)");
-    private static final Pattern SWAP_PATTERN = Pattern.compile("swap (-?\\d+) (\\d+)");
+    private static final Pattern SWAP_PATTERN = Pattern.compile("((swap)|(true)|(false)|(xnor)|(and)) (-?\\d+) (\\d+)");
     private static final Pattern IR_PATTERN = Pattern.compile("ir(\\d+) (-?\\d+) (\\d+)");
     private static final Pattern IL_PATTERN = Pattern.compile("il(\\d+) (-?\\d+) (\\d+)");
+    private static final Pattern JU_PATTERN = Pattern.compile("ju (-?\\d+)");
+    private static final Pattern LR_PATTERN = Pattern.compile("lr (-?\\d+)");
 
     public void launch() throws Exception {
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)))) {
@@ -36,9 +38,10 @@ public class MirrorTetrisScript {
         
         final Matcher swapMatcher = SWAP_PATTERN.matcher(line);
         if (swapMatcher.find()) {
-            final int x = Integer.parseInt(swapMatcher.group(1));
-            final int y = Integer.parseInt(swapMatcher.group(2));
-            System.out.format("swap %d %d%n", -x + 1, y);
+            final String obj = swapMatcher.group(1);
+            final int x = Integer.parseInt(swapMatcher.group(7));
+            final int y = Integer.parseInt(swapMatcher.group(8));
+            System.out.format("%s %d %d%n", obj, -x + 1, y);
             return;
         }
         
@@ -57,6 +60,20 @@ public class MirrorTetrisScript {
             final int x = Integer.parseInt(ilMatcher.group(2));
             final int y = Integer.parseInt(ilMatcher.group(3));
             System.out.format("ir%d %d %d%n", len, -x, y);
+            return;
+        }
+        
+        final Matcher juMatcher = JU_PATTERN.matcher(line);
+        if (juMatcher.find()) {            
+            final int x = Integer.parseInt(juMatcher.group(1));
+            System.out.format("lu %d%n", -x);
+            return;
+        }
+        
+        final Matcher lrMatcher = LR_PATTERN.matcher(line);
+        if (lrMatcher.find()) {            
+            final int x = Integer.parseInt(lrMatcher.group(1));
+            System.out.format("jl %d%n", -x);
             return;
         }
     }
