@@ -22,14 +22,12 @@ tetrisscript
 remove NOT opcode
 
 Missing: AND_NOT_AB_FB.map
-Missing: CMP_AND_C.map
 Missing: COPY_B_A_C.map
 Missing: C_AND_A_NOT_B.map
 Missing: C_COPY_B_A.map
    
 AND_NOT_AB_FB
     
-CMP_AND_C
 C_COPY_B_A
 COPY_B_A_C
 C_AND_A_NOT_B
