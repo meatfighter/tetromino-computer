@@ -379,10 +379,10 @@ public final class Simulator implements Processor {
                 AND_A_B_C[a][b][1][1] = b;
                 AND_A_B_C[a][b][1][2] = a & b & 1;
                 
-                C_AND_A_NOT_B[0][a][b][0] = a & (b == 0 ? 1 : 0);
+                C_AND_A_NOT_B[0][a][b][0] = a & ~b & 1;
                 C_AND_A_NOT_B[0][a][b][1] = a;
                 C_AND_A_NOT_B[0][a][b][2] = b;
-                C_AND_A_NOT_B[1][a][b][0] = a & (b == 0 ? 1 : 0);
+                C_AND_A_NOT_B[1][a][b][0] = a & ~b & 1;
                 C_AND_A_NOT_B[1][a][b][1] = a;
                 C_AND_A_NOT_B[1][a][b][2] = b;
                                   
