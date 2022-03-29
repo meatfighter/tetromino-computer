@@ -148,3 +148,30 @@ in bi3 85 0
 in bi2 95 0
 in bi1 105 0
 in bi0 115 0
+
+out co7 -117..-114 360
+out co6 -107..-104 360
+out co5 -97..-94 360
+out co4 -87..-84 360
+out co3 -77..-74 360
+out co2 -67..-64 360
+out co1 -57..-54 360
+out co0 -45 360
+
+out ao7 -35 360
+out ao6 -25 360
+out ao5 -15 360
+out ao4 -5 360
+out ao3 5 360
+out ao2 15 360
+out ao1 25 360
+out ao0 35 360
+
+out bo7 45 360
+out bo6 55 360
+out bo5 65 360
+out bo4 75 360
+out bo3 85 360
+out bo2 95 360
+out bo1 105 360
+out bo0 115 360
