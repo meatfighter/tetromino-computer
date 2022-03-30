@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class MirrorTetrisScript {
     
-    public static final String INPUT_FILENAME = "workspace/computer/C_CMP.t";
+    public static final String INPUT_FILENAME = "workspace/computer/copyABC.t";
     
     private static final Pattern SINGLE_PATTERN = Pattern.compile("((o)|(ih)) (-?\\d+)");
     private static final Pattern SWAP_PATTERN = Pattern.compile("((swap)|(true)|(false)|(xnor)|(and)) (-?\\d+) (\\d+)");
@@ -16,6 +16,8 @@ public class MirrorTetrisScript {
     private static final Pattern IL_PATTERN = Pattern.compile("il(\\d+) (-?\\d+) (\\d+)");
     private static final Pattern JU_PATTERN = Pattern.compile("ju (-?\\d+)");
     private static final Pattern LR_PATTERN = Pattern.compile("lr (-?\\d+)");
+    private static final Pattern MUX_LEFT_PATTERN = Pattern.compile("muxLeft (-?\\d+) (\\d+)");
+    private static final Pattern MUX_RIGHT_PATTERN = Pattern.compile("muxRight (-?\\d+) (\\d+)");
 
     public void launch() throws Exception {
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)))) {
@@ -74,6 +76,22 @@ public class MirrorTetrisScript {
         if (lrMatcher.find()) {            
             final int x = Integer.parseInt(lrMatcher.group(1));
             System.out.format("jl %d%n", -x);
+            return;
+        }
+        
+        final Matcher muxLeftMatcher = MUX_LEFT_PATTERN.matcher(line);
+        if (muxLeftMatcher.find()) {
+            final int x = Integer.parseInt(muxLeftMatcher.group(1));
+            final int y = Integer.parseInt(muxLeftMatcher.group(2));
+            System.out.format("muxRight %d %d%n", -x + 1, y);
+            return;
+        }
+        
+        final Matcher muxRightMatcher = MUX_RIGHT_PATTERN.matcher(line);
+        if (muxRightMatcher.find()) {
+            final int x = Integer.parseInt(muxRightMatcher.group(1));
+            final int y = Integer.parseInt(muxRightMatcher.group(2));
+            System.out.format("muxLeft %d %d%n", -x + 1, y);
             return;
         }
     }

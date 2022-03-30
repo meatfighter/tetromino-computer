@@ -22,4 +22,3 @@ tetrisscript
 remove NOT opcode
 
 Missing: COPY_B_A_C.map
-Missing: C_COPY_B_A.map
