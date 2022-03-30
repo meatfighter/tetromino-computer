@@ -7,6 +7,8 @@ not warning about saving when opening
 
 new seems to save twice?!
 
+JS exceptions not displayed
+
 new/open/save dialogs need to remember last directory
 
 subtractor
@@ -20,5 +22,7 @@ refactor packages:
 tetrisscript
 
 remove NOT opcode
+
+test in other JRE's
 
 Missing: COPY_B_A_C.map

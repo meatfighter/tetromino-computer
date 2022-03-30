@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class MirrorTetrisScript {
     
-    public static final String INPUT_FILENAME = "workspace/computer/copyABC.t";
+    public static final String INPUT_FILENAME = "workspace/computer/copyCAB.t";
     
     private static final Pattern SINGLE_PATTERN = Pattern.compile("((o)|(ih)) (-?\\d+)");
     private static final Pattern SWAP_PATTERN = Pattern.compile("((swap)|(true)|(false)|(xnor)|(and)) (-?\\d+) (\\d+)");
