@@ -402,7 +402,7 @@ public final class Simulator implements Processor {
                 AND_AB_FB[a][b][0] = 0xFF & (a & b);
                 AND_AB_FB[a][b][1] = b;
                 
-                AND_NOT_AB_FB[a][b][0] = 0xFF & (a & (b == 0 ? 1 : 0));
+                AND_NOT_AB_FB[a][b][0] = a & ~b & 1;
                 AND_NOT_AB_FB[a][b][1] = b;                
                 
                 OR_AB_FB[a][b][0] = 0xFF & (a | b);
