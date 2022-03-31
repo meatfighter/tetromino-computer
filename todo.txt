@@ -21,8 +21,7 @@ refactor packages:
 
 tetrisscript
 
-remove NOT opcode
+remove NOT, LSH, RSH
+add LS2, LS3, LS4, RS1, RS5
 
 test in other JRE's
-
-Missing: COPY_B_A_C.map
