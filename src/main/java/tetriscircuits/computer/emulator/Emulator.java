@@ -187,35 +187,41 @@ public class Emulator implements Processor {
     private void compute(final int function) {
         switch (function & 0b1111) {
             case 0b0000:
-                ++A;
-                break;
-            case 0b0001:
-                --A;
-                break;
-            case 0b0010:
                 A += B;
                 break;
+            case 0b0001:
+                A &= B;
+                break;
+            case 0b0010:
+                --A;
+                break;
             case 0b0011:
-                A -= B;
+                ++A;
                 break;
             case 0b0100:
-                A <<= 1;
+                A <<= 2;
                 break;
             case 0b0101:
-                A >>= 1;
+                A <<= 3;
                 break;
             case 0b0110:
-                A &= B;
+                A <<= 4;
                 break;
             case 0b0111:
                 A |= B;
                 break;
             case 0b1000:
-                A ^= B;
+                A >>= 1;
                 break;
             case 0b1001:
-                A = ~A;
+                A >>= 5;
                 break;
+            case 0b1010:
+                A -= B;
+                break;
+            case 0b1011:
+                A ^= B;
+                break;                
         }
         A &= 0xFF;
         B &= 0xFF;

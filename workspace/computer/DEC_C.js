@@ -14,4 +14,4 @@ co4 = false;
 co3 = false;
 co2 = false;
 co1 = false;
-co0 = !ii7 && !ii6 && !ii5 && ii4 && !ii3 && !ii2 && !ii1 && ii0;
+co0 = !ii7 && !ii6 && !ii5 && ii4 && !ii3 && !ii2 && ii1 && !ii0;

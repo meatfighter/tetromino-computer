@@ -201,7 +201,7 @@ SEB 80
 bit8Clear:
 SMN seedLow
 LDA
-RSH
+RS1
 OR
 STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
 
@@ -209,7 +209,7 @@ SMN nextBit
 LDB
 SMN seedHigh
 LDA
-RSH
+RS1
 OR
 STA                     ; seedHigh = nextBit | (seedHigh >> 1);
 
@@ -219,15 +219,9 @@ XOR
 SEB 1F
 AND
 TAB
-LSH
-LSH
-LSH
+LS3
 SUB
-RSH
-RSH
-RSH
-RSH
-RSH                     
+RS5                     
 TAB                     ; B = ((seedHigh ^ frameCounter) & 0x1F) * 7 / 32;
 SMN tetriminoType
 LDA
@@ -403,9 +397,7 @@ STA                     ; origin = 11 * tetriminoY + 11;
 clearLinesLoop:
 SMN minY
 LDA
-LSH
-LSH
-LSH
+LS3
 LDB
 ADD
 ADD
@@ -520,9 +512,7 @@ STA                     ; i = 3;
 
 SMN tetriminoY
 LDA
-LSH
-LSH
-LSH
+LS3
 LDB
 ADD
 ADD
@@ -535,15 +525,11 @@ STA                     ; origin = 11 * tetriminoY + tetriminoX;
 
 SMN tetriminoType
 LDA
-LSH
-LSH
-LSH
-LSH
+LS4
 TAB
 SMN tetriminoRotation
 LDA
-LSH
-LSH
+LS2
 ADD                     ; A = 16 * tetriminoType + 4 * tetriminoRotation;
 SMN tetriminosIndex
 STA                     ; tetriminosIndex = A;

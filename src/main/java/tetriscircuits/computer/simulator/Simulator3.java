@@ -56,7 +56,7 @@ public final class Simulator3 implements Processor {
     
     private Map<String, ByteMapping2> loadMaps() throws IOException {
         final Map<String, ByteMapping2> mappings = new HashMap<>();
-        for (final File file : new File("maps").listFiles((dir, name) -> name.endsWith(".map"))) {
+        for (final File file : new File("maps2").listFiles((dir, name) -> name.endsWith(".map"))) {
             final String filename = file.getName();
             try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
                 mappings.put(filename.substring(0, filename.length() - 4), ByteMapping2.read(in));
