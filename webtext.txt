@@ -1,40 +1,94 @@
 Tetris is Turing-complete 
 
-This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris that is able to run Tetris on Tetris in real-time. The computer’s CPU and RAM are simulated through the manipulation of Tetriminos (the falling pieces) on an infinite playfield. I/O consists of external components; it is needed to load programs into the computer, to deliver keyboard and timer events, to display data in RAM, etc. 
-
-The method requires an agent to enter a repeating sequence of moves. The agent does this blindly; it is not able to see the playfield, inhibiting it from altering the sequence in a way that would contribute to the calculations performed by the CPU. 
+This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation of the computer is demonstrated by running Tetris on Tetris in real-time. 
 
 Preliminaries 
 
-The playfield is the grid of square cells where the game is played. Each cell is in one of two possible states: empty or solid. The location of each cell is specified uniquely by a pair of integer coordinates. The origin is in the row immediately above the floor. Row indices extend only in the positive direction (upward). Column indices extend in both the positive (rightward) and negative (leftward) directions. 
+The playfield is the grid of square cells where the game is played. Each cell is in one of two possible states: empty or solid. The location of each cell is specified by a unique pair of integer coordinates where the origin is in the row immediately above the floor. 
 
-Tetris is typically played in a playfield with 20 (visible) rows and 10 columns, but the dimensions are arbitrary. 
+[ empty 20x10 playfield with origin, coordinate axes, boundaries (2 walls, floor, open ceiling) ] 
 
-[ empty 20x10 playfield with original, coordinate axes, boundaries (2 walls, floor) ] 
+Tetris is typically played on a playfield with 20 (visible) rows and 10 columns, but the dimensions are arbitrary. 
 
-Tetriminos are polyominos made of four solid cells (of any color). They are generally known by single-character names that resemble their shapes. 
+Tetriminos are polyominos made of four solid cells (painted any color). They are generally known by single-character names that resemble their shapes. 
 
 [ T J Z O S L I ] 
 
-A rotation system is a description of how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. Various rotation systems exist and any of them could have been used for the method described in this article. The right-handed Nintendo Rotation System (NRS) was arbitrarily selected. It centers each Tetrimino in a 5x5 matrix and rotates them 90 degrees about that center. Of the 24 possible orientations, it uses only 19. 
+A rotation system is a description of how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method uses the right-handed Nintendo Rotation System (NRS) due to its simplicity, but various rotation systems exist and any of them could be adapted.  
+
+NRS centers each Tetrimino in a 5x5 matrix and rotates them 90 degrees about that center. Of the 24 possible orientations, it uses only 19. 
 
 [ orientation table ] 
 
-The left-most column in the table above contains the spawn orientations (the initial orientations of pieces when they appear at the top of the playfield). Rotating a piece clockwise involves stepping through a row from left to right, looping back when the row is exhausted. Counterclockwise rotation does the same in the opposite direction. 
+The left-most column in the table above comprises the spawn orientations (the way the pieces enter the playfield). The steps of clockwise rotation appear left-to-right. 
 
 Each orientation is assigned a mnemonic invented for this project. The first character of the mnemonic is the piece type. The second (if present) is an abbreviation for “down", “left”, “up”, “right”, “horizontal”, or “vertical”.  
 
-A move is a request to translate or to rotate a Tetrimino. In accordance with the NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and are within the bounds of the playfield.  
+A move is a 90-degree rotation or a one-cell translation of the piece in play. The player has the freedom to translate left, right, or down, but not up. A shift is a horizontal translation. A drop is a downward translation. A soft drop is a player-controlled, one-cell drop. A hard drop is a meta-move that forces the piece as far down as it can go; it is logically-equivalent to repeated soft drops. A gravity drop is an automatic, one-cell drop triggered by the fall timer. 
 
-Gravity drops Tetriminos at a regular rate. If gravity cannot move the piece downward per the aforementioned rule, the piece locks into place.  Subsequently, rows of exclusively solid cells are removed by shifting down the rows above them, and the next piece spawns.  
+A move is preceded by a request to move. Per NRS, the request is granted iff all four cells of the proposed, transformed Tetrimino are empty and are within the bounds of the playfield.  
 
-Spawning involves a randomizer, the mechanism that determines the sequence of pieces presented to the player. Any randomizer that is guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the methodology described in this article.  
+If the fall timer’s request for a gravity drop is denied, the piece locks into place.  Subsequently, rows of exclusively solid cells are removed by shifting down the rows above them, and the next piece spawns.  
 
-The Agent 
+Spawning involves a randomizer, the mechanism that determines the sequence of pieces presented to the player. Any randomizer that is guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the method.  
 
-The agent plays on an infinite playfield.   
+Method Overview 
 
-[ empty, infinite playfield ] 
+The method uses a playfield with infinite width and height. Input data is encoded in binary in the bottom-two rows of the playfield. Tetriminos are dropped on top of the rows in a way that is independent of the input data. The Tetriminos form a multi-row structure logically-equivalent to a boolean circuit. Output data is decoded from the upper-two rows of the structure. 
+
+[ diagram of that concept ] 
+
+The output rows can serve as the input rows of a structure built above it. And the process can be repeated indefinitely. The effect is a state machine where the data rows are successive states and the boolean circuit structures are transition functions.  
+
+[ diagram of that concept ] 
+
+The number of bits in the output data can be larger than the input data. The amount of information that can be generated is unbounded. This makes it possible construct a device logically-equivalent to a Turing Machine. 
+
+Since Tetris is not able to play on its own, an agent is used to place Tetriminos into the playfield. A barrier is constructed that prevents the agent from reading the state of any cell of the playfield. Meaning, the input data and all successive states are inaccessible to the agent. This is necessary to ensure that Tetris is simulating both a CPU and RAM and that the agent is not contributing to the calculations.  
+
+TetrisScript 
+
+The presented method uses an agent to place Tetriminos into an infinite playfield. The agent executes instructions of TetrisScript, a language invented for this project. Each TetrisScript instruction consists of an orientation mnemonic followed by a sequence of one or more integers. The first value in the sequence is a column index. The second is a row index. It alternates from there. 
+
+mnemonic x0 y0 x1 y1 x2 y2 … 
+
+The agent interprets the instruction as spawn-and-rotate a Tetrimino consistent with the mnemonic, shift it to column x0, drop it to row y0, shift it to column x1, and so on. Since the agent cannot translate upward, yi > yj for i < j. At the end of the sequence, the agent hard drops the piece to lock it into place. 
+
+Consider the following example. 
+
+tu 3 
+
+It means: 
+
+1. spawn T  
+
+2. rotate clockwise 
+
+3. rotate clockwise 
+
+4. shift right 
+
+5. shift right 
+
+6. shift right 
+
+7. hard drop 
+
+[ animation of that ] 
+
+The agent transmits requests without receiving feedback. It plays blindly, unable to see the contents of the playfield or the piece in play. And the contents of the playfield affect the placement of the piece. For instance, the hard drop in the previous sequence can cause the piece to land on an existing piece instead of the playfield floor. 
+
+[ animation of that ] 
+
+Another possibility is that existing pieces act as an obstacle while shifting. Below, the orientation of the I-Tetrimino affects where the O-Tetrimino ends up. 
+
+o 0 10 5 
+
+[ show 2 simultaneous animations ] 
+
+Whatever the case, the agent remains oblivious to what actually happened.  
+
+ 
 
  
 
