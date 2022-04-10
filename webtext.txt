@@ -1,92 +1,422 @@
 Tetris is Turing-complete 
 
-This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation of the computer is demonstrated by running Tetris on Tetris in real-time. 
+This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It deep-dives into an implementation performant enough to run Tetris on Tetris in real-time. 
 
 Preliminaries 
 
-The playfield is the grid of square cells where the game is played. Each cell is in one of two possible states: empty or solid. The location of each cell is specified by a unique pair of integer coordinates where the origin is in the row immediately above the floor. 
+Tetris is played on grid of square cells called the playfield. Each cell is in one of two states: empty or solid. The location of each cell is specified by a unique pair of integer coordinates where the origin is in the row immediately above the floor. 
 
 [ empty 20x10 playfield with origin, coordinate axes, boundaries (2 walls, floor, open ceiling) ] 
 
-Tetris is typically played on a playfield with 20 (visible) rows and 10 columns, but the dimensions are arbitrary. 
+The standard playfield has 20 (visible) rows and 10 columns, but the dimensions are arbitrary. 
 
-Tetriminos are polyominos made of four solid cells (painted any color). They are generally known by single-character names that resemble their shapes. 
+Tetriminos are polyominos made of four solid cells (painted any color). Each has a single-character name based its shape. 
 
 [ T J Z O S L I ] 
 
-A rotation system is a description of how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method uses the right-handed Nintendo Rotation System (NRS) due to its simplicity, but various rotation systems exist and any of them could be adapted.  
+A rotation system is a description of how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed Nintendo Rotation System (NRS) due to its simplicity, but various rotation systems exist and any of them could be adapted.  
 
 NRS centers each Tetrimino in a 5x5 matrix and rotates them 90 degrees about that center. Of the 24 possible orientations, it uses only 19. 
 
 [ orientation table ] 
 
-The left-most column in the table above comprises the spawn orientations (the way the pieces enter the playfield). The steps of clockwise rotation appear left-to-right. 
+The left-most column in the table above comprises the spawn orientations (the way the pieces materialize at the top of the playfield). The steps of clockwise rotation appear left-to-right. 
 
-Each orientation is assigned a mnemonic invented for this project. The first character of the mnemonic is the piece type. The second (if present) is an abbreviation for “down", “left”, “up”, “right”, “horizontal”, or “vertical”.  
+Each orientation is designated by a mnemonic invented for this project. The first character of the mnemonic is the piece type. The second (if present) is an abbreviation for “down", “left”, “up”, “right”, “horizontal”, or “vertical”.  
 
-A move is a 90-degree rotation or a one-cell translation of the piece in play. The player has the freedom to translate left, right, or down, but not up. A shift is a horizontal translation. A drop is a downward translation. A soft drop is a player-controlled, one-cell drop. A hard drop is a meta-move that forces the piece as far down as it can go; it is logically-equivalent to repeated soft drops. A gravity drop is an automatic, one-cell drop triggered by the fall timer. 
+A move is a 90-degree rotation or a one-cell translation of the piece in play. The player has the freedom to translate left, right, or down, but not up. A shift is a horizontal translation. A drop is a downward translation. A soft drop is a player-controlled, one-cell drop. A hard drop is a meta-move that forces the piece as far down as it can go and locks it into place; it is operationally-equivalent to repeated soft drops. A gravity drop is an automatic, one-cell drop triggered by the fall timer.  
 
-A move is preceded by a request to move. Per NRS, the request is granted iff all four cells of the proposed, transformed Tetrimino are empty and are within the bounds of the playfield.  
+A move is preceded by a request to move. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns. 
 
-If the fall timer’s request for a gravity drop is denied, the piece locks into place.  Subsequently, rows of exclusively solid cells are removed by shifting down the rows above them, and the next piece spawns.  
-
-Spawning involves a randomizer, the mechanism that determines the sequence of pieces presented to the player. Any randomizer that is guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the method.  
+Spawning involves a randomizer, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the method.  
 
 Method Overview 
 
-The method uses a playfield with infinite width and height. Input data is encoded in binary in the bottom-two rows of the playfield. Tetriminos are dropped on top of the rows in a way that is independent of the input data. The Tetriminos form a multi-row structure logically-equivalent to a boolean circuit. Output data is decoded from the upper-two rows of the structure. 
+The method operates on a playfield of infinite size, bounded only by the floor. 
+
+[ infinite playfield showing origin and axes ] 
+
+The method encodes input data into the cells of the bottom-two rows of the playfield. Then it drops Tetriminos onto those cells in a way that is independent of the input data. The Tetriminos form a structure logically-equivalent to a Boolean circuit. Finally, the method decodes output data from the top-two rows of the structure.  
 
 [ diagram of that concept ] 
 
-The output rows can serve as the input rows of a structure built above it. And the process can be repeated indefinitely. The effect is a state machine where the data rows are successive states and the boolean circuit structures are transition functions.  
+The output rows can serve as the input rows of another structure built on top of it and the process can be repeated indefinitely. The effect is a state machine where the data rows are states and the structures are transition functions.  
 
 [ diagram of that concept ] 
 
-The number of bits in the output data can be larger than the input data. The amount of information that can be generated is unbounded. This makes it possible construct a device logically-equivalent to a Turing Machine. 
+A construction exists where the data capacity of a state is always larger than the state preceding it. This makes it possible to build a computing device capable of storing unbounded generated data (a Turing machine). 
 
-Since Tetris is not able to play on its own, an agent is used to place Tetriminos into the playfield. A barrier is constructed that prevents the agent from reading the state of any cell of the playfield. Meaning, the input data and all successive states are inaccessible to the agent. This is necessary to ensure that Tetris is simulating both a CPU and RAM and that the agent is not contributing to the calculations.  
+The Blindfolded Player 
+
+Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player can read input data, perform calculations via any mechanism, and write output data by dropping pieces. In other words, it can make Tetris function like RAM. 
+
+To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU. 
+
+Infinite Playfield 
+
+On an infinite playfield, completing a line requires infinite pieces and infinite time, neither of which the player can provide. Instead, the player deliberately grows the pile, building unbounded yet finite structures. And because lines are never cleared, the game always remains on the starting level (at the slowest drop speed). 
+
+Tetriminos spawn in column 0 at infinite height. Due to the nature of infinity, as a spawned piece falls, it never gets any closer to the floor regardless of the drop speed. In finite (though potentially vast) time, the player can shift the piece into any column. And once in position, it can hard drop to lock the piece into the surface of the pile. 
+
+The player can also perform a semihard drop. It works like a hard drop, but instead of stopping when the piece can fall no further, it stops at a specified height. It is the only way to translate a piece from infinity to a finite distance above the floor. 
+
+Spawn Signal 
+
+Since the player cannot see, the game signals when a spawn occurs. It reveals the randomly selected piece to the player, who responds with a timed sequence of requests to move it. If the playfield were empty, the game would satisfy every request and the player would know exactly where the piece is at any time. But the playfield is not empty. Existing pieces can interrupt a shift as illustrated in the animation below; it shows where the blindfolded player expects a piece to be (left) and where it actually ended up (right). 
+
+[ animation of shift interruption] 
+
+The same applies to gravity and soft drops. 
+
+[ animations of soft drop interruption ] 
+
+Since the spawn signal occurs after a piece locks, it could be abused to extract data out of the playfield, violating the concept of the blindfolded player. Specifically, the player could semihard drop a piece into a column and then observe how long it takes to lock, which is proportional to the height of the column. The entire surface of the pile could be probed in that fashion. 
+
+To render such abuse ineffective, the method uses a version of Tetris that does not lock a piece until the player hard drops. The piece in play may rest indefinitely on a solid surface pending that explicit request to commit it to the pile. 
+
+Type Filtering 
+
+Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the pieces supplied to it. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column –2. 
+
+[ animation of discards pile growing, label workspace region and unused region ] 
+
+Structures are built from the remaining pieces only in columns >= 0. That region acts as an infinite workspace bounded on the bottom by the floor and on the left by the discards pile.  
+
+Boolean Circuit Nodes 
+
+Nodes consist of vertically-adjacent cell pairs. When the lower cell is solid and the upper cell is empty, the pair represents 0 (false). When the upper cell is solid, the pair represents 1 (true), regardless of the state of the lower cell. When both cells are empty, the pair represents an unassigned node. 
+
+[ diagram of pair states ] 
+
+A node is composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs within a node can be separated in space, even vertically separated.  
+
+The input nodes reside in the bottom-two rows of the structure. They may be packed together or spread out, depending on the requirements of the circuit. 
+
+[ diagram of colored input nodes ] 
+
+The output nodes are in the top-two rows of the structure. 
 
 TetrisScript 
 
-The presented method uses an agent to place Tetriminos into an infinite playfield. The agent executes instructions of TetrisScript, a language invented for this project. Each TetrisScript instruction consists of an orientation mnemonic followed by a sequence of one or more integers. The first value in the sequence is a column index. The second is a row index. It alternates from there. 
+The player builds a structure on top of the input nodes by following the instructions in a language called TetrisScript, invented for this project. Each structure is stored in a separate TetrisScript file. Filenames end with the extension t. 
 
-mnemonic x0 y0 x1 y1 x2 y2 … 
+TetrisScript only has three instructions types. The first consists of a mnemonic and a column index: 
 
-The agent interprets the instruction as spawn-and-rotate a Tetrimino consistent with the mnemonic, shift it to column x0, drop it to row y0, shift it to column x1, and so on. Since the agent cannot translate upward, yi > yj for i < j. At the end of the sequence, the agent hard drops the piece to lock it into place. 
-
-Consider the following example. 
-
-tu 3 
+mnemonic x 
 
 It means: 
 
-1. spawn T  
+Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type. 
 
-2. rotate clockwise 
+Rotate the piece into the mnemonic orientation.  
 
-3. rotate clockwise 
+Shift the piece to column x.  
 
-4. shift right 
+Hard drop the piece to lock it into the pile. 
 
-5. shift right 
+The code below demonstrates this instruction type. 
 
-6. shift right 
+example1.t 
 
-7. hard drop 
+td 1 
 
-[ animation of that ] 
+jd 5 
 
-The agent transmits requests without receiving feedback. It plays blindly, unable to see the contents of the playfield or the piece in play. And the contents of the playfield affect the placement of the piece. For instance, the hard drop in the previous sequence can cause the piece to land on an existing piece instead of the playfield floor. 
+zh 9 
 
-[ animation of that ] 
+o 13 
 
-Another possibility is that existing pieces act as an obstacle while shifting. Below, the orientation of the I-Tetrimino affects where the O-Tetrimino ends up. 
+sh 16 
 
-o 0 10 5 
+ld 20 
 
-[ show 2 simultaneous animations ] 
+ih 25  
 
-Whatever the case, the agent remains oblivious to what actually happened.  
+[ illustration of the result ]  
+
+The second instruction type consists of a mnemonic, a column index, a row index, and a second column index: 
+
+mnemonic x1 y x2 
+
+It means: 
+
+Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type. 
+
+Rotate the piece into the mnemonic orientation.  
+
+Shift the piece to column x1. 
+
+Semihard drop the piece to row y. 
+
+Shift the piece to column x2. 
+
+Hard drop the piece to lock it into the pile. 
+
+If a gravity drop were to happen after step 4, but before step 5 finishes, it would corrupt the structure. To prevent that possibility, the player maintains a timer synchronized with the fall timer. The player uses it to semihard drop immediately after a gravity drop, maximizing the time to perform the shift to column x2. The horizontal distance between x1 and x2 is always minute, guaranteeing the shift can occur in the period between gravity drops. 
+
+The following code exclusively uses the second instruction type.  
+
+example2.t 
+
+td 1 15 2 
+
+jd 1 15 2 
+
+zh 1 15 2 
+
+o 1 15 2 
+
+sh 1 15 2 
+
+ld 1 15 2 
+
+ih 1 15 2 
+
+[ illustration of the result ] 
+
+Complicated structures can be composed of simpler structures. This is done with the third instruction type, which consists of a structure name (a TetrisScript filename without the extension) and a coordinates pair: 
+
+structure x y 
+
+It means, build the specified structure at location (x, y). The column and row indices in the associated file are offset by x and y, respectively. 
+
+Here is code that references the prior example: 
+
+example3.t 
+
+example2 4 5 
+
+It is equivalent to: 
+
+td 5 20 6 
+
+jd 5 20 6 
+
+zh 5 20 6 
+
+o 5 20 6 
+
+sh 5 20 6 
+
+ld 5 20 6 
+
+ih 5 20 6 
+
+Circular references are not allowed. The code must be fully expandable to mnemonic instructions. 
+
+To make testing circuits easier, TetrisScript provides syntax for labeling nodes: 
+
+in/out name x y ... 
+
+The first element indicates the node type (input or output). The second element is the name of the node. The remaining elements specify the node location. The coordinates refer to the lower-cell of the vertically-adjacent pairs. Ranges can be indicated with .. notation. For disjoint nodes, multiple coordinates can be provided. 
+
+The example below specifies three input nodes. 
+
+in i0 2 0 
+
+in i1 4..6 0 
+
+in i2 8 0 10 0 
+
+Node i0 consists of a single pair. Node i1 spans 3 pairs. Node i2 is disjoint, consisting of 2 pairs. The image below depicts the nodes (all set to 0). 
+
+[ illustration of result ]  
+
+Logic Gates 
+
+This section explains how the player constructs logic gates, structures that produce a single binary output from one or more binary inputs.  
+
+Buffer 
+
+A buffer is a 1-input, binary identity function. The output value is the input value, unchanged. 
+
+The code below specifies an input node, i, at (0,0) and an output node, q, at (0,4). 
+
+in i 0 0 
+
+out q 0 4 
+
+The nodes are depicted in the following image, where i is 0 and q is unassigned.  
+
+[ illustration of nodes ] 
+
+To copy i to q, a vertically-oriented I-Tetrimino is dropped onto i: 
+
+buffer.t 
+
+in i 0 0 
+
+out q 0 4 
+
+ 
+
+iv 0 
+
+  
+
+Here are the results for all possible inputs: 
+
+[ images: input 0, input 1 ] 
+
+The cells of the output node mirror the cells of the input node. 
+
+Any Tetrimino or any stack of Tetriminos can be used in this fashion to copy data. 
+
+Inverter (NOT) 
+
+An inverter is a 1-input logic gate where the output is the logical negation of the input. 
+
+The code below specifies an input node, i, and an output node, q, that span columns –1 to 1, in rows 0 and 5, respectively. 
+
+in i -1..1 0  
+
+out q -1..1 5 
+
+Column values can be negative because the coordinates are relative to where the structure is built. 
+
+The nodes are depicted in the following image, where i is 0 and q is unassigned.  
+
+[ illustration of nodes ] 
+
+The inverter is constructed from three Tetriminos: 
+
+not.t 
+
+in i -1..1 0 
+
+out q -1..1 5 
+
+ 
+
+lu 0 
+
+o 0 4 1 
+
+jd 0 
+
+As shown in the animations below, when the input node is 1, the L-Tetrimino obstructs the O-Tetrimino, denying the request to shift it into column 1. Otherwise, the shift occurs, and the J-Tetrimino lands one row higher. 
+
+[ animation of building inverter for input 0 and for input 1 ] 
+
+The output node ends up with the inverse of the input node. 
+
+OR 
+
+An OR gate is a 2-input logic gate that performs logical disjunction. The output is 1 only when one or both of the inputs is 1. 
+
+The following code specifies two input nodes, a and b, at (-1, 0) and (0, 0), respectively, and an output node, q, spanning columns –1 and 0 in row 2. 
+
+in a -1 0 
+
+in b 0 0 
+
+out q -1..0 2 
+
+In the illustration below, a and b are both set to 0, and q is unassigned. 
+
+[ image of nodes ] 
+
+The OR gate is constructed from a single O-Tetrimino: 
+
+or.t 
+
+in a -1 0 
+
+in b 0 0 
+
+out q -1..0 2 
+
+  
+
+o 0 
+
+Here are the results for all possible inputs: 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+As demonstrated by the next gate, any Tetrimino can serve as an OR. 
+
+NOR 
+
+A NOR gate is a 2-input logic gate that performs joint denial. The output is 0 only when one or both of the inputs is 1. 
+
+It is composed of an inverter fed by 2 input nodes instead of 1: 
+
+nor.t 
+
+in a -1..0 0 
+
+in b 1 0 
+
+out q -1..1 5 
+
+  
+
+not 0 0  
+
+The images below show the output for all possible inputs. 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+A NOR gate is a universal gate. It can be combined to form any other logic gate. 
+
+AND 
+
+An AND gate is a 2-input logic gate that performs logical conjunction. The output is 1 only when both inputs are 1. 
+
+It is composed of three inverters: 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+NAND 
+
+A NAND gate is a 2-input logic gate that generates the inverse of logical conjunction. The output is 0 only when both inputs are 1. 
+
+It is composed of two inverters and an I-Tetrimino: 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+A NAND gate is a universal gate. It can be combined to form any other logic gate. 
+
+XOR 
+
+An XOR gate is a 2-input logic gate that outputs 1 only when the inputs are not equal. 
+
+The TetrisScript version is based on a NOR construction. 
+
+[ NOR construction ] 
+
+The images below show the output for all possible inputs. 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+XNOR 
+
+An NXOR gate is a 2-input logic gate that outputs 1 only when the inputs are equal. 
+
+The TetrisScript version is composed of an XOR gate and an inverter. The images below show the output for all possible inputs. 
+
+[ images: input 00, input 01, input 10, input 11 ] 
+
+Elementary Circuits 
+
+Fan-out 
+
+Fan-in 
+
+False 
+
+True 
+
+Crossover 
+
+Multiplexer 
+
+8-Bit Circuits 
+
+Decrementor 
+
+Incrementor 
 
  
 
