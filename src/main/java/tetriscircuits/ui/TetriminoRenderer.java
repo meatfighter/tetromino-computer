@@ -10,7 +10,7 @@ import javax.swing.Icon;
 import tetriscircuits.Point;
 import tetriscircuits.Tetrimino;
 
-public class TetriminoRenderer implements Icon {
+public final class TetriminoRenderer implements Icon {
     
     private static final int ICON_CELL_SIZE = 5;
     private static final int ICON_SIZE = 5 * ICON_CELL_SIZE;
@@ -110,7 +110,7 @@ public class TetriminoRenderer implements Icon {
     
     private final BlockFaces[] blockFaces;
     
-    public TetriminoRenderer(final Tetrimino tetrimino, final int colorIndex) {
+    private TetriminoRenderer(final Tetrimino tetrimino, final int colorIndex) {
         
         this.tetrimino = tetrimino;
         this.fillColor = COLORS[colorIndex];

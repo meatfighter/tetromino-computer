@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Tetrimino {
+public final class Tetrimino {
     
     private static final boolean[][] MATRIX = new boolean[5][5];
     
@@ -185,7 +185,7 @@ public class Tetrimino {
         return FROM_NAME_TO_TETRIMINO.get(name.toLowerCase());
     }
     
-    public Tetrimino(final String name, final int index, final String groupName, final int groupIndex, 
+    private Tetrimino(final String name, final int index, final String groupName, final int groupIndex, 
             final int[][] blocks) {
         this.name = name;
         this.index = index;
