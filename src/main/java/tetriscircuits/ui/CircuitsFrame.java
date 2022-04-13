@@ -242,6 +242,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
+        jSeparator12 = new javax.swing.JPopupMenu.Separator();
+        exportMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -778,6 +780,16 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         fileMenu.add(saveAsMenuItem);
+        fileMenu.add(jSeparator12);
+
+        exportMenuItem.setMnemonic('E');
+        exportMenuItem.setText("Export Image...");
+        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exportMenuItem);
         fileMenu.add(jSeparator3);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
@@ -1437,6 +1449,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         exitMenuItemActionPerformed(null);
     }//GEN-LAST:event_formWindowClosing
 
+    private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportMenuItemActionPerformed
+
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
         circuitsEditorPanel.goToLine(lineNumber);
@@ -1491,6 +1507,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner depthSpinner;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenuItem exportMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem findMenuItem;
     private javax.swing.JMenuItem findNextMenuItem;
@@ -1503,6 +1520,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
+    private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;

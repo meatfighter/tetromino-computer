@@ -627,6 +627,14 @@ public class Controller {
         }
     }
     
+    public void export() {
+        execute(() -> exportImage());
+    }
+    
+    private void exportImage() {
+        
+    }
+    
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final int depth) {
         final BuildListener listener = buildListener;
