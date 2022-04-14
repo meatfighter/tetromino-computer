@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -26,8 +27,11 @@ import javax.script.Compilable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
+import tetriscircuits.ui.TetriminoPath;
 
 public class Controller {
     
@@ -246,7 +250,7 @@ public class Controller {
             
             final String tetrisScript = readFile(tetrisScriptFile);
             final String javaScript = readFile(javaScriptFile);
-            buildScripts(componentName, tetrisScript, javaScript, 0);
+            buildScripts(componentName, tetrisScript, javaScript, 0, null);
             final Component component = components.get(componentName);
             final StringBuilder testBits = new StringBuilder();
             if (component != null) {
@@ -261,7 +265,7 @@ public class Controller {
                 }
             }
             
-            buildScripts(componentName, tetrisScript, javaScript, testBits.toString(), 1);
+            buildScripts(componentName, tetrisScript, javaScript, testBits.toString(), 1, null);
             
             savedComponentName = componentName;
             savedComponent = components.get(componentName).clone();
@@ -627,13 +631,164 @@ public class Controller {
         }
     }
     
-    public void export() {
-        execute(() -> exportImage());
+    public void export(final String componentName, final String tetrisScript, final String javaScript, 
+            final String testBitStr, final int depth, final int cellSize) {
+        execute(() -> exportImage(componentName, tetrisScript, javaScript, testBitStr, depth, cellSize));
     }
     
-    private void exportImage() {
-        
+    private void exportImage(final String componentName, final String tetrisScript, final String javaScript, 
+            final String testBitStr, final int depth, final int cellSize) {
+        final BuildListener listener = buildListener;
+        if (listener != null) {
+            listener.buildStarted();
+        }
+        execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth, 
+                () -> exportComponent(componentName, testBitStr, depth, false, cellSize)));
     }
+    
+    private void exportComponent(final String componentName, final String testBitStr, final int depth, 
+            final boolean clearOutput, final int cellSize) {
+        
+        final OutputListener outListener = outputListener;        
+        if (outListener != null && clearOutput) {
+            outListener.clear();
+        }
+        
+        final List<Structure> structs = new ArrayList<>();         
+        
+        Component component = components.get(componentName);
+        int minX = 0;
+        int maxX = 0;
+        int maxY = 0;
+        if (component == null) {
+            if (outListener != null) {
+                outListener.append("Error: Unknown component: " + componentName);
+            }
+        } else {                
+            final Playfield playfield = borrowPlayfield();
+            try {
+                simulator.init(playfield, component, testBitStr);
+                simulator.simulate(playfield, component, depth, new StructureListener() {
+                    @Override
+                    public void clear() {
+                        structs.clear();
+                    }
+                    @Override
+                    public void structureLocked(final Structure lockedStructure) {
+                        structs.add(lockedStructure);
+                    }
+                });
+                minX = playfield.getMinX() - (playfield.getWidth() >> 1);
+                maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
+                maxY = playfield.getHeight() - 1 - playfield.getMinY();
+                if (outListener != null) {
+                    if (isBlank(testBitStr)) {
+                        outListener.append("Ran " + componentName + " with no inputs.");
+                    } else {
+                        outListener.append("Ran " + componentName + " with " + testBitStr + ".");
+                    }
+                }
+            } finally {
+                returnPlayfield(playfield);
+            }
+        }
+        
+        final boolean[] testBits = new boolean[testBitStr.length()];
+        for (int i = testBitStr.length() - 1; i >= 0; --i) {
+            testBits[i] = testBitStr.charAt(i) == '1';
+        }
+
+        final TerminalRectangle[][] inputs;
+        final TerminalRectangle[][] outputs;
+        if (component == null) {
+            inputs = new TerminalRectangle[0][];
+            outputs = new TerminalRectangle[0][];
+        } else {
+            inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
+            outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+        }
+
+        final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
+                null);
+        if (extents != null) {
+            minX = extents.getMinX();
+            maxX = extents.getMaxX();
+            maxY = extents.getMaxY();
+        } else {
+            for (int i = inputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] ins = inputs[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final TerminalRectangle input = ins[j];
+                    minX = min(minX, input.x);
+                    maxX = max(maxX, input.x + input.width - 1);
+                    maxY = max(maxY, input.y + 1);
+                }
+            }
+
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] outs = outputs[i];
+                for (int j = outs.length - 1; j >= 0; --j) {
+                    final TerminalRectangle output = outs[j];
+                    minX = min(minX, output.x);
+                    maxX = max(maxX, output.x + output.width - 1);
+                    maxY = max(maxY, output.y + 1);
+                }
+            }
+        }
+
+//        final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
+//                structs.toArray(new Structure[structs.size()]));
+
+        final double margin = 15.5;
+        final double cellsWidth = maxX - minX + 1;
+        final double cellsHeight = maxY + 1;
+        final double gridWidth = cellSize * cellsWidth;
+        final double gridHeight = cellSize * cellsHeight;
+        final double gridX = margin;
+        final double gridY = margin;
+        final int svgWidth = (int)Math.round(2 * margin + gridWidth);
+        final int svgHeight = (int)Math.round(2 * margin + gridHeight);
+
+        final PrintStream out = System.out;
+        out.println("<?xml version=\"1.0\"?>");
+        out.println("<?xml-stylesheet type=\"text/css\" href=\"test.css\"?>");
+        out.format("<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\" "
+                + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", svgWidth, svgHeight);
+        out.println("<defs>");
+        for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
+            for (final TetriminoPath path : paths) {
+                final Tetrimino tetrimino = path.getTetrimino();
+                final Point[] points = path.getPoints();
+                out.format("<polygon points=\"");
+                for (int i = points.length - 1; i >= 0; --i) {
+                    final Point p = points[i];
+                    if (i != 0) {
+                        out.print(" ");
+                    }
+                    final double x = cellSize * (p.getX() - 3.5);
+                    final double y = cellSize * (p.getY() - 3.5);
+                    out.format("%s,%s", x, y);
+                }
+                out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
+            }
+        }
+        out.println("</defs>");
+        for (int x = minX; x <= maxX + 1; ++x) {
+            final double lineX = gridX + cellSize * (x - minX);
+            out.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", lineX, gridY, lineX, 
+                    gridY + gridHeight);
+        }
+        for (int y = 0; y <= maxY + 1; ++y) {
+            final double lineY = gridY + cellSize * y;
+            out.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", gridX, lineY, 
+                    gridX + gridWidth, lineY);
+        }        
+        
+        for (final Structure struct : structs) {
+            
+        }
+        out.println("</svg>");
+    }    
     
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final int depth) {
@@ -641,7 +796,7 @@ public class Controller {
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth));
+        execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth, null));
     }
     
     public void run(final String componentName, final String testBitStr, final int depth) {
@@ -690,7 +845,7 @@ public class Controller {
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
                 if (outListener != null) {
-                    if (testBitStr.isEmpty()) {
+                    if (isBlank(testBitStr)) {
                         outListener.append("Ran " + componentName + " with no inputs.");
                     } else {
                         outListener.append("Ran " + componentName + " with " + testBitStr + ".");
@@ -755,16 +910,16 @@ public class Controller {
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildScripts(componentName, tetrisScript, javaScript, depth));
+        execute(() -> buildScripts(componentName, tetrisScript, javaScript, depth, null));
     }
     
     private void buildScripts(final String componentName, final String tetrisScript, final String javaScript, 
-            final int depth) {
-        buildScripts(componentName, tetrisScript, javaScript, (String)null, depth);
+            final int depth, final Runnable runTask) {
+        buildScripts(componentName, tetrisScript, javaScript, (String)null, depth, runTask);
     }
     
     private void buildScripts(final String componentName, final String tetrisScript, final String javaScript, 
-            final String testBitStr, final int depth) {
+            final String testBitStr, final int depth, final Runnable runTask) {
         final OutputListener listener = outputListener;        
         final Parser parser = new Parser();
         if (listener != null) {
@@ -776,7 +931,7 @@ public class Controller {
                     new ByteArrayInputStream(tetrisScript.getBytes()));
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
             updateComponentExtents();
-            createStructure(component, depth, testBitStr);
+            createStructure(component, depth, testBitStr, runTask);
             notifyStructuresCreated(componentName);
         } catch (final ParseException e) {
             e.printStackTrace(); // TODO REMOVE
@@ -839,16 +994,18 @@ public class Controller {
     }
     
     private void createStructure(final Component component, final int depth) {
-        createStructure(component, depth, null);
+        createStructure(component, depth, null, null);
     }
     
-    private void createStructure(final Component component, final int depth, final String testBitStr) {
+    private void createStructure(final Component component, final int depth, final String testBitStr, 
+            final Runnable nextTask) {
+        
         final OutputListener listener = outputListener;
         final Playfield playfield = borrowPlayfield();
         try {                        
             simulator.init(playfield, component, testBitStr);
             final List<Structure> structs = new ArrayList<>();
-            simulator.simulate(playfield, component, depth, new StructureListener() {
+            simulator.simulate(playfield, component, 0, new StructureListener() {
                 @Override
                 public void clear() {
                     structs.clear();
@@ -904,7 +1061,9 @@ public class Controller {
             returnPlayfield(playfield);
         }        
         
-        if (component.getName() != null && testBitStr != null) {
+        if (nextTask != null) {
+            execute(nextTask);
+        } else if (component.getName() != null && testBitStr != null) {
             execute(() -> runComponent(component.getName(), testBitStr.trim(), depth, false));
         }        
     }

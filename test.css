@@ -1,0 +1,59 @@
+svg {
+    background-color: #2B2B2B;
+}
+
+.grid {
+    stroke: #555555;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.t {
+    fill: #B802FD;
+    stroke: #8001B1;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.j {
+    fill: #1801FF;
+    stroke: #1000B2;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.z {
+    fill: #FE103C;
+    stroke: #B10B2A;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.o {
+    fill: #FFDE00;
+    stroke: #B29B00;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.s {
+    fill: #66FD00;
+    stroke: #47B100;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.l {
+    fill: #FF7308;
+    stroke: #B25005;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.i {
+    fill: #00E6FE;
+    stroke: #00A1B1;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+

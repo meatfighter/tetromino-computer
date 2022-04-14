@@ -18,31 +18,31 @@ public final class TetriminoPath {
     
     private static final boolean[][] MATRIX = new boolean[7][7];
     
-    public static final TetriminoPath TD = new TetriminoPath(Tetrimino.TD, 0);
-    public static final TetriminoPath TL = new TetriminoPath(Tetrimino.TL, 0);
-    public static final TetriminoPath TU = new TetriminoPath(Tetrimino.TU, 0);
-    public static final TetriminoPath TR = new TetriminoPath(Tetrimino.TR, 0);
+    public static final TetriminoPath TD = new TetriminoPath(Tetrimino.TD);
+    public static final TetriminoPath TL = new TetriminoPath(Tetrimino.TL);
+    public static final TetriminoPath TU = new TetriminoPath(Tetrimino.TU);
+    public static final TetriminoPath TR = new TetriminoPath(Tetrimino.TR);
     
-    public static final TetriminoPath JD = new TetriminoPath(Tetrimino.JD, 1);
-    public static final TetriminoPath JL = new TetriminoPath(Tetrimino.JL, 1);
-    public static final TetriminoPath JU = new TetriminoPath(Tetrimino.JU, 1);
-    public static final TetriminoPath JR = new TetriminoPath(Tetrimino.JR, 1);
+    public static final TetriminoPath JD = new TetriminoPath(Tetrimino.JD);
+    public static final TetriminoPath JL = new TetriminoPath(Tetrimino.JL);
+    public static final TetriminoPath JU = new TetriminoPath(Tetrimino.JU);
+    public static final TetriminoPath JR = new TetriminoPath(Tetrimino.JR);
     
-    public static final TetriminoPath ZH = new TetriminoPath(Tetrimino.ZH, 2);
-    public static final TetriminoPath ZV = new TetriminoPath(Tetrimino.ZV, 2);
+    public static final TetriminoPath ZH = new TetriminoPath(Tetrimino.ZH);
+    public static final TetriminoPath ZV = new TetriminoPath(Tetrimino.ZV);
     
-    public static final TetriminoPath OS = new TetriminoPath(Tetrimino.OS, 3);
+    public static final TetriminoPath OS = new TetriminoPath(Tetrimino.OS);
     
-    public static final TetriminoPath SH = new TetriminoPath(Tetrimino.SH, 4);
-    public static final TetriminoPath SV = new TetriminoPath(Tetrimino.SV, 4);
+    public static final TetriminoPath SH = new TetriminoPath(Tetrimino.SH);
+    public static final TetriminoPath SV = new TetriminoPath(Tetrimino.SV);
     
-    public static final TetriminoPath LD = new TetriminoPath(Tetrimino.LD, 5);
-    public static final TetriminoPath LL = new TetriminoPath(Tetrimino.LL, 5);
-    public static final TetriminoPath LU = new TetriminoPath(Tetrimino.LU, 5);
-    public static final TetriminoPath LR = new TetriminoPath(Tetrimino.LR, 5);
+    public static final TetriminoPath LD = new TetriminoPath(Tetrimino.LD);
+    public static final TetriminoPath LL = new TetriminoPath(Tetrimino.LL);
+    public static final TetriminoPath LU = new TetriminoPath(Tetrimino.LU);
+    public static final TetriminoPath LR = new TetriminoPath(Tetrimino.LR);
     
-    public static final TetriminoPath IH = new TetriminoPath(Tetrimino.IH, 6);
-    public static final TetriminoPath IV = new TetriminoPath(Tetrimino.IV, 6);
+    public static final TetriminoPath IH = new TetriminoPath(Tetrimino.IH);
+    public static final TetriminoPath IV = new TetriminoPath(Tetrimino.IV);
     
     public static final TetriminoPath[] T = { TD, TL, TU, TR };
     public static final TetriminoPath[] J = { JD, JL, JU, JR };
@@ -71,13 +71,11 @@ public final class TetriminoPath {
     }    
         
     private final Tetrimino tetrimino;
-    private final int colorIndex;
     private final Point[] points;
     
-    private TetriminoPath(final Tetrimino tetrimino, final int colorIndex) {
+    private TetriminoPath(final Tetrimino tetrimino) {
         
         this.tetrimino = tetrimino;
-        this.colorIndex = colorIndex;        
         
         for (int i = MATRIX.length - 1; i >= 0; --i) {
             final boolean[] row = MATRIX[i];
@@ -173,10 +171,6 @@ public final class TetriminoPath {
 
     public Tetrimino getTetrimino() {
         return tetrimino;
-    }
-
-    public int getColorIndex() {
-        return colorIndex;
     }
 
     public Point[] getPoints() {

@@ -1450,7 +1450,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
-        // TODO add your handling code here:
+        circuitsEditorPanel.export(componentName, testTextField.getText().trim(), Integer.MAX_VALUE, 16);
     }//GEN-LAST:event_exportMenuItemActionPerformed
 
     public void goToLine(final int lineNumber) {
