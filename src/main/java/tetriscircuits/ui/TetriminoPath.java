@@ -71,7 +71,7 @@ public final class TetriminoPath {
     }    
         
     private final Tetrimino tetrimino;
-    private final Point[] points;
+    private final PathPoint[] points;
     
     private TetriminoPath(final Tetrimino tetrimino) {
         
@@ -88,7 +88,7 @@ public final class TetriminoPath {
             MATRIX[3 + block.y][3 + block.x] = true;
         }
         
-        final List<Point> path = new ArrayList<>();
+        final List<PathPoint> path = new ArrayList<>();
         int startX = 0;
         int startY = 0;        
         outer: for (int i = 0; i < MATRIX.length; ++i) {
@@ -101,7 +101,7 @@ public final class TetriminoPath {
                 }
             }            
         }
-        path.add(new Point(startX, startY));
+        path.add(new PathPoint(startX, startY, false, false));
         
         int direction = RIGHT;
         int x = startX;
@@ -144,28 +144,60 @@ public final class TetriminoPath {
                 
             }
             
-            if (x == startX && y == startY) {
-                break;
-            } else {
-                path.add(new Point(x, y));
-            }
-            
+            final int nextDirection;
             if (direction == RIGHT || direction == LEFT) {
                 if (!MATRIX[y][x] && MATRIX[y][x - 1]) {
-                    direction = DOWN;
+                    nextDirection = DOWN;
                 } else {
-                    direction = UP;
+                    nextDirection = UP;
                 }
             } else {
                 if (MATRIX[y][x] && !MATRIX[y - 1][x]) {
-                    direction = RIGHT;
+                    nextDirection = RIGHT;
                 } else {
-                    direction = LEFT;
+                    nextDirection = LEFT;
                 }
-            }            
+            }
+            
+            if (x == startX && y == startY) {
+                break;
+            } else {
+                switch (direction) {
+                    case UP:
+                        if (nextDirection == RIGHT) {
+                            path.add(new PathPoint(x, y, false, false));
+                        } else {
+                            path.add(new PathPoint(x, y, false, true));
+                        }
+                        break;
+                    case RIGHT:
+                        if (nextDirection == DOWN) {
+                            path.add(new PathPoint(x, y, true, false));
+                        } else {
+                            path.add(new PathPoint(x, y, false, false));
+                        }
+                        break;
+                    case DOWN:
+                        if (nextDirection == RIGHT) {
+                            path.add(new PathPoint(x, y, true, false));
+                        } else {
+                            path.add(new PathPoint(x, y, true, true));
+                        }
+                        break;
+                    case LEFT:
+                        if (nextDirection == DOWN) {
+                            path.add(new PathPoint(x, y, true, true));
+                        } else {
+                            path.add(new PathPoint(x, y, false, true));
+                        }
+                        break;
+                }
+            }
+            
+            direction = nextDirection;            
         }
         
-        points = new Point[path.size()];
+        points = new PathPoint[path.size()];
         path.toArray(points);
     }
 
@@ -173,7 +205,7 @@ public final class TetriminoPath {
         return tetrimino;
     }
 
-    public Point[] getPoints() {
+    public PathPoint[] getPoints() {
         return points;
     }
     

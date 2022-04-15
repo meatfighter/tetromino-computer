@@ -1,6 +1,27 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="test.css"?>
 <svg width="415" height="1407" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<polygon id="td" points="-24,-8 23,-8 23,7 7,7 7,23 -8,23 -8,7 -24,7" class="t"/>
+<polygon id="tl" points="-8,-24 7,-24 7,23 -8,23 -8,7 -24,7 -24,-8 -8,-8" class="t"/>
+<polygon id="tu" points="-8,-24 7,-24 7,-8 23,-8 23,7 -24,7 -24,-8 -8,-8" class="t"/>
+<polygon id="tr" points="-8,-24 7,-24 7,-8 23,-8 23,7 7,7 7,23 -8,23" class="t"/>
+<polygon id="jd" points="-24,-8 23,-8 23,23 8,23 8,7 -24,7" class="j"/>
+<polygon id="jl" points="-8,-24 7,-24 7,23 -24,23 -24,8 -8,8" class="j"/>
+<polygon id="ju" points="-24,-24 -9,-24 -9,-8 23,-8 23,7 -24,7" class="j"/>
+<polygon id="jr" points="-8,-24 23,-24 23,-9 7,-9 7,23 -8,23" class="j"/>
+<polygon id="zh" points="-24,-8 7,-8 7,8 23,8 23,23 -8,23 -8,7 -24,7" class="z"/>
+<polygon id="zv" points="8,-24 23,-24 23,7 7,7 7,23 -8,23 -8,-8 8,-8" class="z"/>
+<polygon id="o" points="-24,-8 7,-8 7,23 -24,23" class="o"/>
+<polygon id="sh" points="-8,-8 23,-8 23,7 7,7 7,23 -24,23 -24,8 -8,8" class="s"/>
+<polygon id="sv" points="-8,-24 7,-24 7,-8 23,-8 23,23 8,23 8,7 -8,7" class="s"/>
+<polygon id="ld" points="-24,-8 23,-8 23,7 -9,7 -9,23 -24,23" class="l"/>
+<polygon id="ll" points="-24,-24 7,-24 7,23 -8,23 -8,-9 -24,-9" class="l"/>
+<polygon id="lu" points="8,-24 23,-24 23,7 -24,7 -24,-8 8,-8" class="l"/>
+<polygon id="lr" points="-8,-24 7,-24 7,8 23,8 23,23 -8,23" class="l"/>
+<polygon id="ih" points="-40,-8 23,-8 23,7 -40,7" class="i"/>
+<polygon id="iv" points="-8,-40 7,-40 7,23 -8,23" class="i"/>
+</defs>
 <line x1="15.5" y1="15.5" x2="15.5" y2="1391.5" class="grid"/>
 <line x1="31.5" y1="15.5" x2="31.5" y2="1391.5" class="grid"/>
 <line x1="47.5" y1="15.5" x2="47.5" y2="1391.5" class="grid"/>
@@ -113,4 +134,211 @@
 <line x1="15.5" y1="1359.5" x2="399.5" y2="1359.5" class="grid"/>
 <line x1="15.5" y1="1375.5" x2="399.5" y2="1375.5" class="grid"/>
 <line x1="15.5" y1="1391.5" x2="399.5" y2="1391.5" class="grid"/>
+<use href="#ih" x="199.5" y="1383.5"/>
+<use href="#ih" x="247.5" y="1367.5"/>
+<use href="#jd" x="311.5" y="1367.5"/>
+<use href="#lu" x="279.5" y="1351.5"/>
+<use href="#o" x="295.5" y="1303.5"/>
+<use href="#jd" x="279.5" y="1271.5"/>
+<use href="#lr" x="311.5" y="1335.5"/>
+<use href="#iv" x="327.5" y="1319.5"/>
+<use href="#lu" x="311.5" y="1255.5"/>
+<use href="#o" x="311.5" y="1223.5"/>
+<use href="#jd" x="311.5" y="1207.5"/>
+<use href="#sh" x="199.5" y="1351.5"/>
+<use href="#sh" x="167.5" y="1351.5"/>
+<use href="#sh" x="135.5" y="1351.5"/>
+<use href="#iv" x="119.5" y="1335.5"/>
+<use href="#iv" x="119.5" y="1271.5"/>
+<use href="#ih" x="247.5" y="1255.5"/>
+<use href="#ju" x="199.5" y="1239.5"/>
+<use href="#ih" x="119.5" y="1223.5"/>
+<use href="#ih" x="183.5" y="1207.5"/>
+<use href="#ll" x="87.5" y="1191.5"/>
+<use href="#jr" x="199.5" y="1175.5"/>
+<use href="#ih" x="71.5" y="1159.5"/>
+<use href="#ih" x="231.5" y="1143.5"/>
+<use href="#o" x="151.5" y="1175.5"/>
+<use href="#o" x="119.5" y="1191.5"/>
+<use href="#lu" x="119.5" y="1159.5"/>
+<use href="#ju" x="167.5" y="1159.5"/>
+<use href="#o" x="103.5" y="1127.5"/>
+<use href="#o" x="103.5" y="1095.5"/>
+<use href="#o" x="199.5" y="1111.5"/>
+<use href="#o" x="231.5" y="1111.5"/>
+<use href="#ih" x="119.5" y="1079.5"/>
+<use href="#ih" x="183.5" y="1095.5"/>
+<use href="#iv" x="39.5" y="1127.5"/>
+<use href="#iv" x="247.5" y="1111.5"/>
+<use href="#ih" x="151.5" y="1063.5"/>
+<use href="#jd" x="55.5" y="1079.5"/>
+<use href="#ld" x="231.5" y="1063.5"/>
+<use href="#ih" x="55.5" y="1063.5"/>
+<use href="#ih" x="119.5" y="1047.5"/>
+<use href="#iv" x="23.5" y="1031.5"/>
+<use href="#iv" x="135.5" y="1015.5"/>
+<use href="#o" x="87.5" y="1015.5"/>
+<use href="#o" x="55.5" y="1031.5"/>
+<use href="#lu" x="55.5" y="999.5"/>
+<use href="#ju" x="103.5" y="999.5"/>
+<use href="#lu" x="119.5" y="967.5"/>
+<use href="#o" x="119.5" y="935.5"/>
+<use href="#jd" x="119.5" y="919.5"/>
+<use href="#ju" x="39.5" y="983.5"/>
+<use href="#o" x="39.5" y="935.5"/>
+<use href="#ld" x="39.5" y="903.5"/>
+<use href="#ih" x="87.5" y="887.5"/>
+<use href="#ih" x="183.5" y="1047.5"/>
+<use href="#ih" x="247.5" y="1047.5"/>
+<use href="#iv" x="151.5" y="1015.5"/>
+<use href="#iv" x="263.5" y="1015.5"/>
+<use href="#o" x="215.5" y="1015.5"/>
+<use href="#o" x="183.5" y="1015.5"/>
+<use href="#lu" x="183.5" y="999.5"/>
+<use href="#ju" x="231.5" y="999.5"/>
+<use href="#lu" x="247.5" y="967.5"/>
+<use href="#o" x="247.5" y="935.5"/>
+<use href="#jd" x="247.5" y="919.5"/>
+<use href="#ju" x="167.5" y="967.5"/>
+<use href="#o" x="183.5" y="935.5"/>
+<use href="#ld" x="167.5" y="919.5"/>
+<use href="#ih" x="215.5" y="903.5"/>
+<use href="#iv" x="279.5" y="1239.5"/>
+<use href="#iv" x="279.5" y="1175.5"/>
+<use href="#iv" x="279.5" y="1111.5"/>
+<use href="#iv" x="279.5" y="1047.5"/>
+<use href="#iv" x="279.5" y="983.5"/>
+<use href="#iv" x="279.5" y="919.5"/>
+<use href="#o" x="247.5" y="871.5"/>
+<use href="#o" x="279.5" y="855.5"/>
+<use href="#lu" x="263.5" y="839.5"/>
+<use href="#o" x="263.5" y="807.5"/>
+<use href="#jd" x="263.5" y="791.5"/>
+<use href="#jl" x="327.5" y="1175.5"/>
+<use href="#iv" x="327.5" y="1127.5"/>
+<use href="#iv" x="327.5" y="1063.5"/>
+<use href="#iv" x="327.5" y="999.5"/>
+<use href="#iv" x="327.5" y="935.5"/>
+<use href="#iv" x="327.5" y="871.5"/>
+<use href="#iv" x="327.5" y="807.5"/>
+<use href="#ih" x="279.5" y="775.5"/>
+<use href="#lu" x="311.5" y="759.5"/>
+<use href="#o" x="327.5" y="711.5"/>
+<use href="#jd" x="311.5" y="679.5"/>
+<use href="#jl" x="391.5" y="1367.5"/>
+<use href="#iv" x="391.5" y="1319.5"/>
+<use href="#iv" x="391.5" y="1255.5"/>
+<use href="#iv" x="391.5" y="1191.5"/>
+<use href="#iv" x="391.5" y="1127.5"/>
+<use href="#iv" x="391.5" y="1063.5"/>
+<use href="#iv" x="391.5" y="999.5"/>
+<use href="#iv" x="391.5" y="935.5"/>
+<use href="#iv" x="391.5" y="871.5"/>
+<use href="#iv" x="391.5" y="807.5"/>
+<use href="#iv" x="391.5" y="743.5"/>
+<use href="#lu" x="375.5" y="695.5"/>
+<use href="#iv" x="391.5" y="647.5"/>
+<use href="#lu" x="343.5" y="663.5"/>
+<use href="#o" x="343.5" y="631.5"/>
+<use href="#jd" x="343.5" y="615.5"/>
+<use href="#lu" x="375.5" y="599.5"/>
+<use href="#o" x="391.5" y="551.5"/>
+<use href="#jd" x="375.5" y="519.5"/>
+<use href="#sh" x="279.5" y="663.5"/>
+<use href="#sh" x="247.5" y="663.5"/>
+<use href="#sh" x="215.5" y="663.5"/>
+<use href="#sh" x="183.5" y="663.5"/>
+<use href="#jl" x="167.5" y="647.5"/>
+<use href="#iv" x="167.5" y="599.5"/>
+<use href="#ih" x="311.5" y="599.5"/>
+<use href="#ih" x="263.5" y="583.5"/>
+<use href="#ih" x="183.5" y="551.5"/>
+<use href="#ih" x="247.5" y="567.5"/>
+<use href="#ll" x="151.5" y="519.5"/>
+<use href="#jr" x="263.5" y="535.5"/>
+<use href="#ih" x="135.5" y="487.5"/>
+<use href="#ih" x="295.5" y="503.5"/>
+<use href="#o" x="215.5" y="519.5"/>
+<use href="#o" x="183.5" y="519.5"/>
+<use href="#lu" x="183.5" y="503.5"/>
+<use href="#ju" x="231.5" y="503.5"/>
+<use href="#o" x="167.5" y="455.5"/>
+<use href="#o" x="135.5" y="455.5"/>
+<use href="#o" x="263.5" y="471.5"/>
+<use href="#o" x="263.5" y="439.5"/>
+<use href="#ih" x="183.5" y="439.5"/>
+<use href="#ih" x="247.5" y="423.5"/>
+<use href="#iv" x="103.5" y="455.5"/>
+<use href="#iv" x="311.5" y="471.5"/>
+<use href="#ih" x="215.5" y="407.5"/>
+<use href="#jd" x="119.5" y="407.5"/>
+<use href="#ld" x="295.5" y="423.5"/>
+<use href="#ih" x="119.5" y="391.5"/>
+<use href="#ih" x="183.5" y="391.5"/>
+<use href="#iv" x="87.5" y="359.5"/>
+<use href="#iv" x="199.5" y="359.5"/>
+<use href="#o" x="151.5" y="359.5"/>
+<use href="#o" x="119.5" y="359.5"/>
+<use href="#lu" x="119.5" y="343.5"/>
+<use href="#ju" x="167.5" y="343.5"/>
+<use href="#lu" x="183.5" y="311.5"/>
+<use href="#o" x="183.5" y="279.5"/>
+<use href="#jd" x="183.5" y="263.5"/>
+<use href="#ju" x="103.5" y="311.5"/>
+<use href="#o" x="119.5" y="279.5"/>
+<use href="#ld" x="103.5" y="263.5"/>
+<use href="#ih" x="151.5" y="247.5"/>
+<use href="#ih" x="247.5" y="391.5"/>
+<use href="#ih" x="311.5" y="407.5"/>
+<use href="#iv" x="215.5" y="359.5"/>
+<use href="#iv" x="327.5" y="375.5"/>
+<use href="#o" x="279.5" y="359.5"/>
+<use href="#o" x="247.5" y="359.5"/>
+<use href="#lu" x="247.5" y="343.5"/>
+<use href="#ju" x="295.5" y="343.5"/>
+<use href="#lu" x="311.5" y="327.5"/>
+<use href="#o" x="327.5" y="279.5"/>
+<use href="#jd" x="311.5" y="247.5"/>
+<use href="#ju" x="231.5" y="311.5"/>
+<use href="#o" x="247.5" y="279.5"/>
+<use href="#ld" x="231.5" y="263.5"/>
+<use href="#ih" x="279.5" y="231.5"/>
+<use href="#iv" x="343.5" y="583.5"/>
+<use href="#iv" x="343.5" y="519.5"/>
+<use href="#iv" x="343.5" y="455.5"/>
+<use href="#iv" x="343.5" y="391.5"/>
+<use href="#iv" x="343.5" y="327.5"/>
+<use href="#iv" x="343.5" y="263.5"/>
+<use href="#ih" x="295.5" y="215.5"/>
+<use href="#lu" x="327.5" y="199.5"/>
+<use href="#o" x="327.5" y="167.5"/>
+<use href="#jd" x="327.5" y="151.5"/>
+<use href="#lr" x="375.5" y="487.5"/>
+<use href="#iv" x="391.5" y="471.5"/>
+<use href="#iv" x="391.5" y="407.5"/>
+<use href="#iv" x="391.5" y="343.5"/>
+<use href="#iv" x="391.5" y="279.5"/>
+<use href="#iv" x="391.5" y="215.5"/>
+<use href="#iv" x="391.5" y="151.5"/>
+<use href="#ih" x="343.5" y="135.5"/>
+<use href="#lu" x="375.5" y="103.5"/>
+<use href="#o" x="375.5" y="71.5"/>
+<use href="#jd" x="375.5" y="55.5"/>
+<use href="#o" x="71.5" y="855.5"/>
+<use href="#iv" x="71.5" y="823.5"/>
+<use href="#iv" x="71.5" y="759.5"/>
+<use href="#iv" x="71.5" y="695.5"/>
+<use href="#iv" x="71.5" y="631.5"/>
+<use href="#iv" x="71.5" y="567.5"/>
+<use href="#iv" x="71.5" y="503.5"/>
+<use href="#iv" x="71.5" y="439.5"/>
+<use href="#iv" x="71.5" y="375.5"/>
+<use href="#iv" x="71.5" y="311.5"/>
+<use href="#iv" x="71.5" y="247.5"/>
+<use href="#ih" x="135.5" y="231.5"/>
+<use href="#lu" x="87.5" y="199.5"/>
+<use href="#o" x="87.5" y="167.5"/>
+<use href="#jd" x="87.5" y="151.5"/>
+<use href="#o" x="87.5" y="119.5"/>
+<use href="#iv" x="71.5" y="87.5"/>
 </svg>

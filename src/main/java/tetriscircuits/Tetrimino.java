@@ -143,10 +143,10 @@ public final class Tetrimino {
         SH = new Tetrimino("sh", 0, "s", 4, BLOCKS_SH);
         SV = new Tetrimino("sv", 1, "s", 4, BLOCKS_SV);
 
-        LD = new Tetrimino("ld", 0, "t", 5, BLOCKS_LD);
-        LL = new Tetrimino("ll", 1, "t", 5, BLOCKS_LL);
-        LU = new Tetrimino("lu", 2, "t", 5, BLOCKS_LU);
-        LR = new Tetrimino("lr", 3, "t", 5, BLOCKS_LR);
+        LD = new Tetrimino("ld", 0, "l", 5, BLOCKS_LD);
+        LL = new Tetrimino("ll", 1, "l", 5, BLOCKS_LL);
+        LU = new Tetrimino("lu", 2, "l", 5, BLOCKS_LU);
+        LR = new Tetrimino("lr", 3, "l", 5, BLOCKS_LR);
         
         IH = new Tetrimino("ih", 0, "i", 6, BLOCKS_IH);
         IV = new Tetrimino("iv", 1, "i", 6, BLOCKS_IV);        

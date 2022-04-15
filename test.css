@@ -2,6 +2,20 @@ svg {
     background-color: #2B2B2B;
 }
 
+.terminal-fill {
+  fill: #FFFFF0;
+  stroke: #FFFFF0;
+  stroke-width: 1; 
+  stroke-linecap: square;
+}
+
+.terminal-stroke {
+  fill-opacity: 0;
+  stroke: #B2B2A8;
+  stroke-width: 1; 
+  stroke-linecap: square;
+}
+
 .grid {
     stroke: #555555;
     stroke-width: 1; 

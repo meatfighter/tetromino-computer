@@ -20,6 +20,10 @@ public class StructureRenderer {
     private static final Color TERMINAL_FILL = new Color(0xFFFFF0);
     private static final Color TERMINAL_LINE = TERMINAL_FILL.darker();
     
+    static {
+        System.out.format("%06X%n", TERMINAL_LINE.getRGB());
+    }
+    
     private static final Color COMPONENT_FILL = new Color(0x7F000000, true);
     
     private static final Color TEXT_COLOR = TERMINAL_FILL;

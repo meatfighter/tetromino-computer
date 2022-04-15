@@ -28,9 +28,10 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.trimToNull;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
+import tetriscircuits.ui.PathPoint;
+import tetriscircuits.ui.SvgGenerator;
 import tetriscircuits.ui.TetriminoPath;
 
 public class Controller {
@@ -736,59 +737,10 @@ public class Controller {
             }
         }
 
-//        final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
-//                structs.toArray(new Structure[structs.size()]));
-
-        final double margin = 15.5;
-        final double cellsWidth = maxX - minX + 1;
-        final double cellsHeight = maxY + 1;
-        final double gridWidth = cellSize * cellsWidth;
-        final double gridHeight = cellSize * cellsHeight;
-        final double gridX = margin;
-        final double gridY = margin;
-        final int svgWidth = (int)Math.round(2 * margin + gridWidth);
-        final int svgHeight = (int)Math.round(2 * margin + gridHeight);
-
-        final PrintStream out = System.out;
-        out.println("<?xml version=\"1.0\"?>");
-        out.println("<?xml-stylesheet type=\"text/css\" href=\"test.css\"?>");
-        out.format("<svg width=\"%d\" height=\"%d\" xmlns=\"http://www.w3.org/2000/svg\" "
-                + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", svgWidth, svgHeight);
-        out.println("<defs>");
-        for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
-            for (final TetriminoPath path : paths) {
-                final Tetrimino tetrimino = path.getTetrimino();
-                final Point[] points = path.getPoints();
-                out.format("<polygon points=\"");
-                for (int i = points.length - 1; i >= 0; --i) {
-                    final Point p = points[i];
-                    if (i != 0) {
-                        out.print(" ");
-                    }
-                    final double x = cellSize * (p.getX() - 3.5);
-                    final double y = cellSize * (p.getY() - 3.5);
-                    out.format("%s,%s", x, y);
-                }
-                out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
-            }
-        }
-        out.println("</defs>");
-        for (int x = minX; x <= maxX + 1; ++x) {
-            final double lineX = gridX + cellSize * (x - minX);
-            out.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", lineX, gridY, lineX, 
-                    gridY + gridHeight);
-        }
-        for (int y = 0; y <= maxY + 1; ++y) {
-            final double lineY = gridY + cellSize * y;
-            out.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", gridX, lineY, 
-                    gridX + gridWidth, lineY);
-        }        
-        
-        for (final Structure struct : structs) {
-            
-        }
-        out.println("</svg>");
-    }    
+        final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
+                structs.toArray(new Structure[structs.size()]));
+        new SvgGenerator().generate(System.out, struct, 15.5, 16);
+    }   
     
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final int depth) {
