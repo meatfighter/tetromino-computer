@@ -20,10 +20,6 @@ public class StructureRenderer {
     private static final Color TERMINAL_FILL = new Color(0xFFFFF0);
     private static final Color TERMINAL_LINE = TERMINAL_FILL.darker();
     
-    static {
-        System.out.format("%06X%n", TERMINAL_LINE.getRGB());
-    }
-    
     private static final Color COMPONENT_FILL = new Color(0x7F000000, true);
     
     private static final Color TEXT_COLOR = TERMINAL_FILL;
@@ -82,13 +78,6 @@ public class StructureRenderer {
             return;
         }
         
-        final int blockColorIndex = structure.getBlockColorIndex();
-        if (blockColorIndex >= 0) {
-            TetriminoRenderer.renderBlock(g, x + cellSize * (cellX + structure.getX()), 
-                    y - cellSize * (cellY + structure.getY()), blockColorIndex, cellSize);
-            return;
-        }        
-        
         final Structure[] structures = structure.getStructures();
         if (structures == null) {
             return;
@@ -100,12 +89,8 @@ public class StructureRenderer {
         
         final FontMetrics fontMetrics = g.getFontMetrics();           
                 
-        boolean renderInputTerminals = true;
         for (int i = structures.length - 1; i >= 0; --i) {            
             final Structure struct = structures[i];
-            if (struct.getBlockColorIndex() >= 0) {
-                renderInputTerminals = false;
-            }
             final String componentName = struct.getComponentName();
             if (componentName != null) {                
                 final int fillHeight = cellSize * (struct.getMaxY() - struct.getMinY() + 1);
@@ -125,33 +110,32 @@ public class StructureRenderer {
                     g.drawString(struct.getComponentName(), fillX + ((fillWidth - (int)nameBounds.getWidth()) >> 1), 
                             fillY + (fillHeight >> 1) + fontMetrics.getDescent());
                 }
+            }
+        }
+        for (int i = structures.length - 1; i >= 0; --i) {            
+            final Structure struct = structures[i];
+            final String componentName = struct.getComponentName();
+            if (componentName != null) {                
                 renderTerminals(g, x, y, cellSize, struct.getInputs(), cellX + struct.getX(), cellY + struct.getY(), 
                         false);
                 renderTerminals(g, x, y, cellSize, struct.getOutputs(), cellX + struct.getX(), cellY + struct.getY(), 
                         true);
             }
-        }
+        }        
 
-        if (renderInputTerminals) {
-            renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
-        }
+        renderTerminals(g, x, y, cellSize, structure.getInputs(), cellX, cellY, true);
         renderTerminals(g, x, y, cellSize, structure.getOutputs(), cellX, cellY, true);
         
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
             final Tetrimino tetrimino = struct.getTetrimino();            
-            if (tetrimino != null) {
-                TetriminoRenderer.fromTetrimino(tetrimino).render(g, 
-                        x + cellSize * (cellX + struct.getX()), 
-                        y - cellSize * (cellY + struct.getY()), 
-                        cellSize);
+            if (tetrimino == null) {
                 continue;
-            } 
-            final int colorIndex = struct.getBlockColorIndex();
-            if (colorIndex >= 0) {
-                TetriminoRenderer.renderBlock(g, x + cellSize * (cellX + struct.getX()), 
-                        y - cellSize * (cellY + struct.getY()), colorIndex, cellSize);
             }
+            TetriminoRenderer.fromTetrimino(tetrimino).render(g, 
+                    x + cellSize * (cellX + struct.getX()), 
+                    y - cellSize * (cellY + struct.getY()), 
+                    cellSize);
         }   
     }
     

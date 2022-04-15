@@ -638,7 +638,7 @@ public class Controller {
     }
     
     private void exportImage(final String componentName, final String tetrisScript, final String javaScript, 
-            final String testBitStr, final int depth, final int cellSize) {
+            final String testBitStr, final int depth, final double cellSize) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
@@ -648,7 +648,7 @@ public class Controller {
     }
     
     private void exportComponent(final String componentName, final String testBitStr, final int depth, 
-            final boolean clearOutput, final int cellSize) {
+            final boolean clearOutput, final double cellSize) {
         
         final OutputListener outListener = outputListener;        
         if (outListener != null && clearOutput) {
@@ -739,7 +739,7 @@ public class Controller {
 
         final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
                 structs.toArray(new Structure[structs.size()]));
-        new SvgGenerator().generate(System.out, struct, 15.5, 16);
+        new SvgGenerator().generate(System.out, struct, 15.5, cellSize, true, true, true, true, true, true);
     }   
     
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 

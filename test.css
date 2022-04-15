@@ -1,23 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
 svg {
     background-color: #2B2B2B;
 }
 
-.terminal-fill {
-  fill: #FFFFF0;
-  stroke: #FFFFF0;
-  stroke-width: 1; 
-  stroke-linecap: square;
+text.component {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
 }
 
-.terminal-stroke {
-  fill-opacity: 0;
-  stroke: #B2B2A8;
-  stroke-width: 1; 
-  stroke-linecap: square;
+rect.component {
+    opacity: 0.5;
+    fill: #000000;
+    stroke: #000000;  
+    stroke-width: 1; 
+    stroke-linecap: square;
 }
 
-.grid {
+rect.terminal-fill {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-stroke {
+    fill: none;
+    stroke: #B2B2A8;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid {
     stroke: #555555;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid-axis {
+    stroke: #A9B7C6;
     stroke-width: 1; 
     stroke-linecap: square;
 }
@@ -70,4 +91,3 @@ polygon.i {
     stroke-width: 1; 
     stroke-linecap: square;
 }
-
