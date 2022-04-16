@@ -84,6 +84,50 @@ public class Simulator {
         }
     }
     
+    public TerminalRectangle[][] readTerminals(final Terminal[] terminals, final int originX, final int originY, 
+            final Playfield playfield) {
+        
+        if (terminals == null) {
+            return new TerminalRectangle[0][];
+        }
+        
+        final int ox = playfield.getWidth() >> 1;
+        final int oy = playfield.getHeight() - 1;
+        
+        final TerminalRectangle[][] rectangles = new TerminalRectangle[terminals.length][];
+        for (int i = terminals.length - 1; i >= 0; --i) {
+            TerminalState state = TerminalState.UNKNOWN;            
+            final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();            
+            outer: for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();                
+                int y = oy - horizontalLine.getY() - 1;                
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(ox + x, y)) {
+                        state = TerminalState.ONE;
+                        break outer;
+                    }
+                }
+                ++y;
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(ox + x, y)) {
+                        state = TerminalState.ZERO;
+                        break outer;
+                    }
+                }
+            }
+            final TerminalRectangle[] rects = rectangles[i] = new TerminalRectangle[horizontalLines.length];
+            for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int y = originY + horizontalLine.getY();
+                rects[j] = new TerminalRectangle(originX + horizontalLine.getMinX(), y, 
+                        horizontalLine.getMaxX() - horizontalLine.getMinX() + 1, state);
+            }
+        }
+
+        return rectangles;
+    }    
+    
     public TerminalRectangle[][] findTerminals(final Terminal[] terminals, final int originX, final int originY) {
         return findTerminals(terminals, originX, originY, (Boolean[])null);
     }

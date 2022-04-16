@@ -9,6 +9,16 @@ text.component {
     fill: #FFFFF0;
 }
 
+text.axes {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.terminals {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
 rect.component {
     opacity: 0.5;
     fill: #000000;

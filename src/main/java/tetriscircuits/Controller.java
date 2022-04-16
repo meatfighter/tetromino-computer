@@ -661,6 +661,8 @@ public class Controller {
         int minX = 0;
         int maxX = 0;
         int maxY = 0;
+        TerminalRectangle[][] inputs = new TerminalRectangle[0][];
+        TerminalRectangle[][] outputs = new TerminalRectangle[0][];        
         if (component == null) {
             if (outListener != null) {
                 outListener.append("Error: Unknown component: " + componentName);
@@ -689,24 +691,11 @@ public class Controller {
                         outListener.append("Ran " + componentName + " with " + testBitStr + ".");
                     }
                 }
+                inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
+                outputs = simulator.readTerminals(component.getOutputs(), 0, 0, playfield);
             } finally {
                 returnPlayfield(playfield);
             }
-        }
-        
-        final boolean[] testBits = new boolean[testBitStr.length()];
-        for (int i = testBitStr.length() - 1; i >= 0; --i) {
-            testBits[i] = testBitStr.charAt(i) == '1';
-        }
-
-        final TerminalRectangle[][] inputs;
-        final TerminalRectangle[][] outputs;
-        if (component == null) {
-            inputs = new TerminalRectangle[0][];
-            outputs = new TerminalRectangle[0][];
-        } else {
-            inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
-            outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
         }
 
         final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
@@ -739,7 +728,8 @@ public class Controller {
 
         final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
                 structs.toArray(new Structure[structs.size()]));
-        new SvgGenerator().generate(System.out, struct, 15.5, cellSize, true, true, true, true, true, true);
+        new SvgGenerator().generate(System.out, struct, -1, 15.5, cellSize, true, true, true, true, true, true, false, 
+                true, 0, 0, 0);
     }   
     
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
@@ -809,11 +799,6 @@ public class Controller {
         }
         
         if (listener != null) {   
-            final boolean[] testBits = new boolean[testBitStr.length()];
-            for (int i = testBitStr.length() - 1; i >= 0; --i) {
-                testBits[i] = testBitStr.charAt(i) == '1';
-            }
-            
             final TerminalRectangle[][] inputs;
             final TerminalRectangle[][] outputs;
             if (component == null) {
