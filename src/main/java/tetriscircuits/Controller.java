@@ -633,30 +633,62 @@ public class Controller {
     }
     
     public void export(final String componentName, final String tetrisScript, final String javaScript, 
-            final String testBitStr, final int depth, final int cellSize) {
-        execute(() -> exportImage(componentName, tetrisScript, javaScript, testBitStr, depth, cellSize));
+            final String testBitStr, final boolean allPossibleInputs, final int depth, final int cellSize) {
+        execute(() -> exportImage(componentName, tetrisScript, javaScript, testBitStr, allPossibleInputs, depth, 
+                cellSize));
     }
     
     private void exportImage(final String componentName, final String tetrisScript, final String javaScript, 
-            final String testBitStr, final int depth, final double cellSize) {
+            final String testBitStr, final boolean allPossibleInputs, final int depth, final double cellSize) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
         execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth, 
-                () -> exportComponent(componentName, testBitStr, depth, false, cellSize)));
+                () -> exportComponent(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
     }
     
-    private void exportComponent(final String componentName, final String testBitStr, final int depth, 
-            final boolean clearOutput, final double cellSize) {
+    private void exportComponent(final String componentName, final String testBitStr, final boolean allPossibleInputs, 
+            final int depth, final boolean clearOutput, final double cellSize) {
         
         final OutputListener outListener = outputListener;        
         if (outListener != null && clearOutput) {
             outListener.clear();
         }
         
-        final List<Structure> structs = new ArrayList<>();         
+        final List<Structure> structures = new ArrayList<>();
+        if (allPossibleInputs) {
+            final Component component = components.get(componentName);
+            final int bits = component.getInputs().length;
+            final int combos = 1 << bits;
+            if (combos > 16) {
+                if (outListener != null) {
+                    outListener.append("Too many input combinations.");
+                }
+                return;
+            }
+            for (int i = 0; i < combos; ++i) {
+                final String binaryStr = Integer.toBinaryString(i);
+                final StringBuilder sb = new StringBuilder();
+                for (int j = bits - binaryStr.length(); j > 0; --j) {
+                    sb.append('0');
+                }
+                sb.append(binaryStr);
+                structures.add(exportStructure(componentName, sb.toString(), depth, cellSize));
+            }
+        } else {
+            structures.add(exportStructure(componentName, testBitStr, depth, cellSize));
+        }
+
+        new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
+                cellSize, true, true, true, true, true, true, false, true, 0, 0, 0);
+    }  
+    
+    private Structure exportStructure(final String componentName, final String testBitStr, final int depth, 
+            final double cellSize) {
         
+        final OutputListener outListener = outputListener;
+        final List<Structure> structs = new ArrayList<>();                 
         Component component = components.get(componentName);
         int minX = 0;
         int maxX = 0;
@@ -726,11 +758,9 @@ public class Controller {
             }
         }
 
-        final Structure struct = new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
+        return new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY, 
                 structs.toArray(new Structure[structs.size()]));
-        new SvgGenerator().generate(System.out, struct, -1, 15.5, cellSize, true, true, true, true, true, true, false, 
-                true, 0, 0, 0);
-    }   
+    }
     
     public void buildAndRun(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final int depth) {
