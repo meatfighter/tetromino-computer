@@ -1,26 +1,26 @@
 Tetris is Turing-complete 
 
-This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It deep-dives into an implementation performant enough to run Tetris on Tetris in real-time. 
+This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It demonstrates the capabilities and performance of an implementation by running Tetris on Tetris. 
 
 Preliminaries 
 
-Tetris is played on grid of square cells called the playfield. Each cell is in one of two states: empty or solid. The location of each cell is specified by a unique pair of integer coordinates where the origin is in the row immediately above the floor. 
+The playfield is the grid of square cells where Tetris is played. The standard playfield has 20 (visible) rows and 10 columns, but the dimensions are arbitrary.  
 
 [ empty 20x10 playfield with origin, coordinate axes, boundaries (2 walls, floor, open ceiling) ] 
 
-The standard playfield has 20 (visible) rows and 10 columns, but the dimensions are arbitrary. 
+Each playfield cell is in one of two states: empty or solid. 
 
-Tetriminos are polyominos made of four solid cells (painted any color). Each has a single-character name based its shape. 
+Tetriminos—the falling pieces—consist four solid cells painted any color. The seven Tetriminos have single-character, shape-based names. 
 
 [ T J Z O S L I ] 
 
-A rotation system is a description of how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed Nintendo Rotation System (NRS) due to its simplicity, but various rotation systems exist and any of them could be adapted.  
+A rotation system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed Nintendo Rotation System (NRS) due to its simplicity, but various rotation systems exist and any of them could be adapted.  
 
 NRS centers each Tetrimino in a 5x5 matrix and rotates them 90 degrees about that center. Of the 24 possible orientations, it uses only 19. 
 
 [ orientation table ] 
 
-The left-most column in the table above comprises the spawn orientations (the way the pieces materialize at the top of the playfield). The steps of clockwise rotation appear left-to-right. 
+The left-most column in the table above comprises the spawn orientations (the way the pieces initially appear). The steps of clockwise rotation span left-to-right across the rows. 
 
 Each orientation is designated by a mnemonic invented for this project. The first character of the mnemonic is the piece type. The second (if present) is an abbreviation for “down", “left”, “up”, “right”, “horizontal”, or “vertical”.  
 
