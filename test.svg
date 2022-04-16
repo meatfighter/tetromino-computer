@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="test.css"?>
-<svg width="1151" height="431" viewBox="0 0 1151 431" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="159" height="175" viewBox="0 0 159 175" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-24,-8 23,-8 23,7 7,7 7,23 -8,23 -8,7 -24,7" class="t"/>
         <polygon id="tl" points="-8,-24 7,-24 7,23 -8,23 -8,7 -24,7 -24,-8 -8,-8" class="t"/>
@@ -22,428 +22,52 @@
         <polygon id="ih" points="-40,-8 23,-8 23,7 -40,7" class="i"/>
         <polygon id="iv" points="-8,-40 7,-40 7,23 -8,23" class="i"/>
     </defs>
-    <line x1="15.5" y1="31.5" x2="271.5" y2="31.5" class="grid"/>
-    <line x1="15.5" y1="47.5" x2="271.5" y2="47.5" class="grid"/>
-    <line x1="15.5" y1="63.5" x2="271.5" y2="63.5" class="grid"/>
-    <line x1="15.5" y1="79.5" x2="271.5" y2="79.5" class="grid"/>
-    <line x1="15.5" y1="95.5" x2="271.5" y2="95.5" class="grid"/>
-    <line x1="15.5" y1="111.5" x2="271.5" y2="111.5" class="grid"/>
-    <line x1="15.5" y1="127.5" x2="271.5" y2="127.5" class="grid"/>
-    <line x1="15.5" y1="143.5" x2="271.5" y2="143.5" class="grid"/>
-    <line x1="15.5" y1="159.5" x2="271.5" y2="159.5" class="grid"/>
-    <line x1="15.5" y1="175.5" x2="271.5" y2="175.5" class="grid"/>
-    <line x1="15.5" y1="191.5" x2="271.5" y2="191.5" class="grid"/>
-    <line x1="15.5" y1="207.5" x2="271.5" y2="207.5" class="grid"/>
-    <line x1="15.5" y1="223.5" x2="271.5" y2="223.5" class="grid"/>
-    <line x1="15.5" y1="239.5" x2="271.5" y2="239.5" class="grid"/>
-    <line x1="15.5" y1="255.5" x2="271.5" y2="255.5" class="grid"/>
-    <line x1="15.5" y1="271.5" x2="271.5" y2="271.5" class="grid"/>
-    <line x1="15.5" y1="287.5" x2="271.5" y2="287.5" class="grid"/>
-    <line x1="15.5" y1="303.5" x2="271.5" y2="303.5" class="grid"/>
-    <line x1="15.5" y1="319.5" x2="271.5" y2="319.5" class="grid"/>
-    <line x1="15.5" y1="335.5" x2="271.5" y2="335.5" class="grid"/>
-    <line x1="15.5" y1="351.5" x2="271.5" y2="351.5" class="grid"/>
-    <line x1="15.5" y1="367.5" x2="271.5" y2="367.5" class="grid"/>
-    <line x1="15.5" y1="383.5" x2="271.5" y2="383.5" class="grid"/>
-    <line x1="15.5" y1="399.5" x2="271.5" y2="399.5" class="grid"/>
-    <line x1="15.5" y1="31.5" x2="15.5" y2="399.5" class="grid"/>
-    <line x1="31.5" y1="31.5" x2="31.5" y2="399.5" class="grid"/>
-    <line x1="47.5" y1="31.5" x2="47.5" y2="399.5" class="grid"/>
-    <line x1="63.5" y1="31.5" x2="63.5" y2="399.5" class="grid"/>
-    <line x1="79.5" y1="31.5" x2="79.5" y2="399.5" class="grid"/>
-    <line x1="95.5" y1="31.5" x2="95.5" y2="399.5" class="grid"/>
-    <line x1="111.5" y1="31.5" x2="111.5" y2="399.5" class="grid"/>
-    <line x1="127.5" y1="31.5" x2="127.5" y2="399.5" class="grid"/>
-    <line x1="143.5" y1="31.5" x2="143.5" y2="399.5" class="grid-axis"/>
-    <line x1="159.5" y1="31.5" x2="159.5" y2="399.5" class="grid"/>
-    <line x1="175.5" y1="31.5" x2="175.5" y2="399.5" class="grid"/>
-    <line x1="191.5" y1="31.5" x2="191.5" y2="399.5" class="grid"/>
-    <line x1="207.5" y1="31.5" x2="207.5" y2="399.5" class="grid"/>
-    <line x1="223.5" y1="31.5" x2="223.5" y2="399.5" class="grid"/>
-    <line x1="239.5" y1="31.5" x2="239.5" y2="399.5" class="grid"/>
-    <line x1="255.5" y1="31.5" x2="255.5" y2="399.5" class="grid"/>
-    <line x1="271.5" y1="31.5" x2="271.5" y2="399.5" class="grid"/>
+    <line x1="15.5" y1="31.5" x2="63.5" y2="31.5" class="grid"/>
+    <line x1="15.5" y1="47.5" x2="63.5" y2="47.5" class="grid"/>
+    <line x1="15.5" y1="63.5" x2="63.5" y2="63.5" class="grid"/>
+    <line x1="15.5" y1="79.5" x2="63.5" y2="79.5" class="grid"/>
+    <line x1="15.5" y1="95.5" x2="63.5" y2="95.5" class="grid"/>
+    <line x1="15.5" y1="111.5" x2="63.5" y2="111.5" class="grid"/>
+    <line x1="15.5" y1="127.5" x2="63.5" y2="127.5" class="grid"/>
+    <line x1="15.5" y1="143.5" x2="63.5" y2="143.5" class="grid"/>
+    <line x1="15.5" y1="31.5" x2="15.5" y2="143.5" class="grid"/>
+    <line x1="31.5" y1="31.5" x2="31.5" y2="143.5" class="grid-axis"/>
+    <line x1="47.5" y1="31.5" x2="47.5" y2="143.5" class="grid"/>
+    <line x1="63.5" y1="31.5" x2="63.5" y2="143.5" class="grid"/>
     <g style="font-size: 10px;">
     </g>
     <g style="font-size: 16px;">
-        <rect x="143.5" y="383.5" width="63" height="15" class="terminal-fill"/>
-        <rect x="143.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(175.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="79.5" y="383.5" width="63" height="15" class="terminal-fill"/>
-        <rect x="79.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(111.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="175.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(207.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="47.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(79.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+        <rect x="15.5" y="127.5" width="47" height="15" class="terminal-fill"/>
+        <rect x="15.5" y="111.5" width="47" height="31" class="terminal-stroke"/>
+        <text transform="translate(39.5 153.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+        <rect x="15.5" y="31.5" width="47" height="31" class="terminal-stroke"/>
+        <text transform="translate(39.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
     </g>
-    <use href="#ih" x="215.5" y="55.5"/>
-    <use href="#ld" x="167.5" y="71.5"/>
-    <use href="#o" x="183.5" y="87.5"/>
-    <use href="#ju" x="167.5" y="119.5"/>
-    <use href="#jd" x="247.5" y="71.5"/>
-    <use href="#o" x="247.5" y="87.5"/>
-    <use href="#lu" x="247.5" y="119.5"/>
-    <use href="#ju" x="231.5" y="135.5"/>
-    <use href="#lu" x="183.5" y="135.5"/>
-    <use href="#o" x="215.5" y="151.5"/>
-    <use href="#o" x="215.5" y="183.5"/>
-    <use href="#iv" x="263.5" y="183.5"/>
-    <use href="#iv" x="151.5" y="183.5"/>
-    <use href="#ih" x="247.5" y="215.5"/>
-    <use href="#ih" x="183.5" y="215.5"/>
-    <use href="#ih" x="87.5" y="55.5"/>
-    <use href="#ld" x="39.5" y="71.5"/>
-    <use href="#o" x="55.5" y="87.5"/>
-    <use href="#ju" x="39.5" y="119.5"/>
-    <use href="#jd" x="119.5" y="71.5"/>
-    <use href="#o" x="119.5" y="87.5"/>
-    <use href="#lu" x="119.5" y="119.5"/>
-    <use href="#ju" x="103.5" y="135.5"/>
-    <use href="#lu" x="55.5" y="135.5"/>
-    <use href="#o" x="87.5" y="151.5"/>
-    <use href="#o" x="87.5" y="183.5"/>
-    <use href="#iv" x="135.5" y="183.5"/>
-    <use href="#iv" x="23.5" y="183.5"/>
-    <use href="#ih" x="119.5" y="215.5"/>
-    <use href="#ih" x="55.5" y="215.5"/>
-    <use href="#ld" x="231.5" y="231.5"/>
-    <use href="#jd" x="55.5" y="231.5"/>
-    <use href="#ih" x="151.5" y="231.5"/>
-    <use href="#iv" x="247.5" y="279.5"/>
-    <use href="#iv" x="39.5" y="279.5"/>
-    <use href="#ih" x="183.5" y="247.5"/>
-    <use href="#ih" x="119.5" y="247.5"/>
-    <use href="#o" x="231.5" y="279.5"/>
-    <use href="#o" x="199.5" y="263.5"/>
-    <use href="#o" x="71.5" y="279.5"/>
-    <use href="#o" x="103.5" y="263.5"/>
-    <use href="#ju" x="167.5" y="295.5"/>
-    <use href="#lu" x="119.5" y="295.5"/>
-    <use href="#o" x="151.5" y="311.5"/>
-    <use href="#o" x="151.5" y="343.5"/>
-    <use href="#ih" x="231.5" y="311.5"/>
-    <use href="#ih" x="71.5" y="311.5"/>
-    <use href="#jr" x="199.5" y="343.5"/>
-    <use href="#ll" x="87.5" y="343.5"/>
-    <use href="#ih" x="183.5" y="375.5"/>
-    <use href="#ih" x="119.5" y="375.5"/>
-    <line x1="303.5" y1="31.5" x2="559.5" y2="31.5" class="grid"/>
-    <line x1="303.5" y1="47.5" x2="559.5" y2="47.5" class="grid"/>
-    <line x1="303.5" y1="63.5" x2="559.5" y2="63.5" class="grid"/>
-    <line x1="303.5" y1="79.5" x2="559.5" y2="79.5" class="grid"/>
-    <line x1="303.5" y1="95.5" x2="559.5" y2="95.5" class="grid"/>
-    <line x1="303.5" y1="111.5" x2="559.5" y2="111.5" class="grid"/>
-    <line x1="303.5" y1="127.5" x2="559.5" y2="127.5" class="grid"/>
-    <line x1="303.5" y1="143.5" x2="559.5" y2="143.5" class="grid"/>
-    <line x1="303.5" y1="159.5" x2="559.5" y2="159.5" class="grid"/>
-    <line x1="303.5" y1="175.5" x2="559.5" y2="175.5" class="grid"/>
-    <line x1="303.5" y1="191.5" x2="559.5" y2="191.5" class="grid"/>
-    <line x1="303.5" y1="207.5" x2="559.5" y2="207.5" class="grid"/>
-    <line x1="303.5" y1="223.5" x2="559.5" y2="223.5" class="grid"/>
-    <line x1="303.5" y1="239.5" x2="559.5" y2="239.5" class="grid"/>
-    <line x1="303.5" y1="255.5" x2="559.5" y2="255.5" class="grid"/>
-    <line x1="303.5" y1="271.5" x2="559.5" y2="271.5" class="grid"/>
-    <line x1="303.5" y1="287.5" x2="559.5" y2="287.5" class="grid"/>
-    <line x1="303.5" y1="303.5" x2="559.5" y2="303.5" class="grid"/>
-    <line x1="303.5" y1="319.5" x2="559.5" y2="319.5" class="grid"/>
-    <line x1="303.5" y1="335.5" x2="559.5" y2="335.5" class="grid"/>
-    <line x1="303.5" y1="351.5" x2="559.5" y2="351.5" class="grid"/>
-    <line x1="303.5" y1="367.5" x2="559.5" y2="367.5" class="grid"/>
-    <line x1="303.5" y1="383.5" x2="559.5" y2="383.5" class="grid"/>
-    <line x1="303.5" y1="399.5" x2="559.5" y2="399.5" class="grid"/>
-    <line x1="303.5" y1="31.5" x2="303.5" y2="399.5" class="grid"/>
-    <line x1="319.5" y1="31.5" x2="319.5" y2="399.5" class="grid"/>
-    <line x1="335.5" y1="31.5" x2="335.5" y2="399.5" class="grid"/>
-    <line x1="351.5" y1="31.5" x2="351.5" y2="399.5" class="grid"/>
-    <line x1="367.5" y1="31.5" x2="367.5" y2="399.5" class="grid"/>
-    <line x1="383.5" y1="31.5" x2="383.5" y2="399.5" class="grid"/>
-    <line x1="399.5" y1="31.5" x2="399.5" y2="399.5" class="grid"/>
-    <line x1="415.5" y1="31.5" x2="415.5" y2="399.5" class="grid"/>
-    <line x1="431.5" y1="31.5" x2="431.5" y2="399.5" class="grid-axis"/>
-    <line x1="447.5" y1="31.5" x2="447.5" y2="399.5" class="grid"/>
-    <line x1="463.5" y1="31.5" x2="463.5" y2="399.5" class="grid"/>
-    <line x1="479.5" y1="31.5" x2="479.5" y2="399.5" class="grid"/>
-    <line x1="495.5" y1="31.5" x2="495.5" y2="399.5" class="grid"/>
-    <line x1="511.5" y1="31.5" x2="511.5" y2="399.5" class="grid"/>
-    <line x1="527.5" y1="31.5" x2="527.5" y2="399.5" class="grid"/>
-    <line x1="543.5" y1="31.5" x2="543.5" y2="399.5" class="grid"/>
-    <line x1="559.5" y1="31.5" x2="559.5" y2="399.5" class="grid"/>
+    <use href="#jd" x="39.5" y="39.5"/>
+    <use href="#o" x="55.5" y="71.5"/>
+    <use href="#lu" x="39.5" y="119.5"/>
+    <line x1="95.5" y1="31.5" x2="143.5" y2="31.5" class="grid"/>
+    <line x1="95.5" y1="47.5" x2="143.5" y2="47.5" class="grid"/>
+    <line x1="95.5" y1="63.5" x2="143.5" y2="63.5" class="grid"/>
+    <line x1="95.5" y1="79.5" x2="143.5" y2="79.5" class="grid"/>
+    <line x1="95.5" y1="95.5" x2="143.5" y2="95.5" class="grid"/>
+    <line x1="95.5" y1="111.5" x2="143.5" y2="111.5" class="grid"/>
+    <line x1="95.5" y1="127.5" x2="143.5" y2="127.5" class="grid"/>
+    <line x1="95.5" y1="143.5" x2="143.5" y2="143.5" class="grid"/>
+    <line x1="95.5" y1="31.5" x2="95.5" y2="143.5" class="grid"/>
+    <line x1="111.5" y1="31.5" x2="111.5" y2="143.5" class="grid-axis"/>
+    <line x1="127.5" y1="31.5" x2="127.5" y2="143.5" class="grid"/>
+    <line x1="143.5" y1="31.5" x2="143.5" y2="143.5" class="grid"/>
     <g style="font-size: 10px;">
     </g>
     <g style="font-size: 16px;">
-        <rect x="431.5" y="367.5" width="63" height="31" class="terminal-fill"/>
-        <rect x="431.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(463.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="367.5" y="383.5" width="63" height="15" class="terminal-fill"/>
-        <rect x="367.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(399.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="463.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(495.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="335.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(367.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+        <rect x="95.5" y="111.5" width="47" height="31" class="terminal-fill"/>
+        <rect x="95.5" y="111.5" width="47" height="31" class="terminal-stroke"/>
+        <text transform="translate(119.5 153.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+        <rect x="95.5" y="31.5" width="47" height="31" class="terminal-stroke"/>
+        <text transform="translate(119.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
     </g>
-    <use href="#ih" x="503.5" y="55.5"/>
-    <use href="#ld" x="455.5" y="71.5"/>
-    <use href="#o" x="471.5" y="87.5"/>
-    <use href="#ju" x="455.5" y="119.5"/>
-    <use href="#jd" x="535.5" y="71.5"/>
-    <use href="#o" x="535.5" y="87.5"/>
-    <use href="#lu" x="535.5" y="119.5"/>
-    <use href="#ju" x="519.5" y="151.5"/>
-    <use href="#lu" x="471.5" y="151.5"/>
-    <use href="#o" x="471.5" y="167.5"/>
-    <use href="#o" x="503.5" y="167.5"/>
-    <use href="#iv" x="551.5" y="167.5"/>
-    <use href="#iv" x="439.5" y="167.5"/>
-    <use href="#ih" x="535.5" y="199.5"/>
-    <use href="#ih" x="471.5" y="199.5"/>
-    <use href="#ih" x="375.5" y="39.5"/>
-    <use href="#ld" x="327.5" y="55.5"/>
-    <use href="#o" x="327.5" y="87.5"/>
-    <use href="#ju" x="327.5" y="135.5"/>
-    <use href="#jd" x="407.5" y="71.5"/>
-    <use href="#o" x="407.5" y="87.5"/>
-    <use href="#lu" x="407.5" y="119.5"/>
-    <use href="#ju" x="391.5" y="151.5"/>
-    <use href="#lu" x="343.5" y="151.5"/>
-    <use href="#o" x="343.5" y="183.5"/>
-    <use href="#o" x="375.5" y="167.5"/>
-    <use href="#iv" x="423.5" y="167.5"/>
-    <use href="#iv" x="311.5" y="183.5"/>
-    <use href="#ih" x="407.5" y="199.5"/>
-    <use href="#ih" x="343.5" y="215.5"/>
-    <use href="#ld" x="519.5" y="215.5"/>
-    <use href="#jd" x="343.5" y="231.5"/>
-    <use href="#ih" x="439.5" y="215.5"/>
-    <use href="#iv" x="535.5" y="263.5"/>
-    <use href="#iv" x="327.5" y="279.5"/>
-    <use href="#ih" x="471.5" y="247.5"/>
-    <use href="#ih" x="407.5" y="231.5"/>
-    <use href="#o" x="519.5" y="263.5"/>
-    <use href="#o" x="487.5" y="263.5"/>
-    <use href="#o" x="391.5" y="247.5"/>
-    <use href="#o" x="391.5" y="279.5"/>
-    <use href="#ju" x="455.5" y="311.5"/>
-    <use href="#lu" x="407.5" y="311.5"/>
-    <use href="#o" x="407.5" y="343.5"/>
-    <use href="#o" x="439.5" y="327.5"/>
-    <use href="#ih" x="519.5" y="295.5"/>
-    <use href="#ih" x="359.5" y="311.5"/>
-    <use href="#jr" x="487.5" y="327.5"/>
-    <use href="#ll" x="375.5" y="343.5"/>
-    <use href="#ih" x="471.5" y="359.5"/>
-    <use href="#ih" x="407.5" y="375.5"/>
-    <line x1="591.5" y1="31.5" x2="847.5" y2="31.5" class="grid"/>
-    <line x1="591.5" y1="47.5" x2="847.5" y2="47.5" class="grid"/>
-    <line x1="591.5" y1="63.5" x2="847.5" y2="63.5" class="grid"/>
-    <line x1="591.5" y1="79.5" x2="847.5" y2="79.5" class="grid"/>
-    <line x1="591.5" y1="95.5" x2="847.5" y2="95.5" class="grid"/>
-    <line x1="591.5" y1="111.5" x2="847.5" y2="111.5" class="grid"/>
-    <line x1="591.5" y1="127.5" x2="847.5" y2="127.5" class="grid"/>
-    <line x1="591.5" y1="143.5" x2="847.5" y2="143.5" class="grid"/>
-    <line x1="591.5" y1="159.5" x2="847.5" y2="159.5" class="grid"/>
-    <line x1="591.5" y1="175.5" x2="847.5" y2="175.5" class="grid"/>
-    <line x1="591.5" y1="191.5" x2="847.5" y2="191.5" class="grid"/>
-    <line x1="591.5" y1="207.5" x2="847.5" y2="207.5" class="grid"/>
-    <line x1="591.5" y1="223.5" x2="847.5" y2="223.5" class="grid"/>
-    <line x1="591.5" y1="239.5" x2="847.5" y2="239.5" class="grid"/>
-    <line x1="591.5" y1="255.5" x2="847.5" y2="255.5" class="grid"/>
-    <line x1="591.5" y1="271.5" x2="847.5" y2="271.5" class="grid"/>
-    <line x1="591.5" y1="287.5" x2="847.5" y2="287.5" class="grid"/>
-    <line x1="591.5" y1="303.5" x2="847.5" y2="303.5" class="grid"/>
-    <line x1="591.5" y1="319.5" x2="847.5" y2="319.5" class="grid"/>
-    <line x1="591.5" y1="335.5" x2="847.5" y2="335.5" class="grid"/>
-    <line x1="591.5" y1="351.5" x2="847.5" y2="351.5" class="grid"/>
-    <line x1="591.5" y1="367.5" x2="847.5" y2="367.5" class="grid"/>
-    <line x1="591.5" y1="383.5" x2="847.5" y2="383.5" class="grid"/>
-    <line x1="591.5" y1="399.5" x2="847.5" y2="399.5" class="grid"/>
-    <line x1="591.5" y1="31.5" x2="591.5" y2="399.5" class="grid"/>
-    <line x1="607.5" y1="31.5" x2="607.5" y2="399.5" class="grid"/>
-    <line x1="623.5" y1="31.5" x2="623.5" y2="399.5" class="grid"/>
-    <line x1="639.5" y1="31.5" x2="639.5" y2="399.5" class="grid"/>
-    <line x1="655.5" y1="31.5" x2="655.5" y2="399.5" class="grid"/>
-    <line x1="671.5" y1="31.5" x2="671.5" y2="399.5" class="grid"/>
-    <line x1="687.5" y1="31.5" x2="687.5" y2="399.5" class="grid"/>
-    <line x1="703.5" y1="31.5" x2="703.5" y2="399.5" class="grid"/>
-    <line x1="719.5" y1="31.5" x2="719.5" y2="399.5" class="grid-axis"/>
-    <line x1="735.5" y1="31.5" x2="735.5" y2="399.5" class="grid"/>
-    <line x1="751.5" y1="31.5" x2="751.5" y2="399.5" class="grid"/>
-    <line x1="767.5" y1="31.5" x2="767.5" y2="399.5" class="grid"/>
-    <line x1="783.5" y1="31.5" x2="783.5" y2="399.5" class="grid"/>
-    <line x1="799.5" y1="31.5" x2="799.5" y2="399.5" class="grid"/>
-    <line x1="815.5" y1="31.5" x2="815.5" y2="399.5" class="grid"/>
-    <line x1="831.5" y1="31.5" x2="831.5" y2="399.5" class="grid"/>
-    <line x1="847.5" y1="31.5" x2="847.5" y2="399.5" class="grid"/>
-    <g style="font-size: 10px;">
-    </g>
-    <g style="font-size: 16px;">
-        <rect x="719.5" y="383.5" width="63" height="15" class="terminal-fill"/>
-        <rect x="719.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(751.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="655.5" y="367.5" width="63" height="31" class="terminal-fill"/>
-        <rect x="655.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(687.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="751.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(783.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="623.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(655.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-    </g>
-    <use href="#ih" x="791.5" y="39.5"/>
-    <use href="#ld" x="743.5" y="71.5"/>
-    <use href="#o" x="759.5" y="87.5"/>
-    <use href="#ju" x="743.5" y="119.5"/>
-    <use href="#jd" x="823.5" y="55.5"/>
-    <use href="#o" x="839.5" y="87.5"/>
-    <use href="#lu" x="823.5" y="135.5"/>
-    <use href="#ju" x="807.5" y="151.5"/>
-    <use href="#lu" x="759.5" y="151.5"/>
-    <use href="#o" x="759.5" y="167.5"/>
-    <use href="#o" x="791.5" y="167.5"/>
-    <use href="#iv" x="839.5" y="183.5"/>
-    <use href="#iv" x="727.5" y="167.5"/>
-    <use href="#ih" x="823.5" y="215.5"/>
-    <use href="#ih" x="759.5" y="199.5"/>
-    <use href="#ih" x="663.5" y="55.5"/>
-    <use href="#ld" x="615.5" y="71.5"/>
-    <use href="#o" x="631.5" y="87.5"/>
-    <use href="#ju" x="615.5" y="119.5"/>
-    <use href="#jd" x="695.5" y="71.5"/>
-    <use href="#o" x="695.5" y="87.5"/>
-    <use href="#lu" x="695.5" y="119.5"/>
-    <use href="#ju" x="679.5" y="151.5"/>
-    <use href="#lu" x="631.5" y="151.5"/>
-    <use href="#o" x="631.5" y="167.5"/>
-    <use href="#o" x="663.5" y="167.5"/>
-    <use href="#iv" x="711.5" y="167.5"/>
-    <use href="#iv" x="599.5" y="167.5"/>
-    <use href="#ih" x="695.5" y="199.5"/>
-    <use href="#ih" x="631.5" y="199.5"/>
-    <use href="#ld" x="807.5" y="231.5"/>
-    <use href="#jd" x="631.5" y="215.5"/>
-    <use href="#ih" x="727.5" y="215.5"/>
-    <use href="#iv" x="823.5" y="279.5"/>
-    <use href="#iv" x="615.5" y="263.5"/>
-    <use href="#ih" x="759.5" y="231.5"/>
-    <use href="#ih" x="695.5" y="247.5"/>
-    <use href="#o" x="775.5" y="247.5"/>
-    <use href="#o" x="775.5" y="279.5"/>
-    <use href="#o" x="647.5" y="263.5"/>
-    <use href="#o" x="679.5" y="263.5"/>
-    <use href="#ju" x="743.5" y="311.5"/>
-    <use href="#lu" x="695.5" y="311.5"/>
-    <use href="#o" x="695.5" y="327.5"/>
-    <use href="#o" x="727.5" y="327.5"/>
-    <use href="#ih" x="807.5" y="311.5"/>
-    <use href="#ih" x="647.5" y="295.5"/>
-    <use href="#jr" x="775.5" y="343.5"/>
-    <use href="#ll" x="663.5" y="327.5"/>
-    <use href="#ih" x="759.5" y="375.5"/>
-    <use href="#ih" x="695.5" y="359.5"/>
-    <line x1="879.5" y1="31.5" x2="1135.5" y2="31.5" class="grid"/>
-    <line x1="879.5" y1="47.5" x2="1135.5" y2="47.5" class="grid"/>
-    <line x1="879.5" y1="63.5" x2="1135.5" y2="63.5" class="grid"/>
-    <line x1="879.5" y1="79.5" x2="1135.5" y2="79.5" class="grid"/>
-    <line x1="879.5" y1="95.5" x2="1135.5" y2="95.5" class="grid"/>
-    <line x1="879.5" y1="111.5" x2="1135.5" y2="111.5" class="grid"/>
-    <line x1="879.5" y1="127.5" x2="1135.5" y2="127.5" class="grid"/>
-    <line x1="879.5" y1="143.5" x2="1135.5" y2="143.5" class="grid"/>
-    <line x1="879.5" y1="159.5" x2="1135.5" y2="159.5" class="grid"/>
-    <line x1="879.5" y1="175.5" x2="1135.5" y2="175.5" class="grid"/>
-    <line x1="879.5" y1="191.5" x2="1135.5" y2="191.5" class="grid"/>
-    <line x1="879.5" y1="207.5" x2="1135.5" y2="207.5" class="grid"/>
-    <line x1="879.5" y1="223.5" x2="1135.5" y2="223.5" class="grid"/>
-    <line x1="879.5" y1="239.5" x2="1135.5" y2="239.5" class="grid"/>
-    <line x1="879.5" y1="255.5" x2="1135.5" y2="255.5" class="grid"/>
-    <line x1="879.5" y1="271.5" x2="1135.5" y2="271.5" class="grid"/>
-    <line x1="879.5" y1="287.5" x2="1135.5" y2="287.5" class="grid"/>
-    <line x1="879.5" y1="303.5" x2="1135.5" y2="303.5" class="grid"/>
-    <line x1="879.5" y1="319.5" x2="1135.5" y2="319.5" class="grid"/>
-    <line x1="879.5" y1="335.5" x2="1135.5" y2="335.5" class="grid"/>
-    <line x1="879.5" y1="351.5" x2="1135.5" y2="351.5" class="grid"/>
-    <line x1="879.5" y1="367.5" x2="1135.5" y2="367.5" class="grid"/>
-    <line x1="879.5" y1="383.5" x2="1135.5" y2="383.5" class="grid"/>
-    <line x1="879.5" y1="399.5" x2="1135.5" y2="399.5" class="grid"/>
-    <line x1="879.5" y1="31.5" x2="879.5" y2="399.5" class="grid"/>
-    <line x1="895.5" y1="31.5" x2="895.5" y2="399.5" class="grid"/>
-    <line x1="911.5" y1="31.5" x2="911.5" y2="399.5" class="grid"/>
-    <line x1="927.5" y1="31.5" x2="927.5" y2="399.5" class="grid"/>
-    <line x1="943.5" y1="31.5" x2="943.5" y2="399.5" class="grid"/>
-    <line x1="959.5" y1="31.5" x2="959.5" y2="399.5" class="grid"/>
-    <line x1="975.5" y1="31.5" x2="975.5" y2="399.5" class="grid"/>
-    <line x1="991.5" y1="31.5" x2="991.5" y2="399.5" class="grid"/>
-    <line x1="1007.5" y1="31.5" x2="1007.5" y2="399.5" class="grid-axis"/>
-    <line x1="1023.5" y1="31.5" x2="1023.5" y2="399.5" class="grid"/>
-    <line x1="1039.5" y1="31.5" x2="1039.5" y2="399.5" class="grid"/>
-    <line x1="1055.5" y1="31.5" x2="1055.5" y2="399.5" class="grid"/>
-    <line x1="1071.5" y1="31.5" x2="1071.5" y2="399.5" class="grid"/>
-    <line x1="1087.5" y1="31.5" x2="1087.5" y2="399.5" class="grid"/>
-    <line x1="1103.5" y1="31.5" x2="1103.5" y2="399.5" class="grid"/>
-    <line x1="1119.5" y1="31.5" x2="1119.5" y2="399.5" class="grid"/>
-    <line x1="1135.5" y1="31.5" x2="1135.5" y2="399.5" class="grid"/>
-    <g style="font-size: 10px;">
-    </g>
-    <g style="font-size: 16px;">
-        <rect x="1007.5" y="367.5" width="63" height="31" class="terminal-fill"/>
-        <rect x="1007.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(1039.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="943.5" y="367.5" width="63" height="31" class="terminal-fill"/>
-        <rect x="943.5" y="367.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(975.5 409.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="1039.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(1071.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="911.5" y="31.5" width="63" height="31" class="terminal-stroke"/>
-        <text transform="translate(943.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-    </g>
-    <use href="#ih" x="1079.5" y="39.5"/>
-    <use href="#ld" x="1031.5" y="55.5"/>
-    <use href="#o" x="1031.5" y="87.5"/>
-    <use href="#ju" x="1031.5" y="135.5"/>
-    <use href="#jd" x="1111.5" y="71.5"/>
-    <use href="#o" x="1111.5" y="87.5"/>
-    <use href="#lu" x="1111.5" y="119.5"/>
-    <use href="#ju" x="1095.5" y="151.5"/>
-    <use href="#lu" x="1047.5" y="151.5"/>
-    <use href="#o" x="1047.5" y="183.5"/>
-    <use href="#o" x="1079.5" y="167.5"/>
-    <use href="#iv" x="1127.5" y="167.5"/>
-    <use href="#iv" x="1015.5" y="183.5"/>
-    <use href="#ih" x="1111.5" y="199.5"/>
-    <use href="#ih" x="1047.5" y="215.5"/>
-    <use href="#ih" x="951.5" y="39.5"/>
-    <use href="#ld" x="903.5" y="71.5"/>
-    <use href="#o" x="919.5" y="87.5"/>
-    <use href="#ju" x="903.5" y="119.5"/>
-    <use href="#jd" x="983.5" y="55.5"/>
-    <use href="#o" x="999.5" y="87.5"/>
-    <use href="#lu" x="983.5" y="135.5"/>
-    <use href="#ju" x="967.5" y="151.5"/>
-    <use href="#lu" x="919.5" y="151.5"/>
-    <use href="#o" x="919.5" y="167.5"/>
-    <use href="#o" x="951.5" y="167.5"/>
-    <use href="#iv" x="999.5" y="183.5"/>
-    <use href="#iv" x="887.5" y="167.5"/>
-    <use href="#ih" x="983.5" y="215.5"/>
-    <use href="#ih" x="919.5" y="199.5"/>
-    <use href="#ld" x="1095.5" y="215.5"/>
-    <use href="#jd" x="919.5" y="215.5"/>
-    <use href="#ih" x="1015.5" y="231.5"/>
-    <use href="#iv" x="1111.5" y="263.5"/>
-    <use href="#iv" x="903.5" y="263.5"/>
-    <use href="#ih" x="1047.5" y="247.5"/>
-    <use href="#ih" x="983.5" y="247.5"/>
-    <use href="#o" x="1095.5" y="263.5"/>
-    <use href="#o" x="1063.5" y="263.5"/>
-    <use href="#o" x="935.5" y="263.5"/>
-    <use href="#o" x="967.5" y="263.5"/>
-    <use href="#ju" x="1031.5" y="311.5"/>
-    <use href="#lu" x="983.5" y="311.5"/>
-    <use href="#o" x="983.5" y="327.5"/>
-    <use href="#o" x="1015.5" y="327.5"/>
-    <use href="#ih" x="1095.5" y="295.5"/>
-    <use href="#ih" x="935.5" y="295.5"/>
-    <use href="#jr" x="1063.5" y="327.5"/>
-    <use href="#ll" x="951.5" y="327.5"/>
-    <use href="#ih" x="1047.5" y="359.5"/>
-    <use href="#ih" x="983.5" y="359.5"/>
+    <use href="#jd" x="119.5" y="55.5"/>
+    <use href="#o" x="119.5" y="71.5"/>
+    <use href="#lu" x="119.5" y="103.5"/>
 </svg>
