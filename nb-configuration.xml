@@ -15,11 +15,6 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
     </properties>
-    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-        <word>NRS</word>
-        <word>playfield</word>
-        <word>Tetriminos</word>
-    </spellchecker-wordlist>
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
             <configuration id="Assembler" profiles=""/>
@@ -35,4 +30,10 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Generate Orientation Table" profiles=""/>
         </configurations>
     </config-data>
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>iff</word>
+        <word>NRS</word>
+        <word>playfield</word>
+        <word>Tetriminos</word>
+    </spellchecker-wordlist>
 </project-shared-configuration>

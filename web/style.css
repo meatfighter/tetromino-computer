@@ -9,7 +9,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-p {
+p,ul {
     font-size: 16px;
     line-height: 27px;
     font-weight: 300;
