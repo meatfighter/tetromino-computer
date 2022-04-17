@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
+<svg width="571" height="90" viewBox="-140.5 0 571 90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
+        <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tu" points="-10,-30 9,-30 9,-10 29,-10 29,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tr" points="-10,-30 9,-30 9,-10 29,-10 29,9 9,9 9,29 -10,29" class="t"/>
+        <polygon id="jd" points="-30,-10 29,-10 29,29 10,29 10,9 -30,9" class="j"/>
+        <polygon id="jl" points="-10,-30 9,-30 9,29 -30,29 -30,10 -10,10" class="j"/>
+        <polygon id="ju" points="-30,-30 -11,-30 -11,-10 29,-10 29,9 -30,9" class="j"/>
+        <polygon id="jr" points="-10,-30 29,-30 29,-11 9,-11 9,29 -10,29" class="j"/>
+        <polygon id="zh" points="-30,-10 9,-10 9,10 29,10 29,29 -10,29 -10,9 -30,9" class="z"/>
+        <polygon id="zv" points="10,-30 29,-30 29,9 9,9 9,29 -10,29 -10,-10 10,-10" class="z"/>
+        <polygon id="o" points="-30,-10 9,-10 9,29 -30,29" class="o"/>
+        <polygon id="sh" points="-10,-10 29,-10 29,9 9,9 9,29 -30,29 -30,10 -10,10" class="s"/>
+        <polygon id="sv" points="-10,-30 9,-30 9,-10 29,-10 29,29 10,29 10,9 -10,9" class="s"/>
+        <polygon id="ld" points="-30,-10 29,-10 29,9 -11,9 -11,29 -30,29" class="l"/>
+        <polygon id="ll" points="-30,-30 9,-30 9,29 -10,29 -10,-11 -30,-11" class="l"/>
+        <polygon id="lu" points="10,-30 29,-30 29,9 -30,9 -30,-10 10,-10" class="l"/>
+        <polygon id="lr" points="-10,-30 9,-30 9,10 29,10 29,29 -10,29" class="l"/>
+        <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
+        <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
+    </defs>
+    <g style="font-size: 20px;">
+        <text x="-94.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">T</text>
+        <text x="-14.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">J</text>
+        <text x="55.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">Z</text>
+        <text x="135.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">O</text>
+        <text x="215.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">S</text>
+        <text x="285.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">L</text>
+        <text x="375.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">I</text>
+    </g>
+    <use href="#ih" x="385.5" y="45.5"/>
+    <use href="#ld" x="285.5" y="45.5"/>
+    <use href="#sh" x="205.5" y="45.5"/>
+    <use href="#o" x="145.5" y="45.5"/>
+    <use href="#zh" x="65.5" y="45.5"/>
+    <use href="#jd" x="-14.5" y="45.5"/>
+    <use href="#td" x="-94.5" y="45.5"/>
+</svg>

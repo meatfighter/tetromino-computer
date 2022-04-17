@@ -32,11 +32,12 @@ public class SvgGenerator {
             final boolean renderTerminalValues,
             final int leftPaddingCells,
             final int rightPaddingCells,
-            final int topPaddingCells) {
+            final int topPaddingCells,
+            final boolean renderOpenTop) {
         try (final PrintStream o = new PrintStream(out)) {
             generate(o, structs, displayWidth, margin, cellSize, renderGrid, renderInputTerminals, 
                     renderOutputTerminals, renderTetriminos, renderYAxis, renderStructures, renderAxesNumbers, 
-                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells);
+                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenTop);
         }
     }
     
@@ -56,7 +57,8 @@ public class SvgGenerator {
             final boolean renderTerminalValues,
             final int leftPaddingCells,
             final int rightPaddingCells,
-            final int topPaddingCells) {
+            final int topPaddingCells,
+            final boolean renderOpenTop) {
         
         double viewBoxWidth = 2.0 * margin;
         double viewBoxHeight = 0;
@@ -69,13 +71,13 @@ public class SvgGenerator {
             final int cellsWidth = maxX - minX + 1;
             final int cellsHeight = maxY - minY + 1;
             final double gridWidth = cellSize * cellsWidth;
-            final double gridHeight = cellSize * cellsHeight;
+            final double gridHeight = cellSize * cellsHeight + (renderOpenTop ? cellSize / 2.0 : 0);
             viewBoxWidth += ((i > 0) ? 2.0 * cellSize : 0) + (renderAxesNumbers 
                     ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0) + gridWidth;
             
             final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
             viewBoxHeight = max(viewBoxHeight, gridY + gridHeight + margin + (renderTerminalValues ? cellSize : 0)
-                + (renderAxesNumbers ? (minX < 9 || maxX > 99) 
+                + (renderAxesNumbers ? (minX < -9 || maxX > 99) 
                 ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) 
                 : (int)(2.0 * cellSize / 3.0) : 0));
         }
@@ -84,7 +86,7 @@ public class SvgGenerator {
         final double svgWidth = (displayWidth > 0) ? displayWidth : viewBoxWidth;
         final double svgHeight = (displayHeight > 0) ? displayHeight : viewBoxHeight;        
         out.println("<?xml version=\"1.0\"?>");
-        out.println("<?xml-stylesheet type=\"text/css\" href=\"test.css\"?>");
+        out.println("<?xml-stylesheet type=\"text/css\" href=\"svg.css\"?>");
         out.format("<svg width=\"%s\" height=\"%s\" viewBox=\"0 0 %s %s\" xmlns=\"http://www.w3.org/2000/svg\" "
                 + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", toString(svgWidth), toString(svgHeight), 
                 toString(viewBoxWidth), toString(viewBoxHeight));
@@ -119,7 +121,7 @@ public class SvgGenerator {
             final int cellsWidth = maxX - minX + 1;
             final int cellsHeight = maxY - minY + 1;
             final double gridWidth = cellSize * cellsWidth;
-            final double gridHeight = cellSize * cellsHeight;
+            final double gridHeight = cellSize * cellsHeight + (renderOpenTop ? cellSize / 2.0 : 0);
             final double gridX = offsetX 
                     + (renderAxesNumbers ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0);
             final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
@@ -129,14 +131,14 @@ public class SvgGenerator {
 
             if (renderGrid) {
                 for (int y = 0; y <= maxY + 1; ++y) {
-                    final double lineY = gridY + cellSize * y;
+                    final double lineY = gridY + cellSize * y + (renderOpenTop ? cellSize / 2.0 : 0);
                     out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", toString(gridX), 
                             toString(lineY), toString(gridX + gridWidth), toString(lineY));
                 } 
                 for (int x = minX; x <= maxX + 1; ++x) {
                     final double lineX = gridX + cellSize * (x - minX);
                     out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"%s\"/>%n", toString(lineX), 
-                            toString(gridY), toString(lineX), toString(gridY + gridHeight), 
+                            toString(gridY + 1), toString(lineX), toString(gridY + gridHeight - 1), 
                             (renderYAxis && x == 0) ? "grid-axis" : "grid");
                 }           
             }
@@ -145,12 +147,12 @@ public class SvgGenerator {
                 final double xAxis = gridX - cellSize / 8.0;            
                 out.format("    <g style=\"font-size: %dpx;\">%n", (int)(2.0 * cellSize / 3.0));
                 for (int y = 0; y <= maxY; ++y) {
-                    final double lineY = gridY + cellSize * y;
+                    final double lineY = gridY + cellSize * y + (renderOpenTop ? cellSize / 2.0 : 0);
                     out.format("        <text transform=\"translate(%s %s)\" class=\"axes\" dominant-baseline=\"middle\" "
                             + "text-anchor=\"end\">%s</text>%n", toString(xAxis), 
                             toString(lineY + cellSize / 2.0), maxY - y);
                 }
-                if (minX < 9 || maxX > 99) {
+                if (minX < -9 || maxX > 99) {
                     final double yAxis = gridY + gridHeight + cellSize / 8.0;
                     for (int x = minX; x <= maxX; ++x) {
                         final double lineX = gridX + cellSize * (x - minX);
@@ -211,17 +213,18 @@ public class SvgGenerator {
                 g.dispose();
             }
 
-            out.format("    <g style=\"font-size: %dpx;\">%n", (int)cellSize);
-            if (renderInputTerminals) {
-                renderTerminals(out, ox, oy, cellSize, struct.getInputs(), struct.getX(), struct.getY(), true, 
-                        renderTerminalValues, true);
+            if (renderInputTerminals || renderOutputTerminals) {
+                out.format("    <g style=\"font-size: %dpx;\">%n", (int)cellSize);
+                if (renderInputTerminals) {
+                    renderTerminals(out, ox, oy, cellSize, struct.getInputs(), struct.getX(), struct.getY(), true, 
+                            renderTerminalValues, true);
+                }
+                if (renderOutputTerminals) {
+                    renderTerminals(out, ox, oy, cellSize, struct.getOutputs(), struct.getX(), struct.getY(), false, 
+                            renderTerminalValues, false);
+                }        
+                out.println("    </g>");
             }
-
-            if (renderOutputTerminals) {
-                renderTerminals(out, ox, oy, cellSize, struct.getOutputs(), struct.getX(), struct.getY(), false, 
-                        renderTerminalValues, false);
-            }        
-            out.println("    </g>");
 
             if (renderTetriminos) {
                 for (int i = structures.length - 1; i >= 0; --i) {

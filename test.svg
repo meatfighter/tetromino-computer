@@ -1,73 +1,321 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/css" href="test.css"?>
-<svg width="159" height="175" viewBox="0 0 159 175" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<?xml-stylesheet type="text/css" href="svg.css"?>
+<svg width="496" height="985" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
-        <polygon id="td" points="-24,-8 23,-8 23,7 7,7 7,23 -8,23 -8,7 -24,7" class="t"/>
-        <polygon id="tl" points="-8,-24 7,-24 7,23 -8,23 -8,7 -24,7 -24,-8 -8,-8" class="t"/>
-        <polygon id="tu" points="-8,-24 7,-24 7,-8 23,-8 23,7 -24,7 -24,-8 -8,-8" class="t"/>
-        <polygon id="tr" points="-8,-24 7,-24 7,-8 23,-8 23,7 7,7 7,23 -8,23" class="t"/>
-        <polygon id="jd" points="-24,-8 23,-8 23,23 8,23 8,7 -24,7" class="j"/>
-        <polygon id="jl" points="-8,-24 7,-24 7,23 -24,23 -24,8 -8,8" class="j"/>
-        <polygon id="ju" points="-24,-24 -9,-24 -9,-8 23,-8 23,7 -24,7" class="j"/>
-        <polygon id="jr" points="-8,-24 23,-24 23,-9 7,-9 7,23 -8,23" class="j"/>
-        <polygon id="zh" points="-24,-8 7,-8 7,8 23,8 23,23 -8,23 -8,7 -24,7" class="z"/>
-        <polygon id="zv" points="8,-24 23,-24 23,7 7,7 7,23 -8,23 -8,-8 8,-8" class="z"/>
-        <polygon id="o" points="-24,-8 7,-8 7,23 -24,23" class="o"/>
-        <polygon id="sh" points="-8,-8 23,-8 23,7 7,7 7,23 -24,23 -24,8 -8,8" class="s"/>
-        <polygon id="sv" points="-8,-24 7,-24 7,-8 23,-8 23,23 8,23 8,7 -8,7" class="s"/>
-        <polygon id="ld" points="-24,-8 23,-8 23,7 -9,7 -9,23 -24,23" class="l"/>
-        <polygon id="ll" points="-24,-24 7,-24 7,23 -8,23 -8,-9 -24,-9" class="l"/>
-        <polygon id="lu" points="8,-24 23,-24 23,7 -24,7 -24,-8 8,-8" class="l"/>
-        <polygon id="lr" points="-8,-24 7,-24 7,8 23,8 23,23 -8,23" class="l"/>
-        <polygon id="ih" points="-40,-8 23,-8 23,7 -40,7" class="i"/>
-        <polygon id="iv" points="-8,-40 7,-40 7,23 -8,23" class="i"/>
+        <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
+        <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tu" points="-10,-30 9,-30 9,-10 29,-10 29,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tr" points="-10,-30 9,-30 9,-10 29,-10 29,9 9,9 9,29 -10,29" class="t"/>
+        <polygon id="jd" points="-30,-10 29,-10 29,29 10,29 10,9 -30,9" class="j"/>
+        <polygon id="jl" points="-10,-30 9,-30 9,29 -30,29 -30,10 -10,10" class="j"/>
+        <polygon id="ju" points="-30,-30 -11,-30 -11,-10 29,-10 29,9 -30,9" class="j"/>
+        <polygon id="jr" points="-10,-30 29,-30 29,-11 9,-11 9,29 -10,29" class="j"/>
+        <polygon id="zh" points="-30,-10 9,-10 9,10 29,10 29,29 -10,29 -10,9 -30,9" class="z"/>
+        <polygon id="zv" points="10,-30 29,-30 29,9 9,9 9,29 -10,29 -10,-10 10,-10" class="z"/>
+        <polygon id="o" points="-30,-10 9,-10 9,29 -30,29" class="o"/>
+        <polygon id="sh" points="-10,-10 29,-10 29,9 9,9 9,29 -30,29 -30,10 -10,10" class="s"/>
+        <polygon id="sv" points="-10,-30 9,-30 9,-10 29,-10 29,29 10,29 10,9 -10,9" class="s"/>
+        <polygon id="ld" points="-30,-10 29,-10 29,9 -11,9 -11,29 -30,29" class="l"/>
+        <polygon id="ll" points="-30,-30 9,-30 9,29 -10,29 -10,-11 -30,-11" class="l"/>
+        <polygon id="lu" points="10,-30 29,-30 29,9 -30,9 -30,-10 10,-10" class="l"/>
+        <polygon id="lr" points="-10,-30 9,-30 9,10 29,10 29,29 -10,29" class="l"/>
+        <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
+        <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
-    <line x1="15.5" y1="31.5" x2="63.5" y2="31.5" class="grid"/>
-    <line x1="15.5" y1="47.5" x2="63.5" y2="47.5" class="grid"/>
-    <line x1="15.5" y1="63.5" x2="63.5" y2="63.5" class="grid"/>
-    <line x1="15.5" y1="79.5" x2="63.5" y2="79.5" class="grid"/>
-    <line x1="15.5" y1="95.5" x2="63.5" y2="95.5" class="grid"/>
-    <line x1="15.5" y1="111.5" x2="63.5" y2="111.5" class="grid"/>
-    <line x1="15.5" y1="127.5" x2="63.5" y2="127.5" class="grid"/>
-    <line x1="15.5" y1="143.5" x2="63.5" y2="143.5" class="grid"/>
-    <line x1="15.5" y1="31.5" x2="15.5" y2="143.5" class="grid"/>
-    <line x1="31.5" y1="31.5" x2="31.5" y2="143.5" class="grid-axis"/>
-    <line x1="47.5" y1="31.5" x2="47.5" y2="143.5" class="grid"/>
-    <line x1="63.5" y1="31.5" x2="63.5" y2="143.5" class="grid"/>
-    <g style="font-size: 10px;">
+    <g style="font-size: 13px;">
+        <line x1="33.5" y1="33.5" x2="133.5" y2="33.5" class="grid"/>
+        <line x1="33.5" y1="53.5" x2="133.5" y2="53.5" class="grid"/>
+        <line x1="33.5" y1="73.5" x2="133.5" y2="73.5" class="grid"/>
+        <line x1="33.5" y1="93.5" x2="133.5" y2="93.5" class="grid"/>
+        <line x1="33.5" y1="113.5" x2="133.5" y2="113.5" class="grid"/>
+        <line x1="33.5" y1="133.5" x2="133.5" y2="133.5" class="grid"/>
+        <line x1="33.5" y1="33.5" x2="33.5" y2="133.5" class="grid"/>
+        <line x1="53.5" y1="33.5" x2="53.5" y2="133.5" class="grid"/>
+        <line x1="73.5" y1="33.5" x2="73.5" y2="133.5" class="grid"/>
+        <line x1="93.5" y1="33.5" x2="93.5" y2="133.5" class="grid"/>
+        <line x1="113.5" y1="33.5" x2="113.5" y2="133.5" class="grid"/>
+        <line x1="133.5" y1="33.5" x2="133.5" y2="133.5" class="grid"/>
+        <use href="#td" x="83.5" y="83.5"/>
+        <circle cx="83" cy="83" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">td</text>
+        <line x1="148.5" y1="33.5" x2="248.5" y2="33.5" class="grid"/>
+        <line x1="148.5" y1="53.5" x2="248.5" y2="53.5" class="grid"/>
+        <line x1="148.5" y1="73.5" x2="248.5" y2="73.5" class="grid"/>
+        <line x1="148.5" y1="93.5" x2="248.5" y2="93.5" class="grid"/>
+        <line x1="148.5" y1="113.5" x2="248.5" y2="113.5" class="grid"/>
+        <line x1="148.5" y1="133.5" x2="248.5" y2="133.5" class="grid"/>
+        <line x1="148.5" y1="33.5" x2="148.5" y2="133.5" class="grid"/>
+        <line x1="168.5" y1="33.5" x2="168.5" y2="133.5" class="grid"/>
+        <line x1="188.5" y1="33.5" x2="188.5" y2="133.5" class="grid"/>
+        <line x1="208.5" y1="33.5" x2="208.5" y2="133.5" class="grid"/>
+        <line x1="228.5" y1="33.5" x2="228.5" y2="133.5" class="grid"/>
+        <line x1="248.5" y1="33.5" x2="248.5" y2="133.5" class="grid"/>
+        <use href="#tl" x="198.5" y="83.5"/>
+        <circle cx="198" cy="83" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tl</text>
+        <line x1="263.5" y1="33.5" x2="363.5" y2="33.5" class="grid"/>
+        <line x1="263.5" y1="53.5" x2="363.5" y2="53.5" class="grid"/>
+        <line x1="263.5" y1="73.5" x2="363.5" y2="73.5" class="grid"/>
+        <line x1="263.5" y1="93.5" x2="363.5" y2="93.5" class="grid"/>
+        <line x1="263.5" y1="113.5" x2="363.5" y2="113.5" class="grid"/>
+        <line x1="263.5" y1="133.5" x2="363.5" y2="133.5" class="grid"/>
+        <line x1="263.5" y1="33.5" x2="263.5" y2="133.5" class="grid"/>
+        <line x1="283.5" y1="33.5" x2="283.5" y2="133.5" class="grid"/>
+        <line x1="303.5" y1="33.5" x2="303.5" y2="133.5" class="grid"/>
+        <line x1="323.5" y1="33.5" x2="323.5" y2="133.5" class="grid"/>
+        <line x1="343.5" y1="33.5" x2="343.5" y2="133.5" class="grid"/>
+        <line x1="363.5" y1="33.5" x2="363.5" y2="133.5" class="grid"/>
+        <use href="#tu" x="313.5" y="83.5"/>
+        <circle cx="313" cy="83" r="5.0" class="grid-center"/>
+        <text transform="translate(313.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tu</text>
+        <line x1="378.5" y1="33.5" x2="478.5" y2="33.5" class="grid"/>
+        <line x1="378.5" y1="53.5" x2="478.5" y2="53.5" class="grid"/>
+        <line x1="378.5" y1="73.5" x2="478.5" y2="73.5" class="grid"/>
+        <line x1="378.5" y1="93.5" x2="478.5" y2="93.5" class="grid"/>
+        <line x1="378.5" y1="113.5" x2="478.5" y2="113.5" class="grid"/>
+        <line x1="378.5" y1="133.5" x2="478.5" y2="133.5" class="grid"/>
+        <line x1="378.5" y1="33.5" x2="378.5" y2="133.5" class="grid"/>
+        <line x1="398.5" y1="33.5" x2="398.5" y2="133.5" class="grid"/>
+        <line x1="418.5" y1="33.5" x2="418.5" y2="133.5" class="grid"/>
+        <line x1="438.5" y1="33.5" x2="438.5" y2="133.5" class="grid"/>
+        <line x1="458.5" y1="33.5" x2="458.5" y2="133.5" class="grid"/>
+        <line x1="478.5" y1="33.5" x2="478.5" y2="133.5" class="grid"/>
+        <use href="#tr" x="428.5" y="83.5"/>
+        <circle cx="428" cy="83" r="5.0" class="grid-center"/>
+        <text transform="translate(428.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tr</text>
+        <line x1="33.5" y1="172.5" x2="133.5" y2="172.5" class="grid"/>
+        <line x1="33.5" y1="192.5" x2="133.5" y2="192.5" class="grid"/>
+        <line x1="33.5" y1="212.5" x2="133.5" y2="212.5" class="grid"/>
+        <line x1="33.5" y1="232.5" x2="133.5" y2="232.5" class="grid"/>
+        <line x1="33.5" y1="252.5" x2="133.5" y2="252.5" class="grid"/>
+        <line x1="33.5" y1="272.5" x2="133.5" y2="272.5" class="grid"/>
+        <line x1="33.5" y1="172.5" x2="33.5" y2="272.5" class="grid"/>
+        <line x1="53.5" y1="172.5" x2="53.5" y2="272.5" class="grid"/>
+        <line x1="73.5" y1="172.5" x2="73.5" y2="272.5" class="grid"/>
+        <line x1="93.5" y1="172.5" x2="93.5" y2="272.5" class="grid"/>
+        <line x1="113.5" y1="172.5" x2="113.5" y2="272.5" class="grid"/>
+        <line x1="133.5" y1="172.5" x2="133.5" y2="272.5" class="grid"/>
+        <use href="#jd" x="83.5" y="222.5"/>
+        <circle cx="83" cy="222" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jd</text>
+        <line x1="148.5" y1="172.5" x2="248.5" y2="172.5" class="grid"/>
+        <line x1="148.5" y1="192.5" x2="248.5" y2="192.5" class="grid"/>
+        <line x1="148.5" y1="212.5" x2="248.5" y2="212.5" class="grid"/>
+        <line x1="148.5" y1="232.5" x2="248.5" y2="232.5" class="grid"/>
+        <line x1="148.5" y1="252.5" x2="248.5" y2="252.5" class="grid"/>
+        <line x1="148.5" y1="272.5" x2="248.5" y2="272.5" class="grid"/>
+        <line x1="148.5" y1="172.5" x2="148.5" y2="272.5" class="grid"/>
+        <line x1="168.5" y1="172.5" x2="168.5" y2="272.5" class="grid"/>
+        <line x1="188.5" y1="172.5" x2="188.5" y2="272.5" class="grid"/>
+        <line x1="208.5" y1="172.5" x2="208.5" y2="272.5" class="grid"/>
+        <line x1="228.5" y1="172.5" x2="228.5" y2="272.5" class="grid"/>
+        <line x1="248.5" y1="172.5" x2="248.5" y2="272.5" class="grid"/>
+        <use href="#jl" x="198.5" y="222.5"/>
+        <circle cx="198" cy="222" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jl</text>
+        <line x1="263.5" y1="172.5" x2="363.5" y2="172.5" class="grid"/>
+        <line x1="263.5" y1="192.5" x2="363.5" y2="192.5" class="grid"/>
+        <line x1="263.5" y1="212.5" x2="363.5" y2="212.5" class="grid"/>
+        <line x1="263.5" y1="232.5" x2="363.5" y2="232.5" class="grid"/>
+        <line x1="263.5" y1="252.5" x2="363.5" y2="252.5" class="grid"/>
+        <line x1="263.5" y1="272.5" x2="363.5" y2="272.5" class="grid"/>
+        <line x1="263.5" y1="172.5" x2="263.5" y2="272.5" class="grid"/>
+        <line x1="283.5" y1="172.5" x2="283.5" y2="272.5" class="grid"/>
+        <line x1="303.5" y1="172.5" x2="303.5" y2="272.5" class="grid"/>
+        <line x1="323.5" y1="172.5" x2="323.5" y2="272.5" class="grid"/>
+        <line x1="343.5" y1="172.5" x2="343.5" y2="272.5" class="grid"/>
+        <line x1="363.5" y1="172.5" x2="363.5" y2="272.5" class="grid"/>
+        <use href="#ju" x="313.5" y="222.5"/>
+        <circle cx="313" cy="222" r="5.0" class="grid-center"/>
+        <text transform="translate(313.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ju</text>
+        <line x1="378.5" y1="172.5" x2="478.5" y2="172.5" class="grid"/>
+        <line x1="378.5" y1="192.5" x2="478.5" y2="192.5" class="grid"/>
+        <line x1="378.5" y1="212.5" x2="478.5" y2="212.5" class="grid"/>
+        <line x1="378.5" y1="232.5" x2="478.5" y2="232.5" class="grid"/>
+        <line x1="378.5" y1="252.5" x2="478.5" y2="252.5" class="grid"/>
+        <line x1="378.5" y1="272.5" x2="478.5" y2="272.5" class="grid"/>
+        <line x1="378.5" y1="172.5" x2="378.5" y2="272.5" class="grid"/>
+        <line x1="398.5" y1="172.5" x2="398.5" y2="272.5" class="grid"/>
+        <line x1="418.5" y1="172.5" x2="418.5" y2="272.5" class="grid"/>
+        <line x1="438.5" y1="172.5" x2="438.5" y2="272.5" class="grid"/>
+        <line x1="458.5" y1="172.5" x2="458.5" y2="272.5" class="grid"/>
+        <line x1="478.5" y1="172.5" x2="478.5" y2="272.5" class="grid"/>
+        <use href="#jr" x="428.5" y="222.5"/>
+        <circle cx="428" cy="222" r="5.0" class="grid-center"/>
+        <text transform="translate(428.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jr</text>
+        <line x1="33.5" y1="311.5" x2="133.5" y2="311.5" class="grid"/>
+        <line x1="33.5" y1="331.5" x2="133.5" y2="331.5" class="grid"/>
+        <line x1="33.5" y1="351.5" x2="133.5" y2="351.5" class="grid"/>
+        <line x1="33.5" y1="371.5" x2="133.5" y2="371.5" class="grid"/>
+        <line x1="33.5" y1="391.5" x2="133.5" y2="391.5" class="grid"/>
+        <line x1="33.5" y1="411.5" x2="133.5" y2="411.5" class="grid"/>
+        <line x1="33.5" y1="311.5" x2="33.5" y2="411.5" class="grid"/>
+        <line x1="53.5" y1="311.5" x2="53.5" y2="411.5" class="grid"/>
+        <line x1="73.5" y1="311.5" x2="73.5" y2="411.5" class="grid"/>
+        <line x1="93.5" y1="311.5" x2="93.5" y2="411.5" class="grid"/>
+        <line x1="113.5" y1="311.5" x2="113.5" y2="411.5" class="grid"/>
+        <line x1="133.5" y1="311.5" x2="133.5" y2="411.5" class="grid"/>
+        <use href="#zh" x="83.5" y="361.5"/>
+        <circle cx="83" cy="361" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 299.5)" class="axes" dominant-baseline="middle" text-anchor="middle">zh</text>
+        <line x1="148.5" y1="311.5" x2="248.5" y2="311.5" class="grid"/>
+        <line x1="148.5" y1="331.5" x2="248.5" y2="331.5" class="grid"/>
+        <line x1="148.5" y1="351.5" x2="248.5" y2="351.5" class="grid"/>
+        <line x1="148.5" y1="371.5" x2="248.5" y2="371.5" class="grid"/>
+        <line x1="148.5" y1="391.5" x2="248.5" y2="391.5" class="grid"/>
+        <line x1="148.5" y1="411.5" x2="248.5" y2="411.5" class="grid"/>
+        <line x1="148.5" y1="311.5" x2="148.5" y2="411.5" class="grid"/>
+        <line x1="168.5" y1="311.5" x2="168.5" y2="411.5" class="grid"/>
+        <line x1="188.5" y1="311.5" x2="188.5" y2="411.5" class="grid"/>
+        <line x1="208.5" y1="311.5" x2="208.5" y2="411.5" class="grid"/>
+        <line x1="228.5" y1="311.5" x2="228.5" y2="411.5" class="grid"/>
+        <line x1="248.5" y1="311.5" x2="248.5" y2="411.5" class="grid"/>
+        <use href="#zv" x="198.5" y="361.5"/>
+        <circle cx="198" cy="361" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 299.5)" class="axes" dominant-baseline="middle" text-anchor="middle">zv</text>
+        <line x1="33.5" y1="450.5" x2="133.5" y2="450.5" class="grid"/>
+        <line x1="33.5" y1="470.5" x2="133.5" y2="470.5" class="grid"/>
+        <line x1="33.5" y1="490.5" x2="133.5" y2="490.5" class="grid"/>
+        <line x1="33.5" y1="510.5" x2="133.5" y2="510.5" class="grid"/>
+        <line x1="33.5" y1="530.5" x2="133.5" y2="530.5" class="grid"/>
+        <line x1="33.5" y1="550.5" x2="133.5" y2="550.5" class="grid"/>
+        <line x1="33.5" y1="450.5" x2="33.5" y2="550.5" class="grid"/>
+        <line x1="53.5" y1="450.5" x2="53.5" y2="550.5" class="grid"/>
+        <line x1="73.5" y1="450.5" x2="73.5" y2="550.5" class="grid"/>
+        <line x1="93.5" y1="450.5" x2="93.5" y2="550.5" class="grid"/>
+        <line x1="113.5" y1="450.5" x2="113.5" y2="550.5" class="grid"/>
+        <line x1="133.5" y1="450.5" x2="133.5" y2="550.5" class="grid"/>
+        <use href="#o" x="83.5" y="500.5"/>
+        <circle cx="83" cy="500" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 438.5)" class="axes" dominant-baseline="middle" text-anchor="middle">o</text>
+        <line x1="33.5" y1="589.5" x2="133.5" y2="589.5" class="grid"/>
+        <line x1="33.5" y1="609.5" x2="133.5" y2="609.5" class="grid"/>
+        <line x1="33.5" y1="629.5" x2="133.5" y2="629.5" class="grid"/>
+        <line x1="33.5" y1="649.5" x2="133.5" y2="649.5" class="grid"/>
+        <line x1="33.5" y1="669.5" x2="133.5" y2="669.5" class="grid"/>
+        <line x1="33.5" y1="689.5" x2="133.5" y2="689.5" class="grid"/>
+        <line x1="33.5" y1="589.5" x2="33.5" y2="689.5" class="grid"/>
+        <line x1="53.5" y1="589.5" x2="53.5" y2="689.5" class="grid"/>
+        <line x1="73.5" y1="589.5" x2="73.5" y2="689.5" class="grid"/>
+        <line x1="93.5" y1="589.5" x2="93.5" y2="689.5" class="grid"/>
+        <line x1="113.5" y1="589.5" x2="113.5" y2="689.5" class="grid"/>
+        <line x1="133.5" y1="589.5" x2="133.5" y2="689.5" class="grid"/>
+        <use href="#sh" x="83.5" y="639.5"/>
+        <circle cx="83" cy="639" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 577.5)" class="axes" dominant-baseline="middle" text-anchor="middle">sh</text>
+        <line x1="148.5" y1="589.5" x2="248.5" y2="589.5" class="grid"/>
+        <line x1="148.5" y1="609.5" x2="248.5" y2="609.5" class="grid"/>
+        <line x1="148.5" y1="629.5" x2="248.5" y2="629.5" class="grid"/>
+        <line x1="148.5" y1="649.5" x2="248.5" y2="649.5" class="grid"/>
+        <line x1="148.5" y1="669.5" x2="248.5" y2="669.5" class="grid"/>
+        <line x1="148.5" y1="689.5" x2="248.5" y2="689.5" class="grid"/>
+        <line x1="148.5" y1="589.5" x2="148.5" y2="689.5" class="grid"/>
+        <line x1="168.5" y1="589.5" x2="168.5" y2="689.5" class="grid"/>
+        <line x1="188.5" y1="589.5" x2="188.5" y2="689.5" class="grid"/>
+        <line x1="208.5" y1="589.5" x2="208.5" y2="689.5" class="grid"/>
+        <line x1="228.5" y1="589.5" x2="228.5" y2="689.5" class="grid"/>
+        <line x1="248.5" y1="589.5" x2="248.5" y2="689.5" class="grid"/>
+        <use href="#sv" x="198.5" y="639.5"/>
+        <circle cx="198" cy="639" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 577.5)" class="axes" dominant-baseline="middle" text-anchor="middle">sv</text>
+        <line x1="33.5" y1="728.5" x2="133.5" y2="728.5" class="grid"/>
+        <line x1="33.5" y1="748.5" x2="133.5" y2="748.5" class="grid"/>
+        <line x1="33.5" y1="768.5" x2="133.5" y2="768.5" class="grid"/>
+        <line x1="33.5" y1="788.5" x2="133.5" y2="788.5" class="grid"/>
+        <line x1="33.5" y1="808.5" x2="133.5" y2="808.5" class="grid"/>
+        <line x1="33.5" y1="828.5" x2="133.5" y2="828.5" class="grid"/>
+        <line x1="33.5" y1="728.5" x2="33.5" y2="828.5" class="grid"/>
+        <line x1="53.5" y1="728.5" x2="53.5" y2="828.5" class="grid"/>
+        <line x1="73.5" y1="728.5" x2="73.5" y2="828.5" class="grid"/>
+        <line x1="93.5" y1="728.5" x2="93.5" y2="828.5" class="grid"/>
+        <line x1="113.5" y1="728.5" x2="113.5" y2="828.5" class="grid"/>
+        <line x1="133.5" y1="728.5" x2="133.5" y2="828.5" class="grid"/>
+        <use href="#ld" x="83.5" y="778.5"/>
+        <circle cx="83" cy="778" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ld</text>
+        <line x1="148.5" y1="728.5" x2="248.5" y2="728.5" class="grid"/>
+        <line x1="148.5" y1="748.5" x2="248.5" y2="748.5" class="grid"/>
+        <line x1="148.5" y1="768.5" x2="248.5" y2="768.5" class="grid"/>
+        <line x1="148.5" y1="788.5" x2="248.5" y2="788.5" class="grid"/>
+        <line x1="148.5" y1="808.5" x2="248.5" y2="808.5" class="grid"/>
+        <line x1="148.5" y1="828.5" x2="248.5" y2="828.5" class="grid"/>
+        <line x1="148.5" y1="728.5" x2="148.5" y2="828.5" class="grid"/>
+        <line x1="168.5" y1="728.5" x2="168.5" y2="828.5" class="grid"/>
+        <line x1="188.5" y1="728.5" x2="188.5" y2="828.5" class="grid"/>
+        <line x1="208.5" y1="728.5" x2="208.5" y2="828.5" class="grid"/>
+        <line x1="228.5" y1="728.5" x2="228.5" y2="828.5" class="grid"/>
+        <line x1="248.5" y1="728.5" x2="248.5" y2="828.5" class="grid"/>
+        <use href="#ll" x="198.5" y="778.5"/>
+        <circle cx="198" cy="778" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ll</text>
+        <line x1="263.5" y1="728.5" x2="363.5" y2="728.5" class="grid"/>
+        <line x1="263.5" y1="748.5" x2="363.5" y2="748.5" class="grid"/>
+        <line x1="263.5" y1="768.5" x2="363.5" y2="768.5" class="grid"/>
+        <line x1="263.5" y1="788.5" x2="363.5" y2="788.5" class="grid"/>
+        <line x1="263.5" y1="808.5" x2="363.5" y2="808.5" class="grid"/>
+        <line x1="263.5" y1="828.5" x2="363.5" y2="828.5" class="grid"/>
+        <line x1="263.5" y1="728.5" x2="263.5" y2="828.5" class="grid"/>
+        <line x1="283.5" y1="728.5" x2="283.5" y2="828.5" class="grid"/>
+        <line x1="303.5" y1="728.5" x2="303.5" y2="828.5" class="grid"/>
+        <line x1="323.5" y1="728.5" x2="323.5" y2="828.5" class="grid"/>
+        <line x1="343.5" y1="728.5" x2="343.5" y2="828.5" class="grid"/>
+        <line x1="363.5" y1="728.5" x2="363.5" y2="828.5" class="grid"/>
+        <use href="#lu" x="313.5" y="778.5"/>
+        <circle cx="313" cy="778" r="5.0" class="grid-center"/>
+        <text transform="translate(313.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">lu</text>
+        <line x1="378.5" y1="728.5" x2="478.5" y2="728.5" class="grid"/>
+        <line x1="378.5" y1="748.5" x2="478.5" y2="748.5" class="grid"/>
+        <line x1="378.5" y1="768.5" x2="478.5" y2="768.5" class="grid"/>
+        <line x1="378.5" y1="788.5" x2="478.5" y2="788.5" class="grid"/>
+        <line x1="378.5" y1="808.5" x2="478.5" y2="808.5" class="grid"/>
+        <line x1="378.5" y1="828.5" x2="478.5" y2="828.5" class="grid"/>
+        <line x1="378.5" y1="728.5" x2="378.5" y2="828.5" class="grid"/>
+        <line x1="398.5" y1="728.5" x2="398.5" y2="828.5" class="grid"/>
+        <line x1="418.5" y1="728.5" x2="418.5" y2="828.5" class="grid"/>
+        <line x1="438.5" y1="728.5" x2="438.5" y2="828.5" class="grid"/>
+        <line x1="458.5" y1="728.5" x2="458.5" y2="828.5" class="grid"/>
+        <line x1="478.5" y1="728.5" x2="478.5" y2="828.5" class="grid"/>
+        <use href="#lr" x="428.5" y="778.5"/>
+        <circle cx="428" cy="778" r="5.0" class="grid-center"/>
+        <text transform="translate(428.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">lr</text>
+        <line x1="33.5" y1="867.5" x2="133.5" y2="867.5" class="grid"/>
+        <line x1="33.5" y1="887.5" x2="133.5" y2="887.5" class="grid"/>
+        <line x1="33.5" y1="907.5" x2="133.5" y2="907.5" class="grid"/>
+        <line x1="33.5" y1="927.5" x2="133.5" y2="927.5" class="grid"/>
+        <line x1="33.5" y1="947.5" x2="133.5" y2="947.5" class="grid"/>
+        <line x1="33.5" y1="967.5" x2="133.5" y2="967.5" class="grid"/>
+        <line x1="33.5" y1="867.5" x2="33.5" y2="967.5" class="grid"/>
+        <line x1="53.5" y1="867.5" x2="53.5" y2="967.5" class="grid"/>
+        <line x1="73.5" y1="867.5" x2="73.5" y2="967.5" class="grid"/>
+        <line x1="93.5" y1="867.5" x2="93.5" y2="967.5" class="grid"/>
+        <line x1="113.5" y1="867.5" x2="113.5" y2="967.5" class="grid"/>
+        <line x1="133.5" y1="867.5" x2="133.5" y2="967.5" class="grid"/>
+        <use href="#ih" x="83.5" y="917.5"/>
+        <circle cx="83" cy="917" r="5.0" class="grid-center"/>
+        <text transform="translate(83.5 855.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ih</text>
+        <line x1="148.5" y1="867.5" x2="248.5" y2="867.5" class="grid"/>
+        <line x1="148.5" y1="887.5" x2="248.5" y2="887.5" class="grid"/>
+        <line x1="148.5" y1="907.5" x2="248.5" y2="907.5" class="grid"/>
+        <line x1="148.5" y1="927.5" x2="248.5" y2="927.5" class="grid"/>
+        <line x1="148.5" y1="947.5" x2="248.5" y2="947.5" class="grid"/>
+        <line x1="148.5" y1="967.5" x2="248.5" y2="967.5" class="grid"/>
+        <line x1="148.5" y1="867.5" x2="148.5" y2="967.5" class="grid"/>
+        <line x1="168.5" y1="867.5" x2="168.5" y2="967.5" class="grid"/>
+        <line x1="188.5" y1="867.5" x2="188.5" y2="967.5" class="grid"/>
+        <line x1="208.5" y1="867.5" x2="208.5" y2="967.5" class="grid"/>
+        <line x1="228.5" y1="867.5" x2="228.5" y2="967.5" class="grid"/>
+        <line x1="248.5" y1="867.5" x2="248.5" y2="967.5" class="grid"/>
+        <use href="#iv" x="198.5" y="917.5"/>
+        <circle cx="198" cy="917" r="5.0" class="grid-center"/>
+        <text transform="translate(198.5 855.5)" class="axes" dominant-baseline="middle" text-anchor="middle">iv</text>
     </g>
-    <g style="font-size: 16px;">
-        <rect x="15.5" y="127.5" width="47" height="15" class="terminal-fill"/>
-        <rect x="15.5" y="111.5" width="47" height="31" class="terminal-stroke"/>
-        <text transform="translate(39.5 153.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-        <rect x="15.5" y="31.5" width="47" height="31" class="terminal-stroke"/>
-        <text transform="translate(39.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+    <g style="font-size: 20px;">
+        <text transform="translate(26.5 83.5)" class="label" dominant-baseline="middle" text-anchor="end">T</text>
+        <text transform="translate(26.5 222.5)" class="label" dominant-baseline="middle" text-anchor="end">J</text>
+        <text transform="translate(26.5 361.5)" class="label" dominant-baseline="middle" text-anchor="end">Z</text>
+        <text transform="translate(26.5 500.5)" class="label" dominant-baseline="middle" text-anchor="end">O</text>
+        <text transform="translate(26.5 639.5)" class="label" dominant-baseline="middle" text-anchor="end">S</text>
+        <text transform="translate(26.5 778.5)" class="label" dominant-baseline="middle" text-anchor="end">L</text>
+        <text transform="translate(26.5 917.5)" class="label" dominant-baseline="middle" text-anchor="end">I</text>
     </g>
-    <use href="#jd" x="39.5" y="39.5"/>
-    <use href="#o" x="55.5" y="71.5"/>
-    <use href="#lu" x="39.5" y="119.5"/>
-    <line x1="95.5" y1="31.5" x2="143.5" y2="31.5" class="grid"/>
-    <line x1="95.5" y1="47.5" x2="143.5" y2="47.5" class="grid"/>
-    <line x1="95.5" y1="63.5" x2="143.5" y2="63.5" class="grid"/>
-    <line x1="95.5" y1="79.5" x2="143.5" y2="79.5" class="grid"/>
-    <line x1="95.5" y1="95.5" x2="143.5" y2="95.5" class="grid"/>
-    <line x1="95.5" y1="111.5" x2="143.5" y2="111.5" class="grid"/>
-    <line x1="95.5" y1="127.5" x2="143.5" y2="127.5" class="grid"/>
-    <line x1="95.5" y1="143.5" x2="143.5" y2="143.5" class="grid"/>
-    <line x1="95.5" y1="31.5" x2="95.5" y2="143.5" class="grid"/>
-    <line x1="111.5" y1="31.5" x2="111.5" y2="143.5" class="grid-axis"/>
-    <line x1="127.5" y1="31.5" x2="127.5" y2="143.5" class="grid"/>
-    <line x1="143.5" y1="31.5" x2="143.5" y2="143.5" class="grid"/>
-    <g style="font-size: 10px;">
-    </g>
-    <g style="font-size: 16px;">
-        <rect x="95.5" y="111.5" width="47" height="31" class="terminal-fill"/>
-        <rect x="95.5" y="111.5" width="47" height="31" class="terminal-stroke"/>
-        <text transform="translate(119.5 153.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
-        <rect x="95.5" y="31.5" width="47" height="31" class="terminal-stroke"/>
-        <text transform="translate(119.5 23.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
-    </g>
-    <use href="#jd" x="119.5" y="55.5"/>
-    <use href="#o" x="119.5" y="71.5"/>
-    <use href="#lu" x="119.5" y="103.5"/>
 </svg>

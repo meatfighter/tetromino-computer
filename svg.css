@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&family=Source+Code+Pro&display=swap');
 
 svg {
     background-color: #2B2B2B;
@@ -16,6 +16,11 @@ text.axes {
 
 text.terminals {
     font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.label {
+    font-family: 'Roboto Mono', monospace;
     fill: #FFFFF0;
 }
 
@@ -51,6 +56,11 @@ line.grid-axis {
     stroke: #A9B7C6;
     stroke-width: 1; 
     stroke-linecap: square;
+}
+
+circle.grid-center {
+    fill: #FFFFF0;
+    stroke: none;
 }
 
 polygon.t {

@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&family=Source+Code+Pro&display=swap');
+
+svg {
+    background-color: #2B2B2B;
+}
+
+text.component {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.axes {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.terminals {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.label {
+    font-family: 'Roboto Mono', monospace;
+    fill: #FFFFF0;
+}
+
+rect.component {
+    opacity: 0.5;
+    fill: #000000;
+    stroke: #000000;  
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-fill {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-stroke {
+    fill: none;
+    stroke: #B2B2A8;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid {
+    stroke: #555555;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid-axis {
+    stroke: #A9B7C6;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+circle.grid-center {
+    fill: #FFFFF0;
+    stroke: none;
+}
+
+polygon.t {
+    fill: #B802FD;
+    stroke: #8001B1;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.j {
+    fill: #1801FF;
+    stroke: #1000B2;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.z {
+    fill: #FE103C;
+    stroke: #B10B2A;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.o {
+    fill: #FFDE00;
+    stroke: #B29B00;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.s {
+    fill: #66FD00;
+    stroke: #47B100;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.l {
+    fill: #FF7308;
+    stroke: #B25005;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.i {
+    fill: #00E6FE;
+    stroke: #00A1B1;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}

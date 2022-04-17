@@ -492,7 +492,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void export(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
         controller.export(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
-                true, depth, cellSize);
+                false, depth, cellSize);
     }
     
     public boolean isTetrisScriptSelected() {

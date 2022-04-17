@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Turing-complete</title>
+<link rel="stylesheet" href="style.css?v=2022-04-17" type="text/css"/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet" />
+
+<meta name="date" content="2022-04-17"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+
+<p class="title">Tetris is Turing-complete</p>  
+<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation are demonstrated by running Tetris on Tetris.</p>
+
+<h1>Preliminaries</h1>
+
+<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield has 20 visible rows and 10 columns, but the dimensions are arbitrary.</p>
+
+<object data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
+
+<p>Each playfield cell is in one of two states: empty or solid.</p>
+
+<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;consist four solid cells painted any color. The seven Tetriminos have single-character, shape-based names.</p>
+
+<object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
+
+<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" rel="noopener noreferrer" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" rel="noopener noreferrer" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
+
+<p>NRS centers each Tetrimino in a 5&times;5 matrix and rotates them 90&deg; about that center. Of the 24 possible orientations, it uses only 19.</p>
+
+<object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
+
+<p>The left-most column comprises the spawn orientations (the way the pieces initially appear). The steps of clockwise rotation span left-to-right.</p>
+
+</body>
+
+</html>

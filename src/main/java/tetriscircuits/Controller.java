@@ -674,18 +674,17 @@ public class Controller {
                     sb.append('0');
                 }
                 sb.append(binaryStr);
-                structures.add(exportStructure(componentName, sb.toString(), depth, cellSize));
+                structures.add(exportStructure(componentName, sb.toString(), depth));
             }
         } else {
-            structures.add(exportStructure(componentName, testBitStr, depth, cellSize));
+            structures.add(exportStructure(componentName, testBitStr, depth));
         }
 
         new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
-                cellSize, true, true, true, true, true, true, false, true, 0, 0, 0);
+                cellSize, false, false, false, true, false, false, false, false, 0, 0, 0, false);
     }  
     
-    private Structure exportStructure(final String componentName, final String testBitStr, final int depth, 
-            final double cellSize) {
+    private Structure exportStructure(final String componentName, final String testBitStr, final int depth) {
         
         final OutputListener outListener = outputListener;
         final List<Structure> structs = new ArrayList<>();                 
