@@ -33,11 +33,13 @@ public class SvgGenerator {
             final int leftPaddingCells,
             final int rightPaddingCells,
             final int topPaddingCells,
-            final boolean renderOpenTop) {
+            final boolean renderOpenTop,
+            final boolean renderGridWithNonscalingStroke) {
         try (final PrintStream o = new PrintStream(out)) {
             generate(o, structs, displayWidth, margin, cellSize, renderGrid, renderInputTerminals, 
                     renderOutputTerminals, renderTetriminos, renderYAxis, renderStructures, renderAxesNumbers, 
-                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenTop);
+                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenTop,
+                    renderGridWithNonscalingStroke);
         }
     }
     
@@ -58,7 +60,8 @@ public class SvgGenerator {
             final int leftPaddingCells,
             final int rightPaddingCells,
             final int topPaddingCells,
-            final boolean renderOpenTop) {
+            final boolean renderOpenTop,
+            final boolean renderGridWithNonscalingStroke) {
         
         double viewBoxWidth = 2.0 * margin;
         double viewBoxHeight = 0;
@@ -132,14 +135,16 @@ public class SvgGenerator {
             if (renderGrid) {
                 for (int y = 0; y <= maxY + 1; ++y) {
                     final double lineY = gridY + cellSize * y + (renderOpenTop ? cellSize / 2.0 : 0);
-                    out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"/>%n", toString(gridX), 
-                            toString(lineY), toString(gridX + gridWidth), toString(lineY));
+                    out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"grid\"%s/>%n", 
+                            toString(gridX), toString(lineY), toString(gridX + gridWidth), toString(lineY),
+                            renderGridWithNonscalingStroke ? " vector-effect=\"non-scaling-stroke\"" : "");
                 } 
                 for (int x = minX; x <= maxX + 1; ++x) {
                     final double lineX = gridX + cellSize * (x - minX);
-                    out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"%s\"/>%n", toString(lineX), 
+                    out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"%s\"%s/>%n", toString(lineX), 
                             toString(gridY + 1), toString(lineX), toString(gridY + gridHeight - 1), 
-                            (renderYAxis && x == 0) ? "grid-axis" : "grid");
+                            (renderYAxis && x == 0) ? "grid-axis" : "grid", 
+                            renderGridWithNonscalingStroke ? " vector-effect=\"non-scaling-stroke\"" : "");
                 }           
             }
 

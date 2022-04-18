@@ -681,7 +681,7 @@ public class Controller {
         }
 
         new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
-                cellSize, false, false, false, true, false, false, false, false, 0, 0, 0, false);
+                cellSize, true, true, true, true, false, false, false, true, 0, 0, 0, false, true);
     }  
     
     private Structure exportStructure(final String componentName, final String testBitStr, final int depth) {

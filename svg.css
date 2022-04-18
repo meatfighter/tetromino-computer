@@ -1,7 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto+Mono&family=Source+Code+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Roboto+Mono&family=Source+Code+Pro&family=Work+Sans:wght@100&display=swap');
 
 svg {
     background-color: #2B2B2B;
+}
+
+text.math {
+    font-family: 'Bentham', serif;
+    fill: #FFFFF0;
+}
+
+text.braces {    
+    font-family: 'Work Sans', sans-serif;
+    fill: #FFFFF0;
 }
 
 text.component {

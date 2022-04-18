@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="496" height="985" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1311" height="871" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
@@ -22,300 +22,848 @@
         <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
-    <g style="font-size: 13px;">
-        <line x1="33.5" y1="33.5" x2="133.5" y2="33.5" class="grid"/>
-        <line x1="33.5" y1="53.5" x2="133.5" y2="53.5" class="grid"/>
-        <line x1="33.5" y1="73.5" x2="133.5" y2="73.5" class="grid"/>
-        <line x1="33.5" y1="93.5" x2="133.5" y2="93.5" class="grid"/>
-        <line x1="33.5" y1="113.5" x2="133.5" y2="113.5" class="grid"/>
-        <line x1="33.5" y1="133.5" x2="133.5" y2="133.5" class="grid"/>
-        <line x1="33.5" y1="33.5" x2="33.5" y2="133.5" class="grid"/>
-        <line x1="53.5" y1="33.5" x2="53.5" y2="133.5" class="grid"/>
-        <line x1="73.5" y1="33.5" x2="73.5" y2="133.5" class="grid"/>
-        <line x1="93.5" y1="33.5" x2="93.5" y2="133.5" class="grid"/>
-        <line x1="113.5" y1="33.5" x2="113.5" y2="133.5" class="grid"/>
-        <line x1="133.5" y1="33.5" x2="133.5" y2="133.5" class="grid"/>
-        <use href="#td" x="83.5" y="83.5"/>
-        <circle cx="83" cy="83" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">td</text>
-        <line x1="148.5" y1="33.5" x2="248.5" y2="33.5" class="grid"/>
-        <line x1="148.5" y1="53.5" x2="248.5" y2="53.5" class="grid"/>
-        <line x1="148.5" y1="73.5" x2="248.5" y2="73.5" class="grid"/>
-        <line x1="148.5" y1="93.5" x2="248.5" y2="93.5" class="grid"/>
-        <line x1="148.5" y1="113.5" x2="248.5" y2="113.5" class="grid"/>
-        <line x1="148.5" y1="133.5" x2="248.5" y2="133.5" class="grid"/>
-        <line x1="148.5" y1="33.5" x2="148.5" y2="133.5" class="grid"/>
-        <line x1="168.5" y1="33.5" x2="168.5" y2="133.5" class="grid"/>
-        <line x1="188.5" y1="33.5" x2="188.5" y2="133.5" class="grid"/>
-        <line x1="208.5" y1="33.5" x2="208.5" y2="133.5" class="grid"/>
-        <line x1="228.5" y1="33.5" x2="228.5" y2="133.5" class="grid"/>
-        <line x1="248.5" y1="33.5" x2="248.5" y2="133.5" class="grid"/>
-        <use href="#tl" x="198.5" y="83.5"/>
-        <circle cx="198" cy="83" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tl</text>
-        <line x1="263.5" y1="33.5" x2="363.5" y2="33.5" class="grid"/>
-        <line x1="263.5" y1="53.5" x2="363.5" y2="53.5" class="grid"/>
-        <line x1="263.5" y1="73.5" x2="363.5" y2="73.5" class="grid"/>
-        <line x1="263.5" y1="93.5" x2="363.5" y2="93.5" class="grid"/>
-        <line x1="263.5" y1="113.5" x2="363.5" y2="113.5" class="grid"/>
-        <line x1="263.5" y1="133.5" x2="363.5" y2="133.5" class="grid"/>
-        <line x1="263.5" y1="33.5" x2="263.5" y2="133.5" class="grid"/>
-        <line x1="283.5" y1="33.5" x2="283.5" y2="133.5" class="grid"/>
-        <line x1="303.5" y1="33.5" x2="303.5" y2="133.5" class="grid"/>
-        <line x1="323.5" y1="33.5" x2="323.5" y2="133.5" class="grid"/>
-        <line x1="343.5" y1="33.5" x2="343.5" y2="133.5" class="grid"/>
-        <line x1="363.5" y1="33.5" x2="363.5" y2="133.5" class="grid"/>
-        <use href="#tu" x="313.5" y="83.5"/>
-        <circle cx="313" cy="83" r="5.0" class="grid-center"/>
-        <text transform="translate(313.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tu</text>
-        <line x1="378.5" y1="33.5" x2="478.5" y2="33.5" class="grid"/>
-        <line x1="378.5" y1="53.5" x2="478.5" y2="53.5" class="grid"/>
-        <line x1="378.5" y1="73.5" x2="478.5" y2="73.5" class="grid"/>
-        <line x1="378.5" y1="93.5" x2="478.5" y2="93.5" class="grid"/>
-        <line x1="378.5" y1="113.5" x2="478.5" y2="113.5" class="grid"/>
-        <line x1="378.5" y1="133.5" x2="478.5" y2="133.5" class="grid"/>
-        <line x1="378.5" y1="33.5" x2="378.5" y2="133.5" class="grid"/>
-        <line x1="398.5" y1="33.5" x2="398.5" y2="133.5" class="grid"/>
-        <line x1="418.5" y1="33.5" x2="418.5" y2="133.5" class="grid"/>
-        <line x1="438.5" y1="33.5" x2="438.5" y2="133.5" class="grid"/>
-        <line x1="458.5" y1="33.5" x2="458.5" y2="133.5" class="grid"/>
-        <line x1="478.5" y1="33.5" x2="478.5" y2="133.5" class="grid"/>
-        <use href="#tr" x="428.5" y="83.5"/>
-        <circle cx="428" cy="83" r="5.0" class="grid-center"/>
-        <text transform="translate(428.5 21.5)" class="axes" dominant-baseline="middle" text-anchor="middle">tr</text>
-        <line x1="33.5" y1="172.5" x2="133.5" y2="172.5" class="grid"/>
-        <line x1="33.5" y1="192.5" x2="133.5" y2="192.5" class="grid"/>
-        <line x1="33.5" y1="212.5" x2="133.5" y2="212.5" class="grid"/>
-        <line x1="33.5" y1="232.5" x2="133.5" y2="232.5" class="grid"/>
-        <line x1="33.5" y1="252.5" x2="133.5" y2="252.5" class="grid"/>
-        <line x1="33.5" y1="272.5" x2="133.5" y2="272.5" class="grid"/>
-        <line x1="33.5" y1="172.5" x2="33.5" y2="272.5" class="grid"/>
-        <line x1="53.5" y1="172.5" x2="53.5" y2="272.5" class="grid"/>
-        <line x1="73.5" y1="172.5" x2="73.5" y2="272.5" class="grid"/>
-        <line x1="93.5" y1="172.5" x2="93.5" y2="272.5" class="grid"/>
-        <line x1="113.5" y1="172.5" x2="113.5" y2="272.5" class="grid"/>
-        <line x1="133.5" y1="172.5" x2="133.5" y2="272.5" class="grid"/>
-        <use href="#jd" x="83.5" y="222.5"/>
-        <circle cx="83" cy="222" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jd</text>
-        <line x1="148.5" y1="172.5" x2="248.5" y2="172.5" class="grid"/>
-        <line x1="148.5" y1="192.5" x2="248.5" y2="192.5" class="grid"/>
-        <line x1="148.5" y1="212.5" x2="248.5" y2="212.5" class="grid"/>
-        <line x1="148.5" y1="232.5" x2="248.5" y2="232.5" class="grid"/>
-        <line x1="148.5" y1="252.5" x2="248.5" y2="252.5" class="grid"/>
-        <line x1="148.5" y1="272.5" x2="248.5" y2="272.5" class="grid"/>
-        <line x1="148.5" y1="172.5" x2="148.5" y2="272.5" class="grid"/>
-        <line x1="168.5" y1="172.5" x2="168.5" y2="272.5" class="grid"/>
-        <line x1="188.5" y1="172.5" x2="188.5" y2="272.5" class="grid"/>
-        <line x1="208.5" y1="172.5" x2="208.5" y2="272.5" class="grid"/>
-        <line x1="228.5" y1="172.5" x2="228.5" y2="272.5" class="grid"/>
-        <line x1="248.5" y1="172.5" x2="248.5" y2="272.5" class="grid"/>
-        <use href="#jl" x="198.5" y="222.5"/>
-        <circle cx="198" cy="222" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jl</text>
-        <line x1="263.5" y1="172.5" x2="363.5" y2="172.5" class="grid"/>
-        <line x1="263.5" y1="192.5" x2="363.5" y2="192.5" class="grid"/>
-        <line x1="263.5" y1="212.5" x2="363.5" y2="212.5" class="grid"/>
-        <line x1="263.5" y1="232.5" x2="363.5" y2="232.5" class="grid"/>
-        <line x1="263.5" y1="252.5" x2="363.5" y2="252.5" class="grid"/>
-        <line x1="263.5" y1="272.5" x2="363.5" y2="272.5" class="grid"/>
-        <line x1="263.5" y1="172.5" x2="263.5" y2="272.5" class="grid"/>
-        <line x1="283.5" y1="172.5" x2="283.5" y2="272.5" class="grid"/>
-        <line x1="303.5" y1="172.5" x2="303.5" y2="272.5" class="grid"/>
-        <line x1="323.5" y1="172.5" x2="323.5" y2="272.5" class="grid"/>
-        <line x1="343.5" y1="172.5" x2="343.5" y2="272.5" class="grid"/>
-        <line x1="363.5" y1="172.5" x2="363.5" y2="272.5" class="grid"/>
-        <use href="#ju" x="313.5" y="222.5"/>
-        <circle cx="313" cy="222" r="5.0" class="grid-center"/>
-        <text transform="translate(313.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ju</text>
-        <line x1="378.5" y1="172.5" x2="478.5" y2="172.5" class="grid"/>
-        <line x1="378.5" y1="192.5" x2="478.5" y2="192.5" class="grid"/>
-        <line x1="378.5" y1="212.5" x2="478.5" y2="212.5" class="grid"/>
-        <line x1="378.5" y1="232.5" x2="478.5" y2="232.5" class="grid"/>
-        <line x1="378.5" y1="252.5" x2="478.5" y2="252.5" class="grid"/>
-        <line x1="378.5" y1="272.5" x2="478.5" y2="272.5" class="grid"/>
-        <line x1="378.5" y1="172.5" x2="378.5" y2="272.5" class="grid"/>
-        <line x1="398.5" y1="172.5" x2="398.5" y2="272.5" class="grid"/>
-        <line x1="418.5" y1="172.5" x2="418.5" y2="272.5" class="grid"/>
-        <line x1="438.5" y1="172.5" x2="438.5" y2="272.5" class="grid"/>
-        <line x1="458.5" y1="172.5" x2="458.5" y2="272.5" class="grid"/>
-        <line x1="478.5" y1="172.5" x2="478.5" y2="272.5" class="grid"/>
-        <use href="#jr" x="428.5" y="222.5"/>
-        <circle cx="428" cy="222" r="5.0" class="grid-center"/>
-        <text transform="translate(428.5 160.5)" class="axes" dominant-baseline="middle" text-anchor="middle">jr</text>
-        <line x1="33.5" y1="311.5" x2="133.5" y2="311.5" class="grid"/>
-        <line x1="33.5" y1="331.5" x2="133.5" y2="331.5" class="grid"/>
-        <line x1="33.5" y1="351.5" x2="133.5" y2="351.5" class="grid"/>
-        <line x1="33.5" y1="371.5" x2="133.5" y2="371.5" class="grid"/>
-        <line x1="33.5" y1="391.5" x2="133.5" y2="391.5" class="grid"/>
-        <line x1="33.5" y1="411.5" x2="133.5" y2="411.5" class="grid"/>
-        <line x1="33.5" y1="311.5" x2="33.5" y2="411.5" class="grid"/>
-        <line x1="53.5" y1="311.5" x2="53.5" y2="411.5" class="grid"/>
-        <line x1="73.5" y1="311.5" x2="73.5" y2="411.5" class="grid"/>
-        <line x1="93.5" y1="311.5" x2="93.5" y2="411.5" class="grid"/>
-        <line x1="113.5" y1="311.5" x2="113.5" y2="411.5" class="grid"/>
-        <line x1="133.5" y1="311.5" x2="133.5" y2="411.5" class="grid"/>
-        <use href="#zh" x="83.5" y="361.5"/>
-        <circle cx="83" cy="361" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 299.5)" class="axes" dominant-baseline="middle" text-anchor="middle">zh</text>
-        <line x1="148.5" y1="311.5" x2="248.5" y2="311.5" class="grid"/>
-        <line x1="148.5" y1="331.5" x2="248.5" y2="331.5" class="grid"/>
-        <line x1="148.5" y1="351.5" x2="248.5" y2="351.5" class="grid"/>
-        <line x1="148.5" y1="371.5" x2="248.5" y2="371.5" class="grid"/>
-        <line x1="148.5" y1="391.5" x2="248.5" y2="391.5" class="grid"/>
-        <line x1="148.5" y1="411.5" x2="248.5" y2="411.5" class="grid"/>
-        <line x1="148.5" y1="311.5" x2="148.5" y2="411.5" class="grid"/>
-        <line x1="168.5" y1="311.5" x2="168.5" y2="411.5" class="grid"/>
-        <line x1="188.5" y1="311.5" x2="188.5" y2="411.5" class="grid"/>
-        <line x1="208.5" y1="311.5" x2="208.5" y2="411.5" class="grid"/>
-        <line x1="228.5" y1="311.5" x2="228.5" y2="411.5" class="grid"/>
-        <line x1="248.5" y1="311.5" x2="248.5" y2="411.5" class="grid"/>
-        <use href="#zv" x="198.5" y="361.5"/>
-        <circle cx="198" cy="361" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 299.5)" class="axes" dominant-baseline="middle" text-anchor="middle">zv</text>
-        <line x1="33.5" y1="450.5" x2="133.5" y2="450.5" class="grid"/>
-        <line x1="33.5" y1="470.5" x2="133.5" y2="470.5" class="grid"/>
-        <line x1="33.5" y1="490.5" x2="133.5" y2="490.5" class="grid"/>
-        <line x1="33.5" y1="510.5" x2="133.5" y2="510.5" class="grid"/>
-        <line x1="33.5" y1="530.5" x2="133.5" y2="530.5" class="grid"/>
-        <line x1="33.5" y1="550.5" x2="133.5" y2="550.5" class="grid"/>
-        <line x1="33.5" y1="450.5" x2="33.5" y2="550.5" class="grid"/>
-        <line x1="53.5" y1="450.5" x2="53.5" y2="550.5" class="grid"/>
-        <line x1="73.5" y1="450.5" x2="73.5" y2="550.5" class="grid"/>
-        <line x1="93.5" y1="450.5" x2="93.5" y2="550.5" class="grid"/>
-        <line x1="113.5" y1="450.5" x2="113.5" y2="550.5" class="grid"/>
-        <line x1="133.5" y1="450.5" x2="133.5" y2="550.5" class="grid"/>
-        <use href="#o" x="83.5" y="500.5"/>
-        <circle cx="83" cy="500" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 438.5)" class="axes" dominant-baseline="middle" text-anchor="middle">o</text>
-        <line x1="33.5" y1="589.5" x2="133.5" y2="589.5" class="grid"/>
-        <line x1="33.5" y1="609.5" x2="133.5" y2="609.5" class="grid"/>
-        <line x1="33.5" y1="629.5" x2="133.5" y2="629.5" class="grid"/>
-        <line x1="33.5" y1="649.5" x2="133.5" y2="649.5" class="grid"/>
-        <line x1="33.5" y1="669.5" x2="133.5" y2="669.5" class="grid"/>
-        <line x1="33.5" y1="689.5" x2="133.5" y2="689.5" class="grid"/>
-        <line x1="33.5" y1="589.5" x2="33.5" y2="689.5" class="grid"/>
-        <line x1="53.5" y1="589.5" x2="53.5" y2="689.5" class="grid"/>
-        <line x1="73.5" y1="589.5" x2="73.5" y2="689.5" class="grid"/>
-        <line x1="93.5" y1="589.5" x2="93.5" y2="689.5" class="grid"/>
-        <line x1="113.5" y1="589.5" x2="113.5" y2="689.5" class="grid"/>
-        <line x1="133.5" y1="589.5" x2="133.5" y2="689.5" class="grid"/>
-        <use href="#sh" x="83.5" y="639.5"/>
-        <circle cx="83" cy="639" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 577.5)" class="axes" dominant-baseline="middle" text-anchor="middle">sh</text>
-        <line x1="148.5" y1="589.5" x2="248.5" y2="589.5" class="grid"/>
-        <line x1="148.5" y1="609.5" x2="248.5" y2="609.5" class="grid"/>
-        <line x1="148.5" y1="629.5" x2="248.5" y2="629.5" class="grid"/>
-        <line x1="148.5" y1="649.5" x2="248.5" y2="649.5" class="grid"/>
-        <line x1="148.5" y1="669.5" x2="248.5" y2="669.5" class="grid"/>
-        <line x1="148.5" y1="689.5" x2="248.5" y2="689.5" class="grid"/>
-        <line x1="148.5" y1="589.5" x2="148.5" y2="689.5" class="grid"/>
-        <line x1="168.5" y1="589.5" x2="168.5" y2="689.5" class="grid"/>
-        <line x1="188.5" y1="589.5" x2="188.5" y2="689.5" class="grid"/>
-        <line x1="208.5" y1="589.5" x2="208.5" y2="689.5" class="grid"/>
-        <line x1="228.5" y1="589.5" x2="228.5" y2="689.5" class="grid"/>
-        <line x1="248.5" y1="589.5" x2="248.5" y2="689.5" class="grid"/>
-        <use href="#sv" x="198.5" y="639.5"/>
-        <circle cx="198" cy="639" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 577.5)" class="axes" dominant-baseline="middle" text-anchor="middle">sv</text>
-        <line x1="33.5" y1="728.5" x2="133.5" y2="728.5" class="grid"/>
-        <line x1="33.5" y1="748.5" x2="133.5" y2="748.5" class="grid"/>
-        <line x1="33.5" y1="768.5" x2="133.5" y2="768.5" class="grid"/>
-        <line x1="33.5" y1="788.5" x2="133.5" y2="788.5" class="grid"/>
-        <line x1="33.5" y1="808.5" x2="133.5" y2="808.5" class="grid"/>
-        <line x1="33.5" y1="828.5" x2="133.5" y2="828.5" class="grid"/>
-        <line x1="33.5" y1="728.5" x2="33.5" y2="828.5" class="grid"/>
-        <line x1="53.5" y1="728.5" x2="53.5" y2="828.5" class="grid"/>
-        <line x1="73.5" y1="728.5" x2="73.5" y2="828.5" class="grid"/>
-        <line x1="93.5" y1="728.5" x2="93.5" y2="828.5" class="grid"/>
-        <line x1="113.5" y1="728.5" x2="113.5" y2="828.5" class="grid"/>
-        <line x1="133.5" y1="728.5" x2="133.5" y2="828.5" class="grid"/>
-        <use href="#ld" x="83.5" y="778.5"/>
-        <circle cx="83" cy="778" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ld</text>
-        <line x1="148.5" y1="728.5" x2="248.5" y2="728.5" class="grid"/>
-        <line x1="148.5" y1="748.5" x2="248.5" y2="748.5" class="grid"/>
-        <line x1="148.5" y1="768.5" x2="248.5" y2="768.5" class="grid"/>
-        <line x1="148.5" y1="788.5" x2="248.5" y2="788.5" class="grid"/>
-        <line x1="148.5" y1="808.5" x2="248.5" y2="808.5" class="grid"/>
-        <line x1="148.5" y1="828.5" x2="248.5" y2="828.5" class="grid"/>
-        <line x1="148.5" y1="728.5" x2="148.5" y2="828.5" class="grid"/>
-        <line x1="168.5" y1="728.5" x2="168.5" y2="828.5" class="grid"/>
-        <line x1="188.5" y1="728.5" x2="188.5" y2="828.5" class="grid"/>
-        <line x1="208.5" y1="728.5" x2="208.5" y2="828.5" class="grid"/>
-        <line x1="228.5" y1="728.5" x2="228.5" y2="828.5" class="grid"/>
-        <line x1="248.5" y1="728.5" x2="248.5" y2="828.5" class="grid"/>
-        <use href="#ll" x="198.5" y="778.5"/>
-        <circle cx="198" cy="778" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ll</text>
-        <line x1="263.5" y1="728.5" x2="363.5" y2="728.5" class="grid"/>
-        <line x1="263.5" y1="748.5" x2="363.5" y2="748.5" class="grid"/>
-        <line x1="263.5" y1="768.5" x2="363.5" y2="768.5" class="grid"/>
-        <line x1="263.5" y1="788.5" x2="363.5" y2="788.5" class="grid"/>
-        <line x1="263.5" y1="808.5" x2="363.5" y2="808.5" class="grid"/>
-        <line x1="263.5" y1="828.5" x2="363.5" y2="828.5" class="grid"/>
-        <line x1="263.5" y1="728.5" x2="263.5" y2="828.5" class="grid"/>
-        <line x1="283.5" y1="728.5" x2="283.5" y2="828.5" class="grid"/>
-        <line x1="303.5" y1="728.5" x2="303.5" y2="828.5" class="grid"/>
-        <line x1="323.5" y1="728.5" x2="323.5" y2="828.5" class="grid"/>
-        <line x1="343.5" y1="728.5" x2="343.5" y2="828.5" class="grid"/>
-        <line x1="363.5" y1="728.5" x2="363.5" y2="828.5" class="grid"/>
-        <use href="#lu" x="313.5" y="778.5"/>
-        <circle cx="313" cy="778" r="5.0" class="grid-center"/>
-        <text transform="translate(313.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">lu</text>
-        <line x1="378.5" y1="728.5" x2="478.5" y2="728.5" class="grid"/>
-        <line x1="378.5" y1="748.5" x2="478.5" y2="748.5" class="grid"/>
-        <line x1="378.5" y1="768.5" x2="478.5" y2="768.5" class="grid"/>
-        <line x1="378.5" y1="788.5" x2="478.5" y2="788.5" class="grid"/>
-        <line x1="378.5" y1="808.5" x2="478.5" y2="808.5" class="grid"/>
-        <line x1="378.5" y1="828.5" x2="478.5" y2="828.5" class="grid"/>
-        <line x1="378.5" y1="728.5" x2="378.5" y2="828.5" class="grid"/>
-        <line x1="398.5" y1="728.5" x2="398.5" y2="828.5" class="grid"/>
-        <line x1="418.5" y1="728.5" x2="418.5" y2="828.5" class="grid"/>
-        <line x1="438.5" y1="728.5" x2="438.5" y2="828.5" class="grid"/>
-        <line x1="458.5" y1="728.5" x2="458.5" y2="828.5" class="grid"/>
-        <line x1="478.5" y1="728.5" x2="478.5" y2="828.5" class="grid"/>
-        <use href="#lr" x="428.5" y="778.5"/>
-        <circle cx="428" cy="778" r="5.0" class="grid-center"/>
-        <text transform="translate(428.5 716.5)" class="axes" dominant-baseline="middle" text-anchor="middle">lr</text>
-        <line x1="33.5" y1="867.5" x2="133.5" y2="867.5" class="grid"/>
-        <line x1="33.5" y1="887.5" x2="133.5" y2="887.5" class="grid"/>
-        <line x1="33.5" y1="907.5" x2="133.5" y2="907.5" class="grid"/>
-        <line x1="33.5" y1="927.5" x2="133.5" y2="927.5" class="grid"/>
-        <line x1="33.5" y1="947.5" x2="133.5" y2="947.5" class="grid"/>
-        <line x1="33.5" y1="967.5" x2="133.5" y2="967.5" class="grid"/>
-        <line x1="33.5" y1="867.5" x2="33.5" y2="967.5" class="grid"/>
-        <line x1="53.5" y1="867.5" x2="53.5" y2="967.5" class="grid"/>
-        <line x1="73.5" y1="867.5" x2="73.5" y2="967.5" class="grid"/>
-        <line x1="93.5" y1="867.5" x2="93.5" y2="967.5" class="grid"/>
-        <line x1="113.5" y1="867.5" x2="113.5" y2="967.5" class="grid"/>
-        <line x1="133.5" y1="867.5" x2="133.5" y2="967.5" class="grid"/>
-        <use href="#ih" x="83.5" y="917.5"/>
-        <circle cx="83" cy="917" r="5.0" class="grid-center"/>
-        <text transform="translate(83.5 855.5)" class="axes" dominant-baseline="middle" text-anchor="middle">ih</text>
-        <line x1="148.5" y1="867.5" x2="248.5" y2="867.5" class="grid"/>
-        <line x1="148.5" y1="887.5" x2="248.5" y2="887.5" class="grid"/>
-        <line x1="148.5" y1="907.5" x2="248.5" y2="907.5" class="grid"/>
-        <line x1="148.5" y1="927.5" x2="248.5" y2="927.5" class="grid"/>
-        <line x1="148.5" y1="947.5" x2="248.5" y2="947.5" class="grid"/>
-        <line x1="148.5" y1="967.5" x2="248.5" y2="967.5" class="grid"/>
-        <line x1="148.5" y1="867.5" x2="148.5" y2="967.5" class="grid"/>
-        <line x1="168.5" y1="867.5" x2="168.5" y2="967.5" class="grid"/>
-        <line x1="188.5" y1="867.5" x2="188.5" y2="967.5" class="grid"/>
-        <line x1="208.5" y1="867.5" x2="208.5" y2="967.5" class="grid"/>
-        <line x1="228.5" y1="867.5" x2="228.5" y2="967.5" class="grid"/>
-        <line x1="248.5" y1="867.5" x2="248.5" y2="967.5" class="grid"/>
-        <use href="#iv" x="198.5" y="917.5"/>
-        <circle cx="198" cy="917" r="5.0" class="grid-center"/>
-        <text transform="translate(198.5 855.5)" class="axes" dominant-baseline="middle" text-anchor="middle">iv</text>
-    </g>
-    <g style="font-size: 20px;">
-        <text transform="translate(26.5 83.5)" class="label" dominant-baseline="middle" text-anchor="end">T</text>
-        <text transform="translate(26.5 222.5)" class="label" dominant-baseline="middle" text-anchor="end">J</text>
-        <text transform="translate(26.5 361.5)" class="label" dominant-baseline="middle" text-anchor="end">Z</text>
-        <text transform="translate(26.5 500.5)" class="label" dominant-baseline="middle" text-anchor="end">O</text>
-        <text transform="translate(26.5 639.5)" class="label" dominant-baseline="middle" text-anchor="end">S</text>
-        <text transform="translate(26.5 778.5)" class="label" dominant-baseline="middle" text-anchor="end">L</text>
-        <text transform="translate(26.5 917.5)" class="label" dominant-baseline="middle" text-anchor="end">I</text>
+    <text transform="translate(130 120.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text transform="translate(75 115)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+        <tspan font-style="italic">T</tspan>
+        <tspan baseline-shift="-20%">2</tspan>
+        (
+        <tspan font-style="italic">s</tspan>
+        <tspan baseline-shift="-20%">2</tspan>
+        )
+    </text> 
+    <text transform="translate(130 304.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text transform="translate(75 299)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+        <tspan font-style="italic">T</tspan>
+        <tspan baseline-shift="-20%">1</tspan>
+        (
+        <tspan font-style="italic">s</tspan>
+        <tspan baseline-shift="-20%">1</tspan>
+        )
+    </text>
+    <text transform="translate(130 488.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text transform="translate(75 483)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+        <tspan font-style="italic">T</tspan>
+        <tspan baseline-shift="-20%">0</tspan>
+        (
+        <tspan font-style="italic">s</tspan>
+        <tspan baseline-shift="-20%">0</tspan>
+        )
+    </text>    
+    <g transform="translate(125 0) scale(0.4)">
+        <line x1="15.5" y1="35.5" x2="1295.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="55.5" x2="1295.5" y2="55.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="75.5" x2="1295.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="95.5" x2="1295.5" y2="95.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="115.5" x2="1295.5" y2="115.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="135.5" x2="1295.5" y2="135.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="155.5" x2="1295.5" y2="155.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="175.5" x2="1295.5" y2="175.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="195.5" x2="1295.5" y2="195.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="215.5" x2="1295.5" y2="215.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="235.5" x2="1295.5" y2="235.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="255.5" x2="1295.5" y2="255.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="275.5" x2="1295.5" y2="275.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="295.5" x2="1295.5" y2="295.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="315.5" x2="1295.5" y2="315.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="335.5" x2="1295.5" y2="335.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="355.5" x2="1295.5" y2="355.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="375.5" x2="1295.5" y2="375.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="395.5" x2="1295.5" y2="395.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="415.5" x2="1295.5" y2="415.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="435.5" x2="1295.5" y2="435.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="455.5" x2="1295.5" y2="455.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="475.5" x2="1295.5" y2="475.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="495.5" x2="1295.5" y2="495.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="515.5" x2="1295.5" y2="515.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="535.5" x2="1295.5" y2="535.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="555.5" x2="1295.5" y2="555.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="575.5" x2="1295.5" y2="575.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="595.5" x2="1295.5" y2="595.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="615.5" x2="1295.5" y2="615.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="635.5" x2="1295.5" y2="635.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="655.5" x2="1295.5" y2="655.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="675.5" x2="1295.5" y2="675.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="695.5" x2="1295.5" y2="695.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="715.5" x2="1295.5" y2="715.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="735.5" x2="1295.5" y2="735.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="755.5" x2="1295.5" y2="755.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="775.5" x2="1295.5" y2="775.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="795.5" x2="1295.5" y2="795.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="815.5" x2="1295.5" y2="815.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="835.5" x2="1295.5" y2="835.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="855.5" x2="1295.5" y2="855.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="875.5" x2="1295.5" y2="875.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="895.5" x2="1295.5" y2="895.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="915.5" x2="1295.5" y2="915.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="935.5" x2="1295.5" y2="935.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="955.5" x2="1295.5" y2="955.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="975.5" x2="1295.5" y2="975.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="995.5" x2="1295.5" y2="995.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1015.5" x2="1295.5" y2="1015.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1035.5" x2="1295.5" y2="1035.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1055.5" x2="1295.5" y2="1055.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1075.5" x2="1295.5" y2="1075.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1095.5" x2="1295.5" y2="1095.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1115.5" x2="1295.5" y2="1115.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1135.5" x2="1295.5" y2="1135.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1155.5" x2="1295.5" y2="1155.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1175.5" x2="1295.5" y2="1175.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1195.5" x2="1295.5" y2="1195.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1215.5" x2="1295.5" y2="1215.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1235.5" x2="1295.5" y2="1235.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1255.5" x2="1295.5" y2="1255.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1275.5" x2="1295.5" y2="1275.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1295.5" x2="1295.5" y2="1295.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1315.5" x2="1295.5" y2="1315.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1335.5" x2="1295.5" y2="1335.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1355.5" x2="1295.5" y2="1355.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1375.5" x2="1295.5" y2="1375.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1395.5" x2="1295.5" y2="1395.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1415.5" x2="1295.5" y2="1415.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1435.5" x2="1295.5" y2="1435.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="1455.5" x2="1295.5" y2="1455.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="15.5" y1="36.5" x2="15.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="35.5" y1="36.5" x2="35.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="55.5" y1="36.5" x2="55.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="75.5" y1="36.5" x2="75.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="95.5" y1="36.5" x2="95.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="115.5" y1="36.5" x2="115.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="135.5" y1="36.5" x2="135.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="155.5" y1="36.5" x2="155.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="175.5" y1="36.5" x2="175.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="195.5" y1="36.5" x2="195.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="215.5" y1="36.5" x2="215.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="235.5" y1="36.5" x2="235.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="255.5" y1="36.5" x2="255.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="275.5" y1="36.5" x2="275.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="295.5" y1="36.5" x2="295.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="315.5" y1="36.5" x2="315.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="335.5" y1="36.5" x2="335.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="355.5" y1="36.5" x2="355.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="375.5" y1="36.5" x2="375.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="395.5" y1="36.5" x2="395.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="415.5" y1="36.5" x2="415.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="435.5" y1="36.5" x2="435.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="455.5" y1="36.5" x2="455.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="475.5" y1="36.5" x2="475.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="495.5" y1="36.5" x2="495.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="515.5" y1="36.5" x2="515.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="535.5" y1="36.5" x2="535.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="555.5" y1="36.5" x2="555.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="575.5" y1="36.5" x2="575.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="595.5" y1="36.5" x2="595.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="615.5" y1="36.5" x2="615.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="635.5" y1="36.5" x2="635.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="655.5" y1="36.5" x2="655.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="675.5" y1="36.5" x2="675.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="695.5" y1="36.5" x2="695.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="715.5" y1="36.5" x2="715.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="735.5" y1="36.5" x2="735.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="755.5" y1="36.5" x2="755.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="775.5" y1="36.5" x2="775.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="795.5" y1="36.5" x2="795.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="815.5" y1="36.5" x2="815.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="835.5" y1="36.5" x2="835.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="855.5" y1="36.5" x2="855.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="875.5" y1="36.5" x2="875.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="895.5" y1="36.5" x2="895.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="915.5" y1="36.5" x2="915.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="935.5" y1="36.5" x2="935.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="955.5" y1="36.5" x2="955.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="975.5" y1="36.5" x2="975.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="995.5" y1="36.5" x2="995.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1015.5" y1="36.5" x2="1015.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1035.5" y1="36.5" x2="1035.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1055.5" y1="36.5" x2="1055.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1075.5" y1="36.5" x2="1075.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1095.5" y1="36.5" x2="1095.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1115.5" y1="36.5" x2="1115.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1135.5" y1="36.5" x2="1135.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1155.5" y1="36.5" x2="1155.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1175.5" y1="36.5" x2="1175.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1195.5" y1="36.5" x2="1195.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1215.5" y1="36.5" x2="1215.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1235.5" y1="36.5" x2="1235.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1255.5" y1="36.5" x2="1255.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1275.5" y1="36.5" x2="1275.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <line x1="1295.5" y1="36.5" x2="1295.5" y2="1454.5" class="grid" vector-effect="non-scaling-stroke"/>
+        <g style="font-size: 20px;">
+            <rect x="1195.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
+            <rect x="1195.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(1205.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="1055.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
+            <rect x="1055.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(1065.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="875.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
+            <rect x="875.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(885.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="735.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
+            <rect x="735.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(745.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="555.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
+            <rect x="555.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(565.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="415.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
+            <rect x="415.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(425.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="235.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
+            <rect x="235.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(245.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="95.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
+            <rect x="95.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(105.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="1195.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(1205.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="1055.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(1065.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="875.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(885.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="735.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(745.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="555.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(565.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="415.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(425.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <rect x="235.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(245.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <rect x="95.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
+            <text transform="translate(105.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+        </g>
+        <use href="#tu" x="1205.5" y="65.5"/>
+        <use href="#tu" x="1065.5" y="65.5"/>
+        <use href="#tu" x="885.5" y="65.5"/>
+        <use href="#tu" x="745.5" y="85.5"/>
+        <use href="#tu" x="565.5" y="85.5"/>
+        <use href="#tu" x="425.5" y="65.5"/>
+        <use href="#tu" x="245.5" y="85.5"/>
+        <use href="#tu" x="105.5" y="85.5"/>
+        <use href="#ih" x="1225.5" y="85.5"/>
+        <use href="#ld" x="1165.5" y="105.5"/>
+        <use href="#o" x="1165.5" y="145.5"/>
+        <use href="#ju" x="1165.5" y="205.5"/>
+        <use href="#jd" x="1265.5" y="125.5"/>
+        <use href="#o" x="1265.5" y="145.5"/>
+        <use href="#lu" x="1265.5" y="185.5"/>
+        <use href="#ju" x="1245.5" y="225.5"/>
+        <use href="#lu" x="1185.5" y="225.5"/>
+        <use href="#o" x="1185.5" y="265.5"/>
+        <use href="#o" x="1225.5" y="245.5"/>
+        <use href="#iv" x="1285.5" y="245.5"/>
+        <use href="#iv" x="1145.5" y="265.5"/>
+        <use href="#ih" x="1265.5" y="285.5"/>
+        <use href="#ih" x="1185.5" y="305.5"/>
+        <use href="#ih" x="1065.5" y="85.5"/>
+        <use href="#ld" x="1005.5" y="125.5"/>
+        <use href="#o" x="1025.5" y="145.5"/>
+        <use href="#ju" x="1005.5" y="185.5"/>
+        <use href="#jd" x="1105.5" y="105.5"/>
+        <use href="#o" x="1125.5" y="145.5"/>
+        <use href="#lu" x="1105.5" y="205.5"/>
+        <use href="#ju" x="1085.5" y="225.5"/>
+        <use href="#lu" x="1025.5" y="225.5"/>
+        <use href="#o" x="1025.5" y="245.5"/>
+        <use href="#o" x="1065.5" y="245.5"/>
+        <use href="#iv" x="1125.5" y="265.5"/>
+        <use href="#iv" x="985.5" y="245.5"/>
+        <use href="#ih" x="1105.5" y="305.5"/>
+        <use href="#ih" x="1025.5" y="285.5"/>
+        <use href="#ld" x="1245.5" y="305.5"/>
+        <use href="#jd" x="1025.5" y="305.5"/>
+        <use href="#ih" x="1145.5" y="325.5"/>
+        <use href="#iv" x="1265.5" y="365.5"/>
+        <use href="#iv" x="1005.5" y="365.5"/>
+        <use href="#ih" x="1185.5" y="345.5"/>
+        <use href="#ih" x="1105.5" y="345.5"/>
+        <use href="#o" x="1245.5" y="365.5"/>
+        <use href="#o" x="1205.5" y="365.5"/>
+        <use href="#o" x="1045.5" y="365.5"/>
+        <use href="#o" x="1085.5" y="365.5"/>
+        <use href="#ju" x="1165.5" y="425.5"/>
+        <use href="#lu" x="1105.5" y="425.5"/>
+        <use href="#o" x="1105.5" y="445.5"/>
+        <use href="#o" x="1145.5" y="445.5"/>
+        <use href="#ih" x="1245.5" y="405.5"/>
+        <use href="#ih" x="1045.5" y="405.5"/>
+        <use href="#jr" x="1205.5" y="445.5"/>
+        <use href="#ll" x="1065.5" y="445.5"/>
+        <use href="#ih" x="1185.5" y="485.5"/>
+        <use href="#ih" x="1105.5" y="485.5"/>
+        <use href="#ih" x="265.5" y="105.5"/>
+        <use href="#ld" x="205.5" y="125.5"/>
+        <use href="#o" x="225.5" y="145.5"/>
+        <use href="#ju" x="205.5" y="185.5"/>
+        <use href="#jd" x="305.5" y="125.5"/>
+        <use href="#o" x="305.5" y="145.5"/>
+        <use href="#lu" x="305.5" y="185.5"/>
+        <use href="#ju" x="285.5" y="205.5"/>
+        <use href="#lu" x="225.5" y="205.5"/>
+        <use href="#o" x="265.5" y="225.5"/>
+        <use href="#o" x="265.5" y="265.5"/>
+        <use href="#iv" x="325.5" y="265.5"/>
+        <use href="#iv" x="185.5" y="265.5"/>
+        <use href="#ih" x="305.5" y="305.5"/>
+        <use href="#ih" x="225.5" y="305.5"/>
+        <use href="#ih" x="105.5" y="105.5"/>
+        <use href="#ld" x="45.5" y="125.5"/>
+        <use href="#o" x="65.5" y="145.5"/>
+        <use href="#ju" x="45.5" y="185.5"/>
+        <use href="#jd" x="145.5" y="125.5"/>
+        <use href="#o" x="145.5" y="145.5"/>
+        <use href="#lu" x="145.5" y="185.5"/>
+        <use href="#ju" x="125.5" y="205.5"/>
+        <use href="#lu" x="65.5" y="205.5"/>
+        <use href="#o" x="105.5" y="225.5"/>
+        <use href="#o" x="105.5" y="265.5"/>
+        <use href="#iv" x="165.5" y="265.5"/>
+        <use href="#iv" x="25.5" y="265.5"/>
+        <use href="#ih" x="145.5" y="305.5"/>
+        <use href="#ih" x="65.5" y="305.5"/>
+        <use href="#ld" x="285.5" y="325.5"/>
+        <use href="#jd" x="65.5" y="325.5"/>
+        <use href="#ih" x="185.5" y="325.5"/>
+        <use href="#iv" x="305.5" y="385.5"/>
+        <use href="#iv" x="45.5" y="385.5"/>
+        <use href="#ih" x="225.5" y="345.5"/>
+        <use href="#ih" x="145.5" y="345.5"/>
+        <use href="#o" x="285.5" y="385.5"/>
+        <use href="#o" x="245.5" y="365.5"/>
+        <use href="#o" x="85.5" y="385.5"/>
+        <use href="#o" x="125.5" y="365.5"/>
+        <use href="#ju" x="205.5" y="405.5"/>
+        <use href="#lu" x="145.5" y="405.5"/>
+        <use href="#o" x="185.5" y="425.5"/>
+        <use href="#o" x="185.5" y="465.5"/>
+        <use href="#ih" x="285.5" y="425.5"/>
+        <use href="#ih" x="85.5" y="425.5"/>
+        <use href="#jr" x="245.5" y="465.5"/>
+        <use href="#ll" x="105.5" y="465.5"/>
+        <use href="#ih" x="225.5" y="505.5"/>
+        <use href="#ih" x="145.5" y="505.5"/>
+        <use href="#ih" x="905.5" y="85.5"/>
+        <use href="#ld" x="845.5" y="125.5"/>
+        <use href="#o" x="865.5" y="145.5"/>
+        <use href="#ju" x="845.5" y="185.5"/>
+        <use href="#jd" x="945.5" y="105.5"/>
+        <use href="#o" x="965.5" y="145.5"/>
+        <use href="#lu" x="945.5" y="205.5"/>
+        <use href="#ju" x="925.5" y="225.5"/>
+        <use href="#lu" x="865.5" y="225.5"/>
+        <use href="#o" x="865.5" y="245.5"/>
+        <use href="#o" x="905.5" y="245.5"/>
+        <use href="#iv" x="965.5" y="265.5"/>
+        <use href="#iv" x="825.5" y="245.5"/>
+        <use href="#ih" x="945.5" y="305.5"/>
+        <use href="#ih" x="865.5" y="285.5"/>
+        <use href="#ih" x="745.5" y="105.5"/>
+        <use href="#ld" x="685.5" y="125.5"/>
+        <use href="#o" x="705.5" y="145.5"/>
+        <use href="#ju" x="685.5" y="185.5"/>
+        <use href="#jd" x="785.5" y="125.5"/>
+        <use href="#o" x="785.5" y="145.5"/>
+        <use href="#lu" x="785.5" y="185.5"/>
+        <use href="#ju" x="765.5" y="225.5"/>
+        <use href="#lu" x="705.5" y="225.5"/>
+        <use href="#o" x="705.5" y="245.5"/>
+        <use href="#o" x="745.5" y="245.5"/>
+        <use href="#iv" x="805.5" y="245.5"/>
+        <use href="#iv" x="665.5" y="245.5"/>
+        <use href="#ih" x="785.5" y="285.5"/>
+        <use href="#ih" x="705.5" y="285.5"/>
+        <use href="#ld" x="925.5" y="325.5"/>
+        <use href="#jd" x="705.5" y="305.5"/>
+        <use href="#ih" x="825.5" y="305.5"/>
+        <use href="#iv" x="945.5" y="385.5"/>
+        <use href="#iv" x="685.5" y="365.5"/>
+        <use href="#ih" x="865.5" y="325.5"/>
+        <use href="#ih" x="785.5" y="345.5"/>
+        <use href="#o" x="885.5" y="345.5"/>
+        <use href="#o" x="885.5" y="385.5"/>
+        <use href="#o" x="725.5" y="365.5"/>
+        <use href="#o" x="765.5" y="365.5"/>
+        <use href="#ju" x="845.5" y="425.5"/>
+        <use href="#lu" x="785.5" y="425.5"/>
+        <use href="#o" x="785.5" y="445.5"/>
+        <use href="#o" x="825.5" y="445.5"/>
+        <use href="#ih" x="925.5" y="425.5"/>
+        <use href="#ih" x="725.5" y="405.5"/>
+        <use href="#jr" x="885.5" y="465.5"/>
+        <use href="#ll" x="745.5" y="445.5"/>
+        <use href="#ih" x="865.5" y="505.5"/>
+        <use href="#ih" x="785.5" y="485.5"/>
+        <use href="#ih" x="585.5" y="105.5"/>
+        <use href="#ld" x="525.5" y="125.5"/>
+        <use href="#o" x="545.5" y="145.5"/>
+        <use href="#ju" x="525.5" y="185.5"/>
+        <use href="#jd" x="625.5" y="125.5"/>
+        <use href="#o" x="625.5" y="145.5"/>
+        <use href="#lu" x="625.5" y="185.5"/>
+        <use href="#ju" x="605.5" y="225.5"/>
+        <use href="#lu" x="545.5" y="225.5"/>
+        <use href="#o" x="545.5" y="245.5"/>
+        <use href="#o" x="585.5" y="245.5"/>
+        <use href="#iv" x="645.5" y="245.5"/>
+        <use href="#iv" x="505.5" y="245.5"/>
+        <use href="#ih" x="625.5" y="285.5"/>
+        <use href="#ih" x="545.5" y="285.5"/>
+        <use href="#ih" x="425.5" y="85.5"/>
+        <use href="#ld" x="365.5" y="105.5"/>
+        <use href="#o" x="365.5" y="145.5"/>
+        <use href="#ju" x="365.5" y="205.5"/>
+        <use href="#jd" x="465.5" y="125.5"/>
+        <use href="#o" x="465.5" y="145.5"/>
+        <use href="#lu" x="465.5" y="185.5"/>
+        <use href="#ju" x="445.5" y="225.5"/>
+        <use href="#lu" x="385.5" y="225.5"/>
+        <use href="#o" x="385.5" y="265.5"/>
+        <use href="#o" x="425.5" y="245.5"/>
+        <use href="#iv" x="485.5" y="245.5"/>
+        <use href="#iv" x="345.5" y="265.5"/>
+        <use href="#ih" x="465.5" y="285.5"/>
+        <use href="#ih" x="385.5" y="305.5"/>
+        <use href="#ld" x="605.5" y="305.5"/>
+        <use href="#jd" x="385.5" y="325.5"/>
+        <use href="#ih" x="505.5" y="305.5"/>
+        <use href="#iv" x="625.5" y="365.5"/>
+        <use href="#iv" x="365.5" y="385.5"/>
+        <use href="#ih" x="545.5" y="345.5"/>
+        <use href="#ih" x="465.5" y="325.5"/>
+        <use href="#o" x="605.5" y="365.5"/>
+        <use href="#o" x="565.5" y="365.5"/>
+        <use href="#o" x="445.5" y="345.5"/>
+        <use href="#o" x="445.5" y="385.5"/>
+        <use href="#ju" x="525.5" y="425.5"/>
+        <use href="#lu" x="465.5" y="425.5"/>
+        <use href="#o" x="465.5" y="465.5"/>
+        <use href="#o" x="505.5" y="445.5"/>
+        <use href="#ih" x="605.5" y="405.5"/>
+        <use href="#ih" x="405.5" y="425.5"/>
+        <use href="#jr" x="565.5" y="445.5"/>
+        <use href="#ll" x="425.5" y="465.5"/>
+        <use href="#ih" x="545.5" y="485.5"/>
+        <use href="#ih" x="465.5" y="505.5"/>
+        <use href="#tu" x="1205.5" y="525.5"/>
+        <use href="#tu" x="1065.5" y="525.5"/>
+        <use href="#tu" x="885.5" y="545.5"/>
+        <use href="#tu" x="745.5" y="525.5"/>
+        <use href="#tu" x="565.5" y="525.5"/>
+        <use href="#tu" x="425.5" y="545.5"/>
+        <use href="#tu" x="245.5" y="545.5"/>
+        <use href="#tu" x="105.5" y="545.5"/>
+        <use href="#ih" x="1225.5" y="545.5"/>
+        <use href="#ld" x="1165.5" y="565.5"/>
+        <use href="#o" x="1165.5" y="605.5"/>
+        <use href="#ju" x="1165.5" y="665.5"/>
+        <use href="#jd" x="1265.5" y="585.5"/>
+        <use href="#o" x="1265.5" y="605.5"/>
+        <use href="#lu" x="1265.5" y="645.5"/>
+        <use href="#ju" x="1245.5" y="685.5"/>
+        <use href="#lu" x="1185.5" y="685.5"/>
+        <use href="#o" x="1185.5" y="725.5"/>
+        <use href="#o" x="1225.5" y="705.5"/>
+        <use href="#iv" x="1285.5" y="705.5"/>
+        <use href="#iv" x="1145.5" y="725.5"/>
+        <use href="#ih" x="1265.5" y="745.5"/>
+        <use href="#ih" x="1185.5" y="765.5"/>
+        <use href="#ih" x="1065.5" y="545.5"/>
+        <use href="#ld" x="1005.5" y="585.5"/>
+        <use href="#o" x="1025.5" y="605.5"/>
+        <use href="#ju" x="1005.5" y="645.5"/>
+        <use href="#jd" x="1105.5" y="565.5"/>
+        <use href="#o" x="1125.5" y="605.5"/>
+        <use href="#lu" x="1105.5" y="665.5"/>
+        <use href="#ju" x="1085.5" y="685.5"/>
+        <use href="#lu" x="1025.5" y="685.5"/>
+        <use href="#o" x="1025.5" y="705.5"/>
+        <use href="#o" x="1065.5" y="705.5"/>
+        <use href="#iv" x="1125.5" y="725.5"/>
+        <use href="#iv" x="985.5" y="705.5"/>
+        <use href="#ih" x="1105.5" y="765.5"/>
+        <use href="#ih" x="1025.5" y="745.5"/>
+        <use href="#ld" x="1245.5" y="765.5"/>
+        <use href="#jd" x="1025.5" y="765.5"/>
+        <use href="#ih" x="1145.5" y="785.5"/>
+        <use href="#iv" x="1265.5" y="825.5"/>
+        <use href="#iv" x="1005.5" y="825.5"/>
+        <use href="#ih" x="1185.5" y="805.5"/>
+        <use href="#ih" x="1105.5" y="805.5"/>
+        <use href="#o" x="1245.5" y="825.5"/>
+        <use href="#o" x="1205.5" y="825.5"/>
+        <use href="#o" x="1045.5" y="825.5"/>
+        <use href="#o" x="1085.5" y="825.5"/>
+        <use href="#ju" x="1165.5" y="885.5"/>
+        <use href="#lu" x="1105.5" y="885.5"/>
+        <use href="#o" x="1105.5" y="905.5"/>
+        <use href="#o" x="1145.5" y="905.5"/>
+        <use href="#ih" x="1245.5" y="865.5"/>
+        <use href="#ih" x="1045.5" y="865.5"/>
+        <use href="#jr" x="1205.5" y="905.5"/>
+        <use href="#ll" x="1065.5" y="905.5"/>
+        <use href="#ih" x="1185.5" y="945.5"/>
+        <use href="#ih" x="1105.5" y="945.5"/>
+        <use href="#ih" x="265.5" y="565.5"/>
+        <use href="#ld" x="205.5" y="585.5"/>
+        <use href="#o" x="225.5" y="605.5"/>
+        <use href="#ju" x="205.5" y="645.5"/>
+        <use href="#jd" x="305.5" y="585.5"/>
+        <use href="#o" x="305.5" y="605.5"/>
+        <use href="#lu" x="305.5" y="645.5"/>
+        <use href="#ju" x="285.5" y="665.5"/>
+        <use href="#lu" x="225.5" y="665.5"/>
+        <use href="#o" x="265.5" y="685.5"/>
+        <use href="#o" x="265.5" y="725.5"/>
+        <use href="#iv" x="325.5" y="725.5"/>
+        <use href="#iv" x="185.5" y="725.5"/>
+        <use href="#ih" x="305.5" y="765.5"/>
+        <use href="#ih" x="225.5" y="765.5"/>
+        <use href="#ih" x="105.5" y="565.5"/>
+        <use href="#ld" x="45.5" y="585.5"/>
+        <use href="#o" x="65.5" y="605.5"/>
+        <use href="#ju" x="45.5" y="645.5"/>
+        <use href="#jd" x="145.5" y="585.5"/>
+        <use href="#o" x="145.5" y="605.5"/>
+        <use href="#lu" x="145.5" y="645.5"/>
+        <use href="#ju" x="125.5" y="665.5"/>
+        <use href="#lu" x="65.5" y="665.5"/>
+        <use href="#o" x="105.5" y="685.5"/>
+        <use href="#o" x="105.5" y="725.5"/>
+        <use href="#iv" x="165.5" y="725.5"/>
+        <use href="#iv" x="25.5" y="725.5"/>
+        <use href="#ih" x="145.5" y="765.5"/>
+        <use href="#ih" x="65.5" y="765.5"/>
+        <use href="#ld" x="285.5" y="785.5"/>
+        <use href="#jd" x="65.5" y="785.5"/>
+        <use href="#ih" x="185.5" y="785.5"/>
+        <use href="#iv" x="305.5" y="845.5"/>
+        <use href="#iv" x="45.5" y="845.5"/>
+        <use href="#ih" x="225.5" y="805.5"/>
+        <use href="#ih" x="145.5" y="805.5"/>
+        <use href="#o" x="285.5" y="845.5"/>
+        <use href="#o" x="245.5" y="825.5"/>
+        <use href="#o" x="85.5" y="845.5"/>
+        <use href="#o" x="125.5" y="825.5"/>
+        <use href="#ju" x="205.5" y="865.5"/>
+        <use href="#lu" x="145.5" y="865.5"/>
+        <use href="#o" x="185.5" y="885.5"/>
+        <use href="#o" x="185.5" y="925.5"/>
+        <use href="#ih" x="285.5" y="885.5"/>
+        <use href="#ih" x="85.5" y="885.5"/>
+        <use href="#jr" x="245.5" y="925.5"/>
+        <use href="#ll" x="105.5" y="925.5"/>
+        <use href="#ih" x="225.5" y="965.5"/>
+        <use href="#ih" x="145.5" y="965.5"/>
+        <use href="#ih" x="905.5" y="565.5"/>
+        <use href="#ld" x="845.5" y="585.5"/>
+        <use href="#o" x="865.5" y="605.5"/>
+        <use href="#ju" x="845.5" y="645.5"/>
+        <use href="#jd" x="945.5" y="585.5"/>
+        <use href="#o" x="945.5" y="605.5"/>
+        <use href="#lu" x="945.5" y="645.5"/>
+        <use href="#ju" x="925.5" y="685.5"/>
+        <use href="#lu" x="865.5" y="685.5"/>
+        <use href="#o" x="865.5" y="705.5"/>
+        <use href="#o" x="905.5" y="705.5"/>
+        <use href="#iv" x="965.5" y="705.5"/>
+        <use href="#iv" x="825.5" y="705.5"/>
+        <use href="#ih" x="945.5" y="745.5"/>
+        <use href="#ih" x="865.5" y="745.5"/>
+        <use href="#ih" x="745.5" y="545.5"/>
+        <use href="#ld" x="685.5" y="565.5"/>
+        <use href="#o" x="685.5" y="605.5"/>
+        <use href="#ju" x="685.5" y="665.5"/>
+        <use href="#jd" x="785.5" y="585.5"/>
+        <use href="#o" x="785.5" y="605.5"/>
+        <use href="#lu" x="785.5" y="645.5"/>
+        <use href="#ju" x="765.5" y="685.5"/>
+        <use href="#lu" x="705.5" y="685.5"/>
+        <use href="#o" x="705.5" y="725.5"/>
+        <use href="#o" x="745.5" y="705.5"/>
+        <use href="#iv" x="805.5" y="705.5"/>
+        <use href="#iv" x="665.5" y="725.5"/>
+        <use href="#ih" x="785.5" y="745.5"/>
+        <use href="#ih" x="705.5" y="765.5"/>
+        <use href="#ld" x="925.5" y="765.5"/>
+        <use href="#jd" x="705.5" y="785.5"/>
+        <use href="#ih" x="825.5" y="765.5"/>
+        <use href="#iv" x="945.5" y="825.5"/>
+        <use href="#iv" x="685.5" y="845.5"/>
+        <use href="#ih" x="865.5" y="805.5"/>
+        <use href="#ih" x="785.5" y="785.5"/>
+        <use href="#o" x="925.5" y="825.5"/>
+        <use href="#o" x="885.5" y="825.5"/>
+        <use href="#o" x="765.5" y="805.5"/>
+        <use href="#o" x="765.5" y="845.5"/>
+        <use href="#ju" x="845.5" y="885.5"/>
+        <use href="#lu" x="785.5" y="885.5"/>
+        <use href="#o" x="785.5" y="925.5"/>
+        <use href="#o" x="825.5" y="905.5"/>
+        <use href="#ih" x="925.5" y="865.5"/>
+        <use href="#ih" x="725.5" y="885.5"/>
+        <use href="#jr" x="885.5" y="905.5"/>
+        <use href="#ll" x="745.5" y="925.5"/>
+        <use href="#ih" x="865.5" y="945.5"/>
+        <use href="#ih" x="785.5" y="965.5"/>
+        <use href="#ih" x="585.5" y="545.5"/>
+        <use href="#ld" x="525.5" y="585.5"/>
+        <use href="#o" x="545.5" y="605.5"/>
+        <use href="#ju" x="525.5" y="645.5"/>
+        <use href="#jd" x="625.5" y="565.5"/>
+        <use href="#o" x="645.5" y="605.5"/>
+        <use href="#lu" x="625.5" y="665.5"/>
+        <use href="#ju" x="605.5" y="685.5"/>
+        <use href="#lu" x="545.5" y="685.5"/>
+        <use href="#o" x="545.5" y="705.5"/>
+        <use href="#o" x="585.5" y="705.5"/>
+        <use href="#iv" x="645.5" y="725.5"/>
+        <use href="#iv" x="505.5" y="705.5"/>
+        <use href="#ih" x="625.5" y="765.5"/>
+        <use href="#ih" x="545.5" y="745.5"/>
+        <use href="#ih" x="425.5" y="565.5"/>
+        <use href="#ld" x="365.5" y="585.5"/>
+        <use href="#o" x="385.5" y="605.5"/>
+        <use href="#ju" x="365.5" y="645.5"/>
+        <use href="#jd" x="465.5" y="585.5"/>
+        <use href="#o" x="465.5" y="605.5"/>
+        <use href="#lu" x="465.5" y="645.5"/>
+        <use href="#ju" x="445.5" y="685.5"/>
+        <use href="#lu" x="385.5" y="685.5"/>
+        <use href="#o" x="385.5" y="705.5"/>
+        <use href="#o" x="425.5" y="705.5"/>
+        <use href="#iv" x="485.5" y="705.5"/>
+        <use href="#iv" x="345.5" y="705.5"/>
+        <use href="#ih" x="465.5" y="745.5"/>
+        <use href="#ih" x="385.5" y="745.5"/>
+        <use href="#ld" x="605.5" y="785.5"/>
+        <use href="#jd" x="385.5" y="765.5"/>
+        <use href="#ih" x="505.5" y="765.5"/>
+        <use href="#iv" x="625.5" y="845.5"/>
+        <use href="#iv" x="365.5" y="825.5"/>
+        <use href="#ih" x="545.5" y="785.5"/>
+        <use href="#ih" x="465.5" y="805.5"/>
+        <use href="#o" x="565.5" y="805.5"/>
+        <use href="#o" x="565.5" y="845.5"/>
+        <use href="#o" x="405.5" y="825.5"/>
+        <use href="#o" x="445.5" y="825.5"/>
+        <use href="#ju" x="525.5" y="885.5"/>
+        <use href="#lu" x="465.5" y="885.5"/>
+        <use href="#o" x="465.5" y="905.5"/>
+        <use href="#o" x="505.5" y="905.5"/>
+        <use href="#ih" x="605.5" y="885.5"/>
+        <use href="#ih" x="405.5" y="865.5"/>
+        <use href="#jr" x="565.5" y="925.5"/>
+        <use href="#ll" x="425.5" y="905.5"/>
+        <use href="#ih" x="545.5" y="965.5"/>
+        <use href="#ih" x="465.5" y="945.5"/>
+        <use href="#tu" x="1205.5" y="985.5"/>
+        <use href="#tu" x="1065.5" y="985.5"/>
+        <use href="#tu" x="885.5" y="985.5"/>
+        <use href="#tu" x="745.5" y="1005.5"/>
+        <use href="#tu" x="565.5" y="1005.5"/>
+        <use href="#tu" x="425.5" y="985.5"/>
+        <use href="#tu" x="245.5" y="1005.5"/>
+        <use href="#tu" x="105.5" y="1005.5"/>
+        <use href="#ih" x="1225.5" y="1005.5"/>
+        <use href="#ld" x="1165.5" y="1025.5"/>
+        <use href="#o" x="1165.5" y="1065.5"/>
+        <use href="#ju" x="1165.5" y="1125.5"/>
+        <use href="#jd" x="1265.5" y="1045.5"/>
+        <use href="#o" x="1265.5" y="1065.5"/>
+        <use href="#lu" x="1265.5" y="1105.5"/>
+        <use href="#ju" x="1245.5" y="1145.5"/>
+        <use href="#lu" x="1185.5" y="1145.5"/>
+        <use href="#o" x="1185.5" y="1185.5"/>
+        <use href="#o" x="1225.5" y="1165.5"/>
+        <use href="#iv" x="1285.5" y="1165.5"/>
+        <use href="#iv" x="1145.5" y="1185.5"/>
+        <use href="#ih" x="1265.5" y="1205.5"/>
+        <use href="#ih" x="1185.5" y="1225.5"/>
+        <use href="#ih" x="1065.5" y="1005.5"/>
+        <use href="#ld" x="1005.5" y="1045.5"/>
+        <use href="#o" x="1025.5" y="1065.5"/>
+        <use href="#ju" x="1005.5" y="1105.5"/>
+        <use href="#jd" x="1105.5" y="1025.5"/>
+        <use href="#o" x="1125.5" y="1065.5"/>
+        <use href="#lu" x="1105.5" y="1125.5"/>
+        <use href="#ju" x="1085.5" y="1145.5"/>
+        <use href="#lu" x="1025.5" y="1145.5"/>
+        <use href="#o" x="1025.5" y="1165.5"/>
+        <use href="#o" x="1065.5" y="1165.5"/>
+        <use href="#iv" x="1125.5" y="1185.5"/>
+        <use href="#iv" x="985.5" y="1165.5"/>
+        <use href="#ih" x="1105.5" y="1225.5"/>
+        <use href="#ih" x="1025.5" y="1205.5"/>
+        <use href="#ld" x="1245.5" y="1225.5"/>
+        <use href="#jd" x="1025.5" y="1225.5"/>
+        <use href="#ih" x="1145.5" y="1245.5"/>
+        <use href="#iv" x="1265.5" y="1285.5"/>
+        <use href="#iv" x="1005.5" y="1285.5"/>
+        <use href="#ih" x="1185.5" y="1265.5"/>
+        <use href="#ih" x="1105.5" y="1265.5"/>
+        <use href="#o" x="1245.5" y="1285.5"/>
+        <use href="#o" x="1205.5" y="1285.5"/>
+        <use href="#o" x="1045.5" y="1285.5"/>
+        <use href="#o" x="1085.5" y="1285.5"/>
+        <use href="#ju" x="1165.5" y="1345.5"/>
+        <use href="#lu" x="1105.5" y="1345.5"/>
+        <use href="#o" x="1105.5" y="1365.5"/>
+        <use href="#o" x="1145.5" y="1365.5"/>
+        <use href="#ih" x="1245.5" y="1325.5"/>
+        <use href="#ih" x="1045.5" y="1325.5"/>
+        <use href="#jr" x="1205.5" y="1365.5"/>
+        <use href="#ll" x="1065.5" y="1365.5"/>
+        <use href="#ih" x="1185.5" y="1405.5"/>
+        <use href="#ih" x="1105.5" y="1405.5"/>
+        <use href="#ih" x="265.5" y="1025.5"/>
+        <use href="#ld" x="205.5" y="1045.5"/>
+        <use href="#o" x="225.5" y="1065.5"/>
+        <use href="#ju" x="205.5" y="1105.5"/>
+        <use href="#jd" x="305.5" y="1045.5"/>
+        <use href="#o" x="305.5" y="1065.5"/>
+        <use href="#lu" x="305.5" y="1105.5"/>
+        <use href="#ju" x="285.5" y="1125.5"/>
+        <use href="#lu" x="225.5" y="1125.5"/>
+        <use href="#o" x="265.5" y="1145.5"/>
+        <use href="#o" x="265.5" y="1185.5"/>
+        <use href="#iv" x="325.5" y="1185.5"/>
+        <use href="#iv" x="185.5" y="1185.5"/>
+        <use href="#ih" x="305.5" y="1225.5"/>
+        <use href="#ih" x="225.5" y="1225.5"/>
+        <use href="#ih" x="105.5" y="1025.5"/>
+        <use href="#ld" x="45.5" y="1045.5"/>
+        <use href="#o" x="65.5" y="1065.5"/>
+        <use href="#ju" x="45.5" y="1105.5"/>
+        <use href="#jd" x="145.5" y="1045.5"/>
+        <use href="#o" x="145.5" y="1065.5"/>
+        <use href="#lu" x="145.5" y="1105.5"/>
+        <use href="#ju" x="125.5" y="1125.5"/>
+        <use href="#lu" x="65.5" y="1125.5"/>
+        <use href="#o" x="105.5" y="1145.5"/>
+        <use href="#o" x="105.5" y="1185.5"/>
+        <use href="#iv" x="165.5" y="1185.5"/>
+        <use href="#iv" x="25.5" y="1185.5"/>
+        <use href="#ih" x="145.5" y="1225.5"/>
+        <use href="#ih" x="65.5" y="1225.5"/>
+        <use href="#ld" x="285.5" y="1245.5"/>
+        <use href="#jd" x="65.5" y="1245.5"/>
+        <use href="#ih" x="185.5" y="1245.5"/>
+        <use href="#iv" x="305.5" y="1305.5"/>
+        <use href="#iv" x="45.5" y="1305.5"/>
+        <use href="#ih" x="225.5" y="1265.5"/>
+        <use href="#ih" x="145.5" y="1265.5"/>
+        <use href="#o" x="285.5" y="1305.5"/>
+        <use href="#o" x="245.5" y="1285.5"/>
+        <use href="#o" x="85.5" y="1305.5"/>
+        <use href="#o" x="125.5" y="1285.5"/>
+        <use href="#ju" x="205.5" y="1325.5"/>
+        <use href="#lu" x="145.5" y="1325.5"/>
+        <use href="#o" x="185.5" y="1345.5"/>
+        <use href="#o" x="185.5" y="1385.5"/>
+        <use href="#ih" x="285.5" y="1345.5"/>
+        <use href="#ih" x="85.5" y="1345.5"/>
+        <use href="#jr" x="245.5" y="1385.5"/>
+        <use href="#ll" x="105.5" y="1385.5"/>
+        <use href="#ih" x="225.5" y="1425.5"/>
+        <use href="#ih" x="145.5" y="1425.5"/>
+        <use href="#ih" x="905.5" y="1005.5"/>
+        <use href="#ld" x="845.5" y="1045.5"/>
+        <use href="#o" x="865.5" y="1065.5"/>
+        <use href="#ju" x="845.5" y="1105.5"/>
+        <use href="#jd" x="945.5" y="1025.5"/>
+        <use href="#o" x="965.5" y="1065.5"/>
+        <use href="#lu" x="945.5" y="1125.5"/>
+        <use href="#ju" x="925.5" y="1145.5"/>
+        <use href="#lu" x="865.5" y="1145.5"/>
+        <use href="#o" x="865.5" y="1165.5"/>
+        <use href="#o" x="905.5" y="1165.5"/>
+        <use href="#iv" x="965.5" y="1185.5"/>
+        <use href="#iv" x="825.5" y="1165.5"/>
+        <use href="#ih" x="945.5" y="1225.5"/>
+        <use href="#ih" x="865.5" y="1205.5"/>
+        <use href="#ih" x="745.5" y="1025.5"/>
+        <use href="#ld" x="685.5" y="1045.5"/>
+        <use href="#o" x="705.5" y="1065.5"/>
+        <use href="#ju" x="685.5" y="1105.5"/>
+        <use href="#jd" x="785.5" y="1045.5"/>
+        <use href="#o" x="785.5" y="1065.5"/>
+        <use href="#lu" x="785.5" y="1105.5"/>
+        <use href="#ju" x="765.5" y="1145.5"/>
+        <use href="#lu" x="705.5" y="1145.5"/>
+        <use href="#o" x="705.5" y="1165.5"/>
+        <use href="#o" x="745.5" y="1165.5"/>
+        <use href="#iv" x="805.5" y="1165.5"/>
+        <use href="#iv" x="665.5" y="1165.5"/>
+        <use href="#ih" x="785.5" y="1205.5"/>
+        <use href="#ih" x="705.5" y="1205.5"/>
+        <use href="#ld" x="925.5" y="1245.5"/>
+        <use href="#jd" x="705.5" y="1225.5"/>
+        <use href="#ih" x="825.5" y="1225.5"/>
+        <use href="#iv" x="945.5" y="1305.5"/>
+        <use href="#iv" x="685.5" y="1285.5"/>
+        <use href="#ih" x="865.5" y="1245.5"/>
+        <use href="#ih" x="785.5" y="1265.5"/>
+        <use href="#o" x="885.5" y="1265.5"/>
+        <use href="#o" x="885.5" y="1305.5"/>
+        <use href="#o" x="725.5" y="1285.5"/>
+        <use href="#o" x="765.5" y="1285.5"/>
+        <use href="#ju" x="845.5" y="1345.5"/>
+        <use href="#lu" x="785.5" y="1345.5"/>
+        <use href="#o" x="785.5" y="1365.5"/>
+        <use href="#o" x="825.5" y="1365.5"/>
+        <use href="#ih" x="925.5" y="1345.5"/>
+        <use href="#ih" x="725.5" y="1325.5"/>
+        <use href="#jr" x="885.5" y="1385.5"/>
+        <use href="#ll" x="745.5" y="1365.5"/>
+        <use href="#ih" x="865.5" y="1425.5"/>
+        <use href="#ih" x="785.5" y="1405.5"/>
+        <use href="#ih" x="585.5" y="1025.5"/>
+        <use href="#ld" x="525.5" y="1045.5"/>
+        <use href="#o" x="545.5" y="1065.5"/>
+        <use href="#ju" x="525.5" y="1105.5"/>
+        <use href="#jd" x="625.5" y="1045.5"/>
+        <use href="#o" x="625.5" y="1065.5"/>
+        <use href="#lu" x="625.5" y="1105.5"/>
+        <use href="#ju" x="605.5" y="1145.5"/>
+        <use href="#lu" x="545.5" y="1145.5"/>
+        <use href="#o" x="545.5" y="1165.5"/>
+        <use href="#o" x="585.5" y="1165.5"/>
+        <use href="#iv" x="645.5" y="1165.5"/>
+        <use href="#iv" x="505.5" y="1165.5"/>
+        <use href="#ih" x="625.5" y="1205.5"/>
+        <use href="#ih" x="545.5" y="1205.5"/>
+        <use href="#ih" x="425.5" y="1005.5"/>
+        <use href="#ld" x="365.5" y="1025.5"/>
+        <use href="#o" x="365.5" y="1065.5"/>
+        <use href="#ju" x="365.5" y="1125.5"/>
+        <use href="#jd" x="465.5" y="1045.5"/>
+        <use href="#o" x="465.5" y="1065.5"/>
+        <use href="#lu" x="465.5" y="1105.5"/>
+        <use href="#ju" x="445.5" y="1145.5"/>
+        <use href="#lu" x="385.5" y="1145.5"/>
+        <use href="#o" x="385.5" y="1185.5"/>
+        <use href="#o" x="425.5" y="1165.5"/>
+        <use href="#iv" x="485.5" y="1165.5"/>
+        <use href="#iv" x="345.5" y="1185.5"/>
+        <use href="#ih" x="465.5" y="1205.5"/>
+        <use href="#ih" x="385.5" y="1225.5"/>
+        <use href="#ld" x="605.5" y="1225.5"/>
+        <use href="#jd" x="385.5" y="1245.5"/>
+        <use href="#ih" x="505.5" y="1225.5"/>
+        <use href="#iv" x="625.5" y="1285.5"/>
+        <use href="#iv" x="365.5" y="1305.5"/>
+        <use href="#ih" x="545.5" y="1265.5"/>
+        <use href="#ih" x="465.5" y="1245.5"/>
+        <use href="#o" x="605.5" y="1285.5"/>
+        <use href="#o" x="565.5" y="1285.5"/>
+        <use href="#o" x="445.5" y="1265.5"/>
+        <use href="#o" x="445.5" y="1305.5"/>
+        <use href="#ju" x="525.5" y="1345.5"/>
+        <use href="#lu" x="465.5" y="1345.5"/>
+        <use href="#o" x="465.5" y="1385.5"/>
+        <use href="#o" x="505.5" y="1365.5"/>
+        <use href="#ih" x="605.5" y="1325.5"/>
+        <use href="#ih" x="405.5" y="1345.5"/>
+        <use href="#jr" x="565.5" y="1365.5"/>
+        <use href="#ll" x="425.5" y="1385.5"/>
+        <use href="#ih" x="545.5" y="1405.5"/>
+        <use href="#ih" x="465.5" y="1425.5"/>
     </g>
 </svg>
