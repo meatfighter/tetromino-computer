@@ -22,32 +22,32 @@
         <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
-    <text transform="translate(130 120.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
-    <text transform="translate(75 115)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+    <text x="130" y="120.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="75" y="115.5" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
-        <tspan baseline-shift="-20%">2</tspan>
-        (
+        <tspan dy="5px">2</tspan>
+        <tspan dy="-5px">(</tspan>
         <tspan font-style="italic">s</tspan>
-        <tspan baseline-shift="-20%">2</tspan>
-        )
+        <tspan dy="5px">2</tspan>
+        <tspan dy="-5px">)</tspan>
     </text> 
-    <text transform="translate(130 304.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
-    <text transform="translate(75 299)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+    <text x="130" y="304.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="75" y="299.5" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
-        <tspan baseline-shift="-20%">1</tspan>
-        (
+        <tspan dy="5px">1</tspan>
+        <tspan dy="-5px">(</tspan>
         <tspan font-style="italic">s</tspan>
-        <tspan baseline-shift="-20%">1</tspan>
-        )
+        <tspan dy="5px">1</tspan>
+        <tspan dy="-5px">)</tspan>
     </text>
-    <text transform="translate(130 488.5)" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
-    <text transform="translate(75 483)" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
+    <text x="130" y="488.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="75" y="483.5" class="math" dominant-baseline="middle" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
-        <tspan baseline-shift="-20%">0</tspan>
-        (
+        <tspan dy="5px">0</tspan>
+        <tspan dy="-5px">(</tspan>
         <tspan font-style="italic">s</tspan>
-        <tspan baseline-shift="-20%">0</tspan>
-        )
+        <tspan dy="5px">0</tspan>
+        <tspan dy="-5px">)</tspan>
     </text>    
     <g transform="translate(125 0) scale(0.4)">
         <line x1="15.5" y1="35.5" x2="1295.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
