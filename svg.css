@@ -121,3 +121,15 @@ polygon.i {
     stroke-width: 1; 
     stroke-linecap: square;
 }
+
+line.arrow {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 3.5; 
+    stroke-linecap: square;
+}
+
+path.arrowhead {
+    fill: #FFFFF0;
+    stroke: none;
+}
