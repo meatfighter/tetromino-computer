@@ -34,35 +34,35 @@
     <line x1="210.5" y1="16.5" x2="210.5" y2="424.5" class="grid"/>
     <line x1="230.5" y1="16.5" x2="230.5" y2="424.5" class="grid"/>
     <g style="font-size: 13px;">
-        <text transform="translate(28 35.5)" class="axes" dominant-baseline="middle" text-anchor="end">19</text>
-        <text transform="translate(28 55.5)" class="axes" dominant-baseline="middle" text-anchor="end">18</text>
-        <text transform="translate(28 75.5)" class="axes" dominant-baseline="middle" text-anchor="end">17</text>
-        <text transform="translate(28 95.5)" class="axes" dominant-baseline="middle" text-anchor="end">16</text>
-        <text transform="translate(28 115.5)" class="axes" dominant-baseline="middle" text-anchor="end">15</text>
-        <text transform="translate(28 135.5)" class="axes" dominant-baseline="middle" text-anchor="end">14</text>
-        <text transform="translate(28 155.5)" class="axes" dominant-baseline="middle" text-anchor="end">13</text>
-        <text transform="translate(28 175.5)" class="axes" dominant-baseline="middle" text-anchor="end">12</text>
-        <text transform="translate(28 195.5)" class="axes" dominant-baseline="middle" text-anchor="end">11</text>
-        <text transform="translate(28 215.5)" class="axes" dominant-baseline="middle" text-anchor="end">10</text>
-        <text transform="translate(28 235.5)" class="axes" dominant-baseline="middle" text-anchor="end">9</text>
-        <text transform="translate(28 255.5)" class="axes" dominant-baseline="middle" text-anchor="end">8</text>
-        <text transform="translate(28 275.5)" class="axes" dominant-baseline="middle" text-anchor="end">7</text>
-        <text transform="translate(28 295.5)" class="axes" dominant-baseline="middle" text-anchor="end">6</text>
-        <text transform="translate(28 315.5)" class="axes" dominant-baseline="middle" text-anchor="end">5</text>
-        <text transform="translate(28 335.5)" class="axes" dominant-baseline="middle" text-anchor="end">4</text>
-        <text transform="translate(28 355.5)" class="axes" dominant-baseline="middle" text-anchor="end">3</text>
-        <text transform="translate(28 375.5)" class="axes" dominant-baseline="middle" text-anchor="end">2</text>
-        <text transform="translate(28 395.5)" class="axes" dominant-baseline="middle" text-anchor="end">1</text>
-        <text transform="translate(28 415.5)" class="axes" dominant-baseline="middle" text-anchor="end">0</text>
-        <text transform="translate(40.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-5</text>
-        <text transform="translate(60.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-4</text>
-        <text transform="translate(80.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-3</text>
-        <text transform="translate(100.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-2</text>
-        <text transform="translate(120.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-1</text>
-        <text transform="translate(140.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">0</text>
-        <text transform="translate(160.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">1</text>
-        <text transform="translate(180.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">2</text>
-        <text transform="translate(200.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">3</text>
-        <text transform="translate(220.5 434.25)" class="axes" dominant-baseline="middle" text-anchor="middle">4</text>
+        <text transform="translate(28 35.5)" class="axes" dy="0.25em" text-anchor="end">19</text>
+        <text transform="translate(28 55.5)" class="axes" dy="0.25em" text-anchor="end">18</text>
+        <text transform="translate(28 75.5)" class="axes" dy="0.25em" text-anchor="end">17</text>
+        <text transform="translate(28 95.5)" class="axes" dy="0.25em" text-anchor="end">16</text>
+        <text transform="translate(28 115.5)" class="axes" dy="0.25em" text-anchor="end">15</text>
+        <text transform="translate(28 135.5)" class="axes" dy="0.25em" text-anchor="end">14</text>
+        <text transform="translate(28 155.5)" class="axes" dy="0.25em" text-anchor="end">13</text>
+        <text transform="translate(28 175.5)" class="axes" dy="0.25em" text-anchor="end">12</text>
+        <text transform="translate(28 195.5)" class="axes" dy="0.25em" text-anchor="end">11</text>
+        <text transform="translate(28 215.5)" class="axes" dy="0.25em" text-anchor="end">10</text>
+        <text transform="translate(28 235.5)" class="axes" dy="0.25em" text-anchor="end">9</text>
+        <text transform="translate(28 255.5)" class="axes" dy="0.25em" text-anchor="end">8</text>
+        <text transform="translate(28 275.5)" class="axes" dy="0.25em" text-anchor="end">7</text>
+        <text transform="translate(28 295.5)" class="axes" dy="0.25em" text-anchor="end">6</text>
+        <text transform="translate(28 315.5)" class="axes" dy="0.25em" text-anchor="end">5</text>
+        <text transform="translate(28 335.5)" class="axes" dy="0.25em" text-anchor="end">4</text>
+        <text transform="translate(28 355.5)" class="axes" dy="0.25em" text-anchor="end">3</text>
+        <text transform="translate(28 375.5)" class="axes" dy="0.25em" text-anchor="end">2</text>
+        <text transform="translate(28 395.5)" class="axes" dy="0.25em" text-anchor="end">1</text>
+        <text transform="translate(28 415.5)" class="axes" dy="0.25em" text-anchor="end">0</text>
+        <text transform="translate(40.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">-5</text>
+        <text transform="translate(60.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">-4</text>
+        <text transform="translate(80.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">-3</text>
+        <text transform="translate(100.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">-2</text>
+        <text transform="translate(120.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">-1</text>
+        <text transform="translate(140.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">0</text>
+        <text transform="translate(160.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">1</text>
+        <text transform="translate(180.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">2</text>
+        <text transform="translate(200.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">3</text>
+        <text transform="translate(220.5 434.25)" class="axes" dy="0.25em" text-anchor="middle">4</text>
     </g>
 </svg>

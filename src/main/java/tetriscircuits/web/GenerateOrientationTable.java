@@ -72,10 +72,9 @@ public class GenerateOrientationTable {
                             toString(ox + 2.5 * CELL_SIZE), toString(oy + 2.5 * CELL_SIZE));
                 out.format("        <circle cx=\"%s\" cy=\"%s\" r=\"%s\" class=\"grid-center\"/>%n", 
                         toString(ox + 2.5 * CELL_SIZE - 0.5), toString(oy + 2.5 * CELL_SIZE - 0.5), CELL_SIZE / 4.0);
-                out.format("        <text transform=\"translate(%s %s)\" class=\"axes\" "
-                                + "dominant-baseline=\"middle\" text-anchor=\"middle\">%s</text>%n", 
-                                toString(ox + 2.5 * CELL_SIZE), toString(oy - FONT_SIZE - FONT_GAP + 12), 
-                                tetrimino.getName());
+                out.format("        <text x=\"%s\" y=\"%s\" dy=\"0.25em\" class=\"axes\" "
+                        + "text-anchor=\"middle\">%s</text>%n", toString(ox + 2.5 * CELL_SIZE), 
+                        toString(oy - FONT_SIZE - FONT_GAP + 12), tetrimino.getName());
             }            
         }
         out.println("    </g>");
@@ -84,15 +83,11 @@ public class GenerateOrientationTable {
             final String name = Tetrimino.TETRIMINOS[i][0].getGroupName().toUpperCase();
             final double ox = MARGIN + LEFT_MARGIN - 7;
             final double oy = MARGIN + i * (5 * CELL_SIZE + FONT_SIZE + FONT_GAP 
-                            + ((i != 0) ? VERTICAL_SPACER : 0)) + TOP_MARGIN + 2.5 * CELL_SIZE;
-            out.format("        <text transform=\"translate(%s %s)\" class=\"label\" "
-                                + "dominant-baseline=\"middle\" text-anchor=\"end\">%s</text>%n", 
-                                toString(ox), toString(oy), 
-                                name);
-            
+                    + ((i != 0) ? VERTICAL_SPACER : 0)) + TOP_MARGIN + 2.5 * CELL_SIZE;
+            out.format("        <text x=\"%s\" y=\"%s\" dy=\"0.25em\" class=\"label\" text-anchor=\"end\">%s</text>%n", 
+                    toString(ox), toString(oy), name);            
         }
         out.println("    </g>");
-        
         
         out.println("</svg>");
     }

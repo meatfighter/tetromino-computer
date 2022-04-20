@@ -30,7 +30,7 @@
         <tspan font-style="italic">s</tspan>
         <tspan dy="5px">3</tspan>
     </text>
-    <text x="130" y="120.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="130" y="120.5" class="braces" dy="0.25em" text-anchor="end" style="font-size: 178.5px;">{</text>
     <text x="75" y="120" class="math" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
         <tspan dy="5px">2</tspan>
@@ -44,7 +44,7 @@
         <tspan font-style="italic">s</tspan>
         <tspan dy="5px">2</tspan>
     </text>    
-    <text x="130" y="304.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="130" y="304.5" class="braces" dy="0.25em" text-anchor="end" style="font-size: 178.5px;">{</text>
     <text x="75" y="304" class="math" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
         <tspan dy="5px">1</tspan>
@@ -58,7 +58,7 @@
         <tspan font-style="italic">s</tspan>
         <tspan dy="5px">1</tspan>
     </text>
-    <text x="130" y="488.5" class="braces" dominant-baseline="middle" text-anchor="end" style="font-size: 178.5px;">{</text>
+    <text x="130" y="488.5" class="braces" dy="0.25em" text-anchor="end" style="font-size: 178.5px;">{</text>
     <text x="75" y="488" class="math" text-anchor="end" style="font-size: 20px;">
         <tspan font-style="italic">T</tspan>
         <tspan dy="5px">0</tspan>
@@ -213,44 +213,44 @@
         <g style="font-size: 20px;">
             <rect x="1195.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
             <rect x="1195.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(1205.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(1205.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="1055.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
             <rect x="1055.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(1065.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(1065.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="875.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
             <rect x="875.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(885.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(885.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="735.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
             <rect x="735.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(745.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(745.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="555.5" y="1415.5" width="19" height="39" class="terminal-fill"/>
             <rect x="555.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(565.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(565.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="415.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
             <rect x="415.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(425.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(425.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="235.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
             <rect x="235.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(245.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(245.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="95.5" y="1435.5" width="19" height="19" class="terminal-fill"/>
             <rect x="95.5" y="1415.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(105.5 1468)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(105.5 1468)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="1195.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(1205.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(1205.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="1055.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(1065.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(1065.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="875.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(885.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(885.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="735.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(745.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(745.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="555.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(565.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(565.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="415.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(425.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">1</text>
+            <text transform="translate(425.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">1</text>
             <rect x="235.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(245.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(245.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
             <rect x="95.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-            <text transform="translate(105.5 25.5)" class="terminals" dominant-baseline="middle" text-anchor="middle">0</text>
+            <text transform="translate(105.5 25.5)" class="terminals" dy="0.25em" text-anchor="middle">0</text>
         </g>
         <use href="#tu" x="1205.5" y="65.5"/>
         <use href="#tu" x="1065.5" y="65.5"/>

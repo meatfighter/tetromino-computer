@@ -23,13 +23,13 @@
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
     <g style="font-size: 20px;">
-        <text x="-94.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">T</text>
-        <text x="-14.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">J</text>
-        <text x="55.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">Z</text>
-        <text x="135.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">O</text>
-        <text x="215.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">S</text>
-        <text x="285.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">L</text>
-        <text x="375.5" y="24.5" class="label" dominant-baseline="middle" text-anchor="middle">I</text>
+        <text x="-94.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">T</text>
+        <text x="-14.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">J</text>
+        <text x="55.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">Z</text>
+        <text x="135.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">O</text>
+        <text x="215.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">S</text>
+        <text x="285.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">L</text>
+        <text x="375.5" y="24.5" class="label" dy="0.25em" text-anchor="middle">I</text>
     </g>
     <use href="#ih" x="385.5" y="45.5"/>
     <use href="#ld" x="285.5" y="45.5"/>
