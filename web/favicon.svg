@@ -1,7 +1,15 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/css" href="test.css"?>
-<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-     style="background-color:#2B2B2B;">
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+        svg {
+            background-color: #2B2B2B;
+        }
+        @media (prefers-color-scheme: dark) {
+            svg {
+                background-color: transparent;
+            }
+        }
+    </style>
     <polygon id="T" points="4,32 76,32 76,56 52,56 52,80 28,80 28,56 4,56" style="stroke:none;fill:#B802FD;"/>
     <polygon id="S" points="76,56 124,56 124,80 100,80 100,104 52,104 52,80 76,80" style="stroke:none;fill:#66FD00;"/>
 </svg>

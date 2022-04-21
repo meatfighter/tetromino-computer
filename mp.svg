@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <text x="50" y="250" dy="0.25em" class="label" style="stroke: none; fill:#FFFFFF; font-size: 20px;">Mp</text>
+    <text x="50" y="250" class="label" dominant-baseline="middle" style="stroke: none; fill:#FF0000; font-size: 20px;">Mp</text>
+</svg>
