@@ -1,10 +1,16 @@
 {
     "short_name": "Tetris Circuits",
     "name": "Tetris is Turing-complete",    
-    "icons": [{
-        "src": "google-touch-icon.png",
-        "sizes": "512x512"
-    }],
+    "icons": [
+        {
+            "src": "google-touch-icon-192.png",
+            "sizes": "192x192"
+        },    
+        {
+            "src": "google-touch-icon-512.png",
+            "sizes": "512x512"
+        }
+    ],
     "start_url": "/index.html",
     "background_color": "#FFFFFF",
     "theme_color": "#FFFFFF",
