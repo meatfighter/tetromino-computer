@@ -5,10 +5,10 @@
 <head>
 <title>Tetris is Turing-complete</title>
 <link rel="stylesheet" href="style.css?v=2022-04-21" type="text/css"/>
-<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
-<link rel=”mask-icon” href=”mask-icon.svg” color=”#000000"/>
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
+<link rel="mask-icon" href="mask-icon.svg" color="#000000"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -49,13 +49,14 @@
 <p>A <span class="term">move</span> is a 90&deg; rotation or a 1-cell translation of the piece in play. The following terms apply to translation.</p>
 
 <ul>
-  <li>A <span class="term">shift</span> is a horizontal translation.</li>
-  <li>A <span class="term">drop</span> is a downward translation.</li>
-  <ul>
-    <li>A <span class="term">soft drop</span> is a player-controlled, 1-cell drop.</li>
-    <li>A <span class="term">hard drop</span> is a meta-move that forces the piece as far down as it can go and <span class="term">locks</span> it into place. It is operationally-equivalent to repeated soft drops.</li>
-    <li>A <span class="term">gravity drop</span> is an automatic, 1-cell drop triggered by the <span class="term">fall timer</span>.</li>
-  </ul>
+    <li>A <span class="term">shift</span> is a horizontal translation.</li>
+    <li>A <span class="term">drop</span> is a downward translation.
+        <ul>
+            <li>A <span class="term">soft drop</span> is a player-controlled, 1-cell drop.</li>
+            <li>A <span class="term">hard drop</span> is a meta-move that forces the piece as far down as it can go and <span class="term">locks</span> it into place. It is operationally-equivalent to repeated soft drops.</li>
+            <li>A <span class="term">gravity drop</span> is an automatic, 1-cell drop triggered by the <span class="term">fall timer</span>.</li>
+        </ul>
+    </li>
 </ul>
 
 <p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
@@ -64,7 +65,29 @@
 
 <h1 id="method-overview">Method Overview</h1>
 
+<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the bottom-2 rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the top-2 rows of that structure, an output data set is decoded.</p>
+
+<object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
+
+<p>The output rows serve as input rows of a structure built above it and the process can be repeated indefinitely. The effect is a state machine where the data rows are states and the structures are transition functions.</p>
+
 <object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
+
+<p>A construction exists where the data capacity of a state always exceeds its predecessor. It is a means of building an abstract computing device with unbounded storage, a.k.a. a Turing machine.</p>
+
+<h1 id="blindfolded-player">The Blindfolded Player</h1>
+
+<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player can read input data, perform calculations via any mechanism, and drop pieces to write output data. In other words, it can make Tetris function like RAM.</p>
+
+<p>To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
+
+<h1 id="infinite-playfield">Infinite Playfield</h1>
+
+<p>On an infinite playfield, completing a line requires infinite pieces and infinite time, neither of which the player can provide. Instead, the player deliberately grows the pile, building unbounded yet finite structures. And because lines are never cleared, the game always remains on the starting level (at the slowest drop speed).</p>
+
+<p>Tetriminos spawn in column 0 at infinite height. Due to the nature of infinity, as a spawned piece falls, it never gets any closer to the floor regardless of the drop speed. In finite (though potentially vast) time, the player can shift the piece into any column. And once in position, it can hard drop to lock the piece into the surface of the pile.</p>
+
+<p>The player can also perform a <span class="term">semihard drop</span>. It works like a hard drop, but instead of stopping when the piece can fall no further, it stops at a specified height. It is the only way to translate a piece from infinity to a finite distance above the floor.</p>
 
 </body>
 
