@@ -490,9 +490,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 depth);
     }
     
-    public void export(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
-        controller.export(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
-                false, depth, cellSize);
+    public void exportHtml() {
+        controller.exportHtmlAsync(tetrisScriptTextPane.getText());
+    }
+    
+    public void exportSvg(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
+        controller.exportSvgAsync(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), 
+                testBitsStr, false, depth, cellSize);
     }
     
     public boolean isTetrisScriptSelected() {

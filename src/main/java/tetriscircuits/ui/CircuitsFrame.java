@@ -243,7 +243,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
-        exportMenuItem = new javax.swing.JMenuItem();
+        exportSvgMenuItem = new javax.swing.JMenuItem();
+        exportHtmlMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
@@ -782,14 +783,23 @@ public class CircuitsFrame extends javax.swing.JFrame {
         fileMenu.add(saveAsMenuItem);
         fileMenu.add(jSeparator12);
 
-        exportMenuItem.setMnemonic('E');
-        exportMenuItem.setText("Export Image...");
-        exportMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        exportSvgMenuItem.setMnemonic('G');
+        exportSvgMenuItem.setText("Export SVG...");
+        exportSvgMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportMenuItemActionPerformed(evt);
+                exportSvgMenuItemActionPerformed(evt);
             }
         });
-        fileMenu.add(exportMenuItem);
+        fileMenu.add(exportSvgMenuItem);
+
+        exportHtmlMenuItem.setMnemonic('H');
+        exportHtmlMenuItem.setText("Export HTML...");
+        exportHtmlMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportHtmlMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exportHtmlMenuItem);
         fileMenu.add(jSeparator3);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
@@ -1449,9 +1459,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
         exitMenuItemActionPerformed(null);
     }//GEN-LAST:event_formWindowClosing
 
-    private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
-        circuitsEditorPanel.export(componentName, testTextField.getText().trim(), Integer.MAX_VALUE, 20);
-    }//GEN-LAST:event_exportMenuItemActionPerformed
+    private void exportSvgMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSvgMenuItemActionPerformed
+        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), Integer.MAX_VALUE, 20);
+    }//GEN-LAST:event_exportSvgMenuItemActionPerformed
+
+    private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed
+        circuitsEditorPanel.exportHtml();
+    }//GEN-LAST:event_exportHtmlMenuItemActionPerformed
 
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
@@ -1507,7 +1521,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JSpinner depthSpinner;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenuItem exportMenuItem;
+    private javax.swing.JMenuItem exportHtmlMenuItem;
+    private javax.swing.JMenuItem exportSvgMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem findMenuItem;
     private javax.swing.JMenuItem findNextMenuItem;

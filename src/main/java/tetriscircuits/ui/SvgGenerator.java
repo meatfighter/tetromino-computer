@@ -45,7 +45,7 @@ public class SvgGenerator {
         }
     }
     
-    private void generate(
+    public void generate(
             final PrintStream out, 
             final Structure[] structs,
             final double displayWidth,

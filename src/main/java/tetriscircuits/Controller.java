@@ -29,6 +29,7 @@ import javax.script.ScriptException;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
+import tetriscircuits.ui.HtmlGenerator;
 import tetriscircuits.ui.SvgGenerator;
 
 public class Controller {
@@ -629,23 +630,31 @@ public class Controller {
         }
     }
     
-    public void export(final String componentName, final String tetrisScript, final String javaScript, 
-            final String testBitStr, final boolean allPossibleInputs, final int depth, final int cellSize) {
-        execute(() -> exportImage(componentName, tetrisScript, javaScript, testBitStr, allPossibleInputs, depth, 
-                cellSize));
+    public void exportHtmlAsync(final String tetrisScript) {
+        execute(() -> exportHtml(tetrisScript));
     }
     
-    private void exportImage(final String componentName, final String tetrisScript, final String javaScript, 
+    private void exportHtml(final String tetrisScript) {
+        new HtmlGenerator().generate(System.out, tetrisScript);
+    }
+    
+    public void exportSvgAsync(final String componentName, final String tetrisScript, final String javaScript, 
+            final String testBitStr, final boolean allPossibleInputs, final int depth, final int cellSize) {
+        execute(() -> exportSvg(componentName, tetrisScript, javaScript, testBitStr, allPossibleInputs, 
+                depth, cellSize));
+    }
+    
+    private void exportSvg(final String componentName, final String tetrisScript, final String javaScript, 
             final String testBitStr, final boolean allPossibleInputs, final int depth, final double cellSize) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
         execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth, 
-                () -> exportComponent(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
+                () -> Controller.this.exportSvg(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
     }
     
-    private void exportComponent(final String componentName, final String testBitStr, final boolean allPossibleInputs, 
+    private void exportSvg(final String componentName, final String testBitStr, final boolean allPossibleInputs, 
             final int depth, final boolean clearOutput, final double cellSize) {
         
         final OutputListener outListener = outputListener;        
@@ -671,17 +680,17 @@ public class Controller {
                     sb.append('0');
                 }
                 sb.append(binaryStr);
-                structures.add(exportStructure(componentName, sb.toString(), depth));
+                structures.add(exportSvgStructure(componentName, sb.toString(), depth));
             }
         } else {
-            structures.add(exportStructure(componentName, testBitStr, depth));
+            structures.add(exportSvgStructure(componentName, testBitStr, depth));
         }
 
         new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
                 cellSize, true, true, false, false, false, false, false, true, 2, 2, 2, false, false, false, true);
     }  
     
-    private Structure exportStructure(final String componentName, final String testBitStr, final int depth) {
+    private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) {
         
         final OutputListener outListener = outputListener;
         final List<Structure> structs = new ArrayList<>();                 
