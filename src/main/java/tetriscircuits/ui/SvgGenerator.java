@@ -202,7 +202,7 @@ public class SvgGenerator {
                                     toString(fillHeight - 2.0 * cellSize - 1));                    
                         final Rectangle2D nameBounds = fontMetrics.getStringBounds(componentName, g);
                         out.format("            <text transform=\"translate(%s %s)%s\" class=\"component\" "
-                                + "dominant-baseline=\"middle\" text-anchor=\"middle\">%s</text>%n", 
+                                + "dy=\"0.25em\" text-anchor=\"middle\">%s</text>%n", 
                                 toString(fillX + fillWidth / 2.0), toString(fillY + fillHeight / 2.0),
                                 (nameBounds.getWidth() >= fillWidth - 10) ? " rotate(-90)" : "",
                                 componentName);

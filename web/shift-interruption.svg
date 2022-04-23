@@ -39,20 +39,20 @@
             <line x1="163.5" y1="16.5" x2="163.5" y2="144.5" class="grid" vector-effect="non-scaling-stroke"/>
             <line x1="183.5" y1="16.5" x2="183.5" y2="144.5" class="grid" vector-effect="non-scaling-stroke"/>
             <g style="font-size: 13px;">
-                <text transform="translate(21 35.5)" class="axes" dominant-baseline="middle" text-anchor="end">5</text>
-                <text transform="translate(21 55.5)" class="axes" dominant-baseline="middle" text-anchor="end">4</text>
-                <text transform="translate(21 75.5)" class="axes" dominant-baseline="middle" text-anchor="end">3</text>
-                <text transform="translate(21 95.5)" class="axes" dominant-baseline="middle" text-anchor="end">2</text>
-                <text transform="translate(21 115.5)" class="axes" dominant-baseline="middle" text-anchor="end">1</text>
-                <text transform="translate(21 135.5)" class="axes" dominant-baseline="middle" text-anchor="end">0</text>
-                <text transform="translate(33.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-3</text>
-                <text transform="translate(53.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-2</text>
-                <text transform="translate(73.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">-1</text>
-                <text transform="translate(93.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">0</text>
-                <text transform="translate(113.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">1</text>
-                <text transform="translate(133.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">2</text>
-                <text transform="translate(153.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">3</text>
-                <text transform="translate(173.5 154.25)" class="axes" dominant-baseline="middle" text-anchor="middle">4</text>
+                <text x="21" y="35.5" class="axes" dy="0.25em" text-anchor="end">5</text>
+                <text x="21" y="55.5" class="axes" dy="0.25em" text-anchor="end">4</text>
+                <text x="21" y="75.5" class="axes" dy="0.25em" text-anchor="end">3</text>
+                <text x="21" y="95.5" class="axes" dy="0.25em" text-anchor="end">2</text>
+                <text x="21" y="115.5" class="axes" dy="0.25em" text-anchor="end">1</text>
+                <text x="21" y="135.5" class="axes" dy="0.25em" text-anchor="end">0</text>
+                <text x="33.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">-3</text>
+                <text x="53.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">-2</text>
+                <text x="73.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">-1</text>
+                <text x="93.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">0</text>
+                <text x="113.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">1</text>
+                <text x="133.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">2</text>
+                <text x="153.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">3</text>
+                <text x="173.5" y="154.25" class="axes" dy="0.25em" text-anchor="middle">4</text>
             </g>        
         </g>
     </defs>

@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class TetrisScriptDocumentFilter extends DocumentFilter {
 
-    private static final Pattern KEYWORD_PATTERN = Pattern.compile("(in|out|flatten)($|\\s)");
+    private static final Pattern KEYWORD_PATTERN = Pattern.compile("(in|out)($|\\s)");
     private static final Pattern NUMBER_PATTERN 
             = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)");
     
@@ -22,20 +22,17 @@ public class TetrisScriptDocumentFilter extends DocumentFilter {
     public static final Color COMMENT_COLOR = new Color(0x808080);
     public static final Color KEYWORD_COLOR = new Color(0xCC7832);
     public static final Color NUMBER_COLOR = new Color(0x6897BB);
-    public static final Color DECLARE_COLOR = new Color(0xFFC66D);
     
     public static final SimpleAttributeSet NORMAL_ATTRIBS = new SimpleAttributeSet();
     public static final SimpleAttributeSet COMMENT_ATTRIBS = new SimpleAttributeSet();
     public static final SimpleAttributeSet KEYWORD_ATTRIBS = new SimpleAttributeSet();
     public static final SimpleAttributeSet NUMBER_ATTRIBS = new SimpleAttributeSet();
-    public static final SimpleAttributeSet DECLARE_ATTRIBS = new SimpleAttributeSet();
     
     static {                
         StyleConstants.setForeground(NORMAL_ATTRIBS, NORMAL_COLOR);
         StyleConstants.setForeground(COMMENT_ATTRIBS, COMMENT_COLOR);
         StyleConstants.setForeground(KEYWORD_ATTRIBS, KEYWORD_COLOR);
         StyleConstants.setForeground(NUMBER_ATTRIBS, NUMBER_COLOR);
-        StyleConstants.setForeground(DECLARE_ATTRIBS, DECLARE_COLOR);
     }   
     
     private long changeCount;

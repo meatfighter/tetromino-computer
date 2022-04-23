@@ -34,6 +34,11 @@ text.label {
     fill: #FFFFF0;
 }
 
+text.descriptions {
+    font-family: 'Open Sans', monospace;
+    fill: #FFFFF0;
+}
+
 rect.component {
     opacity: 0.5;
     fill: #000000;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="2771" height="1481" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="391" height="131" viewBox="0 0 391 131" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
@@ -21,247 +21,52 @@
         <polygon id="lr" points="-10,-30 9,-30 9,10 29,10 29,29 -10,29" class="l"/>
         <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
-        <marker id="arrow" viewBox="0 -7 16 14" refX="5" refY="0" markerWidth="4" markerHeight="4" orient="auto">
-            <path d="M0,-7 L16,0 L0,7" class="arrowhead"/>
-        </marker>        
     </defs>
-    <g transform="translate(5 5) scale(0.25)">
-        <line x1="15.5" y1="25.5" x2="2675.5" y2="25.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="45.5" x2="2675.5" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="65.5" x2="2675.5" y2="65.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="85.5" x2="2675.5" y2="85.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="105.5" x2="2675.5" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="125.5" x2="2675.5" y2="125.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="145.5" x2="2675.5" y2="145.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="165.5" x2="2675.5" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="185.5" x2="2675.5" y2="185.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="205.5" x2="2675.5" y2="205.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="225.5" x2="2675.5" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="245.5" x2="2675.5" y2="245.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="265.5" x2="2675.5" y2="265.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="285.5" x2="2675.5" y2="285.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="305.5" x2="2675.5" y2="305.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="325.5" x2="2675.5" y2="325.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="345.5" x2="2675.5" y2="345.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="365.5" x2="2675.5" y2="365.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="385.5" x2="2675.5" y2="385.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="405.5" x2="2675.5" y2="405.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="425.5" x2="2675.5" y2="425.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="445.5" x2="2675.5" y2="445.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="465.5" x2="2675.5" y2="465.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="485.5" x2="2675.5" y2="485.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="505.5" x2="2675.5" y2="505.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="525.5" x2="2675.5" y2="525.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="545.5" x2="2675.5" y2="545.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="565.5" x2="2675.5" y2="565.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="585.5" x2="2675.5" y2="585.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="605.5" x2="2675.5" y2="605.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="625.5" x2="2675.5" y2="625.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="645.5" x2="2675.5" y2="645.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="665.5" x2="2675.5" y2="665.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="685.5" x2="2675.5" y2="685.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="705.5" x2="2675.5" y2="705.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="725.5" x2="2675.5" y2="725.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="745.5" x2="2675.5" y2="745.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="765.5" x2="2675.5" y2="765.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="785.5" x2="2675.5" y2="785.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="805.5" x2="2675.5" y2="805.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="825.5" x2="2675.5" y2="825.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="845.5" x2="2675.5" y2="845.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="865.5" x2="2675.5" y2="865.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="885.5" x2="2675.5" y2="885.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="905.5" x2="2675.5" y2="905.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="925.5" x2="2675.5" y2="925.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="945.5" x2="2675.5" y2="945.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="965.5" x2="2675.5" y2="965.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="985.5" x2="2675.5" y2="985.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1005.5" x2="2675.5" y2="1005.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1025.5" x2="2675.5" y2="1025.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1045.5" x2="2675.5" y2="1045.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1065.5" x2="2675.5" y2="1065.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1085.5" x2="2675.5" y2="1085.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1105.5" x2="2675.5" y2="1105.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1125.5" x2="2675.5" y2="1125.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1145.5" x2="2675.5" y2="1145.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1165.5" x2="2675.5" y2="1165.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1185.5" x2="2675.5" y2="1185.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1205.5" x2="2675.5" y2="1205.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1225.5" x2="2675.5" y2="1225.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1245.5" x2="2675.5" y2="1245.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1265.5" x2="2675.5" y2="1265.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1285.5" x2="2675.5" y2="1285.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1305.5" x2="2675.5" y2="1305.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1325.5" x2="2675.5" y2="1325.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1345.5" x2="2675.5" y2="1345.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="15.5" y1="1365.5" x2="2675.5" y2="1365.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="25.5" y1="16.5" x2="25.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="45.5" y1="16.5" x2="45.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="65.5" y1="16.5" x2="65.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="85.5" y1="16.5" x2="85.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="105.5" y1="16.5" x2="105.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="125.5" y1="16.5" x2="125.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="145.5" y1="16.5" x2="145.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="165.5" y1="16.5" x2="165.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="185.5" y1="16.5" x2="185.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="205.5" y1="16.5" x2="205.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="225.5" y1="16.5" x2="225.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="245.5" y1="16.5" x2="245.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="265.5" y1="16.5" x2="265.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="285.5" y1="16.5" x2="285.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="305.5" y1="16.5" x2="305.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="325.5" y1="16.5" x2="325.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="345.5" y1="16.5" x2="345.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="365.5" y1="16.5" x2="365.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="385.5" y1="16.5" x2="385.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="405.5" y1="16.5" x2="405.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="425.5" y1="16.5" x2="425.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="445.5" y1="16.5" x2="445.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="465.5" y1="16.5" x2="465.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="485.5" y1="16.5" x2="485.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="505.5" y1="16.5" x2="505.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="525.5" y1="16.5" x2="525.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="545.5" y1="16.5" x2="545.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="565.5" y1="16.5" x2="565.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="585.5" y1="16.5" x2="585.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="605.5" y1="16.5" x2="605.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="625.5" y1="16.5" x2="625.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="645.5" y1="16.5" x2="645.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="665.5" y1="16.5" x2="665.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="685.5" y1="16.5" x2="685.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="705.5" y1="16.5" x2="705.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="725.5" y1="16.5" x2="725.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="745.5" y1="16.5" x2="745.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="765.5" y1="16.5" x2="765.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="785.5" y1="16.5" x2="785.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="805.5" y1="16.5" x2="805.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="825.5" y1="16.5" x2="825.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="845.5" y1="16.5" x2="845.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="865.5" y1="16.5" x2="865.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="885.5" y1="16.5" x2="885.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="905.5" y1="16.5" x2="905.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="925.5" y1="16.5" x2="925.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="945.5" y1="16.5" x2="945.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="965.5" y1="16.5" x2="965.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="985.5" y1="16.5" x2="985.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1005.5" y1="16.5" x2="1005.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1025.5" y1="16.5" x2="1025.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1045.5" y1="16.5" x2="1045.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1065.5" y1="16.5" x2="1065.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1085.5" y1="16.5" x2="1085.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1105.5" y1="16.5" x2="1105.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1125.5" y1="16.5" x2="1125.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1145.5" y1="16.5" x2="1145.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1165.5" y1="16.5" x2="1165.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1185.5" y1="16.5" x2="1185.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1205.5" y1="16.5" x2="1205.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1225.5" y1="16.5" x2="1225.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1245.5" y1="16.5" x2="1245.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1265.5" y1="16.5" x2="1265.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1285.5" y1="16.5" x2="1285.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1305.5" y1="16.5" x2="1305.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1325.5" y1="16.5" x2="1325.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1345.5" y1="16.5" x2="1345.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1365.5" y1="16.5" x2="1365.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1385.5" y1="16.5" x2="1385.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1405.5" y1="16.5" x2="1405.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1425.5" y1="16.5" x2="1425.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1445.5" y1="16.5" x2="1445.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1465.5" y1="16.5" x2="1465.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1485.5" y1="16.5" x2="1485.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1505.5" y1="16.5" x2="1505.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1525.5" y1="16.5" x2="1525.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1545.5" y1="16.5" x2="1545.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1565.5" y1="16.5" x2="1565.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1585.5" y1="16.5" x2="1585.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1605.5" y1="16.5" x2="1605.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1625.5" y1="16.5" x2="1625.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1645.5" y1="16.5" x2="1645.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1665.5" y1="16.5" x2="1665.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1685.5" y1="16.5" x2="1685.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1705.5" y1="16.5" x2="1705.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1725.5" y1="16.5" x2="1725.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1745.5" y1="16.5" x2="1745.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1765.5" y1="16.5" x2="1765.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1785.5" y1="16.5" x2="1785.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1805.5" y1="16.5" x2="1805.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1825.5" y1="16.5" x2="1825.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1845.5" y1="16.5" x2="1845.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1865.5" y1="16.5" x2="1865.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1885.5" y1="16.5" x2="1885.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1905.5" y1="16.5" x2="1905.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1925.5" y1="16.5" x2="1925.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1945.5" y1="16.5" x2="1945.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1965.5" y1="16.5" x2="1965.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="1985.5" y1="16.5" x2="1985.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2005.5" y1="16.5" x2="2005.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2025.5" y1="16.5" x2="2025.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2045.5" y1="16.5" x2="2045.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2065.5" y1="16.5" x2="2065.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2085.5" y1="16.5" x2="2085.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2105.5" y1="16.5" x2="2105.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2125.5" y1="16.5" x2="2125.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2145.5" y1="16.5" x2="2145.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2165.5" y1="16.5" x2="2165.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2185.5" y1="16.5" x2="2185.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2205.5" y1="16.5" x2="2205.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2225.5" y1="16.5" x2="2225.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2245.5" y1="16.5" x2="2245.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2265.5" y1="16.5" x2="2265.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2285.5" y1="16.5" x2="2285.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2305.5" y1="16.5" x2="2305.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2325.5" y1="16.5" x2="2325.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2345.5" y1="16.5" x2="2345.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2365.5" y1="16.5" x2="2365.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2385.5" y1="16.5" x2="2385.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2405.5" y1="16.5" x2="2405.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2425.5" y1="16.5" x2="2425.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2445.5" y1="16.5" x2="2445.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2465.5" y1="16.5" x2="2465.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2485.5" y1="16.5" x2="2485.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2505.5" y1="16.5" x2="2505.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2525.5" y1="16.5" x2="2525.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2545.5" y1="16.5" x2="2545.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2565.5" y1="16.5" x2="2565.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2585.5" y1="16.5" x2="2585.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2605.5" y1="16.5" x2="2605.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2625.5" y1="16.5" x2="2625.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2645.5" y1="16.5" x2="2645.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <line x1="2665.5" y1="16.5" x2="2665.5" y2="1364.5" class="grid" vector-effect="non-scaling-stroke"/>
-        <use href="#zh" x="1315.5" y="95.5"/>
-        <use href="#td" x="1315.5" y="135.5"/>
-        <use href="#sh" x="1315.5" y="175.5"/>
-        <use href="#jd" x="1315.5" y="215.5"/>
-        <use href="#ih" x="1315.5" y="255.5"/>
-        <use href="#ld" x="1315.5" y="275.5"/>
-        <use href="#o" x="1315.5" y="315.5"/>
-        <use href="#zh" x="1315.5" y="355.5"/>
-        <use href="#td" x="1315.5" y="395.5"/>
-        <use href="#sh" x="1315.5" y="435.5"/>
-        <use href="#o" x="1315.5" y="475.5"/>
-        <use href="#ld" x="1315.5" y="515.5"/>
-        <use href="#ih" x="1315.5" y="555.5"/>
-        <use href="#sh" x="1315.5" y="575.5"/>
-        <use href="#jd" x="1315.5" y="615.5"/>
-        <use href="#td" x="1315.5" y="655.5"/>
-        <use href="#o" x="1315.5" y="695.5"/>
-        <use href="#zh" x="1315.5" y="735.5"/>
-        <use href="#ih" x="1315.5" y="775.5"/>
-        <use href="#ld" x="1315.5" y="795.5"/>
-        <use href="#jd" x="1315.5" y="835.5"/>
-        <use href="#zh" x="1315.5" y="855.5"/>
-        <use href="#td" x="1315.5" y="895.5"/>
-        <use href="#o" x="1315.5" y="935.5"/>
-        <use href="#jd" x="1315.5" y="975.5"/>
-        <use href="#ld" x="1315.5" y="1015.5"/>
-        <use href="#ih" x="1315.5" y="1055.5"/>
-        <use href="#sh" x="1315.5" y="1075.5"/>
-        <use href="#ld" x="1315.5" y="1115.5"/>
-        <use href="#zh" x="1315.5" y="1155.5"/>
-        <use href="#o" x="1315.5" y="1195.5"/>
-        <use href="#sh" x="1315.5" y="1235.5"/>
-        <use href="#jd" x="1315.5" y="1275.5"/>
-        <use href="#ih" x="1315.5" y="1315.5"/>
-        <use href="#td" x="1315.5" y="1335.5"/>
+    <line x1="15.5" y1="15.5" x2="375.5" y2="15.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="35.5" x2="375.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="55.5" x2="375.5" y2="55.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="75.5" x2="375.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="95.5" x2="375.5" y2="95.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="16.5" x2="15.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="35.5" y1="16.5" x2="35.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="55.5" y1="16.5" x2="55.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="75.5" y1="16.5" x2="75.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="95.5" y1="16.5" x2="95.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="115.5" y1="16.5" x2="115.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="135.5" y1="16.5" x2="135.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="155.5" y1="16.5" x2="155.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="175.5" y1="16.5" x2="175.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="195.5" y1="16.5" x2="195.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="215.5" y1="16.5" x2="215.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="235.5" y1="16.5" x2="235.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="255.5" y1="16.5" x2="255.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="275.5" y1="16.5" x2="275.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="295.5" y1="16.5" x2="295.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="315.5" y1="16.5" x2="315.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="335.5" y1="16.5" x2="335.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="355.5" y1="16.5" x2="355.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="375.5" y1="16.5" x2="375.5" y2="94.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 20px;">
+        <rect x="295.5" y="75.5" width="39" height="19" class="terminal-fill"/>
+        <rect x="295.5" y="55.5" width="39" height="39" class="terminal-stroke"/>        
+        <rect x="235.5" y="75.5" width="39" height="19" class="terminal-fill"/>
+        <rect x="235.5" y="55.5" width="39" height="39" class="terminal-stroke"/>
+        <text x="285.5" y="108" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        
+        <rect x="195.5" y="55.5" width="19" height="39" class="terminal-fill"/>
+        <rect x="195.5" y="55.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="205.5" y="108" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        
+        <rect x="175.5" y="75.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="175.5" y="55.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="185.5" y="108" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        
+        <rect x="95.5" y="55.5" width="59" height="39" class="terminal-fill"/>
+        <rect x="95.5" y="55.5" width="59" height="39" class="terminal-stroke"/>
+        <text x="125.5" y="108" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        
+        <rect x="55.5" y="75.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="55.5" y="55.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="65.5" y="108" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
-    <line x1="333.5" y1="375" x2="333.5" y2="360" class="arrow" marker-end="url(#arrow)"/>    
 </svg>

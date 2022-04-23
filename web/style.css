@@ -9,10 +9,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-p,ul {
+p,ul,ol {
     font-size: 16px;
     line-height: 27px;
     font-weight: 300;
+}
+
+li {
+  padding-left: 10px;
 }
 
 p.title {  
@@ -31,6 +35,10 @@ span.term {
     font-style: italic;
 }
 
+span.mono {
+    font-family: 'Source Code Pro', monospace;
+}
+
 object.diagram {
     display: block;
     margin-left: auto;
@@ -47,4 +55,49 @@ a:hover {
     color: #CC0000;
     text-decoration: none;
     white-space: nowrap;
+}
+
+pre.tetrisscript {
+    background: #2B2B2B;
+    border-left: 6px solid #516363;
+    width: 95%;
+    margin: 50px auto;
+    white-space: pre-wrap;
+    padding: 20px 20px 20px 50px;
+    color: #BBBBBB;
+    counter-reset: step;
+    counter-increment: step 0;
+    position: relative;
+}
+
+pre.tetrisscript .line {
+    line-height: 1.4em;
+}
+
+pre.tetrisscript .line:before {
+    color: #516363;
+    position: absolute;
+    left: 15px;
+    content: counter(step);
+    counter-increment: step;
+}
+
+span.normal {
+    color: #BBBBBB;
+}
+
+span.comment {
+    color: #808080;
+}
+
+span.keyword {
+    color: #CC7832;
+}
+
+span.number {
+    color: #CC7832;
+}
+
+span.declare {
+    color: #FFC66D;
 }

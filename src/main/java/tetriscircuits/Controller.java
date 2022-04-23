@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -30,9 +29,7 @@ import javax.script.ScriptException;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
-import tetriscircuits.ui.PathPoint;
 import tetriscircuits.ui.SvgGenerator;
-import tetriscircuits.ui.TetriminoPath;
 
 public class Controller {
     
@@ -681,7 +678,7 @@ public class Controller {
         }
 
         new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
-                cellSize, true, false, false, true, false, false, false, false, 65, 63, 66, true, true, true, true);
+                cellSize, true, true, false, false, false, false, false, true, 2, 2, 2, false, false, false, true);
     }  
     
     private Structure exportStructure(final String componentName, final String testBitStr, final int depth) {

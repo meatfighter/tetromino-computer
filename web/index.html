@@ -91,7 +91,7 @@
 
 <h1 id="spawn-signal">Spawn Signal</h1>
 
-<p>Since the player cannot see, the game signals when a spawn occurs. It reveals the randomly selected piece to the player, who responds with a timed sequence of requests to move it. If the playfield were empty, the game would satisfy every request and the player would know exactly where the piece is at any time. But the playfield is not empty. Existing pieces can interrupt a shift as illustrated in the animation below; it shows where the blindfolded player expects a piece to be (left) and where it actually ends up (right).</p>
+<p>Since the player cannot see, the game signals when a spawn occurs. It reveals the randomly selected piece to the player, who responds with a timed sequence of requests to move it. If the playfield were empty, the game would satisfy every request and the player would know exactly where the piece is at any time. But the playfield is not empty. Existing pieces can interrupt a shift, as illustrated in the animation below; it shows where the blindfolded player expects a piece to be (left) and where it actually ends up (right).</p>
 
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
@@ -105,7 +105,79 @@
 
 <h1 id="type-filtering">Type Filtering</h1>
 
-<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the pieces supplied to it. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
+<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
+
+<object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
+
+<p>Structures are made from the remaining pieces in columns &ge; 0. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
+
+<h1 id="boolean-circuit-nodes">Boolean Circuit Nodes</h1>
+
+<p>Nodes consist of pairs of vertically-adjacent cells. They can be in the following states.</p>
+
+<object data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
+
+<ul>
+    <li><span class="mono">0</span> (false) &mdash; lower cell is solid, upper cell is empty.</li> 
+    <li><span class="mono">1</span> (true) &mdash; upper cell is solid, lower cell is empty or solid.</li>  
+    <li><span class="mono">?</span> (unassigned) &mdash; both cells are empty.</li>  
+</ul>
+
+<p>Nodes are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. The image below shows one possible encoding of <span class="mono">01010</span>.</p>
+
+<object data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
+
+<p>The right-most bit is stored in a noncontiguous node.</p>
+
+<h1 id="tetrisscript">TetrisScript</h1>
+
+<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It only has 3 instructions. The first consists of a mnemonic and a column index:</p>
+
+mnemonic x 
+
+<p>It means:</p>
+
+<ol>
+    <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
+    <li>Rotate the piece into the mnemonic orientation.</li>   
+    <li>Shift the piece to column x.</li>   
+    <li>Hard drop the piece to lock it into the pile.</li> 
+</ol>
+
+<p>The code below demonstrates this instruction type.</p>
+
+<pre class="tetrisscript">
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+<span class="line">hello, world!</span>
+</pre>
 
 </body>
 
