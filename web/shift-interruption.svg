@@ -59,25 +59,24 @@
     <use href="#grid" x="0" y="0"/>
     <use href="#grid" x="200" y="0"/>
     
-    <use href="#tl" x="133.5" y="115.5"/>
-    <use href="#tr" x="333.5" y="115.5"/>
-    
+    <use href="#ju" x="333.5" y="135.5"/>
+
     <use href="#o" x="93.5" y="35.5">
-        <animate id="firstx" begin="0s;fourthx.end" attributeName="x" values="93.5; 93.5; 93.5; 93.5; 93.5" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="4s" calcMode="discrete"/>
+        <animate attributeName="x" values="93.5; 93.5; 93.5; 93.5; 113.5; 113.5; 113.5; 113.5; 113.5" keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1" dur="8s" calcMode="discrete" repeatCount="indefinite"/>
+        <animate attributeName="y" values="35.5; 55.5; 75.5; 95.5;  95.5; 115.5; 115.5; 115.5; 115.5" keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1" dur="8s" calcMode="discrete" repeatCount="indefinite"/>        
+    </use>    
+        
+    <use href="#o" x="293.5" y="35.5">
+        <animate id="firstx" begin="0s;fourthx.end" attributeName="x" values="293.5; 293.5; 293.5; 293.5; 293.5" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="4s" calcMode="discrete"/>
         <animate id="firsty" begin="0s;fourthy.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 95.5" keyTimes="0; 0.25; 0.5; 0.75; 1" dur="4s" calcMode="discrete"/>
                 
-        <animate id="secondx" begin="firstx.end" attributeName="x" values="93.5; 96.5; 93.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
+        <animate id="secondx" begin="firstx.end" attributeName="x" values="293.5; 296.5; 293.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
         <animate id="secondy" begin="firsty.end" attributeName="y" values="95.5; 95.5; 95.5" keyTimes="0; 0.5; 1" dur="0.15s" calcMode="discrete"/>
         
-        <animate id="thirdx" begin="secondx.end" attributeName="x" values="93.5; 93.5" keyTimes="0; 1" dur="0.85s" calcMode="discrete"/>
-        <animate id="thirdy" begin="secondy.end" attributeName="y" values="95.5; 93.5" keyTimes="0; 1" dur="0.85s" calcMode="discrete"/>
+        <animate id="thirdx" begin="secondx.end" attributeName="x" values="293.5; 293.5" keyTimes="0; 1" dur="0.85s" calcMode="discrete"/>
+        <animate id="thirdy" begin="secondy.end" attributeName="y" values="95.5; 95.5" keyTimes="0; 1" dur="0.85s" calcMode="discrete"/>
         
-        <animate id="fourthx" begin="thirdx.end" attributeName="x" values=" 93.5;  93.5;  93.5;  93.5" keyTimes="0; 0.33333333; 0.66666667; 1" dur="3s" calcMode="discrete"/>
+        <animate id="fourthx" begin="thirdx.end" attributeName="x" values="293.5; 293.5; 293.5; 293.5" keyTimes="0; 0.33333333; 0.66666667; 1" dur="3s" calcMode="discrete"/>
         <animate id="fourthy" begin="thirdy.end" attributeName="y" values="115.5; 115.5; 115.5; 115.5" keyTimes="0; 0.33333333; 0.33333333; 1" dur="3s" calcMode="discrete"/>
-    </use>    
-    
-    <use href="#o" x="293.5" y="35.5">
-        <animate attributeName="x" values="293.5; 293.5; 293.5; 293.5; 313.5; 313.5; 313.5; 313.5; 313.5" keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1" dur="8s" calcMode="discrete" repeatCount="indefinite"/>
-        <animate attributeName="y" values=" 35.5;  55.5;  75.5;  95.5;  95.5; 115.5; 115.5; 115.5; 115.5" keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1" dur="8s" calcMode="discrete" repeatCount="indefinite"/>        
-    </use>    
+    </use>
 </svg>

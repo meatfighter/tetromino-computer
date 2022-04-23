@@ -89,7 +89,23 @@
 
 <p>The player can also perform a <span class="term">semihard drop</span>. It works like a hard drop, but instead of stopping when the piece can fall no further, it stops at a specified height. It is the only way to translate a piece from infinity to a finite distance above the floor.</p>
 
+<h1 id="spawn-signal">Spawn Signal</h1>
+
+<p>Since the player cannot see, the game signals when a spawn occurs. It reveals the randomly selected piece to the player, who responds with a timed sequence of requests to move it. If the playfield were empty, the game would satisfy every request and the player would know exactly where the piece is at any time. But the playfield is not empty. Existing pieces can interrupt a shift as illustrated in the animation below; it shows where the blindfolded player expects a piece to be (left) and where it actually ends up (right).</p>
+
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
+
+<p>The same applies to gravity and soft drops:</p>
+
+<object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
+
+<p>Since the spawn signal occurs after a piece locks, it could be abused to extract data out of the playfield, violating the concept of the blindfolded player. This is achieved by semihard dropping a piece into a column and observing how long it takes to lock, which is proportional to the height of the column. The entire surface of the pile could be probed.</p>
+
+<p>To render such abuse ineffective, the method employees a version of Tetris that will not lock a piece until the player hard drops. The piece in play may rest indefinitely on a solid surface pending that explicit request to commit it to the pile.</p>
+
+<h1 id="type-filtering">Type Filtering</h1>
+
+<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the pieces supplied to it. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
 
 </body>
 
