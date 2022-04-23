@@ -33,13 +33,15 @@ public class SvgGenerator {
             final int leftPaddingCells,
             final int rightPaddingCells,
             final int topPaddingCells,
+            final boolean renderOpenLeft,
+            final boolean renderOpenRight,
             final boolean renderOpenTop,
             final boolean renderGridWithNonscalingStroke) {
         try (final PrintStream o = new PrintStream(out)) {
             generate(o, structs, displayWidth, margin, cellSize, renderGrid, renderInputTerminals, 
                     renderOutputTerminals, renderTetriminos, renderYAxis, renderStructures, renderAxesNumbers, 
-                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenTop,
-                    renderGridWithNonscalingStroke);
+                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenLeft, 
+                    renderOpenRight, renderOpenTop, renderGridWithNonscalingStroke);
         }
     }
     
@@ -60,6 +62,8 @@ public class SvgGenerator {
             final int leftPaddingCells,
             final int rightPaddingCells,
             final int topPaddingCells,
+            final boolean renderOpenLeft,
+            final boolean renderOpenRight,
             final boolean renderOpenTop,
             final boolean renderGridWithNonscalingStroke) {
         
@@ -123,13 +127,14 @@ public class SvgGenerator {
             final int minY = struct.getMinY();
             final int cellsWidth = maxX - minX + 1;
             final int cellsHeight = maxY - minY + 1;
-            final double gridWidth = cellSize * cellsWidth;
+            final double gridWidth = cellSize * cellsWidth + (renderOpenLeft ? cellSize / 2.0 : 0) 
+                    + (renderOpenRight ? cellSize / 2.0 : 0);
             final double gridHeight = cellSize * cellsHeight + (renderOpenTop ? cellSize / 2.0 : 0);
             final double gridX = offsetX 
                     + (renderAxesNumbers ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0);
             final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
             final double ox = gridX + cellSize * (leftPaddingCells + (struct.getMaxX() - struct.getMinX() + 1) / 2.0) 
-                    + ((cellsWidth & 1) == 0 ? cellSize : cellSize / 2.0);
+                    + cellSize / 2.0;
             final double oy = gridY + gridHeight;
 
             if (renderGrid) {
@@ -140,7 +145,7 @@ public class SvgGenerator {
                             renderGridWithNonscalingStroke ? " vector-effect=\"non-scaling-stroke\"" : "");
                 } 
                 for (int x = minX; x <= maxX + 1; ++x) {
-                    final double lineX = gridX + cellSize * (x - minX);
+                    final double lineX = gridX + cellSize * (x - minX) + (renderOpenLeft ? cellSize / 2.0 : 0);
                     out.format("    <line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" class=\"%s\"%s/>%n", toString(lineX), 
                             toString(gridY + 1), toString(lineX), toString(gridY + gridHeight - 1), 
                             (renderYAxis && x == 0) ? "grid-axis" : "grid", 
@@ -153,24 +158,24 @@ public class SvgGenerator {
                 out.format("    <g style=\"font-size: %dpx;\">%n", (int)(2.0 * cellSize / 3.0));
                 for (int y = 0; y <= maxY; ++y) {
                     final double lineY = gridY + cellSize * y + (renderOpenTop ? cellSize / 2.0 : 0);
-                    out.format("        <text transform=\"translate(%s %s)\" class=\"axes\" dominant-baseline=\"middle\" "
+                    out.format("        <text x=\"%s\" y=\"%s\" class=\"axes\" dy=\"0.25em\" "
                             + "text-anchor=\"end\">%s</text>%n", toString(xAxis), 
                             toString(lineY + cellSize / 2.0), maxY - y);
                 }
                 if (minX < -9 || maxX > 99) {
                     final double yAxis = gridY + gridHeight + cellSize / 8.0;
                     for (int x = minX; x <= maxX; ++x) {
-                        final double lineX = gridX + cellSize * (x - minX);
+                        final double lineX = gridX + cellSize * (x - minX) + (renderOpenLeft ? cellSize / 2.0 : 0);
                         out.format("        <text transform=\"translate(%s %s) rotate(-90)\" class=\"axes\" "
-                                + "dominant-baseline=\"middle\" text-anchor=\"end\">%s</text>%n", 
+                                + "dy=\"0.25em\" text-anchor=\"end\">%s</text>%n", 
                                 toString(lineX + cellSize / 2.0), toString(yAxis), x);
                     }
                 } else {
                     final double yAxis = gridY + gridHeight + 7.0 * cellSize / 16.0;
                     for (int x = minX; x <= maxX; ++x) {
-                        final double lineX = gridX + cellSize * (x - minX);
-                        out.format("        <text transform=\"translate(%s %s)\" class=\"axes\" "
-                                + "dominant-baseline=\"middle\" text-anchor=\"middle\">%s</text>%n", 
+                        final double lineX = gridX + cellSize * (x - minX) + (renderOpenLeft ? cellSize / 2.0 : 0);
+                        out.format("        <text x=\"%s\" y=\"%s\" class=\"axes\" "
+                                + "dy=\"0.25em\" text-anchor=\"middle\">%s</text>%n", 
                                 toString(lineX + cellSize / 2.0), toString(yAxis), x);
                     }
                 }
@@ -304,8 +309,8 @@ public class SvgGenerator {
                         toString(px), toString(py), toString(width - 1), toString(2 * cellSize - 1));
             }
             if (renderValue) {
-                out.format("        <text transform=\"translate(%s %s)\" class=\"terminals\" "
-                            + "dominant-baseline=\"middle\" text-anchor=\"middle\">%s</text>%n", 
+                out.format("        <text x=\"%s\" y=\"%s\" class=\"terminals\" dy=\"0.25em\" "
+                        + "text-anchor=\"middle\">%s</text>%n", 
                             toString((minX + maxX) / 2.0), 
                             toString(renderValueBelow ? maxY + 5.0 * cellSize / 8.0 : minY - cellSize / 2.0), 
                             one ? "1" : zero ? "0" : "?");
