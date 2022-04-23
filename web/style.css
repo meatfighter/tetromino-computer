@@ -58,28 +58,29 @@ a:hover {
 }
 
 pre.tetrisscript {
-    background: #2B2B2B;
-    border-left: 6px solid #516363;
-    width: 95%;
-    margin: 50px auto;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;
+    background: #2B2B2B;    
+    border-left: 6px solid #888888;
+    width: 100%;
     white-space: pre-wrap;
-    padding: 20px 20px 20px 50px;
+    padding: 15px 15px 15px 50px;
     color: #BBBBBB;
     counter-reset: step;
     counter-increment: step 0;
     position: relative;
 }
 
-pre.tetrisscript .line {
-    line-height: 1.4em;
-}
-
 pre.tetrisscript .line:before {
-    color: #516363;
-    position: absolute;
-    left: 15px;
+    color: #888888;
     content: counter(step);
-    counter-increment: step;
+    counter-increment: step;     
+    display: inline-block;
+    width: 2em;
+    padding-right: 1em;
+    margin-right: 1em;
+    text-align: right;
+    margin-left: -3.25em;
 }
 
 span.normal {
