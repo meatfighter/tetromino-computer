@@ -240,6 +240,33 @@
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
+<p>To make testing circuits easier, TetrisScript provides syntax for labeling nodes:</p>
+
+<p class="definition">in/out name x y ...</p>
+
+<p>The node type&mdash;<span class="mono">in</span> or <span class="mono">out</span>&mdash;is followed by the node name. The successive coordinates specify the node location. They refer to the lower-cell of the vertically-adjacent pairs. Spans can be indicated with range notation (<span class="mono">begin..end</span>). Multiple coordinate pairs/ranges can be provided for disjoint nodes.</p>
+
+<p>The example below declares 5 input nodes.</p>
+
+<pre class="tetrisscript">
+<span class="filename">nodes.t</span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">2..4 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">c </span><span class="number">6 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">d </span><span class="number">7 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">e </span><span class="number">9..10 0 12..13 0</span></span>
+</pre>
+
+<p>Node <span class="mono">a</span> is a single pair. Node <span class="mono">b</span> is a horizontal line consisting of 3 pairs. Nodes <span class="mono">c</span> and <span class="mono">d</span> are adjoining, single pairs. Node <span class="mono">e</span> is disjoint. They are illustrated below, where nodes <span class="mono">a</span>, <span class="mono">b</span>, <span class="mono">c</span>, <span class="mono">d</span>, and <span class="mono">e</span> are set to <span class="mono">0</span>, <span class="mono">1</span>, <span class="mono">0</span>, <span class="mono">1</span>, and <span class="mono">0</span>, respectively.</p>
+
+<object data="nodes.svg" type="image/svg+xml" class="diagram">Nodes</object>
+
+<h1 id="logic-gates">Logic Gates</h1>
+
+<p>This section explains how to construct logic gates, structures that produce a single binary output from one or more binary inputs.</p>
+
+<object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
+
 </body>
 
 </html>
