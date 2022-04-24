@@ -56,35 +56,37 @@ public class HtmlGenerator {
         
         out.format("<span class=\"line\">");
         
-        final Style[] styles = new Style[line.length() + 1];
-        for (int i = styles.length - 1; i >= 0; --i) {
-            styles[i] = Style.NORMAL;
-        }
-        applyStyle(styles, line, KEYWORD_PATTERN, Style.KEYWORD);
-        applyStyle(styles, line, NUMBER_PATTERN, Style.NUMBER);
-        final int index = line.indexOf('#');
-        if (index >= 0) {
-            for (int i = line.length() - 1; i >= index; --i) {
-                styles[i] = Style.COMMENT;
+        if (!line.isEmpty()) {        
+            final Style[] styles = new Style[line.length() + 1];
+            for (int i = styles.length - 1; i >= 0; --i) {
+                styles[i] = Style.NORMAL;
             }
-        }
-        styles[styles.length - 1] = Style.END;
-        
-        Style style = styles[0];
-        int s = 0;
-        int e = 1;
-        while (true) {
-            if (styles[e] == style) {
+            applyStyle(styles, line, KEYWORD_PATTERN, Style.KEYWORD);
+            applyStyle(styles, line, NUMBER_PATTERN, Style.NUMBER);
+            final int index = line.indexOf('#');
+            if (index >= 0) {
+                for (int i = line.length() - 1; i >= index; --i) {
+                    styles[i] = Style.COMMENT;
+                }
+            }
+            styles[styles.length - 1] = Style.END;
+
+            Style style = styles[0];
+            int s = 0;
+            int e = 1;
+            while (true) {
+                if (styles[e] == style) {
+                    ++e;
+                    continue;
+                }
+                out.format("<span class=\"%s\">%s</span>", style, line.substring(s, e));
+                if (styles[e] == Style.END) {
+                    break;
+                }
+                style = styles[e];
+                s = e;
                 ++e;
-                continue;
             }
-            out.format("<span class=\"%s\">%s</span>", style, line.substring(s, e));
-            if (styles[e] == Style.END) {
-                break;
-            }
-            style = styles[e];
-            s = e;
-            ++e;
         }
         
         out.format("</span>%n");
@@ -93,6 +95,9 @@ public class HtmlGenerator {
     private void applyStyle(final Style[] styles, final String line, final Pattern pattern, final Style style) {
         final Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
+            if (matcher.start() != 0 && !Character.isWhitespace(line.charAt(matcher.start() - 1))) {
+                continue;
+            }
             for (int i = matcher.start(); i < matcher.end(); ++i) {
                 styles[i] = style;
             }

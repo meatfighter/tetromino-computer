@@ -195,6 +195,51 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
+<p>The third instruction type provides a way to compose complex structures from simpler ones. It consists of a structure name and a pair of coordinates:</p>
+
+<p class="definition">structure x y</p>
+
+<p>It means: build the specified structure at location <span class="mono">(x,y)</span>.</p>
+
+<p>The following code demonstrates this instruction type by referencing the prior examples.</p>
+
+<pre class="tetrisscript">
+<span class="filename">example3.t</span>
+<span class="line"><span class="normal">example1 </span><span class="number">3 0</span></span>
+<span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
+</pre>
+
+<p>Column and row indices within the structures are offset by the provided coordinates, which makes the code above equivalent to:</p>
+
+<pre class="tetrisscript">
+<span class="filename">example3Expanded.t</span>
+<span class="line"><span class="comment"># example1 3 0</span></span>
+<span class="line"><span class="normal">td </span><span class="number">4</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">8</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">12</span></span>
+<span class="line"><span class="normal">o </span><span class="number">16</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">19</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">23</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">28</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment"># example2 14 2</span></span>
+<span class="line"><span class="normal">td </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">o </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">15 17 16</span></span>
+</pre>
+
+<p>Lines 1 and 10 are comments.</p>
+
+<p>Circular references are not allowed. The code must be fully expandable to mnemonic instructions.</p>
+
+<p>Executing that code produces:</p>
+
+<object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
+
 </body>
 
 </html>
