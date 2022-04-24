@@ -490,8 +490,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 depth);
     }
     
-    public void exportHtml() {
-        controller.exportHtmlAsync(tetrisScriptTextPane.getText());
+    public void exportHtml(final String componentName) {
+        controller.exportHtmlAsync(componentName, tetrisScriptTextPane.getText());
     }
     
     public void exportSvg(final String componentName, final String testBitsStr, final int depth, final int cellSize) {

@@ -630,12 +630,12 @@ public class Controller {
         }
     }
     
-    public void exportHtmlAsync(final String tetrisScript) {
-        execute(() -> exportHtml(tetrisScript));
+    public void exportHtmlAsync(final String componentName, final String tetrisScript) {
+        execute(() -> exportHtml(componentName, tetrisScript));
     }
     
-    private void exportHtml(final String tetrisScript) {
-        new HtmlGenerator().generate(System.out, tetrisScript);
+    private void exportHtml(final String componentName, final String tetrisScript) {
+        new HtmlGenerator().generate(System.out, componentName, tetrisScript);
     }
     
     public void exportSvgAsync(final String componentName, final String tetrisScript, final String javaScript, 
@@ -651,7 +651,7 @@ public class Controller {
             listener.buildStarted();
         }
         execute(() -> buildScripts(componentName, tetrisScript, javaScript, testBitStr, depth, 
-                () -> Controller.this.exportSvg(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
+                () -> exportSvg(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
     }
     
     private void exportSvg(final String componentName, final String testBitStr, final boolean allPossibleInputs, 
@@ -687,7 +687,7 @@ public class Controller {
         }
 
         new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
-                cellSize, true, true, false, false, false, false, false, true, 2, 2, 2, false, false, false, true);
+                cellSize, true, false, false, true, false, false, true, false, 0, 1, -3, false, false, false, true);
     }  
     
     private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) {
@@ -737,6 +737,7 @@ public class Controller {
 
         final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
                 null);
+        
         if (extents != null) {
             minX = extents.getMinX();
             maxX = extents.getMaxX();

@@ -133,51 +133,67 @@
 
 <p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It only has 3 instructions. The first consists of a mnemonic and a column index:</p>
 
-mnemonic x 
+<p class="definition">mnemonic x</p>
 
 <p>It means:</p>
 
 <ol>
     <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
     <li>Rotate the piece into the mnemonic orientation.</li>   
-    <li>Shift the piece to column x.</li>   
+    <li>Shift the piece to column <span class="mono">x</span>.</li>   
     <li>Hard drop the piece to lock it into the pile.</li> 
 </ol>
 
 <p>The code below demonstrates this instruction type.</p>
 
 <pre class="tetrisscript">
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
-<span class="line">hello, world!</span>
+<span class="filename">example1.t</span>
+<span class="line"><span class="normal">td </span><span class="number">1</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">5</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">9</span></span>
+<span class="line"><span class="normal">o </span><span class="number">13</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">16</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">20</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
+
+<p>If the player carries out those instructions, the following structure results.</p>
+
+<object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
+
+<p>The second instruction type consists of a mnemonic, a column index, a row index, and a second column index:</p>
+
+<p class="definition">mnemonic x1 y x2</p>
+
+<p>It means:</p>
+
+<ol>
+    <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
+    <li>Rotate the piece into the mnemonic orientation.</li>   
+    <li>Shift the piece to column <span class="mono">x1</span>.</li>
+    <li>Semihard drop the piece to row <span class="mono">y</span>.</li>
+    <li>Shift the piece to column <span class="mono">x2</span>.</li>
+    <li>Hard drop the piece to lock it into the pile.</li> 
+</ol>
+
+<p>If a gravity drop were to happen after step 4, but before step 5 finishes, it would corrupt the structure. To prevent that possibility, the player maintains a timer synchronized with the fall timer. The player uses it to semihard drop immediately after a gravity drop, maximizing the time to perform the shift to column <span class="mono">x2</span>. The horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is always tiny, guaranteeing the shift can occur in the period between gravity drops.</p>
+
+<p>The following code demonstrates the second instruction type.</p>
+
+<pre class="tetrisscript">
+<span class="filename">example2.t</span>
+<span class="line"><span class="normal">td </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">o </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">1 15 2</span></span>
+</pre>
+
+<p>Those are the instructions for the structure below.</p>
+
+<object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
 </body>
 

@@ -1464,7 +1464,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exportSvgMenuItemActionPerformed
 
     private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed
-        circuitsEditorPanel.exportHtml();
+        circuitsEditorPanel.exportHtml(componentName);
     }//GEN-LAST:event_exportHtmlMenuItemActionPerformed
 
     public void goToLine(final int lineNumber) {

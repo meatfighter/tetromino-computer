@@ -62,13 +62,29 @@ pre.tetrisscript {
     font-size: 13px;
     background: #2B2B2B;    
     border-left: 6px solid #888888;
-    width: 100%;
+    width: 100% - 71px;
     white-space: pre-wrap;
     padding: 15px 15px 15px 50px;
     color: #BBBBBB;
     counter-reset: step;
     counter-increment: step 0;
     position: relative;
+}
+
+pre.tetrisscript .filename {
+    text-decoration: underline;
+    color: #FFC66D;
+}
+
+pre.tetrisscript .filename:before { 
+    content: " ";
+    display: inline-block;
+    width: 2em;
+    padding-right: 1em;
+    margin-right: 1em;
+    text-align: right;
+    margin-left: -3.25em;
+    padding-bottom: 0.5em;
 }
 
 pre.tetrisscript .line:before {
@@ -96,9 +112,14 @@ span.keyword {
 }
 
 span.number {
-    color: #CC7832;
+    color: #6897BB;
 }
 
-span.declare {
-    color: #FFC66D;
+p.definition {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;   
+    background: #E7E9EB;
+    width: 100% - 56px;
+    padding: 15px 25px 15px 25px;
+    border-left: 6px solid #888888;
 }

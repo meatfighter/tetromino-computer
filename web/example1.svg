@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
+<svg width="619" height="104" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+<!--
+td 1 
+jd 5 
+zh 9 
+o 13 
+sh 16 
+ld 20 
+ih 25 
+-->
+    
+    <defs>
+        <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
+        <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tu" points="-10,-30 9,-30 9,-10 29,-10 29,9 -30,9 -30,-10 -10,-10" class="t"/>
+        <polygon id="tr" points="-10,-30 9,-30 9,-10 29,-10 29,9 9,9 9,29 -10,29" class="t"/>
+        <polygon id="jd" points="-30,-10 29,-10 29,29 10,29 10,9 -30,9" class="j"/>
+        <polygon id="jl" points="-10,-30 9,-30 9,29 -30,29 -30,10 -10,10" class="j"/>
+        <polygon id="ju" points="-30,-30 -11,-30 -11,-10 29,-10 29,9 -30,9" class="j"/>
+        <polygon id="jr" points="-10,-30 29,-30 29,-11 9,-11 9,29 -10,29" class="j"/>
+        <polygon id="zh" points="-30,-10 9,-10 9,10 29,10 29,29 -10,29 -10,9 -30,9" class="z"/>
+        <polygon id="zv" points="10,-30 29,-30 29,9 9,9 9,29 -10,29 -10,-10 10,-10" class="z"/>
+        <polygon id="o" points="-30,-10 9,-10 9,29 -30,29" class="o"/>
+        <polygon id="sh" points="-10,-10 29,-10 29,9 9,9 9,29 -30,29 -30,10 -10,10" class="s"/>
+        <polygon id="sv" points="-10,-30 9,-30 9,-10 29,-10 29,29 10,29 10,9 -10,9" class="s"/>
+        <polygon id="ld" points="-30,-10 29,-10 29,9 -11,9 -11,29 -30,29" class="l"/>
+        <polygon id="ll" points="-30,-30 9,-30 9,29 -10,29 -10,-11 -30,-11" class="l"/>
+        <polygon id="lu" points="10,-30 29,-30 29,9 -30,9 -30,-10 10,-10" class="l"/>
+        <polygon id="lr" points="-10,-30 9,-30 9,10 29,10 29,29 -10,29" class="l"/>
+        <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
+        <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
+    </defs>
+    <line x1="23.5" y1="15.5" x2="603.5" y2="15.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="23.5" y1="35.5" x2="603.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="23.5" y1="55.5" x2="603.5" y2="55.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="23.5" y1="75.5" x2="603.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="23.5" y1="16.5" x2="23.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="43.5" y1="16.5" x2="43.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="63.5" y1="16.5" x2="63.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="83.5" y1="16.5" x2="83.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="103.5" y1="16.5" x2="103.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="123.5" y1="16.5" x2="123.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="143.5" y1="16.5" x2="143.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="163.5" y1="16.5" x2="163.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="183.5" y1="16.5" x2="183.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="203.5" y1="16.5" x2="203.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="223.5" y1="16.5" x2="223.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="243.5" y1="16.5" x2="243.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="263.5" y1="16.5" x2="263.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="283.5" y1="16.5" x2="283.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="303.5" y1="16.5" x2="303.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="323.5" y1="16.5" x2="323.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="343.5" y1="16.5" x2="343.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="363.5" y1="16.5" x2="363.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="383.5" y1="16.5" x2="383.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="403.5" y1="16.5" x2="403.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="423.5" y1="16.5" x2="423.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443.5" y1="16.5" x2="443.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="463.5" y1="16.5" x2="463.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="483.5" y1="16.5" x2="483.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="503.5" y1="16.5" x2="503.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="523.5" y1="16.5" x2="523.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="543.5" y1="16.5" x2="543.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="563.5" y1="16.5" x2="563.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="583.5" y1="16.5" x2="583.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="603.5" y1="16.5" x2="603.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 13px;">
+        <text x="21" y="25.5" class="axes" dy="0.25em" text-anchor="end">2</text>
+        <text x="21" y="45.5" class="axes" dy="0.25em" text-anchor="end">1</text>
+        <text x="21" y="65.5" class="axes" dy="0.25em" text-anchor="end">0</text>
+        <text x="33.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">-1</text>
+        <text x="53.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">0</text>
+        <text x="73.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">1</text>
+        <text x="93.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">2</text>
+        <text x="113.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">3</text>
+        <text x="133.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">4</text>
+        <text x="153.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">5</text>
+        <text x="173.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">6</text>
+        <text x="193.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">7</text>
+        <text x="213.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">8</text>
+        <text x="233.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">9</text>
+        <text x="253.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">10</text>
+        <text x="273.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">11</text>
+        <text x="293.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">12</text>
+        <text x="313.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">13</text>
+        <text x="333.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">14</text>
+        <text x="353.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">15</text>
+        <text x="373.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">16</text>
+        <text x="393.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">17</text>
+        <text x="413.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">18</text>
+        <text x="433.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">19</text>
+        <text x="453.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">20</text>
+        <text x="473.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">21</text>
+        <text x="493.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">22</text>
+        <text x="513.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">23</text>
+        <text x="533.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">24</text>
+        <text x="553.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">25</text>
+        <text x="573.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">26</text>
+        <text x="593.5" y="84.25" class="axes" dy="0.25em" text-anchor="middle">27</text>
+    </g>
+    <use href="#ih" x="553.5" y="65.5"/>
+    <use href="#ld" x="453.5" y="45.5"/>
+    <use href="#sh" x="373.5" y="45.5"/>
+    <use href="#o" x="313.5" y="45.5"/>
+    <use href="#zh" x="233.5" y="45.5"/>
+    <use href="#jd" x="153.5" y="45.5"/>
+    <use href="#td" x="73.5" y="45.5"/>
+</svg>

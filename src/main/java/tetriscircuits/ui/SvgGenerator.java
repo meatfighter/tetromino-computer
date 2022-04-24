@@ -133,8 +133,7 @@ public class SvgGenerator {
             final double gridX = offsetX 
                     + (renderAxesNumbers ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0);
             final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
-            final double ox = gridX + cellSize * (leftPaddingCells + (struct.getMaxX() - struct.getMinX() + 1) / 2.0) 
-                    + cellSize / 2.0;
+            final double ox = gridX + cellSize * (leftPaddingCells - struct.getMinX() + 1);
             final double oy = gridY + gridHeight;
 
             if (renderGrid) {
