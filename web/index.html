@@ -265,7 +265,39 @@
 
 <p>This section explains how to construct logic gates, structures that produce a single binary output from one or more binary inputs.</p>
 
+<h2 id="buffer">Buffer</h2>
+
+<p>A buffer is a single-input, binary identity function. The output value is the input value, unchanged.</p>
+
+<p>The code below realizes a buffer by dropping a vertically-oriented I-Tetrimino onto an input node.</p>
+
+<pre class="tetrisscript">
+<span class="filename">buffer.t</span>
+<span class="line"><span class="normal">iv </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 4</span></span>
+</pre>
+
+<p>The result for both possible values of the input node is shown below.</p>
+
 <object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
+
+<p>The cells of the output node mirror the cells of the input node. Any Tetrimino or any stack of Tetriminos can be used to propagate data in this way.</p>
+
+<h2 id="inverter-not">Inverter (NOT)</h2>
+
+<p>An inverter is a single-input gate where the output is the logical negation of the input.</p>
+
+<pre class="tetrisscript">
+<span class="filename">not.t</span>
+<span class="line"><span class="normal">lu </span><span class="number">0</span></span>
+<span class="line"><span class="normal">o </span><span class="number">0 4 1</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">-1..1 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 5</span></span>
+</pre>
 
 </body>
 

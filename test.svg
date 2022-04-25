@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="497" height="321" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="497" height="281" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
@@ -34,49 +34,40 @@
             <line x1="15.5" y1="205.5" x2="235.5" y2="205.5" class="grid" vector-effect="non-scaling-stroke"/>
             <line x1="15.5" y1="225.5" x2="235.5" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
             <line x1="15.5" y1="245.5" x2="235.5" y2="245.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="15.5" y1="265.5" x2="235.5" y2="265.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="15.5" y1="285.5" x2="235.5" y2="285.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="15.5" y1="16.5" x2="15.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="35.5" y1="16.5" x2="35.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="55.5" y1="16.5" x2="55.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="75.5" y1="16.5" x2="75.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="95.5" y1="16.5" x2="95.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="115.5" y1="16.5" x2="115.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="135.5" y1="16.5" x2="135.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="155.5" y1="16.5" x2="155.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="175.5" y1="16.5" x2="175.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="195.5" y1="16.5" x2="195.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="215.5" y1="16.5" x2="215.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <line x1="235.5" y1="16.5" x2="235.5" y2="284.5" class="grid" vector-effect="non-scaling-stroke"/>
-            <rect x="115.5" y="245.5" width="19" height="39" class="terminal-stroke"/>
-            <rect x="115.5" y="165.5" width="19" height="39" class="terminal-stroke"/>
+            <line x1="15.5" y1="16.5" x2="15.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="35.5" y1="16.5" x2="35.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="55.5" y1="16.5" x2="55.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="75.5" y1="16.5" x2="75.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="95.5" y1="16.5" x2="95.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="115.5" y1="16.5" x2="115.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="135.5" y1="16.5" x2="135.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="155.5" y1="16.5" x2="155.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="175.5" y1="16.5" x2="175.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="195.5" y1="16.5" x2="195.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="215.5" y1="16.5" x2="215.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <line x1="235.5" y1="16.5" x2="235.5" y2="244.5" class="grid" vector-effect="non-scaling-stroke"/>
+            <g style="font-size: 20px;">
+                <rect x="95.5" y="205.5" width="59" height="39" class="terminal-stroke"/>
+                <rect x="95.5" y="105.5" width="59" height="39" class="terminal-stroke"/>
+            </g>
         </g>
     </defs>
+    
     <use href="#grid" x="0" y="0"/>
+    <rect x="95.5" y="225.5" width="59" height="19" class="terminal-fill"/>
+    <text x="125.5" y="258" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">0</text>
+    
     <use href="#grid" x="245" y="0"/>
-    <rect x="115.5" y="265.5" width="19" height="19" class="terminal-fill"/>
-    <rect x="360.5" y="245.5" width="19" height="39" class="terminal-fill"/>
-    <use href="#iv" x="125.5" y="75.5">
-        <animate attributeName="y" values="75.5; 95.5; 115.5; 135.5; 155.5; 175.5; 195.5; 215.5; 235.5; 235.5; 235.5; 235.5; 235.5" dur="6.25s" calcMode="discrete" repeatCount="indefinite"/>
-    </use>
-    <use href="#iv" x="370.5" y="75.5">
-        <animate attributeName="y" values="75.5; 95.5; 115.5; 135.5; 155.5; 175.5; 195.5; 215.5; 215.5; 215.5; 215.5; 215.5; 215.5" dur="6.25s" calcMode="discrete"  repeatCount="indefinite"/>
-    </use>
-    <g style="font-size: 20px;">               
-        <text x="125.5" y="155.5" class="terminals" dy="0.25em" text-anchor="middle" visibility="visible">?
-            <animate attributeName="visibility" values="visible; visible; visible; visible; visible; visible; visible; visible; hidden; hidden; hidden; hidden; hidden" dur="6.25s" calcMode="discrete" repeatCount="indefinite"/>        
-        </text>
-        <text x="125.5" y="155.5" class="terminals" dy="0.25em" text-anchor="middle" visibility="visible">0
-            <animate attributeName="visibility" values="hidden; hidden; hidden; hidden; hidden; hidden; hidden; hidden; visible; visible; visible; visible; visible" dur="6.25s" calcMode="discrete" repeatCount="indefinite"/>        
-        </text>
-        <text x="125.5" y="298" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-
-        <text x="370.5" y="155.5" class="terminals" dy="0.25em" text-anchor="middle" visibility="visible">?
-            <animate attributeName="visibility" values="visible; visible; visible; visible; visible; visible; visible; hidden; hidden; hidden; hidden; hidden; hidden" dur="6.25s" calcMode="discrete" repeatCount="indefinite"/>        
-        </text>
-        <text x="370.5" y="155.5" class="terminals" dy="0.25em" text-anchor="middle" visibility="visible">1
-            <animate attributeName="visibility" values="hidden; hidden; hidden; hidden; hidden; hidden; hidden; visible; visible; visible; visible; visible; visible" dur="6.25s" calcMode="discrete" repeatCount="indefinite"/>        
-        </text>
-        <text x="370.5" y="298" class="terminals" dy="0.25em" text-anchor="middle">1</text>        
-    </g>
+    <rect x="340.5" y="205.5" width="59" height="39" class="terminal-fill"/>
+    <text x="370.5" y="258" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">1</text>    
+    
+    <!--
+    <use href="#jd" x="125.5" y="115.5"/>
+    <use href="#o" x="145.5" y="155.5"/>
+    <use href="#lu" x="125.5" y="215.5"/>
+    -->
+    
+   
+    <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">?</text>
+    <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">?</text>    
 </svg>
