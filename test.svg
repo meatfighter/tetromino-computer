@@ -59,15 +59,53 @@
     
     <use href="#grid" x="245" y="0"/>
     <rect x="340.5" y="205.5" width="59" height="39" class="terminal-fill"/>
-    <text x="370.5" y="258" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">1</text>    
+    <text x="370.5" y="258" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">1</text>
+
+    <use href="#lu" x="125.5" y="-100">
+        <animate id="left1" begin="0s;left7.end" attributeName="y" values="55.5; 75.5; 95.5; 115.5; 135.5; 155.5; 175.5; 195.5; 215.5" dur="4s" calcMode="discrete" fill="freeze"/>
+        <animate id="left7" begin="left6.end" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
+    </use>
+    <use href="#lu" x="370.5" y="-100">
+        <animate id="right1" begin="left1.begin" attributeName="y" values="55.5; 75.5; 95.5; 115.5; 135.5; 155.5; 175.5; 195.5; 195.5" dur="4s" calcMode="discrete" fill="freeze"/>        
+        <animate id="right7" begin="left6.end" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
+    </use>
     
-    <!--
-    <use href="#jd" x="125.5" y="115.5"/>
-    <use href="#o" x="145.5" y="155.5"/>
-    <use href="#lu" x="125.5" y="215.5"/>
-    -->
+    <use href="#o" x="125.5" y="-100">
+        <animate id="left2" begin="left1.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5; 135.5; 155.5" dur="3.1111111111111111111111111111111s" calcMode="discrete" fill="freeze"/>
+        <animate id="left3" begin="left2.end" attributeName="x" values="145.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>
+        <animate id="left8" begin="left6.end" attributeName="y" values="-100" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="left9" begin="left6.end" attributeName="x" values="125.5" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </use>
+    <use href="#o" x="370.5" y="-100">
+        <animate id="right2" begin="left1.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5; 135.5; 155.5" dur="3.1111111111111111111111111111111s" calcMode="discrete" fill="freeze"/>
+        <animate id="right3" begin="right2.end" attributeName="x" values="370.5; 373.5; 370.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
+        <animate id="right8" begin="left6.end" attributeName="y" values="-100" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </use>
     
-   
-    <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">?</text>
-    <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;">?</text>    
+    <use href="#jd" x="125.5" y="-100">
+        <animate id="left4" begin="left3.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5" dur="2.2222222222222222222222222222222s" calcMode="discrete" fill="freeze"/>
+        <animate id="left10" begin="left6.end" attributeName="y" values="-100" dur="0s" calcMode="discrete" fill="freeze"/>
+    </use>
+    <use href="#jd" x="370.5" y="-100">
+        <animate id="right4" begin="left3.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5; 135.5" dur="2.6666666666666666666666666666667s" calcMode="discrete" fill="freeze"/>
+        <animate id="right10" begin="left6.end" attributeName="y" values="-100" dur="0s" calcMode="discrete" fill="freeze"/>
+    </use>
+       
+    <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="visible">?
+        <animate id="left5" begin="left3.end + 1.7777777777777777777777777777778s" attributeName="visibility" values="hidden" dur="2.5s" calcMode="discrete" fill="freeze"/>
+        <animate id="left11" begin="left6.end" attributeName="visibility" values="visible" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </text>
+    <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="hidden">1
+        <animate id="left6" begin="left3.end + 1.7777777777777777777777777777778s" attributeName="visibility" values="visible" dur="2.5s" calcMode="discrete" fill="freeze"/>
+        <animate id="left12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </text>
+    
+    <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="visible">?
+        <animate id="right5" begin="left3.end + 2.2222222222222222222222222222222s" attributeName="visibility" values="hidden" dur="2.5s" calcMode="discrete" fill="freeze"/>
+        <animate id="right11" begin="left6.end" attributeName="visibility" values="visible" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </text>
+    <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="hidden">0
+        <animate id="right5" begin="left3.end + 2.2222222222222222222222222222222s" attributeName="visibility" values="visible" dur="2.5s" calcMode="discrete" fill="freeze"/>
+        <animate id="right12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+    </text>    
 </svg>
