@@ -79,7 +79,7 @@ public class SvgGenerator {
             final int cellsHeight = maxY - minY + 1;
             final double gridWidth = cellSize * cellsWidth;
             final double gridHeight = cellSize * cellsHeight + (renderOpenTop ? cellSize / 2.0 : 0);
-            viewBoxWidth += ((i > 0) ? 2.0 * cellSize : 0) + (renderAxesNumbers 
+            viewBoxWidth += ((i > 0) ? 1.25 * cellSize : 0) + (renderAxesNumbers 
                     ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0) + gridWidth;
             
             final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
@@ -94,9 +94,11 @@ public class SvgGenerator {
         final double svgHeight = (displayHeight > 0) ? displayHeight : viewBoxHeight;        
         out.println("<?xml version=\"1.0\"?>");
         out.println("<?xml-stylesheet type=\"text/css\" href=\"svg.css\"?>");
-        out.format("<svg width=\"%s\" height=\"%s\" viewBox=\"0 0 %s %s\" xmlns=\"http://www.w3.org/2000/svg\" "
-                + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", toString(svgWidth), toString(svgHeight), 
-                toString(viewBoxWidth), toString(viewBoxHeight));
+        out.format("<svg width=\"%s\" height=\"%s\"%s xmlns=\"http://www.w3.org/2000/svg\" "
+                + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", toString(svgWidth), toString(svgHeight),
+                (svgWidth != viewBoxWidth || svgHeight != viewBoxHeight) 
+                        ? String.format(" viewBox=\"0 0 %s %s\"", toString(viewBoxWidth), toString(viewBoxHeight)) 
+                        : "");
         out.println("    <defs>");
         for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
             for (final TetriminoPath path : paths) {
@@ -249,7 +251,7 @@ public class SvgGenerator {
                 }
             }
             
-            offsetX = gridX + gridWidth + 2.0 * cellSize;
+            offsetX = gridX + gridWidth + 1.25 * cellSize;
         }
         
         out.println("</svg>");        

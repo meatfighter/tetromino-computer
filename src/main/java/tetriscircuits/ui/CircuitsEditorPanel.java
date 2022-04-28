@@ -496,7 +496,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void exportSvg(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
         controller.exportSvgAsync(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), 
-                testBitsStr, false, depth, cellSize);
+                testBitsStr, true, depth, cellSize);
     }
     
     public boolean isTetrisScriptSelected() {
