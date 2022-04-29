@@ -283,11 +283,13 @@
 
 <object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
 
-<p>The cells of the output node mirror the cells of the input node. Any Tetrimino or any stack of Tetriminos can be used to propagate data in this way.</p>
+<p>The cells of the output node mirror the cells of the input node. Any Tetrimino or any stack of Tetriminos can be used to copy data in this way.</p>
 
 <h2 id="inverter-not">Inverter (NOT)</h2>
 
 <p>An inverter is a single-input gate where the output is the logical negation of the input.</p>
+
+<p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
 
 <pre class="tetrisscript">
 <span class="filename">not.t</span>
@@ -299,7 +301,19 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 5</span></span>
 </pre>
 
+<p>Note: Although workspace coordinates are always &ge; 0 due to the floor and the discards pile, structure definitions can use negative column values because the coordinates are relative to where the structure is built.</p>
+
+<p>The follow animation shows what happens for both input values.</p>
+
 <object data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
+
+<p>When the input is <span class="mono">0</span>, the L-Tetrimino lands low, which enables the O-Tetrimino to shift upon its protuberance. In turn, the J-Tetrimino lands high.</p>
+
+<p>When the input is <span class="mono">1</span>, the L-Tetrimino lands high and acts a barrier that obstructs the horizontal movement of the O-Tetrimino. The result is a configuration where the J-Tetrimino lands low.</p>
+
+<p>The output is the opposite of the input.</p>
+
+<h2 id="or">OR</h2>
 
 <object data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
