@@ -36,7 +36,7 @@
 
 <object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
 
-<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" rel="noopener noreferrer" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" rel="noopener noreferrer" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
+<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
 
 <p>NRS centers each Tetrimino in a 5&times;5 matrix and rotates them 90&deg; about that center. Of the 24 possible orientations, it uses only 19.</p>
 
@@ -267,7 +267,7 @@
 
 <h2 id="buffer">Buffer</h2>
 
-<p>A buffer is a single-input, binary identity function. The output value is the input value, unchanged.</p>
+<p>A buffer is a single-input, binary <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a>. The output value is the input value, unchanged.</p>
 
 <p>The code below realizes a buffer by dropping a vertically-oriented I-Tetrimino onto an input node.</p>
 
@@ -279,7 +279,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 4</span></span>
 </pre>
 
-<p>The result for both possible values of the input node is shown below.</p>
+<p>The result for both input values is shown below.</p>
 
 <object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
 
@@ -287,7 +287,7 @@
 
 <h2 id="inverter-not">Inverter (NOT)</h2>
 
-<p>An inverter is a single-input gate where the output is the logical negation of the input.</p>
+<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">logical negation</a> of the input.</p>
 
 <p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
 
@@ -311,13 +311,49 @@
 
 <p>When the input is <span class="mono">1</span>, the L-Tetrimino lands high and acts a barrier that obstructs the horizontal movement of the O-Tetrimino. The result is a configuration where the J-Tetrimino lands low.</p>
 
-<p>The output is the opposite of the input.</p>
+<p>In both cases, the output is the opposite of the input.</p>
 
 <h2 id="or">OR</h2>
 
+<p>OR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">logical disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
+
+<p>The code below creates an OR gate by dropping a single O-Tetrimino onto abutting input nodes.</p>
+
+<pre class="tetrisscript">
+<span class="filename">or.t</span>
+<span class="line"><span class="normal">o </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 2</span></span>
+</pre>
+
+<p>Here are the results for all input combinations:</p>
+
 <object data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
+<p>The O-Tetrimino lands low unless one or both inputs is <span class="mono">1</span>.</p>
+
+<h2 id="nor">NOR</h2>
+
+<p>NOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
+
+<p>The code below realizes a NOR gate by feeding 2 inputs into an inverter.</p>
+
+<pre class="tetrisscript">
+<span class="filename">nor.t</span>
+<span class="line"><span class="normal">not </span><span class="number">0 0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1..0 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">1 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 5</span></span>
+</pre>
+
+<p>The following image presents the outputs for all possible inputs.</p>
+
 <object data="nor.svg" type="image/svg+xml" class="diagram">NOR</object>
+
+<p>The L-Tetrimino operates as an OR gate, resulting in output opposite of OR.</p>
 
 <object data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
 
