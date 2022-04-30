@@ -673,15 +673,19 @@ public class Controller {
                 }
                 return;
             }
-            for (int i = 0; i < combos; ++i) {
-                final String binaryStr = Integer.toBinaryString(i);
-                final StringBuilder sb = new StringBuilder();
-                for (int j = bits - binaryStr.length(); j > 0; --j) {
-                    sb.append('0');
-                }
-                sb.append(binaryStr);
-                structures.add(exportSvgStructure(componentName, sb.toString(), depth));
-            }
+//            for (int i = 0; i < combos; ++i) {
+//                final String binaryStr = Integer.toBinaryString(i);
+//                final StringBuilder sb = new StringBuilder();
+//                for (int j = bits - binaryStr.length(); j > 0; --j) {
+//                    sb.append('0');
+//                }
+//                sb.append(binaryStr);
+//                structures.add(exportSvgStructure(componentName, sb.toString(), depth));
+//            }
+            structures.add(exportSvgStructure(componentName, "010", depth));
+            structures.add(exportSvgStructure(componentName, "011", depth));
+            structures.add(exportSvgStructure(componentName, "110", depth));
+            structures.add(exportSvgStructure(componentName, "111", depth));
         } else {
             structures.add(exportSvgStructure(componentName, testBitStr, depth));
         }

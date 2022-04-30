@@ -287,7 +287,7 @@
 
 <h2 id="inverter-not">Inverter (NOT)</h2>
 
-<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">logical complement</a> of the input.</p>
+<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">complement</a> of the input.</p>
 
 <p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
 
@@ -319,7 +319,7 @@
 
 <h2 id="or">OR</h2>
 
-<p>OR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">logical disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
+<p>OR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
 
 <p>The code below creates an OR gate by dropping a single O-Tetrimino onto abutting input nodes.</p>
 
@@ -340,7 +340,7 @@
 
 <h2 id="nor">NOR</h2>
 
-<p>NOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
+<p>NOR is a 2-input gate that evaluates the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
 
 <p>The code below realizes a NOR gate by feeding 2 inputs into an inverter.</p>
 
@@ -361,7 +361,7 @@
 
 <h2 id="nand">NAND</h2>
 
-<p>NAND is a 2-input gate that produces the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">logical conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
+<p>NAND is a 2-input gate that provides the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> &equiv; <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
 
@@ -384,7 +384,7 @@
 
 <h2 id="and">AND</h2>
 
-<p>AND is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">logical conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
+<p>AND is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
 
 <p>The code below constructs AND from a NAND gate followed by an inverter.</p>
 
@@ -407,7 +407,7 @@
 
 <h2 id="xor">XOR</h2>
 
-<p>XOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when the inputs are not equal.</p>
+<p>XOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when both inputs are unequal.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -459,7 +459,9 @@
 
 <h2 id="xnor">XNOR</h2>
 
-<p></p>
+<p>XNOR is a 2-input gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
+
+<p>The code below composes XNOR from XOR followed by an inverter.</p>
 
 <pre class="tetrisscript">
 <span class="filename">xnor.t</span>
@@ -471,11 +473,39 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 16</span></span>
 </pre>
 
+<p>The following image shows the outputs for all possible inputs.</p>
+
 <object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
 
+<h2 id="multiplexer">Multiplexer</h2>
+
+<pre class="tetrisscript">
+<span class="filename">muxLeft.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-4 1</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-1 1</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">4 1</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">1</span></span>
+<span class="line"><span class="normal">o </span><span class="number">2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">3</span></span>
+<span class="line"><span class="normal">nand </span><span class="number">0 7</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">l </span><span class="number">-6..-3 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">s </span><span class="number">-2..1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">r </span><span class="number">2..5 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 13</span></span>
+</pre>
+
+<object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
+
+<!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
 <object data="true.svg" type="image/svg+xml" class="diagram">True</object>
+-->
 
 </body>
 
