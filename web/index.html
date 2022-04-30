@@ -13,7 +13,7 @@
 <link rel="manifest" href="manifest.json"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
 <meta name="date" content="2022-04-21"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -313,6 +313,10 @@
 
 <p>In both cases, the output is the opposite of the input.</p>
 
+<p>A horizontally reflected version was defined purely for aesthetics reasons. The image below shows <span class="mono">notLeft</span> (an alias for <span class="mono">not</span>) and its reflection, <span class="mono">notRight</span>.</p>
+
+<object data="nots.svg" type="image/svg+xml" class="diagram">notLeft and notRight</object>
+
 <h2 id="or">OR</h2>
 
 <p>OR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">logical disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
@@ -355,9 +359,69 @@
 
 <p>The L-Tetrimino operates as an OR gate, resulting in output opposite of OR.</p>
 
+<h2 id="nand">NAND</h2>
+
+<p>NAND is a 2-input gate that produces the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">logical conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> &equiv; <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
+
+<pre class="tetrisscript">
+<span class="filename">nand.t</span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-2 0</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">1 0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-3..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..2 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 6</span></span>
+</pre>
+
+<p>The follow image reveals the output for all possible inputs.</p>
+
 <object data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
 
+<p>The horizontal I-Tetrimino functions as an OR gate.</p>
+
+<h2 id="and">AND</h2>
+
+<p>AND is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">logical conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
+
+<p>The code below constructs AND from a NAND gate followed by an inverter.</p>
+
+<pre class="tetrisscript">
+<span class="filename">and.t</span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-2 0</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">1 0</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">0 5</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-3..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..2 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 10</span></span>
+</pre>
+
+<p>The following image shows the outputs for all possible inputs.</p>
+
 <object data="and.svg" type="image/svg+xml" class="diagram">AND</object>
+
+<p>The J-Tetrimino of the upper inverter functions as an OR gate.</p>
+
+<h2 id="xor">XOR</h2>
+
+<p>XOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when the inputs are not equal.</p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math">A &#8853; B<span></p>
+      
+<p><span class="math">&equiv; A &ne; B</p>      
+      
+<p><span class="math">&equiv; <span class="overline">A</span>B + A<span class="overline">B</span></p>      
+
+<p><span class="math">&equiv; (<span class="overline">A</span>B + A<span class="overline">B</span>) + 0<span></p>
+
+<p><span class="math">&equiv; (<span class="overline">A</span>B + A<span class="overline">B</span>) + (A<span class="overline">A</span> + B<span class="overline">B</span>)<span></p>
+      
+<p><span class="math">&equiv; <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
 
 <object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
 

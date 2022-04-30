@@ -40,8 +40,17 @@ span.term {
     font-style: italic;
 }
 
+span.overline {
+    text-decoration: overline;
+}
+
 span.mono {
     font-family: 'Source Code Pro', monospace;
+}
+
+span.math {
+    font-family: 'Bentham', serif;
+    font-size: 19px;
 }
 
 object.diagram {
