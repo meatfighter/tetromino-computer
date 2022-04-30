@@ -287,7 +287,7 @@
 
 <h2 id="inverter-not">Inverter (NOT)</h2>
 
-<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">logical negation</a> of the input.</p>
+<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">logical complement</a> of the input.</p>
 
 <p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
 
@@ -416,14 +416,60 @@
 <p><span class="math">&equiv; A &ne; B</p>      
       
 <p><span class="math">&equiv; <span class="overline">A</span>B + A<span class="overline">B</span></p>      
-
-<p><span class="math">&equiv; (<span class="overline">A</span>B + A<span class="overline">B</span>) + 0<span></p>
-
-<p><span class="math">&equiv; (<span class="overline">A</span>B + A<span class="overline">B</span>) + (A<span class="overline">A</span> + B<span class="overline">B</span>)<span></p>
-      
+     
 <p><span class="math">&equiv; <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
+      
+<p><span class="math">&equiv; <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
+
+<p><span class="math">&equiv; <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C &equiv; <span class="overline">A + B</span></p>  
+
+<p><span class="math">&equiv; <span class="overline">A + C</span> + <span class="overline">B + C</span>, C &equiv; <span class="overline">A + B</span></span></p>
+
+<p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
+
+<object data="xor-from-nors-and-or.svg" type="image/svg+xml" class="diagram">XOR schematic</object>
+
+<p>The code below is based on that schematic.</p>
+
+<pre class="tetrisscript">
+<span class="filename">xor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">3</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">2 5</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
+</pre>
+
+<p><span class="mono">_norLeft</span> is a NOR gate composed of two O-Tetriminos. It is detailed in a later section.</p>
+
+<p>Here are the results for all input combinations:</p>
 
 <object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
+
+<p>The vertical I-Tetriminos and the L-and-J-Tetriminos resting on the O-Tetrimino act as wires. The bases of the inverters serve as OR gates, making them function as NORs. The horizontal I-Tetrimino at the top operates as an OR gate.</p>
+
+<h2 id="xnor">XNOR</h2>
+
+<p></p>
+
+<pre class="tetrisscript">
+<span class="filename">xnor.t</span>
+<span class="line"><span class="normal">xor </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">0 11</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 16</span></span>
+</pre>
 
 <object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
 
