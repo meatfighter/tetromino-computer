@@ -313,7 +313,7 @@
 
 <p>In both cases, the output is the opposite of the input.</p>
 
-<p>A horizontally reflected version was defined purely for aesthetics reasons. The image below shows <span class="mono">notLeft</span> (an alias for <span class="mono">not</span>) and its reflection, <span class="mono">notRight</span>.</p>
+<p>A horizontally reflected version exists purely for aesthetics reasons. The image below shows <span class="mono">notLeft</span> (an alias for <span class="mono">not</span>) and its reflection, <span class="mono">notRight</span>.</p>
 
 <object data="nots.svg" type="image/svg+xml" class="diagram">notLeft and notRight</object>
 
@@ -427,7 +427,7 @@
 
 <p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
 
-<object data="xor-from-nors-and-or.svg" type="image/svg+xml" class="diagram">XOR schematic</object>
+<object data="xor-schematic.svg" type="image/svg+xml" class="diagram">XOR Schematic</object>
 
 <p>The code below is based on that schematic.</p>
 
@@ -479,6 +479,22 @@
 
 <h2 id="multiplexer">Multiplexer</h2>
 
+<p>A multiplexer is a controlled switch that channels one of the inputs to the output. The output of a 2-to-1 multiplexer is <span class="math">AS + B<span class="overline">S</span></span> where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the selector.</p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math">AS + B<span class="overline">S</span></span></p>
+
+<p><span class="math">&equiv; AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
+
+<p><span class="math">&equiv; <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
+
+<p>That suggests the following construction from 2 NAND gates, an OR gate, and an inverter.</p>
+
+<object data="mux-schematic.svg" type="image/svg+xml" class="diagram">Multiplexer Schematic</object>
+
+<p>The code below is based on that schematic.</p>
+
 <pre class="tetrisscript">
 <span class="filename">muxLeft.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">0</span></span>
@@ -499,7 +515,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 13</span></span>
 </pre>
 
+<p>Here are the results for all input combinations:</p>
+
 <object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
+
+<p>The selector is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
+
+<h1 id="wiring">Wiring</h1>
 
 <!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>

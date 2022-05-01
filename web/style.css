@@ -38,10 +38,16 @@ h2 {
 
 span.term {
     font-style: italic;
+    white-space: nowrap;
 }
 
 span.overline {
     text-decoration: overline;
+}
+
+span.high-overline {
+    border-top: 0.1em solid;
+    padding-top: 5px;
 }
 
 span.mono {
@@ -51,6 +57,7 @@ span.mono {
 span.math {
     font-family: 'Bentham', serif;
     font-size: 19px;
+    white-space: nowrap;
 }
 
 object.diagram {
