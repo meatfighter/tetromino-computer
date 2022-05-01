@@ -112,76 +112,193 @@
     <line x1="903.5" y1="28.5" x2="903.5" y2="170.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="915.5" y1="28.5" x2="915.5" y2="170.5" class="grid" vector-effect="non-scaling-stroke"/>
     <g style="font-size: 12px;">
-        <rect x="879.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="879.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="885.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="759.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="759.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="765.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="639.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="639.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="645.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="519.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="519.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="525.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="399.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="399.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="405.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="279.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="279.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="285.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="159.5" y="159.5" width="11" height="11" class="terminal-fill"/>
-        <rect x="159.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="165.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="39.5" y="159.5" width="11" height="11" class="terminal-fill"/>
+        <rect x="39.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty7" attributeName="y" values="159.5; 147.5" begin="0s;ty0.end" calcMode="discrete" dur="1s"/>
+            <animate id="th7" attributeName="height" values="11; 23" begin="0s;ty0.end" calcMode="discrete" dur="1s"/>
+        </rect>
         <rect x="39.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="45.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <text visibility="visible" x="45.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv7" attributeName="visibility" values="visible; hidden" begin="0s;tv0.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="45.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th7" attributeName="visibility" values="hidden; visible" begin="0s;tv0.end" calcMode="discrete" dur="1s"/>
+        </text>
+    
+        <rect x="159.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty6" attributeName="y" values="159.5; 147.5" begin="ty7.end" calcMode="discrete" dur="1s"/>
+            <animate id="th6" attributeName="height" values="11; 23" begin="ty7.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="159.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
+        <text visibility="visible" x="165.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv6" attributeName="visibility" values="visible; hidden" begin="tv7.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="165.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th6" attributeName="visibility" values="hidden; visible" begin="tv7.end" calcMode="discrete" dur="1s"/>
+        </text>    
+
+        <rect x="279.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty5" attributeName="y" values="159.5; 147.5" begin="ty6.end" calcMode="discrete" dur="1s"/>
+            <animate id="th5" attributeName="height" values="11; 23" begin="ty6.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="279.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
+        <text visibility="visible" x="285.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv5" attributeName="visibility" values="visible; hidden" begin="tv6.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="285.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th5" attributeName="visibility" values="hidden; visible" begin="tv6.end" calcMode="discrete" dur="1s"/>
+        </text>
+
+        <rect x="399.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty4" attributeName="y" values="159.5; 147.5" begin="ty5.end" calcMode="discrete" dur="1s"/>
+            <animate id="th4" attributeName="height" values="11; 23" begin="ty5.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="399.5" y="147.5" width="11" height="23" class="terminal-stroke"/>        
+        <text visibility="visible" x="405.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv4" attributeName="visibility" values="visible; hidden" begin="tv5.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="405.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th4" attributeName="visibility" values="hidden; visible" begin="tv5.end" calcMode="discrete" dur="1s"/>
+        </text>
+        
+        <rect x="519.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty3" attributeName="y" values="159.5; 147.5" begin="ty4.end" calcMode="discrete" dur="1s"/>
+            <animate id="th3" attributeName="height" values="11; 23" begin="ty4.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="519.5" y="147.5" width="11" height="23" class="terminal-stroke"/>        
+        <text visibility="visible" x="525.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv3" attributeName="visibility" values="visible; hidden" begin="tv4.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="525.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th3" attributeName="visibility" values="hidden; visible" begin="tv4.end" calcMode="discrete" dur="1s"/>
+        </text>        
+        
+        <rect x="639.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty2" attributeName="y" values="159.5; 147.5" begin="ty3.end" calcMode="discrete" dur="1s"/>
+            <animate id="th2" attributeName="height" values="11; 23" begin="ty3.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="639.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
+        <text visibility="visible" x="645.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv2" attributeName="visibility" values="visible; hidden" begin="tv3.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="645.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th2" attributeName="visibility" values="hidden; visible" begin="tv3.end" calcMode="discrete" dur="1s"/>
+        </text>        
+        
+        <rect x="759.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty1" attributeName="y" values="159.5; 147.5" begin="ty2.end" calcMode="discrete" dur="1s"/>
+            <animate id="th1" attributeName="height" values="11; 23" begin="ty2.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="759.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
+        <text visibility="visible" x="765.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv1" attributeName="visibility" values="visible; hidden" begin="tv2.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="765.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th1" attributeName="visibility" values="hidden; visible" begin="tv2.end" calcMode="discrete" dur="1s"/>
+        </text>        
+        
+        <rect x="879.5" y="159.5" width="11" height="11" class="terminal-fill">
+            <animate id="ty0" attributeName="y" values="159.5; 147.5" begin="ty1.end" calcMode="discrete" dur="1s"/>
+            <animate id="th0" attributeName="height" values="11; 23" begin="ty1.end" calcMode="discrete" dur="1s"/>
+        </rect>
+        <rect x="879.5" y="147.5" width="11" height="23" class="terminal-stroke"/>
+        <text visibility="visible" x="885.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="tv0" attributeName="visibility" values="visible; hidden" begin="tv1.end" calcMode="discrete" dur="1s"/>
+        </text>
+        <text visibility="hidden" x="885.5" y="179" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="th0" attributeName="visibility" values="hidden; visible" begin="tv1.end" calcMode="discrete" dur="1s"/>
+        </text>        
+                
         <rect x="879.5" y="27.5" width="11" height="23" class="terminal-stroke"/>
-        <text x="885.5" y="21.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <text visibility="visible" x="885.5" y="21.5" class="terminals" dy="0.25em" text-anchor="middle">0
+            <animate id="zv" attributeName="visibility" values="visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden;" begin="0s" calcMode="discrete" dur="8s" repeatCount="indefinite"/>
+        </text>
+        <text visibility="hidden" x="885.5" y="21.5" class="terminals" dy="0.25em" text-anchor="middle">1
+            <animate id="zh" attributeName="visibility" values="hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible; hidden; visible" begin="0s" calcMode="discrete" dur="8s" repeatCount="indefinite"/>
+        </text>
     </g>
-    <use href="#iv" x="885.5" y="69.5"/>
-    <use href="#zh" x="885.5" y="93.5"/>
-    <use href="#zh" x="861.5" y="93.5"/>
-    <use href="#zh" x="837.5" y="93.5"/>
-    <use href="#zh" x="813.5" y="93.5"/>
-    <use href="#zh" x="789.5" y="93.5"/>
-    <use href="#zh" x="765.5" y="93.5"/>
-    <use href="#zh" x="741.5" y="93.5"/>
-    <use href="#zh" x="717.5" y="93.5"/>
-    <use href="#zh" x="693.5" y="93.5"/>
-    <use href="#zh" x="669.5" y="93.5"/>
-    <use href="#zh" x="645.5" y="93.5"/>
-    <use href="#zh" x="621.5" y="93.5"/>
-    <use href="#zh" x="597.5" y="93.5"/>
-    <use href="#zh" x="573.5" y="93.5"/>
-    <use href="#zh" x="549.5" y="93.5"/>
-    <use href="#zh" x="525.5" y="93.5"/>
-    <use href="#zh" x="501.5" y="93.5"/>
-    <use href="#zh" x="477.5" y="93.5"/>
-    <use href="#zh" x="453.5" y="93.5"/>
-    <use href="#zh" x="429.5" y="93.5"/>
-    <use href="#zh" x="405.5" y="93.5"/>
-    <use href="#zh" x="381.5" y="93.5"/>
-    <use href="#zh" x="357.5" y="93.5"/>
-    <use href="#zh" x="333.5" y="93.5"/>
-    <use href="#zh" x="309.5" y="93.5"/>
-    <use href="#zh" x="285.5" y="93.5"/>
-    <use href="#zh" x="261.5" y="93.5"/>
-    <use href="#zh" x="237.5" y="93.5"/>
-    <use href="#zh" x="213.5" y="93.5"/>
-    <use href="#zh" x="189.5" y="93.5"/>
-    <use href="#zh" x="165.5" y="93.5"/>
-    <use href="#zh" x="141.5" y="93.5"/>
-    <use href="#zh" x="117.5" y="93.5"/>
-    <use href="#zh" x="93.5" y="93.5"/>
-    <use href="#zh" x="69.5" y="93.5"/>
-    <use href="#zh" x="45.5" y="93.5"/>
-    <use href="#iv" x="885.5" y="141.5"/>
-    <use href="#iv" x="765.5" y="141.5"/>
-    <use href="#iv" x="645.5" y="141.5"/>
-    <use href="#iv" x="525.5" y="141.5"/>
-    <use href="#iv" x="405.5" y="141.5"/>
-    <use href="#iv" x="285.5" y="141.5"/>
-    <use href="#iv" x="165.5" y="141.5"/>
-    <use href="#iv" x="45.5" y="141.5"/>
+    <g id="g7">
+        <animateTransform id="a7" attributeName="transform" begin="0s;a0.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+        <g id="g6">
+            <animateTransform id="a6" attributeName="transform" begin="a7.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+            <g id="g5">
+                <animateTransform id="a5" attributeName="transform" begin="a6.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                <g id="g4">
+                    <animateTransform id="a4" attributeName="transform" begin="a5.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                    <g id="g3">
+                        <animateTransform id="a3" attributeName="transform" begin="a4.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                        <g id="g2">
+                            <animateTransform id="a2" attributeName="transform" begin="a3.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                            <g id="g1">
+                                <animateTransform id="a1" attributeName="transform" begin="a2.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                                <g id="g0">
+                                    <animateTransform id="a0" attributeName="transform" begin="a1.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+                                    <use href="#iv" x="885.5" y="69.5"/>
+                                    <use href="#zh" x="885.5" y="93.5"/>
+                                </g>    
+                                <use href="#zh" x="861.5" y="93.5"/>
+                                <use href="#zh" x="837.5" y="93.5"/>
+                                <use href="#zh" x="813.5" y="93.5"/>
+                                <use href="#zh" x="789.5" y="93.5"/>
+                                <use href="#zh" x="765.5" y="93.5"/>
+                            </g>
+                            <use href="#zh" x="741.5" y="93.5"/>
+                            <use href="#zh" x="717.5" y="93.5"/>
+                            <use href="#zh" x="693.5" y="93.5"/>
+                            <use href="#zh" x="669.5" y="93.5"/>
+                            <use href="#zh" x="645.5" y="93.5"/>
+                        </g>    
+                        <use href="#zh" x="621.5" y="93.5"/>
+                        <use href="#zh" x="597.5" y="93.5"/>
+                        <use href="#zh" x="573.5" y="93.5"/>
+                        <use href="#zh" x="549.5" y="93.5"/>
+                        <use href="#zh" x="525.5" y="93.5"/>
+                    </g>    
+                    <use href="#zh" x="501.5" y="93.5"/>
+                    <use href="#zh" x="477.5" y="93.5"/>
+                    <use href="#zh" x="453.5" y="93.5"/>
+                    <use href="#zh" x="429.5" y="93.5"/>
+                    <use href="#zh" x="405.5" y="93.5"/>
+                </g>    
+                <use href="#zh" x="381.5" y="93.5"/>
+                <use href="#zh" x="357.5" y="93.5"/>
+                <use href="#zh" x="333.5" y="93.5"/>
+                <use href="#zh" x="309.5" y="93.5"/>
+                <use href="#zh" x="285.5" y="93.5"/>
+            </g>    
+            <use href="#zh" x="261.5" y="93.5"/>
+            <use href="#zh" x="237.5" y="93.5"/>
+            <use href="#zh" x="213.5" y="93.5"/>
+            <use href="#zh" x="189.5" y="93.5"/>
+            <use href="#zh" x="165.5" y="93.5"/>
+        </g>    
+        <use href="#zh" x="141.5" y="93.5"/>
+        <use href="#zh" x="117.5" y="93.5"/>
+        <use href="#zh" x="93.5" y="93.5"/>
+        <use href="#zh" x="69.5" y="93.5"/>
+        <use href="#zh" x="45.5" y="93.5"/>
+    </g>    
+    <use href="#iv" x="45.5" y="141.5">
+        <animateTransform id="i7" attributeName="transform" begin="0s;i0.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="165.5" y="141.5">
+        <animateTransform id="i6" attributeName="transform" begin="i7.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="285.5" y="141.5">
+        <animateTransform id="i5" attributeName="transform" begin="i6.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="405.5" y="141.5">
+        <animateTransform id="i4" attributeName="transform" begin="i5.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="525.5" y="141.5">
+        <animateTransform id="i3" attributeName="transform" begin="i4.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="645.5" y="141.5">
+        <animateTransform id="i2" attributeName="transform" begin="i3.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="765.5" y="141.5">
+        <animateTransform id="i1" attributeName="transform" begin="i2.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
+    <use href="#iv" x="885.5" y="141.5">
+        <animateTransform id="i0" attributeName="transform" begin="i1.end" dur="1s" calcMode="discrete" type="translate" values="0 0; 0 -12"/>
+    </use>
 </svg>
