@@ -477,6 +477,61 @@
 
 <object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
 
+<h1 id="wiring">Wiring</h1>
+
+<p>...</p>
+
+<object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
+
+<h2 id="cross">Cross</h2>
+
+<p>...</p>
+
+<p><span class="math">C &equiv; A &#8853; B</span></p>
+
+<p><span class="math">A &#8853; C &equiv; A &#8853; A &#8853; B &equiv; B</span></p>
+
+<p><span class="math">B &#8853; C &equiv; B &#8853; A &#8853; B &equiv; A</span></p>
+
+<p>...</p>
+
+<object data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
+
+<p>...</p>
+
+<pre class="tetrisscript">
+<span class="filename">swap.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">ll </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">3</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">5</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">_norRight </span><span class="number">3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">6 7</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">-6</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">5</span></span>
+<span class="line"><span class="normal">xor </span><span class="number">-4 10</span></span>
+<span class="line"><span class="normal">xor </span><span class="number">4 10</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i1 </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i0 </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o1 </span><span class="number">-6..-3 21</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
+</pre>
+
+<p>...</p>
+
+<object data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
+
 <h2 id="multiplexer">Multiplexer</h2>
 
 <p>A multiplexer is a controlled switch that channels one of the inputs to the output. The output of a 2-to-1 multiplexer is <span class="math">AS + B<span class="overline">S</span></span> where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the selector.</p>
@@ -520,10 +575,6 @@
 <object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
 
 <p>The selector is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
-
-<h1 id="wiring">Wiring</h1>
-
-<object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
 
 <!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
