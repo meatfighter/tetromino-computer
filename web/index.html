@@ -477,17 +477,19 @@
 
 <object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
 
-<h1 id="wiring">Wiring</h1>
+<h1 id="wires">Wires</h1>
 
-<p>This section discusses the pathways that direct information from one part of a circuit to another.</p>
+<p>This section discusses <span class="term">wires</span>, the structures that transfers bits from one part of a circuit to another.</p>
 
-<h2 id="data-pathways">Data Pathways</h2>
+<h2 id="fan-out">Fan-out</h2>
 
-<p>A <span class="term">wire</span> is any structure that transfers a bit, unchanged. For instance, a stack of vertically-oriented I-Tetriminos will move data upward:</p>
+<p>For a given output node, <span class="term">fan-out</span> is the number of input nodes that it feeds. Maximum fan-out is equal to the maximum number of leaves that can be constructed on a solid tree of pieces. As illustrated in the animation below, lines of S-and-Z-Tetriminos enable unlimited fan-out.</p>
 
 <object data="fan-out.svg" type="image/svg+xml" class="diagram">Fan-out</object>
 
-<p>...</p>
+<p>Rising staircases of horizontal I-Tetriminos can achieve the same.</p>
+
+<h2 id="fan-in">Fan-in</h2>
 
 <object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
 
