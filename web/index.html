@@ -590,6 +590,10 @@
 
 <p>The selector is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
 
+<h1 id="time-independence">Time Independence</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">Race conditions</a> never happen because the order in which signals arrive at the interface of a component is determined entirely by the sequence of placed Tetriminos. Path lengths and the components along paths have no bearing on that order. Moreover, the order has no effect since a component will not be built until all of its input nodes are assigned. And once assigned, nodes values are permanent. They cannot waver transiently into stable states.</p>
+
 <!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
