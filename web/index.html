@@ -497,21 +497,25 @@
 
 <p>Alternatively, a tree of gates can merge a boundless number of inputs.</p>
 
-<h2 id="cross">Crossing</h2>
+<h2 id="crossing">Crossing</h2>
 
-<p>...</p>
+<p>The wires of a circuit can cross over each other without connecting in a 3-dimensional universe. But, on the 2-dimensional playfield, a cross requires a planar device that mutually exchanges 2 inputs. The device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>: </p>
 
 <p><span class="math">C &equiv; A &#8853; B</span></p>
+
+<p>Then it XORs the inputs with the temporary variable, which swaps them:</p>
 
 <p><span class="math">A &#8853; C &equiv; A &#8853; A &#8853; B &equiv; B</span></p>
 
 <p><span class="math">B &#8853; C &equiv; B &#8853; A &#8853; B &equiv; A</span></p>
 
-<p>...</p>
+<p>The algorithm suggests the following circuit.</p>
 
 <object data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
 
-<p>...</p>
+<p>Since the circuit has no cross-overs and XOR is realizable, it achieves a planar swap.</p>
+
+<p>In the code below, which is based on that schematic, the lower XOR gate is expanded into 3 NORs and a horizontal I-Tetrimino operating as an OR. The other pieces function as wires.</p>
 
 <pre class="tetrisscript">
 <span class="filename">swap.t</span>
@@ -542,11 +546,17 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
 </pre>
 
-<p>...</p>
+<p><span class="mono">_norLeft</span> and <span class="mono">_norRight</span> are NOR gates composed of two O-Tetriminos. They are detailed in a later section.</p>
+
+<p>Here are the results for all input combinations:</p>
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
 
-<h2 id="multiplexer">Multiplexer</h2>
+<p>The following animation makes repeated use of the swap circuit. It shows a diagonal wire crossing over multiple vertical wires.</p>
+
+<object data="cross-seven.svg" type="image/svg+xml" class="diagram">Cross Seven</object>
+
+<h2 id="multiplexing">Multiplexing</h2>
 
 <p>A multiplexer is a controlled switch that channels one of the inputs to the output. The output of a 2-to-1 multiplexer is <span class="math">AS + B<span class="overline">S</span></span> where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the selector.</p>
 
@@ -588,11 +598,11 @@
 
 <object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
 
-<p>The selector is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
+<p>The selector (the center input) is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
 
 <h1 id="time-independence">Time Independence</h1>
 
-<p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">Race conditions</a> never happen because the order in which signals arrive at the interface of a component is determined entirely by the sequence of placed Tetriminos. Path lengths and the components along paths have no bearing on that order. Moreover, the order has no effect since a component will not be built until all of its input nodes are assigned. And once assigned, nodes values are permanent. They cannot waver transiently into stable states.</p>
+<p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">Race conditions</a> never occur because the signal arrival order for a component is entirely determined by the Tetrimino sequence. Path lengths and the components along paths have no bearing on that order. Moreover, the order is inconsequential since a component will not be built until all of its input nodes are assigned. And once assigned, nodes values are permanent. They cannot waver transiently into stable states.</p>
 
 <!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
