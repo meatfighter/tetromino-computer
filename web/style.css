@@ -41,6 +41,10 @@ span.term {
     white-space: nowrap;
 }
 
+span.italic {
+    font-style: italic;
+}
+
 span.overline {
     text-decoration: overline;
 }

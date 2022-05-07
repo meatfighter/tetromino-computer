@@ -604,6 +604,28 @@
 
 <p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">Race conditions</a> never occur because the signal arrival order for a component is entirely determined by the Tetrimino sequence. Path lengths and the components along paths have no bearing on that order. Moreover, the order is inconsequential since a component will not be built until all of its input nodes are assigned. And once assigned, nodes values are permanent. They cannot waver transiently into stable states.</p>
 
+<h1 id="functions">Functions</h1>
+
+<p>This section describes the arithmetic and logic functions created for the computer.</p>
+
+<h2 id="identity">Identity</h2>
+
+<p>An <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a> echos the provided value:</p>
+
+<p><span class="math">f(x) &equiv; x</span></p> 
+
+<p>The image below depicts an 8-bit identity function. The height is arbitrary.</p>
+
+<object data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
+
+<p>The functions built for the computer are normalized for interoperability. The output of one function can serve as the input of another, and they can be stacked indefinitely. To make that work, the input and output nodes line up with each other, and they are evenly spaced, 10 cells apart. The spacing was selected to provide sufficient room for wide components, such as the <a href="#crossing">swap circuit</a>. And a round, base-10 number makes measurements easier.</p>
+
+<h2 id="constant">Constant</h2>
+
+<p>A constant function returns the same value regardless of the input:</p>
+
+<p><span class="math">f(x) &equiv; k</span></p>
+
 <!--
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
