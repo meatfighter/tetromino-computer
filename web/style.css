@@ -157,3 +157,75 @@ p.definition {
     padding: 15px 25px 15px 25px;
     border-left: 6px solid #888888;
 }
+
+table.borderless {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;  
+}
+
+th.math {
+    font-family: 'Bentham', serif;
+    font-size: 19px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1pt solid silver;
+    padding-left: 10px;
+    padding-right: 10px;  
+}
+
+th.border-left {
+    border-left: 1pt solid silver;
+}
+
+th.borderless {
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1pt solid silver;  
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;  
+}
+
+th.monospaced {
+    text-align: center;
+    font-family: 'Source Code Pro', monospace;
+    font-weight: bold;
+    border-bottom: 1pt solid silver;  
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;  
+}
+
+td.borderless {
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td.mono {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    text-align: center;
+}
+
+td.border-left {
+    border-left: 1pt solid silver;
+}
+
+td.monospaced {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+td.bold-mono {
+    font-size: 16px;
+    font-family: 'Source Code Pro', monospace;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    font-weight: bolder;
+}
