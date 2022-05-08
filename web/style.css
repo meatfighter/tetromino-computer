@@ -36,6 +36,11 @@ h2 {
     font-weight: 300;
 }
 
+span.serif {
+    font-family: 'Source Serif Pro', serif;
+    font-size: 18px;
+}
+
 span.term {
     font-style: italic;
     white-space: nowrap;
