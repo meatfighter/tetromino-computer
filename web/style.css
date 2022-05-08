@@ -36,6 +36,10 @@ h2 {
     font-weight: 300;
 }
 
+span.pow {
+    vertical-align: super;
+}
+
 span.serif {
     font-family: 'Source Serif Pro', serif;
     font-size: 18px;

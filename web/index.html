@@ -676,13 +676,23 @@
 
 <h2 id="logical-left-shift">Logical Left Shift</h2>
 
-<p>Logical left shift is an 8-bit function that doubles the argument:</p>
-
-<p><span class="math">f(x) = </span><span class="serif">2</span><span class="math">x</span></p>
-
-<p>It does this by moving every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost.</p>
+<p>Logical left shift is an 8-bit function that moves every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost:</p>
 
 <object data="logical-left-shift.svg" type="image/svg+xml" class="diagram">Logical Left Shift</object>
+
+<p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting a signed or unsigned value left by <span class="math">n</span> bits is equivalent to multiplying by <span class="serif">2</span><span class="math pow">n</span>: 
+
+<p><span class="math">f(x) &equiv; </span><span class="serif">2</span><span class="math pow">n</span><span class="math">x</span></p>
+
+<h2 id="logical-right-shift">Logical Right Shift</h2>
+
+<p>Logical right shift is an 8-bit function that moves every input bit one position to the right. The leftmost bit is set to <span class="mono">0</span> and the right most bit is lost:</p>
+
+<object data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
+
+<p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span> (rounding toward <span class="serif">0</span>):</p>
+
+<p><span class="math">f(x) &equiv; </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
 
 </body>
 
