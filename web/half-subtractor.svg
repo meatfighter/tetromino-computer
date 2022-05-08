@@ -1,473 +1,273 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="380"
-   height="100"
-   id="svg6359"
-   sodipodi:version="0.32"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   version="1.0"
-   sodipodi:docname="half-subtractor.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <defs
-     id="defs6361">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective6367" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 32 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="64 : 32 : 1"
-       inkscape:persp3d-origin="32 : 21.333333 : 1"
-       id="perspective5533" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 50 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="100 : 50 : 1"
-       inkscape:persp3d-origin="50 : 33.333333 : 1"
-       id="perspective3275" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 60 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="150 : 60 : 1"
-       inkscape:persp3d-origin="75 : 40 : 1"
-       id="perspective2777" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective2819" />
-    <inkscape:perspective
-       id="perspective2806"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective2714"
-       inkscape:persp3d-origin="25 : 10 : 1"
-       inkscape:vp_z="50 : 15 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 15 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 32 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="64 : 32 : 1"
-       inkscape:persp3d-origin="32 : 21.333333 : 1"
-       id="perspective6738" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 50 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="100 : 50 : 1"
-       inkscape:persp3d-origin="50 : 33.333333 : 1"
-       id="perspective6736" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 60 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="150 : 60 : 1"
-       inkscape:persp3d-origin="75 : 40 : 1"
-       id="perspective6734" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective6732" />
-    <inkscape:perspective
-       id="perspective6730"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective6728"
-       inkscape:persp3d-origin="25 : 10 : 1"
-       inkscape:vp_z="50 : 15 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 15 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 25 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="50 : 25 : 1"
-       inkscape:persp3d-origin="25 : 16.666667 : 1"
-       id="perspective2557" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 32 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="64 : 32 : 1"
-       inkscape:persp3d-origin="32 : 21.333333 : 1"
-       id="perspective6846" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 50 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="100 : 50 : 1"
-       inkscape:persp3d-origin="50 : 33.333333 : 1"
-       id="perspective6844" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 60 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="150 : 60 : 1"
-       inkscape:persp3d-origin="75 : 40 : 1"
-       id="perspective6842" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective6840" />
-    <inkscape:perspective
-       id="perspective6838"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective6836"
-       inkscape:persp3d-origin="25 : 10 : 1"
-       inkscape:vp_z="50 : 15 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 15 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 32 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="64 : 32 : 1"
-       inkscape:persp3d-origin="32 : 21.333333 : 1"
-       id="perspective9092" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 50 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="100 : 50 : 1"
-       inkscape:persp3d-origin="50 : 33.333333 : 1"
-       id="perspective9090" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 60 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="150 : 60 : 1"
-       inkscape:persp3d-origin="75 : 40 : 1"
-       id="perspective9088" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective9086" />
-    <inkscape:perspective
-       id="perspective9084"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective9082"
-       inkscape:persp3d-origin="25 : 10 : 1"
-       inkscape:vp_z="50 : 15 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 15 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 25 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="50 : 25 : 1"
-       inkscape:persp3d-origin="25 : 16.666667 : 1"
-       id="perspective8883" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 32 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="64 : 32 : 1"
-       inkscape:persp3d-origin="32 : 21.333333 : 1"
-       id="perspective8881" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 50 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="100 : 50 : 1"
-       inkscape:persp3d-origin="50 : 33.333333 : 1"
-       id="perspective8879" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 60 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="150 : 60 : 1"
-       inkscape:persp3d-origin="75 : 40 : 1"
-       id="perspective8877" />
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective8875" />
-    <inkscape:perspective
-       id="perspective8873"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective8871"
-       inkscape:persp3d-origin="25 : 10 : 1"
-       inkscape:vp_z="50 : 15 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 15 : 1"
-       sodipodi:type="inkscape:persp3d" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     gridtolerance="10000"
-     guidetolerance="10"
-     objecttolerance="10"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2.8284272"
-     inkscape:cx="135.96968"
-     inkscape:cy="-8.0868795"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1137"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:document-rotation="0"
-     inkscape:snap-others="false"
-     inkscape:snap-nodes="false"
-     inkscape:window-maximized="1">
-    <inkscape:grid
-       type="xygrid"
-       id="grid6453"
-       visible="true"
-       enabled="true" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata6364">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path4008"
-       transform="translate(108.0625,0.03125)"
-       cx="75"
-       cy="25"
-       r="4" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 269,50 h 21"
-       id="path6851"
-       sodipodi:nodetypes="cc" />
-    <text
-       xml:space="preserve"
-       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif Italic';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="110.8125"
-       y="51.53125"
-       id="text6874"><tspan
-         sodipodi:role="line"
-         id="tspan6876"
-         x="115.3125"
-         y="51.53125"
-         style="font-size:18px;line-height:1"> </tspan></text>
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path7571"
-       transform="matrix(1.25,0,0,1.25,-11.25,18.75)"
-       cx="105"
-       cy="25"
-       r="2" />
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path8976"
-       transform="translate(108.1875,49.96875)"
-       cx="75"
-       cy="25"
-       r="4" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 188.24816,24.79197 12.8125,0.0312 v 15.03831 l 22,-0.0383"
-       id="path8978"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 189.94454,130.50788 h 12 v -15 h 22"
-       id="path8980"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 15.076771,15 140.25787,15.03125"
-       id="path8984"
-       sodipodi:nodetypes="cc" />
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path8986"
-       transform="matrix(1.25,0,0,1.25,-99.25,53.75)"
-       cx="105"
-       cy="25"
-       r="2" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 15.038458,85 H 140.03846"
-       id="path8990"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 32,15 V 40 H 57"
-       id="path2636"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 57,60 H 32 v 25"
-       id="path2638"
-       sodipodi:nodetypes="ccc" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 140,35 h -20 v 30 h 20"
-       id="path2640" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 118.8617,50 h -15"
-       id="path2642"
-       sodipodi:nodetypes="cc" />
-    <circle
-       transform="matrix(1.25,0,0,1.25,-99.25,-16.25)"
-       id="path2644"
-       style="display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       cx="105"
-       cy="25"
-       r="2" />
-    <path
-       sodipodi:nodetypes="ccsccccscccccccccsccsc"
-       id="path4973"
-       d="m 50.34375,30 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.5625 0,10.562451 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 H 53.5 h 14 c 2.408076,10e-7 7.689699,0.02451 13.625,-2.40625 5.500757,-2.252799 11.573507,-6.637246 16.53365,-14.854888 L 96.5,50 97.660889,47.267184 C 87.337765,30.200133 72.082887,30 67.5,30 h -14 z m 5.875,3 H 67.5 C 72.184173,33 85.78685,32.869793 95.46875,50 90.701964,58.429075 84.947469,62.68391 79.75,64.8125 74.389339,67.007924 69.908075,67.000001 67.5,67 H 56.25 C 58.123588,63.891566 61,57.95065 61,50 61,42.026646 58.091469,36.099815 56.21875,33 Z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <circle
-       transform="translate(25.25,25)"
-       id="path2604"
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-opacity:1;marker:none;enable-background:accumulate"
-       cx="75"
-       cy="25"
-       r="4" />
-    <path
-       sodipodi:nodetypes="ccsccccscccccccccsccsc"
-       id="path8893"
-       d="m 132.84375,5 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.5625 0,10.562451 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 H 136 150 c 2.40808,10e-7 7.6897,0.02451 13.625,-2.40625 5.50076,-2.252799 11.57351,-6.637246 16.53365,-14.854888 L 179,25 180.16089,22.267184 C 169.83776,5.200133 154.58289,5 150,5 h -14 z m 5.875,3 H 150 c 4.68417,0 18.28685,-0.130207 27.96875,17 C 173.20196,33.429075 167.44747,37.68391 162.25,39.8125 156.88934,42.007924 152.40807,42.000001 150,42 h -11.25 c 1.87359,-3.108434 4.75,-9.04935 4.75,-17 0,-7.973354 -2.90853,-13.900185 -4.78125,-17 z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       sodipodi:nodetypes="ccsccccscccccccccsccsc"
-       id="path8895"
-       d="m 132.84375,55 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.5625 0,10.562451 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 H 136 150 c 2.40808,10e-7 7.6897,0.02451 13.625,-2.40625 5.50076,-2.252799 11.57351,-6.637246 16.53365,-14.854888 L 179,75 180.16089,72.267184 C 169.83777,55.200133 154.58289,55 150,55 h -14 z m 5.875,3 H 150 c 4.68418,0 18.28685,-0.130207 27.96875,17 C 173.20197,83.429075 167.44747,87.68391 162.25,89.8125 156.88934,92.007924 152.40808,92.000001 150,92 h -11.25 c 1.87359,-3.108434 4.75,-9.04935 4.75,-17 0,-7.973354 -2.90853,-13.900185 -4.78125,-17 z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 349.125,50.0625 h 15.98762"
-       id="path8932"
-       sodipodi:nodetypes="cc" />
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path8934"
-       transform="translate(269.125,25.062504)"
-       cx="76"
-       cy="25"
-       r="4" />
-    <g
-       id="g899"
-       transform="translate(-95.63619,87.327686)">
-      <circle
-         style="display:inline;overflow:visible;visibility:visible;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:miter;stroke-opacity:1;marker:none;enable-background:accumulate"
-         id="path2671"
-         transform="translate(189,25.000004)"
-         cx="76"
-         cy="25"
-         r="4" />
-      <path
-         sodipodi:nodetypes="ccsccccscccccccccsccsc"
-         id="path8904"
-         d="m 214.75,29.9375 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.5625 0,10.562451 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 h 3.15625 14 c 2.40807,10e-7 7.6897,0.02451 13.625,-2.40625 5.50076,-2.252799 11.57351,-6.637246 16.53365,-14.854888 l -1.15865,-2.738862 1.16089,-2.732816 C 251.74401,30.137633 236.48914,29.9375 231.90625,29.9375 h -14 z m 5.875,3 h 11.28125 c 4.68417,0 18.28685,-0.130207 27.96875,17 -4.76679,8.429075 -10.52128,12.68391 -15.71875,14.8125 -5.36066,2.195424 -9.84193,2.187501 -12.25,2.1875 h -11.25 c 1.87359,-3.108434 4.75,-9.04935 4.75,-17 0,-7.973354 -2.90853,-13.900185 -4.78125,-17 z"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
+<svg width="867.25" height="301" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="td" points="-22.5,-7.5 21.5,-7.5 21.5,6.5 6.5,6.5 6.5,21.5 -7.5,21.5 -7.5,6.5 -22.5,6.5" class="t"/>
+        <polygon id="tl" points="-7.5,-22.5 6.5,-22.5 6.5,21.5 -7.5,21.5 -7.5,6.5 -22.5,6.5 -22.5,-7.5 -7.5,-7.5" class="t"/>
+        <polygon id="tu" points="-7.5,-22.5 6.5,-22.5 6.5,-7.5 21.5,-7.5 21.5,6.5 -22.5,6.5 -22.5,-7.5 -7.5,-7.5" class="t"/>
+        <polygon id="tr" points="-7.5,-22.5 6.5,-22.5 6.5,-7.5 21.5,-7.5 21.5,6.5 6.5,6.5 6.5,21.5 -7.5,21.5" class="t"/>
+        <polygon id="jd" points="-22.5,-7.5 21.5,-7.5 21.5,21.5 7.5,21.5 7.5,6.5 -22.5,6.5" class="j"/>
+        <polygon id="jl" points="-7.5,-22.5 6.5,-22.5 6.5,21.5 -22.5,21.5 -22.5,7.5 -7.5,7.5" class="j"/>
+        <polygon id="ju" points="-22.5,-22.5 -8.5,-22.5 -8.5,-7.5 21.5,-7.5 21.5,6.5 -22.5,6.5" class="j"/>
+        <polygon id="jr" points="-7.5,-22.5 21.5,-22.5 21.5,-8.5 6.5,-8.5 6.5,21.5 -7.5,21.5" class="j"/>
+        <polygon id="zh" points="-22.5,-7.5 6.5,-7.5 6.5,7.5 21.5,7.5 21.5,21.5 -7.5,21.5 -7.5,6.5 -22.5,6.5" class="z"/>
+        <polygon id="zv" points="7.5,-22.5 21.5,-22.5 21.5,6.5 6.5,6.5 6.5,21.5 -7.5,21.5 -7.5,-7.5 7.5,-7.5" class="z"/>
+        <polygon id="o" points="-22.5,-7.5 6.5,-7.5 6.5,21.5 -22.5,21.5" class="o"/>
+        <polygon id="sh" points="-7.5,-7.5 21.5,-7.5 21.5,6.5 6.5,6.5 6.5,21.5 -22.5,21.5 -22.5,7.5 -7.5,7.5" class="s"/>
+        <polygon id="sv" points="-7.5,-22.5 6.5,-22.5 6.5,-7.5 21.5,-7.5 21.5,21.5 7.5,21.5 7.5,6.5 -7.5,6.5" class="s"/>
+        <polygon id="ld" points="-22.5,-7.5 21.5,-7.5 21.5,6.5 -8.5,6.5 -8.5,21.5 -22.5,21.5" class="l"/>
+        <polygon id="ll" points="-22.5,-22.5 6.5,-22.5 6.5,21.5 -7.5,21.5 -7.5,-8.5 -22.5,-8.5" class="l"/>
+        <polygon id="lu" points="7.5,-22.5 21.5,-22.5 21.5,6.5 -22.5,6.5 -22.5,-7.5 7.5,-7.5" class="l"/>
+        <polygon id="lr" points="-7.5,-22.5 6.5,-22.5 6.5,7.5 21.5,7.5 21.5,21.5 -7.5,21.5" class="l"/>
+        <polygon id="ih" points="-37.5,-7.5 21.5,-7.5 21.5,6.5 -37.5,6.5" class="i"/>
+        <polygon id="iv" points="-7.5,-37.5 6.5,-37.5 6.5,21.5 -7.5,21.5" class="i"/>
+    </defs>
+    <line x1="15.5" y1="30.5" x2="210.5" y2="30.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="45.5" x2="210.5" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="60.5" x2="210.5" y2="60.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="75.5" x2="210.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="90.5" x2="210.5" y2="90.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="105.5" x2="210.5" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="120.5" x2="210.5" y2="120.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="135.5" x2="210.5" y2="135.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="150.5" x2="210.5" y2="150.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="165.5" x2="210.5" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="180.5" x2="210.5" y2="180.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="195.5" x2="210.5" y2="195.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="210.5" x2="210.5" y2="210.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="225.5" x2="210.5" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="240.5" x2="210.5" y2="240.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="255.5" x2="210.5" y2="255.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="270.5" x2="210.5" y2="270.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="31.5" x2="15.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="31.5" x2="30.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="45.5" y1="31.5" x2="45.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="60.5" y1="31.5" x2="60.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="75.5" y1="31.5" x2="75.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="90.5" y1="31.5" x2="90.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="105.5" y1="31.5" x2="105.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="120.5" y1="31.5" x2="120.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="135.5" y1="31.5" x2="135.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="150.5" y1="31.5" x2="150.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="165.5" y1="31.5" x2="165.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="180.5" y1="31.5" x2="180.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="195.5" y1="31.5" x2="195.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="210.5" y1="31.5" x2="210.5" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 15px;">
+        <rect x="135.5" y="255.5" width="59" height="14" class="terminal-fill"/>
+        <rect x="135.5" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="165.5" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="75.5" y="255.5" width="59" height="14" class="terminal-fill"/>
+        <rect x="75.5" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="105.5" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="75.5" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="83" y="23" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="30.5" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="38" y="23" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
-    <path
-       sodipodi:nodetypes="ccsccccscccccccccsccsc"
-       id="path8940"
-       d="m 294.875,30 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.5625 0,10.562451 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 h 3.15625 14 c 2.40807,10e-7 7.6897,0.02451 13.625,-2.40625 5.50076,-2.252799 11.57351,-6.637246 16.53365,-14.854888 L 341.03125,50 342.19214,47.267184 C 331.86901,30.200133 316.61414,30 312.03125,30 h -14 z m 5.875,3 h 11.28125 c 4.68417,0 18.28685,-0.130207 27.96875,17 -4.76679,8.429075 -10.52128,12.68391 -15.71875,14.8125 -5.36066,2.195424 -9.84193,2.187501 -12.25,2.1875 h -11.25 c 1.87359,-3.108434 4.75,-9.04935 4.75,-17 0,-7.973354 -2.90853,-13.900185 -4.78125,-17 z"
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-    <path
-       style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 302.25,40 H 290 v 20 h 12.25"
-       id="path8942"
-       sodipodi:nodetypes="cccc" />
-    <circle
-       style="display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path8944"
-       transform="matrix(1.25,0,0,1.25,158.75,18.75)"
-       cx="105"
-       cy="25"
-       r="2" />
-    <g
-       id="g99"
-       transform="translate(195.58408,2)">
-      <g
-         transform="translate(26.5,-39.5)"
-         id="g97">
-        <path
-           id="path95"
-           d="m -7.4062497,87.500004 2,2.4375 c 0,0 5.65625,7.000049 5.65625,17.562496 0,10.56245 -5.65625,17.5625 -5.65625,17.5625 l -2,2.4375 h 3.15625 H 9.75 c 2.408076,0 7.689699,0.0245 13.625,-2.40625 5.935301,-2.43076 12.536536,-7.34326 17.6875,-16.875 L 39.75,107.5 41.0625,106.78125 C 30.759387,87.715594 14.506574,87.500004 9.75,87.500004 H -4.2499997 Z m 5.875,3 H 9.75 c 4.684173,0 18.28685,-0.130207 27.96875,16.999996 C 32.951964,115.92908 27.197469,120.18391 22,122.3125 16.639339,124.50793 12.158075,124.5 9.75,124.5 H -1.4999997 C 0.3735887,121.39157 3.25,115.45065 3.25,107.5 3.25,99.52665 0.3414689,93.599819 -1.5312497,90.500004 Z"
-           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      </g>
+    <use href="#ju" x="53" y="68"/>
+    <use href="#ju" x="98" y="68"/>
+    <use href="#ih" x="128" y="83"/>
+    <use href="#ih" x="68" y="83"/>
+    <use href="#jd" x="158" y="98"/>
+    <use href="#o" x="158" y="113"/>
+    <use href="#lu" x="158" y="143"/>
+    <use href="#jd" x="98" y="98"/>
+    <use href="#o" x="98" y="113"/>
+    <use href="#lu" x="98" y="143"/>
+    <use href="#jd" x="128" y="158"/>
+    <use href="#o" x="143" y="188"/>
+    <use href="#lu" x="128" y="233"/>
+    <use href="#iv" x="173" y="203"/>
+    <use href="#lr" x="158" y="218"/>
+    <use href="#iv" x="83" y="203"/>
+    <use href="#jl" x="98" y="218"/>
+    <use href="#ih" x="173" y="248"/>
+    <use href="#ih" x="113" y="248"/>
+    <line x1="229.25" y1="30.5" x2="424.25" y2="30.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="45.5" x2="424.25" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="60.5" x2="424.25" y2="60.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="75.5" x2="424.25" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="90.5" x2="424.25" y2="90.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="105.5" x2="424.25" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="120.5" x2="424.25" y2="120.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="135.5" x2="424.25" y2="135.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="150.5" x2="424.25" y2="150.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="165.5" x2="424.25" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="180.5" x2="424.25" y2="180.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="195.5" x2="424.25" y2="195.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="210.5" x2="424.25" y2="210.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="225.5" x2="424.25" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="240.5" x2="424.25" y2="240.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="255.5" x2="424.25" y2="255.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="270.5" x2="424.25" y2="270.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="229.25" y1="31.5" x2="229.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="244.25" y1="31.5" x2="244.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="259.25" y1="31.5" x2="259.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="274.25" y1="31.5" x2="274.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="289.25" y1="31.5" x2="289.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="304.25" y1="31.5" x2="304.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="319.25" y1="31.5" x2="319.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="334.25" y1="31.5" x2="334.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="349.25" y1="31.5" x2="349.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="364.25" y1="31.5" x2="364.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="379.25" y1="31.5" x2="379.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="394.25" y1="31.5" x2="394.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="409.25" y1="31.5" x2="409.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="424.25" y1="31.5" x2="424.25" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 15px;">
+        <rect x="349.25" y="240.5" width="59" height="29" class="terminal-fill"/>
+        <rect x="349.25" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="379.25" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="289.25" y="255.5" width="59" height="14" class="terminal-fill"/>
+        <rect x="289.25" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="319.25" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="289.25" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="296.75" y="23" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="244.25" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="251.75" y="23" class="terminals" dy="0.25em" text-anchor="middle">1</text>
     </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 187.85613,75 h 15.98762"
-       id="path8932-5"
-       sodipodi:nodetypes="cc" />
-  </g>
+    <use href="#ju" x="266.75" y="53"/>
+    <use href="#ju" x="311.75" y="53"/>
+    <use href="#ih" x="341.75" y="68"/>
+    <use href="#ih" x="281.75" y="68"/>
+    <use href="#jd" x="371.75" y="98"/>
+    <use href="#o" x="371.75" y="113"/>
+    <use href="#lu" x="371.75" y="143"/>
+    <use href="#jd" x="311.75" y="83"/>
+    <use href="#o" x="326.75" y="113"/>
+    <use href="#lu" x="311.75" y="158"/>
+    <use href="#jd" x="341.75" y="173"/>
+    <use href="#o" x="341.75" y="188"/>
+    <use href="#lu" x="341.75" y="218"/>
+    <use href="#iv" x="386.75" y="188"/>
+    <use href="#lr" x="371.75" y="203"/>
+    <use href="#iv" x="296.75" y="203"/>
+    <use href="#jl" x="311.75" y="218"/>
+    <use href="#ih" x="386.75" y="233"/>
+    <use href="#ih" x="326.75" y="248"/>
+    <line x1="443" y1="30.5" x2="638" y2="30.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="45.5" x2="638" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="60.5" x2="638" y2="60.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="75.5" x2="638" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="90.5" x2="638" y2="90.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="105.5" x2="638" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="120.5" x2="638" y2="120.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="135.5" x2="638" y2="135.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="150.5" x2="638" y2="150.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="165.5" x2="638" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="180.5" x2="638" y2="180.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="195.5" x2="638" y2="195.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="210.5" x2="638" y2="210.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="225.5" x2="638" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="240.5" x2="638" y2="240.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="255.5" x2="638" y2="255.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="270.5" x2="638" y2="270.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="443" y1="31.5" x2="443" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="458" y1="31.5" x2="458" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="473" y1="31.5" x2="473" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="488" y1="31.5" x2="488" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="503" y1="31.5" x2="503" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="518" y1="31.5" x2="518" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="533" y1="31.5" x2="533" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="548" y1="31.5" x2="548" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="563" y1="31.5" x2="563" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="578" y1="31.5" x2="578" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="593" y1="31.5" x2="593" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="608" y1="31.5" x2="608" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="623" y1="31.5" x2="623" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="638" y1="31.5" x2="638" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 15px;">
+        <rect x="563" y="255.5" width="59" height="14" class="terminal-fill"/>
+        <rect x="563" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="593" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="503" y="240.5" width="59" height="29" class="terminal-fill"/>
+        <rect x="503" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="533" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="503" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="510.5" y="23" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="458" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="465.5" y="23" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+    </g>
+    <use href="#ju" x="480.5" y="68"/>
+    <use href="#ju" x="525.5" y="53"/>
+    <use href="#ih" x="555.5" y="68"/>
+    <use href="#ih" x="495.5" y="83"/>
+    <use href="#jd" x="585.5" y="83"/>
+    <use href="#o" x="600.5" y="113"/>
+    <use href="#lu" x="585.5" y="158"/>
+    <use href="#jd" x="525.5" y="98"/>
+    <use href="#o" x="525.5" y="113"/>
+    <use href="#lu" x="525.5" y="143"/>
+    <use href="#jd" x="555.5" y="173"/>
+    <use href="#o" x="555.5" y="188"/>
+    <use href="#lu" x="555.5" y="218"/>
+    <use href="#iv" x="600.5" y="203"/>
+    <use href="#lr" x="585.5" y="218"/>
+    <use href="#iv" x="510.5" y="188"/>
+    <use href="#jl" x="525.5" y="203"/>
+    <use href="#ih" x="600.5" y="248"/>
+    <use href="#ih" x="540.5" y="233"/>
+    <line x1="656.75" y1="30.5" x2="851.75" y2="30.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="45.5" x2="851.75" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="60.5" x2="851.75" y2="60.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="75.5" x2="851.75" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="90.5" x2="851.75" y2="90.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="105.5" x2="851.75" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="120.5" x2="851.75" y2="120.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="135.5" x2="851.75" y2="135.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="150.5" x2="851.75" y2="150.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="165.5" x2="851.75" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="180.5" x2="851.75" y2="180.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="195.5" x2="851.75" y2="195.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="210.5" x2="851.75" y2="210.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="225.5" x2="851.75" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="240.5" x2="851.75" y2="240.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="255.5" x2="851.75" y2="255.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="270.5" x2="851.75" y2="270.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="656.75" y1="31.5" x2="656.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="671.75" y1="31.5" x2="671.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="686.75" y1="31.5" x2="686.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="701.75" y1="31.5" x2="701.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="716.75" y1="31.5" x2="716.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="731.75" y1="31.5" x2="731.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="746.75" y1="31.5" x2="746.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="761.75" y1="31.5" x2="761.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="776.75" y1="31.5" x2="776.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="791.75" y1="31.5" x2="791.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="806.75" y1="31.5" x2="806.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="821.75" y1="31.5" x2="821.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="836.75" y1="31.5" x2="836.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="851.75" y1="31.5" x2="851.75" y2="269.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 15px;">
+        <rect x="776.75" y="240.5" width="59" height="29" class="terminal-fill"/>
+        <rect x="776.75" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="806.75" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="716.75" y="240.5" width="59" height="29" class="terminal-fill"/>
+        <rect x="716.75" y="240.5" width="59" height="29" class="terminal-stroke"/>
+        <text x="746.75" y="279.875" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="716.75" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="724.25" y="23" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="671.75" y="30.5" width="14" height="29" class="terminal-stroke"/>
+        <text x="679.25" y="23" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+    </g>
+    <use href="#ju" x="694.25" y="68"/>
+    <use href="#ju" x="739.25" y="68"/>
+    <use href="#ih" x="769.25" y="83"/>
+    <use href="#ih" x="709.25" y="83"/>
+    <use href="#jd" x="799.25" y="98"/>
+    <use href="#o" x="799.25" y="113"/>
+    <use href="#lu" x="799.25" y="143"/>
+    <use href="#jd" x="739.25" y="98"/>
+    <use href="#o" x="739.25" y="113"/>
+    <use href="#lu" x="739.25" y="143"/>
+    <use href="#jd" x="769.25" y="173"/>
+    <use href="#o" x="769.25" y="188"/>
+    <use href="#lu" x="769.25" y="218"/>
+    <use href="#iv" x="814.25" y="188"/>
+    <use href="#lr" x="799.25" y="203"/>
+    <use href="#iv" x="724.25" y="188"/>
+    <use href="#jl" x="739.25" y="203"/>
+    <use href="#ih" x="814.25" y="233"/>
+    <use href="#ih" x="754.25" y="233"/>
 </svg>

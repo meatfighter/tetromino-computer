@@ -728,6 +728,36 @@
 
 <p>That implies the following circuit.</p>
 
+<object data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
+
+<p>In the code below, which is based on that schematic, a horizontal I-Tetrimino functions as the upper OR.</p>
+
+<pre class="tetrisscript">
+<span class="filename">halfSubtractor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">lr </span><span class="number">3</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">nor nor1 </span><span class="number">1 1</span></span>
+<span class="line"><span class="normal">nor nor2 </span><span class="number">-1 6</span></span>
+<span class="line"><span class="normal">nor nor3 </span><span class="number">3 6</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-3</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-4</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-2..1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">2..5 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">b </span><span class="number">-5 14</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">d </span><span class="number">-2 14</span></span>
+</pre>
+
+<p>Here are the outputs for all possible inputs:</p>
+
+<object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
+
 </body>
 
 </html>
