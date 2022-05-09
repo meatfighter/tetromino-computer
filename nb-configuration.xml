@@ -32,11 +32,13 @@ Any value defined here will override the pom.xml file value but is only applicab
     </config-data>
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>iff</word>
+        <word>Incrementor</word>
         <word>NAND</word>
         <word>NORs</word>
         <word>NRS</word>
         <word>playfield</word>
         <word>semihard</word>
+        <word>Subtractor</word>
         <word>Tetriminos</word>
         <word>TetrisScript</word>
         <word>XNOR</word>

@@ -714,17 +714,17 @@
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
-<p><span class="math"><span class="overline">X</span>Y &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y &equiv; <span class="overline">X</span>(X + Y) &equiv; <span class="high-overline">X + <span class="overline">X + Y</span></span> &equiv; <span class="overline">X + C</span>, C &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math"><span class="overline">X</span>Y &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y &equiv; <span class="overline">X</span>(X + Y) &equiv; <span class="high-overline">X + <span class="overline">X + Y</span></span> &equiv; <span class="overline">X + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
 
-<p><span class="math">X<span class="overline">Y</span> &equiv; X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; <span class="overline">Y</span>(X + Y) &equiv; <span class="high-overline">Y + <span class="overline">X + Y</span></span> &equiv; <span class="overline">Y + C</span>, C &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math">X<span class="overline">Y</span> &equiv; X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; <span class="overline">Y</span>(X + Y) &equiv; <span class="high-overline">Y + <span class="overline">X + Y</span></span> &equiv; <span class="overline">Y + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
 
 <p>Cleaning up:</p>
 
-<p><span class="math">C &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math">T &equiv; <span class="overline">X + Y</span></span></p>
 
-<p><span class="math">B &equiv; <span class="overline">X + C</span></span></p>
+<p><span class="math">B &equiv; <span class="overline">X + T</span></span></p>
 
-<p><span class="math">D &equiv; B + <span class="overline">Y + C</span></span></p>
+<p><span class="math">D &equiv; B + <span class="overline">Y + T</span></span></p>
 
 <p>That implies the following circuit.</p>
 
@@ -757,6 +757,16 @@
 <p>Here are the outputs for all possible inputs:</p>
 
 <object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
+
+<h2 id="incrementor">Incrementor</h2>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
+</table>
 
 </body>
 
