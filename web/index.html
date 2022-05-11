@@ -696,6 +696,8 @@
 
 <h2 id="incrementor">Incrementor</h2>
 
+<p>A <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adder</a> is a circuit that accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum. The sum is a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
 <tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 = 0</span></td></tr>
@@ -704,11 +706,13 @@
 <tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
 </table>
 
+<p><span class="math">C</span> and <span class="math">S</span> can be expressed as:</p>
+
 <p><span class="math">C &equiv; XY &equiv; <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
 <p><span class="math">S &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) &equiv; <span class="overline">C</span>(X + Y) &equiv; <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
 
-<p>...</p>
+<p>That implies the following circuit.</p>
 
 <object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
 
