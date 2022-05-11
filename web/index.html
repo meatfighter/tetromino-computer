@@ -694,6 +694,69 @@
 
 <p><span class="math">f(x) &equiv; </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
 
+<h2 id="incrementor">Incrementor</h2>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
+</table>
+
+<p><span class="math">C &equiv; XY &equiv; <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
+
+<p><span class="math">S &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) &equiv; <span class="overline">C</span>(X + Y) &equiv; <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
+
+<p>...</p>
+
+<object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
+
+<p>...</p>
+
+<pre class="tetrisscript">
+<span class="filename">halfAdder.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-6</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">2</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">2</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">swap </span><span class="number">2 6</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-7 28</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-3 28</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">-5 33</span></span>
+<span class="line"><span class="normal">lr </span><span class="number">4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">3</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">1</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">-3 38</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-8</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-3..0 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">1..2 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">c </span><span class="number">-8 44</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">s </span><span class="number">-3..0 44</span></span>
+</pre>
+
+<p>...</p>
+
+<object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
+
+<p>...</p>
+
 <h2 id="decrementer">Decrementer</h2>
 
 <p>A <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractor</a> is a circuit that accepts a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference. The difference is a 2-bit value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
@@ -758,19 +821,7 @@
 
 <object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
 
-<h2 id="incrementor">Incrementor</h2>
 
-<table class="borderless">
-<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
-<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 = 0</span></td></tr>
-<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 = 1</span></td></tr>
-<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 = 1</span></td></tr>
-<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
-</table>
-
-<p><span class="math">C &equiv; XY &equiv; <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
-
-<p><span class="math">S &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) &equiv; <span class="overline">C</span>(X + Y) &equiv; <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
 
 </body>
 
