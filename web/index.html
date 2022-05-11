@@ -696,6 +696,12 @@
 
 <h2 id="incrementor">Incrementor</h2>
 
+<p>An incrementor is a function that adds 1 to its argument:</p>
+
+<p><span class="math">f(x) &equiv; x + </span><span class="serif">1</span></p>
+
+<p>8-bit and 16-bit versions exist. Incrementing the maximum value within the range representable by those bit widths results in an <a href="https://en.wikipedia.org/wiki/Integer_overflow" target="_blank">overflow</a>, a wraparound to the minimum value.</p>
+
 <p>A <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adder</a> is a circuit that accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum. The sum is a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
 
 <table class="borderless">
@@ -716,7 +722,7 @@
 
 <object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
 
-<p>...</p>
+<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line <span class="mono">14</span>) enables the output of the bottom NOR (line <span class="mono">13</span>) to hop over the input of the <span class="math">Y</span> inverter (line <span class="mono">17</span>). The <span class="math">X</span> inverter (line <span class="mono">16</span>) feeds into the middle NOR (line <span class="mono">18</span>), which in turn feeds into the top NOR (line <span class="mono">25</span>).</p>
 
 <pre class="tetrisscript">
 <span class="filename">halfAdder.t</span>
@@ -755,11 +761,11 @@
 <span class="line"><span class="keyword">out </span><span class="normal">s </span><span class="number">-3..0 44</span></span>
 </pre>
 
-<p>...</p>
+<p>Here are the outputs for all possible inputs:</p>
 
 <object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
-<p>...</p>
+<p>The swap circuit dominates the space.</p>
 
 <h2 id="decrementer">Decrementer</h2>
 
