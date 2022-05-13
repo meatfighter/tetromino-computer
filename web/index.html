@@ -694,15 +694,81 @@
 
 <p><span class="math">f(x) &equiv; </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
 
-<h2 id="incrementor">Incrementor</h2>
+<h2 id="decrementer">Decrement</h2>
 
-<p>An incrementor is a function that adds 1 to its argument:</p>
+<p>The decrement function subtracts one from its argument:</p>
+
+<p><span class="math">f(x) &equiv; x &minus; </span><span class="serif">1</span></p>
+
+<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each accepts a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference, a 2-bit value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">B</th><th class="math">D</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &minus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &minus; 1 = &minus;1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &minus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &minus; 1 = 0</span></td></tr>
+</table>
+
+<p><span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
+
+<p><span class="math">B &equiv; <span class="overline">X</span>Y</span></p>
+
+<p><span class="math">D &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; B + X<span class="overline">Y</span></span></p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math"><span class="overline">X</span>Y &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y &equiv; <span class="overline">X</span>(X + Y) &equiv; <span class="high-overline">X + <span class="overline">X + Y</span></span> &equiv; <span class="overline">X + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
+
+<p><span class="math">X<span class="overline">Y</span> &equiv; X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; <span class="overline">Y</span>(X + Y) &equiv; <span class="high-overline">Y + <span class="overline">X + Y</span></span> &equiv; <span class="overline">Y + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
+
+<p>Cleaning up:</p>
+
+<p><span class="math">T &equiv; <span class="overline">X + Y</span></span></p>
+
+<p><span class="math">B &equiv; <span class="overline">X + T</span></span></p>
+
+<p><span class="math">D &equiv; B + <span class="overline">Y + T</span></span></p>
+
+<p>That implies the following circuit.</p>
+
+<object data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
+
+<p>In the code below, which is based on that schematic, a horizontal I-Tetrimino functions as the upper OR.</p>
+
+<pre class="tetrisscript">
+<span class="filename">halfSubtractor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">lr </span><span class="number">3</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">nor nor1 </span><span class="number">1 1</span></span>
+<span class="line"><span class="normal">nor nor2 </span><span class="number">-1 6</span></span>
+<span class="line"><span class="normal">nor nor3 </span><span class="number">3 6</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-3</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-4</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-2..1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">2..5 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">b </span><span class="number">-5 14</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">d </span><span class="number">-2 14</span></span>
+</pre>
+
+<p>Here are the outputs for all possible inputs:</p>
+
+<object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
+
+<h2 id="increment">Increment</h2>
+
+<p>The increment function adds one to its argument:</p>
 
 <p><span class="math">f(x) &equiv; x + </span><span class="serif">1</span></p>
 
-<p>8-bit and 16-bit versions exist. Incrementing the maximum value within the range representable by those bit widths results in an <a href="https://en.wikipedia.org/wiki/Integer_overflow" target="_blank">overflow</a>, a wraparound to the minimum value.</p>
-
-<p>A <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adder</a> is a circuit that accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum. The sum is a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum, a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
@@ -766,72 +832,6 @@
 <object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
 <p>The swap circuit dominates the space.</p>
-
-<h2 id="decrementer">Decrementer</h2>
-
-<p>A <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractor</a> is a circuit that accepts a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference. The difference is a 2-bit value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
-
-<table class="borderless">
-<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">B</th><th class="math">D</th><th class="border-left borderless">Meaning</th></tr>
-<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &minus; 0 = 0</span></td></tr>
-<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &minus; 1 = &minus;1</span></td></tr>
-<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &minus; 0 = 1</span></td></tr>
-<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &minus; 1 = 0</span></td></tr>
-</table>
-
-<p><span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
-
-<p><span class="math">B &equiv; <span class="overline">X</span>Y</span></p>
-
-<p><span class="math">D &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; B + X<span class="overline">Y</span></span></p>
-
-<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
-
-<p><span class="math"><span class="overline">X</span>Y &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y &equiv; <span class="overline">X</span>(X + Y) &equiv; <span class="high-overline">X + <span class="overline">X + Y</span></span> &equiv; <span class="overline">X + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
-
-<p><span class="math">X<span class="overline">Y</span> &equiv; X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; <span class="overline">Y</span>(X + Y) &equiv; <span class="high-overline">Y + <span class="overline">X + Y</span></span> &equiv; <span class="overline">Y + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
-
-<p>Cleaning up:</p>
-
-<p><span class="math">T &equiv; <span class="overline">X + Y</span></span></p>
-
-<p><span class="math">B &equiv; <span class="overline">X + T</span></span></p>
-
-<p><span class="math">D &equiv; B + <span class="overline">Y + T</span></span></p>
-
-<p>That implies the following circuit.</p>
-
-<object data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
-
-<p>In the code below, which is based on that schematic, a horizontal I-Tetrimino functions as the upper OR.</p>
-
-<pre class="tetrisscript">
-<span class="filename">halfSubtractor.t</span>
-<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
-<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
-<span class="line"><span class="normal">jl </span><span class="number">-1</span></span>
-<span class="line"><span class="normal">iv </span><span class="number">-2</span></span>
-<span class="line"><span class="normal">lr </span><span class="number">3</span></span>
-<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
-<span class="line"><span class="normal">nor nor1 </span><span class="number">1 1</span></span>
-<span class="line"><span class="normal">nor nor2 </span><span class="number">-1 6</span></span>
-<span class="line"><span class="normal">nor nor3 </span><span class="number">3 6</span></span>
-<span class="line"><span class="normal">ih </span><span class="number">-3</span></span>
-<span class="line"><span class="normal">ih </span><span class="number">1</span></span>
-<span class="line"><span class="normal">ju </span><span class="number">-1</span></span>
-<span class="line"><span class="normal">ju </span><span class="number">-4</span></span>
-<span class="line"></span>
-<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-2..1 0</span></span>
-<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">2..5 0</span></span>
-<span class="line"><span class="keyword">out </span><span class="normal">b </span><span class="number">-5 14</span></span>
-<span class="line"><span class="keyword">out </span><span class="normal">d </span><span class="number">-2 14</span></span>
-</pre>
-
-<p>Here are the outputs for all possible inputs:</p>
-
-<object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
-
-
 
 </body>
 
