@@ -600,10 +600,6 @@
 
 <p>The selector (the center input) is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
 
-<h1 id="time-independence">Time Independence</h1>
-
-<p><a href="https://en.wikipedia.org/wiki/Race_condition" target="_blank">Race conditions</a> never occur because the signal arrival order for a component is entirely determined by the Tetrimino sequence. Path lengths and the components along paths have no bearing on that order. Moreover, the order is inconsequential since a component will not be built until all of its input nodes are assigned. And once assigned, nodes values are permanent. They cannot waver transiently into stable states.</p>
-
 <h1 id="functions">Functions</h1>
 
 <p>This section describes the arithmetic and logic functions created for the computer.</p>
@@ -762,6 +758,20 @@
 
 <object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
 
+<p>The half subtractors are chained in the following configuration where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+
+<object data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
+
+<p>The circuit is a binary odometer that counts down. If a digit rolls back (transitions from <span class="mono">0</span> to <span class="mono">1</span>), then the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term">borrow-in</span> is <span class="mono">1</span> (far right). If an input digit is <span class="mono">0</span> and the borrow-in is <span class="mono">1</span>, then both the output digit and the <span class="term">borrow-out</span> is <span class="mono">1</span>.</p>
+
+<p>The 8-bit function in the image below decrements <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a 1-bit constant function at the bottom-right that supplies the initial borrow-in. From there, digits are evaluated right-to-left (and bottom-up). The final borrow-out is discarded.</p>
+
+<object data="decrementer-8.svg" type="image/svg+xml" class="diagram">8-bit Decrementer</object>
+
+<p>When the input is <span class="mono">0</span>, the decrement function rolls back to the maximum value. This is demonstrated in the following image that shows the 16-bit version. </p>
+
+<object data="decrementer-16.svg" type="image/svg+xml" class="diagram">16-bit Decrementer</object>
+
 <h2 id="increment">Increment</h2>
 
 <p>The increment function adds one to its argument:</p>
@@ -827,11 +837,23 @@
 <span class="line"><span class="keyword">out </span><span class="normal">s </span><span class="number">-3..0 44</span></span>
 </pre>
 
-<p>Here are the outputs for all possible inputs:</p>
+<p>In the following image that shows the outputs for all possible inputs, the swap circuit dominates the space.</p>
 
 <object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
-<p>The swap circuit dominates the space.</p>
+<p>The half adders are chained in the configuration below where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+
+<object data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
+
+<p>The circuit is a binary odometer that counts up. If a digit rolls over (transitions from <span class="mono">1</span> to <span class="mono">0</span>), then the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term">carry-in</span> is <span class="mono">0</span> (far right). If an input digit is <span class="mono">1</span> and the carry-in is <span class="mono">1</span>, then output digit is <span class="mono">0</span> and the <span class="term">carry-out</span> is <span class="mono">1</span>.</p>
+
+<p>The 8-bit function in the following image increments <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a 1-bit constant function at the bottom-right that supplies the initial carry-in. From there, digits are evaluated right-to-left (and bottom-up). The final carry-out is discarded.</p>
+
+<object data="incrementor-8.svg" type="image/svg+xml" class="diagram">8-bit Incrementor</object>
+
+<p>When the input is the maximum value, the increment function rolls over to <span class="mono">0</span>. This is demonstrated in the image below that shows the 16-bit version.</p>
+
+<object data="incrementor-16.svg" type="image/svg+xml" class="diagram">16-bit Incrementor</object>
 
 </body>
 

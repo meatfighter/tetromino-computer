@@ -40,6 +40,10 @@ span.pow {
     vertical-align: super;
 }
 
+span.sub {
+    vertical-align: sub;
+}
+
 span.serif {
     font-family: 'Source Serif Pro', serif;
     font-size: 18px;
