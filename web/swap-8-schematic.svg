@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
 <svg
-   width="2000"
-   height="2000"
-   viewBox="0 0 529.16665 529.16668"
+   width="775.1535"
+   height="500.06247"
+   viewBox="0 0 205.09269 132.3082"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
@@ -12,7 +11,8 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   style="background-color: white">
   <sodipodi:namedview
      id="namedview7"
      pagecolor="#ffffff"
@@ -24,8 +24,8 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:zoom="1"
-     inkscape:cx="386.5"
-     inkscape:cy="1745"
+     inkscape:cx="395.5"
+     inkscape:cy="191"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
      inkscape:window-x="-8"
@@ -33,20 +33,27 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      units="px"
-     width="2000px">
+     width="2000px"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <inkscape:grid
        type="xygrid"
-       id="grid841" />
+       id="grid841"
+       originx="2.3524589"
+       originy="-411.19452" />
   </sodipodi:namedview>
   <defs
      id="defs2" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(2.352459,-411.1945)">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.808037;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 0,535.78124 v -6.61458 0 C 35.277784,493.88889 70.555556,458.61111 105.83333,423.33333 l 0,-6.61458"
+       d="m 0,535.78124 v -6.61458 0 C 35.277784,493.88889 70.555556,458.61111 105.83333,423.33333 v -6.61458"
        id="path15343"
        sodipodi:nodetypes="cccc" />
     <path
@@ -126,7 +133,7 @@
        sodipodi:nodetypes="cccc" />
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="-2.352459"
        y="541.24109"
        id="text20607"><tspan
@@ -140,7 +147,7 @@
    id="tspan37">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="10.876706"
        y="541.24109"
        id="text20607-5"><tspan
@@ -154,7 +161,7 @@
    id="tspan41">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="24.105988"
        y="541.24109"
        id="text20607-5-0"><tspan
@@ -168,7 +175,7 @@
    id="tspan45">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="37.335152"
        y="541.24109"
        id="text20607-5-0-6"><tspan
@@ -182,7 +189,7 @@
    id="tspan49">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="50.564323"
        y="541.24109"
        id="text20607-9"><tspan
@@ -196,7 +203,7 @@
    id="tspan53">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="63.793488"
        y="541.24109"
        id="text20607-5-6"><tspan
@@ -210,7 +217,7 @@
    id="tspan57">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="77.022774"
        y="541.24109"
        id="text20607-5-0-0"><tspan
@@ -224,7 +231,7 @@
    id="tspan61">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="90.25193"
        y="541.24109"
        id="text20607-5-0-6-4"><tspan
@@ -238,7 +245,7 @@
    id="tspan65">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="103.48087"
        y="415.33136"
        id="text20607-6"><tspan
@@ -252,7 +259,7 @@
    id="tspan37-1">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="116.71004"
        y="415.33136"
        id="text20607-5-8"><tspan
@@ -266,7 +273,7 @@
    id="tspan41-1">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="129.93932"
        y="415.33136"
        id="text20607-5-0-64"><tspan
@@ -280,7 +287,7 @@
    id="tspan45-8">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="143.16849"
        y="415.33136"
        id="text20607-5-0-6-9"><tspan
@@ -294,7 +301,7 @@
    id="tspan49-8">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="156.39766"
        y="415.33136"
        id="text20607-9-0"><tspan
@@ -308,7 +315,7 @@
    id="tspan53-4">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="169.62682"
        y="415.33136"
        id="text20607-5-6-2"><tspan
@@ -322,7 +329,7 @@
    id="tspan57-7">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="182.85609"
        y="415.33136"
        id="text20607-5-0-0-3"><tspan
@@ -336,7 +343,7 @@
    id="tspan61-3">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="196.08525"
        y="415.33136"
        id="text20607-5-0-6-4-2"><tspan
@@ -350,7 +357,7 @@
    id="tspan65-8">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="103.9463"
        y="541.28687"
        id="text20607-1-2-5"><tspan
@@ -364,7 +371,7 @@
    id="tspan133">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="117.17547"
        y="541.28687"
        id="text20607-5-1-2-0"><tspan
@@ -378,7 +385,7 @@
    id="tspan137">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="130.40474"
        y="541.28687"
        id="text20607-5-0-4-0-7"><tspan
@@ -392,7 +399,7 @@
    id="tspan141">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="143.6339"
        y="541.28687"
        id="text20607-5-0-6-3-3-9"><tspan
@@ -406,7 +413,7 @@
    id="tspan145">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="156.86305"
        y="541.28687"
        id="text20607-9-3-3-5"><tspan
@@ -420,7 +427,7 @@
    id="tspan149">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="170.09222"
        y="541.28687"
        id="text20607-5-6-8-3-6"><tspan
@@ -434,7 +441,7 @@
    id="tspan153">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="183.32152"
        y="541.28687"
        id="text20607-5-0-0-9-1-3"><tspan
@@ -448,7 +455,7 @@
    id="tspan157">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="196.55067"
        y="541.28687"
        id="text20607-5-0-6-4-9-3-9"><tspan
@@ -462,7 +469,7 @@
    id="tspan161">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="-1.8869909"
        y="415.37732"
        id="text20607-1-2-5-8"><tspan
@@ -476,7 +483,7 @@
    id="tspan133-1">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="11.342181"
        y="415.37732"
        id="text20607-5-1-2-0-2"><tspan
@@ -490,7 +497,7 @@
    id="tspan137-8">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="24.571451"
        y="415.37732"
        id="text20607-5-0-4-0-7-2"><tspan
@@ -504,7 +511,7 @@
    id="tspan141-5">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="37.80061"
        y="415.37732"
        id="text20607-5-0-6-3-3-9-4"><tspan
@@ -518,7 +525,7 @@
    id="tspan145-4">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="51.029766"
        y="415.37732"
        id="text20607-9-3-3-5-8"><tspan
@@ -532,7 +539,7 @@
    id="tspan149-4">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="64.258942"
        y="415.37732"
        id="text20607-5-6-8-3-6-5"><tspan
@@ -546,7 +553,7 @@
    id="tspan153-5">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="77.488235"
        y="415.37732"
        id="text20607-5-0-0-9-1-3-4"><tspan
@@ -560,7 +567,7 @@
    id="tspan157-9">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70276px;font-family:Bentham, serif;fill:#000000;stroke-width:1.00001"
+       style="font-size:6.70276px;font-family:'Bentham', serif;fill:#000000;stroke-width:1.00001"
        x="90.717392"
        y="415.37732"
        id="text20607-5-0-6-4-9-3-9-8"><tspan
