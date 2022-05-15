@@ -162,6 +162,40 @@ p.definition {
     border-left: 6px solid #888888;
 }
 
+table.bits {
+    table-layout: fixed;    
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border: 1px solid;
+    font-family: 'Bentham', serif;
+    font-size: 19px;
+    text-align: center;    
+}
+
+td.red {
+    background: #FFCECE;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+
+td.yellow {
+    background: #FFFFCE;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+
+td.green {
+    background: #CEFFCE;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+
+td.blue {
+    background: #CCCDFF;
+    border-left: 1px solid;
+}
+
 table.borderless {
     margin-left: auto;
     margin-right: auto;

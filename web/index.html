@@ -606,7 +606,25 @@
 
 <h2 id="interoperability">Interoperability</h2>
 
-<p>The functions are normalized for interoperability. The output of one can serve as the input of another, and they can be stacked indefinitely. To make that work, the input and output nodes line up with each other, and they are evenly spaced, 10 cells apart. The spacing was selected to provide sufficient room for wide components, such as the <a href="#crossing">swap circuit</a>. Plus, a round, base-10 number makes measurements easier.</p>
+<p>The functions are normalized for interoperability. They are designed to be stacked such that the output of one function can serve as the input of another. To make that work, the number of output nodes always equals the number of input nodes, the outputs and the inputs line up with each other, and they are evenly spaced, 10 cells apart. The spacing was selected to provide sufficient room for wide components, such as the swap circuit. Plus, a round, base-10 number makes measurements easier.</p>
+
+<h2 id="byte-arrays">Byte Arrays</h2>
+
+<p>Some 16-bit functions interpret their argument as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> is the high byte and <span class="math">B</span> is the low byte:</p>
+
+<table class="bits" style="width: 66.666666666666666666666666666667%">
+<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td></tr>
+<tr><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
+</table>
+
+<p>Similarly, some 24-bit functions interpret their argument as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span> is the high byte, <span class="math">B</span> is the middle byte, and <span class="math">C</span> is the low byte: </p>
+
+<table class="bits" style="width: 100%">
+<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
+<tr><td class="blue">V<span class="sub">23</span></td><td class="blue">V<span class="sub">22</span></td><td class="blue">V<span class="sub">21</span></td><td class="blue">V<span class="sub">20</span></td><td class="blue">V<span class="sub">19</span></td><td class="blue">V<span class="sub">18</span></td><td class="blue">V<span class="sub">17</span></td><td class="blue">V<span class="sub">16</span></td><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
+</table>
+
+<p>Functions that accept byte arrays return byte arrays of the same length.</p>
 
 <h2 id="identity">Identity</h2>
 
@@ -689,6 +707,10 @@
 <p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span> (rounding toward <span class="serif">0</span>):</p>
 
 <p><span class="math">f(x) &equiv; </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
+
+<h2 id="byte-copy">Byte Copy</h2>
+
+<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
 
 <h2 id="decrementer">Decrement</h2>
 
