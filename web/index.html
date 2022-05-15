@@ -610,14 +610,14 @@
 
 <h2 id="byte-arrays">Byte Arrays</h2>
 
-<p>Some 16-bit functions interpret their argument as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> is the high byte and <span class="math">B</span> is the low byte:</p>
+<p>Some 16-bit functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 66.666666666666666666666666666667%">
 <tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td></tr>
 <tr><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some 24-bit functions interpret their argument as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span> is the high byte, <span class="math">B</span> is the middle byte, and <span class="math">C</span> is the low byte: </p>
+<p>Similarly, some 24-bit functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 100%">
 <tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
@@ -710,7 +710,31 @@
 
 <h2 id="byte-copy">Byte Copy</h2>
 
-<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
+<p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
+
+<p><span class="math">f(</span><span class="serif">[</span><span class="math">A, B</span><span class="serif">]</span><span class="math">) &equiv; </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
+
+<p>This is accomplished with the following wiring.</p>
+
+<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
+
+<p>As shown below, the Tetris version is dominated by swap circuits.</p>
+
+<object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
+
+<p>Since the evaluation order is established by the sequence in which components are built, each signal propagates upward as it advances from left-to-right. The triangular arrangement is a consequence of the parallel, diagonally-upward lines. After the center wire is crossed, horizontal lines of Z-Tetriminos are used in the same way as the horizontal lines in the schematic above it.</p>
+
+<p>A variation of the function copies the second byte to the first byte:</p>
+
+<p><span class="math">f(</span><span class="serif">[</span><span class="math">A, B</span><span class="serif">]</span><span class="math">) &equiv; </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
+
+<p>It is the horizontal-mirror of the previous circuit:</p>
+
+<object data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
+
+<p>The Tetris version follows.</p>
+
+<object data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
 
 <h2 id="decrementer">Decrement</h2>
 
