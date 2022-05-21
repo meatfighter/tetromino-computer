@@ -363,7 +363,7 @@
 
 <p>NAND is a 2-input gate that provides the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
 
-<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> &equiv; <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
 
 <pre class="tetrisscript">
 <span class="filename">nand.t</span>
@@ -413,17 +413,17 @@
 
 <p><span class="math">A &#8853; B<span></p>
       
-<p><span class="math">&equiv; A &ne; B</p>      
+<p><span class="math">= (A &ne; B)</p>      
       
-<p><span class="math">&equiv; <span class="overline">A</span>B + A<span class="overline">B</span></p>      
+<p><span class="math">= <span class="overline">A</span>B + A<span class="overline">B</span></p>      
      
-<p><span class="math">&equiv; <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
+<p><span class="math">= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
       
-<p><span class="math">&equiv; <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
+<p><span class="math">= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
 
-<p><span class="math">&equiv; <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C &equiv; <span class="overline">A + B</span></p>  
+<p><span class="math">= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></p>  
 
-<p><span class="math">&equiv; <span class="overline">A + C</span> + <span class="overline">B + C</span>, C &equiv; <span class="overline">A + B</span></span></p>
+<p><span class="math">= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
 
 <p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
 
@@ -501,13 +501,13 @@
 
 <p>The wires of a circuit can cross over each other without connecting in a 3-dimensional universe. But, on the 2-dimensional playfield, a cross requires a planar device that mutually exchanges 2 inputs. The device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>: </p>
 
-<p><span class="math">C &equiv; A &#8853; B</span></p>
+<p><span class="math">C = A &#8853; B</span></p>
 
 <p>Then it XORs the inputs with the temporary variable, which swaps them:</p>
 
-<p><span class="math">A &#8853; C &equiv; A &#8853; A &#8853; B &equiv; B</span></p>
+<p><span class="math">A &#8853; C = A &#8853; A &#8853; B = B</span></p>
 
-<p><span class="math">B &#8853; C &equiv; B &#8853; A &#8853; B &equiv; A</span></p>
+<p><span class="math">B &#8853; C = B &#8853; A &#8853; B = A</span></p>
 
 <p>The algorithm suggests the following circuit.</p>
 
@@ -564,9 +564,9 @@
 
 <p><span class="math">AS + B<span class="overline">S</span></span></p>
 
-<p><span class="math">&equiv; AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
+<p><span class="math">= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
 
-<p><span class="math">&equiv; <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
+<p><span class="math">= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
 
 <p>That suggests the following construction from 2 NAND gates, an OR gate, and an inverter.</p>
 
@@ -619,7 +619,7 @@
 
 <p>An <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a> echos the provided value:</p>
 
-<p><span class="math">f(x) &equiv; x</span></p> 
+<p><span class="math">f(x) = x</span></p> 
 
 <p>The image below depicts an 8-bit identity function. The height is arbitrary.</p>
 
@@ -629,11 +629,11 @@
 
 <p>A constant function returns the same value regardless of the argument:</p>
 
-<p><span class="math">f(x) &equiv; k</span></p>
+<p><span class="math">f(x) = k</span></p>
 
 <p>There are two 1-bit versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
 
-<p><span class="math">f(A) &equiv; A &#8853; A &equiv; </span><span class="serif">0</span></p>
+<p><span class="math">f(A) = A &#8853; A = </span><span class="serif">0</span></p>
 
 <p>The code below links both inputs of an XOR gate with a horizontal I-Tetrimino.</p>
 
@@ -652,7 +652,7 @@
 
 <p>The second 1-bit function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
 
-<p><span class="math">f(A) &equiv; <span class="overline">A &#8853; A</span> &equiv; </span><span class="serif">1</span></p>
+<p><span class="math">f(A) = <span class="overline">A &#8853; A</span> = </span><span class="serif">1</span></p>
 
 <p>A horizontal I-Tetrimino joins the inputs of an XNOR gate in the code below.</p>
 
@@ -673,7 +673,7 @@
 
 <object data="clear.svg" type="image/svg+xml" class="diagram">Clear</object>
 
-<p>The image below depicts the requisite <span class="math">f(x) &equiv; </span><span class="serif">42</span> function. </p>
+<p>The image below depicts the requisite <span class="math">f(x) = </span><span class="serif">42</span> function. </p>
 
 <object data="constant-42.svg" type="image/svg+xml" class="diagram">42</object>
 
@@ -685,7 +685,7 @@
 
 <p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting a signed or unsigned value left by <span class="math">n</span> bits is equivalent to multiplying by <span class="serif">2</span><span class="math pow">n</span>: 
 
-<p><span class="math">f(x) &equiv; </span><span class="serif">2</span><span class="math pow">n</span><span class="math">x</span></p>
+<p><span class="math">f(x) = </span><span class="serif">2</span><span class="math pow">n</span><span class="math">x</span></p>
 
 <h2 id="logical-right-shift">Logical Right Shift</h2>
 
@@ -695,7 +695,7 @@
 
 <p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span> (rounding toward <span class="serif">0</span>):</p>
 
-<p><span class="math">f(x) &equiv; </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
+<p><span class="math">f(x) = </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
 
 <h2 id="byte-arrays">Byte Arrays</h2>
 
@@ -719,7 +719,7 @@
 
 <p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
 
-<p><span class="math">f(</span><span class="serif">[</span><span class="math">A, B</span><span class="serif">]</span><span class="math">) &equiv; </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
 
 <p>This is accomplished with the following wiring.</p>
 
@@ -733,7 +733,7 @@
 
 <p>A variation of the function copies the second byte to the first byte:</p>
 
-<p><span class="math">f(</span><span class="serif">[</span><span class="math">A, B</span><span class="serif">]</span><span class="math">) &equiv; </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
 
 <p>It is the horizontal-mirror of the previous circuit:</p>
 
@@ -747,21 +747,63 @@
 
 <p>The byte swap function exchanges the elements of a 2-byte array:</p>
 
-<p><span class="math">f(</span><span class="serif">[</span><span class="math">A, B</span><span class="serif">]</span><span class="math">) &equiv; </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
 
 <p>It is realized with the following wiring.</p>
 
 <object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram">8-bit Swap Schematic</object>
 
-<p>The diamond pattern in the schematic also appears in the Tetris version, a consequence of extensive application of the swap circuit, as shown below.</p>
+<p>The diamond pattern in the schematic appears in the Tetris version below due to extensive use of the swap circuit.</p>
 
 <object data="swap-8.svg" type="image/svg+xml" class="diagram">8-bit Swap</object>
+
+<h2 id="byte-match">Byte Match</h2>
+
+<p>The byte match function operates on a 2-byte array:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
+
+<p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>. If it doesn’t, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged while <span class="math">X</span> is discarded.</p>
+
+<p>The bit pattern consists of zeros, ones, and <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-cares</a>. Meaning, each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, is either compared against a constant or it is ignored. For example, the following expression checks if all <span class="math">A<span class="sub">i</span></span> are <span class="mono">1</span>:</p> 
+
+<p><span class="math">M = A<span class="sub">7 </span>A<span class="sub">6 </span>A<span class="sub">5 </span>A<span class="sub">4 </span>A<span class="sub">3 </span>A<span class="sub">2 </span>A<span class="sub">1 </span>A<span class="sub">0 </span> = <span class="high-overline"><span class="overline2">A<span class="sub">7</span></span> + <span class="overline2">A<span class="sub">6</span></span> + <span class="overline2">A<span class="sub">5</span></span> + <span class="overline2">A<span class="sub">4</span></span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+
+<p>That suggests the following circuit.</p>
+
+<object data="match-ff-right-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Right</object>
+
+<p>Each <span class="math">A<span class="sub">i</span></span> column contains an inverter pair, which enables <span class="math">A</span> to traverse unmodified. For an arbitrary constant, <span class="math">K</span>, inverter pairs only exist in the columns where <span class="math">K<span class="sub">i</span></span> is <span class="mono">1</span>. For instance, the expression below checks if <span class="math">A</span> is <span class="mono">0</span>:</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span> + A<span class="sub">1</span> + A<span class="sub">0</span></span></span></p>
+
+<p>It requires no inverter pairs, as illustrated by the Tetris realization:</p>
+
+<object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
+
+<p>Horizontal J-Tetriminos operate as OR gates. They feed each input bit to both terminals of a swap circuit.</p>
+
+<p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> A<span class="sub">5</span> <span class="overline2">A<span class="sub">4</span></span> A<span class="sub">3</span> A<span class="sub">2</span> A<span class="sub">1</span> A<span class="sub">0</span> = <span class="high-overline">A<span class="sub">7</span> + A<span class="sub">6</span> + <span class="overline2">A<span class="sub">5</span></span> + A<span class="sub">4</span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+
+<p>It is actualized by introducing inverter pairs corresponding to the <span class="mono">1</span> bits:</p>
+
+<object data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
+
+<p>...</p>
+
+<object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
+
+<p>...</p>
+
+<object data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
 
 <h2 id="decrementer">Decrement</h2>
 
 <p>The decrement function subtracts one from its argument:</p>
 
-<p><span class="math">f(x) &equiv; x &minus; </span><span class="serif">1</span></p>
+<p><span class="math">f(x) = x &minus; </span><span class="serif">1</span></p>
 
 <p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each accepts a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference, a 2-bit value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
 
@@ -775,23 +817,23 @@
 
 <p><span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
 
-<p><span class="math">B &equiv; <span class="overline">X</span>Y</span></p>
+<p><span class="math">B = <span class="overline">X</span>Y</span></p>
 
-<p><span class="math">D &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; B + X<span class="overline">Y</span></span></p>
+<p><span class="math">D = X &#8853; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = B + X<span class="overline">Y</span></span></p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
-<p><span class="math"><span class="overline">X</span>Y &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y &equiv; <span class="overline">X</span>(X + Y) &equiv; <span class="high-overline">X + <span class="overline">X + Y</span></span> &equiv; <span class="overline">X + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math"><span class="overline">X</span>Y = <span class="overline">X</span>X + <span class="overline">X</span>Y = <span class="overline">X</span>(X + Y) = <span class="high-overline">X + <span class="overline">X + Y</span></span> = <span class="overline">X + T</span>, T = <span class="overline">X + Y</span></span></p>
 
-<p><span class="math">X<span class="overline">Y</span> &equiv; X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; <span class="overline">Y</span>(X + Y) &equiv; <span class="high-overline">Y + <span class="overline">X + Y</span></span> &equiv; <span class="overline">Y + T</span>, T &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math">X<span class="overline">Y</span> = X<span class="overline">Y</span> + Y<span class="overline">Y</span> = <span class="overline">Y</span>(X + Y) = <span class="high-overline">Y + <span class="overline">X + Y</span></span> = <span class="overline">Y + T</span>, T = <span class="overline">X + Y</span></span></p>
 
 <p>Cleaning up:</p>
 
-<p><span class="math">T &equiv; <span class="overline">X + Y</span></span></p>
+<p><span class="math">T = <span class="overline">X + Y</span></span></p>
 
-<p><span class="math">B &equiv; <span class="overline">X + T</span></span></p>
+<p><span class="math">B = <span class="overline">X + T</span></span></p>
 
-<p><span class="math">D &equiv; B + <span class="overline">Y + T</span></span></p>
+<p><span class="math">D = B + <span class="overline">Y + T</span></span></p>
 
 <p>That implies the following circuit.</p>
 
@@ -843,7 +885,7 @@
 
 <p>The increment function adds one to its argument:</p>
 
-<p><span class="math">f(x) &equiv; x + </span><span class="serif">1</span></p>
+<p><span class="math">f(x) = x + </span><span class="serif">1</span></p>
 
 <p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum, a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
 
@@ -857,9 +899,9 @@
 
 <p><span class="math">C</span> and <span class="math">S</span> can be expressed as:</p>
 
-<p><span class="math">C &equiv; XY &equiv; <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
+<p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
-<p><span class="math">S &equiv; X &#8853; Y &equiv; X &ne; Y &equiv; <span class="overline">X</span>Y + X<span class="overline">Y</span> &equiv; <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> &equiv; (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) &equiv; <span class="overline">C</span>(X + Y) &equiv; <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
+<p><span class="math">S = X &#8853; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> = (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) = <span class="overline">C</span>(X + Y) = <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
 
 <p>That implies the following circuit.</p>
 
