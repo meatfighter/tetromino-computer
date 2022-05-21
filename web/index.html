@@ -791,11 +791,23 @@
 
 <object data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
 
-<p>...</p>
+<p>Don’t-care bits are omitted from the OR chain. For instance, the following expression tests if A is <span class="mono">000000**</span>.</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
+
+<p>In the Tetris realization below, 2 of the horizontal J-Tetriminos are absent. Consequentially, <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> cross the OR chain without contributing to it.</p>
+
+<object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
+
+<p>There is a variation of the byte match function where the parameters are swapped:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
+
+<p>Its circuit is nearly the horizontal mirror of the one above:  </p>
 
 <object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
 
-<p>...</p>
+<p>In the Tetris version below, the inverter pairs are omitted, resulting in a zero detector. </p>
 
 <object data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
 
