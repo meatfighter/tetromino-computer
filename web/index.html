@@ -697,120 +697,6 @@
 
 <p><span class="math">f(x) = </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
 
-<h2 id="byte-arrays">Byte Arrays</h2>
-
-<p>Some 16-bit functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
-
-<table class="bits" style="width: 66.666666666666666666666666666667%">
-<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td></tr>
-<tr><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
-</table>
-
-<p>Similarly, some 24-bit functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
-
-<table class="bits" style="width: 100%">
-<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
-<tr><td class="blue">V<span class="sub">23</span></td><td class="blue">V<span class="sub">22</span></td><td class="blue">V<span class="sub">21</span></td><td class="blue">V<span class="sub">20</span></td><td class="blue">V<span class="sub">19</span></td><td class="blue">V<span class="sub">18</span></td><td class="blue">V<span class="sub">17</span></td><td class="blue">V<span class="sub">16</span></td><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
-</table>
-
-<p>Functions that accept byte arrays return byte arrays of the same length.</p>
-
-<h2 id="byte-copy">Byte Copy</h2>
-
-<p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
-
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
-
-<p>This is accomplished with the following wiring.</p>
-
-<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
-
-<p>As shown below, the Tetris version is dominated by swap circuits.</p>
-
-<object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
-
-<p>Since the evaluation order is established by the sequence in which components are built, each signal propagates upward as it advances from left-to-right. The triangular arrangement is a consequence of the parallel, diagonally-upward lines. After the center wire is crossed, horizontal lines of Z-Tetriminos are used in the same way as the horizontal lines in the schematic above it.</p>
-
-<p>A variation of the function copies the second byte to the first byte:</p>
-
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
-
-<p>It is the horizontal-mirror of the previous circuit:</p>
-
-<object data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
-
-<p>The Tetris version follows.</p>
-
-<object data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
-
-<h2 id="byte-swap">Byte Swap</h2>
-
-<p>The byte swap function exchanges the elements of a 2-byte array:</p>
-
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
-
-<p>It is realized with the following wiring.</p>
-
-<object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram">8-bit Swap Schematic</object>
-
-<p>The diamond pattern in the schematic appears in the Tetris version below due to extensive use of the swap circuit.</p>
-
-<object data="swap-8.svg" type="image/svg+xml" class="diagram">8-bit Swap</object>
-
-<h2 id="byte-match">Byte Match</h2>
-
-<p>The byte match function operates on a 2-byte array:</p>
-
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
-
-<p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>. If it doesn’t, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged while <span class="math">X</span> is discarded.</p>
-
-<p>The bit pattern consists of zeros, ones, and <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-cares</a>. Meaning, each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, is either compared against a constant or it is ignored. For example, the following expression checks if all <span class="math">A<span class="sub">i</span></span> are <span class="mono">1</span>:</p> 
-
-<p><span class="math">M = A<span class="sub">7 </span>A<span class="sub">6 </span>A<span class="sub">5 </span>A<span class="sub">4 </span>A<span class="sub">3 </span>A<span class="sub">2 </span>A<span class="sub">1 </span>A<span class="sub">0 </span> = <span class="high-overline"><span class="overline2">A<span class="sub">7</span></span> + <span class="overline2">A<span class="sub">6</span></span> + <span class="overline2">A<span class="sub">5</span></span> + <span class="overline2">A<span class="sub">4</span></span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
-
-<p>That suggests the following circuit.</p>
-
-<object data="match-ff-right-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Right</object>
-
-<p>Each <span class="math">A<span class="sub">i</span></span> column contains an inverter pair, which enables <span class="math">A</span> to traverse unmodified. For an arbitrary constant, <span class="math">K</span>, inverter pairs only exist in the columns where <span class="math">K<span class="sub">i</span></span> is <span class="mono">1</span>. For instance, the expression below checks if <span class="math">A</span> is <span class="mono">0</span>:</p>
-
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span> + A<span class="sub">1</span> + A<span class="sub">0</span></span></span></p>
-
-<p>It requires no inverter pairs, as illustrated by the Tetris realization:</p>
-
-<object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
-
-<p>Horizontal J-Tetriminos operate as OR gates. They feed each input bit to both terminals of a swap circuit.</p>
-
-<p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
-
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> A<span class="sub">5</span> <span class="overline2">A<span class="sub">4</span></span> A<span class="sub">3</span> A<span class="sub">2</span> A<span class="sub">1</span> A<span class="sub">0</span> = <span class="high-overline">A<span class="sub">7</span> + A<span class="sub">6</span> + <span class="overline2">A<span class="sub">5</span></span> + A<span class="sub">4</span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
-
-<p>It is actualized by introducing inverter pairs corresponding to the <span class="mono">1</span> bits:</p>
-
-<object data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
-
-<p>Don’t-care bits are omitted from the OR chain. For instance, the following expression tests if A is <span class="mono">000000**</span>.</p>
-
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
-
-<p>In the Tetris realization below, 2 of the horizontal J-Tetriminos are absent. Consequentially, <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> cross the OR chain without contributing to it.</p>
-
-<object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
-
-<p>There is a variation of the byte match function where the parameters are swapped:</p>
-
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
-
-<p>Its circuit is nearly the horizontal mirror of the one above:  </p>
-
-<object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
-
-<p>In the Tetris version below, the inverter pairs are omitted, resulting in a zero detector. </p>
-
-<object data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
-
 <h2 id="decrementer">Decrement</h2>
 
 <p>The decrement function subtracts one from its argument:</p>
@@ -975,6 +861,124 @@
 <p>When the input is the maximum value, the increment function rolls over to <span class="mono">0</span>. This is demonstrated in the image below that shows the 16-bit version.</p>
 
 <object data="incrementor-16.svg" type="image/svg+xml" class="diagram">16-bit Incrementor</object>
+
+<h2 id="byte-arrays">Byte Arrays</h2>
+
+<p>Some 16-bit functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+
+<table class="bits" style="width: 66.666666666666666666666666666667%">
+<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td></tr>
+<tr><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
+</table>
+
+<p>Similarly, some 24-bit functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+
+<table class="bits" style="width: 100%">
+<tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
+<tr><td class="blue">V<span class="sub">23</span></td><td class="blue">V<span class="sub">22</span></td><td class="blue">V<span class="sub">21</span></td><td class="blue">V<span class="sub">20</span></td><td class="blue">V<span class="sub">19</span></td><td class="blue">V<span class="sub">18</span></td><td class="blue">V<span class="sub">17</span></td><td class="blue">V<span class="sub">16</span></td><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
+</table>
+
+<p>Functions that accept byte arrays return byte arrays of the same length.</p>
+
+<h2 id="byte-copy">Byte Copy</h2>
+
+<p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
+
+<p>This is accomplished with the following wiring.</p>
+
+<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
+
+<p>As shown below, the Tetris version is dominated by swap circuits.</p>
+
+<object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
+
+<p>Since the evaluation order is established by the sequence in which components are built, each signal propagates upward as it advances from left-to-right. The triangular arrangement is a consequence of the parallel, diagonally-upward lines. After the center wire is crossed, horizontal lines of Z-Tetriminos are used in the same way as the horizontal lines in the schematic above it.</p>
+
+<p>A variation of the function copies the second byte to the first byte:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
+
+<p>It is the horizontal-mirror of the previous circuit:</p>
+
+<object data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
+
+<p>The Tetris version follows.</p>
+
+<object data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
+
+<h2 id="byte-swap">Byte Swap</h2>
+
+<p>The byte swap function exchanges the elements of a 2-byte array:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
+
+<p>It is realized with the following wiring.</p>
+
+<object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram">8-bit Swap Schematic</object>
+
+<p>The diamond pattern in the schematic appears in the Tetris version below due to extensive use of the swap circuit.</p>
+
+<object data="swap-8.svg" type="image/svg+xml" class="diagram">8-bit Swap</object>
+
+<h2 id="byte-match">Byte Match</h2>
+
+<p>The byte match function operates on a 2-byte array:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
+
+<p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>. If it doesn’t, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged while <span class="math">X</span> is discarded.</p>
+
+<p>The bit pattern consists of zeros, ones, and <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-cares</a>. Meaning, each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, is either compared against a constant or it is ignored. For example, the following expression checks if all <span class="math">A<span class="sub">i</span></span> are <span class="mono">1</span>:</p> 
+
+<p><span class="math">M = A<span class="sub">7 </span>A<span class="sub">6 </span>A<span class="sub">5 </span>A<span class="sub">4 </span>A<span class="sub">3 </span>A<span class="sub">2 </span>A<span class="sub">1 </span>A<span class="sub">0 </span> = <span class="high-overline"><span class="overline2">A<span class="sub">7</span></span> + <span class="overline2">A<span class="sub">6</span></span> + <span class="overline2">A<span class="sub">5</span></span> + <span class="overline2">A<span class="sub">4</span></span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+
+<p>That suggests the following circuit.</p>
+
+<object data="match-ff-right-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Right</object>
+
+<p>Each <span class="math">A<span class="sub">i</span></span> column contains an inverter pair, which enables <span class="math">A</span> to traverse unmodified. For an arbitrary constant, <span class="math">K</span>, inverter pairs only exist in the columns where <span class="math">K<span class="sub">i</span></span> is <span class="mono">1</span>. For instance, the expression below checks if <span class="math">A</span> is <span class="mono">0</span>:</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span> + A<span class="sub">1</span> + A<span class="sub">0</span></span></span></p>
+
+<p>It requires no inverter pairs, as illustrated by the Tetris realization:</p>
+
+<object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
+
+<p>Horizontal J-Tetriminos operate as OR gates. They feed each input bit to both terminals of a swap circuit.</p>
+
+<p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> A<span class="sub">5</span> <span class="overline2">A<span class="sub">4</span></span> A<span class="sub">3</span> A<span class="sub">2</span> A<span class="sub">1</span> A<span class="sub">0</span> = <span class="high-overline">A<span class="sub">7</span> + A<span class="sub">6</span> + <span class="overline2">A<span class="sub">5</span></span> + A<span class="sub">4</span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+
+<p>It is actualized by introducing inverter pairs corresponding to the <span class="mono">1</span> bits:</p>
+
+<object data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
+
+<p>Don’t-care bits are omitted from the OR chain. For instance, the following expression tests if A is <span class="mono">000000**</span>.</p>
+
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
+
+<p>In the Tetris realization below, 2 of the horizontal J-Tetriminos are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
+
+<object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
+
+<p>There is a variation of the byte match function where the parameters are swapped:</p>
+
+<p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
+
+<p>Its circuit is nearly the horizontal mirror of the one above:  </p>
+
+<object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
+
+<p>In the Tetris version below, the inverter pairs are omitted, resulting in a zero detector. </p>
+
+<object data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
+
+<h2 id="equals">Equals</h2>
+
+<object data="equal-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 </body>
 
