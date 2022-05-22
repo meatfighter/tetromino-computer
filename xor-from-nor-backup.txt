@@ -62,17 +62,6 @@
          cx="75"
          cy="25"
          r="4" />
-      <text
-         xml:space="preserve"
-         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'DejaVu Serif';-inkscape-font-specification:'DejaVu Serif Italic';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="110.8125"
-         y="51.53125"
-         id="text6874"><tspan
-           sodipodi:role="line"
-           id="tspan6876"
-           x="115.3125"
-           y="51.53125"
-           style="font-size:18px;line-height:1"> </tspan></text>
       <circle
          style="display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
          id="path7571"
@@ -165,7 +154,7 @@
       <path
          id="path9105"
          d="m 222,30.838282 v 1.428571 37.142858 1.428571 h 1.42857 19.04762 c 11.2679,0 20,-9.000045 20,-20 0,-10.999955 -8.7321,-20 -20,-20 0,0 0,0 -19.04762,0 z m 2.85714,2.857143 c 7.97712,0 13.06122,0 15.23809,0 1.19048,0 1.78572,0 2.08334,0 0.14881,0 0.23065,0 0.26785,0 0.0186,0 0.0251,0 0.0298,0 9.76066,0 16.66666,7.639955 16.66666,17.142857 0,9.502902 -7.38219,17.142857 -17.14285,17.142857 h -17.14286 z"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:'Bitstream Vera Sans';-inkscape-font-specification:'Bitstream Vera Sans';text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-anchor:start;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;marker:none;enable-background:accumulate" />
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;marker:none;enable-background:accumulate" />
       <path
          style="display:inline;overflow:visible;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
          d="M 277,50 H 262"
