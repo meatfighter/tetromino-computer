@@ -182,6 +182,14 @@ table.bits {
     text-align: center;    
 }
 
+td.bottom {
+    border-bottom: 1px solid;
+}
+
+td.left {
+    border-left: 1px solid;
+}
+
 td.red {
     background: #FFCECE;
     border-left: 1px solid;

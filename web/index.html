@@ -629,11 +629,11 @@
 
 <p>A constant function returns the same value regardless of the argument:</p>
 
-<p><span class="math">f(x) = k</span></p>
+<p><span class="math">f<span class="sub">1</span>(x) = k</span></p>
 
 <p>There are two 1-bit versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
 
-<p><span class="math">f(A) = A &oplus; A = </span><span class="serif">0</span></p>
+<p><span class="math">f<span class="sub">2</span>(A) = A &oplus; A = </span><span class="serif">0</span></p>
 
 <p>The code below links both inputs of an XOR gate with a horizontal I-Tetrimino.</p>
 
@@ -652,7 +652,7 @@
 
 <p>The second 1-bit function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
 
-<p><span class="math">f(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
+<p><span class="math">f<span class="sub">3</span>(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
 
 <p>A horizontal I-Tetrimino joins the inputs of an XNOR gate in the code below.</p>
 
@@ -884,7 +884,7 @@
 
 <p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">1</span>(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
 
 <p>This is accomplished with the following wiring.</p>
 
@@ -898,7 +898,7 @@
 
 <p>A variation of the function copies the second byte to the first byte:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">2</span>(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
 
 <p>It is the horizontal-mirror of the previous circuit:</p>
 
@@ -926,7 +926,7 @@
 
 <p>The byte match function operates on a 2-byte array:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">1</span>(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
 
 <p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>. If it doesn’t, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged while <span class="math">X</span> is discarded.</p>
 
@@ -966,7 +966,7 @@
 
 <p>There is a variation of the byte match function where the parameters are swapped:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">2</span>(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
 
 <p>Its circuit is nearly the horizontal mirror of the one above:  </p>
 
@@ -980,7 +980,7 @@
 
 <p>The equals function operates on a 3-byte array:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">1</span>( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
 
 <p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>. Otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
 
@@ -1002,7 +1002,7 @@
 
 <p>There is a variation of the equals function where the parameters are rearranged:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></p>
+<p><span class="math">f<span class="sub">2</span>( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></p>
 
 <p>Its circuit is roughly the horizontal mirror of the one above:</p>
 
@@ -1012,9 +1012,35 @@
 
 <object data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
+<p>There is a another variation that uses all 3 input bytes:</p>
+
+<p><span class="math">f<span class="sub">3</span>( </span><span class="serif">[</span><span class="math"> A, B, V </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="math">]</span>, where <span class="math">V,E </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">E</span> is <span class="mono">1</span> iff <span class="math">A</span> equals <span class="math">B</span> and <span class="math">V</span> is <span class="mono">1</span>:</p>
+
+<p><span class="math">E = (A = B)V</span> 
+
+<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
+  
+<p>It can be realized by using <span class="math">V<span class="sub">0</span></span> as the seed of the AND chain. Instead, in an effort to reuse whenever possible, an AND gate was added to the top of the existing circuit:</p>
+
+<object data="equals-a-b-and-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+
+<p>The Tetris implementation follows.</p>
+
+<object data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+
 <p>...</p>
 
-<object data="equals-a-b-and-e-schematic.svg" type="image/svg+xml" class="diagram">E = V (A == B)</object>
+<table class="bits" style="width: 65%">
+<tr><td class="bottom">A</td><td class="left bottom">B</td><td class="left bottom">(A = B)(C = D)</td><td class="left bottom">C</td><td class="left bottom">D</td></tr>
+<tr><td class="left bottom" colspan="3">f<span class="sub">3</span></td><td class="left bottom">&#129093;</td><td class="left bottom">&#129093;</td></tr>
+<tr><td class="bottom">A</td><td class="left bottom">B</td><td class="left bottom">C = D</td><td class="left bottom">C</td><td class="left bottom">D</td></tr>
+<tr><td class="bottom">&#129093;</td><td class="left bottom">&#129093;</td><td class="left bottom" colspan="3">f<span class="sub">2</span></td></tr>
+<tr><td>A</td><td class="left">B</td><td class="left">X</td><td class="left">C</td><td class="left">D</td></tr>
+</table>  
 
 </body>
 
