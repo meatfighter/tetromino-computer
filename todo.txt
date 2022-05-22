@@ -30,8 +30,6 @@ tetrisscript
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
     private static final int[][][] XOR_AB_FB = new int[256][256][2];
         
-    private static final int[][][][] C_CMP = new int[2][256][256][3];
-    private static final int[][][][] CMP_C = new int[256][256][2][3];
     private static final int[][][][] CMP_AND_C = new int[256][256][2][3];
     private static final int[][][][] C_COPY_A_B = new int[2][256][256][3];
     private static final int[][][][] C_COPY_B_A = new int[2][256][256][3];

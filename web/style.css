@@ -44,6 +44,10 @@ span.sub {
     vertical-align: sub;
 }
 
+span.sup {
+    vertical-align: super;
+}
+
 span.serif {
     font-family: 'Source Serif Pro', serif;
     font-size: 18px;

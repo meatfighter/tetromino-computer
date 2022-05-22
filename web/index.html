@@ -411,7 +411,7 @@
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
-<p><span class="math">A &#8853; B<span></p>
+<p><span class="math">A &oplus; B<span></p>
       
 <p><span class="math">= (A &ne; B)</p>      
       
@@ -501,13 +501,13 @@
 
 <p>The wires of a circuit can cross over each other without connecting in a 3-dimensional universe. But, on the 2-dimensional playfield, a cross requires a planar device that mutually exchanges 2 inputs. The device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>: </p>
 
-<p><span class="math">C = A &#8853; B</span></p>
+<p><span class="math">C = A &oplus; B</span></p>
 
 <p>Then it XORs the inputs with the temporary variable, which swaps them:</p>
 
-<p><span class="math">A &#8853; C = A &#8853; A &#8853; B = B</span></p>
+<p><span class="math">A &oplus; C = A &oplus; A &oplus; B = B</span></p>
 
-<p><span class="math">B &#8853; C = B &#8853; A &#8853; B = A</span></p>
+<p><span class="math">B &oplus; C = B &oplus; A &oplus; B = A</span></p>
 
 <p>The algorithm suggests the following circuit.</p>
 
@@ -633,7 +633,7 @@
 
 <p>There are two 1-bit versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
 
-<p><span class="math">f(A) = A &#8853; A = </span><span class="serif">0</span></p>
+<p><span class="math">f(A) = A &oplus; A = </span><span class="serif">0</span></p>
 
 <p>The code below links both inputs of an XOR gate with a horizontal I-Tetrimino.</p>
 
@@ -652,7 +652,7 @@
 
 <p>The second 1-bit function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
 
-<p><span class="math">f(A) = <span class="overline">A &#8853; A</span> = </span><span class="serif">1</span></p>
+<p><span class="math">f(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
 
 <p>A horizontal I-Tetrimino joins the inputs of an XNOR gate in the code below.</p>
 
@@ -717,7 +717,7 @@
 
 <p><span class="math">B = <span class="overline">X</span>Y</span></p>
 
-<p><span class="math">D = X &#8853; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = B + X<span class="overline">Y</span></span></p>
+<p><span class="math">D = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = B + X<span class="overline">Y</span></span></p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -799,7 +799,7 @@
 
 <p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
-<p><span class="math">S = X &#8853; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> = (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) = <span class="overline">C</span>(X + Y) = <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
+<p><span class="math">S = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> = (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) = <span class="overline">C</span>(X + Y) = <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
 
 <p>That implies the following circuit.</p>
 
@@ -978,7 +978,39 @@
 
 <h2 id="equals">Equals</h2>
 
-<object data="equal-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+<p>The equals function operates on a 3-byte array:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
+
+<p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>. Otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+
+<p><span class="math">E</span> is defined by the following expression, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
+
+<p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
+
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
+
+<p>That suggests the following circuit.</p>
+
+<object data="equals-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>In the Tetris version below, a constant bit function seeds the AND chain with <span class="mono">1</span> (see lower-right).</p>
+
+<object data="equals-a-b-e.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>Since the evaluation order is established by the sequence that components are built, each input propagates upward as it advances from left-to-right. The diamond arrangement of swap circuits is a consequence of nearly-parallel, diagonally-upward lines that terminate on the vertical AND chain.</p>
+
+<p>There is a variation of the equals function where the parameters are rearranged:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></p>
+
+<p>Its circuit is roughly the horizontal mirror of the one above:</p>
+
+<object data="equals-e-a-b-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>Here is the Tetris realization:</p>
+
+<object data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 </body>
 
