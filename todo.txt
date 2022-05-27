@@ -30,12 +30,20 @@ tetrisscript
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
     private static final int[][][] XOR_AB_FB = new int[256][256][2];
         
-    private static final int[][][][] CMP_AND_C = new int[256][256][2][3];
     private static final int[][][][] C_COPY_A_B = new int[2][256][256][3];
     private static final int[][][][] C_COPY_B_A = new int[2][256][256][3];
     private static final int[][][][] COPY_A_B_C = new int[256][256][2][3];
     private static final int[][][][] COPY_B_A_C = new int[256][256][2][3];
+
     private static final int[][][][] AND_A_B_C = new int[256][256][2][3];
     private static final int[][][][] C_AND_A_NOT_B = new int[2][256][256][3]; 
     
     private static final int[][][][] INC_16_C = new int[256][256][2][3];
+
+<table class="bits" style="width: 65%">
+<tr><td class="bottom">A</td><td class="left bottom">B</td><td class="left bottom">(A = B)(C = D)</td><td class="left bottom">C</td><td class="left bottom">D</td></tr>
+<tr><td class="left bottom" colspan="3">f<span class="sub">3</span></td><td class="left bottom">&#129093;</td><td class="left bottom">&#129093;</td></tr>
+<tr><td class="bottom">A</td><td class="left bottom">B</td><td class="left bottom">C = D</td><td class="left bottom">C</td><td class="left bottom">D</td></tr>
+<tr><td class="bottom">&#129093;</td><td class="left bottom">&#129093;</td><td class="left bottom" colspan="3">f<span class="sub">2</span></td></tr>
+<tr><td>A</td><td class="left">B</td><td class="left">X</td><td class="left">C</td><td class="left">D</td></tr>
+</table> 
