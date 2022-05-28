@@ -908,6 +908,64 @@
 
 <object data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
 
+<h2 id="conditional-byte-copy">Conditional Byte Copy</h2>
+
+<p>The conditional byte copy function operates on a 3-byte array. It either copies the first byte to the second byte, or it does nothing, per the value of the third byte.</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>This is achieved by the circuit below where each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of a 2-to-1 multiplexer that selects between <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> based on <span class="math">C<span class="sub">0</span></span>.</p>
+
+<object data="copy-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Here is the Tetris version:</p>
+
+<object data="copy-a-b-c.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Flipping the circuit horizontally creates a variation that either copies the third byte to the second byte, or does nothing, per the value of the first byte:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, Q, B </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">C</span> and <span class="math">B</span> pass through, unchanged.</p>
+
+<p>The flipped circuit appears below.</p>
+
+<object data="copy-c-b-a-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>The Tetris version follows.</p>
+
+<object data="copy-c-b-a.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>Repositioning the multiplexers from the <span class="math">A</span> lines to the <span class="math">B</span> lines reverses the roles of the second and third bytes:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, Q </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>Here is the schematic:</p>
+
+<object data="copy-c-a-b-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Below is the Tetris version.</p>
+
+<object data="copy-c-a-b.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Finally, flipping that circuit horizontally yields a variation that either copies the second byte to the first byte, or does nothing, per the value of the third byte:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">B</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>The flipped circuit follows.</p>
+
+<object data="copy-b-a-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>Here is the Tetris realization:</p>
+
+<object data="copy-b-a-c.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
 <h2 id="byte-swap">Byte Swap</h2>
 
 <p>The byte swap function exchanges the elements of a 2-byte array:</p>
@@ -1043,8 +1101,6 @@
 <object data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
 
 <p>The horizontal mirror of this variation was not implemented. </p>
-
- 
 
 </body>
 
