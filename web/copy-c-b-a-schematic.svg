@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
 
 <svg
-   width="1393.3232"
-   height="512.36115"
-   viewBox="0 0 368.6501 135.56222"
+   width="1405.984239255597652082557416911"
+   height="525.3543259584088001061168842759"
+   viewBox="0 0 372 139"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
@@ -12,7 +12,8 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   style="background-color: #CCCCCC;">
   <sodipodi:namedview
      id="namedview7"
      pagecolor="#ffffff"
@@ -152,7 +153,7 @@
        id="path1953" />
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="127"
        y="501.38541"
        id="text5416"><tspan
@@ -163,7 +164,7 @@
          y="501.38541" /></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="239.82362"
        y="516.35608"
        id="text12716"><tspan
@@ -174,7 +175,7 @@
          y="516.35608">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="234.6272"
        y="516.37018"
        id="text14869"><tspan
@@ -208,7 +209,7 @@
        id="path1953-1" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="208.07362"
        y="489.89777"
        id="text12716-1"><tspan
@@ -219,7 +220,7 @@
          y="489.89777">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="202.8772"
        y="489.91187"
        id="text14869-3"><tspan
@@ -257,7 +258,7 @@
        id="path1953-12" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="192.19862"
        y="476.66858"
        id="text12716-4"><tspan
@@ -268,7 +269,7 @@
          y="476.66858">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="187.0022"
        y="476.68268"
        id="text14869-2"><tspan
@@ -306,7 +307,7 @@
        id="path1953-11" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="176.32361"
        y="463.43942"
        id="text12716-0"><tspan
@@ -317,7 +318,7 @@
          y="463.43942">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="171.1272"
        y="463.45352"
        id="text14869-38"><tspan
@@ -355,7 +356,7 @@
        id="path1953-5" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="160.44862"
        y="450.21027"
        id="text12716-6"><tspan
@@ -366,7 +367,7 @@
          y="450.21027">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="155.25218"
        y="450.22437"
        id="text14869-64"><tspan
@@ -404,7 +405,7 @@
        id="path1953-31" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="144.57362"
        y="436.98108"
        id="text12716-34"><tspan
@@ -415,7 +416,7 @@
          y="436.98108">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="139.37718"
        y="436.99518"
        id="text14869-66"><tspan
@@ -453,7 +454,7 @@
        id="path1953-2" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="128.69864"
        y="423.75192"
        id="text12716-8"><tspan
@@ -464,7 +465,7 @@
          y="423.75192">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="123.50219"
        y="423.76602"
        id="text14869-0"><tspan
@@ -502,7 +503,7 @@
        id="path1953-3" />
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="223.94862"
        y="503.12692"
        id="text12716-7"><tspan
@@ -513,7 +514,7 @@
          y="503.12692">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:3.52777px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:3.52777px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="218.7522"
        y="503.14102"
        id="text14869-6"><tspan
@@ -599,7 +600,7 @@
        id="path23560" />
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="124.68622"
        y="534.6261"
        id="text70347"><tspan
@@ -607,10 +608,10 @@
          id="tspan70345"
          style="stroke-width:0.264583"
          x="124.68622"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="140.56122"
        y="534.6261"
        id="text71231"><tspan
@@ -618,10 +619,10 @@
          id="tspan71229"
          style="stroke-width:0.264583"
          x="140.56122"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="156.43622"
        y="534.6261"
        id="text72049"><tspan
@@ -629,10 +630,10 @@
          id="tspan72047"
          style="stroke-width:0.264583"
          x="156.43622"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="172.31122"
        y="534.6261"
        id="text72713"><tspan
@@ -640,10 +641,10 @@
          id="tspan72711"
          style="stroke-width:0.264583"
          x="172.31122"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="188.18622"
        y="534.6261"
        id="text73817"><tspan
@@ -651,10 +652,10 @@
          id="tspan73815"
          style="stroke-width:0.264583"
          x="188.18622"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="204.06122"
        y="534.6261"
        id="text74569"><tspan
@@ -662,10 +663,10 @@
          id="tspan74567"
          style="stroke-width:0.264583"
          x="204.06122"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="219.93622"
        y="534.6261"
        id="text75585"><tspan
@@ -673,10 +674,10 @@
          id="tspan75583"
          style="stroke-width:0.264583"
          x="219.93622"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="235.8112"
        y="534.6261"
        id="text76249"><tspan
@@ -684,10 +685,10 @@
          id="tspan76247"
          style="stroke-width:0.264583"
          x="235.8112"
-         y="534.6261">A</tspan></text>
+         y="534.6261">A<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="124.4472"
        y="403.58063"
        id="text78687"><tspan
@@ -695,10 +696,10 @@
          id="tspan78685"
          style="stroke-width:0.264583"
          x="124.4472"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="140.32219"
        y="403.58063"
        id="text79395"><tspan
@@ -706,10 +707,10 @@
          id="tspan79393"
          style="stroke-width:0.264583"
          x="140.32219"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="156.19719"
        y="403.58063"
        id="text80103"><tspan
@@ -717,10 +718,10 @@
          id="tspan80101"
          style="stroke-width:0.264583"
          x="156.19719"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="172.07219"
        y="403.58063"
        id="text80459"><tspan
@@ -728,10 +729,10 @@
          id="tspan80457"
          style="stroke-width:0.264583"
          x="172.07219"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="187.94719"
        y="403.58063"
        id="text81211"><tspan
@@ -739,10 +740,10 @@
          id="tspan81209"
          style="stroke-width:0.264583"
          x="187.94719"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="203.82219"
        y="403.58063"
        id="text81831"><tspan
@@ -750,10 +751,10 @@
          id="tspan81829"
          style="stroke-width:0.264583"
          x="203.82219"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="219.69719"
        y="403.58063"
        id="text82319"><tspan
@@ -761,10 +762,10 @@
          id="tspan82317"
          style="stroke-width:0.264583"
          x="219.69719"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="235.57219"
        y="403.58063"
        id="text82873"><tspan
@@ -772,10 +773,10 @@
          id="tspan82871"
          style="stroke-width:0.264583"
          x="235.57219"
-         y="403.58063">Q</tspan></text>
+         y="403.58063">Q<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-96.929047"
        y="414.52145"
        id="text88801"
@@ -787,7 +788,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-81.054047"
        y="414.52145"
        id="text89663"
@@ -799,7 +800,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-65.179047"
        y="414.52145"
        id="text90773"
@@ -811,7 +812,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-49.304047"
        y="414.52145"
        id="text91591"
@@ -823,7 +824,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-33.429047"
        y="414.52145"
        id="text92673"
@@ -835,7 +836,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-17.554047"
        y="414.52145"
        id="text95019"
@@ -847,7 +848,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="-1.6790466"
        y="414.52145"
        id="text96145"
@@ -859,7 +860,7 @@
          y="414.52145">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.70277px;font-family:'Source Serif Pro', serif;fill:#000000;stroke-width:0.264583;line-height:1.25;letter-spacing:0px;word-spacing:0px;"
        x="140.22917"
        y="391.58334"
        id="text102506"><tspan
@@ -870,7 +871,7 @@
          y="391.58334" /></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="252.06586"
        y="534.672"
        id="text106870"><tspan
@@ -878,10 +879,10 @@
          id="tspan106868"
          style="stroke-width:0.264583"
          x="252.06586"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="267.94086"
        y="534.672"
        id="text108128"><tspan
@@ -889,10 +890,10 @@
          id="tspan108126"
          style="stroke-width:0.264583"
          x="267.94086"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="283.81586"
        y="534.672"
        id="text108704"><tspan
@@ -900,10 +901,10 @@
          id="tspan108702"
          style="stroke-width:0.264583"
          x="283.81586"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="299.69086"
        y="534.672"
        id="text109236"><tspan
@@ -911,10 +912,10 @@
          id="tspan109234"
          style="stroke-width:0.264583"
          x="299.69086"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="315.56586"
        y="534.672"
        id="text110208"><tspan
@@ -922,10 +923,10 @@
          id="tspan110206"
          style="stroke-width:0.264583"
          x="315.56586"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="331.44086"
        y="534.672"
        id="text110586"><tspan
@@ -933,10 +934,10 @@
          id="tspan110584"
          style="stroke-width:0.264583"
          x="331.44086"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="347.31586"
        y="534.672"
        id="text111074"><tspan
@@ -944,10 +945,10 @@
          id="tspan111072"
          style="stroke-width:0.264583"
          x="347.31586"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="363.19086"
        y="534.672"
        id="text111562"><tspan
@@ -955,10 +956,10 @@
          id="tspan111560"
          style="stroke-width:0.264583"
          x="363.19086"
-         y="534.672">B</tspan></text>
+         y="534.672">B<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="252.06592"
        y="403.50217"
        id="text106870-6"><tspan
@@ -966,10 +967,10 @@
          id="tspan106868-9"
          style="stroke-width:0.264583"
          x="252.06592"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="267.94092"
        y="403.50217"
        id="text108128-5"><tspan
@@ -977,10 +978,10 @@
          id="tspan108126-6"
          style="stroke-width:0.264583"
          x="267.94092"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="283.81592"
        y="403.50217"
        id="text108704-9"><tspan
@@ -988,10 +989,10 @@
          id="tspan108702-3"
          style="stroke-width:0.264583"
          x="283.81592"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="299.69092"
        y="403.50217"
        id="text109236-2"><tspan
@@ -999,10 +1000,10 @@
          id="tspan109234-6"
          style="stroke-width:0.264583"
          x="299.69092"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="315.56592"
        y="403.50217"
        id="text110208-7"><tspan
@@ -1010,10 +1011,10 @@
          id="tspan110206-4"
          style="stroke-width:0.264583"
          x="315.56592"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="331.44092"
        y="403.50217"
        id="text110586-8"><tspan
@@ -1021,10 +1022,10 @@
          id="tspan110584-5"
          style="stroke-width:0.264583"
          x="331.44092"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="347.31592"
        y="403.50217"
        id="text111074-6"><tspan
@@ -1032,10 +1033,10 @@
          id="tspan111072-4"
          style="stroke-width:0.264583"
          x="347.31592"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="363.19092"
        y="403.50217"
        id="text111562-3"><tspan
@@ -1043,10 +1044,10 @@
          id="tspan111560-7"
          style="stroke-width:0.264583"
          x="363.19092"
-         y="403.50217">B</tspan></text>
+         y="403.50217">B<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="-2.3041704"
        y="534.7309"
        id="text113838"><tspan
@@ -1054,10 +1055,10 @@
          id="tspan113836"
          style="stroke-width:0.264583"
          x="-2.3041704"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="13.570829"
        y="534.7309"
        id="text114744"><tspan
@@ -1065,10 +1066,10 @@
          id="tspan114742"
          style="stroke-width:0.264583"
          x="13.570829"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="29.445831"
        y="534.7309"
        id="text115496"><tspan
@@ -1076,10 +1077,10 @@
          id="tspan115494"
          style="stroke-width:0.264583"
          x="29.445831"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="45.320827"
        y="534.7309"
        id="text116754"><tspan
@@ -1087,10 +1088,10 @@
          id="tspan116752"
          style="stroke-width:0.264583"
          x="45.320827"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="61.195827"
        y="534.7309"
        id="text117154"><tspan
@@ -1098,10 +1099,10 @@
          id="tspan117152"
          style="stroke-width:0.264583"
          x="61.195827"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="77.070831"
        y="534.7309"
        id="text117642"><tspan
@@ -1109,10 +1110,10 @@
          id="tspan117640"
          style="stroke-width:0.264583"
          x="77.070831"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="92.945831"
        y="534.7309"
        id="text118438"><tspan
@@ -1120,10 +1121,10 @@
          id="tspan118436"
          style="stroke-width:0.264583"
          x="92.945831"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="108.82074"
        y="534.7309"
        id="text118926"><tspan
@@ -1131,10 +1132,10 @@
          id="tspan118924"
          style="stroke-width:0.264583"
          x="108.82074"
-         y="534.7309">C</tspan></text>
+         y="534.7309">C<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="-2.3041704"
        y="403.56082"
        id="text113838-7"><tspan
@@ -1142,10 +1143,10 @@
          id="tspan113836-5"
          style="stroke-width:0.264583"
          x="-2.3041704"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">7</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="13.57086"
        y="403.56082"
        id="text114744-4"><tspan
@@ -1153,10 +1154,10 @@
          id="tspan114742-5"
          style="stroke-width:0.264583"
          x="13.57086"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">6</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="29.44586"
        y="403.56082"
        id="text115496-0"><tspan
@@ -1164,10 +1165,10 @@
          id="tspan115494-9"
          style="stroke-width:0.264583"
          x="29.44586"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">5</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="45.320862"
        y="403.56082"
        id="text116754-0"><tspan
@@ -1175,10 +1176,10 @@
          id="tspan116752-7"
          style="stroke-width:0.264583"
          x="45.320862"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">4</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="61.195862"
        y="403.56082"
        id="text117154-9"><tspan
@@ -1186,10 +1187,10 @@
          id="tspan117152-9"
          style="stroke-width:0.264583"
          x="61.195862"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">3</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="77.070862"
        y="403.56082"
        id="text117642-7"><tspan
@@ -1197,10 +1198,10 @@
          id="tspan117640-7"
          style="stroke-width:0.264583"
          x="77.070862"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">2</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="92.945862"
        y="403.56082"
        id="text118438-0"><tspan
@@ -1208,10 +1209,10 @@
          id="tspan118436-9"
          style="stroke-width:0.264583"
          x="92.945862"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">1</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.70277px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-family: 'Bentham', serif; fill: black; font-size: 6.70277px; line-height: 1.25; letter-spacing: 0px; word-spacing: 0px; stroke-width: 0.264583;"
        x="108.82077"
        y="403.56082"
        id="text118926-6"><tspan
@@ -1219,6 +1220,6 @@
          id="tspan118924-9"
          style="stroke-width:0.264583"
          x="108.82077"
-         y="403.56082">C</tspan></text>
+         y="403.56082">C<tspan style="font-size:65%" dy="1.25px">0</tspan></tspan></text>
   </g>
 </svg>
