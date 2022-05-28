@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="1393.3232"
-   height="512.36115"
-   viewBox="0 0 368.6501 135.56222"
+   width="2000"
+   height="2000"
+   viewBox="0 0 529.16665 529.16668"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
@@ -26,8 +26,8 @@
      units="px"
      width="2000px"
      inkscape:zoom="0.70710678"
-     inkscape:cx="968.02919"
-     inkscape:cy="-7.0710678"
+     inkscape:cx="960.95812"
+     inkscape:cy="1501.8948"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
      inkscape:window-x="-8"
@@ -37,24 +37,17 @@
      inkscape:snap-nodes="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true"
-     inkscape:snap-others="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0">
+     inkscape:snap-others="false">
     <inkscape:grid
        type="xygrid"
-       id="grid824"
-       originx="1.9441583"
-       originy="-399.31923" />
+       id="grid824" />
   </sodipodi:namedview>
   <defs
      id="defs2" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(1.9441583,-399.31922)">
+     id="layer1">
     <path
        style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 365.125,529.16666 V 404.8125"
@@ -528,7 +521,7 @@
        id="path20422-5" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 111.125,529.16666 V 404.8125"
+       d="m 111.125,529.16666 0,-124.35416"
        id="path22387"
        sodipodi:nodetypes="cc" />
     <path
@@ -590,7 +583,7 @@
        id="path22387-3-5-6" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 111.125,521.22917 h 119.0625 v -6.6146 h 3.96875"
+       d="m 111.125,521.22917 119.0625,0 v -6.6146 h 3.96875"
        id="path22387-2-6-7"
        sodipodi:nodetypes="cccc" />
     <path
