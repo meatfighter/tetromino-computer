@@ -699,7 +699,7 @@
 
 <h2 id="logical-and">Logical AND</h2>
 
-<p>The logical AND function operates on a 3-byte array where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second elements together, and stores the result in the third element:</p>
+<p>The logical AND function operates on a 3-byte array, where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second elements together, and stores the result in the third element:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -715,17 +715,23 @@
 
 <object data="and-a-b-c.svg" type="image/svg+xml" class="diagram">Logical AND</object>
 
+<h2 id="logical-and-not">Logical AND-NOT</h2>
+
+<p>The logical AND-NOT function operates on a 3-byte array, where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It sets the first element to the second element ANDed with the inverse of the third element:</p>
+
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">C = A<span class="overline">B</span></span></p>
 
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+
+<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">C</span>:</p>
+
 <object data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>...</p>
+<p>As seen in the Tetris version below, the horizontal wires in the schematic are actualized as chains of swap circuits. Since the evaluation order is the order in which components are constructed, the chains rise as the signals propagate right-to-left.</p>
 
 <object data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
-
-<p>...</p>
 
 <h2 id="decrement">Decrement</h2>
 
