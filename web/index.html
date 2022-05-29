@@ -1145,6 +1145,14 @@
 
 <object data="incrementor-16.svg" type="image/svg+xml" class="diagram">16-bit Incrementor</object>
 
+<h2 id="conditional-increment">Conditional Increment</h2>
+
+<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a 16-bit word and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
+
 </body>
 
 </html>
