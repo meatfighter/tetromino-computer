@@ -699,9 +699,33 @@
 
 <h2 id="logical-and">Logical AND</h2>
 
-<p>...</p>
+<p>The logical AND function operates on a 3-byte array where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second elements together, and stores the result in the third element:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">C = AB</span></p>
+
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+
+<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are ANDed together:</p>
+
+<object data="and-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Logical AND Schematic</object>
+
+<p>In the Tetris realization below, the AND gate is miniscule in comparison to the swap circuits required for <span class="math">A<span class="sub">0</span></span> to traverse the <span class="math">B</span> lines.</p>
+
+<object data="and-a-b-c.svg" type="image/svg+xml" class="diagram">Logical AND</object>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">C = A<span class="overline">B</span></span></p>
+
+<object data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+
+<p>...</p>
+
+<object data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
+
+<p>...</p>
 
 <h2 id="decrement">Decrement</h2>
 
