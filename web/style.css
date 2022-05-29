@@ -208,6 +208,12 @@ td.green {
     border-bottom: 1px solid;
 }
 
+td.cyan {
+    background: #CEFFFF;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+}
+
 td.blue {
     background: #CCCDFF;
     border-left: 1px solid;
