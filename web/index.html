@@ -1147,11 +1147,19 @@
 
 <h2 id="conditional-increment">Conditional Increment</h2>
 
-<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a 16-bit word and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
+<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned, 16-bit integer, and <span class="math">C</span> is a Boolean (a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>):</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
+
+<p>As shown in the schematic below, it is realized by feeding the lowest bit of <span class="math">C</span> into the carry-in of a 16-bit incrementer. The carry-out is discarded.</p>
+
+<object data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
+
+<p>Here is the Tetris version:</p>
+
+<object data="conditional-increment.svg" type="image/svg+xml" class="diagram">Conditional Increment</object>
 
 </body>
 
