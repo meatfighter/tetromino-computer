@@ -22,9 +22,6 @@ refactor packages:
 tetrisscript
 
 
-    private static final int[][][] AND_AB_AF = new int[256][256][2];
-    private static final int[][][] AND_AB_FB = new int[256][256][2];
-
     private static final int[][][] ADD_AB_FB = new int[256][256][2];
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
 
