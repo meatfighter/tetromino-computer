@@ -21,6 +21,70 @@ refactor packages:
 
 tetrisscript
 
+XYC KS
+000 00
+001 01
+010 01
+011 10
+
+100 01
+101 10
+110 10
+111 11
+
+S = X ^ Y ^ C since the least significant digit of a binary addition is the same as the sum mod 2.
+
+S = !X !Y C + !X Y !C + X !Y !C + X Y C
+
+  = !X Y !C + X !Y !C + !X !Y C + X Y C
+
+  = !C (!X Y + X !Y) + C !(!X Y + X !Y)
+
+
+
+K = !X Y C + X !Y C + X Y !C + X Y C
+
+  = X Y + !X Y C + X !Y C
+
+  = X Y + C (!X Y + X !Y)
+
+  = X Y + C (X^Y)
+
+
+  = X Y + C (X + Y) (!X + !Y)
+
+  = X Y + C (X + Y) !(X Y)
+
+  
+  = a + b !a
+
+  = !(!a !(b !a))
+
+  = !(!a (!b + a))
+
+  = !(!a !b + a !a)
+
+  = !(!a !b)
+
+  = a + b
+
+
+
+  = X Y + C (X + Y)
+ 
+  = X C + X (X Y + !X !Y) + Y C + Y (X Y + !X !Y)
+
+  = X C + X !(X ^ Y) + Y C + Y !(X ^ Y)
+
+  = (X + Y)(C + !(X ^ Y)) 
+
+  = !( !(X + Y) + !(C + !(X ^ Y)) )
+
+
+  (X + Y)(!X + !Y) = (X !X + X !Y + !X Y + Y !Y) = X !Y + !X Y
+
+  !(!X !Y) !(X Y)
+
 
     private static final int[][][] ADD_AB_FB = new int[256][256][2];
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
