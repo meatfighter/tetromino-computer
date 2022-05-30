@@ -29,9 +29,6 @@ tetrisscript
     private static final int[][][] ADD_AB_FB = new int[256][256][2];
     private static final int[][][] SUB_AB_FB = new int[256][256][2];
 
-    private static final int[][][] OR_AB_FB = new int[256][256][2];    
-    private static final int[][][] XOR_AB_FB = new int[256][256][2];
-
 <table class="bits" style="width: 65%">
 <tr><td class="bottom">A</td><td class="left bottom">B</td><td class="left bottom">(A = B)(C = D)</td><td class="left bottom">C</td><td class="left bottom">D</td></tr>
 <tr><td class="left bottom" colspan="3">f<span class="sub">3</span></td><td class="left bottom">&#129093;</td><td class="left bottom">&#129093;</td></tr>

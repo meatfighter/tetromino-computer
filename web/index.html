@@ -996,6 +996,22 @@
 
 <object data="bitwise-or.svg" type="image/svg+xml" class="diagram">Bitwise OR</object>
 
+<h2 id="bitwise-xor">Bitwise XOR</h2>
+
+<p>The bitwise XOR function operates on a 2-byte array. It sets the first byte to the bitwise XOR of both bytes:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
+
+<p><span class="math">Q = A &oplus; B</span> and <span class="math">B</span> passes through, unchanged.</p>
+
+<p>As revealed in the following schematic, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of an XOR gate that combines each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, with each bit of <span class="math">B</span>, <span class="math">B<span class="sub">i</span></span>.</p>
+
+<object data="bitwise-xor-schematic.svg" type="image/svg+xml" class="diagram">Bitwise XOR Schematic</object>
+
+<p>In the Tetris version below, the row of XOR gates is in the upper-left. The parallelogram dominating the space is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
+
+<object data="bitwise-xor.svg" type="image/svg+xml" class="diagram">Bitwise XOR</object>
+
 <h2 id="decrement">Decrement</h2>
 
 <p>The decrement function subtracts one from its argument:</p>
