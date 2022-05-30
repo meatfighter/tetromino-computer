@@ -742,17 +742,23 @@
 
 <h2 id="logical-and-not">Logical AND-NOT</h2>
 
-<p>...</p>
+<p>The logical AND-NOT function operates on a 2-byte array, where both elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first element with the first element ANDed with the inverse of the second element:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+
+<p><span class="math">Q = A<span class="overline">B</span></span></p>
+
+<p><span class="math">B</span> passes through unchanged while <span class="math">A</span> is lost.</p>
+
+<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">Q</span>:</p>
 
 <object data="and-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>...</p>
+<p>In the Tetris version, shown below, the horizontal <span class="math">B<span class="sub">0</span></span> wire is realized as a chain of swap circuits. The swaps are stacked from right-to-left, producing a diagonal line while shuttling the signal.</p>
 
 <object data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>...</p>
-
-<p>The logical AND-NOT function operates on a 3-byte array, where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It sets the first element to the second element ANDed with the inverse of the third element:</p>
+<p>There is a variation that operates on an array of 3 Booleans. It sets the first element to the second element ANDed with the inverse of the third element:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -760,11 +766,11 @@
 
 <p><span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
 
-<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">C</span>:</p>
+<p>As above, only the lowest bits of <span class="math">A</span> and <span class="math">B</span> are used to generate the result:</p>
 
 <object data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>As seen in the Tetris version below, the horizontal wires in the schematic are actualized as chains of swap circuits. Since the evaluation order is the order in which components are constructed, the chains rise as the signals propagate right-to-left.</p>
+<p>The Tetris version follows.</p>
 
 <object data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
 
