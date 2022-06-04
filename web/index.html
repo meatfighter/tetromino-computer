@@ -609,7 +609,7 @@
 <p>The functions are stackable. Meaning, the output of any function can serve as the input of another. To make that work:</p>
 
 <ul>
-<li>Each function operates on an 8-bit, 16-bit, or 24-bit value.</li>
+<li>Each function operates on an <span class="nowrap">8-bit</span>, <span class="nowrap">16-bit</span>, or <span class="nowrap">24-bit</span> value.</li>
 <li>The number of input bits always equals the number of output bits.</li> 
 <li>Each input node has a corresponding output node in the same column.</li> 
 <li>The terminals are evenly spaced, 10 cells apart. That width provides room for wide components, such as the swap circuit. And a round, base-10 number makes measurements easier.</li>
@@ -617,21 +617,21 @@
 
 <h2 id="arrays">Arrays</h2>
 
-<p>Some 16-bit functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 66.666666666666666666666666666667%">
 <tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td></tr>
 <tr><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some 24-bit functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 100%">
 <tr><td class="red">A<span class="sub">7</span></td><td class="red">A<span class="sub">6</span></td><td class="red">A<span class="sub">5</span></td><td class="red">A<span class="sub">4</span></td><td class="red">A<span class="sub">3</span></td><td class="red">A<span class="sub">2</span></td><td class="red">A<span class="sub">1</span></td><td class="red">A<span class="sub">0</span></td><td class="green">B<span class="sub">7</span></td><td class="green">B<span class="sub">6</span></td><td class="green">B<span class="sub">5</span></td><td class="green">B<span class="sub">4</span></td><td class="green">B<span class="sub">3</span></td><td class="green">B<span class="sub">2</span></td><td class="green">B<span class="sub">1</span></td><td class="green">B<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
 <tr><td class="blue">V<span class="sub">23</span></td><td class="blue">V<span class="sub">22</span></td><td class="blue">V<span class="sub">21</span></td><td class="blue">V<span class="sub">20</span></td><td class="blue">V<span class="sub">19</span></td><td class="blue">V<span class="sub">18</span></td><td class="blue">V<span class="sub">17</span></td><td class="blue">V<span class="sub">16</span></td><td class="blue">V<span class="sub">15</span></td><td class="blue">V<span class="sub">14</span></td><td class="blue">V<span class="sub">13</span></td><td class="blue">V<span class="sub">12</span></td><td class="blue">V<span class="sub">11</span></td><td class="blue">V<span class="sub">10</span></td><td class="blue">V<span class="sub">9</span></td><td class="blue">V<span class="sub">8</span></td><td class="blue">V<span class="sub">7</span></td><td class="blue">V<span class="sub">6</span></td><td class="blue">V<span class="sub">5</span></td><td class="blue">V<span class="sub">4</span></td><td class="blue">V<span class="sub">3</span></td><td class="blue">V<span class="sub">2</span></td><td class="blue">V<span class="sub">1</span></td><td class="blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>One 24-bit function interprets the input value, <span class="math">V</span>, as a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
+<p>One <span class="nowrap">24-bit</span> function interprets the input value, <span class="math">V</span>, as a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
 
 <table class="bits" style="width: 100%">
 <tr><td class="cyan">W<span class="sub">15</span></td><td class="cyan">W<span class="sub">14</span></td><td class="cyan">W<span class="cyan">13</span></td><td class="cyan">W<span class="sub">12</span></td><td class="cyan">W<span class="sub">11</span></td><td class="cyan">W<span class="sub">10</span></td><td class="cyan">W<span class="sub">9</span></td><td class="cyan">W<span class="sub">8</span></td><td class="cyan">W<span class="sub">7</span></td><td class="cyan">W<span class="sub">6</span></td><td class="cyan">W<span class="sub">5</span></td><td class="cyan">W<span class="sub">4</span></td><td class="cyan">W<span class="sub">3</span></td><td class="cyan">W<span class="sub">2</span></td><td class="cyan">W<span class="sub">1</span></td><td class="cyan">W<span class="sub">0</span></td><td class="yellow">C<span class="sub">7</span></td><td class="yellow">C<span class="sub">6</span></td><td class="yellow">C<span class="sub">5</span></td><td class="yellow">C<span class="sub">4</span></td><td class="yellow">C<span class="sub">3</span></td><td class="yellow">C<span class="sub">2</span></td><td class="yellow">C<span class="sub">1</span></td><td class="yellow">C<span class="sub">0</span></td></tr>
@@ -646,7 +646,7 @@
 
 <p><span class="math">f(x) = x</span></p> 
 
-<p>The image below depicts an 8-bit identity function. The height is arbitrary.</p>
+<p>The image below depicts an <span class="nowrap">8-bit</span> identity function. The height is arbitrary.</p>
 
 <object data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
 
@@ -656,7 +656,7 @@
 
 <p><span class="math">f(x) = k</span></p>
 
-<p>There are two 1-bit versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
+<p>There are two <span class="nowrap">1-bit</span> versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
 
 <p><span class="math">f(A) = A &oplus; A = </span><span class="serif">0</span></p>
 
@@ -675,7 +675,7 @@
 
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
-<p>The second 1-bit function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
+<p>The second <span class="nowrap">1-bit</span> function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
 
 <p><span class="math">f(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
 
@@ -694,7 +694,7 @@
 
 <object data="true.svg" type="image/svg+xml" class="diagram">True</object>
 
-<p>8-bit constant functions are realized by applying the 1-bit versions to each bit. The following example resets a byte to <span class="mono">0</span>.</p>
+<p><span class="nowrap">8-bit</span> constant functions are realized by applying the <span class="nowrap">1-bit</span> versions to each bit. The following example resets a byte to <span class="mono">0</span>.</p>
 
 <object data="clear.svg" type="image/svg+xml" class="diagram">Clear</object>
 
@@ -704,7 +704,7 @@
 
 <h2 id="logical-left-shift">Logical Left Shift</h2>
 
-<p>Logical left shift is an 8-bit function that moves every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost:</p>
+<p>Logical left shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost:</p>
 
 <object data="logical-left-shift.svg" type="image/svg+xml" class="diagram">Logical Left Shift</object>
 
@@ -714,7 +714,7 @@
 
 <h2 id="logical-right-shift">Logical Right Shift</h2>
 
-<p>Logical right shift is an 8-bit function that moves every input bit one position to the right. The leftmost bit is set to <span class="mono">0</span> and the right most bit is lost:</p>
+<p>Logical right shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the right. The leftmost bit is set to <span class="mono">0</span> and the right most bit is lost:</p>
 
 <object data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
 
@@ -848,11 +848,11 @@
 
 <p>It is realized with the following wiring, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
-<object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram">8-bit Swap Schematic</object>
+<object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap Schematic</object>
 
 <p>The diamond pattern in the schematic appears in the Tetris version below due to extensive use of the swap circuit.</p>
 
-<object data="swap-8.svg" type="image/svg+xml" class="diagram">8-bit Swap</object>
+<object data="swap-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap</object>
 
 <h2 id="byte-match">Byte Match</h2>
 
@@ -1068,7 +1068,7 @@
 
 <p><span class="math">f(x) = x &minus; </span><span class="serif">1</span></p>
 
-<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each accepts a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a 1-bit <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference, a 2-bit value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
+<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each accepts a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference, a <span class="nowrap">2-bit</span> value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">B</th><th class="math">D</th><th class="border-left borderless">Meaning</th></tr>
@@ -1136,13 +1136,13 @@
 
 <p>The circuit is a binary odometer that counts down. If a digit rolls back (transitions from <span class="mono">0</span> to <span class="mono">1</span>), then the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term">borrow-in</span> is <span class="mono">1</span> (far right). If an input digit is <span class="mono">0</span> and the borrow-in is <span class="mono">1</span>, then both the output digit and the <span class="term">borrow-out</span> is <span class="mono">1</span>.</p>
 
-<p>The 8-bit function in the image below decrements <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a 1-bit constant function at the bottom-right that supplies the initial borrow-in. From there, digits are evaluated right-to-left (and bottom-up). The final borrow-out is discarded.</p>
+<p>The <span class="nowrap">8-bit</span> function in the image below decrements <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a <span class="nowrap">1-bit</span> constant function at the bottom-right that supplies the initial borrow-in. From there, digits are evaluated right-to-left (and bottom-up). The final borrow-out is discarded.</p>
 
-<object data="decrementer-8.svg" type="image/svg+xml" class="diagram">8-bit Decrementer</object>
+<object data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
 
-<p>When the input is <span class="mono">0</span>, the decrement function rolls back to the maximum value. This is demonstrated in the following image that shows the 16-bit version. </p>
+<p>When the input is <span class="mono">0</span>, the decrement function rolls back to the maximum value. This is demonstrated in the following image that shows the <span class="nowrap">16-bit</span> version. </p>
 
-<object data="decrementer-16.svg" type="image/svg+xml" class="diagram">16-bit Decrementer</object>
+<object data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
 
 <h2 id="increment">Increment</h2>
 
@@ -1150,7 +1150,7 @@
 
 <p><span class="math">f(x) = x + </span><span class="serif">1</span></p>
 
-<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each accepts two 1-bit <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum, a 2-bit value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each accepts two <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
@@ -1219,29 +1219,73 @@
 
 <p>The circuit is a binary odometer that counts up. If a digit rolls over (transitions from <span class="mono">1</span> to <span class="mono">0</span>), then the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term">carry-in</span> is <span class="mono">0</span> (far right). If an input digit is <span class="mono">1</span> and the carry-in is <span class="mono">1</span>, then output digit is <span class="mono">0</span> and the <span class="term">carry-out</span> is <span class="mono">1</span>.</p>
 
-<p>The 8-bit function in the following image increments <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a 1-bit constant function at the bottom-right that supplies the initial carry-in. From there, digits are evaluated right-to-left (and bottom-up). The final carry-out is discarded.</p>
+<p>The <span class="nowrap">8-bit</span> function in the following image increments <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a <span class="nowrap">1-bit</span> constant function at the bottom-right that supplies the initial carry-in. From there, digits are evaluated right-to-left (and bottom-up). The final carry-out is discarded.</p>
 
-<object data="incrementor-8.svg" type="image/svg+xml" class="diagram">8-bit Incrementor</object>
+<object data="incrementor-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Incrementor</object>
 
-<p>When the input is the maximum value, the increment function rolls over to <span class="mono">0</span>. This is demonstrated in the image below that shows the 16-bit version.</p>
+<p>When the input is the maximum value, the increment function rolls over to <span class="mono">0</span>. This is demonstrated in the image below that shows the <span class="nowrap">16-bit</span> version.</p>
 
-<object data="incrementor-16.svg" type="image/svg+xml" class="diagram">16-bit Incrementor</object>
+<object data="incrementor-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Incrementor</object>
 
 <h2 id="conditional-increment">Conditional Increment</h2>
 
-<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned, 16-bit integer, and <span class="math">C</span> is a Boolean (a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>):</p>
+<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned, <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean (a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>):</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
 
-<p>As shown in the schematic below, it is realized by feeding the lowest bit of <span class="math">C</span> into the carry-in of a 16-bit incrementer. The carry-out is discarded.</p>
+<p>As shown in the schematic below, it is realized by feeding the lowest bit of <span class="math">C</span> into the carry-in of a <span class="nowrap">16-bit</span> incrementer. The carry-out is discarded.</p>
 
 <object data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
 
 <p>Here is the Tetris version:</p>
 
 <object data="conditional-increment.svg" type="image/svg+xml" class="diagram">Conditional Increment</object>
+
+<h2 id="add">Add</h2>
+
+The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8469;</span> or <span class="math">&#8484;</span></p>
+
+<p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic addition.</p>
+
+<p><span class="math">B</span> passes through, unchanged.</p>
+
+<p>The implementation of the function consists of a chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Full_adder" target="_blank">full adders</a>, devices capable of single-digit addition. Each accepts three <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span>, <span class="math">Y</span>, and <span class="math">Z</span>, and outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="math">Z</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 &plus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 0 &plus; 1 = 1</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 1 &plus; 1 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 0 &plus; 1 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 &plus; 0 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 1 &plus; 1 = 3</span></td></tr>
+</table>
+
+<p><span class="math">S</span> can be expressed as an OR of ANDs and NOTs from the rows of the table where <span class="math">S</span> is <span class="mono">1</span>: 
+
+<p><span class="math">S = <span class="overline">X</span> <span class="overline">Y</span> Z + <span class="overline">X</span> Y <span class="overline">Z</span> + X <span class="overline">Y</span> <span class="overline">Z</span> + X Y Z</span></p>
+
+<p><span class="math">= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
+
+<p><span class="math">= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
+
+<p><span class="math">= X &oplus; Y &oplus; Z</span></p>
+
+<p>Alternatively:</p>
+
+<p><span class="math">T = <span class="overline">Y &oplus; Z</span></span></p>
+
+<p><span class="math">S = <span class="overline">X</span> <span class="overline">T</span> + X T</span></p>
+
+<p><span class="math">= <span class="overline">X &oplus; T</span></span></p>
+
+<p><span class="math">= <span class="overline">X &oplus; T</span></span></p>
 
 </body>
 
