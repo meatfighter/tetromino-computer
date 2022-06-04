@@ -41,6 +41,11 @@ S = !X !Y C + !X Y !C + X !Y !C + X Y C
   = !C (!X Y + X !Y) + C !(!X Y + X !Y)
 
 
+S = !X !Y Z + !X Y !Z + X !Y !Z + X Y Z
+
+= !X (!Y Z + Y !Z) + X (!Y !Z + Y Z)
+
+
 
 K = !X Y C + X !Y C + X Y !C + X Y C
 

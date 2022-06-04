@@ -76,6 +76,11 @@ span.high-overline {
     padding-top: 5px;
 }
 
+span.higher-overline {
+    border-top: 0.1em solid;
+    padding-top: 10px;
+}
+
 span.nowrap {
     white-space: nowrap;
 }
