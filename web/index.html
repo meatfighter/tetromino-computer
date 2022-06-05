@@ -1130,7 +1130,7 @@
 
 <object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
 
-<p>Half subtractors are chained in the following configuration where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+<p>For the function, half subtractors are chained in the following configuration where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
 <object data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
 
@@ -1213,7 +1213,7 @@
 
 <object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
-<p>Half adders are chained in the configuration below where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+<p>For the function, half adders are chained in the configuration below where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
 <object data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
 
@@ -1245,7 +1245,7 @@
 
 <h2 id="add">Add</h2>
 
-The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:
+<p>The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></p>
 
@@ -1335,11 +1335,11 @@ The add function operates on a 2-byte array. It sets the first byte to the sum o
 
 <object data="full-adder-x-1.svg" type="image/svg+xml" class="diagram">Full Adder, X = 1</object>
 
-<p>Full adders are chained right-to-left, as shown below. Each accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and outputs a digit of the sum, <span class="math">Q<span class="sub">i</span></span>, along with an unmodified addend digit, <span class="math">B<span class="sub">i</span></span>.</p>
+<p>For the function, full adders are chained, as shown below. Each accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and outputs a sum digit, <span class="math">Q<span class="sub">i</span></span>, along with an unmodified addend digit, <span class="math">B<span class="sub">i</span></span>.</p>
 
 <object data="adder-schematic.svg" type="image/svg+xml" class="diagram">4-bit Adder Schematic</object>
 
-<p>Each <span class="math">Z</span> and <span class="math">C</span> pair respectively operates as the <span class="nowrap">carry-in</span> and <span class="nowrap">carry-out</span> for the column. If the sum of the addend digits and the <span class="nowrap">carry-in</span> cannot fit in a single digit, then the upper digit is carried to the next column. The initial carry-in is <span class="mono">0</span> (far right) and the final carry-out is lost.</p>
+<p>As when addition is done by hand, the digit columns are evaluated right-to-left. In each column, if the sum of the <span class="nowrap">carry-in</span>, <span class="math">Z</span>, and the addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, is not a single digit number, then the upper digit of that sum, <span class="math">C</span>, is carried out to the next column. The initial carry-in is <span class="mono">0</span> (far right) and the final carry-out is lost.</p>
 
 <p>Crisscrossing wires are required to interlace the inputs and to disentangle the outputs:</p>
 
@@ -1349,19 +1349,33 @@ The add function operates on a 2-byte array. It sets the first byte to the sum o
 
 <object data="add.svg" type="image/svg+xml" class="diagram">8-bit Adder</object>
 
-<p>The full adders are stacked diagonally to enable the carries to ripple in the expected order, from right-to-left.</p>
+<p>The full adders are stacked diagonally to enable the carries to ripple in the expected order.</p>
 
 <h2 id="subtract">Subtract</h2>
 
-<p>...</p>
+<p>The subtract function operates on a 2-byte array. It sets the first byte to the difference of the first byte and the second byte:</p>
+
+<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></p>
+
+<p><span class="math">Q = A &minus; B</span></p>
+
+<p><span class="math">B</span> passes through, unchanged.</p>
+
+<p>Since <span class="math">A</span>, <span class="math">B</span>, and <span class="math">Q</span> are <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two’s complement numbers</a>, the subtraction can be transformed into a sum:</p>
+
+<p><span class="math">A &minus; B = A + -B = A + </span><span class="serif">~</span><span class="math">B + </span><span class="serif">1</span>, where <span class="serif">~</span> means <a href="https://en.wikipedia.org/wiki/Bitwise_operation#NOT" target="_blank">bitwise inversion</a>.</p>
+
+<p>Consequentially, the subtraction circuit is the modified addition circuit shown below.</p>
 
 <object data="subtract-schematic.svg" type="image/svg+xml" class="diagram">8-bit Subtractor Schematic</object>
 
-<p>...</p>
+<p>The <span class="mono">1</span> required by the transformation is provided by the initial carry-in (far right).</p>
+
+<p>The bits of <span class="math">B</span> are inverted twice to return it with its original value.</p>
+
+<p>The Tetris realization follows.</p>
 
 <object data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
-
-<p>...</p>
 
 </body>
 
