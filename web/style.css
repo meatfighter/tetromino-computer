@@ -185,10 +185,31 @@ table.bits {
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
-    border: 1px solid;
+    border: none;
     font-family: 'Bentham', serif;
     font-size: 19px;
     text-align: center;    
+}
+
+td.row-number {
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    width: 20px;
+    text-align: right;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td.column-number {
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    text-align: center;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
 }
 
 td.bottom {
@@ -197,6 +218,18 @@ td.bottom {
 
 td.left {
     border-left: 1px solid;
+}
+
+td.right {
+    border-right: 1px solid;
+}
+
+td.top {
+    border-top: 1px solid;
+}
+
+td.top-2 {
+    border-top: 2px solid;
 }
 
 td.red {
@@ -257,7 +290,7 @@ th.borderless {
     padding-right: 10px;  
 }
 
-th.monospaced {
+th.mono {
     text-align: center;
     font-family: 'Source Code Pro', monospace;
     font-weight: bold;
@@ -281,21 +314,4 @@ td.mono {
 
 td.border-left {
     border-left: 1pt solid silver;
-}
-
-td.monospaced {
-    font-size: 16px;
-    font-family: 'Source Code Pro', monospace;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-}
-
-td.bold-mono {
-    font-size: 16px;
-    font-family: 'Source Code Pro', monospace;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-    font-weight: bolder;
 }

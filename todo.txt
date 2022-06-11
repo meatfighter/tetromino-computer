@@ -28,3 +28,8 @@ tetrisscript
 <tr><td class="bottom">&#129093;</td><td class="left bottom">&#129093;</td><td class="left bottom" colspan="3">f<span class="sub">2</span></td></tr>
 <tr><td>A</td><td class="left">B</td><td class="left">X</td><td class="left">C</td><td class="left">D</td></tr>
 </table> 
+
+minus detector
+function height unification
+function catalog
+memory
