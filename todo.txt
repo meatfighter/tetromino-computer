@@ -33,3 +33,8 @@ minus detector
 function height unification
 function catalog
 memory
+
+remove the CONST_XX
+explain that memory initialization will be explained later
+mention that applying the identity function works because all functions are the same height
+use INC_8 or left shift for example 1
