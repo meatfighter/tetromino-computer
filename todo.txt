@@ -24,4 +24,13 @@ tetrisscript
 minus detector
 function height unification
 function catalog
-memory
+
+memory - initialization: blindfolder player cannot see initial memory state
+
+memory - shrinking: plausible, but not necessary
+
+memory - abstraction: it's an array!
+
+computer
+
+turing machine - infinite tape + read/write head + state register + transition function + roller
