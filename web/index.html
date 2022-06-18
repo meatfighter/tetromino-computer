@@ -1377,17 +1377,25 @@
 
 <object data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
 
+<h2 id="height-unification">Height Unification</h2>
+
+<p>The subtract function is the tallest function, at least as they have been portrayed thus far. In reality, the functions are padded with buffers that extends them to a common height. This means, every function fits in a rectangle of 1 of 3 possible sizes: the base covers either 8, 16, or 24 bits, and the height is some constant. As discussed in subsequent sections, this enables functions to operate like interchangeable, building blocks of logic.</p>
+
+<h2 id="function-catalog">Function Catalog</h2>
+
+<p>...</p>
+
 <h1 id="memory">Memory</h1>
 
 <p>This section describes how memory works.</p>
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>Memory is an information storage device consisting of a rectangular pile that extends from the left boundary of the workspace to a finite distance rightward. Its state is encoded in a sequence of bits in the <span class="nowrap">top-2</span> rows of the pile. The bits are regularly-spaced, 10 columns apart. And the number of bits is divisible by 8, making the sequence a finite list of bytes ordered left-to-right.</p>
+<p>Memory is an information storage device consisting of a rectangular pile with finite dimensions. The left edge of the pile abuts the left boundary of the workspace. The memory state is encoded as a sequence of bits in the <span class="nowrap">top-2</span> rows. The bits are regularly-spaced, 10 columns apart. And the number of bits is divisible by 8, which makes the sequence a finite list of bytes ordered left-to-right.</p>
 
 <p>The bytes are manipulated by applying functions. This involves constructing a function on top of the bytes to be changed and using identity functions to keep the remaining bytes the same. Since functions have a uniform height, the identity functions also keep the pile rectangular.</p>
 
-<p>An example of byte manipulation appears below. The numbered green rows contain successive memory states. The blue row comprises the functions that transition states. Memory <span class="nowrap">state <span class="mono">0</span></span> (the bottom row) consists of 5 bytes that are all zero. <span class="nowrap">Byte <span class="mono">2</span></span> is incremented by building the <span class="mono">INC</span> function on the surface of the pile at the location of <span class="nowrap">byte <span class="mono">2</span></span>, and erecting identity functions (the up arrows) on top of the remaining bytes. The result is memory <span class="nowrap">state <span class="mono">1</span></span> (the top row). The delta appears yellow.</p>
+<p>An example of byte manipulation appears below. The numbered, green rows contain successive memory states. The blue row comprises the functions that transition states. Memory <span class="nowrap">state <span class="mono">0</span></span> (the bottom row) consists of 5 bytes that are all zero. <span class="nowrap">Byte <span class="mono">2</span></span> is incremented by building the <span class="mono">INC</span> function on the surface of the pile at the location of <span class="nowrap">byte <span class="mono">2</span></span>, and erecting identity functions (the up arrows) on top of the remaining bytes. The result is memory <span class="nowrap">state <span class="mono">1</span></span> (the top row). The delta appears yellow.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
@@ -1504,6 +1512,8 @@
 <p>Since the region containing <span class="nowrap">byte <span class="mono">5</span></span> starts out empty, memory state <span class="mono">0</span> (the bottom row) shows its initial value as question mark. To allocate the byte, a <span class="mono">CLEAR</span> function is constructed directly on the playfield floor, establishing the value zero as exhibited in memory state <span class="mono">1</span>. Then multiple identity functions propagate the zero to the top of the pile.</p> 
 
 <p>The player carries out this action when a MetaTetrisScript instruction directs it to construct a function outside the current bounds of the pile. To do so, the player keeps track of both the pile height and the (potentially increasing) pile width.</p>
+
+<p>For the models of computation discussed below, memory is never deallocated, though it is possible. It requires the player to keep track of the column heights. With that information, it can restore the columns that were abandoned during deallocation back to the height of the pile.</p>
 
 </body>
 

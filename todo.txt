@@ -21,13 +21,9 @@ refactor packages:
 
 tetrisscript
 
-minus detector
-function height unification
 function catalog
 
 memory - initialization: blindfolder player cannot see initial memory state
-
-memory - shrinking: plausible, but not necessary
 
 memory - abstraction: it's an array!
 
