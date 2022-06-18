@@ -1379,7 +1379,7 @@
 
 <h2 id="height-unification">Height Unification</h2>
 
-<p>The subtract function is the tallest function, at least as they have been portrayed thus far. In reality, the functions are padded with buffers that extends them to a common height. This means, every function fits in a rectangle of 1 of 3 possible sizes: the base covers either 8, 16, or 24 bits, and the height is some constant. As discussed in subsequent sections, this enables functions to operate like interchangeable, building blocks of logic.</p>
+<p>Of all the implemented functions, subtract is the tallest, at least as they have been portrayed thus far. In reality, the functions are padded with buffers that extends them to a common height. As such, every function fits in a rectangle of 1 of 3 possible sizes: the base covers either 8, 16, or 24 bits, and the height is some constant. This enables functions to operate like interchangeable, building blocks of logic.</p>
 
 <h2 id="function-catalog">Function Catalog</h2>
 
@@ -1513,7 +1513,15 @@
 
 <p>The player carries out this action when a MetaTetrisScript instruction directs it to construct a function outside the current bounds of the pile. To do so, the player keeps track of both the pile height and the (potentially increasing) pile width.</p>
 
-<p>For the models of computation discussed below, memory is never deallocated, though it is possible. It requires the player to keep track of the column heights. With that information, it can restore the columns that were abandoned during deallocation back to the height of the pile.</p>
+<p>For the models of computation discussed below, memory is never deallocated, though it is possible. The process requires the player to keep track of the heights of all the columns. With that, it can contract the pile and later, during subsequent expansion, it can restore abandoned columns back to the pile height.</p>
+
+<h2 id="memory-initialization">Initialization</h2>
+
+<p>Although the player could initialize memory by dropping a sequence of constant functions directly onto the playfield floor, that would violate its principles. The blindfolded player can never be made aware of any memory state, including the initial state. Instead, the playfield, rather than starting out empty, begins with the input dataset already encoded within it. And, due to the way memory expands, the unallocated region is effectively initialized to zeros.</p>
+
+<h2 id="dynamic-array-abstraction">Dynamic Array Abstraction</h2>
+
+<p>When a function is constructed, it interacts exclusively with the surface of the pile. Everything beneath&mdash;the full history of memory&mdash;is irrelevant. Only the current state matters. This suggests an abstraction where memory operates like a <a href="https://en.wikipedia.org/wiki/Dynamic_array" target="_blank">dynamic array</a>, a random access, variable-size list of bytes. Applying a function at byte <span class="math">i</span> means updating bytes <span class="math">i</span> through <span class="math">i + n</span>, where <span class="math">n</span> is the byte-width of the function. All the other bytes remain the same. In other words, even though the pile is a <span class="nowrap">2-dimensional</span> matrix, it acts like a <span class="nowrap">1-dimensional</span> array where functions modify element sequences.</p>
 
 </body>
 
