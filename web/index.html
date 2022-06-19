@@ -1523,6 +1523,42 @@
 
 <p>When a function is constructed, it interacts exclusively with the surface of the pile. Everything beneath&mdash;the full history of memory&mdash;is irrelevant. Only the current state matters. This suggests an abstraction where memory operates like a <a href="https://en.wikipedia.org/wiki/Dynamic_array" target="_blank">dynamic array</a>, a random access, variable-size list of bytes. Applying a function at byte <span class="math">i</span> means updating bytes <span class="math">i</span> through <span class="math">i + n</span>, where <span class="math">n</span> is the byte-width of the function. All the other bytes remain the same. In other words, even though the pile is a <span class="nowrap">2-dimensional</span> matrix, it acts like a <span class="nowrap">1-dimensional</span> array where functions modify element sequences.</p>
 
+<h1 id="computer-architecture">Computer Architecture</h1>
+
+<p>...</p>
+
+<h2 id="turing-machine">Turing Machine</h2>
+
+<p>A <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a> is a mathematical model used to investigate <a href="https://en.wikipedia.org/wiki/Computability" target="_blank">computability</a>. There are several ways to define it. For this discussion, it consists of the following parts.</p>
+
+<ul>
+  <li>A <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a>.
+    <ul style="padding-top: 1em;">
+      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless a sequence of bits. A finite (and arbitrary) region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
+      <li>The read/write <span class="term">head</span> of the drive is limited to accessing a single bit. The drive can shift the tape to move the head one bit left or one bit right in the sequence. The head is initially positioned over the leftmost bit of the input dataset.</li>
+    </ul>
+  </li>
+  <li style="padding-top: 1em;">A <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a>.
+    <ul style="padding-top: 1em;">
+      <li>A <span class="term">register</span> stores the current state, one of a finite many. It is initialized to a starting state.</li>
+      <li>A <span class="term">state-transition table</span> with a finite number of entries. The key of each entry is the pair consisting of the current state and the current bit under the head. The value of each entry is a list of 3 instructions: 
+        <ol style="padding-top: 1em;">
+          <li>Write a specified bit value at the position of the head.</li>
+          <li>Move the head one bit in a specified direction.</li> 
+          <li>Update the register with a specified state.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>During each cycle of the machine:</p>
+<ol>
+  <li>The head reads a bit value.</li>
+  <li>The bit value along with the current state is used to do a lookup in the state-transition table.</li>
+  <li>The instructions in the <span class="nowrap">looked-up</span> entry are executed.</li>
+</ol>
+
 </body>
 
 </html>
