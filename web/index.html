@@ -1559,6 +1559,24 @@
   <li>The instructions in the <span class="nowrap">looked-up</span> entry are executed.</li>
 </ol>
 
+<p>There are several ways to emulate a Turing machine using the dynamic array abstraction discussed above. In one approach, the first <span class="serif">N</span> bytes of the array, <span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span>, house the state register. <span class="serif">N</span> is large enough to cover all possible state values and the register is initialized with the starting state.</p>
+
+<p>The byte immediately after the register, <span class="serif">a<span class="sub2">N</span></span>, contains hex value <span class="mono">FF</span>. It operates as a boundary marker.</p> 
+
+<p>The remaining bytes, <span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span>, represent the tape. Since the tape extends infinitely in both directions, but that array region only does so in one direction, the region stores 2 tracks as if the tape had been folded in half. Specifically:</p> 
+
+<ul>
+  <li><span class="nowrap">Bit 0</span> of each byte, <span class="serif">a.0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit 1</span> of each byte, <span class="serif">a.1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+</ul>
+
+<p>The next two bits store the position of the head. Specifically:</p>
+
+<ul>
+  <li><span class="nowrap">Bit 2</span> of each byte, <span class="serif">a.2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit 3</span> of each byte, <span class="serif">a.3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+</ul>
+
 </body>
 
 </html>
