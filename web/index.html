@@ -1566,16 +1566,40 @@
 <p>The remaining bytes, <span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span>, represent the tape. Since the tape extends infinitely in both directions, but that array region only does so in one direction, the region stores 2 tracks as if the tape had been folded in half. Specifically:</p> 
 
 <ul>
-  <li><span class="nowrap">Bit 0</span> of each byte, <span class="serif">a.0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit 1</span> of each byte, <span class="serif">a.1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+  <li><span class="nowrap">Bit 0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit 1</span> of each byte, <span class="serif">a:1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
 </ul>
 
 <p>The next two bits store the position of the head. Specifically:</p>
 
 <ul>
-  <li><span class="nowrap">Bit 2</span> of each byte, <span class="serif">a.2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit 3</span> of each byte, <span class="serif">a.3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+  <li><span class="nowrap">Bit 2</span> of each byte, <span class="serif">a:2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit 3</span> of each byte, <span class="serif">a:3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
 </ul>
+
+<p>The example dynamic array below depicts the initial configuration of a machine where <span class="serif">N = 3</span> and bytes <span class="serif">i &ge; 10</span> are zeros.</p>
+
+<table class="borderless">
+  <tr><th class="mono">i</th><th class="mono">76543210</th></tr>
+  <tr><td class="mono">0</td><td class="mono">00001001</td></tr>
+  <tr><td class="mono">1</td><td class="mono">10101101</td></tr>	
+  <tr><td class="mono">2</td><td class="mono">01100010</td></tr>
+  <tr><td class="mono">3</td><td class="mono">11111111</td></tr>
+  <tr><td class="mono">4</td><td class="mono">00000101</td></tr>
+  <tr><td class="mono">5</td><td class="mono">00000001</td></tr>
+  <tr><td class="mono">6</td><td class="mono">00000000</td></tr>
+  <tr><td class="mono">7</td><td class="mono">00000001</td></tr>
+  <tr><td class="mono">8</td><td class="mono">00000000</td></tr>
+  <tr><td class="mono">9</td><td class="mono">00000001</td></tr>
+</table>
+
+<p>The register value for the start state is stored in <span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span>. In this case, it is <span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span>.</p>  
+
+<p>The boundary marker, <span class="mono">FF</span>, is in <span class="serif">a<span class="sub2">3</span></span>.</p>
+
+<p>The input dataset, <span class="serif">[</span><span class="mono"> 1, 1, 0, 1, 0, 1 </span><span class="serif">]</span>, is in <span class="serif">a:0<span class="sub2">4</span>&nldr;a:0<span class="sub2">9</span></span>. Since everything to the left of the input dataset is zero, <span class="serif">a:1<span class="sub2">4</span>&nldr;a:1<span class="sub2">9</span></span> contains all zeros.</p>
+
+<p><span class="serif">a:2<span class="sub2">4</span></span> is <span class="mono">1</span>, which indicates that the head points to the first element of the input dataset.
 
 </body>
 

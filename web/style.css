@@ -307,7 +307,12 @@ th.mono {
     border-bottom: 1pt solid silver;  
     font-size: 16px;
     padding-left: 10px;
-    padding-right: 10px;  
+    padding-right: 10px;
+}
+
+td.pad {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 td.borderless {
