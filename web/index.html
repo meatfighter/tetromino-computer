@@ -1559,11 +1559,11 @@
   <li>The instructions in the <span class="nowrap">looked-up</span> entry are executed.</li>
 </ol>
 
-<p>There are several ways to emulate a Turing machine using the dynamic array abstraction discussed above. In one approach, the first <span class="serif">N</span> bytes of the array, <span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span>, house the state register. <span class="serif">N</span> is large enough to cover all possible state values and the register is initialized with the starting state.</p>
+<p>There are several ways to emulate a Turing machine using the dynamic array abstraction discussed above. The startup configuration of one approach places the state register into the first <span class="serif">N</span> bytes of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>. <span class="serif">N</span> is large enough to cover all possible state values and the register is initialized with the starting state.</p>
 
-<p>The byte immediately after the register, <span class="serif">a<span class="sub2">N</span></span>, contains hex value <span class="mono">FF</span>. It operates as a boundary marker.</p> 
+<p>The byte immediately after the register, <span class="nowrap"><span class="serif">a<span class="sub2">N</span></span></span>, is set to <span class="mono">FF</span>. It operates as a boundary marker.</p> 
 
-<p>The remaining bytes, <span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span>, represent the tape. Since the tape extends infinitely in both directions, but that array region only does so in one direction, the region stores 2 tracks as if the tape had been folded in half. Specifically:</p> 
+<p>The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape. The tape extends infinitely in both directions, but the array only does so in one. To compensate, the array stores 2 tracks as if the tape had been folded in half. That is:</p> 
 
 <ul>
   <li><span class="nowrap">Bit 0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
@@ -1577,7 +1577,7 @@
   <li><span class="nowrap">Bit 3</span> of each byte, <span class="serif">a:3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
 </ul>
 
-<p>The example dynamic array below depicts the initial configuration of a machine where <span class="serif">N = 3</span> and bytes <span class="serif">i &ge; 10</span> are zeros.</p>
+<p>To make this clear, the example below depicts the startup configuration of a machine where <span class="serif nowrap">N = 3</span> and <span class="serif nowrap">a<span class="sub2">i &ge; 10</span> = 0</span>.</p>
 
 <table class="borderless">
   <tr><th class="mono">i</th><th class="mono">76543210</th></tr>
@@ -1593,13 +1593,21 @@
   <tr><td class="mono">9</td><td class="mono">00000001</td></tr>
 </table>
 
-<p>The register value for the start state is stored in <span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span>. In this case, it is <span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span>.</p>  
+<p>The register, <span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span>, contains the start state, <span class="nowrap"><span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span></span>. Those are random values picked for this example.</p>  
 
 <p>The boundary marker, <span class="mono">FF</span>, is in <span class="serif">a<span class="sub2">3</span></span>.</p>
 
-<p>The input dataset, <span class="serif">[</span><span class="mono"> 1, 1, 0, 1, 0, 1 </span><span class="serif">]</span>, is in <span class="serif">a:0<span class="sub2">4</span>&nldr;a:0<span class="sub2">9</span></span>. Since everything to the left of the input dataset is zero, <span class="serif">a:1<span class="sub2">4</span>&nldr;a:1<span class="sub2">9</span></span> contains all zeros.</p>
+<p>The input dataset, <span class="nowrap"><span class="serif">[</span><span class="mono"> 1, 1, 0, 1, 0, 1 </span><span class="serif">]</span></span>, is in <span class="nowrap"><span class="serif">a:0<span class="sub2">4</span>&nldr;a:0<span class="sub2">9</span></span></span>. On the tape, everything to the left of the input dataset is zero. Hence, <span class="nowrap"><span class="serif">a:1<span class="sub2">4</span>&nldr;a:1<span class="sub2">9</span></span></span> contains all zeros.</p>
 
 <p><span class="serif">a:2<span class="sub2">4</span></span> is <span class="mono">1</span>, which indicates that the head points to the first element of the input dataset.
+
+<p>The state register starts at <span class="serif">a<span class="sub2">0</span></span>, but it is not fixed there. As revealed in the following animation, the register moves back-and-forth through the array by repeated application of the <span class="mono">SWAP</span> function.</p>  
+  
+<object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>  
+  
+<p>To move the register from <span class="serif">a<span class="sub2">i</span></span> to <span class="serif">a<span class="sub2">i+1</span></span> requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
+
+<p>To move the register from <span class="serif">a<span class="sub2">i</span></span> to <span class="serif">a<span class="sub2">i&minus;1</span></span> also requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
 
 </body>
 

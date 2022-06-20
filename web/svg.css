@@ -138,3 +138,25 @@ path.arrowhead {
     fill: #FFFFF0;
     stroke: none;
 }
+
+text.array {
+    font-family: 'Source Code Pro', monospace;
+    fill: #000000;
+    font-size: 19px;
+}
+
+line.array {
+    stroke: #000000;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.array-register {
+    fill: #CEFFCE;
+    stroke: none;
+}
+
+rect.array-tape {
+    fill: #FFCECE;
+    stroke: none;
+}
