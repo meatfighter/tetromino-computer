@@ -1601,13 +1601,33 @@
 
 <p><span class="serif">a:2<span class="sub2">4</span></span> is <span class="mono">1</span>, which indicates that the head points to the first element of the input dataset.
 
-<p>The state register starts at <span class="serif">a<span class="sub2">0</span></span>, but it is not fixed there. As revealed in the following animation, the register moves back-and-forth through the array by repeated application of the <span class="mono">SWAP</span> function.</p>  
+<p>The register starts at index 0, but it is not fixed there. As revealed in the following animation, the register moves back-and-forth through the array by repeatedly applying the <span class="mono">SWAP</span> function.</p>  
   
 <object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>  
   
-<p>To move the register from <span class="serif">a<span class="sub2">i</span></span> to <span class="serif">a<span class="sub2">i+1</span></span> requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
+<p>A move from <span class="serif">i</span> to <span class="serif">i+1</span> requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
 
-<p>To move the register from <span class="serif">a<span class="sub2">i</span></span> to <span class="serif">a<span class="sub2">i&minus;1</span></span> also requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
+<p>A move from <span class="serif">i</span> to <span class="serif">i&minus;1</span> also requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
+
+<p>Each time the register moves to some index <span class="serif">i</span>, a transition function, <span class="serif">T</span>, operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, and the 3 bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>: 
+
+<p><span class="serif nowrap">T( a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> ) &rarr; a&prime;<span class="sub2">i</span>&nldr;a&prime;<span class="sub2">i+N+2</span></span></p>
+
+<p>Of those 3 extra bytes, <span class="serif">T</span> checks the middle one, <span class="serif">a<span class="sub2">i+N+1</span></span>, for the head. If the head is not found (<span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">T</span> lets the inputs pass through, unchanged. Otherwise, <span class="serif">T</span> uses the data bit corresponding to the head, <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>, in conjunction with the register value to update the data bit, to move the head, and to update the register value.</p>  
+
+<p><span class="serif">T</span> is able to move the head because the 3 extra bytes include both adjacent neighbors of the byte containing the head. However, the first of the 3, <span class="serif">a<span class="sub2">i+N</span></span>, might be set to the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following table.</p>
+
+<object data="moving-the-head.svg" type="image/svg+xml" class="diagram">Moving the Head</object>  
+
+<p>Each triplet portrays a state of the 3 extra bytes. The center column contains the initial configurations. The left and right columns show the 8 possible outcomes after the head moves left and right, respectively. The upper and lower circles correspond to bits 2 and 3 of each byte, where an unfilled circle is a <span class="mono">0</span> and a filled circle is a <span class="mono">1</span>.</p>
+
+<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the left byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from bit 2 to bit 3. Similarly, in the fourth row, moving right does the opposite.</p>
+
+TODO EXPLAIN THAT T CAN BE COMPOSED OF FUNCTIONS IN THE CATALOG OR ANYTHING ELSE.
+
+TODO EXPLAIN THAT THE REGISTER MOVES IN EXPANDING CYCLES.
+
+TODO Each iterations takes more steps than its predecessor. But it is always a finite number of steps, enabling the machine to progress.
 
 </body>
 
