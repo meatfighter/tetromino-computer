@@ -39,11 +39,12 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Emulator" profiles=""/>
             <configuration id="Generate Instruction Detectors" profiles=""/>
             <configuration id="Generate Orientation Table" profiles=""/>
+            <configuration id="GenerateMovingRegister" profiles=""/>
             <configuration id="GenerateTetrisExecutable" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
             <configuration id="MirrorTetrisScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
-            <configuration id="GenerateMovingRegister" profiles=""/>
+            <configuration id="ConvertAsmToHtml" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

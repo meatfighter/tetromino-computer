@@ -2,6 +2,7 @@ package tetriscircuits.assembler;
 
 enum TokenType {
     BYTE,
+    COMMENT,
     DEFINE,
     END,
     IDENTIFIER,

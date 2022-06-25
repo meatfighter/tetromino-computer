@@ -5,19 +5,21 @@ class Token {
     private final String filename;
     private final int lineNumber;
     private final int lineColumn;
+    private final String rawStr;
     private final int length;
     
     private TokenType type;
     private String str;
     private int num;
     private Integer offset;
-    private Operator operator;
+    private Operator operator;    
 
-    public Token(final String filename, final int lineNumber, final int lineColumn, final int length) {
+    public Token(final String filename, final int lineNumber, final int lineColumn, final String rawStr) {
         this.filename = filename;
         this.lineNumber = lineNumber;
         this.lineColumn = lineColumn;
-        this.length = length;
+        this.rawStr = rawStr;
+        this.length = rawStr.length();
     }    
 
     public String getFilename() {
@@ -76,4 +78,7 @@ class Token {
         this.operator = operator;
     }
 
+    public String getRawStr() {
+        return rawStr;
+    }
 }

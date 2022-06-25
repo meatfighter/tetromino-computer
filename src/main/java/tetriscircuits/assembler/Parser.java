@@ -15,17 +15,23 @@ class Parser {
     private static final Pattern NOT_WHITESPACE = Pattern.compile("[^\\s]+");
     
     public List<Token> parseTokens(final String filename, final InputStream in) throws IOException, ParseException {
+        return parseTokens(filename, in, false);
+    }
+    
+    public List<Token> parseTokens(final String filename, final InputStream in, final boolean includeComments) 
+            throws IOException, ParseException {
+        
         final List<Token> tokens = new ArrayList<>();
         
         int lineNumber = 1;
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(in))) {            
             String line = null;
             while ((line = br.readLine()) != null) {
-                parseLine(tokens, filename, lineNumber++, removeComment(line));
+                parseLine(tokens, filename, lineNumber++, line, includeComments);
             }
         }
         
-        final Token token = new Token(filename, lineNumber, 0, 0);
+        final Token token = new Token(filename, lineNumber, 0, "");
         token.setType(TokenType.END);
         tokens.add(token);
         tokens.add(token);
@@ -33,16 +39,16 @@ class Parser {
         return tokens;
     } 
     
-    private void parseLine(final List<Token> tokens, final String filename, final int lineNumber, final String line) 
-            throws ParseException {
+    private void parseLine(final List<Token> tokens, final String filename, final int lineNumber, final String line, 
+            final boolean includeComments) throws ParseException {
         
-        if (isBlank(line)) {
-            return;
-        }
-        
-        final Matcher matcher = NOT_WHITESPACE.matcher(line);
+        final int commentIndex = line.indexOf(';');        
+        final Matcher matcher = NOT_WHITESPACE.matcher((commentIndex < 0) ? line : line.substring(0, commentIndex));
         while (matcher.find()) {
             parseElement(tokens, filename, lineNumber, matcher.start() + 1, matcher.group(0));
+        }        
+        if (includeComments && commentIndex >= 0) {       
+            parseComment(tokens, filename, lineNumber, commentIndex + 1, line.substring(commentIndex));
         }
     }
     
@@ -88,7 +94,7 @@ class Parser {
             }
         }
         
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
         token.setType(TokenType.IDENTIFIER);
         token.setStr(tkns[0].toUpperCase());
         token.setOffset(offset);
@@ -111,7 +117,7 @@ class Parser {
             throw new ParseException(filename, lineNumber, lineColumn, "Invalid label name");
         }
         
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
         token.setType(TokenType.LABEL);
         token.setStr(v.toUpperCase());
         tokens.add(token);
@@ -128,7 +134,7 @@ class Parser {
             return false;
         }
         
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
         token.setType(TokenType.INSTRUCTION);
         token.setStr(value);
         token.setOperator(operator);
@@ -151,7 +157,7 @@ class Parser {
                 return false;
         }
          
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
         token.setType(tokenType);
         token.setStr(value);
         tokens.add(token);
@@ -172,7 +178,7 @@ class Parser {
             return false;
         }
         
-        final Token token = new Token(filename, lineNumber, lineColumn, value.length());
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
         token.setType((value.length() == 2) ? TokenType.BYTE : TokenType.WORD);
         token.setStr(value);
         token.setNum(num);
@@ -180,14 +186,15 @@ class Parser {
         
         return true;
     }
-
-    private String removeComment(final String line) {
-        final int index = line.indexOf(';');
-        if (index >= 0) {
-            return line.substring(0, index);
-        }
-        return line;
-    }  
+    
+    private void parseComment(final List<Token> tokens, final String filename, final int lineNumber, 
+            final int lineColumn, final String value) throws ParseException {
+        
+        final Token token = new Token(filename, lineNumber, lineColumn, value);
+        token.setType(TokenType.COMMENT);
+        token.setStr(value);
+        tokens.add(token);        
+    }    
     
     private boolean isIdentifier(final String value) {        
         if (!Character.isJavaIdentifierStart(value.charAt(0))) {

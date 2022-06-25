@@ -38,7 +38,7 @@ h2 {
 
 h3 {  
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 600;
 }
 
 span.pow {
@@ -126,64 +126,6 @@ a:hover {
     color: #CC0000;
     text-decoration: none;
     white-space: nowrap;
-}
-
-pre.tetrisscript {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 13px;
-    background: #2B2B2B;    
-    border-left: 6px solid #888888;
-    width: 100% - 71px;
-    white-space: pre-wrap;
-    padding: 15px 15px 15px 50px;
-    color: #BBBBBB;
-    counter-reset: step;
-    counter-increment: step 0;
-    position: relative;
-}
-
-pre.tetrisscript .filename {
-    text-decoration: underline;
-    color: #FFC66D;
-}
-
-pre.tetrisscript .filename:before { 
-    content: " ";
-    display: inline-block;
-    width: 2em;
-    padding-right: 1em;
-    margin-right: 1em;
-    text-align: right;
-    margin-left: -3.25em;
-    padding-bottom: 0.5em;
-}
-
-pre.tetrisscript .line:before {
-    color: #888888;
-    content: counter(step);
-    counter-increment: step;     
-    display: inline-block;
-    width: 2em;
-    padding-right: 1em;
-    margin-right: 1em;
-    text-align: right;
-    margin-left: -3.25em;
-}
-
-span.normal {
-    color: #BBBBBB;
-}
-
-span.comment {
-    color: #808080;
-}
-
-span.keyword {
-    color: #CC7832;
-}
-
-span.number {
-    color: #6897BB;
 }
 
 p.definition {
@@ -334,4 +276,71 @@ td.mono {
 
 td.border-left {
     border-left: 1pt solid silver;
+}
+
+pre.code {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;
+    background: #2B2B2B;    
+    border-left: 6px solid #888888;
+    width: 100% - 71px;
+    white-space: pre-wrap;
+    padding: 15px 15px 15px 50px;
+    color: #BBBBBB;
+    counter-reset: step;
+    counter-increment: step 0;
+    position: relative;
+}
+
+pre.code .filename {
+    text-decoration: underline;
+    color: #FFC66D;
+}
+
+pre.code .filename:before { 
+    content: " ";
+    display: inline-block;
+    width: 2em;
+    padding-right: 1em;
+    margin-right: 1em;
+    text-align: right;
+    margin-left: -3.25em;
+    padding-bottom: 0.5em;
+}
+
+pre.code .line:before {
+    color: #888888;
+    content: counter(step);
+    counter-increment: step;     
+    display: inline-block;
+    width: 2em;
+    padding-right: 1em;
+    margin-right: 1em;
+    text-align: right;
+    margin-left: -3.25em;
+}
+
+span.normal {
+    color: #BBBBBB;
+}
+
+span.comment {
+    color: #808080;
+}
+
+span.keyword {
+    color: #CC7832;
+}
+
+span.number {
+    color: #6897BB;
+}
+
+span.identifier {
+    color: #9876AA;
+}
+
+span.label {
+    color: #BBBBBB;
+    font-weight: bold;
 }

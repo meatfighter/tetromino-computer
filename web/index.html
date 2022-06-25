@@ -146,7 +146,7 @@
 
 <p>The code below demonstrates this instruction type.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">example1.t</span>
 <span class="line"><span class="normal">td </span><span class="number">1</span></span>
 <span class="line"><span class="normal">jd </span><span class="number">5</span></span>
@@ -180,7 +180,7 @@
 
 <p>The following code demonstrates the second instruction type.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">example2.t</span>
 <span class="line"><span class="normal">td </span><span class="number">1 15 2</span></span>
 <span class="line"><span class="normal">jd </span><span class="number">1 15 2</span></span>
@@ -203,7 +203,7 @@
 
 <p>The following code demonstrates this instruction type by referencing the prior examples.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">example3.t</span>
 <span class="line"><span class="normal">example1 </span><span class="number">3 0</span></span>
 <span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
@@ -211,7 +211,7 @@
 
 <p>Column and row indices within the structures are offset by the provided coordinates, which makes the code above equivalent to:</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">example3Expanded.t</span>
 <span class="line"><span class="comment"># example1 3 0</span></span>
 <span class="line"><span class="normal">td </span><span class="number">4</span></span>
@@ -248,7 +248,7 @@
 
 <p>The example below declares 5 input nodes.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">nodes.t</span>
 <span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">0 0</span></span>
 <span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">2..4 0</span></span>
@@ -271,7 +271,7 @@
 
 <p>The code below realizes a buffer by dropping a vertically-oriented I-Tetrimino onto an input node.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">buffer.t</span>
 <span class="line"><span class="normal">iv </span><span class="number">0</span></span>
 <span class="line"></span>
@@ -291,7 +291,7 @@
 
 <p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">not.t</span>
 <span class="line"><span class="normal">lu </span><span class="number">0</span></span>
 <span class="line"><span class="normal">o </span><span class="number">0 4 1</span></span>
@@ -323,7 +323,7 @@
 
 <p>The code below creates an OR gate by dropping a single O-Tetrimino onto abutting input nodes.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">or.t</span>
 <span class="line"><span class="normal">o </span><span class="number">0</span></span>
 <span class="line"></span>
@@ -344,7 +344,7 @@
 
 <p>The code below realizes a NOR gate by feeding 2 inputs into an inverter.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">nor.t</span>
 <span class="line"><span class="normal">not </span><span class="number">0 0</span></span>
 <span class="line"></span>
@@ -365,7 +365,7 @@
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">nand.t</span>
 <span class="line"><span class="normal">notLeft </span><span class="number">-2 0</span></span>
 <span class="line"><span class="normal">notRight </span><span class="number">1 0</span></span>
@@ -388,7 +388,7 @@
 
 <p>The code below constructs AND from a NAND gate followed by an inverter.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">and.t</span>
 <span class="line"><span class="normal">notLeft </span><span class="number">-2 0</span></span>
 <span class="line"><span class="normal">notRight </span><span class="number">1 0</span></span>
@@ -431,7 +431,7 @@
 
 <p>The code below is based on that schematic.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">xor.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
 <span class="line"><span class="normal">ih </span><span class="number">2</span></span>
@@ -463,7 +463,7 @@
 
 <p>The code below composes XNOR from XOR followed by an inverter.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">xnor.t</span>
 <span class="line"><span class="normal">xor </span><span class="number">0 0</span></span>
 <span class="line"><span class="normal">notLeft </span><span class="number">0 11</span></span>
@@ -517,7 +517,7 @@
 
 <p>In the code below, which is based on that schematic, the lower XOR gate is expanded into 3 NORs and a horizontal I-Tetrimino operating as an OR. The other pieces function as wires.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">swap.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
 <span class="line"><span class="normal">ih </span><span class="number">2</span></span>
@@ -574,7 +574,7 @@
 
 <p>The code below is based on that schematic.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">muxLeft.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">0</span></span>
 <span class="line"><span class="normal">ih </span><span class="number">4</span></span>
@@ -662,7 +662,7 @@
 
 <p>The code below links both inputs of an XOR gate with a horizontal I-Tetrimino.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">false.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">0</span></span>
 <span class="line"><span class="normal">xor </span><span class="number">0 1</span></span>
@@ -681,7 +681,7 @@
 
 <p>A horizontal I-Tetrimino joins the inputs of an XNOR gate in the code below.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">true.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">0</span></span>
 <span class="line"><span class="normal">xnor </span><span class="number">0 1</span></span>
@@ -1104,7 +1104,7 @@
 
 <p>In the code below, which is based on that schematic, a horizontal I-Tetrimino functions as the upper OR.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">halfSubtractor.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">0</span></span>
 <span class="line"><span class="normal">ih </span><span class="number">4</span></span>
@@ -1172,7 +1172,7 @@
 
 <p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line <span class="mono">14</span>) enables the output of the bottom NOR (line <span class="mono">13</span>) to hop over the input of the <span class="math">Y</span> inverter (line <span class="mono">17</span>). The <span class="math">X</span> inverter (line <span class="mono">16</span>) feeds into the middle NOR (line <span class="mono">18</span>), which in turn feeds into the top NOR (line <span class="mono">25</span>).</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="filename">halfAdder.t</span>
 <span class="line"><span class="normal">ih </span><span class="number">-1</span></span>
 <span class="line"><span class="normal">sh </span><span class="number">-4</span></span>
@@ -1458,7 +1458,7 @@
 
 <p>The code below formalizes the steps of the previous example.</p>
 
-<pre class="tetrisscript">
+<pre class="code">
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">0</span></span>
 <span class="line"><span class="normal">ADD_AB_FB </span><span class="number">1</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">1</span></span>
@@ -1631,11 +1631,15 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <h2 id="linear-bounded-automaton">Linear Bounded Automaton</h2>
 
+<h2 id="assembly-language">Assembly Language</h2>
+
+
+
 <h2 id="instruction-set">Instruction Set</h2>
 
-<h3 id="transfer">Transfer</h3>
+<h3 id="transfer-instructions">Transfer</h3>
 
-<p>Transfer instructions copy the contents of a source register into a destination register. No flags are affected.</p>  
+<p>Transfer instructions copy the contents of a source register into a destination register. They do not affect the flags.</p>  
 
 <p>The transfer instruction format is:</p> 
 
@@ -1643,7 +1647,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <p>where <span class="mono">source</span>,<span class="mono">destination</span><span class="serif"> &isin; { </span><span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span>, <span class="mono">N</span><span class="serif"> }</span> and <span class="mono">source</span> &ne; <span class="mono">destination</span>.  
 
-<p>Each transfer instruction corresponds to a 1 byte opcode with bits <span class="mono">0000ssdd</span>, where <span class="mono">ss</span> and <span class="mono">dd</span> are one of the following.</p>
+<p>Each transfer instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0000ssdd</span>, where <span class="mono">ss</span> and <span class="mono">dd</span> are one of the values below.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Value</th><th class="borderless">Register</th></tr>
@@ -1652,6 +1656,56 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
   <tr><td class="mono">10</td><td class="mono">M</td></tr>
   <tr><td class="mono">11</td><td class="mono">N</td></tr>
 </table>
+
+<p>The 12 transfer instructions follow.</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Meaning</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">TAB</td><td class="mono">B = A;</td><td class="mono">01</td></tr>
+  <tr><td class="mono">TAM</td><td class="mono">M = A;</td><td class="mono">02</td></tr>
+  <tr><td class="mono">TAN</td><td class="mono">N = A;</td><td class="mono">03</td></tr>
+  <tr><td class="mono">TBA</td><td class="mono">A = B;</td><td class="mono">04</td></tr>
+  <tr><td class="mono">TBM</td><td class="mono">M = B;</td><td class="mono">06</td></tr>
+  <tr><td class="mono">TBN</td><td class="mono">N = B;</td><td class="mono">07</td></tr>
+  <tr><td class="mono">TMA</td><td class="mono">A = M;</td><td class="mono">08</td></tr>
+  <tr><td class="mono">TMB</td><td class="mono">B = M;</td><td class="mono">09</td></tr>
+  <tr><td class="mono">TMN</td><td class="mono">N = M;</td><td class="mono">0B</td></tr>
+  <tr><td class="mono">TNA</td><td class="mono">A = N;</td><td class="mono">0C</td></tr>
+  <tr><td class="mono">TNB</td><td class="mono">B = N;</td><td class="mono">0D</td></tr>
+  <tr><td class="mono">TNM</td><td class="mono">M = N;</td><td class="mono">0E</td></tr>
+</table>
+
+<h3 id="arithmetic-and-logic-instructions">Arithmetic and Logic</h3>
+
+<p>The arithmetic and logic instructions assign <span class="mono">A</span> to an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>:</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Meaning</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">ADD</td><td class="mono">A += B;</td><td class="mono">10</td></tr>    
+  <tr><td class="mono">AND</td><td class="mono">A &= B;</td><td class="mono">11</td></tr>
+  <tr><td class="mono">DEC</td><td class="mono">--A;</td><td class="mono">12</td></tr>
+  <tr><td class="mono">INC</td><td class="mono">++A;</td><td class="mono">13</td></tr>
+  <tr><td class="mono">LS2</td><td class="mono">A <<= 2;</td><td class="mono">14</td></tr>
+  <tr><td class="mono">LS3</td><td class="mono">A <<= 3;</td><td class="mono">15</td></tr>
+  <tr><td class="mono">LS4</td><td class="mono">A <<= 4;</td><td class="mono">16</td></tr>
+  <tr><td class="mono">OR</td><td class="mono">A |= B;</td><td class="mono">17</td></tr>
+  <tr><td class="mono">RS1</td><td class="mono">A >>>= 1;</td><td class="mono">18</td></tr>
+  <tr><td class="mono">RS5</td><td class="mono">A >>>= 5;</td><td class="mono">19</td></tr>
+  <tr><td class="mono">SUB</td><td class="mono">A -= B;</td><td class="mono">1A</td></tr>
+  <tr><td class="mono">XOR</td><td class="mono">A ^= B;</td><td class="mono">1B</td></tr>
+</table>
+
+<p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
+
+<p><span class="mono">Z</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p><span class="mono">N</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p>Each arithmetic and logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include <span class="mono">NOT</span> and shifts with other values. The set above was designed to satisfy the requirements of a single program, one that runs Tetris.</p>
+
+<h3 id="branch-instructions">Branch</h3>
+
+<p class="definition">instruction label</p>
 
 </body>
 

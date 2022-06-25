@@ -211,10 +211,10 @@ public class Emulator implements Processor {
                 A |= B;
                 break;
             case 0b1000:
-                A >>= 1;
+                A >>>= 1;
                 break;
             case 0b1001:
-                A >>= 5;
+                A >>>= 5;
                 break;
             case 0b1010:
                 A -= B;
@@ -224,7 +224,6 @@ public class Emulator implements Processor {
                 break;                
         }
         A &= 0xFF;
-        B &= 0xFF;
         z = (A == 0);
         n = (A & 0x80) != 0;
     }
