@@ -47,7 +47,7 @@ import tetriscircuits.computer.Processor;
 // 0101 000r vvvvvvvv
 // A|B = v, sets n and z
 
-// 0110 0000 vvvvvvvv vvvvvvvv
+// 0010 1111 vvvvvvvv vvvvvvvv
 // MN = v
 
 // 0111 0000

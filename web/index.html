@@ -1629,6 +1629,30 @@ TODO EXPLAIN THAT THE REGISTER MOVES IN EXPANDING CYCLES.
 
 TODO Each iterations takes more steps than its predecessor. But it is always a finite number of steps, enabling the machine to progress.
 
+<h2 id="linear-bounded-automaton">Linear Bounded Automaton</h2>
+
+<h2 id="instruction-set">Instruction Set</h2>
+
+<h3 id="transfer">Transfer</h3>
+
+<p>Transfer instructions copy the contents of a source register into a destination register. No flags are affected.</p>  
+
+<p>The transfer instruction format is:</p> 
+
+<p class="definition">T(source)(destination)</p>
+
+<p>where <span class="mono">source</span>,<span class="mono">destination</span><span class="serif"> &isin; { </span><span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span>, <span class="mono">N</span><span class="serif"> }</span> and <span class="mono">source</span> &ne; <span class="mono">destination</span>.  
+
+<p>Each transfer instruction corresponds to a 1 byte opcode with bits <span class="mono">0000ssdd</span>, where <span class="mono">ss</span> and <span class="mono">dd</span> are one of the following.</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Value</th><th class="borderless">Register</th></tr>
+  <tr><td class="mono">00</td><td class="mono">A</td></tr>
+  <tr><td class="mono">01</td><td class="mono">B</td></tr>	
+  <tr><td class="mono">10</td><td class="mono">M</td></tr>
+  <tr><td class="mono">11</td><td class="mono">N</td></tr>
+</table>
+
 </body>
 
 </html>
