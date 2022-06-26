@@ -1631,10 +1631,6 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <h2 id="linear-bounded-automaton">Linear Bounded Automaton</h2>
 
-<h2 id="assembly-language">Assembly Language</h2>
-
-
-
 <h2 id="instruction-set">Instruction Set</h2>
 
 <h3 id="transfer-instructions">Transfer</h3>
@@ -1660,7 +1656,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 <p>The 12 transfer instructions follow.</p>
 
 <table class="borderless">
-  <tr><th class="borderless">Instruction</th><th class="borderless">Meaning</th><th class="borderless">Opcode</th></tr>
+  <tr><th class="borderless">Instruction</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
   <tr><td class="mono">TAB</td><td class="mono">B = A;</td><td class="mono">01</td></tr>
   <tr><td class="mono">TAM</td><td class="mono">M = A;</td><td class="mono">02</td></tr>
   <tr><td class="mono">TAN</td><td class="mono">N = A;</td><td class="mono">03</td></tr>
@@ -1680,7 +1676,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 <p>The arithmetic and logic instructions assign <span class="mono">A</span> to an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>:</p>
 
 <table class="borderless">
-  <tr><th class="borderless">Instruction</th><th class="borderless">Meaning</th><th class="borderless">Opcode</th></tr>
+  <tr><th class="borderless">Instruction</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
   <tr><td class="mono">ADD</td><td class="mono">A += B;</td><td class="mono">10</td></tr>    
   <tr><td class="mono">AND</td><td class="mono">A &= B;</td><td class="mono">11</td></tr>
   <tr><td class="mono">DEC</td><td class="mono">--A;</td><td class="mono">12</td></tr>
@@ -1695,17 +1691,72 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
   <tr><td class="mono">XOR</td><td class="mono">A ^= B;</td><td class="mono">1B</td></tr>
 </table>
 
+<p><span class="mono">AND</span>, <span class="mono">OR</span>, and <span class="mono">XOR</span> are bitwise operations.</p>
+
 <p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
 
 <p><span class="mono">Z</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
 
 <p><span class="mono">N</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>Each arithmetic and logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include <span class="mono">NOT</span> and shifts with other values. The set above was designed to satisfy the requirements of a single program, one that runs Tetris.</p>
+<p>Each arithmetic and logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include bitwise <span class="mono">NOT</span> and shifts with other values. The set above was designed to satisfy the requirements of a single program, one that runs Tetris.</p>
+
+<h3 id="set-instructions">Set</h3>
 
 <h3 id="branch-instructions">Branch</h3>
 
-<p class="definition">instruction label</p>
+<p>Branch instructions direct execution to an arbitrary location in the program. With one exception, they have the following format.</p>
+
+<p class="definition">mnemonic label</p>
+
+<p>A label is declared at the branch destination. It consists of an identifier followed by a colon. During assembly, it is interpreted as the address of the code immediately after it.</p>
+
+<p>The branch instructions are summarized in the table below.</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">JMP label</td><td class="borderless2">Jump</td><td class="mono">P = label;</td><td class="mono">20</td></tr>    
+  <tr><td class="mono">BNE label</td><td class="borderless2">Branch Not Equal</td><td class="mono">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono">BEQ label</td><td class="borderless2">Branch Equal</td><td class="mono">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono">BPL label</td><td class="borderless2">Branch Plus</td><td class="mono">if (N == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono">BMI label</td><td class="borderless2">Branch Minus</td><td class="mono">if (N == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono">JSR label</td><td class="borderless2">Jump Subroutine</td><td class="mono">R = P; P = label;</td><td class="mono">28</td></tr>
+  <tr><td class="mono">RTS</td><td class="borderless2">Return Subroutine</td><td class="mono">P = R;</td><td class="mono">70</td></tr>
+</table>
+
+<p><span class="mono">JSR</span> backs up the Program Counter, <span class="mono">P</span>, in the Return Register, <span class="mono">R</span>. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables calling subroutines one level deep.</p> 
+
+<p>No other instructions can access <span class="mono">R</span>, thwarting the possibilities of a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a> or <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branching</a>. But that complexity is not required for the Tetris program.</p> 
+
+TODO Explain the opcodes.
+
+<h2 id="assembly-language">Assembly Language</h2>
+
+<h3 id="assembly-language-literals">Literals</h3>
+
+<p>A byte literal consists of 2 hexadecimal digits. Examples follow.</p>
+
+<pre class="code">
+<span class="line"><span class="keyword">define</span> <span class="identifier">X</span> <span class="number">42</span>    <span class="comment">; #define X 0x42</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">D3</span>         <span class="comment">; A = 0xD3;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">i:</span> <span class="number">00</span>          <span class="comment">; i = 0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">values:</span>        <span class="comment">; values[] = { 0xFF, 0x00, 0x01, 0x0B, 0xF5, 0xFF, 0x00, 0x0B };</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span></span>
+</pre>
+
+<p>Line <span class="mono">1</span> declares the constant <span class="mono">X</span>, which can be used as an instruction operand in place of <span class="mono">42</span> (hex).</p>
+
+<p>Line <span class="mono">3</span> is an instruction that sets register <span class="mono">A</span> to <span class="mono">D3</span>.</p>
+
+<p>Line <span class="mono">5</span> demonstrates how to create a byte variable. It declares a symbolic label called <span class="mono">i</span>. A label is a constant assigned to the address of the code immediately following its colon, which, in this case, is a literal that allocates and initializes a byte to zero. Put another way, <span class="mono">i</span> is a fixed pointer to the byte.</p>
+
+<p>Line <span class="mono">7</span> declares a symbolic label called <span class="mono">values</span>. It is followed by literals that allocate and initialize 8 bytes, making <span class="mono">values</span> a fixed pointer to the start of a byte array.</p>
+
+<h3 id="assembly-language-define">DEFINE</h3>
 
 </body>
 
