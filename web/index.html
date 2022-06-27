@@ -1724,9 +1724,9 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
   <tr><td class="mono">RTS</td><td class="borderless2">Return Subroutine</td><td class="mono">P = R;</td><td class="mono">70</td></tr>
 </table>
 
-<p><span class="mono">JSR</span> backs up the Program Counter, <span class="mono">P</span>, in the Return Register, <span class="mono">R</span>. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables calling subroutines one level deep.</p> 
+<p><span class="mono">JSR</span> backs up the Program Counter, <span class="mono">P</span>, in the Return Register, <span class="mono">R</span>. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables subroutine calls one level deep.</p> 
 
-<p>No other instructions can access <span class="mono">R</span>, thwarting the possibilities of a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a> or <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branching</a>. But that complexity is not required for the Tetris program.</p> 
+<p>No other instructions access <span class="mono">R</span>. There is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a>.</p> 
 
 TODO Explain the opcodes.
 
