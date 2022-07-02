@@ -1635,9 +1635,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <h3 id="transfer-instructions">Transfer</h3>
 
-<p>Transfer instructions copy the contents of a source register into a destination register. They do not affect the flags.</p>  
-
-<p>The transfer instruction format is:</p> 
+<p>A transfer instruction copies the value of a source register to a destination register. The instruction format is:</p>  
 
 <p class="definition">T(source)(destination)</p>
 
@@ -1656,79 +1654,112 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 <p>The 12 transfer instructions follow.</p>
 
 <table class="borderless">
-  <tr><th class="borderless">Instruction</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">TAB</td><td class="mono">B = A;</td><td class="mono">01</td></tr>
-  <tr><td class="mono">TAM</td><td class="mono">M = A;</td><td class="mono">02</td></tr>
-  <tr><td class="mono">TAN</td><td class="mono">N = A;</td><td class="mono">03</td></tr>
-  <tr><td class="mono">TBA</td><td class="mono">A = B;</td><td class="mono">04</td></tr>
-  <tr><td class="mono">TBM</td><td class="mono">M = B;</td><td class="mono">06</td></tr>
-  <tr><td class="mono">TBN</td><td class="mono">N = B;</td><td class="mono">07</td></tr>
-  <tr><td class="mono">TMA</td><td class="mono">A = M;</td><td class="mono">08</td></tr>
-  <tr><td class="mono">TMB</td><td class="mono">B = M;</td><td class="mono">09</td></tr>
-  <tr><td class="mono">TMN</td><td class="mono">N = M;</td><td class="mono">0B</td></tr>
-  <tr><td class="mono">TNA</td><td class="mono">A = N;</td><td class="mono">0C</td></tr>
-  <tr><td class="mono">TNB</td><td class="mono">B = N;</td><td class="mono">0D</td></tr>
-  <tr><td class="mono">TNM</td><td class="mono">M = N;</td><td class="mono">0E</td></tr>
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">TAB</td><td class="borderless">Transfer <span class="mono">A</span> to <span class="mono">B</span></td><td class="pseudocode">B = A;</td><td class="mono">01</td></tr>
+  <tr><td class="mono">TAM</td><td class="borderless">Transfer <span class="mono">A</span> to <span class="mono">M</span></td><td class="pseudocode">M = A;</td><td class="mono">02</td></tr>
+  <tr><td class="mono">TAN</td><td class="borderless">Transfer <span class="mono">A</span> to <span class="mono">N</span></td><td class="pseudocode">N = A;</td><td class="mono">03</td></tr>
+  <tr><td class="mono">TBA</td><td class="borderless">Transfer <span class="mono">B</span> to <span class="mono">A</span></td><td class="pseudocode">A = B;</td><td class="mono">04</td></tr>
+  <tr><td class="mono">TBM</td><td class="borderless">Transfer <span class="mono">B</span> to <span class="mono">M</span></td><td class="pseudocode">M = B;</td><td class="mono">06</td></tr>
+  <tr><td class="mono">TBN</td><td class="borderless">Transfer <span class="mono">B</span> to <span class="mono">N</span></td><td class="pseudocode">N = B;</td><td class="mono">07</td></tr>
+  <tr><td class="mono">TMA</td><td class="borderless">Transfer <span class="mono">M</span> to <span class="mono">A</span></td><td class="pseudocode">A = M;</td><td class="mono">08</td></tr>
+  <tr><td class="mono">TMB</td><td class="borderless">Transfer <span class="mono">M</span> to <span class="mono">B</span></td><td class="pseudocode">B = M;</td><td class="mono">09</td></tr>
+  <tr><td class="mono">TMN</td><td class="borderless">Transfer <span class="mono">M</span> to <span class="mono">N</span></td><td class="pseudocode">N = M;</td><td class="mono">0B</td></tr>
+  <tr><td class="mono">TNA</td><td class="borderless">Transfer <span class="mono">N</span> to <span class="mono">A</span></td><td class="pseudocode">A = N;</td><td class="mono">0C</td></tr>
+  <tr><td class="mono">TNB</td><td class="borderless">Transfer <span class="mono">N</span> to <span class="mono">B</span></td><td class="pseudocode">B = N;</td><td class="mono">0D</td></tr>
+  <tr><td class="mono">TNM</td><td class="borderless">Transfer <span class="mono">N</span> to <span class="mono">M</span></td><td class="pseudocode">M = N;</td><td class="mono">0E</td></tr>
 </table>
+
+<p>The transfer instructions do not affect the flags.</p>
 
 <h3 id="arithmetic-and-logic-instructions">Arithmetic and Logic</h3>
 
-<p>The arithmetic and logic instructions assign <span class="mono">A</span> to an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>:</p>
-
-<table class="borderless">
-  <tr><th class="borderless">Instruction</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">ADD</td><td class="mono">A += B;</td><td class="mono">10</td></tr>    
-  <tr><td class="mono">AND</td><td class="mono">A &= B;</td><td class="mono">11</td></tr>
-  <tr><td class="mono">DEC</td><td class="mono">--A;</td><td class="mono">12</td></tr>
-  <tr><td class="mono">INC</td><td class="mono">++A;</td><td class="mono">13</td></tr>
-  <tr><td class="mono">LS2</td><td class="mono">A <<= 2;</td><td class="mono">14</td></tr>
-  <tr><td class="mono">LS3</td><td class="mono">A <<= 3;</td><td class="mono">15</td></tr>
-  <tr><td class="mono">LS4</td><td class="mono">A <<= 4;</td><td class="mono">16</td></tr>
-  <tr><td class="mono">OR</td><td class="mono">A |= B;</td><td class="mono">17</td></tr>
-  <tr><td class="mono">RS1</td><td class="mono">A >>>= 1;</td><td class="mono">18</td></tr>
-  <tr><td class="mono">RS5</td><td class="mono">A >>>= 5;</td><td class="mono">19</td></tr>
-  <tr><td class="mono">SUB</td><td class="mono">A -= B;</td><td class="mono">1A</td></tr>
-  <tr><td class="mono">XOR</td><td class="mono">A ^= B;</td><td class="mono">1B</td></tr>
-</table>
-
-<p><span class="mono">AND</span>, <span class="mono">OR</span>, and <span class="mono">XOR</span> are bitwise operations.</p>
-
-<p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
-
-<p><span class="mono">Z</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
-
-<p><span class="mono">N</span> is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
-
-<p>Each arithmetic and logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include bitwise <span class="mono">NOT</span> and shifts with other values. The set above was designed to satisfy the requirements of a single program, one that runs Tetris.</p>
-
-<h3 id="set-instructions">Set</h3>
-
-<h3 id="branch-instructions">Branch</h3>
-
-<p>Branch instructions direct execution to an arbitrary location in the program. With one exception, they have the following format.</p>
-
-<p class="definition">mnemonic label</p>
-
-<p>A label is declared at the branch destination. It consists of an identifier followed by a colon. During assembly, it is interpreted as the address of the code immediately after it.</p>
-
-<p>The branch instructions are summarized in the table below.</p>
+<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and stores the result in <span class="mono">A</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">JMP label</td><td class="borderless2">Jump</td><td class="mono">P = label;</td><td class="mono">20</td></tr>    
-  <tr><td class="mono">BNE label</td><td class="borderless2">Branch Not Equal</td><td class="mono">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
-  <tr><td class="mono">BEQ label</td><td class="borderless2">Branch Equal</td><td class="mono">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
-  <tr><td class="mono">BPL label</td><td class="borderless2">Branch Plus</td><td class="mono">if (N == 0) P = label;</td><td class="mono">24</td></tr>
-  <tr><td class="mono">BMI label</td><td class="borderless2">Branch Minus</td><td class="mono">if (N == 1) P = label;</td><td class="mono">25</td></tr>
-  <tr><td class="mono">JSR label</td><td class="borderless2">Jump Subroutine</td><td class="mono">R = P; P = label;</td><td class="mono">28</td></tr>
-  <tr><td class="mono">RTS</td><td class="borderless2">Return Subroutine</td><td class="mono">P = R;</td><td class="mono">70</td></tr>
+  <tr><td class="mono">ADD</td><td class="borderless">Add (without carry)</td><td class="pseudocode">A += B;</td><td class="mono">10</td></tr>    
+  <tr><td class="mono">AND</td><td class="borderless">Bitwise AND</td><td class="pseudocode">A &= B;</td><td class="mono">11</td></tr>
+  <tr><td class="mono">DEC</td><td class="borderless">Decrement</td><td class="pseudocode">--A;</td><td class="mono">12</td></tr>
+  <tr><td class="mono">INC</td><td class="borderless">Increment</td><td class="pseudocode">++A;</td><td class="mono">13</td></tr>
+  <tr><td class="mono">LS2</td><td class="borderless">Logical Left Shift by 2</td><td class="pseudocode">A <<= 2;</td><td class="mono">14</td></tr>
+  <tr><td class="mono">LS3</td><td class="borderless">Logical Left Shift by 3</td><td class="pseudocode">A <<= 3;</td><td class="mono">15</td></tr>
+  <tr><td class="mono">LS4</td><td class="borderless">Logical Left Shift by 4</td><td class="pseudocode">A <<= 4;</td><td class="mono">16</td></tr>
+  <tr><td class="mono">OR</td><td class="borderless">Bitwise OR</td><td class="pseudocode">A |= B;</td><td class="mono">17</td></tr>
+  <tr><td class="mono">RS1</td><td class="borderless">Logical Right Shift by 1</td><td class="pseudocode">A >>>= 1;</td><td class="mono">18</td></tr>
+  <tr><td class="mono">RS5</td><td class="borderless">Logical Right Shift by 5</td><td class="pseudocode">A >>>= 5;</td><td class="mono">19</td></tr>
+  <tr><td class="mono">SUB</td><td class="borderless">Subtract (without borrow)</td><td class="pseudocode">A -= B;</td><td class="mono">1A</td></tr>
+  <tr><td class="mono">XOR</td><td class="borderless">Bitwise XOR</td><td class="pseudocode">A ^= B;</td><td class="mono">1B</td></tr>
 </table>
 
-<p><span class="mono">JSR</span> backs up the Program Counter, <span class="mono">P</span>, in the Return Register, <span class="mono">R</span>. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables subroutine calls one level deep.</p> 
+<p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
 
-<p>No other instructions access <span class="mono">R</span>. There is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a>.</p> 
+<p>The zero flag, <span class="mono">Z</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p>Each arithmetic or logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
+
+<h3 id="branch-instructions">Branch</h3>
+
+<p>A branch instruction conditionally or unconditionally directs execution to a specified location in the program. With one exception, the branch instructions have the following format.</p>
+
+<p class="definition">mnemonic label</p>
+
+<p>A label is the branch target. It is a name that corresponds to the address of the code to run if the branch is taken. The name is assigned by declaring a label immediately before the target code. The declaration consists of the name followed by a colon, as shown below. </p>
+
+<p class="definition">label:</p>
+
+<p>Here are all the branch instructions:</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">JMP label</td><td class="borderless-left">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
+  <tr><td class="mono">BNE label</td><td class="borderless-left">Branch Not Equal</td><td class="pseudocode">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono">BEQ label</td><td class="borderless-left">Branch Equal</td><td class="pseudocode">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono">BPL label</td><td class="borderless-left">Branch Plus</td><td class="pseudocode">if (N == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono">BMI label</td><td class="borderless-left">Branch Minus</td><td class="pseudocode">if (N == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono">JSR label</td><td class="borderless-left">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
+  <tr><td class="mono">RTS</td><td class="borderless-left">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
+</table>
+
+<p><span class="mono">JSR</span> backs up the program counter, <span class="mono">P</span>, in the return register, <span class="mono">R</span>, before jumping. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</p> 
+
+<p>There is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a>.</p> 
 
 TODO Explain the opcodes.
+
+<h3 id="load-instructions">Load</h3>
+
+<p>A load instruction treats <span class="mono">M</span> and <span class="mono">N</span> as a combined, <span class="nowrap">16-bit</span> register, <span class="mono">MN</span>, where <span class="mono">M</span> is the high-byte and <span class="mono">N</span> is the low-byte. It reads the memory value at the address in <span class="mono">MN</span> into either <span class="mono">A</span> or <span class="mono">B</span>:</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">LDA</td><td class="borderless">Load <span class="mono">A</span></td><td class="pseudocode">A = *MN;</td><td class="mono">40</td></tr>    
+  <tr><td class="mono">LDB</td><td class="borderless">Load <span class="mono">B</span></td><td class="pseudocode">B = *MN;</td><td class="mono">41</td></tr>
+</table>
+
+<p>The zero flag, <span class="mono">Z</span>, is set to <span class="mono">1</span> if the read value is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the read value is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
+
+<p>Each load instruction maps to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0100000d</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">d</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
+
+<h3 id="store-instructions">Store</h3>
+
+<p>A store instruction treats <span class="mono">M</span> and <span class="mono">N</span> as a combined, <span class="nowrap">16-bit</span> register, <span class="mono">MN</span>, where <span class="mono">M</span> is the high-byte and <span class="mono">N</span> is the low-byte. It writes the value in either <span class="mono">A</span> or <span class="mono">B</span> to memory at the address in <span class="mono">MN</span>:</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">STA</td><td class="borderless">Store <span class="mono">A</span></td><td class="pseudocode">*MN = A;</td><td class="mono">30</td></tr>    
+  <tr><td class="mono">STB</td><td class="borderless">Store <span class="mono">B</span></td><td class="pseudocode">*MN = B;</td><td class="mono">31</td></tr>
+</table>
+
+<p>No flags are affected.</p>
+
+<p>Each store instruction maps to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0011000s</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">s</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
+
+<h3 id="set-instructions">Set</h3>
+
 
 <h2 id="assembly-language">Assembly Language</h2>
 
