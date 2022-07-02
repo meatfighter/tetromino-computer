@@ -1641,7 +1641,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <p>where <span class="mono">source</span>,<span class="mono">destination</span><span class="serif"> &isin; { </span><span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span>, <span class="mono">N</span><span class="serif"> }</span> and <span class="mono">source</span> &ne; <span class="mono">destination</span>.  
 
-<p>Each transfer instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0000ssdd</span>, where <span class="mono">ss</span> and <span class="mono">dd</span> are one of the values below.</p>
+<p>Each transfer instruction corresponds to an opcode with bits <span class="mono">0000ssdd</span>, where <span class="mono">ss</span> and <span class="mono">dd</span> are one of the values below.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Value</th><th class="borderless">Register</th></tr>
@@ -1697,7 +1697,7 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>Each arithmetic or logic instruction corresponds to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
+<p>Each arithmetic or logic instruction corresponds to an opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
 
 <h3 id="branch-instructions">Branch</h3>
 
@@ -1705,9 +1705,11 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <p class="definition">mnemonic label</p>
 
-<p>A label is the branch target. It is a name that corresponds to the address of the code to run if the branch is taken. The name is assigned by declaring a label immediately before the target code. The declaration consists of the name followed by a colon, as shown below. </p>
+<p>A label is a placeholder for an address. In this case, it is the address of the code to run if the branch is taken.</p>
 
-<p class="definition">label:</p>
+<p>A label is declared immediately before target code or data, enabling resolution of its address at compile time. The declaration consists of a unique name followed by a colon, as shown below.</p>
+
+<p class="definition">name:</p>
 
 <p>Here are all the branch instructions:</p>
 
@@ -1722,11 +1724,23 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
   <tr><td class="mono">RTS</td><td class="borderless-left">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
+<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction while the rest are <span class="nowrap">3-byte</span> instructions, consisting of an opcode followed by the high and low bytes of the label address (a <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>, <span class="nowrap">16-bit</span> value).</p>
+
 <p><span class="mono">JSR</span> backs up the program counter, <span class="mono">P</span>, in the return register, <span class="mono">R</span>, before jumping. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</p> 
 
-<p>There is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a>.</p> 
+<p>The conditional branch instructions&mdash;<span class="mono">BNE</span>, <span class="mono">BEQ</span>, <span class="mono">BPL</span>, and <span class="mono">BMI</span>&mdash;can serve as <a href="https://en.wikipedia.org/wiki/Relational_operator" target="_blank">relational operators</a> by branching on the result of <span class="nowrap mono">A - B</span>. However, <span class="mono">BPL</span> and <span class="mono">BMI</span> treat the difference as a signed number. This leads to the following limitations.</p>
 
-TODO Explain the opcodes.
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Relation</th><th class="borderless">Limitations</th></tr>
+  <tr><td class="mono">BNE</td><td class="pseudocode">A &ne; B</td><td class="pseudocode">A - B &ne; 0</td></tr>
+  <tr><td class="mono">BEQ</td><td class="pseudocode">A = B</td><td class="pseudocode">A - B = 0</td></tr>
+  <tr><td class="mono">BPL</td><td class="pseudocode">A &ge; B</td><td class="pseudocode">A - B &#8714; [0, 127]</td></tr>
+  <tr><td class="mono">BMI</td><td class="pseudocode">A &lt; B</td><td class="pseudocode">A - B &#8714; [-128, -1]</td></tr>
+</table>
+
+<p>Since there is no <a href="https://en.wikipedia.org/wiki/Carry_flag" target="_blank">carry flag</a> nor its complementary <span class="mono">BCC</span> and <span class="mono">BCS</span> instructions, an <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank">inequality</a> test for an unsigned difference requires multiple steps. One option is to logical right shift <span class="mono">A</span> and <span class="mono">B</span> by <span class="mono">1</span> before subtracting. If the difference is nonzero, then the test is complete. Otherwise, the original <span class="nowrap">bit-<span class="mono">0</span>s</span> need to be compared.</p>
+
+<p>While there is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a> instruction, <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a> can be used to alter a branch target at runtime.</p>
 
 <h3 id="load-instructions">Load</h3>
 
@@ -1742,7 +1756,7 @@ TODO Explain the opcodes.
 
 <p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the read value is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>Each load instruction maps to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0100000d</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">d</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
+<p>Each load instruction maps to an opcode with bits <span class="mono">0100000d</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">d</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
 
 <h3 id="store-instructions">Store</h3>
 
@@ -1756,7 +1770,7 @@ TODO Explain the opcodes.
 
 <p>No flags are affected.</p>
 
-<p>Each store instruction maps to a <span class="nowrap">1-byte</span> opcode with bits <span class="mono">0011000s</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">s</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
+<p>Each store instruction maps to an opcode with bits <span class="mono">0011000s</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">s</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
 
 <h3 id="set-instructions">Set</h3>
 
