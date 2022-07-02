@@ -268,8 +268,11 @@ td.borderless {
     padding-right: 10px;
 }
 
-td.borderless-left {
-    font-size: 16px;
+td.pad-left {
+    padding-left: 25px;
+}
+
+td.pad-right {
     padding-left: 25px;
 }
 

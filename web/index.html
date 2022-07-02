@@ -1715,18 +1715,22 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">JMP label</td><td class="borderless-left">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
-  <tr><td class="mono">BNE label</td><td class="borderless-left">Branch Not Equal</td><td class="pseudocode">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
-  <tr><td class="mono">BEQ label</td><td class="borderless-left">Branch Equal</td><td class="pseudocode">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
-  <tr><td class="mono">BPL label</td><td class="borderless-left">Branch Plus</td><td class="pseudocode">if (N == 0) P = label;</td><td class="mono">24</td></tr>
-  <tr><td class="mono">BMI label</td><td class="borderless-left">Branch Minus</td><td class="pseudocode">if (N == 1) P = label;</td><td class="mono">25</td></tr>
-  <tr><td class="mono">JSR label</td><td class="borderless-left">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
-  <tr><td class="mono">RTS</td><td class="borderless-left">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
+  <tr><td class="mono">JMP label</td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
+  <tr><td class="mono">BNE label</td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono">BEQ label</td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono">BPL label</td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (N == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono">BMI label</td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (N == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono">JSR label</td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
+  <tr><td class="mono">RTS</td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
-<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction while the rest are <span class="nowrap">3-byte</span> instructions, consisting of an opcode followed by the high and low bytes of the label address (a <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>, <span class="nowrap">16-bit</span> value).</p>
+<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by the label address encoded <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>. The opcode is composed of bits <span class="mono">0010rnzv</span>:</p>
 
-<p><span class="mono">JSR</span> backs up the program counter, <span class="mono">P</span>, in the return register, <span class="mono">R</span>, before jumping. <span class="mono">RTS</span> restores <span class="mono">P</span> from <span class="mono">R</span>. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</p> 
+<ul>
+  <li>If <span class="mono">z</span> is <span class="mono">1</span>, then the zero flag, <span class="mono">Z</span>, must equal <span class="mono">v</span> to branch.</li>
+  <li>If <span class="mono">n</span> is <span class="mono">1</span>, then the negative flag, <span class="mono">N</span>, must equal <span class="mono">v</span> to branch.</li>
+  <li>If <span class="mono">r</span> is <span class="mono">1</span>, then the program counter, <span class="mono">P</span>, is copied to the return register, <span class="mono">R</span>, before jumping. That feature is used by <span class="mono">JSR</span> while <span class="mono">RTS</span> does the opposite. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</li>
+</ul>
 
 <p>The conditional branch instructions&mdash;<span class="mono">BNE</span>, <span class="mono">BEQ</span>, <span class="mono">BPL</span>, and <span class="mono">BMI</span>&mdash;can serve as <a href="https://en.wikipedia.org/wiki/Relational_operator" target="_blank">relational operators</a> by branching on the result of <span class="nowrap mono">A - B</span>. However, <span class="mono">BPL</span> and <span class="mono">BMI</span> treat the difference as a signed number. This leads to the following limitations.</p>
 
@@ -1774,6 +1778,12 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <h3 id="set-instructions">Set</h3>
 
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">SEA bb</td><td class="borderless pad-left pad-right">Set <span class="mono">A</span></td><td class="pseudocode">A = bb;</td><td class="mono">50</td></tr>    
+  <tr><td class="mono">SEB bb</td><td class="borderless pad-left pad-right">Set <span class="mono">B</span></td><td class="pseudocode">B = bb;</td><td class="mono">51</td></tr>
+  <tr><td class="mono">SMN wwww</td><td class="borderless pad-left pad-right">Set <span class="mono">MN</span></td><td class="pseudocode">MN = wwww;</td><td class="mono">2F</td></tr>
+</table>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
