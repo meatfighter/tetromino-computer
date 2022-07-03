@@ -1170,7 +1170,7 @@
 
 <object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
 
-<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line <span class="mono">14</span>) enables the output of the bottom NOR (line <span class="mono">13</span>) to hop over the input of the <span class="math">Y</span> inverter (line <span class="mono">17</span>). The <span class="math">X</span> inverter (line <span class="mono">16</span>) feeds into the middle NOR (line <span class="mono">18</span>), which in turn feeds into the top NOR (line <span class="mono">25</span>).</p>
+<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line 14) enables the output of the bottom NOR (line 13) to hop over the input of the <span class="math">Y</span> inverter (line 17). The <span class="math">X</span> inverter (line 16) feeds into the middle NOR (line 18), which in turn feeds into the top NOR (line 25).</p>
 
 <pre class="code">
 <span class="filename">halfAdder.t</span>
@@ -1534,7 +1534,7 @@
 <ul>
   <li>A <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a>.
     <ul style="padding-top: 1em;">
-      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless a sequence of bits. A finite (and arbitrary) region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
+      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless a sequence of bits. A finite region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
       <li>The read/write <span class="term">head</span> of the drive is limited to accessing a single bit. The drive can shift the tape to move the head one bit left or one bit right in the sequence. The head is initially positioned over the leftmost bit of the input dataset.</li>
     </ul>
   </li>
@@ -1800,13 +1800,13 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 <span class="line"><span class="normal">SMN</span> <span class="number">56</span>                  <span class="comment">; M = 0x00; N = 0x56;</span></span>
 </pre>
 
-<p>The byte literal on line <span class="mono">4</span> is interpreted as the word literal <span class="mono">0056</span>.</p>
+<p>The byte literal on line 4 is interpreted as the word literal <span class="mono">0056</span>.</p>
 
-<p>The language provides a <span class="mono">define</span> directive that equates a constant name with an integer literal. Its format follows.</p>
+<p>The <span class="mono">define</span> directive equates a name with an integer literal:</p>
 
 <p class="definition">define name value</p>
 
-<p>Defined constants can serve as immediate operands:</p>
+<p>Defined values can serve as immediate operands:</p>
 
 <pre class="code">
 <span class="line"><span class="keyword">define</span> <span class="identifier">X</span> <span class="number">D3</span>             <span class="comment">; #define X 0xD3</span></span>
@@ -1867,16 +1867,30 @@ TODO Each iterations takes more steps than its predecessor. But it is always a f
 
 <p>Since the table is fully contained within the same <span class="nowrap">256-byte</span> memory page, adding <span class="mono">table</span> and <span class="mono">index</span> does not produce a carry. As such, the code offsets just the <span class="nowrap">low-byte</span> of the address.</p>
 
+<p>To facilitate <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a>, a label, when used in an operand, can be offset by a positive or negative constant with the notation below.</p>
+
+<p class="definition">label[+-]offset</p> 
+
+<p>The offset is a fixed integer value written in decimal.</p>  
+
+<p>The notation provides a way to modify the operand of an instruction, as seen in the following example.</p> 
+
 <pre class="code">
 <span class="line"><span class="normal">SEA</span> <span class="number">FF</span>                  <span class="comment">; A = 0xFF;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">target</span><span class="normal">+</span><span class="number">1</span>            <span class="comment">; MN = target + 1;</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">target:</span></span>
-<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; B = 0x00; // unless replaced with 0xFF</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; B = 0x00; // until replaced with 0xFF</span></span>
 </pre>
 
+<p><span class="mono">target</span> points to the opcode of <span class="mono">SEB</span>. At runtime, lines 1&ndash;3 changes the byte beyond it, the operand of <span class="mono">SEB</span>.</p> 
 
+<p>In summary, the operand of <span class="mono">SMN</span> can be any of the following.</p>
+
+<p class="definition">SMN byte | word | label | label+offset | label-offset</p>
+
+<p>The same applies to branch instructions; i.e., the target of the branch can any of the above. But it is rarely worthwhile to jump to a numerical address or to a label offset by a constant.</p>
 
 </body>
 
