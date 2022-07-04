@@ -4,7 +4,6 @@ import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import tetriscircuits.ui.UiUtil;
 
 public class Main {
     
