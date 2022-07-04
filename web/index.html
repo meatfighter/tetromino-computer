@@ -1385,6 +1385,95 @@
 
 <p>...</p>
 
+<table class="borderless">
+  <tr><th class="borderless">Function</th><th class="borderless">Definition</th></tr>
+  <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &rarr; </span>0</td></tr>
+  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A - 1</td></tr>
+  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &rarr; </span>W - 1</td></tr>
+  <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A + 1</td></tr>
+  <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &rarr; </span>W + 1</td></tr>
+  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A << 2</td></tr>
+  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A << 3</td></tr>
+  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A << 4</td></tr>
+  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A >>> 1</td></tr>
+  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &rarr; </span>A >>> 5</td></tr>
+  <tr><td class="separator"> </td><td class="separator"> </td></tr>
+  
+  <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A + B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A, A & B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A & B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &rarr; </span>[ D, D && !E ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A, A ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ B, B ]</td></tr>
+  <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &rarr; </span>[ C ? W + 1 : W, C ]</td></tr>
+  <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A | B, B ]</td></tr>
+  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A - B, B ]</td></tr>
+  <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ B, A ]</td></tr>
+  <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &rarr; </span>[ A ^ B, B ]</td></tr>
+  <tr><td class="separator"> </td><td class="separator"> </td></tr>
+  
+  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &rarr; </span>[ D, E, D && E ]</td></tr>
+  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &rarr; </span>[ D && !E, D, E ]</td></tr>
+  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &rarr; </span>[ A, B, A == B ]</td></tr>  
+  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &rarr; </span>[ A, B, (A == B) && C ]</td></tr>
+  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &rarr; </span>[ A == B, A, B ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &rarr; </span>[ A, C ? A : B, C ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &rarr; </span>[ C ? B : A, B, C ]</td></tr>  
+  <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &rarr; </span>[ C, C ? B : A, B ]</td></tr>
+  <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &rarr; </span>[ C, A, C ? A : B ]</td></tr>
+</table>
+
+<p>...</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Function</th><th class="borderless">Pattern</th><th class="borderless">Values</th></tr>
+  <tr><td class="pseudocode">ZERO_C</td><td class="pseudocode">00000000</td><td class="pseudocode">00</td></tr>
+  <tr><td class="pseudocode">MINUS_C</td><td class="pseudocode">1.......</td><td class="pseudocode">[ -128, -1 ]</td></tr> 
+  
+  <tr><td class="pseudocode">TAX_C</td><td class="pseudocode">000000..</td><td class="pseudocode">00, 01, 02, 03</td></tr>   
+  <tr><td class="pseudocode">TBX_C</td><td class="pseudocode">000001..</td><td class="pseudocode">04, 05, 06, 07</td></tr> 
+  <tr><td class="pseudocode">TMX_C</td><td class="pseudocode">000010..</td><td class="pseudocode">08, 09, 0A, 0B</td></tr>
+  <tr><td class="pseudocode">TNX_C</td><td class="pseudocode">000011..</td><td class="pseudocode">0C, 0D, 0E, 0F</td></tr>  
+  <tr><td class="pseudocode">TXA_C</td><td class="pseudocode">0000..00</td><td class="pseudocode">00, 04, 08, 0C</td></tr>   
+  <tr><td class="pseudocode">TXB_C</td><td class="pseudocode">0000..01</td><td class="pseudocode">01, 05, 09, 0D</td></tr> 
+  <tr><td class="pseudocode">TXM_C</td><td class="pseudocode">0000..10</td><td class="pseudocode">02, 06, 0A, 0E</td></tr>
+  <tr><td class="pseudocode">TXN_C</td><td class="pseudocode">0000..11</td><td class="pseudocode">03, 07, 0B, 0F</td></tr>
+
+  <tr><td class="pseudocode">ADD_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">AND_C</td><td class="pseudocode">00010001</td><td class="pseudocode">11</td></tr>
+  <tr><td class="pseudocode">DEC_C</td><td class="pseudocode">00010010</td><td class="pseudocode">12</td></tr> 
+  <tr><td class="pseudocode">INC_C</td><td class="pseudocode">00010011</td><td class="pseudocode">13</td></tr> 
+  <tr><td class="pseudocode">LS2_C</td><td class="pseudocode">00010100</td><td class="pseudocode">14</td></tr> 
+  <tr><td class="pseudocode">LS3_C</td><td class="pseudocode">00010101</td><td class="pseudocode">15</td></tr> 
+  <tr><td class="pseudocode">LS4_C</td><td class="pseudocode">00010110</td><td class="pseudocode">16</td></tr> 
+  <tr><td class="pseudocode">OR_C</td><td class="pseudocode">00010111</td><td class="pseudocode">17</td></tr>  
+  <tr><td class="pseudocode">RS1_C</td><td class="pseudocode">00011000</td><td class="pseudocode">18</td></tr> 
+  <tr><td class="pseudocode">RS5_C</td><td class="pseudocode">00011001</td><td class="pseudocode">19</td></tr> 
+  <tr><td class="pseudocode">SUB_C</td><td class="pseudocode">00011010</td><td class="pseudocode">1A</td></tr> 
+  <tr><td class="pseudocode">XOR_C</td><td class="pseudocode">00011011</td><td class="pseudocode">1B</td></tr>
+  
+  <tr><td class="pseudocode">SEX_C</td><td class="pseudocode">0101000.</td><td class="pseudocode">50, 51</td></tr> 
+  <tr><td class="pseudocode">THREE_C</td><td class="pseudocode">0010....</td><td class="pseudocode">2.</td></tr> 
+  
+  <tr><td class="pseudocode">SEA_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">SEB_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">SMN_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">JMP_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">BEQ_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">BMI_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">BNE_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr>
+  <tr><td class="pseudocode">BPL_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">JSR_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">RTS_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">STA_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">STB_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">STX_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">LDX_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr> 
+  <tr><td class="pseudocode">LDB_C</td><td class="pseudocode">00010000</td><td class="pseudocode">10</td></tr>  
+</table>
+
+<p>...</p>
+
 <h1 id="memory">Memory</h1>
 
 <p>This section describes how memory works.</p>

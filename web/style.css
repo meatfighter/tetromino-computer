@@ -257,6 +257,10 @@ th.mono {
     padding-right: 10px;
 }
 
+td.separator {
+    padding-top: 1em;
+}
+
 td.pad {
     padding-left: 10px;
     padding-right: 10px;

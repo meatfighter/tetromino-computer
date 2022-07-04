@@ -26,45 +26,17 @@ function catalog
 computer
 
 
-
-
-
-CLEAR
-
-LS2 
-LS3 
-LS4     
-RS1 
-RS5
-
-AND_A_B_C
-
-AND_NOT_AB_FB
-
-C_AND_A_NOT_B
-
-AND_AB_FB
-
-AND_AB_AF
-
-OR_AB_FB
-
-XOR_AB_FB 
-
-SWAP
-
 ZERO_C 
-C_ZERO 
 MINUS_C 
-C_MINUS 
 TAX_C 
 TBX_C 
 TMX_C 
-TNX_C 
+TNX_C
 TXA_C 
 TXB_C 
 TXM_C 
 TXN_C
+
 ADD_C 
 AND_C 
 DEC_C 
@@ -76,7 +48,8 @@ OR_C
 RS1_C 
 RS5_C 
 SUB_C 
-XOR_C 
+XOR_C
+ 
 SEX_C 
 THREE_C 
 SEA_C 
@@ -93,30 +66,13 @@ STA_C
 STB_C 
 STX_C 
 LDX_C 
-LDB_C     
+LDB_C
+[ A, X ] -> [ A, M ] 
 
-CMP_C
-C_CMP
-CMP_AND_C 
+C_ZERO
+C_MINUS 
+[ X, A ] -> [ M, A ]    
 
-COPY_B_A 
-COPY_A_B
-
-COPY_A_B_C
-C_COPY_B_A
-C_COPY_A_B 
-COPY_B_A_C
-
-DEC 
-DEC_16 
-
-INC 
-INC_16 
-INC_16_C
-    
-ADD_AB_FB 
- 
-SUB_AB_FB 
 
 
  
