@@ -1671,15 +1671,15 @@
 <p>The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape. The tape extends infinitely in both directions, but the array only does so in one. To compensate, the array stores 2 tracks as if the tape had been folded in half. That is:</p> 
 
 <ul>
-  <li><span class="nowrap">Bit 0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit 1</span> of each byte, <span class="serif">a:1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+  <li><span class="nowrap">Bit-0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit-1</span> of each byte, <span class="serif">a:1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
 </ul>
 
 <p>The next two bits store the position of the head. Specifically:</p>
 
 <ul>
-  <li><span class="nowrap">Bit 2</span> of each byte, <span class="serif">a:2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit 3</span> of each byte, <span class="serif">a:3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
+  <li><span class="nowrap">Bit-2</span> of each byte, <span class="serif">a:2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
+  <li><span class="nowrap">Bit-3</span> of each byte, <span class="serif">a:3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
 </ul>
 
 <p>To make this clear, the example below depicts the startup configuration of a machine where <span class="serif nowrap">N = 3</span> and <span class="serif nowrap">a<span class="sub2">i &ge; 10</span> = 0</span>.</p>
@@ -1708,7 +1708,7 @@
 
 <p>The register starts at index 0, but it is not fixed there. As revealed in the following animation, the register moves back-and-forth through the array by repeatedly applying the <span class="mono">SWAP</span> function.</p>  
   
-<object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>  
+<object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>
   
 <p>A move from <span class="serif">i</span> to <span class="serif">i+1</span> requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
 
@@ -1718,7 +1718,11 @@
 
 <p><span class="serif nowrap">T( a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> ) &rarr; a&prime;<span class="sub2">i</span>&nldr;a&prime;<span class="sub2">i+N+2</span></span></p>
 
-<p>Of those 3 extra bytes, <span class="serif">T</span> checks the middle one, <span class="serif">a<span class="sub2">i+N+1</span></span>, for the head. If the head is not found (<span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">T</span> lets the inputs pass through, unchanged. Otherwise, <span class="serif">T</span> uses the data bit corresponding to the head, <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>, in conjunction with the register value to update the data bit, to move the head, and to update the register value.</p>  
+<p>Of those 3 extra bytes, <span class="serif">T</span> checks the middle one, <span class="serif">a<span class="sub2">i+N+1</span></span>, for the head:</p>
+
+<object data="register-and-extra-bytes.svg" type="image/svg+xml" class="diagram">Register and Extra Bytes</object>
+  
+<p>If the head is not found (<span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">T</span> lets the inputs pass through, unchanged. Otherwise, <span class="serif">T</span> uses the data bit corresponding to the head, <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>, in conjunction with the register value to update the data bit, to move the head, and to update the register value.</p>  
 
 <p><span class="serif">T</span> is able to move the head because the 3 extra bytes include both adjacent neighbors of the byte containing the head. However, the first of the 3, <span class="serif">a<span class="sub2">i+N</span></span>, might be set to the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following table.</p>
 
@@ -1726,15 +1730,13 @@
 
 <p>Each triplet portrays a state of the 3 extra bytes. The center column contains the initial configurations. The left and right columns show the 8 possible outcomes after the head moves left and right, respectively. The upper and lower circles correspond to bits 2 and 3 of each byte, where an unfilled circle is a <span class="mono">0</span> and a filled circle is a <span class="mono">1</span>.</p>
 
-<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the left byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from bit 2 to bit 3. Similarly, in the fourth row, moving right does the opposite.</p>
+<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the left byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from <span class="nowrap">bit-2</span> to <span class="nowrap">bit-3</span>. Similarly, in the fourth row, moving right does the opposite.</p>
 
-TODO EXPLAIN THAT T CAN BE COMPOSED OF FUNCTIONS IN THE CATALOG OR ANYTHING ELSE.
+<p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle. In this way, each cycle takes more steps than the preceding cycle, but it is always a finite number of steps.</p>
 
-TODO EXPLAIN THAT THE REGISTER MOVES IN EXPANDING CYCLES.
+<p>The first cycle of the machine is guaranteed to update the head because the head starts at the leftmost bit of the input dataset. And since the head is limited to moving from an element of the array to an immediate neighbor, the expanding motion of the register assures the head is updated during each successive cycle. In fact, unless the head is at index 0 or at the leading edge, it will be updated twice per cycle: once as the register travels forward and again during its return. Either way, the machine always makes progress.</p>
 
-TODO Each iterations takes more steps than its predecessor. But it is always a finite number of steps, enabling the machine to progress.
-
-<h2 id="linear-bounded-automaton">Linear Bounded Automaton</h2>
+<h2 id="deterministic-linear-bounded-automaton">Deterministic Linear Bounded Automaton</h2>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
