@@ -1,7 +1,5 @@
 package tetriscircuits.computer;
 
-import java.io.IOException;
-
 public interface Processor {
     void init() throws Exception;
     void runInstruction();

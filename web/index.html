@@ -1736,11 +1736,28 @@
 
 <p>The first cycle of the machine is guaranteed to update the head because the head starts at the leftmost bit of the input dataset. And since the head is limited to moving from an element of the array to an immediate neighbor, the expanding motion of the register assures the head is updated during each successive cycle. In fact, unless the head is at index 0 or at the leading edge, it will be updated twice per cycle: once as the register travels forward and again during its return. Either way, the machine always makes progress.</p>
 
-<h2 id="deterministic-linear-bounded-automaton">Deterministic Linear Bounded Automaton</h2>
+<h2 id="tetris-computer">Tetris Computer</h2>
 
-<p>Like the Turing machine implementation described above, the computer that runs Tetris consists of a register traversing an array. However, the length of the array is fixed at load time with just enough space to hold the register and the input dataset. This constraint limits computational power. It places the device into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>. It is not as capable as a Turing machine. But, without a dependency on infinite storage, it is physically realizable.</p>
+<p>Like the Turing machine implementation described above, the computer that runs Tetris consists of a register traversing an array. On startup, a program in the form of <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;a sequence of bytes representing instructions and data&mdash;is loaded into the array, followed by 2 padding bytes (both set to zero), followed by the register. After that, the array length remains constant. Meaning, the program can only operate on the loaded bytes as opposed to allocating more memory. This constraint limits computational power. It places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>. It is not as capable as a Turing machine. But, without a dependency on infinite storage, the computer is physically realizable.</p>  
+  
+<p>As revealed in the following diagram, the register (green) is composed of 21 single-byte variables. Wherever the register is located, the 3 bytes below the register (orange) and the byte above the register (also orange) take on the names <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively.</p>
+
+<object data="tetris-computer-register.svg" type="image/svg+xml" class="diagram">Tetris Computer Register</object>
+
+
+On each cycle of the machine, the register slides from one end of the array to the other. On even cycles, it descends. On odd cycles, it ascends. And a transformation function that involves all 25 bytes is applied at each step along the way. 
+
+To keep track of the position of the register, variables a1 and a0 operate as a combined, 16-bit address variable, a, where a1 is the high-byte and a0 is the low-byte. a is initialized to the array index of the final machine code byte (the size of the assembled program minus one). Due to the 2 padding bytes, a refers to the location of variable I.  
+
+When the register steps downward, a is decremented by 1. Similarly, when the register steps upward, a is incremented by 1.   
+
+The register requires 3 bytes beneath it. This means the lowest array index it can descend to 3. At that position, a is 0.  
+
+The same requirement does not apply to the byte above it. The register can abut the upper bound of the array. 
 
 <h2 id="assembly-language">Assembly Language</h2>
+
+TODO Explain what assembly language is. How it is translated to machine language. And that it is case-insensitive, but the convention is that operators are in caps and the rest is camel case.
 
 <h3 id="transfer-instructions">Transfer Instructions</h3>
 
@@ -1802,9 +1819,9 @@
 
 <p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
 
-<p>The zero flag, <span class="mono">Z</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+<p>The zero flag, <span class="mono">z</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
+<p>The negative flag, <span class="mono">n</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
 
 <p>Each arithmetic or logic instruction corresponds to an opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
 
@@ -1825,19 +1842,19 @@
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
   <tr><td class="mono">JMP label</td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
-  <tr><td class="mono">BNE label</td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (Z == 0) P = label;</td><td class="mono">22</td></tr>
-  <tr><td class="mono">BEQ label</td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (Z == 1) P = label;</td><td class="mono">23</td></tr>
-  <tr><td class="mono">BPL label</td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (N == 0) P = label;</td><td class="mono">24</td></tr>
-  <tr><td class="mono">BMI label</td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (N == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono">BNE label</td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono">BEQ label</td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono">BPL label</td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (n == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono">BMI label</td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (n == 1) P = label;</td><td class="mono">25</td></tr>
   <tr><td class="mono">JSR label</td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
   <tr><td class="mono">RTS</td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
-<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by the label address encoded <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>. The opcode is composed of bits <span class="mono">0010rnzv</span>:</p>
+<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by the label address encoded <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>. The opcode is composed of bits <span class="mono">0010rstu</span>:</p>
 
 <ul>
-  <li>If <span class="mono">z</span> is <span class="mono">1</span>, then the zero flag, <span class="mono">Z</span>, must equal <span class="mono">v</span> to branch.</li>
-  <li>If <span class="mono">n</span> is <span class="mono">1</span>, then the negative flag, <span class="mono">N</span>, must equal <span class="mono">v</span> to branch.</li>
+  <li>If <span class="mono">t</span> is <span class="mono">1</span>, then the zero flag, <span class="mono">z</span>, must equal <span class="mono">u</span> to branch.</li>
+  <li>If <span class="mono">s</span> is <span class="mono">1</span>, then the negative flag, <span class="mono">n</span>, must equal <span class="mono">u</span> to branch.</li>
   <li>If <span class="mono">r</span> is <span class="mono">1</span>, then the program counter, <span class="mono">P</span>, is copied to the return register, <span class="mono">R</span>, before jumping. That feature is used by <span class="mono">JSR</span> while <span class="mono">RTS</span> does the opposite. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</li>
 </ul>
 
@@ -1851,9 +1868,11 @@
   <tr><td class="mono">BMI</td><td class="pseudocode">A &lt; B</td><td class="pseudocode">A - B &#8714; [-128, -1]</td></tr>
 </table>
 
-<p>Since there is no <a href="https://en.wikipedia.org/wiki/Carry_flag" target="_blank">carry flag</a> nor its complementary <span class="mono">BCC</span> and <span class="mono">BCS</span> instructions, an <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank">inequality</a> test for an unsigned difference requires multiple steps. One option is to logical right shift <span class="mono">A</span> and <span class="mono">B</span> by <span class="mono">1</span> before subtracting. If the difference is nonzero, then the test is complete. Otherwise, the original <span class="nowrap">bit-<span class="mono">0</span>s</span> need to be compared.</p>
+<p>Since there is no <a href="https://en.wikipedia.org/wiki/Carry_flag" target="_blank">carry flag</a> nor its complementary <span class="mono">BCC</span> and <span class="mono">BCS</span> instructions, an <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank">inequality</a> test for an unsigned difference requires multiple steps. One option is to logical right shift <span class="mono">A</span> and <span class="mono">B</span> by <span class="mono">1</span> before subtracting. If the difference is nonzero, then the test is complete. Otherwise, the original <span class="nowrap">bit-0s</span> need to be compared.</p>
 
 <p>While there is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a> instruction, <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a> can be used to alter a branch target at runtime.</p>
+
+<p>By default, program execution starts with all registers initialized to <span class="mono">0</span>. Since that includes the <span class="mono">P</span> register, the default <a href="https://en.wikipedia.org/wiki/Entry_point" target="_blank">entry point</a> is the first line of code. However, if the program includes a label named <span class="mono">main</span>, then <span class="mono">P</span> is set to its address at startup, as if a jump automatically occurred to that location.</p>
 
 <h3 id="load-instructions">Load Instructions</h3>
 
@@ -1865,9 +1884,9 @@
   <tr><td class="mono">LDB</td><td class="borderless">Load <span class="mono">B</span></td><td class="pseudocode">B = *MN;</td><td class="mono">41</td></tr>
 </table>
 
-<p>The zero flag, <span class="mono">Z</span>, is set to <span class="mono">1</span> if the read value is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+<p>The zero flag, <span class="mono">z</span>, is set to <span class="mono">1</span> if the read value is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>The negative flag, <span class="mono">N</span>, is set to <span class="mono">1</span> if the read value is negative (if bit 7 is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
+<p>The negative flag, <span class="mono">n</span>, is set to <span class="mono">1</span> if the read value is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
 
 <p>Each load instruction maps to an opcode with bits <span class="mono">0100000d</span>, where <span class="mono">A</span> and <span class="mono">B</span> correspond to <span class="mono">d</span> values <span class="mono">0</span> and <span class="mono">1</span>, respectively.</p>
 
