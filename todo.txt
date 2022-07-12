@@ -27,6 +27,8 @@ computer
 
  
 create diagram showing example 3 extra bytes. mark center of the 3 bytes as the head check byte.
+
+change text in diagram: Register -> State Register
  
  
   

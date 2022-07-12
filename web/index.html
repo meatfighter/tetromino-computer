@@ -1738,8 +1738,14 @@
 
 <h2 id="tetris-computer">Tetris Computer</h2>
 
-<p>Like the Turing machine implementation described above, the computer that runs Tetris consists of a register traversing an array. On startup, a program in the form of <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;a sequence of bytes representing instructions and data&mdash;is loaded into the array, followed by 2 padding bytes (both set to zero), followed by the register. After that, the array length remains constant. Meaning, the program can only operate on the loaded bytes as opposed to allocating more memory. This constraint limits computational power. It places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>. It is not as capable as a Turing machine. But, without a dependency on infinite storage, the computer is physically realizable.</p>  
-  
+<p>Like the Turing machine implementation described above, the computer that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
+
+<object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
+
+<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. When the state register is at the end of the array, as in the initial configuration above, the array indices of the elements containing the machine code bytes match the RAM addresses of those bytes.</p>
+
+<p>At runtime, the length of the array remains constant. Meaning, the machine code RAM constitutes the full extent of the computer’s memory. This constraint places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is a linear function of the program size, <span class="serif">L</span>. While not as powerful as a Turing machine, without a dependency on infinite storage, the computer is physically realizable.</p>
+
 <p>As revealed in the following diagram, the register (green) is composed of 21 single-byte variables. Wherever the register is located, the 3 bytes below the register (orange) and the byte above the register (also orange) take on the names <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively.</p>
 
 <object data="tetris-computer-register.svg" type="image/svg+xml" class="diagram">Tetris Computer Register</object>
