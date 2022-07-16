@@ -1732,9 +1732,13 @@
 
 <p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the left byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from <span class="nowrap">bit-2</span> to <span class="nowrap">bit-3</span>. Similarly, in the fourth row, moving right does the opposite.</p>
 
-<p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle. In this way, each cycle takes more steps than the preceding cycle, but it is always a finite number of steps.</p>
+<p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle.</p>
 
-<p>The first cycle of the machine is guaranteed to update the head because the head starts at the leftmost bit of the input dataset. And since the head is limited to moving from an element of the array to an immediate neighbor, the expanding motion of the register assures the head is updated during each successive cycle. In fact, unless the head is at index 0 or at the leading edge, it will be updated twice per cycle: once as the register travels forward and again during its return. Either way, the machine always makes progress.</p>
+<p>Since the head starts at the element corresponding to the leftmost bit of the input dataset and the transition function advances the head by at most one element, the expanding motion of the register is guaranteed to update the head at least once per cycle, potentially multiple times per cycle. In this way, the machine always makes progress.</p>
+
+<p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an ever-expanding number of TetrisScript instructions, where <span class="serif">k</span> is encoded in ever-increasing <span class="nowrap">x-coordinate</span> values.</p>
+
+<p>While number of TetrisScript instructions to execute per cycle is always finite, the number cycles required to complete the computation (for the machine to halt) is generally unknown. This necessitates an endless TetrisScript. However, due to its redundant nature, such TetrisScript can be synthesized on demand by a device that maintains <span class="serif">k</span> in an unbounded register.</p>
 
 <h2 id="tetris-computer">Tetris Computer</h2>
 
