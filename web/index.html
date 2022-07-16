@@ -1734,11 +1734,11 @@
 
 <p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle.</p>
 
-<p>Since the head starts at the element corresponding to the leftmost bit of the input dataset and the transition function advances the head by at most one element, the expanding motion of the register is guaranteed to update the head at least once per cycle, potentially multiple times per cycle. In this way, the machine always makes progress.</p>
+<p>Since the head starts at the element corresponding to the leftmost bit of the input dataset and the transition function advances the head by at most one element, the expanding motion of the register is guaranteed to update the head at least once per cycle, and potentially multiple times per cycle. In this way, the machine always makes progress.</p>
 
-<p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an ever-expanding number of TetrisScript instructions, where <span class="serif">k</span> is encoded in ever-increasing <span class="nowrap">x-coordinate</span> values.</p>
+<p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an expanding, yet finite, number of TetrisScript instructions to execute per cycle, where <span class="serif">k</span> is encoded in increasing <span class="nowrap">x-coordinate</span> values.</p>
 
-<p>While number of TetrisScript instructions to execute per cycle is always finite, the number cycles required to complete the computation (for the machine to halt) is generally unknown. This necessitates an endless TetrisScript. However, due to its redundant nature, such TetrisScript can be synthesized on demand by a device that maintains <span class="serif">k</span> in an unbounded register.</p>
+<p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
 
 <h2 id="tetris-computer">Tetris Computer</h2>
 
@@ -1746,9 +1746,38 @@
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. When the state register is at the end of the array, as in the initial configuration above, the array indices of the elements containing the machine code bytes match the RAM addresses of those bytes.</p>
+<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. For array elements below the state register, the indices equal the RAM addresses. For those above, the indices equal the RAM addresses plus the width of the state register.</p>
 
-<p>At runtime, the length of the array remains constant. Meaning, the machine code RAM constitutes the full extent of the computer’s memory. This constraint places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is a linear function of the program size, <span class="serif">L</span>. While not as powerful as a Turing machine, without a dependency on infinite storage, the computer is physically realizable.</p>
+<p>At runtime, the length of the array remains constant. Meaning, that RAM constitutes the full extent of the computer’s memory. This constraint places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. While not as powerful as a Turing machine, without a dependency on infinite storage, the computer is physically realizable.</p>
+
+<p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends. And on odd cycles, it ascends. A transition function is applied at every step along the way.</p>
+
+<p>The state register is a collection of <span class="nowrap">8-bit</span>, <span class="nowrap">16-bit</span>, and <span class="nowrap">24-bit</span> registers. The following diagram depicts one of them, the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, along with the 3 bytes immediately below the state register, which are always referred to as <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span> regardless of the location of the state register.</p>
+
+<object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
+
+<p>On startup, <span class="mono">a</span> is initialized to the highest RAM address, <span class="serif">L&minus;1</span>, found 3 elements under the state register’s start position. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> consistently pointed at <span class="mono">I</span>.</p>
+
+<p>The state register never descends below index 3 to ensure there is always an <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span> beneath it.</p>
+
+<p>Since <span class="mono">a</span> is a <span class="nowrap">16-bit</span> register, the maximum RAM size is 65536 bytes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <p>As revealed in the following diagram, the register (green) is composed of 21 single-byte variables. Wherever the register is located, the 3 bytes below the register (orange) and the byte above the register (also orange) take on the names <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively.</p>
 
