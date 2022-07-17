@@ -1760,13 +1760,15 @@
 
 <p>As the state register traverses, a machine code instruction is fetched from RAM. Instructions are 1, 2, or 3 bytes long. The diagram below shows the <span class="nowrap">24-bit</span> <span class="term">instruction register</span>, <span class="mono">ijk</span>, which is wide enough to store any instruction. The 3 bytes immediately below the state register, <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span>, are depicted as a combined <span class="nowrap">24-bit</span> register, <span class="mono">IJK</span>. The diagram also includes the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which stores the address of the instruction to be fetched.</p>
 
-<object data="register-p.svg" type="image/svg+xml" class="diagram">Address Register</object>
+<object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
 
+<p>Amid the slide across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment when <span class="mono">P</span> equals <span class="mono">a</span>. After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
+<p>Execution of an arithmetic or logic instruction involves these 8-bit registers:</p>
 
+<object data="register-abnz.svg" type="image/svg+xml" class="diagram">Registers A, B, n, and z</object>
 
-
-
+<p>A function of the <span class="term">accumulator</span>, <span class="mono">A</span>, and the <span class="term">data register</span>, <span class="mono">B</span>, is computed and the result is stored in <span class="mono">A</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>.</p>
 
 
 

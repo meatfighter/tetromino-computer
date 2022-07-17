@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
 
 <svg
    width="804"
@@ -12,7 +12,8 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   style="background-color: white">
   <sodipodi:namedview
      id="namedview7"
      pagecolor="#ffffff"
@@ -109,7 +110,7 @@
        y="16.536366" />
     <text
        xml:space="preserve"
-       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="58.115192"
        y="22.373339"
        id="text38862-5-6-4"><tspan
@@ -127,7 +128,7 @@
        y="16.536366" />
     <text
        xml:space="preserve"
-       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="66.622078"
        y="22.373343"
        id="text38862-4"><tspan
@@ -152,7 +153,7 @@
        y="16.536366" />
     <text
        xml:space="preserve"
-       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="176.68874"
        y="22.373339"
        id="text38862-5-3-6"><tspan
@@ -170,7 +171,7 @@
        y="16.536366" />
     <text
        xml:space="preserve"
-       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="185.03979"
        y="22.373339"
        id="text38862-8-7-1"><tspan
