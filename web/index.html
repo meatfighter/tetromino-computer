@@ -1740,15 +1740,15 @@
 
 <p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
 
-<h2 id="tetris-computer">Tetris Computer</h2>
+<h2 id="tetris-computer">Tetris Machine</h2>
 
-<p>Like the Turing machine implementation described above, the computer that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
+<p>Like the Turing machine implementation described above, the machine that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. For elements below the state register, the RAM addresses equal the array indices. For those above, the RAM addresses equal the indices minus the width of the state register <span class="nowrap">(address = index &minus; 21).</span></p>
+<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. As the state register moves, the RAM addresses of the elements below it equal the array indices <span class="nowrap serif">(address = index)</span>. The RAM addresses above it equal the indices minus the width of the state register <span class="nowrap serif">(address = index &minus; 21).</span></p>
 
-<p>At runtime, the length of the array remains constant. Meaning, the aforementioned RAM constitutes the full extent of the computer’s memory. This constraint places the computer into a class of abstract machines known as <span class="italic">deterministic <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. While not as powerful as a Turing machine, without a dependency on infinite storage, the computer is physically realizable.</p>
+<p>At runtime, the length of the array remains constant. Meaning, the aforementioned RAM constitutes the full extent of the machine’s memory. This constraint makes the machine a <span class="italic"><a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. It is not as powerful as a Turing machine. But, without a dependency on infinite storage, the machine is physically realizable.</p>
 
 <p>The state register is a collection of <span class="nowrap">8-bit</span>, <span class="nowrap">16-bit</span>, and <span class="nowrap">24-bit</span> registers. The following diagram depicts one of them, the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, along with the 3 bytes immediately below the state register, referred to as <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span> regardless of the state register's location.</p>
 
@@ -1758,11 +1758,23 @@
 
 <p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
 
-<p>As the state register traverses, a machine code instruction is fetched from RAM. Instructions are 1, 2, or 3 bytes long. The diagram below shows the <span class="nowrap">24-bit</span> <span class="term">instruction register</span>, <span class="mono">ijk</span>, which is wide enough to store any instruction. The 3 bytes immediately below the state register, <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span>, are depicted as a combined <span class="nowrap">24-bit</span> register, <span class="mono">IJK</span>. The diagram also includes the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which stores the address of the instruction to be fetched.</p>
+<p>In the course of the state register traversal, a machine code instruction is fetched from RAM into the <span class="term">instruction register</span>, <span class="mono">ijk</span>. Instructions vary in length from 1 to 3 bytes. The <span class="nowrap">24-bit</span> width of <span class="mono">ijk</span> is sufficient to store any of them.</p>
+
+<p>The diagram below shows <span class="mono">ijk</span> along with the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which holds the address of the instruction to be fetched. The 3 bytes immediately below the state register, <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span>, are depicted as a combined <span class="nowrap">24-bit</span> register, <span class="mono">IJK</span>.</p>
 
 <object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
 
-<p>Amid the slide across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment when <span class="mono">P</span> equals <span class="mono">a</span>. After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
+<p>As the state register slides across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment <span class="mono">P</span> equals <span class="mono">a</span>. After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
+
+<p><span class="term">Set instructions</span> are 2 or 3 bytes long. They move an immediate&mdash;a constant value provided in the instruction&mdash;to a destination register. In the <span class="nowrap">2-byte</span> version, the second byte contains an <span class="nowrap">8-bit</span> immediate. As portrayed in the following image, its execution copies <span class="mono">j</span> to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
+
+<object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
+
+<p>...</p>
+
+<object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+
+<p>...</p>
 
 <p>Execution of an arithmetic or logic instruction involves these 8-bit registers:</p>
 
