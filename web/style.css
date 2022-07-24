@@ -132,7 +132,7 @@ p.definition {
     font-family: 'Source Code Pro', monospace;
     font-size: 13px;   
     background: #E7E9EB;
-    width: 100% - 56px;
+    width: calc(100% - 56px);
     padding: 15px 25px 15px 25px;
     border-left: 6px solid #888888;
 }
@@ -303,10 +303,10 @@ pre.code {
     font-size: 13px;
     background: #2B2B2B;    
     border-left: 6px solid #888888;
-    width: 100% - 71px;
+    width: calc(100% - 71px);
     white-space: pre-wrap;
     padding: 15px 15px 15px 50px;
-    color: #BBBBBB;
+    color: #E8E8E8; /* #BBBBBB; */
     counter-reset: step;
     counter-increment: step 0;
     position: relative;
@@ -329,7 +329,7 @@ pre.code .filename:before {
 }
 
 pre.code .line:before {
-    color: #888888;
+    color: #A8A8A8; /* #888888; */
     content: counter(step);
     counter-increment: step;     
     display: inline-block;
@@ -341,26 +341,26 @@ pre.code .line:before {
 }
 
 span.normal {
-    color: #BBBBBB;
+    color: #E8E8E8; /* #BBBBBB; */
 }
 
 span.comment {
-    color: #808080;
+    color: #A0A0A0;  /* #808080; */
 }
 
 span.keyword {
-    color: #CC7832;
+    color: #FF953F; /* #CC7832; */
 }
 
 span.number {
-    color: #6897BB;
+    color: #81BBE8; /* #6897BB; */
 }
 
 span.identifier {
-    color: #9876AA;
+    color: #BD94D3; /* #9876AA; */
 }
 
 span.label {
-    color: #BBBBBB;
+    color: #E8E8E8; /* #BBBBBB; */
     font-weight: bold;
 }
