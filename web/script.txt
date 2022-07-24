@@ -1,0 +1,247 @@
+; descend
+DEC_16         i+13     ; --a;
+SWAP           i+2
+SWAP           i+3
+SWAP           i+4
+SWAP           i+5
+SWAP           i+6
+SWAP           i+7
+SWAP           i+8
+SWAP           i+9
+SWAP           i+10
+SWAP           i+11
+SWAP           i+12
+SWAP           i+13
+SWAP           i+14
+SWAP           i+15
+SWAP           i+16
+SWAP           i+17
+SWAP           i+18
+SWAP           i+19
+SWAP           i+20
+SWAP           i+21
+SWAP           i+22
+
+
+; ascend
+INC_16         i+13     ; ++a;
+SWAP           i+23
+SWAP           i+22
+SWAP           i+21
+SWAP           i+20
+SWAP           i+19
+SWAP           i+18
+SWAP           i+17
+SWAP           i+16
+SWAP           i+15
+SWAP           i+14
+SWAP           i+13
+SWAP           i+12
+SWAP           i+11
+SWAP           i+10
+SWAP           i+9
+SWAP           i+8
+SWAP           i+7
+SWAP           i+6
+SWAP           i+5
+SWAP           i+4
+SWAP           i+3
+
+
+; fetch
+CMP_C          i+9      ; s1 = (P1 == a1);
+CMP_AND_C      i+10     ; s1 &= (P0 == a0);
+COPY_A_B_C     i+2      ; if (s1) i = I;
+COPY_A_B_C     i+3      ; if (s1) j = J;
+COPY_A_B_C     i+4      ; if (s1) k = K;
+
+
+; load/store phase 2
+CMP_C          i+12     ; s0 = (M == a1);
+CMP_AND_C      i+14     ; s0 &= (N == a0);
+COPY_B_A       i+11     ; s1 = s0;
+AND_AB_AF      i+8      ; s1 &= r;
+COPY_A_B_C     i+5      ; if (s1) m = I;
+COPY_B_A       i+11     ; s1 = s0;
+AND_AB_AF      i+7      ; s1 &= w;
+COPY_B_A_C     i+5      ; if (s1) I = m;
+
+
+; load phase 3
+MINUS_C        i+11     ; s0 = (m < 0);
+C_COPY_A_B     i+16     ; if (r) n = s0;
+ZERO_C         i+16     ; s0 = (m == 0);
+C_COPY_A_B     i+17     ; if (r) z = s0;
+C_AND_A_NOT_B  i+16     ; s0 = r & !d;
+C_COPY_A_B     i+18     ; if (s0) A = m;
+AND_A_B_C      i+15     ; s0 = r & d;
+C_COPY_A_B     i+19     ; if (s0) B = m;
+
+
+; increment P
+INC_16         i+8      ; ++P;
+SEX_C          i+12     ; s1 = (i is a 2-byte instruction);
+INC_16_C       i+8      ; if (s1) ++P;
+THREE_C        i+12     ; s1 = (i is a 3-byte instruction);
+INC_16_C       i+8      ; if (s1) ++P;
+INC_16_C       i+8      ; if (s1) ++P;
+
+
+; transfer instructions
+TMX_C          i+12     ; s1 = (i matches TM*);
+C_COPY_A_B     i+13     ; if (s1) s0 = M;
+TNX_C          i+13     ; s1 = (i matches TN*);
+C_COPY_A_B     i+14     ; if (s1) s0 = N;
+TAX_C          i+17     ; s1 = (i matches TA*);
+C_COPY_A_B     i+18     ; if (s1) s0 = A;
+TBX_C          i+18     ; s1 = (i matches TB*);
+C_COPY_A_B     i+19     ; if (s1) s0 = B;
+
+TXB_C          i+18     ; s1 = (i matches T*B);
+C_COPY_B_A     i+19     ; if (s1) B = s0;
+TXA_C          i+17     ; s1 = (i matches T*A);
+C_COPY_B_A     i+18     ; if (s1) A = s0;
+TXN_C          i+13     ; s1 = (i matches T*N);
+C_COPY_B_A     i+14     ; if (s1) N = s0;
+TXM_C          i+12     ; s1 = (i matches T*M);
+C_COPY_B_A     i+13     ; if (s1) M = s0;
+
+
+; arithmetic and logic instructions
+CLEAR          i+14     ; d = 0;
+        
+ADD_C          i+12     ; s1 = (i is ADD);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+ADD_AB_FB      i+16     ; s0 += B;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+        
+AND_C          i+12     ; s1 = (i is AND);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+AND_AB_FB      i+16     ; s0 &= B;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+        
+DEC_C          i+12     ; s1 = (i is DEC);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+DEC            i+15     ; --s0;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+INC_C          i+12     ; s1 = (i is INC);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+INC            i+15     ; ++s0;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+LS2_C          i+12     ; s1 = (i is LS2);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+LS2            i+15     ; s0 <<= 2;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+        
+LS3_C          i+12     ; s1 = (i is LS3);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+LS3            i+15     ; s0 <<= 3;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+LS4_C          i+12     ; s1 = (i is LS4);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+LS4            i+15     ; s0 <<= 4;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+OR_C           i+12     ; s1 = (i is OR);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+OR_AB_FB       i+16     ; s0 |= B;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+RS1_C          i+12     ; s1 = (i is RS1);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+RS1            i+15     ; s0 >>= 1;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+        
+RS5_C          i+12     ; s1 = (i is RS5);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+RS5            i+15     ; s0 >>= 5;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+SUB_C          i+12     ; s1 = (i is SUB);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+SUB_AB_FB      i+16     ; s0 -= B;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+
+XOR_C          i+12     ; s1 = (i is XOR);
+OR_AB_FB       i+13     ; d |= s1;
+COPY_B_A       i+15     ; s0 = A;
+XOR_AB_FB      i+16     ; s0 ^= B;
+C_COPY_A_B     i+14     ; if (s1) A = s0;
+        
+CLEAR          i+15     ; s0 = 0; // for compatibility with C_MINUS      
+C_MINUS        i+15     ; s0 = (A < 0);
+C_COPY_A_B     i+14     ; if (d) n = s0;
+C_ZERO         i+15     ; s0 = (A == 0);
+C_COPY_A_B     i+14     ; if (d) z = s0;
+
+
+; set instructions
+SEA_C          i+12     ; s1 = (i is SEA);
+C_COPY_A_B     i+12     ; if (s1) A = j;
+SEB_C          i+11     ; s1 = (i is SEB);
+C_COPY_A_B     i+12     ; if (s1) B = j;     
+SMN_C          i+11     ; s1 = (i is SMN);
+C_COPY_A_B     i+12     ; if (s1) M = j;               
+C_COPY_A_B     i+11     ; if (s1) N = k;
+
+
+; branch instructions  
+JMP_C          i+9      ; s1 = (i is JMP);
+C_COPY_A_B     i+10     ; if (s1) P0 = k;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+
+BEQ_C          i+8      ; s1 = (i is BEQ);
+AND_AB_FB      i+9      ; s1 &= z;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+C_COPY_A_B     i+12     ; if (s1) P0 = k;
+
+BNE_C          i+8      ; s1 = (i is BNE);
+AND_NOT_AB_FB  i+9      ; s1 &= !z;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+C_COPY_A_B     i+12     ; if (s1) P0 = k;
+
+BMI_C          i+8      ; s1 = (i is BMI);
+AND_AB_FB      i+9      ; s1 &= n;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+C_COPY_A_B     i+12     ; if (s1) P0 = k;
+
+BPL_C          i+8      ; s1 = (i is BPL);
+AND_NOT_AB_FB  i+9      ; s1 &= !n;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+C_COPY_A_B     i+12     ; if (s1) P0 = k;
+
+JSR_C          i+8      ; s1 = (i is JSR);       
+C_COPY_A_B     i+13     ; if (s1) R0 = P0;
+C_COPY_A_B     i+12     ; if (s1) P0 = k;
+C_COPY_A_B     i+10     ; if (s1) R1 = P1;
+C_COPY_A_B     i+9      ; if (s1) P1 = j;
+
+RTS_C          i+8      ; s1 = (i is RTS); 
+C_COPY_B_A     i+10     ; if (s1) P1 = R1;
+C_COPY_B_A     i+13     ; if (s1) P0 = R0;
+
+
+; load/store phase 1
+STB_C          i+11     ; s1 = (i is STB);
+C_COPY_B_A     i+12     ; if (s1) m = B;
+        
+STA_C          i+11     ; s1 = (i is STA);
+C_COPY_B_A     i+12     ; if (s1) m = A;
+
+LDB_C          i+12     ; d = (i is STA);
+LDX_C          i+7      ; r = (i matches LD*);
+STX_C          i+6      ; w = (i matches ST*);  
