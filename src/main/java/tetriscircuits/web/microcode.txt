@@ -182,7 +182,7 @@ COPY_B_A       i+15     ; s0 = A;
 XOR_AB_FB      i+16     ; s0 ^= B;
 C_COPY_A_B     i+14     ; if (s1) A = s0;
         
-CLEAR          i+15     ; s0 = 0; // for compatibility with C_MINUS      
+CLEAR          i+15     ; s0 = 0; // required by C_MINUS      
 C_MINUS        i+15     ; s0 = (A < 0);
 C_COPY_A_B     i+14     ; if (d) n = s0;
 C_ZERO         i+15     ; s0 = (A == 0);

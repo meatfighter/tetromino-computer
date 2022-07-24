@@ -70,7 +70,7 @@ public class Parser {
     } 
     
     private String removeComment(final String line) {
-        final int index = line.indexOf('#');
+        final int index = line.indexOf(';');
         if (index >= 0) {
             return line.substring(0, index);
         }
