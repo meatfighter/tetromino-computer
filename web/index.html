@@ -1758,7 +1758,7 @@
 
 <p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
 
-<p>In the course of the state register traversal, a machine code instruction is fetched from RAM into the <span class="term">instruction register</span>, <span class="mono">ijk</span>. Instructions vary in length from 1 to 3 bytes. The <span class="nowrap">24-bit</span> width of <span class="mono">ijk</span> is sufficient to store any of them.</p>
+<p>In the course of the state register traversal, a machine code instruction is fetched from RAM into the <span class="term">instruction register</span>, <span class="mono">ijk</span>. Instructions vary in length from 1 to 3 bytes, where the first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At 24 bits wide, <span class="mono">ijk</span> has the capacity to store any instruction.</p>
 
 <p>The diagram below shows <span class="mono">ijk</span> along with the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which holds the address of the instruction to be fetched. The 3 bytes immediately below the state register, <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span>, are depicted as a combined <span class="nowrap">24-bit</span> register, <span class="mono">IJK</span>.</p>
 
@@ -1766,23 +1766,23 @@
 
 <p>As the state register slides across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment <span class="mono">P</span> equals <span class="mono">a</span>. After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
-<p><span class="term">Set instructions</span> are 2 or 3 bytes long. They move an immediate&mdash;a constant value provided in the instruction&mdash;to a destination register. In the <span class="nowrap">2-byte</span> version, the first byte is the opcode and the second byte is an <span class="nowrap">8-bit</span> immediate. As portrayed in the following image, it copies <span class="mono">j</span> either to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
+<p>A <span class="term">set instruction</span> assigns a register to an immediate (a supplied constant). There is an <span class="nowrap">8-bit</span> version and a <span class="nowrap">16-bit</span> version. The former is portrayed in the following image. It copies <span class="mono">j</span> either to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
 
 <object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
 
-<p>In the <span class="nowrap">3-byte</span> version, the first byte contains the opcode, and the second and third bytes contain a <span class="nowrap">16-bit</span> immediate. As shown below, it copies <span class="mono">jk</span> to the <span class="term">memory address register</span>, <span class="mono">MN</span>.</p>
+<p>The <span class="nowrap">16-bit</span> version copies <span class="mono">jk</span> to the <span class="term">memory address register</span>, <span class="mono">MN</span>, as shown below.</p>
 
 <object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
 
-<p><span class="term">Arithmetic instructions</span> and <span class="term">logic instructions</span> compute an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>. They store the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. As revealed in the following diagram, <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
+<p>An <span class="term">arithmetic or logic instruction</span> computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and stores the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. As revealed in the following diagram, <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
 
 <object data="register-abnz.svg" type="image/svg+xml" class="diagram">Registers A, B, n, and z</object>
 
 <p>Note: There is no <span class="term">carry flag</span>.</p>
 
-<p><span class="mono">P</span> is incremented by the length of the decoded instruction in preparation of the next fetch. Afterward, if the decoded instruction is a <span class="term">branch instruction</span> and the condition for the branch is met (if there is one), <span class="mono">P</span> is assigned the branch target address in the second and third bytes of the instruction.</p>
+<p><span class="mono">P</span> is incremented by the length of the decoded instruction in preparation of the next fetch. Afterward, if the decoded instruction is a <span class="term">branch instruction</span> and the condition for the branch is met (if there is one), <span class="mono">P</span> is assigned the branch target address in <span class="mono">jk</span>.</p>
 
-<p>There are three types of branches:</p>
+<p>There are three types of branch:</p>
 
 <ul>
   <li>
@@ -1802,7 +1802,7 @@
     
     <p>Since the copy occurs after <span class="mono">P</span> is incremented, <span class="mono">R</span> points to the instruction immediately following the decoded one. That is, it contains the return address.</p>
     
-    <p>Following the copy, the instruction jumps, unconditionally:</p>
+    <p>Following the copy, an unconditional jump happens:</p>
     
     <object data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
     
@@ -1815,15 +1815,13 @@
   </li>
 </ul>
 
-<p>A <span class="term">store instruction</span> writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 3 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
+<p>A <span class="term">store instruction</span> writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 2 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
 
 <object data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
 
 <p>The second phase occurs as the state register slides across RAM. It happens in parallel with the instruction fetch. For each address, if <span class="mono">w</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then <span class="mono">m</span> is copied to <span class="mono">I</span>:</p>
 
 <object data="register-copy-m-to-i.svg" type="image/svg+xml" class="diagram">Copy m to I</object>
-
-<p>The third phase happens after the slide and before the fetched instruction is decoded. It simply resets <span class="mono">w</span> to <span class="mono">0</span>. </p>
 
 <p>A <span class="term">load instruction</span> reads a byte from memory at the address in <span class="mono">MN</span> and puts it in a specified destination register, <span class="mono">A</span> or <span class="mono">B</span>. Execution takes place in 3 phases. In the first phase, the <span class="term">read flag</span>, <span class="mono">r</span>, is set to <span class="mono">1</span>, and the <span class="term">destination flag</span>, <span class="mono">d</span>, is set to <span class="mono">0</span> for <span class="mono">A</span> or <span class="mono">1</span> for <span class="mono">B</span>:</p>
 
@@ -1833,11 +1831,11 @@
 
 <object data="register-copy-i-to-m.svg" type="image/svg+xml" class="diagram">Copy I to m</object>
 
-<p>The third phase of the load instruction happens after the slide and before the fetched instruction is decoded. If <span class="mono">r</span> is <span class="mono">1</span>, then the read byte in <span class="mono">m</span> is copied to <span class="mono">A</span> or <span class="mono">B</span> based on the value in <span class="mono">d</span>, <span class="mono">n</span> and <span class="mono">z</span> are assigned as if the loaded value is the result of an arithmetic or logic instruction, and <span class="mono">r</span> is reset to <span class="mono">0</span>: </p>
+<p>The third phase happens after the slide and before the fetched instruction is decoded. If <span class="mono">r</span> is <span class="mono">1</span>, then the read byte in <span class="mono">m</span> is copied to <span class="mono">A</span> or <span class="mono">B</span> based on the value in <span class="mono">d</span>, and <span class="mono">n</span> and <span class="mono">z</span> are assigned as if the read byte is the result of an arithmetic or logic instruction: </p>
 
 <object data="register-copy-m-to-ab.svg" type="image/svg+xml" class="diagram">Copy m to A/B</object>
 
-<p>A <span class="term">transfer instruction</span> copies a specified, <span class="nowrap">8-bit</span> source register to a specified, <span class="nowrap">8-bit</span> destination register. As illustrated below, the options are limited to <span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span> and <span class="mono">N</span>, where <span class="mono">M</span> and <span class="mono">N</span> are the high and low bytes of the <span class="mono">MN</span> register, respectively.</p>
+<p>A <span class="term">transfer instruction</span> copies a specified source register to a specified destination register. As illustrated below, the options are limited to <span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span> and <span class="mono">N</span>, where <span class="mono">M</span> and <span class="mono">N</span> are the high and low bytes of the <span class="mono">MN</span> register, respectively.</p>
 
 
 
@@ -1863,6 +1861,10 @@ The same requirement does not apply to the byte above it. The register can abut 
 <h2 id="assembly-language">Assembly Language</h2>
 
 TODO Explain what assembly language is. How it is translated to machine language. And that it is case-insensitive, but the convention is that operators are in caps and the rest is camel case.
+
+<h3 id="registers">Registers</h3>
+
+TODO ...
 
 <h3 id="transfer-instructions">Transfer Instructions</h3>
 
