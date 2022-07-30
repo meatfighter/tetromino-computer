@@ -1750,7 +1750,7 @@
 
 <p>At runtime, the length of the array remains constant. The RAM filled with machine code constitutes the full extent of the machine’s memory. This constraint makes the machine a <span class="italic"><a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. It is not as powerful as a Turing machine. But, without a dependency on infinite storage, the machine is physically realizable.</p>
 
-<p>The transition function operates on a <span class="nowrap">25-element</span> subarray that includes the 3 bytes immediately below the state register and the byte immediately above it. As revealed in the following diagram, those bytes are, respectively, called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, regardless of the state register’s location.</p>
+<p>The transition function operates on a <span class="nowrap">25-element</span> subarray that includes the 3 bytes immediately below the state register and the byte immediately above it. As revealed in the following diagram, those bytes are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
 
 <object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
@@ -1758,19 +1758,92 @@
 
 <object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
 
-<p>The <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, is initialized to the highest RAM address, <span class="serif">L&minus;1</span>. That value corresponds to the element at the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at state register's index minus 3 (at element <span class="mono">I</span>):</p>
-
+<p>In the center is the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>. At startup, it is initialized to the highest RAM address, <span class="serif">L&minus;1</span>. That value corresponds to the element at the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at element <span class="mono">I</span>:</p>
+  
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
 
 <p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
 
 <p>In the course of the state register traversal, a machine code instruction is fetched from RAM into the <span class="term">instruction register</span>, <span class="mono">ijk</span>. Instructions vary in length from 1 to 3 bytes, where the first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At 24 bits wide, <span class="mono">ijk</span> has the capacity to store any instruction.</p>
 
-<p>The diagram below shows <span class="mono">ijk</span> along with the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which holds the address of the instruction to be fetched. The 3 bytes immediately below the state register are depicted as the <span class="nowrap">24-bit</span> word, <span class="mono">IJK</span>.</p>
+<p>The diagram below shows <span class="mono">ijk</span> along with the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which holds the address of the instruction to be fetched. As the state register slides across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment <span class="mono">P</span> equals <span class="mono">a</span>.</p>
 
 <object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
 
-<p>As the state register slides across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment <span class="mono">P</span> equals <span class="mono">a</span>. After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
+<p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
+
+<p>The MetaTetrisScript program that performs the <a href="https://en.wikipedia.org/wiki/Instruction_cycle" target="_blank">fetch-decode-execute cycle</a> is generated from <span class="term"><a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> templates</span>. A microcode template is a snippet of code that implements internal operations or machine code instructions. It is a sequence of functions applied relative to the index of element <span class="mono">I</span>. For example, the following template decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+
+<pre class="code">
+<span class="line"><span class="normal">DEC_16         I+</span><span class="number">13     </span><span class="comment">; --a;</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">2      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">3      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">4      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">5      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">6      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">7      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">8      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">9      </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">10     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">11     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">12     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">13     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">14     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">15     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">16     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">17     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">18     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">19     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">20     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">21     </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">22     </span><span class="comment">; swap K upward</span></span>
+</pre>
+
+<p>Similarly, the template below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
+
+<pre class="code">
+<span class="line"><span class="normal">INC_16         I+</span><span class="number">13     </span><span class="comment">; ++a;</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">23     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">22     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">21     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">20     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">19     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">18     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">17     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">16     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">15     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">14     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">13     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">12     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">11     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">10     </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">9      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">8      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">7      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">6      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">5      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">4      </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP           I+</span><span class="number">3      </span><span class="comment">; swap Q downward</span></span>
+</pre>
+
+<pre class="code">
+<span class="line"><span class="normal">CMP_C          I+</span><span class="number">9      </span><span class="comment">; s1 = (P1 == a1);</span></span>
+<span class="line"><span class="normal">CMP_AND_C      I+</span><span class="number">10     </span><span class="comment">; s1 &= (P0 == a0);</span></span>
+<span class="line"><span class="normal">COPY_A_B_C     I+</span><span class="number">2      </span><span class="comment">; if (s1) i = I;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C     I+</span><span class="number">3      </span><span class="comment">; if (s1) j = J;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C     I+</span><span class="number">4      </span><span class="comment">; if (s1) k = K;</span></span>
+</pre>
+
+
+
+
+
+
+
+
+
+
+
 
 <p>A <span class="term">set instruction</span> assigns a register to an immediate (a supplied constant). There is an <span class="nowrap">8-bit</span> version and a <span class="nowrap">16-bit</span> version. The former is portrayed in the following image. It copies <span class="mono">j</span> either to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
 

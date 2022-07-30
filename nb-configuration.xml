@@ -15,21 +15,6 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
     </properties>
-    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-        <word>iff</word>
-        <word>Incrementor</word>
-        <word>NAND</word>
-        <word>NORs</word>
-        <word>NRS</word>
-        <word>playfield</word>
-        <word>semihard</word>
-        <word>Subtractor</word>
-        <word>subtractors</word>
-        <word>Tetriminos</word>
-        <word>TetrisScript</word>
-        <word>XNOR</word>
-        <word>XORing</word>
-    </spellchecker-wordlist>
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
             <configuration id="Assembler" profiles=""/>
@@ -48,4 +33,20 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="ConvertMicrocodeToHtml" profiles=""/>
         </configurations>
     </config-data>
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>iff</word>
+        <word>Incrementor</word>
+        <word>MetaTetrisScript</word>
+        <word>NAND</word>
+        <word>NORs</word>
+        <word>NRS</word>
+        <word>playfield</word>
+        <word>semihard</word>
+        <word>Subtractor</word>
+        <word>subtractors</word>
+        <word>Tetriminos</word>
+        <word>TetrisScript</word>
+        <word>XNOR</word>
+        <word>XORing</word>
+    </spellchecker-wordlist>
 </project-shared-configuration>
