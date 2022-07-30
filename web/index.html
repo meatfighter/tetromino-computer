@@ -1740,21 +1740,27 @@
 
 <p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
 
-<h2 id="tetris-computer">Tetris Machine</h2>
+<h2 id="microcode">Microcode</h2>
 
 <p>Like the Turing machine implementation described above, the machine that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. As the state register moves, the RAM addresses of the elements below it equal the array indices <span class="nowrap serif">(address = index)</span>. The RAM addresses above it equal the indices minus the width of the state register <span class="nowrap serif">(address = index &minus; 21).</span></p>
+<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. In the initial configuration above, the RAM addresses of the elements equal the array indices. However, as the state registers moves, elements shift position. Those below the state register retain RAM addresses equal to the array indices while those above it acquire RAM addresses equal to the indices minus the width of the state register <span class="nowrap serif">(address = index &minus; 21).</span></p>
 
-<p>At runtime, the length of the array remains constant. Meaning, the aforementioned RAM constitutes the full extent of the machine’s memory. This constraint makes the machine a <span class="italic"><a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. It is not as powerful as a Turing machine. But, without a dependency on infinite storage, the machine is physically realizable.</p>
+<p>At runtime, the length of the array remains constant. The RAM filled with machine code constitutes the full extent of the machine’s memory. This constraint makes the machine a <span class="italic"><a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. It is not as powerful as a Turing machine. But, without a dependency on infinite storage, the machine is physically realizable.</p>
 
-<p>The state register is a collection of <span class="nowrap">8-bit</span>, <span class="nowrap">16-bit</span>, and <span class="nowrap">24-bit</span> registers. The following diagram depicts one of them, the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, along with the 3 bytes immediately below the state register, referred to as <span class="mono">I</span>, <span class="mono">J</span>, and <span class="mono">K</span> regardless of the state register's location.</p>
+<p>The transition function operates on a <span class="nowrap">25-element</span> subarray that includes the 3 bytes immediately below the state register and the byte immediately above it. As revealed in the following diagram, those bytes are, respectively, called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, regardless of the state register’s location.</p>
+
+<object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
+
+<p>Several of the bytes represent segments of <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> words:</p>
+
+<object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
+
+<p>The <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, is initialized to the highest RAM address, <span class="serif">L&minus;1</span>. That value corresponds to the element at the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at state register's index minus 3 (at element <span class="mono">I</span>):</p>
 
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
-
-<p>On startup, <span class="mono">a</span> is initialized to the highest RAM address, <span class="serif">L&minus;1</span>, which is equal to the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at state register's index minus 3 (at element <span class="mono">I</span>).</p>
 
 <p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
 

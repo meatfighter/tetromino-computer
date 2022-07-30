@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/css" href="svg.css"?>
 
 <svg
-   width="804"
+   width="834"
    height="76"
-   viewBox="0 0 212.72499 20.108333"
+   viewBox="0 0 220.66249 20.108333"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="2"
-     inkscape:cx="410.75"
-     inkscape:cy="10"
+     inkscape:zoom="8"
+     inkscape:cx="818.4375"
+     inkscape:cy="70.375"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
      inkscape:window-x="-8"
@@ -134,19 +134,26 @@
        id="path41090-0"
        sodipodi:nodetypes="cc" />
     <path
+       style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m 87.749857,9.2322963 c -11.33179,-11.331789 -28.791778,-11.431058 -40.222836,0"
+       id="path11805"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#ffe8ce;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect35539-4-7-6"
+       width="8.4666662"
+       height="8.4666662"
+       x="207.83022"
+       y="10.980278" />
+    <path
        style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 207.83018,10.980279 h 4.23333"
+       d="m 216.29686,10.980277 h 4.23333"
        id="path41090-9"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 207.83018,19.446945 h 4.23333"
+       d="m 216.29686,19.446943 h 4.23333"
        id="path41090-0-0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
-       d="m 87.749857,9.2322963 c -11.33179,-11.331789 -28.791778,-11.431058 -40.222836,0"
-       id="path11805"
        sodipodi:nodetypes="cc" />
   </g>
 </svg>

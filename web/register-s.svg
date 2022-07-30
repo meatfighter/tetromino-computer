@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/css" href="svg.css"?>
 
 <svg
-   width="804"
+   width="834"
    height="35"
-   viewBox="0 0 212.72499 9.2604169"
+   viewBox="0 0 220.66249 9.2604169"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
@@ -25,7 +25,7 @@
      inkscape:document-units="px"
      showgrid="false"
      inkscape:zoom="4"
-     inkscape:cx="82.125"
+     inkscape:cx="857.375"
      inkscape:cy="-14.25"
      inkscape:window-width="1920"
      inkscape:window-height="1137"
@@ -111,14 +111,21 @@
        d="M 0.396875,8.8635408 H 4.630208"
        id="path41090-0"
        sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#ffe8ce;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect35539-4-7-6"
+       width="8.4666662"
+       height="8.4666662"
+       x="207.8302"
+       y="0.39687559" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 207.83018,0.39687583 h 4.23333"
+       d="m 216.29685,0.39687436 h 4.23333"
        id="path41090-9"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 207.83018,8.8635418 h 4.23333"
+       d="m 216.29685,8.8635404 h 4.23333"
        id="path41090-0-0"
        sodipodi:nodetypes="cc" />
   </g>
