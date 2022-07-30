@@ -9,7 +9,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class ConvertMicrocodeToHtml {
     
-    private static final Pattern CODE_PATTERN = Pattern.compile("([^\\s]+\\s+I\\+)(\\d+\\s*)(;.*)?");
+    private static final Pattern CODE_PATTERN = Pattern.compile("([^\\s]+\\s+)(\\d+\\s*)(;.*)?");
 
     public void launch() throws Exception {
         final PrintStream out = System.out;

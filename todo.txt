@@ -24,6 +24,10 @@ tetrisscript
 computer
 
 
+create real microcode templates
+create microcode template compilier
+
+remove I+ from microcode templates
 
  
 color microcode and paste it in
