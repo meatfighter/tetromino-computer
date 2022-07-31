@@ -121,40 +121,6 @@ public class Parser {
         return instructions.toArray(new Instruction[instructions.size()]);
     }     
     
-//    public Runnable[] parse(final RunnableSource runnableSource, final String filename) 
-//            throws IOException, ParseException {
-//        
-//        try (final InputStream in = new BufferedInputStream(new FileInputStream(filename))) {
-//            return parse(runnableSource, filename, in);
-//        }
-//    }
-//    
-//    public Runnable[] parse(final RunnableSource runnableSource, final String filename, final InputStream in) 
-//            throws IOException, ParseException {
-//        
-//        final List<Runnable> runnables = new ArrayList<>();
-//        final List<Token> tokens = parseTokens(filename, in);
-//        
-//        int i = 0;
-//        while (true) {
-//            final Token componentToken = tokens.get(i++);
-//            if (componentToken.getType() == TokenType.END) {
-//                break;
-//            } else if (componentToken.getType() != TokenType.STRING) {
-//                throw new ParseException(componentToken, "Component name expected.");
-//            }
-//            
-//            final Token indexToken = tokens.get(i++);
-//            if (indexToken.getType() != TokenType.NUMBER) {
-//                throw new ParseException(indexToken, "Component index expected.");
-//            } 
-//            
-//            runnables.add(runnableSource.createRunnable(componentToken.getStr(), indexToken.getNum()));
-//        }
-//        
-//        return runnables.toArray(new Runnable[runnables.size()]);
-//    }    
-    
     private List<Token> parseTokens(final String filename, final InputStream in) throws IOException, ParseException {
         
         final List<Token> tokens = new ArrayList<>();

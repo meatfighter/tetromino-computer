@@ -6,16 +6,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import tetriscircuits.computer.Processor;
 import tetriscircuits.computer.mapping.ByteMapping;
+import tetriscircuits.computer.metatetrisscript.Instruction;
 import tetriscircuits.computer.metatetrisscript.Parser;
 import tetriscircuits.parser.ParseException;
 
 public final class Simulator2 implements Processor {
     
-    private Runnable[] tetrisDescend;
-    private Runnable[] tetrisAscend;
+    private static final String METATETRISSCRIPTS_DIR = "MetaTetrisScripts";
+    
+    private Runnable[] cycleDownRunnables;
+    private Runnable[] cycleUpRunnables;
     private int[] bytes;
     private boolean descend = true;
     
@@ -67,54 +71,67 @@ public final class Simulator2 implements Processor {
         return mappings;
     } 
     
-    private Runnable[] loadExecutable(final Map<String, ByteMapping> mappings, final String filename) 
+    private Runnable[] loadExecutable(final Map<String, ByteMapping> mappings, final String script) 
             throws IOException, ParseException {
         
-        return new Parser().expand((componentName, index) -> {
-            final ByteMapping mapping = mappings.get(componentName);
+        final Parser parser = new Parser();
+        final Map<String, Instruction[]> components = parser.parseAll(METATETRISSCRIPTS_DIR);
+        final List<Instruction> instructions = parser.expand(script, components);
+        final Runnable[] runnables = new Runnable[instructions.size()];
+        
+        for (int r = 0; r < runnables.length; ++r) {
+            final Instruction instruction = instructions.get(r);
+            final ByteMapping mapping = mappings.get(instruction.getComponent());
             if (mapping == null) {
-                throw new IOException("Unknown component: " + componentName);
+                throw new IOException("Unknown component: " + instruction.getComponent());
             }
+            final int index = instruction.getIndex();
             switch (mapping.getMappingType()) {
                 case ONE_BYTE: {
                     final int[] map = mapping.getMap();
-                    return (Runnable) () -> {
+                    runnables[r] = () -> {
                         bytes[index] = map[bytes[index]];
                     };
+                    break;
                 }
                 case TWO_BYTES: {
                     final int[] map = mapping.getMap();   
                     final int index1 = index + 1;                    
-                    return (Runnable) () -> {
+                    runnables[r] = () -> {
                         final int i = 512 * bytes[index] + 2 * bytes[index1];
                         bytes[index] = map[i];
                         bytes[index1] = map[i + 1];
                     };
+                    break;
                 }
                 case TWO_BYTES_BIT: {
                     final int[] map = mapping.getMap();
                     final int index1 = index + 1;
                     final int index2 = index + 2;
-                    return (Runnable) () -> {
+                    runnables[r] = () -> {
                         final int i = 1536 * bytes[index] + 6 * bytes[index1] + 3 * bytes[index2];
                         bytes[index] = map[i];
                         bytes[index1] = map[i + 1];
                         bytes[index2] = map[i + 2];
                     };
+                    break;
                 }
                 default: {
                     final int[] map = mapping.getMap();
                     final int index1 = index + 1;
                     final int index2 = index + 2;
-                    return (Runnable) () -> {
+                    runnables[r] = () -> {
                         final int i = 196608 * bytes[index] + 768 * bytes[index1] + 3 * bytes[index2];                        
                         bytes[index] = map[i];
                         bytes[index1] = map[i + 1];
                         bytes[index2] = map[i + 2];
                     };
+                    break;
                 }                
             }
-        }, filename);
+        }
+        
+        return runnables;
     }
     
     private void loadInputData() throws IOException {
@@ -130,8 +147,8 @@ public final class Simulator2 implements Processor {
     @Override
     public void init() throws Exception {
         final Map<String, ByteMapping> mappings = loadMaps();
-        tetrisDescend = loadExecutable(mappings, "executables/tetris-descend.tx");
-        tetrisAscend = loadExecutable(mappings, "executables/tetris-ascend.tx");
+        cycleDownRunnables = loadExecutable(mappings, "CYCLE_DOWN");
+        cycleUpRunnables = loadExecutable(mappings, "CYCLE_UP");
         loadInputData();
     }
 
@@ -139,15 +156,15 @@ public final class Simulator2 implements Processor {
     public void runInstruction() {
         if (descend) {
             descend = false;
-            final int length = tetrisDescend.length;
+            final int length = cycleDownRunnables.length;
             for (int i = 0; i < length; ++i) {
-                tetrisDescend[i].run();
+                cycleDownRunnables[i].run();
             }
         } else {
             descend = true;
-            final int length = tetrisAscend.length;
+            final int length = cycleUpRunnables.length;
             for (int i = 0; i < length; ++i) {
-                tetrisAscend[i].run();
+                cycleUpRunnables[i].run();
             }           
         } 
     }
