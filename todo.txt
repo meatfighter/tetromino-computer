@@ -24,13 +24,21 @@ tetrisscript
 computer
 
 
-create real microcode templates
-create microcode template compilier
+make MetaTetrisScript nestable
+make real nested MetaTetrisScripts
 
-remove I+ from microcode templates
+workspace -> TetrisScript and MetaTetrisScript
 
- 
-color microcode and paste it in
+.t
+.mt
+
+remaining sections:
+- microcode (first enhance MetaTetrisScript)
+- unsafe gates
+- Tetris Machine (describe the Tetris program, video memory, keyboard input)
+- hash, speed up
+- TetrisScript Editor tutorial
+- where are all the files, how to run
  
  
   
