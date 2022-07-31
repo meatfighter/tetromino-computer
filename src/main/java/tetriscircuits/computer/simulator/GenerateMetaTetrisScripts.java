@@ -10,14 +10,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-public final class GenerateMetaTetrisScript {
+public final class GenerateMetaTetrisScripts {
     
-    private static final String OUTPUT_FILENAME = "MetaTetrisScript/FETCH_DECODE_EXECUTE.mt";
+    private static final String CYCLE_DOWN_FILENAME = "MetaTetrisScripts/CYCLE_DOWN.mt";
+    private static final String CYCLE_UP_FILENAME = "MetaTetrisScripts/CYCLE_UP.mt";
               
     private int[] bytes;
     private int maxAddress;
     
-    private void ascendCycle(final PrintStream out) {
+    private void slideStateRegisterUp(final PrintStream out) {
         for (int address = 0; address < maxAddress; ++address) {
             fetchExecuteLoadStore(out, address);
             print(out, "MOVE_STATE_REG_UP", address);
@@ -25,7 +26,7 @@ public final class GenerateMetaTetrisScript {
         fetchExecuteLoadStore(out, maxAddress);
     }
     
-    private void descendCycle(final PrintStream out) {
+    private void slideStateRegisterDown(final PrintStream out) {
         for (int address = maxAddress; address > 0; --address) {
             fetchExecuteLoadStore(out, address);
             print(out, "MOVE_STATE_REG_DOWN", address);
@@ -89,15 +90,18 @@ public final class GenerateMetaTetrisScript {
         loadBinFile("asm/tetris.bin");
         writeInputData();
 
-        try (final PrintStream out = new PrintStream(OUTPUT_FILENAME)) {
-            descendCycle(out);
-            executeInstruction(out, 0x0000);
-            ascendCycle(out);
+        try (final PrintStream out = new PrintStream(CYCLE_DOWN_FILENAME)) {
+            slideStateRegisterDown(out);
+            executeInstruction(out, 0x0000);   
+        }
+        
+        try (final PrintStream out = new PrintStream(CYCLE_UP_FILENAME)) {
+            slideStateRegisterUp(out);
             executeInstruction(out, maxAddress);    
         }
     }
     
     public static void main(final String... args) throws Exception {
-        new GenerateMetaTetrisScript().launch();
+        new GenerateMetaTetrisScripts().launch();
     }    
 }

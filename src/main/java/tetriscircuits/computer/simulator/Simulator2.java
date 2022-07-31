@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import tetriscircuits.computer.Processor;
 import tetriscircuits.computer.mapping.ByteMapping;
-import tetriscircuits.computer.parser.Parser;
+import tetriscircuits.computer.metatetrisscript.Parser;
 import tetriscircuits.parser.ParseException;
 
 public final class Simulator2 implements Processor {
@@ -70,7 +70,7 @@ public final class Simulator2 implements Processor {
     private Runnable[] loadExecutable(final Map<String, ByteMapping> mappings, final String filename) 
             throws IOException, ParseException {
         
-        return new Parser().parse((componentName, index) -> {
+        return new Parser().expand((componentName, index) -> {
             final ByteMapping mapping = mappings.get(componentName);
             if (mapping == null) {
                 throw new IOException("Unknown component: " + componentName);

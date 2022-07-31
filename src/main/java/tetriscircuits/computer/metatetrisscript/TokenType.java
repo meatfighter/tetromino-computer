@@ -1,4 +1,4 @@
-package tetriscircuits.computer.parser;
+package tetriscircuits.computer.metatetrisscript;
 
 enum TokenType {
     STRING,
