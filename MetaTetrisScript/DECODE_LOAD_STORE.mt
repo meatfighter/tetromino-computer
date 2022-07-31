@@ -1,0 +1,64 @@
+SWAP 15
+SWAP 14
+SWAP 5
+SWAP 6
+SWAP 7
+SWAP 8
+SWAP 9
+SWAP 10
+SWAP 11
+SWAP 12
+STB_C 11                ; s1 = (i is STB);
+C_COPY_B_A 12           ; if (s1) m = B;
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 20
+SWAP 15
+SWAP 14
+STA_C 11                ; s1 = (i is STA);
+C_COPY_B_A 12           ; if (s1) m = A;
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 15
+SWAP 14
+SWAP 13
+SWAP 12
+SWAP 13
+SWAP 12
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 8
+SWAP 7
+SWAP 6
+SWAP 5
+LDB_C 12                ; d = (i is LDB);
+SWAP 13
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 15
+SWAP 14
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 8
+SWAP 7
+LDX_C 7                 ; r = (i matches LD*);
+SWAP 6
+STX_C 6                 ; w = (i matches ST*);
+SWAP 5
+SWAP 4
+SWAP 3
+SWAP 12
+SWAP 11
+SWAP 13
+SWAP 12

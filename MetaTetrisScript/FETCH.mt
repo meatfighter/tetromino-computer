@@ -1,0 +1,45 @@
+SWAP 12
+SWAP 11
+SWAP 10
+SWAP 11
+CMP_C 9                 ; s1 = (P1 == a1);
+SWAP 11
+SWAP 10
+SWAP 11
+SWAP 12
+SWAP 13
+SWAP 12
+SWAP 11
+CMP_AND_C 10            ; s1 &= (P0 == a0);
+SWAP 11
+SWAP 12
+SWAP 13
+SWAP 10
+SWAP 9
+SWAP 8
+SWAP 7
+SWAP 6
+SWAP 5
+SWAP 4
+SWAP 0
+SWAP 1
+COPY_A_B_C 2            ; if (s1) i = I;
+SWAP 1
+SWAP 0
+SWAP 4
+SWAP 1
+SWAP 2
+COPY_A_B_C 3            ; if (s1) j = J;
+SWAP 2
+SWAP 1
+SWAP 2
+SWAP 3
+SWAP 5
+COPY_A_B_C 4            ; if (s1) k = K;
+SWAP 3
+SWAP 2
+SWAP 6
+SWAP 7
+SWAP 8
+SWAP 9
+SWAP 10

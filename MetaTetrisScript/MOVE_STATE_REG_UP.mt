@@ -1,0 +1,22 @@
+INC_16 13               ; ++a;
+SWAP 23                 ; swap Q down
+SWAP 22                 ; swap Q down
+SWAP 21                 ; swap Q down
+SWAP 20                 ; swap Q down
+SWAP 19                 ; swap Q down
+SWAP 18                 ; swap Q down
+SWAP 17                 ; swap Q down
+SWAP 16                 ; swap Q down
+SWAP 15                 ; swap Q down
+SWAP 14                 ; swap Q down
+SWAP 13                 ; swap Q down
+SWAP 12                 ; swap Q down
+SWAP 11                 ; swap Q down
+SWAP 10                 ; swap Q down
+SWAP 9                  ; swap Q down
+SWAP 8                  ; swap Q down
+SWAP 7                  ; swap Q down
+SWAP 6                  ; swap Q down
+SWAP 5                  ; swap Q down
+SWAP 4                  ; swap Q down
+SWAP 3                  ; swap Q down

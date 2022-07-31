@@ -1,0 +1,186 @@
+SWAP 7
+SWAP 8
+SWAP 9
+SWAP 10
+SWAP 11
+JMP_C 9                 ; s1 = (i is JMP);
+C_COPY_A_B 10           ; if (s1) P0 = k;
+SWAP 13
+SWAP 12
+SWAP 11
+SWAP 6
+SWAP 7
+SWAP 8
+SWAP 9
+SWAP 10
+C_COPY_A_B 9            ; if (s1) P1 = j;
+SWAP 20
+SWAP 19
+SWAP 18
+SWAP 17
+SWAP 16
+SWAP 15
+SWAP 14
+SWAP 13
+SWAP 12
+SWAP 11
+SWAP 10
+BEQ_C 8                 ; s1 = (i is BEQ);
+AND_AB_FB 9             ; s1 &= z;
+SWAP 10
+SWAP 11
+C_COPY_A_B 9            ; if (s1) P1 = j;
+SWAP 9
+SWAP 10
+SWAP 11
+C_COPY_A_B 12           ; if (s1) P0 = k;
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 11
+SWAP 10
+BNE_C 8                 ; s1 = (i is BNE);
+AND_NOT_AB_FB 9         ; s1 &= !z;
+SWAP 10
+SWAP 11
+C_COPY_A_B 9            ; if (s1) P1 = j;
+SWAP 9
+SWAP 10
+SWAP 11
+C_COPY_A_B 12           ; if (s1) P0 = k;
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 12
+SWAP 13
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 20
+SWAP 19
+SWAP 18
+SWAP 17
+SWAP 16
+SWAP 15
+SWAP 14
+SWAP 13
+SWAP 12
+SWAP 11
+SWAP 10
+BMI_C 8                 ; s1 = (i is BMI);
+AND_AB_FB 9             ; s1 &= n;
+SWAP 10
+SWAP 11
+C_COPY_A_B 9            ; if (s1) P1 = j;
+SWAP 9
+SWAP 10
+SWAP 11
+C_COPY_A_B 12           ; if (s1) P0 = k;
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 11
+SWAP 10
+BPL_C 8                 ; s1 = (i is BPL);
+AND_NOT_AB_FB 9         ; s1 &= !n;
+SWAP 10
+SWAP 11
+C_COPY_A_B 9            ; if (s1) P1 = j;
+SWAP 9
+SWAP 10
+SWAP 11
+C_COPY_A_B 12           ; if (s1) P0 = k;
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 12
+SWAP 13
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 21
+SWAP 20
+SWAP 19
+SWAP 18
+SWAP 17
+SWAP 16
+SWAP 15
+SWAP 14
+SWAP 13
+SWAP 12
+SWAP 22
+SWAP 21
+SWAP 20
+SWAP 19
+SWAP 18
+SWAP 17
+SWAP 16
+SWAP 15
+JSR_C 8                 ; s1 = (i is JSR);       
+SWAP 9
+SWAP 10
+SWAP 11
+SWAP 12
+C_COPY_A_B 13           ; if (s1) R0 = P0;
+SWAP 12
+C_COPY_A_B 12           ; if (s1) P0 = k;
+SWAP 11
+SWAP 10
+C_COPY_A_B 10           ; if (s1) R1 = P1;
+SWAP 9
+C_COPY_A_B 9            ; if (s1) P1 = j;
+RTS_C 8                 ; s1 = (i is RTS); 
+SWAP 9
+C_COPY_B_A 10           ; if (s1) P1 = R1;
+SWAP 10
+SWAP 11
+SWAP 12
+C_COPY_B_A 13           ; if (s1) P0 = R0;
+SWAP 8
+SWAP 7
+SWAP 6
+SWAP 5
+SWAP 4
+SWAP 3
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 8
+SWAP 7
+SWAP 6
+SWAP 5
+SWAP 4
+SWAP 12
+SWAP 13
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 20
+SWAP 21
+SWAP 22
+SWAP 14
+SWAP 15
+SWAP 16
+SWAP 17
+SWAP 18
+SWAP 19
+SWAP 20
+SWAP 21
+SWAP 22
+SWAP 10
+SWAP 9
+SWAP 8
+SWAP 12
+SWAP 11
+SWAP 10
+SWAP 9
+SWAP 14

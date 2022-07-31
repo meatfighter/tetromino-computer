@@ -242,6 +242,6 @@ C_COPY_B_A 12           ; if (s1) m = B;
 STA_C 11                ; s1 = (i is STA);
 C_COPY_B_A 12           ; if (s1) m = A;
 
-LDB_C 12                ; d = (i is STA);
+LDB_C 12                ; d = (i is LDB);
 LDX_C 7                 ; r = (i matches LD*);
 STX_C 6                 ; w = (i matches ST*);  

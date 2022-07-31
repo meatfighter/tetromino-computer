@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import tetriscircuits.computer.mapping.ByteMapping;
 
+// Replaced by GenerateMetaTetrisScript
+
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2
 // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
 // I  J  K [i  j  k  m  w  r  P1 P0 s1 s0 a1 a0 M  N  d  n  z  A  B  R1 R0] Q
@@ -1414,7 +1416,7 @@ public final class GenerateTetrisExecutable {
         // 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3   4
         // I  J  K [j  k  m  w  r  P1 P0 a1 a0 i  d  s1 M  N  s0 n  z  A  B  R1 R0] Q
         
-        apply(address + 12, LDB_C);         // d = (i == STA);
+        apply(address + 12, LDB_C);         // d = (i == LDB);
         apply(address + 13, SWAP);
         apply(address + 14, SWAP);
         apply(address + 15, SWAP);        
