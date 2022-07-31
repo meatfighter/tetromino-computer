@@ -9,73 +9,54 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import tetriscircuits.computer.mapping.ByteMapping;
 
 public final class GenerateMetaTetrisScript {
-       
-    private static String toString(final Object obj) {
-        for (final Object[] name : NAMES) {
-            if (obj == name[0]) {
-                return name[1].toString();
-            }
-        }
-        throw new RuntimeException("Unknown object.");
-    }
-        
+    
+    private static final String OUTPUT_FILENAME = "MetaTetrisScript/FETCH_DECODE_EXECUTE.mt";
+              
     private int[] bytes;
     private int maxAddress;
-    private boolean descend = true;
     
-    private final List<NameAndIndex> NAME_AND_INDICES = new ArrayList<>();
-    
-    private void ascendMemoryCycle() {
+    private void ascendCycle(final PrintStream out) {
         for (int address = 0; address < maxAddress; ++address) {
-            runMemoryCycle(address);
-            ascend(address);
+            fetchExecuteLoadStore(out, address);
+            print(out, "MOVE_STATE_REG_UP", address);
         }
-        runMemoryCycle(maxAddress);
+        fetchExecuteLoadStore(out, maxAddress);
     }
     
-    private void descendMemoryCycle() {
+    private void descendCycle(final PrintStream out) {
         for (int address = maxAddress; address > 0; --address) {
-            runMemoryCycle(address);
-            descend(address);
+            fetchExecuteLoadStore(out, address);
+            print(out, "MOVE_STATE_REG_DOWN", address);
         }
-        runMemoryCycle(0x0000);
+        fetchExecuteLoadStore(out, 0x0000);
     }    
     
-    private void runMemoryCycle(final int address) {
-       copyInstructionIfPEqualsA(address);
-       readOrWriteMemoryIfMNEqualsA(address);
+    private void fetchExecuteLoadStore(final PrintStream out, final int address) {
+       print(out, "FETCH", address);
+       print(out, "EXECUTE_LOAD_STORE", address);
     }
         
-    private void executeInstruction(final int address) {
-        finishLoad(address);
-        transfer(address);
-        runALU(address);
-        setAndJump(address);
-        loadAndStore(address);
-    }
-       
-    private void apply(final int index, final int[] map) {
-        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
+    private void executeInstruction(final PrintStream out, final int address) {
+        print(out, "ASSIGN_LOADED", address);
+        print(out, "INCREMENT_P", address);
+        print(out, "DECODE_EXECUTE_TRANSFER", address);
+        print(out, "DECODE_EXECUTE_ARITHMETIC_LOGIC", address);
+        print(out, "DECODE_EXECUTE_SET", address);
+        print(out, "DECODE_EXECUTE_BRANCH", address);
+        print(out, "DECODE_LOAD_STORE", address);
     }
     
-    private void apply(final int index, final int[][][] map) {
-        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
+    private void print(final PrintStream out, final String name, final int index) {
+        out.format("%s %d%n", name, index);
     }
-
-    private void apply(final int index, final int[][][][] map) {
-        NAME_AND_INDICES.add(new NameAndIndex(toString(map), index));
-    }
-      
+       
     public void loadBinFile(final String binFilename) throws IOException {
         final File binFile = new File(binFilename);
         maxAddress = (int)binFile.length() - 3; 
         
-        bytes = new int[maxAddress + 24];
+        bytes = new int[maxAddress + 24]; // machine code + 2 padding bytes + 21-byte state register
         
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
             for (int address = 0; address <= maxAddress; ++address) {                
@@ -85,33 +66,16 @@ public final class GenerateMetaTetrisScript {
                 }
                 bytes[address] = b;
             }
-            bytes[maxAddress + 9] = in.read();
+            bytes[maxAddress + 9] = in.read();         // P = main;
             bytes[maxAddress + 10] = in.read();
             if (bytes[maxAddress + 9] < 0 || bytes[maxAddress + 10] < 0) {
                 throw new IOException("Unexpected end of file.");
             }
         }
         
-        bytes[maxAddress + 13] = maxAddress >> 8;
+        bytes[maxAddress + 13] = maxAddress >> 8;      // a = L-1;
         bytes[maxAddress + 14] = 0xFF & maxAddress;
     }    
-    
-    private void writeMaps() throws IOException {
-        for (final Object[] name : NAMES) {
-            final String filename = String.format("maps/%s.map", name[1]);
-            try (final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(filename))) {
-                if (name[0].getClass() == int[].class) {
-                    new ByteMapping((int[])name[0]).write(out);
-                } else if (name[0].getClass() == int[][][].class) {
-                    new ByteMapping((int[][][])name[0]).write(out);
-                } else {
-                    new ByteMapping((int[][][][])name[0]).write(out);
-                }
-            } catch (final IOException e) {
-                throw new IOException("Failed to write: " + filename, e);
-            }
-        }
-    }
     
     private void writeInputData() throws IOException {
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream("data/inputData.dat"))) {
@@ -121,69 +85,19 @@ public final class GenerateMetaTetrisScript {
         }
     }
     
-    public void runInstruction() {
-        if (descend) {
-            descend = false;
-            descendMemoryCycle();
-            executeInstruction(0x0000);
-        } else {
-            descend = true;
-            ascendMemoryCycle();
-            executeInstruction(maxAddress);            
-        }        
-    }
-
     public void launch() throws Exception {
         loadBinFile("asm/tetris.bin");
         writeInputData();
-        writeMaps();
-        
-        NAME_AND_INDICES.clear();
-        descendMemoryCycle();
-        executeInstruction(0x0000);
 
-        try (final PrintStream out = new PrintStream(new FileOutputStream("executables/tetris-descend.tx"))) {
-            for (final NameAndIndex nameAndIndex : NAME_AND_INDICES) {
-                out.println(nameAndIndex);
-            }
+        try (final PrintStream out = new PrintStream(OUTPUT_FILENAME)) {
+            descendCycle(out);
+            executeInstruction(out, 0x0000);
+            ascendCycle(out);
+            executeInstruction(out, maxAddress);    
         }
-        
-        NAME_AND_INDICES.clear();
-        ascendMemoryCycle();
-        executeInstruction(maxAddress);
-        
-        try (final PrintStream out = new PrintStream(new FileOutputStream("executables/tetris-ascend.tx"))) {
-            for (final NameAndIndex nameAndIndex : NAME_AND_INDICES) {
-                out.println(nameAndIndex);
-            }
-        }        
     }
     
     public static void main(final String... args) throws Exception {
         new GenerateMetaTetrisScript().launch();
-    }    
-    
-    private static class NameAndIndex {
-    
-        private final String name;
-        private final int index;
-        
-        public NameAndIndex(final String name, final int index) {
-            this.name = name;
-            this.index = index;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-        
-        @Override
-        public String toString() {
-            return String.format("%s %d", name, index);
-        }
     }    
 }
