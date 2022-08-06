@@ -38,16 +38,16 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Computer" profiles=""/>
             <configuration id="Computer UI" profiles=""/>
             <configuration id="ConvertAsmToHtml" profiles=""/>
-            <configuration id="ConvertMicrocodeToHtml" profiles=""/>
             <configuration id="Emulator" profiles=""/>
             <configuration id="Generate Instruction Detectors" profiles=""/>
             <configuration id="Generate Orientation Table" profiles=""/>
+            <configuration id="GenerateMetaTetrisScript" profiles=""/>
             <configuration id="GenerateMovingRegister" profiles=""/>
             <configuration id="GenerateTetrisExecutable" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
             <configuration id="MirrorTetrisScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
-            <configuration id="GenerateMetaTetrisScript" profiles=""/>
+            <configuration id="ConvertMetaTetrisScriptToHtml" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

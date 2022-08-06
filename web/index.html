@@ -1805,67 +1805,66 @@
 
 <p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
-<p>The MetaTetrisScript program that performs the <a href="https://en.wikipedia.org/wiki/Instruction_cycle" target="_blank">fetch-decode-execute cycle</a> is generated from <span class="term"><a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> templates</span>. A microcode template is a snippet of code that implements internal operations or machine code instructions. Its format is identical to MetaTetrisScript:</p>
-
-<p class="definition">structure x</p>
-
-<p>But <span class="mono">x</span> is relative to a provided index rather than the start of the array. For example, the following template decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+<p>This process is governed by MetaTetrisScripts. For example, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
 
 <pre class="code">
+<span class="filename">MOVE_STATE_REG_DOWN.mt</span>
 <span class="line"><span class="normal">DEC_16 </span><span class="number">13               </span><span class="comment">; --a;</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap K upward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K upward</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K up</span></span>
 </pre>
 
-<p>The first half of the MetaTetrisScript program is generated by applying the template at <span class="serif">L-1</span>, followed by <span class="serif">L-2</span>, followed by <span class="serif">L-3</span>, and so on, down to <span class="serif">1</span>. Application at an index means offsetting the numbers in the template by that index.</p>
-
-<p>Similarly, the template below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
+<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
 
 <pre class="code">
+<span class="filename">MOVE_STATE_REG_UP.mt</span>
 <span class="line"><span class="normal">INC_16 </span><span class="number">13               </span><span class="comment">; ++a;</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q downward</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q downward</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q down</span></span>
 </pre>
 
+<p>The instruction fetch is carried out by the following MetaTetrisScript.</p>
+
 <pre class="code">
+<span class="filename">FETCH.mt</span>
 <span class="line"><span class="normal">CMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (P1 == a1);</span></span>
 <span class="line"><span class="normal">CMP_AND_C </span><span class="number">10            </span><span class="comment">; s1 &= (P0 == a0);</span></span>
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">2            </span><span class="comment">; if (s1) i = I;</span></span>
@@ -1873,15 +1872,13 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
+<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, move within the state register to shuttle intermediate values between the other registers. <span class="mono">s1</span> appears in the code above. However, the <span class="mono">SWAP</span>s that move elements around are omitted to highlight the code that computes.</p>
 
+<p>The code compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with the <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
 
+<p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, the <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
 
-
-
-
-
-
-
+TODO: EXPLAIN THIS IS MICROCODE
 
 
 <p>A <span class="term">set instruction</span> assigns a register to an immediate (a supplied constant). There is an <span class="nowrap">8-bit</span> version and a <span class="nowrap">16-bit</span> version. The former is portrayed in the following image. It copies <span class="mono">j</span> either to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
