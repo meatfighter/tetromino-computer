@@ -1872,22 +1872,34 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
-<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, move within the state register to shuttle intermediate values between the other registers. <span class="mono">s1</span> appears in the code above. However, the <span class="mono">SWAP</span>s that move elements around are omitted to highlight the code that computes.</p>
+<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. However, the <span class="mono">SWAP</span>s that move registers around are omitted to highlight the most pertinent code.</p>
 
-<p>The code compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with the <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
+<p>The snippet compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with the <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
 
 <p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, the <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
 
-TODO: EXPLAIN THIS IS MICROCODE
+<p>The remainder of this section details decode and execute. Like fetch, those processes are orchestrated by MetaTetrisScripts, <span class="term"><a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microprograms</a></span> that implement machine code instructions and internal operations. For clarity, as was done above, <span class="mono">SWAP</span>s are excluded in the following code segments.</p>
 
-
-<p>A <span class="term">set instruction</span> assigns a register to an immediate (a supplied constant). There is an <span class="nowrap">8-bit</span> version and a <span class="nowrap">16-bit</span> version. The former is portrayed in the following image. It copies <span class="mono">j</span> either to the <span class="nowrap">8-bit</span> <span class="term">accumulator</span>, <span class="mono">A</span>, or to the <span class="nowrap">8-bit</span> <span class="term">data register</span>, <span class="mono">B</span>, as specified. <span class="mono">k</span> is discarded.</p>
+<p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a supplied constant) to a specified register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
 
 <object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
 
-<p>The <span class="nowrap">16-bit</span> version copies <span class="mono">jk</span> to the <span class="term">memory address register</span>, <span class="mono">MN</span>, as shown below.</p>
+<p><span class="mono">i</span> stores the opcode&mdash;as is the case with all instructions&mdash;while <span class="mono">j</span> supplies the immediate. Because this is a <span class="nowrap">2-byte</span> instruction, <span class="mono">k</span> contains the byte after it, likely the opcode of the subsequent instruction. As such, it is discarded.</p>
+
+<p>There is a version of set that copies a <span class="nowrap">16-bit</span> immediate to the <span class="term">memory address register</span>, <span class="mono">MN</span>. As shown below, the immediate originates from <span class="mono">jk</span>, making this variant a <span class="nowrap">3-byte</span> instruction.</p>
 
 <object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_SET.mt</span>
+<span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
+<span class="line"><span class="normal">SEB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SEB);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) B = j;</span></span>
+<span class="line"><span class="normal">SMN_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SMN);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) M = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
+</pre>
 
 <p>An <span class="term">arithmetic or logic instruction</span> computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and stores the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. As revealed in the following diagram, <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
 
@@ -1958,27 +1970,6 @@ TODO: EXPLAIN THIS IS MICROCODE
 
 <object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
-<p>The only registers yet to be mentioned are the <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>:</p>
-
-<object data="register-s.svg" type="image/svg+xml" class="diagram">S Registers</object>
-
-<p>They slide within the state register, shuttling intermediate values between registers.</p> 
-
-<p>The byte immediately above the state register is referred to as <span class="mono">Q</span> regardless of the state register’s location. To step the state register upward, <span class="mono">Q</span> is repeatedly swapped downward across it. Likewise, to step the state register downward, <span class="mono">K</span> is repeatedly swapped upward across it. These endcaps appear in the following diagram.</p>
-
-<object data="register-q.svg" type="image/svg+xml" class="diagram">Q Register</object>
-
-<p>When <span class="mono">Q</span> completes its traversal, it is renamed to <span class="mono">K</span> and the byte immediately above the state register becomes known as <span class="mono">Q</span>. Similarly, when <span class="mono">K</span> completes its traversal, it is renamed to <span class="mono">Q</span> and the byte immediately below the state register becomes known as <span class="mono">K</span>. The labels <span class="mono">I</span> and <span class="mono">J</span> are adjusted accordingly.</p>
-
-<p>Here is the full collection of registers:</p>
-
-<object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
-
-<p>And here is the full collection decomposed into <span class="nowrap">8-bit</span> registers:</p>
-
-<object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
-
-<p>The transition function operates over the <span class="nowrap">25-element</span> subarray in that diagram to accomplish everything discussed above.</p>
 
 
 <h2 id="assembly-language">Assembly Language</h2>
