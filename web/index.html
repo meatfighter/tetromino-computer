@@ -1550,7 +1550,7 @@
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p>The blindfolded player cannot read the contents of memory, but it can manipulate it by executing <span class="term">MetaTetrisScript</span>, a language that specifies where to assemble functions. Each instruction of the language consists of a structure name and a byte index:</p>
+<p>The blindfolded player cannot read the contents of memory, but it can manipulate it by executing <span class="term">MetaTetrisScript</span>, a language that specifies where to assemble functions. It has 2 instructions. The first consists of a structure name and a byte index:</p>
 
 <p class="definition">structure x</p>
 
@@ -1561,9 +1561,12 @@
 <li>Build identity functions on top of the other bytes.</li>
 </ol>
 
-<p>The code below formalizes the steps of the previous example.</p>
+<p>To build structures on top of the pile, the player must keep track of the pile height, which is equal to the number of memory state transitions times the uniform function height. In addition, the player needs the width of the pile and the width of each function to know how many identity functions to build. Disclosing these values does not expose the contents of memory to the player.</p>
+
+<p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
 
 <pre class="code">
+<span class="filename">sum.mt</span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">0</span></span>
 <span class="line"><span class="normal">ADD_AB_FB </span><span class="number">1</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">1</span></span>
@@ -1575,7 +1578,37 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>Each MetaTetrisScript instruction can be translated into TetrisScript instructions. But, to build structures on top of the pile, the player must keep track of the pile height. It is equal to the number of memory state transitions times the uniform function height. In addition, the player needs the width of the pile and the width of each function to know how many identity functions to build. Disclosing these values does not expose the contents of memory to the player.</p>
+<p>The second instruction type assembles all the functions in a specified MetaTetrisScript at a designated location. It consists of a MetaTetrisScript name and a byte index:</p>
+
+<p class="definition">script x</p>
+
+<p>It gets expanded into the contents of the specified MetaTetrisScript, but all the numerical values are offset by <span class="mono">x</span>.</p>
+
+<p>The code below demonstrates this instruction type by referencing the summation MetaTetrisScript.</p>
+
+<pre class="code">
+<span class="filename">sum5.mt</span>
+<span class="line"><span class="normal">sum </span><span class="number">5</span></span>
+</pre>
+
+<p>It applies <span class="mono">sum</span> at index <span class="mono">5</span>, which makes it equivalent to:</p>
+
+<pre class="code">
+<span class="filename">sum5Expanded.mt</span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">5</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">6</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">7</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">8</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5</span></span>
+</pre>
+
+<p><span class="mono">sum5</span> adds together elements <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into element <span class="mono">5</span>.</p>
+
+<p>Circular references within the same MetaTetrisScript or across multiple MetaTetrisScript files are not permitted.</p>
 
 <h2 id="expansion">Expansion</h2>
 
