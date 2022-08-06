@@ -1878,17 +1878,19 @@
 
 <p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, the <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
 
-<p>The remainder of this section details decode and execute. Like fetch, those processes are orchestrated by MetaTetrisScripts, <span class="term"><a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microprograms</a></span> that implement machine code instructions and internal operations. For clarity, as was done above, <span class="mono">SWAP</span>s are excluded in the following code segments.</p>
+<p>The remainder of this section details decode and execute. Like fetch, those processes are orchestrated by MetaTetrisScripts, <span class="term"><a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microprograms</a></span> that implement machine code instructions and internal operations. As above, for clarity, <span class="mono">SWAP</span>s are excluded in the following code segments.</p>
 
-<p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a supplied constant) to a specified register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
+<p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a provided constant) to a specified register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
 
 <object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
 
-<p><span class="mono">i</span> stores the opcode&mdash;as is the case with all instructions&mdash;while <span class="mono">j</span> supplies the immediate. Because this is a <span class="nowrap">2-byte</span> instruction, <span class="mono">k</span> contains the byte after it, likely the opcode of the subsequent instruction. As such, it is discarded.</p>
+<p><span class="mono">i</span> stores the opcode&mdash;as is the case with all instructions&mdash;while <span class="mono">j</span> supplies the immediate. Because this is a <span class="nowrap">2-byte</span> instruction, <span class="mono">k</span> contains the byte after it, likely the opcode of the subsequent instruction. As such, <span class="mono">k</span> is discarded.</p>
 
 <p>There is a version of set that copies a <span class="nowrap">16-bit</span> immediate to the <span class="term">memory address register</span>, <span class="mono">MN</span>. As shown below, the immediate originates from <span class="mono">jk</span>, making this variant a <span class="nowrap">3-byte</span> instruction.</p>
 
 <object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+
+<p>The implementation follows.</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_SET.mt</span>
@@ -1901,11 +1903,94 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
 </pre>
 
-<p>An <span class="term">arithmetic or logic instruction</span> computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and stores the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. As revealed in the following diagram, <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
+<p>Match functions compare <span class="mono">i</span> with each opcode. The results, temporarily held in <span class="mono">s1</span>, are used by copy functions to conditionally transfer <span class="mono">j</span> or <span class="nowrap"><span class="mono">j</span>-and-<span class="mono">k</span></span> into the appropriate target registers.</p>
 
-<object data="register-abnz.svg" type="image/svg+xml" class="diagram">Registers A, B, n, and z</object>
+<p>An <span class="term">arithmetic or logic instruction</span> computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
 
 <p>Note: There is no <span class="term">carry flag</span>.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.mt</span>
+<span class="line"><span class="normal">CLEAR </span><span class="number">14                </span><span class="comment">; d = 0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ADD_C </span><span class="number">12                </span><span class="comment">; s1 = (i is ADD);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">16            </span><span class="comment">; s0 += B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">AND_C </span><span class="number">12                </span><span class="comment">; s1 = (i is AND);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">AND_AB_FB </span><span class="number">16            </span><span class="comment">; s0 &= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">DEC_C </span><span class="number">12                </span><span class="comment">; s1 = (i is DEC);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">DEC </span><span class="number">15                  </span><span class="comment">; --s0;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">INC_C </span><span class="number">12                </span><span class="comment">; s1 = (i is INC);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">INC </span><span class="number">15                  </span><span class="comment">; ++s0;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS2_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS2);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS2 </span><span class="number">15                  </span><span class="comment">; s0 <<= 2;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS3_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS3);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS3 </span><span class="number">15                  </span><span class="comment">; s0 <<= 3;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS4_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS4);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS4 </span><span class="number">15                  </span><span class="comment">; s0 <<= 4;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">OR_C </span><span class="number">12                 </span><span class="comment">; s1 = (i is OR);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">16             </span><span class="comment">; s0 |= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RS1_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS1);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">RS1 </span><span class="number">15                  </span><span class="comment">; s0 >>= 1;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RS5_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS5);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">RS5 </span><span class="number">15                  </span><span class="comment">; s0 >>= 5;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SUB_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SUB);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">SUB_AB_FB </span><span class="number">16            </span><span class="comment">; s0 -= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">XOR_C </span><span class="number">12                </span><span class="comment">; s1 = (i is XOR);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">XOR_AB_FB </span><span class="number">16            </span><span class="comment">; s0 ^= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">CLEAR </span><span class="number">15                </span><span class="comment">; s0 = 0; // required by C_MINUS</span></span>
+<span class="line"><span class="normal">C_MINUS </span><span class="number">15              </span><span class="comment">; s0 = (A < 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) n = s0;</span></span>
+<span class="line"><span class="normal">C_ZERO </span><span class="number">15               </span><span class="comment">; s0 = (A == 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) z = s0;</span></span>
+</pre>
 
 <p><span class="mono">P</span> is incremented by the length of the decoded instruction in preparation of the next fetch. Afterward, if the decoded instruction is a <span class="term">branch instruction</span> and the condition for the branch is met (if there is one), <span class="mono">P</span> is assigned the branch target address in <span class="mono">jk</span>.</p>
 
@@ -2020,7 +2105,7 @@ TODO ...
 
 <h3 id="arithmetic-and-logic-instructions">Arithmetic and Logic Instructions</h3>
 
-<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and stores the result in <span class="mono">A</span>:</p>
+<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and stores the result in <span class="mono">A</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
