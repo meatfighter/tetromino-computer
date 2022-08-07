@@ -1773,7 +1773,7 @@
 
 <p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
 
-<h2 id="microcode">Microcode</h2>
+<h2 id="tetris-machine">Tetris Machine</h2>
 
 <p>Like the Turing machine implementation described above, the machine that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
 
@@ -1794,6 +1794,8 @@
 <p>In the center is the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>. At startup, it is initialized to the highest RAM address, <span class="serif">L&minus;1</span>. That value corresponds to the element at the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at element <span class="mono">I</span>:</p>
   
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
+
+<p>Since <span class="mono">a</span> is a <span class="nowrap">16-bit</span> register, the maximum RAM size, <span class="serif">L<span class="sub3">max</span></span>, is <span class="serif">2<span class="sup3">16</span> B = 64 KiB</span>.</p>
 
 <p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
 
@@ -1872,13 +1874,13 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
-<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. The <span class="mono">SWAP</span>s that move it and other registers around were omitted to highlight the most pertinent code. Similar lines are excluded from the programs below for the same reason.</p>
+<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. The <span class="mono">SWAP</span>s that move it and other registers around were omitted to highlight the most pertinent code. Such lines are excluded from the programs below for the same reason.</p>
 
 <p>The snippet compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with an <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
 
 <p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, an <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
 
-<p>After the state register slides across RAM, <span class="mono">P</span> is incremented by the fetched instruction length in preparation of the next fetch:</p>
+<p>After the state register slides across RAM, <span class="mono">P</span> is incremented by the fetched instruction length in preparation of the next fetch. This is achieved with match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a 2 or 3 byte instruction:</p>
 
 <pre class="code">
 <span class="filename">INCREMENT_P.mt</span>
@@ -1889,6 +1891,55 @@
 <span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
 <span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
 </pre>
+
+<p>After <span class="mono">P</span> is incremented, the fetched instruction is decoded and executed. <span class="term">Transfer instructions</span> are handled first. Each copies a specified <span class="nowrap">8-bit</span> source register to a specified <span class="nowrap">8-bit</span> destination register. The register choices are:</p>
+
+<ul>
+  <li>The <span class="term">accumulator</span>, <span class="mono">A</span>, which operates as both an input and the output of <span class="term">arithmetic and logic instructions</span>.</li>
+
+  <li>The <span class="term">data register</span>, <span class="mono">B</span>, which operates as an input of arithmetic and logic instructions.</li> 
+
+  <li>The <span class="term">high memory address register</span>, <span class="mono">M</span>, which is the upper byte of the <span class="nowrap">16-bit</span> <span class="term">memory address register</span>, <span class="mono">MN</span>. <span class="mono">MN</span> is used as the source address of <span class="term">load instructions</span> and the destination address of <span class="term">store instructions</span>.</li> 
+
+  <li>The <span class="term">low memory address register</span>, <span class="mono">N</span>, which is the lower byte of <span class="mono">MN</span>.</li>
+</ul>
+
+<p>As illustrated below, there are 12 ways to transfer data between these registers.</p>
+
+<object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
+
+<p>The transfer instructions are decoded and executed with the following code. Lines 1&ndash;8 copy the source register to <span class="mono">s0</span>. Lines 10&ndash;17 copy <span class="mono">s0</span> to the destination register.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_TRANSFER.mt</span>
+<span class="line"><span class="normal">TMX_C </span><span class="number">12                </span><span class="comment">; s1 = (i matches TM*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">13           </span><span class="comment">; if (s1) s0 = M;</span></span>
+<span class="line"><span class="normal">TNX_C </span><span class="number">13                </span><span class="comment">; s1 = (i matches TN*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) s0 = N;</span></span>
+<span class="line"><span class="normal">TAX_C </span><span class="number">17                </span><span class="comment">; s1 = (i matches TA*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">18           </span><span class="comment">; if (s1) s0 = A;</span></span>
+<span class="line"><span class="normal">TBX_C </span><span class="number">18                </span><span class="comment">; s1 = (i matches TB*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s1) s0 = B;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TXB_C </span><span class="number">18                </span><span class="comment">; s1 = (i matches T*B);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">19           </span><span class="comment">; if (s1) B = s0;</span></span>
+<span class="line"><span class="normal">TXA_C </span><span class="number">17                </span><span class="comment">; s1 = (i matches T*A);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">18           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"><span class="normal">TXN_C </span><span class="number">13                </span><span class="comment">; s1 = (i matches T*N);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">14           </span><span class="comment">; if (s1) N = s0;</span></span>
+<span class="line"><span class="normal">TXM_C </span><span class="number">12                </span><span class="comment">; s1 = (i matches T*M);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) M = s0;</span></span>
+</pre>
+
+<p>Match functions examine the opcode in <span class="mono">i</span>. A copy to or from a register happens iff the opcode is a transfer instruction that specifies the respective register.</p>
+
+<p>Since the transfer instructions are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored.</p>
+
+
+
+
+
+
 
 <p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a provided constant) to a specified <span class="nowrap">8-bit</span> register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
 
@@ -2065,9 +2116,6 @@
 
 <p>When the instruction is not a load instruction, <span class="mono">r</span> is reset to <span class="mono">0</span>.</p>
 
-<p>A <span class="term">transfer instruction</span> copies a specified source register to a specified destination register. As illustrated below, the options are limited to <span class="mono">A</span>, <span class="mono">B</span>, <span class="mono">M</span> and <span class="mono">N</span>, where <span class="mono">M</span> and <span class="mono">N</span> are the high and low bytes of the <span class="mono">MN</span> register, respectively.</p>
-
-<object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
 
 

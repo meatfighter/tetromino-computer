@@ -54,6 +54,11 @@ span.sub2 {
     font-size: 14px;
 }
 
+span.sub3 {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
 span.sup {
     vertical-align: super;
 }
@@ -61,6 +66,11 @@ span.sup {
 span.sup2 {
     vertical-align: super;
     font-size: 14px;
+}
+
+span.sup3 {
+  vertical-align: super;
+  font-size: smaller;
 }
 
 span.serif {
