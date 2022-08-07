@@ -1935,40 +1935,11 @@
 
 <p>Since the transfer instructions are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored.</p>
 
-
-
-
-
-
-
-<p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a provided constant) to a specified <span class="nowrap">8-bit</span> register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
-
-<object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
-
-<p><span class="mono">i</span> stores the opcode&mdash;as is the case with all instructions&mdash;while <span class="mono">j</span> supplies the immediate. Because this is a <span class="nowrap">2-byte</span> instruction, <span class="mono">k</span> contains the byte after it, likely the opcode of the subsequent instruction. As such, <span class="mono">k</span> is discarded.</p>
-
-<p>There is a version of set that copies a <span class="nowrap">16-bit</span> immediate to the <span class="nowrap">16-bit</span> <span class="term">memory address register</span>, <span class="mono">MN</span>. As shown below, the immediate originates from <span class="mono">jk</span>, making this variant a <span class="nowrap">3-byte</span> instruction.</p>
-
-<object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
-
-<p>The 3 variations correspond to 3 different opcodes. As revealed in the following microprogram, decoding the set instruction involves match functions that compare <span class="mono">i</span> against each of those opcodes, and executing the set instruction involves copy functions that conditionally transfer <span class="mono">j</span> or <span class="mono">j</span>-and-<span class="mono">k</span> to a target register based on a comparison result in <span class="mono">s1</span>.</p>
-
-<pre class="code">
-<span class="filename">DECODE_EXECUTE_SET.mt</span>
-<span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
-<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
-<span class="line"><span class="normal">SEB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SEB);</span></span>
-<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) B = j;</span></span>
-<span class="line"><span class="normal">SMN_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SMN);</span></span>
-<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) M = j;</span></span>
-<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
-</pre>
-
-<p>An <span class="term">arithmetic or logic instruction</span> computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
+<p>Arithmetic and logic instructions are handled next. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
 
 <p>Note: There is no <span class="term">carry flag</span>.</p>
 
-<p>There are 12 such instructions and they are all <span class="nowrap">single-byte</span> instructions. As shown below, the same pattern is applied to each of them. Decode sets <span class="mono">s1</span> to the result of a comparison between <span class="mono">i</span> and an opcode. Execute sets <span class="mono">s0</span> to a function of <span class="mono">A</span> or of <span class="mono">A</span>-and-<span class="mono">B</span>. Then it conditionally copies <span class="mono">s0</span> to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
+<p>There are 12 arithmetic and logic instructions, all of which are <span class="nowrap">single-byte</span> instructions. As shown below, each implementation follows the same pattern. First, <span class="mono">s1</span> is assigned the result of a comparison between <span class="mono">i</span> and an opcode. Then, <span class="mono">s0</span> is set to a function of <span class="mono">A</span> or of <span class="mono">A</span>-and-<span class="mono">B</span>. Finally, <span class="mono">s0</span> is conditionally copied to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.mt</span>
@@ -2053,7 +2024,36 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) z = s0;</span></span>
 </pre>
 
-<p>The <span class="term">destination flag</span>, <span class="mono">d</span>, whose name will be made clear when discussing the <span class="term">load instruction</span>, is reset to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> matches any of the 12 opcodes, <span class="mono">d</span> is set to <span class="mono">1</span> (true). On lines 77 and 79, <span class="mono">n</span> and <span class="mono">z</span> are conditionally updated based on <span class="mono">d</span>.</p>
+<p>The <span class="nowrap">8-bit</span> <span class="term">destination flag</span>, <span class="mono">d</span>, whose name will be made clear when discussing the load instruction, is reset to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> contains any of the 12 opcodes, <span class="mono">d</span> is set to <span class="mono">1</span> (true). On lines 77 and 79, <span class="mono">n</span> and <span class="mono">z</span> are respectively updated, subject to <span class="mono">d</span>.</p>
+
+
+
+
+
+
+<p><span class="term">Set</span> is a machine code instruction that copies an <span class="nowrap">8-bit</span> immediate (a provided constant) to a specified <span class="nowrap">8-bit</span> register, either the <span class="term">accumulator</span>, <span class="mono">A</span>, or the <span class="term">data register</span>, <span class="mono">B</span>. This is portrayed in the image below.</p>
+
+<object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
+
+<p><span class="mono">i</span> stores the opcode&mdash;as is the case with all instructions&mdash;while <span class="mono">j</span> supplies the immediate. Because this is a <span class="nowrap">2-byte</span> instruction, <span class="mono">k</span> contains the byte after it, likely the opcode of the subsequent instruction. As such, <span class="mono">k</span> is discarded.</p>
+
+<p>There is a version of set that copies a <span class="nowrap">16-bit</span> immediate to the <span class="nowrap">16-bit</span> <span class="term">memory address register</span>, <span class="mono">MN</span>. As shown below, the immediate originates from <span class="mono">jk</span>, making this variant a <span class="nowrap">3-byte</span> instruction.</p>
+
+<object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+
+<p>The 3 variations correspond to 3 different opcodes. As revealed in the following microprogram, decoding the set instruction involves match functions that compare <span class="mono">i</span> against each of those opcodes, and executing the set instruction involves copy functions that conditionally transfer <span class="mono">j</span> or <span class="mono">j</span>-and-<span class="mono">k</span> to a target register based on a comparison result in <span class="mono">s1</span>.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_SET.mt</span>
+<span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
+<span class="line"><span class="normal">SEB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SEB);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) B = j;</span></span>
+<span class="line"><span class="normal">SMN_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SMN);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) M = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
+</pre>
+
 
 
 
