@@ -41,6 +41,9 @@ remaining sections:
 - where are all the files, how to run
  
  
-  
+Explain:
+Which lines of the program represent jump, conditional branches, JSR, RTS
+Orchestrated by MetaTetrisScript, not governed
+Applies the functions in the function catalog.  
     
  
