@@ -2022,8 +2022,6 @@
 
 <p>The <span class="term">destination flag</span>, <span class="mono">d</span>, whose name will be made clear when discussing the load instruction, is reset to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> contains any of the 12 opcodes, <span class="mono">d</span> is set to <span class="mono">1</span> (true). On lines 77 and 79, <span class="mono">n</span> and <span class="mono">z</span> are respectively updated, subject to <span class="mono">d</span>.</p>
 
-<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is no <span class="term">carry flag</span>.</p>
-
 <p>The <span class="term">set instructions</span> are handled next. There are 3 of them and they vary in length. The first is a <span class="nowrap">2-byte</span> instruction that sets <span class="mono">A</span> to an <span class="nowrap">8-bit</span> immediate, a constant operand in <span class="mono">j</span>. The second is the same except <span class="mono">B</span> is the target:</p>
 
 <object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
@@ -2138,6 +2136,7 @@
 
 <p>When the instruction is not a load instruction, <span class="mono">r</span> is reset to <span class="mono">0</span>.</p>
 
+<p>The implementation of phase 1 for load and store follows. As described above, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
 
 <pre class="code">
 <span class="filename">DECODE_LOAD_STORE.mt</span>
@@ -2152,7 +2151,7 @@
 <span class="line"><span class="normal">STX_C </span><span class="number">6                 </span><span class="comment">; w = (i matches ST*);</span></span>
 </pre>
 
-<p>...</p>
+<p>The implementation of phase 2 appears below. As the state register slides across RAM, it continually compares <span class="mono">MN</span> and <span class="mono">a</span>. When they match, if <span class="mono">r</span> indicates read, <span class="mono">I</span> is copied to <span class="mono">m</span>. Alternatively, when they match, if <span class="mono">w</span> indicates write, <span class="mono">m</span> is copied to <span class="mono">I</span>. </p>
 
 <pre class="code">
 <span class="filename">EXECUTE_LOAD_STORE.mt</span>
@@ -2185,13 +2184,15 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
 </pre>
 
+<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is no <span class="term">carry flag</span>.</p>
+
 <h2 id="assembly-language">Assembly Language</h2>
 
 <p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converts it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
 
 <h3 id="registers">Registers</h3>
 
-<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, the processor registers exposed to assembly language instructions.</p>
+<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, the subset of processor registers exposed to assembly language instructions.</p>
 
 <table class="borderless high-rows">  
   <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Bits</th><th class="borderless">Description</th></tr>
