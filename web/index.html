@@ -1807,7 +1807,7 @@
 
 <p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
-<p>This process is governed by MetaTetrisScripts. For example, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+<p>This process is orchestrated by MetaTetrisScripts. For instance, the following code decrements <span class="mono">a</span> and it moves the state register down by repeatedly swapping <span class="mono">K</span> up, fully across the state register.</p>
 
 <pre class="code">
 <span class="filename">MOVE_STATE_REG_DOWN.mt</span>
@@ -1835,7 +1835,7 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K up</span></span>
 </pre>
 
-<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
+<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register up by repeatedly swapping <span class="mono">Q</span> down.</p>
 
 <pre class="code">
 <span class="filename">MOVE_STATE_REG_UP.mt</span>
@@ -1874,7 +1874,7 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
-<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. The <span class="mono">SWAP</span>s that move it and other registers around were omitted to highlight the most pertinent code. Such lines are excluded from the programs below for the same reason.</p>
+<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. The <span class="mono">SWAP</span>s that move it and other registers around were omitted to highlight the most pertinent code. Similar lines were excluded from the programs below for the same reason.</p>
 
 <p>The snippet compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with an <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
 
@@ -1892,7 +1892,7 @@
 <span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
 </pre>
 
-<p>After <span class="mono">P</span> is incremented, the fetched instruction is decoded and executed. <span class="term">Transfer instructions</span> are handled first. Each copies a specified <span class="nowrap">8-bit</span> source register to a specified <span class="nowrap">8-bit</span> destination register. The register choices are:</p>
+<p>After <span class="mono">P</span> is incremented, the fetched instruction is decoded and executed. The process begins with the <span class="term">transfer instructions</span>. Each copies a specified <span class="nowrap">8-bit</span> source register to a specified <span class="nowrap">8-bit</span> destination register. The register choices are:</p>
 
 <ul>
   <li>The <span class="term">accumulator</span>, <span class="mono">A</span>, which operates as both an input and the output of <span class="term">arithmetic and logic instructions</span>.</li>
@@ -1908,7 +1908,7 @@
 
 <object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
-<p>The transfer instructions are decoded and executed with the following code. Lines 1&ndash;8 copy the source register to <span class="mono">s0</span>. Lines 10&ndash;17 copy <span class="mono">s0</span> to the destination register.</p>
+<p>In the following program that decodes and executes, if the opcode in <span class="mono">i</span> matches the pattern of a transfer instruction, then the specified source register is copied to <span class="mono">s0</span> (lines 1&ndash;8). Subsequently, <span class="mono">s0</span> is copied to the specified destination register, again conditioned on <span class="mono">i</span> (lines 10&ndash;17).</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_TRANSFER.mt</span>
@@ -1931,13 +1931,9 @@
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) M = s0;</span></span>
 </pre>
 
-<p>Match functions examine the opcode in <span class="mono">i</span>. A copy to or from a register happens iff the opcode is a transfer instruction that specifies the respective register.</p>
-
 <p>Since the transfer instructions are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored.</p>
 
-<p>Arithmetic and logic instructions are handled next. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. <span class="mono">n</span> and <span class="mono">z</span> are both <span class="nowrap">8-bit</span> registers despite being flags.</p>
-
-<p>Note: There is no <span class="term">carry flag</span>.</p>
+<p>Arithmetic and logic instructions are handled next. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>.</p>
 
 <p>There are 12 arithmetic and logic instructions, all of which are <span class="nowrap">single-byte</span> instructions. As shown below, each implementation follows the same pattern. First, <span class="mono">s1</span> is assigned the result of a comparison between <span class="mono">i</span> and an opcode. Then, <span class="mono">s0</span> is set to a function of <span class="mono">A</span> or of <span class="mono">A</span>-and-<span class="mono">B</span>. Finally, <span class="mono">s0</span> is conditionally copied to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
 
@@ -2024,9 +2020,11 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) z = s0;</span></span>
 </pre>
 
-<p>The <span class="nowrap">8-bit</span> <span class="term">destination flag</span>, <span class="mono">d</span>, whose name will be made clear when discussing the load instruction, is reset to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> contains any of the 12 opcodes, <span class="mono">d</span> is set to <span class="mono">1</span> (true). On lines 77 and 79, <span class="mono">n</span> and <span class="mono">z</span> are respectively updated, subject to <span class="mono">d</span>.</p>
+<p>The <span class="term">destination flag</span>, <span class="mono">d</span>, whose name will be made clear when discussing the load instruction, is reset to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> contains any of the 12 opcodes, <span class="mono">d</span> is set to <span class="mono">1</span> (true). On lines 77 and 79, <span class="mono">n</span> and <span class="mono">z</span> are respectively updated, subject to <span class="mono">d</span>.</p>
 
-<p>The <span class="term">set instructions</span> are handled next. There are 3 of them and they vary in length. The first is a <span class="nowrap">2-byte</span> instruction that sets <span class="mono">A</span> to an <span class="nowrap">8-bit</span> immediate, a constant baked into the instruction, which, in this case, is held in <span class="mono">j</span>. The second is the same except <span class="mono">B</span> is the target:</p>
+<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is no <span class="term">carry flag</span>.</p>
+
+<p>The <span class="term">set instructions</span> are handled next. There are 3 of them and they vary in length. The first is a <span class="nowrap">2-byte</span> instruction that sets <span class="mono">A</span> to an <span class="nowrap">8-bit</span> immediate, a constant operand in <span class="mono">j</span>. The second is the same except <span class="mono">B</span> is the target:</p>
 
 <object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
 
@@ -2051,15 +2049,15 @@
 
 <object data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
 
-<p>The second, third, fourth, and fifth are <span class="term">conditional branch instructions</span>. They jump to the target iff a specified flag, <span class="mono">n</span> or <span class="mono">z</span>, equals a given value, <span class="mono">0</span> or <span class="mono">1</span>:</p>
+<p>The next 4 are <span class="term">conditional branch instructions</span>. They jump to the target iff a specified flag, <span class="mono">n</span> or <span class="mono">z</span>, equals a given value, <span class="mono">0</span> or <span class="mono">1</span>:</p>
 
 <object data="register-copy-jk-to-p-with-nz.svg" type="image/svg+xml" class="diagram">Copy jk to P with n and z</object>
 
-<p>The sixth is the <span class="term">jump-to-subroutine instruction</span>. It copies <span class="mono">P</span> to the <span class="nowrap">16-bit</span> <span class="term">return register</span>, <span class="mono">R</span>:</p>
+<p>The last is the <span class="term">jump-to-subroutine instruction</span>. It copies <span class="mono">P</span> to the <span class="nowrap">16-bit</span> <span class="term">return register</span>, <span class="mono">R</span>:</p>
 
 <object data="register-copy-p-to-r.svg" type="image/svg+xml" class="diagram">Copy P to R</object>
     
-<p>Since the copy occurs after <span class="mono">P</span> is incremented, <span class="mono">R</span> points to the instruction immediately following the jump-to-subroutine instruction. That is, <span class="mono">R</span> contains the return address.</p>
+<p>Since the copy occurs after <span class="mono">P</span> is incremented, <span class="mono">R</span> points to the instruction immediately following the jump-to-subroutine. That is, <span class="mono">R</span> contains the return address.</p>
     
 <p>Following the copy, a jump happens:</p>
     
@@ -2069,15 +2067,19 @@
 
 <object data="register-copy-r-to-p.svg" type="image/svg+xml" class="diagram">Copy R to P</object>
 
-<p>While the instruction set does not natively support a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a>, this scheme enables subroutine calls one level deep.</p>
+<p>While the instruction set does not natively support a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a>, this <a href="https://en.wikipedia.org/wiki/Link_register" target="_blank">link register scheme</a> enables subroutine calls one level deep (all subroutines are <a href="https://en.wikipedia.org/wiki/Leaf_subroutine" target="_blank">leaf subroutines</a>).</p>
 
-<p>Here is the code that implements the branch instructions:</p>
+<p>Below are the implements.</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_BRANCH.mt</span>
+<span class="line"><span class="comment">; Jump:</span></span>
+<span class="line"></span>
 <span class="line"><span class="normal">JMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (i is JMP);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">10           </span><span class="comment">; if (s1) P0 = k;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment">; Conditional branches:</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">BEQ_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is BEQ);</span></span>
 <span class="line"><span class="normal">AND_AB_FB </span><span class="number">9             </span><span class="comment">; s1 &= z;</span></span>
@@ -2099,20 +2101,22 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
 <span class="line"></span>
+<span class="line"><span class="comment">; Jump-to-subroutine:</span></span>
+<span class="line"></span>
 <span class="line"><span class="normal">JSR_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is JSR);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">13           </span><span class="comment">; if (s1) R0 = P0;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">10           </span><span class="comment">; if (s1) R1 = P1;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
 <span class="line"></span>
+<span class="line"><span class="comment">; Return-from-subroutine:</span></span>
+<span class="line"></span>
 <span class="line"><span class="normal">RTS_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is RTS);</span></span>
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">10           </span><span class="comment">; if (s1) P1 = R1;</span></span>
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) P0 = R0;</span></span>
 </pre>
 
-
-
-<p>A <span class="term">store instruction</span> writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 2 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
+<p>The store and load instructions are handled next. A store instruction writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 2 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
 
 <object data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
 
@@ -2122,9 +2126,7 @@
 
 <p>When the instruction is not a store instruction, <span class="mono">w</span> is reset to <span class="mono">0</span>.</p>
 
-<p>A <span class="term">load instruction</span> reads a byte from memory at the address in <span class="mono">MN</span> and puts it in a specified destination register, <span class="mono">A</span> or <span class="mono">B</span>. Execution takes place in 3 phases. In the first phase, the <span class="term">read flag</span>, <span class="mono">r</span>, is set to <span class="mono">1</span>, and the <span class="term">destination flag</span>, <span class="mono">d</span>, is set to <span class="mono">0</span> for <span class="mono">A</span> or <span class="mono">1</span> for <span class="mono">B</span>:</p>
-
-<object data="register-r-and-d.svg" type="image/svg+xml" class="diagram">Set r and d</object>
+<p>A load instruction reads a byte from memory at the address in <span class="mono">MN</span>, and it puts the byte in a specified destination register, <span class="mono">A</span> or <span class="mono">B</span>. Execution takes place in 3 phases. In the first phase, the <span class="term">read flag</span>, <span class="mono">r</span>, is set to <span class="mono">1</span>, and the aforementioned destination flag, <span class="mono">d</span>, is set to <span class="mono">0</span> for <span class="mono">A</span> or <span class="mono">1</span> for <span class="mono">B</span>.</p>
 
 <p>The second phase occurs as the state register slides across RAM. It happens in parallel with the instruction fetch. For each address, if <span class="mono">r</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then <span class="mono">I</span> is copied to <span class="mono">m</span>: </p>
 
@@ -2137,7 +2139,51 @@
 <p>When the instruction is not a load instruction, <span class="mono">r</span> is reset to <span class="mono">0</span>.</p>
 
 
+<pre class="code">
+<span class="filename">DECODE_LOAD_STORE.mt</span>
+<span class="line"><span class="normal">STB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is STB);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">12           </span><span class="comment">; if (s1) m = B;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">STA_C </span><span class="number">11                </span><span class="comment">; s1 = (i is STA);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">12           </span><span class="comment">; if (s1) m = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LDB_C </span><span class="number">12                </span><span class="comment">; d = (i is LDB);</span></span>
+<span class="line"><span class="normal">LDX_C </span><span class="number">7                 </span><span class="comment">; r = (i matches LD*);</span></span>
+<span class="line"><span class="normal">STX_C </span><span class="number">6                 </span><span class="comment">; w = (i matches ST*);</span></span>
+</pre>
 
+<p>...</p>
+
+<pre class="code">
+<span class="filename">EXECUTE_LOAD_STORE.mt</span>
+<span class="line"><span class="normal">CMP_C </span><span class="number">12                </span><span class="comment">; s0 = (M == a1);</span></span>
+<span class="line"><span class="normal">CMP_AND_C </span><span class="number">14            </span><span class="comment">; s0 &= (N == a0);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">11             </span><span class="comment">; s1 = s0;</span></span>
+<span class="line"><span class="normal">AND_AB_AF </span><span class="number">8             </span><span class="comment">; s1 &= r;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C </span><span class="number">5            </span><span class="comment">; if (s1) m = I;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">11             </span><span class="comment">; s1 = s0;</span></span>
+<span class="line"><span class="normal">AND_AB_AF </span><span class="number">7             </span><span class="comment">; s1 &= w;</span></span>
+<span class="line"><span class="normal">COPY_B_A_C </span><span class="number">5            </span><span class="comment">; if (s1) I = m;</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code">
+<span class="filename">ASSIGN_LOADED.mt</span>
+<span class="line"><span class="normal">MINUS_C </span><span class="number">11              </span><span class="comment">; s0 = (m < 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">16           </span><span class="comment">; if (r) n = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ZERO_C </span><span class="number">16               </span><span class="comment">; s0 = (m == 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">17           </span><span class="comment">; if (r) z = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">C_AND_A_NOT_B </span><span class="number">16        </span><span class="comment">; s0 = r & !d;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">18           </span><span class="comment">; if (s0) A = m;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">AND_A_B_C </span><span class="number">15            </span><span class="comment">; s0 = r & d;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
+</pre>
 
 <h2 id="assembly-language">Assembly Language</h2>
 

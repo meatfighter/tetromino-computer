@@ -24,20 +24,14 @@ tetrisscript
 computer
 
 
-make MetaTetrisScript nestable
-make real nested MetaTetrisScripts
-
 workspace -> TetrisScript and MetaTetrisScript
-
-.t
-.mt
 
 link register (https://en.wikipedia.org/wiki/Link_register)
 
 remaining sections:
-- microcode (first enhance MetaTetrisScript)
-- unsafe gates
-- Tetris Machine (describe the Tetris program, video memory, keyboard input)
+- Tetris Machine
+- intermediate gates
+- Tetris Program and peripherals , video memory, keyboard input)
 - hash, speed up
 - TetrisScript Editor tutorial
 - where are all the files, how to run
@@ -45,7 +39,6 @@ remaining sections:
  
 Explain:
 Which lines of the program represent jump, conditional branches, JSR, RTS
-Orchestrated by MetaTetrisScript, not governed
 Applies the functions in the function catalog.  
     
  
