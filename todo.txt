@@ -32,6 +32,8 @@ workspace -> TetrisScript and MetaTetrisScript
 .t
 .mt
 
+link register (https://en.wikipedia.org/wiki/Link_register)
+
 remaining sections:
 - microcode (first enhance MetaTetrisScript)
 - unsafe gates

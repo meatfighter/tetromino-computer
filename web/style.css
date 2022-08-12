@@ -234,6 +234,10 @@ table.borderless {
     border-collapse: collapse;  
 }
 
+table.high-rows td {
+    padding-top: 5px;
+}
+
 th.math {
     font-family: 'Bentham', serif;
     font-size: 19px;
@@ -294,6 +298,10 @@ td.mono {
     font-size: 16px;
     font-family: 'Source Code Pro', monospace;
     text-align: center;    
+}
+
+td.centered {
+    text-align: center; 
 }
 
 td.pseudocode {

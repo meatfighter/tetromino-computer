@@ -2141,11 +2141,22 @@
 
 <h2 id="assembly-language">Assembly Language</h2>
 
-TODO Explain what assembly language is. How it is translated to machine language. And that it is case-insensitive, but the convention is that operators are in caps and the rest is camel case.
+<p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converts it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
 
 <h3 id="registers">Registers</h3>
 
-TODO ...
+<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, the processor registers exposed to assembly language instructions.</p>
+
+<table class="borderless high-rows">  
+  <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Bits</th><th class="borderless">Description</th></tr>
+  <tr><td class="mono">A</td><td>Accumulator</td><td class="centered">8</td><td class="borderless">An input and the lone output of all arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">B</td><td>Data Register</td><td class="centered">8</td><td class="borderless">An input of some arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">MN</td><td>Memory Address Register</td><td class="centered">16</td><td class="borderless">The source address of load instructions and the destination address of store instructions. The <span class="nowrap">8-bit</span> <span class="mono">M</span> and <span class="mono">N</span> registers contain its high and low bytes, respectively. </td></tr>
+  <tr><td class="mono">P</td><td>Program Counter</td><td class="centered">16</td><td class="borderless">The address of the instruction to execute next.</td></tr>
+  <tr><td class="mono">R</td><td>Return Register</td><td class="centered">16</td><td class="borderless">The address of the instruction to return to at the end of a subroutine.</td></tr>
+  <tr><td class="mono">n</td><td>Negative Flag</td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is negative.</td></tr>
+  <tr><td class="mono">z</td><td>Zero Flag</td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is zero.</td></tr>
+</table>
 
 <h3 id="transfer-instructions">Transfer Instructions</h3>
 
@@ -2187,7 +2198,7 @@ TODO ...
 
 <h3 id="arithmetic-and-logic-instructions">Arithmetic and Logic Instructions</h3>
 
-<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and stores the result in <span class="mono">A</span>:</p>
+<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it stores the result in <span class="mono">A</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
