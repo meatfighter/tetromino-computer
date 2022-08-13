@@ -56,6 +56,8 @@ public class ConvertMetaTetrisScriptToHtml {
             out.print("<span class=\"comment\">");
             out.print(line);
             out.print("</span>");
+        } else {
+            out.print("<span class=\"line\">");
         }
         out.println("</span>");
     }

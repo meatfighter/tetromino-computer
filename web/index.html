@@ -2114,7 +2114,7 @@
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) P0 = R0;</span></span>
 </pre>
 
-<p>The store and load instructions are handled next. A store instruction writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 2 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
+<p>The store and load instructions are handled last. A store instruction writes a specified source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. Execution takes place in 2 phases. In the first phase, the <span class="term">write flag</span>, <span class="mono">w</span>, is set to <span class="mono">1</span>, and the source register is copied to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m: </p>
 
 <object data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
 
@@ -2136,7 +2136,9 @@
 
 <p>When the instruction is not a load instruction, <span class="mono">r</span> is reset to <span class="mono">0</span>.</p>
 
-<p>The implementation of phase 1 for load and store follows. As described above, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
+<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is no <span class="term">carry flag</span>.</p>
+
+<p>The implementation of the first phase of the load and store instructions follows. As described above, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
 
 <pre class="code">
 <span class="filename">DECODE_LOAD_STORE.mt</span>
@@ -2151,7 +2153,9 @@
 <span class="line"><span class="normal">STX_C </span><span class="number">6                 </span><span class="comment">; w = (i matches ST*);</span></span>
 </pre>
 
-<p>The implementation of phase 2 appears below. As the state register slides across RAM, it continually compares <span class="mono">MN</span> and <span class="mono">a</span>. When they match, if <span class="mono">r</span> indicates read, <span class="mono">I</span> is copied to <span class="mono">m</span>. Alternatively, when they match, if <span class="mono">w</span> indicates write, <span class="mono">m</span> is copied to <span class="mono">I</span>. </p>
+<p>Since they are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored. </p>
+
+<p>The implementation of the second phase appears below. As the state register slides across RAM, <span class="mono">MN</span> is compared with <span class="mono">a</span>. When they match, <span class="mono">I</span> is copied to <span class="mono">m</span> if <span class="mono">r</span> indicates read, or <span class="mono">m</span> is copied to <span class="mono">I</span> if <span class="mono">w</span> indicates write.</p>
 
 <pre class="code">
 <span class="filename">EXECUTE_LOAD_STORE.mt</span>
@@ -2167,7 +2171,7 @@
 <span class="line"><span class="normal">COPY_B_A_C </span><span class="number">5            </span><span class="comment">; if (s1) I = m;</span></span>
 </pre>
 
-<p>...</p>
+<p>The implementation of the third phase of the load instruction follows. If <span class="mono">r</span> indicates read, then <span class="mono">n</span> and <span class="mono">z</span> are assigned based on the read byte, and the read byte is copied to <span class="mono">A</span> or <span class="mono">B</span> based on <span class="mono">d</span>. </p>
 
 <pre class="code">
 <span class="filename">ASSIGN_LOADED.mt</span>
@@ -2184,7 +2188,83 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
 </pre>
 
-<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is no <span class="term">carry flag</span>.</p>
+<p>Putting it all together, a downward cycle of the machine looks like this:</p>
+
+<pre class="code">
+<span class="filename">CYCLE_DOWN.mt</span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-3</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">...</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ASSIGN_LOADED </span><span class="number">0</span></span>
+<span class="line"><span class="normal">INCREMENT_P </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_TRANSFER </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_ARITHMETIC_LOGIC </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_SET </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_BRANCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">0</span></span>
+</pre>
+
+<p>The program moves the state register from the highest memory address to the lowest memory address. Along the way, it fetches an instruction to execute and it potentially reads or writes a byte. Afterward, the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the read byte, if there is one, it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions in preparation of their execution during the next cycle.</p>
+
+<p>The upward cycle of the machine follows. Aside from moving the state register in the opposite direction, it is identical to the downward cycle.</p>
+
+<pre class="code">
+<span class="filename">CYCLE_UP.mt</span>
+<span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">...</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">L-3</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">L-2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ASSIGN_LOADED </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">INCREMENT_P </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_TRANSFER </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_ARITHMETIC_LOGIC </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_SET </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_BRANCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">L-1</span></span>
+</pre>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
