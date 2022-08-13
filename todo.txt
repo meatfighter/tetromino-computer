@@ -26,19 +26,10 @@ computer
 
 workspace -> TetrisScript and MetaTetrisScript
 
-link register (https://en.wikipedia.org/wiki/Link_register)
-
 remaining sections:
-- Tetris Machine
 - intermediate gates
 - Tetris Program and peripherals , video memory, keyboard input)
 - hash, speed up
 - TetrisScript Editor tutorial
 - where are all the files, how to run
- 
- 
-Explain:
-Which lines of the program represent jump, conditional branches, JSR, RTS
-Applies the functions in the function catalog.  
-    
  

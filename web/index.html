@@ -1807,7 +1807,7 @@
 
 <p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
-<p>This process is orchestrated by MetaTetrisScripts. For instance, the following code decrements <span class="mono">a</span> and it moves the state register down by repeatedly swapping <span class="mono">K</span> up, fully across the state register.</p>
+<p>This process is orchestrated by MetaTetrisScripts. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
 
 <pre class="code">
 <span class="filename">MOVE_STATE_REG_DOWN.mt</span>
@@ -1835,7 +1835,7 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K up</span></span>
 </pre>
 
-<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register up by repeatedly swapping <span class="mono">Q</span> down.</p>
+<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
 
 <pre class="code">
 <span class="filename">MOVE_STATE_REG_UP.mt</span>
@@ -1880,7 +1880,7 @@
 
 <p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, an <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
 
-<p>After the state register slides across RAM, <span class="mono">P</span> is incremented by the fetched instruction length in preparation of the next fetch. This is achieved with match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a 2 or 3 byte instruction:</p>
+<p>After the state register slides across RAM, <span class="mono">P</span> is incremented by the fetched instruction length in preparation of the next fetch. This is achieved with match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2-byte</span> or a <span class="nowrap">3-byte</span> instruction:</p>
 
 <pre class="code">
 <span class="filename">INCREMENT_P.mt</span>
@@ -1908,7 +1908,7 @@
 
 <object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
-<p>In the following program that decodes and executes, if the opcode in <span class="mono">i</span> matches the pattern of a transfer instruction, then the specified source register is copied to <span class="mono">s0</span> (lines 1&ndash;8). Subsequently, <span class="mono">s0</span> is copied to the specified destination register, again conditioned on <span class="mono">i</span> (lines 10&ndash;17).</p>
+<p>The implementation follows. If the opcode in <span class="mono">i</span> matches the pattern of a transfer instruction, then the specified source register is copied to <span class="mono">s0</span> (lines 1&ndash;8). Subsequently, <span class="mono">s0</span> is copied to the specified destination register, again conditioned on <span class="mono">i</span> (lines 10&ndash;17).</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_TRANSFER.mt</span>
@@ -2030,20 +2030,22 @@
 
 <object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
 
-<p>The following code decodes and executes the set instructions.</p>
+<p>The following program decodes and executes the set instructions.</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_SET.mt</span>
 <span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
+<span class="line"></span>
 <span class="line"><span class="normal">SEB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SEB);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) B = j;</span></span>
+<span class="line"></span>
 <span class="line"><span class="normal">SMN_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SMN);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) M = j;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
 </pre>
 
-<p>The <span class="term">branch instructions</span> are handled next. There are 6 of them. Each consists of a <span class="nowrap">1-byte</span> opcode followed by a <span class="nowrap">16-bit</span> target address. The first jumps to the target by copying <span class="mono">jk</span> to <span class="mono">P</span>:</p>
+<p>The <span class="term">branch instructions</span> are handled next. There are 6 of them. Each consists of an opcode in <span class="mono">i</span> followed by a <span class="nowrap">16-bit</span> target address in <span class="mono">jk</span>. The first jumps to the target by copying <span class="mono">jk</span> to <span class="mono">P</span>:</p>
 
 <object data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
 
@@ -2188,7 +2190,7 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
 </pre>
 
-<p>Putting it all together, a downward cycle of the machine looks like this:</p>
+<p>Putting it all together, the downward cycle of the machine looks like this:</p>
 
 <pre class="code">
 <span class="filename">CYCLE_DOWN.mt</span>
@@ -2226,7 +2228,7 @@
 <span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">0</span></span>
 </pre>
 
-<p>The program moves the state register from the highest memory address to the lowest memory address. Along the way, it fetches an instruction to execute and it potentially loads or stores a byte. Afterward, the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions in preparation of their execution during the next cycle.</p>
+<p>The program moves the state register from the highest memory address to the lowest memory address. Along the way (lines 1&ndash;24), it fetches an instruction to execute and it potentially loads or stores a byte in RAM. Afterward (lines 26&ndash;32), the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions in preparation of their execution during the next cycle.</p>
 
 <p>The upward cycle of the machine follows. Aside from moving the state register in the opposite direction, it is identical to the downward cycle.</p>
 
@@ -2268,11 +2270,11 @@
 
 <p>The placeholders, <span class="serif">L&minus;x</span>, presented in the listings above represent numerical values in the actual files. Consequentially, the file contents depend on the length of the machine code program. Since the maximum program length, <span class="serif">L<span class="sub3">max</span></span>, is only 65,536, it is possible to generate the full universe of files, making available whatever is required at startup. However, in practice, a pair of new files is simply created prior to loading a program based on its length.</p>
 
-<p>Because Tetris is a game, it is designed to loop forever. Meaning, the machine it executes on never halts. This necessitates an endless stream of TetrisScript fed to the player. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
+<p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TetrisScript fed to the player. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
-<p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converts it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
+<p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converted it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
 
 <h3 id="registers">Registers</h3>
 
@@ -2357,7 +2359,7 @@
 
 <h3 id="branch-instructions">Branch Instructions</h3>
 
-<p>A branch instruction conditionally or unconditionally directs execution to a specified location in the program. With one exception, the branch instructions have the following format.</p>
+<p>A branch instruction can direct execution to a specified location in the program. With one exception, the branch instructions have the following format.</p>
 
 <p class="definition">mnemonic label</p>
 
@@ -2406,7 +2408,7 @@
 
 <h3 id="load-instructions">Load Instructions</h3>
 
-<p>A load instruction treats <span class="mono">M</span> and <span class="mono">N</span> as a combined, <span class="nowrap">16-bit</span> register, <span class="mono">MN</span>, where <span class="mono">M</span> is the high-byte and <span class="mono">N</span> is the low-byte. It reads the memory value at the address in <span class="mono">MN</span> into either <span class="mono">A</span> or <span class="mono">B</span>:</p>
+<p>A load reads the memory value at the address in <span class="mono">MN</span> into either <span class="mono">A</span> or <span class="mono">B</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
@@ -2422,7 +2424,7 @@
 
 <h3 id="store-instructions">Store Instructions</h3>
 
-<p>A store instruction treats <span class="mono">M</span> and <span class="mono">N</span> as a combined, <span class="nowrap">16-bit</span> register, <span class="mono">MN</span>, where <span class="mono">M</span> is the high-byte and <span class="mono">N</span> is the low-byte. It writes the value in either <span class="mono">A</span> or <span class="mono">B</span> to memory at the address in <span class="mono">MN</span>:</p>
+<p>A store instruction writes the value in either <span class="mono">A</span> or <span class="mono">B</span> to memory at the address in <span class="mono">MN</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
@@ -2436,7 +2438,7 @@
 
 <h3 id="set-instructions">Set Instructions</h3>
 
-<p>A set instruction moves an immediate (a constant value) into a register:</p>
+<p>A set instruction moves an immediate (a constant) into a register:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
@@ -2445,17 +2447,17 @@
   <tr><td class="mono">SMN immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">MN</span></td><td class="pseudocode">MN = immediate;</td><td class="mono">2F</td></tr>
 </table>
 
-<p><span class="mono">SMN</span> treats <span class="mono">M</span> and <span class="mono">N</span> as a combined, <span class="nowrap">16-bit</span> register, <span class="mono">MN</span>, where <span class="mono">M</span> is the high-byte and <span class="mono">N</span> is the low-byte. Its operand is a <span class="nowrap">16-bit<span> word immediate, whereas <span class="mono">SEA</span> and <span class="mono">SEB</span> accept a byte immediate.</p>
+<p><span class="mono">SEA</span> and <span class="mono">SEB</span> accept a byte immediate whereas <span class="mono">SMN</span> accepts a <span class="nowrap">16-bit<span> word immediate.</p>
 
-<p>The instructions assemble to an opcode followed by the immediate byte or bytes (encoded big-endian).</p>      
+<p>The instructions assemble to an opcode followed by the immediate byte or bytes encoded big-endian.</p>      
       
-<p>The immediate can be an <a href="https://en.wikipedia.org/wiki/Integer_literal" target="_blank">integer literal</a>, which must be written in hexadecimal. As shown below, a byte literal contains 2 hex digits while a word literal contains 4.</p>
+<p>The immediate can be an <a href="https://en.wikipedia.org/wiki/Integer_literal" target="_blank">integer literal</a> written in hexadecimal. As shown below, a byte literal contains 2 hex digits while a word literal contains 4.</p>
 
 <pre class="code">
 <span class="line"><span class="normal">SEA</span> <span class="number">D3</span>                  <span class="comment">; A = 0xD3;</span></span>
 <span class="line"><span class="normal">SEB</span> <span class="number">7F</span>                  <span class="comment">; B = 0x7F;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="number">1234</span>                <span class="comment">; M = 0x12; N = 0x34;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="number">56</span>                  <span class="comment">; M = 0x00; N = 0x56;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="number">1234</span>                <span class="comment">; MN = 0x1234;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="number">56</span>                  <span class="comment">; MN = 0x0056;</span></span>
 </pre>
 
 <p>The byte literal on line 4 is interpreted as the word literal <span class="mono">0056</span>.</p>
@@ -2476,7 +2478,7 @@
 <span class="line"><span class="normal">SMN</span> <span class="identifier">Z</span>                   <span class="comment">; MN = Z;</span></span>
 </pre>
 
-<p>To reserve and initialize a data region, an integer literal or a sequence of integer literals is written without a preceding instruction mnemonic. Accessing the region requires its address. One way to get it is to preface the region with a label. And a label can successively be used as immediate operand. This is demonstrated in the following example where the declaration of the label <span class="mono">v</span> is followed by a byte literal.</p>
+<p>To reserve and initialize a data region, an integer literal or a sequence of integer literals is written without a preceding instruction mnemonic. Accessing the region requires its address. One way to get it is to preface the region with a label. And that label can successively be used as immediate operand. This is demonstrated in the following example where the declaration of the label <span class="mono">v</span> is followed by a byte literal.</p>
 
 <pre class="code">
 <span class="line"><span class="label">v:</span> <span class="number">00</span>                   <span class="comment">; v = 0;</span></span>
@@ -2521,11 +2523,13 @@
 
 <p class="definition">segment address</p>
 
-<p>It instructs the assembler to store bytes generated from subsequent code at the specified address. In this case, the effect is that <span class="mono nowrap">table = 0180</span>.</p>
+<p>It instructs the assembler to store bytes generated from subsequent code at the specified address. In this case, the effect is:</p>
 
-<p>Since the table is fully contained within the same <span class="nowrap">256-byte</span> memory page, adding <span class="mono">table</span> and <span class="mono">index</span> does not produce a carry. As such, the code offsets just the <span class="nowrap">low-byte</span> of the address.</p>
+<p><span class="mono">table = 0x0180;</span></p>
 
-<p>To facilitate <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a>, a label, when used in an operand, can be offset by a positive or negative constant with the notation below.</p>
+<p>Since the table is fully contained within the same <span class="nowrap">256-byte</span> memory page, adding <span class="mono">table</span> and <span class="mono">index</span> does not produce a carry. The code offsets only the <span class="nowrap">low-byte</span> of the address.</p>
+
+<p>To facilitate <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a>, a label, when used as an operand, can be offset by a positive or negative constant with the notation below.</p>
 
 <p class="definition">label[+-]offset</p> 
 
@@ -2542,7 +2546,7 @@
 <span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; B = 0x00; // until replaced with 0xFF</span></span>
 </pre>
 
-<p><span class="mono">target</span> points to the opcode of <span class="mono">SEB</span>. At runtime, lines 1&ndash;3 changes the byte beyond it, the operand of <span class="mono">SEB</span>.</p> 
+<p><span class="mono">target</span> points to the opcode of the <span class="mono">SEB</span> instruction. At runtime, lines 1&ndash;3 change the immediate operand, which is located one byte past the opcode, from <span class="mono">00</span> to <span class="mono">FF</span>.</p> 
 
 <p>In summary, the operand of <span class="mono">SMN</span> can be any of the following.</p>
 
