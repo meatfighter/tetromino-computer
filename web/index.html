@@ -2226,7 +2226,7 @@
 <span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">0</span></span>
 </pre>
 
-<p>The program moves the state register from the highest memory address to the lowest memory address. Along the way, it fetches an instruction to execute and it potentially reads or writes a byte. Afterward, the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the read byte, if there is one, it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions in preparation of their execution during the next cycle.</p>
+<p>The program moves the state register from the highest memory address to the lowest memory address. Along the way, it fetches an instruction to execute and it potentially loads or stores a byte. Afterward, the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions in preparation of their execution during the next cycle.</p>
 
 <p>The upward cycle of the machine follows. Aside from moving the state register in the opposite direction, it is identical to the downward cycle.</p>
 
@@ -2265,6 +2265,10 @@
 <span class="line"><span class="normal">DECODE_EXECUTE_BRANCH </span><span class="number">L-1</span></span>
 <span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">L-1</span></span>
 </pre>
+
+<p>The placeholders, <span class="serif">L&minus;x</span>, presented in the listings above represent numerical values in the actual files. Consequentially, the file contents depend on the length of the machine code program. Since the maximum program length, <span class="serif">L<span class="sub3">max</span></span>, is only 65,536, it is possible to generate the full universe of files, making available whatever is required at startup. However, in practice, a pair of new files is simply created prior to loading a program based on its length.</p>
+
+<p>Because Tetris is a game, it is designed to loop forever. Meaning, the machine it executes on never halts. This necessitates an endless stream of TetrisScript fed to the player. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
