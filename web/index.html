@@ -2457,10 +2457,7 @@
 <span class="line"><span class="normal">SEA</span> <span class="number">D3</span>                  <span class="comment">; A = 0xD3;</span></span>
 <span class="line"><span class="normal">SEB</span> <span class="number">7F</span>                  <span class="comment">; B = 0x7F;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="number">1234</span>                <span class="comment">; MN = 0x1234;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="number">56</span>                  <span class="comment">; MN = 0x0056;</span></span>
 </pre>
-
-<p>The byte literal on line 4 is interpreted as the word literal <span class="mono">0056</span>.</p>
 
 <p>The <span class="mono">define</span> directive equates a name with an integer literal:</p>
 
@@ -2550,7 +2547,7 @@
 
 <p>In summary, the operand of <span class="mono">SMN</span> can be any of the following.</p>
 
-<p class="definition">SMN byte | word | label | label+offset | label-offset</p>
+<p class="definition">SMN word | label | label+offset | label-offset</p>
 
 <p>The same applies to branch instructions; i.e., the target of the branch can any of the above. But it is rarely worthwhile to jump to a numerical address or to a label offset by a constant.</p>
 
