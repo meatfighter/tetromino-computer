@@ -4,13 +4,13 @@ define STATE_GAME_OVER   00
 define STATE_PLAYING     01
 define STATE_CLEAR_LINES 02
 
-define ACTION_DRAW 22   ; BNE
-define ACTION_TEST 23   ; BEQ
+define ACTION_DRAW 22 ; BNE
+define ACTION_TEST 23 ; BEQ
 
 define CELL_EMPTY 00
-define CELL_SOLID FF    ; Any nonzero cell is solid
+define CELL_SOLID FF ; Any nonzero cell is solid
 
-define ROW_WIDTH 0B     ; Elements per row
+define PLAYFIELD_WIDTH 0B
 
 define SPAWN_X 05
 define SPAWN_Y 02
@@ -144,7 +144,7 @@ SMN minY                ; // start button pressed
 SEA 16
 STA                     ; minY = 22;
 
-SEA F1                  ; A = 0xF1; // 22 * ROW_WIDTH - 1, index of last element of row 21
+SEA F1                  ; A = 0xF1; // 22 * PLAYFIELD_WIDTH - 1, index of last element of row 21
 SEB CELL_EMPTY                  
 SMN playfield
 clearLoop:
@@ -155,14 +155,14 @@ BNE clearLoop           ;   goto clearLoop;
                         ; }
 STB                     ; playfield[0] = CELL_EMPTY;
 
-SMN 00F1                ; MN = 0x00F1; // 22 * ROW_WIDTH - 1, address of last element of row 21 
+SMN 00F1                ; MN = 0x00F1; // 22 * PLAYFIELD_WIDTH - 1, address of last element of row 21 
 SEB CELL_SOLID                  
 edgeLoop:
 STB                     ; *MN = CELL_SOLID;
 TNA
-SEB ROW_WIDTH
+SEB PLAYFIELD_WIDTH
 SUB
-TAN                     ; MN -= ROW_WIDTH;
+TAN                     ; MN -= PLAYFIELD_WIDTH;
 SEB FF
 SUB                     ; if (*MN != -1) {
 BNE edgeLoop            ;   goto edgeLoop;
@@ -408,10 +408,10 @@ LDA
 SMN tetriminoX
 LDB
 SUB
-SEB ROW_WIDTH
+SEB PLAYFIELD_WIDTH
 ADD
 SMN origin
-STA                     ; origin = ROW_WIDTH * (tetriminoY + 1); // 1 row above tetriminoY
+STA                     ; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // 1 row above tetriminoY
 
 clearLinesLoop:
 SMN minY
@@ -424,18 +424,18 @@ ADD
 SEB 16
 SUB
 BNE notLine0
-SEA ROW_WIDTH
+SEA PLAYFIELD_WIDTH
 notLine0:
 DEC
 SMN minN+1
-STA                     ; *(minN+1) = ROW_WIDTH * max(1, minY - 2) - 1; // minimum index to copy from
+STA                     ; *(minN+1) = PLAYFIELD_WIDTH * max(1, minY - 2) - 1; // minimum index to copy from
 
 SMN origin
 LDA
 SMN playfield
 TAN                     ; MN = playfield + origin;
 
-SEB 0A                  ; B = ROW_WIDTH - 1;
+SEB 0A                  ; B = PLAYFIELD_WIDTH - 1;
 scanLine:
 LDA                     ; if (*MN == CELL_EMPTY) {
 BEQ continueClearLines  ;   goto continueClearLines;
@@ -458,15 +458,15 @@ BPL scanLine            ;   goto scanLine;
                         ; }
 
 copyLines:              ; // Clear line by copying down the lines above it
-SEB ROW_WIDTH
+SEB PLAYFIELD_WIDTH
 TNA
 SUB
-TAN                     ; N -= ROW_WIDTH;
+TAN                     ; N -= PLAYFIELD_WIDTH;
 LDA                     
 TAM                     ; M = *MN;
 TNA
 ADD
-TAN                     ; N += ROW_WIDTH;
+TAN                     ; N += PLAYFIELD_WIDTH;
 TMA                     ; A = M;
 SEB 00
 TBM                     ; M = 0;
@@ -501,9 +501,9 @@ JMP continueClear       ; goto continueClear;
 continueClearLines:
 SMN origin
 LDA
-SEB ROW_WIDTH
+SEB PLAYFIELD_WIDTH
 SUB
-STA                     ; origin -= ROW_WIDTH;
+STA                     ; origin -= PLAYFIELD_WIDTH;
 
 continueClear:
 SMN i
@@ -541,7 +541,7 @@ SMN tetriminoX
 LDB
 ADD
 SMN origin
-STA                     ; origin = ROW_WIDTH * tetriminoY + tetriminoX;
+STA                     ; origin = PLAYFIELD_WIDTH * tetriminoY + tetriminoX;
 
 SMN tetriminoType
 LDA
