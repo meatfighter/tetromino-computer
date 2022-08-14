@@ -251,7 +251,7 @@ SMN state               ; // Bad Tetrimino position. It's game over.
 SEA STATE_GAME_OVER
 STA                     ; state = STATE_GAME_OVER;
 
-JMP endFall             ; goto endFall;
+JMP endFall             ; goto endFall; // draws the Tetrimino that failed to spawn
 
 
 playing:                ; // Play handler

@@ -2774,6 +2774,447 @@
 
 <p>...</p>
 
+<pre class="code" style="counter-increment: step 186;">
+<span class="line"><span class="label">randomlyChoose:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">02</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedLow</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">STA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">XOR</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">bit9Clear</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">80</span></span>
+<span class="line"><span class="label">bit9Clear:</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">01</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">bit8Clear</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">80</span></span>
+<span class="line"><span class="label">bit8Clear:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedLow</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">RS1</span></span>
+<span class="line"><span class="normal">OR</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh << 7) | (seedLow >> 1);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">RS1</span></span>
+<span class="line"><span class="normal">OR</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh >> 1);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">frameCounter</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">XOR</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">1F</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">RS5</span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; B = ((seedHigh ^ frameCounter) & 0x1F) * 7 / 32;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (B == tetriminoType) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">randomlyChoose</span>      <span class="comment">;   goto randomlyChoose;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; tetriminoType = B;</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 242;">
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty region</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto playing;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span>               <span class="comment">; // Bad Tetrimino position. It's game over.</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_GAME_OVER</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; state = STATE_GAME_OVER;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the Tetrimino that failed to spawn</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 256;">
+<span class="line"><span class="label">playing:</span>                <span class="comment">; // Play handler</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_DRAW</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_DRAW;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">CELL_EMPTY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = CELL_EMPTY;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; drawOrTestTetrimino(); // erase Tetrimino</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastRotation = tetriminoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastX = tetriminoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">leftButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (leftButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testRightButton</span>     <span class="comment">;   goto testRightButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span>          <span class="comment">; // Left button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetriminoX;</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">; goto testCcwRotateButton;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testRightButton:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">rightButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (rightButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">;   goto testCcwRotateButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span>          <span class="comment">; // Right button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetriminoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testCcwRotateButton:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">03</span>                  <span class="comment">; B = 3;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">ccwRotateButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (ccwRotateButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testCwRotateButton</span>  <span class="comment">;   goto testCwRotateButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span>   <span class="comment">; // CCW button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = (tetriminoRotation - 1) & 3;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">validatePosition</span>    <span class="comment">; goto validatePosition;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testCwRotateButton:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">cwRotateButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (cwRotateButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">validatePosition</span>    <span class="comment">;   goto validatePosition;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span>   <span class="comment">; // CW button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = (tetriminoRotation + 1) & 3;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">validatePosition:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty region</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto keepPosition;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span>        <span class="comment">; // Bad Tetrimino position. Undo shift or rotation.</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = lastRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = lastX;</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 340;">
+<span class="line"><span class="label">keepPosition:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">downButton</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span>           <span class="comment">; if (downButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">updateFallTimer</span>     <span class="comment">;   goto updateFallTimer;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; // Down button pressed</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = 0;                  </span></span>
+<span class="line"></span>
+<span class="line"><span class="label">updateFallTimer:</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (fallTimer != 0) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">decFallTimer</span>        <span class="comment">;   goto decFallTimer;</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">FALL_SPEED</span>          <span class="comment">; } </span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span>          <span class="comment">; // Drop Tetrimino</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetriminoY;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty region</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">endFall</span>             <span class="comment">;   goto endFall;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span>          <span class="comment">; // Bad Tetrimino position. Undo drop and lock Tetrimino in place.</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetriminoY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">BMI</span> <span class="identifier">keepMinY</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; minY = min(minY, tetriminoY);</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">keepMinY:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_CLEAR_LINES</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; state = STATE_CLEAR_LINES;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">decFallTimer:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --fallTimer;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">endFall:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_DRAW</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_DRAW;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = tetriminoType + 1;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; drawOrTestTetrimino(); // draw Tetrimino</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">main</span>                <span class="comment">; goto main;</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 401;">
+<span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // loop 4 times, from i = 3 down to 0.</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // 1 row above tetriminoY</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">clearLinesLoop:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">16</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">notLine0</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="label">notLine0:</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minN</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(minN+1) = PLAYFIELD_WIDTH * max(1, minY - 2) - 1; // minimum index to copy from</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">playfield</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; MN = playfield + origin;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">0A</span>                  <span class="comment">; B = PLAYFIELD_WIDTH - 1;</span></span>
+<span class="line"><span class="label">scanLine:</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (*MN == CELL_EMPTY) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">continueClearLines</span>  <span class="comment">;   goto continueClearLines;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">TBA</span></span>
+<span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--B < 0) { </span></span>
+<span class="line"><span class="normal">BMI</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines; // Found 10 consecutive empty cells         </span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; ++N;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">scanLine</span>            <span class="comment">; goto scanLine;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TBA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; if (--B >= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">scanLine</span>            <span class="comment">;   goto scanLine;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 460;">
+<span class="line"><span class="label">copyLines:</span>              <span class="comment">; // Clear line by copying down the lines above it</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N -= PLAYFIELD_WIDTH;</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">TAM</span>                     <span class="comment">; M = *MN;</span></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N += PLAYFIELD_WIDTH;</span></span>
+<span class="line"><span class="normal">TMA</span>                     <span class="comment">; A = M;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span></span>
+<span class="line"><span class="normal">TBM</span>                     <span class="comment">; M = 0;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"><span class="label">minN:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [minN] ***</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (--N != minN) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">09</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N = 9;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">CELL_EMPTY</span></span>
+<span class="line"><span class="label">clearTopLine:</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; *MN = CELL_EMPTY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; if (--N >= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">clearTopLine</span>        <span class="comment">;   goto clearTopLine;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++minY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">continueClear</span>       <span class="comment">; goto continueClear;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">continueClearLines:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin -= PLAYFIELD_WIDTH;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">continueClear:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; if (--i >= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">clearLinesLoop</span>      <span class="comment">;   goto clearLinesLoop;</span></span>
+<span class="line">                        <span class="comment">; } else {</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">spawn</span>               <span class="comment">;   goto spawn;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 518;">
+<span class="line"><span class="label">drawOrTestTetrimino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
+<span class="line"><span class="comment">; drawOrTest        - 22 = draw, 23 = test</span></span>
+<span class="line"><span class="comment">; drawCell+1        - cell to draw</span></span>
+<span class="line"><span class="comment">;</span></span>
+<span class="line"><span class="comment">; tetriminoType     - type</span></span>
+<span class="line"><span class="comment">; tetriminoRotation - rotation</span></span>
+<span class="line"><span class="comment">; tetriminoX        - x</span></span>
+<span class="line"><span class="comment">; tetriminoY        - y</span></span>
+<span class="line"><span class="comment">;</span></span>
+<span class="line"><span class="comment">; z: 0 = valid position, 1 = invalid position</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // Loop 4 times, once for each Tetrimino block</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * tetriminoY + tetriminoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS4</span></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS2</span></span>
+<span class="line"><span class="normal">ADD</span>                     <span class="comment">; A = 16 * tetriminoType + 4 * tetriminoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminosIndex</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminosIndex = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDB</span>                     <span class="comment">; B = origin;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawLoop:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminos</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">playfield</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawOrTest:</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">drawCell</span>            <span class="comment">; *** self-modifying code [BNE = draw, BEQ = test] ***</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (playfield[tetriminos[tetriminosIndex] + origin] != 0) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">endDrawLoop</span>         <span class="comment">;   goto endDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; } else {</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">incDrawLoop</span>         <span class="comment">;   goto incDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawCell:</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [ 00 = empty; otherwise solid ] ***</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetriminos[tetriminosIndex] + origin] = [drawCell+1];</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">incDrawLoop:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (i == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">endDrawLoop</span>         <span class="comment">;   goto endDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --i;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminosIndex</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; A = ++tetriminosIndex;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">drawLoop</span>            <span class="comment">; goto drawLoop;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">endDrawLoop:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
+</pre>
+
+<p>...</p>
+
 </body>
 
 </html>
