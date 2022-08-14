@@ -3,7 +3,7 @@ run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
 remove playfield size spinner
 remove annoying tooltips
-not warning about saving when opening
+no warning about saving when opening
 
 new seems to save twice?!
 
@@ -28,8 +28,24 @@ workspace -> TetrisScript and MetaTetrisScript
 
 remaining sections:
 - intermediate gates
-- Tetris Program and peripherals , video memory, keyboard input)
+- Tetris Program (and peripherals: video memory, keyboard input)
 - hash, speed up
 - TetrisScript Editor tutorial
 - where are all the files, how to run
  
+
+ -1 FF
+ -2 FE
+ -3 FD
+ -4 FC
+ -5 FB
+ -6 FA
+ -7 F9
+ -8 F8
+ -9 F7
+-10 F6
+-11 F5
+-12 F4
+-13 F3
+-14 F2
+-15 F1
