@@ -140,7 +140,7 @@ LDA                     ; if (startButton == 0) {
 BEQ main;               ;   goto main;
                         ; }
 
-SMN minY                ; // start button pressed
+SMN minY                ; // Start button pressed
 SEA 16
 STA                     ; minY = 22;
 
@@ -243,10 +243,11 @@ STB                     ; tetriminoType = B;
 SMN drawOrTest
 SEA ACTION_TEST
 STA                     ; drawOrTest = ACTION_TEST;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) {
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty region
 BEQ keepPosition        ;   goto playing;
                         ; }
-SMN state
+
+SMN state               ; // Bad Tetrimino position. It's game over.
 SEA STATE_GAME_OVER
 STA                     ; state = STATE_GAME_OVER;
 
@@ -324,7 +325,7 @@ validatePosition:
 SMN drawOrTest
 SEA ACTION_TEST
 STA                     ; drawOrTest = ACTION_TEST;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // Examine shifted/rotated Tetrimino position
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty region
 BEQ keepPosition        ;   goto keepPosition;
                         ; }
 
@@ -357,7 +358,7 @@ SMN tetriminoY          ; // Drop Tetrimino
 LDA
 INC
 STA                     ; ++tetriminoY;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // Examine dropped Tetrimino position
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty region
 BEQ endFall             ;   goto endFall;
                         ; }
 
