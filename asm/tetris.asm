@@ -50,41 +50,41 @@ rightButton:         00 ; 00 = released; otherwise, pressed
 
 segment 0100
 tetriminos:
-; B0 B1 B2 B3
-  FF 00 01 0B ; 00 Td
-  F5 FF 00 0B ; 01 Tl
-  FF 00 01 F5 ; 02 Tu
-  F5 00 01 0B ; 03 Tr
+;  0  1  2  3
+  FF 00 01 0B ;  0 td {  -1,   0,   1,  11 }
+  F5 FF 00 0B ;  1 tl { -11,  -1,   0,  11 }
+  FF 00 01 F5 ;  2 tu {  -1,   0,   1, -11 }
+  F5 00 01 0B ;  3 tr { -11,   0,   1,  11 }
 
-  FF 00 01 0C ; 04 Jd
-  F5 00 0A 0B ; 05 Jl
-  F4 FF 00 01 ; 06 Ju
-  F5 F6 00 0B ; 07 Jr
+  FF 00 01 0C ;  4 jd {  -1,   0,   1,  12 }
+  F5 00 0A 0B ;  5 jl { -11,   0,  10,  11 }
+  F4 FF 00 01 ;  6 ju { -12,  -1,   0,   1 }
+  F5 F6 00 0B ;  7 jr { -11, -10,   0,  11 }
 
-  FF 00 0B 0C ; 08 Zh
-  F6 00 01 0B ; 09 Zv
-  FF 00 0B 0C ; 0A Zh
-  F6 00 01 0B ; 0B Zv
+  FF 00 0B 0C ;  8 zh {  -1,   0,  11,  12 }
+  F6 00 01 0B ;  9 zv { -10,   0,   1,  11 }
+  FF 00 0B 0C ; 10 zh {  -1,   0,  11,  12 }
+  F6 00 01 0B ; 11 zv { -10,   0,   1,  11 }
 
-  FF 00 0A 0B ; 0C O
-  FF 00 0A 0B ; 0D O
-  FF 00 0A 0B ; 0E O
-  FF 00 0A 0B ; 0F O
+  FF 00 0A 0B ; 12 o  {  -1,   0,  10,  11 }
+  FF 00 0A 0B ; 13 o  {  -1,   0,  10,  11 }
+  FF 00 0A 0B ; 14 o  {  -1,   0,  10,  11 }
+  FF 00 0A 0B ; 15 o  {  -1,   0,  10,  11 }
 
-  00 01 0A 0B ; 10 Sh
-  F5 00 01 0C ; 11 Sv
-  00 01 0A 0B ; 12 Sh
-  F5 00 01 0C ; 13 Sv
+  00 01 0A 0B ; 16 sh {   0,   1,  10,  11 }
+  F5 00 01 0C ; 17 sv { -11,   0,   1,  12 }
+  00 01 0A 0B ; 18 sh {   0,   1,  10,  11 }
+  F5 00 01 0C ; 19 sv { -11,   0,   1,  12 }
 
-  FF 00 01 0A ; 14 Ld
-  F4 F5 00 0B ; 15 Ll
-  F6 FF 00 01 ; 16 Lu
-  F5 00 0B 0C ; 17 Lr
+  FF 00 01 0A ; 20 ld {  -1,   0,   1,  10 }
+  F4 F5 00 0B ; 21 ll { -12, -11,   0,  11 }
+  F6 FF 00 01 ; 22 lu { -10,  -1,   0,   1 }
+  F5 00 0B 0C ; 23 lr { -11,   0,  11,  12 }
 
-  FE FF 00 01 ; 18 Ih
-  EA F5 00 0B ; 19 Iv
-  FE FF 00 01 ; 1A Ih
-  EA F5 00 0B ; 1B Iv
+  FE FF 00 01 ; 24 ih {  -2,  -1,   0,   1 }
+  EA F5 00 0B ; 25 iv { -22, -11,   0,  11 }
+  FE FF 00 01 ; 26 ih {  -2,  -1,   0,   1 }
+  EA F5 00 0B ; 27 iv { -22, -11,   0,  11 }
 
 segment 0170
 startButton:         00 ; 00 = released; otherwise, pressed

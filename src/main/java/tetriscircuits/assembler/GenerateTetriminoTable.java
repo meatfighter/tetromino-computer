@@ -39,13 +39,13 @@ public class GenerateTetriminoTable {
     };
     
     private static final String[] NAMES = { 
-        "Td", "Tl", "Tu", "Tr", 
-        "Jd", "Jl", "Ju", "Jr", 
-        "Zh", "Zv", "Zh", "Zv",
-        "O",  "O",  "O",  "O",
-        "Sh", "Sv", "Sh", "Sv",
-        "Ld", "Ll", "Lu", "Lr",
-        "Ih", "Iv", "Ih", "Iv",
+        "td", "tl", "tu", "tr", 
+        "jd", "jl", "ju", "jr", 
+        "zh", "zv", "zh", "zv",
+        "o ", "o ", "o ", "o ",
+        "sh", "sv", "sh", "sv",
+        "ld", "ll", "lu", "lr",
+        "ih", "iv", "ih", "iv",
     };        
 
     public static void main(final String... args) {
@@ -76,14 +76,26 @@ public class GenerateTetriminoTable {
         final int ROW_LENGTH = 11;
         
         System.out.println("tetriminos:");
-        System.out.println("; B0 B1 B2 B3");
+        System.out.println(";  0  1  2  3");
         for (int i = 0; i < TETRIMINOS.length; ++i) {
             final int[][] blocks = TETRIMINOS[i];
             System.out.print("  ");
             for (final int[] bs : blocks) {
                 System.out.format("%02X ", 0xFF & (bs[0] + ROW_LENGTH * bs[1]));
             }
-            System.out.format("; %02X %s%n", i, NAMES[i]);
+            final StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+            boolean first = true;
+            for (final int[] bs : blocks) {
+                if (first) {
+                    first = false;
+                } else {
+                    sb.append(", ");
+                }
+                sb.append(String.format("%3d", bs[0] + ROW_LENGTH * bs[1]));
+            }
+            sb.append(" }");
+            System.out.format("; %2d %s %s%n", i, NAMES[i], sb);
             if ((i & 3) == 3) {
                 System.out.println();
             }

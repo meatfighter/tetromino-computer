@@ -36,7 +36,7 @@
 
 <object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
 
-<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employees the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
+<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employs the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
 
 <p>NRS centers each Tetrimino in a 5&times;5 matrix and rotates them 90&deg; about that center. Of the 24 possible orientations, it uses only 19.</p>
 
@@ -59,7 +59,7 @@
     </li>
 </ul>
 
-<p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
+<p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
 
 <p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the method.</p>
 
@@ -2553,6 +2553,10 @@
 
 <h2 id="tetris-program">Tetris Program</h2>
 
+<p>The Tetris program is a barebones implementation of the game. It employs the standard playfield with 20 visible rows and 10 columns, and the right-handed Nintendo Rotation System (NRS). After a randomly selected Tetrimino spawns, gravity exerts itself and the player controls the falling piece by shifting it left or right, rotating it clockwise or counterclockwise, or soft dropping it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
+
+<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. Consequentially, the level never increases and the drop speed remains constant. There is no piece preview, no ghost pieces, no hold, and no rotation kick. There is nothing beyond the core game mechanics.</p>
+
 <p>...</p>
 
 <pre class="code">
@@ -2620,41 +2624,41 @@
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
 <span class="line"><span class="label">tetriminos:</span></span>
-<span class="line"><span class="comment">; B0 B1 B2 B3</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 00 Td</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 01 Tl</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">F5</span> <span class="comment">; 02 Tu</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 03 Tr</span></span>
+<span class="line"><span class="comment">;  0  1  2  3</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  0 td {  -1,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">;  1 tl { -11,  -1,   0,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">F5</span> <span class="comment">;  2 tu {  -1,   0,   1, -11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  3 tr { -11,   0,   1,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 04 Jd</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 05 Jl</span></span>
-<span class="line">  <span class="number">F4</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 06 Ju</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">F6</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 07 Jr</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">;  4 jd {  -1,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">;  5 jl { -11,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">;  6 ju { -12,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">F6</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">;  7 jr { -11, -10,   0,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 08 Zh</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 09 Zv</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 0A Zh</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 0B Zv</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">;  8 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  9 zv { -10,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 10 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 11 zv { -10,   0,   1,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 0C O</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 0D O</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 0E O</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 0F O</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 12 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 13 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 14 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 15 o  {  -1,   0,  10,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 10 Sh</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 11 Sv</span></span>
-<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 12 Sh</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 13 Sv</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 16 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 17 sv { -11,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 18 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 19 sv { -11,   0,   1,  12 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="comment">; 14 Ld</span></span>
-<span class="line">  <span class="number">F4</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 15 Ll</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 16 Lu</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 17 Lr</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="comment">; 20 ld {  -1,   0,   1,  10 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 21 ll { -12, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 22 lu { -10,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 23 lr { -11,   0,  11,  12 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 18 Ih</span></span>
-<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 19 Iv</span></span>
-<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 1A Ih</span></span>
-<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 1B Iv</span></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 24 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 25 iv { -22, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 26 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
 <p>...</p>
@@ -2665,7 +2669,11 @@
 <span class="line"><span class="label">ccwRotateButton:</span>     <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed </span></span>
 <span class="line"><span class="label">cwRotateButton:</span>      <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 <span class="line"><span class="label">downButton:</span>          <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
-<span class="line"></span>
+</pre>
+
+<p>...</p>
+
+<pre class="code" style="counter-increment: step 94;">
 <span class="line"><span class="label">tetriminoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
 <span class="line"><span class="label">tetriminoRotation:</span>   <span class="number">00</span> <span class="comment">; 00--03</span></span>
 <span class="line"><span class="label">tetriminoX:</span>          <span class="number">00</span> <span class="comment">; 00--09</span></span>
