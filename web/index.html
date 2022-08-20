@@ -2553,18 +2553,18 @@
 
 <h2 id="tetris-program">Tetris Program</h2>
 
-<p>The Tetris program is a barebones implementation of the game. It employs the standard playfield with 20 visible rows and 10 columns, and the right-handed Nintendo Rotation System (NRS). After a randomly selected Tetrimino spawns, gravity exerts itself and the player controls the falling piece by shifting it left or right, rotating it clockwise or counterclockwise, or soft dropping it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
+<p>The Tetris program is a barebones implementation of the game. It employs the right-handed Nintendo Rotation System (NRS), operating on the standard playfield. After a randomly-selected Tetrimino spawns, gravity exerts itself and the player shifts the falling piece left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
 
 <p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. Consequentially, the level never increases and the drop speed remains constant. There is no piece preview, no ghost pieces, no hold, and no rotation kick. There is nothing beyond the core game mechanics.</p>
 
-<p>...</p>
+<p>The program begins by defining a set of constants:</p>
 
 <pre class="code">
 <span class="line"><span class="keyword">define</span> <span class="identifier">FALL_SPEED</span> <span class="number">01</span></span>
 <span class="line"></span>
-<span class="line"><span class="keyword">define</span> <span class="identifier">STATE_GAME_OVER</span>   <span class="number">00</span></span>
-<span class="line"><span class="keyword">define</span> <span class="identifier">STATE_PLAYING</span>     <span class="number">01</span></span>
-<span class="line"><span class="keyword">define</span> <span class="identifier">STATE_CLEAR_LINES</span> <span class="number">02</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_ATTRACT</span>     <span class="number">00</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_PLAY</span>        <span class="number">01</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_CLEAR_LINES</span> <span class="number">02</span></span>
 <span class="line"></span>
 <span class="line"><span class="keyword">define</span> <span class="identifier">ACTION_DRAW</span> <span class="number">22</span> <span class="comment">; BNE</span></span>
 <span class="line"><span class="keyword">define</span> <span class="identifier">ACTION_TEST</span> <span class="number">23</span> <span class="comment">; BEQ</span></span>
@@ -2579,7 +2579,9 @@
 <span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
 </pre>
 
-<p>...</p>
+<p><span class="mono">FALL_SPEED</span> is the initial value of the fall timer. On each frame, if the fall timer is not <span class="mono">0</span>, then it is decremented by <span class="mono">1</span>. Otherwise, a gravity drop occurs and the fall timer is reset to <span class="mono">FALL_SPEED</span>. A <span class="mono">FALL_SPEED</span> of <span class="mono">1</span> means a gravity drop occurs every other frame. Since the frame rate is approximately 5 frames/sec, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. That fall speed is roughly equivalent to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+
+<p>The program executes in one of the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic attract mode that keeps that playfield frozen in either the final moment of <span class="term"><a href="https://tetris.fandom.com/wiki/Top_out" target="_blank">top out</a></span> or empty in the case of startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily switches to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
 
 <pre class="code" style="counter-increment: step 18;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0000</span></span>
@@ -2693,7 +2695,7 @@
 <span class="line"><span class="label">tetriminosIndex:</span>     <span class="number">00</span> <span class="comment">; tetriminos table index corresponding to a Tetrimino block</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">fallTimer:</span>           <span class="number">00</span> <span class="comment">; 00 = drop Tetrimino</span></span>
-<span class="line"><span class="label">state:</span>               <span class="number">00</span> <span class="comment">; 00 = game over, 01 = playing, 02 = clearing lines</span></span>
+<span class="line"><span class="label">mode:</span>                <span class="number">00</span> <span class="comment">; 00 = attract, 01 = play, 02 = clear lines</span></span>
 <span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
 </pre>
 
@@ -2711,14 +2713,14 @@
 <span class="line"><span class="normal">INC</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; ++frameCounter;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
 <span class="line"><span class="normal">LDB</span></span>
-<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_PLAYING</span></span>
-<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (state == STATE_PLAYING) {</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_PLAY</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (mode == MODE_PLAY) {</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">playing</span>             <span class="comment">;   goto playing;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
-<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_CLEAR_LINES</span></span>
-<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (state == STATE_CLEAR_LINES) {</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_CLEAR_LINES</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (mode == MODE_CLEAR_LINES) {</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">clearLines</span>          <span class="comment">;   goto clearLines;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">startButton</span></span>
@@ -2763,9 +2765,9 @@
 
 <pre class="code" style="counter-increment: step 169;">
 <span class="line"><span class="label">spawn:</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span></span>
-<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_PLAYING</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; state = STATE_PLAYING;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_PLAY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_PLAY;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_ROTATION</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = SPAWN_ROTATION;</span></span>
@@ -2850,9 +2852,9 @@
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto playing;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span>               <span class="comment">; // Bad Tetrimino position. It's game over.</span></span>
-<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_GAME_OVER</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; state = STATE_GAME_OVER;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span>               <span class="comment"> ; // Bad Tetrimino position. It's game over.</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_ATTRACT</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_ATTRACT;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the Tetrimino that failed to spawn</span></span>
 </pre>
@@ -2985,9 +2987,9 @@
 <span class="line"><span class="normal">STB</span>                     <span class="comment">; minY = min(minY, tetriminoY);</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">keepMinY:</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">state</span></span>
-<span class="line"><span class="normal">SEA</span> <span class="identifier">STATE_CLEAR_LINES</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; state = STATE_CLEAR_LINES;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_CLEAR_LINES</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_CLEAR_LINES;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">decFallTimer:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span></span>

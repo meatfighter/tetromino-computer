@@ -1,8 +1,8 @@
 define FALL_SPEED 01
 
-define STATE_GAME_OVER   00
-define STATE_PLAYING     01
-define STATE_CLEAR_LINES 02
+define MODE_ATTRACT     00
+define MODE_PLAY        01
+define MODE_CLEAR_LINES 02
 
 define ACTION_DRAW 22 ; BNE
 define ACTION_TEST 23 ; BEQ
@@ -111,7 +111,7 @@ origin:              00 ; playfield index corresponding to Tetrimino center
 tetriminosIndex:     00 ; tetriminos table index corresponding to a Tetrimino block
 
 fallTimer:           00 ; 00 = drop Tetrimino
-state:               00 ; 00 = game over, 01 = playing, 02 = clearing lines
+mode:                00 ; 00 = attract, 01 = play, 02 = clear lines
 minY:                00 ; minimal locked Tetrimino Y (00--16)
 
 main: ; ------------------------------------------------------------------------------------------------------
@@ -125,14 +125,14 @@ LDA
 INC
 STA                     ; ++frameCounter;
 
-SMN state
+SMN mode
 LDB
-SEA STATE_PLAYING
-SUB                     ; if (state == STATE_PLAYING) {
+SEA MODE_PLAY
+SUB                     ; if (mode == MODE_PLAY) {
 BEQ playing             ;   goto playing;
                         ; }
-SEA STATE_CLEAR_LINES
-SUB                     ; if (state == STATE_CLEAR_LINES) {
+SEA MODE_CLEAR_LINES
+SUB                     ; if (mode == MODE_CLEAR_LINES) {
 BEQ clearLines          ;   goto clearLines;
                         ; }
 SMN startButton
@@ -168,9 +168,9 @@ SUB                     ; if (*MN != -1) {
 BNE edgeLoop            ;   goto edgeLoop;
                         ; }
 spawn:
-SMN state
-SEA STATE_PLAYING
-STA                     ; state = STATE_PLAYING;
+SMN mode
+SEA MODE_PLAY
+STA                     ; mode = MODE_PLAY;
 SMN tetriminoRotation
 SEA SPAWN_ROTATION
 STA                     ; tetriminoRotation = SPAWN_ROTATION;
@@ -247,9 +247,9 @@ JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino spawn
 BEQ keepPosition        ;   goto playing;
                         ; }
 
-SMN state               ; // Bad Tetrimino position. It's game over.
-SEA STATE_GAME_OVER
-STA                     ; state = STATE_GAME_OVER;
+SMN mode                ; // Bad Tetrimino position. It's game over.
+SEA MODE_ATTRACT
+STA                     ; mode = MODE_ATTRACT;
 
 JMP endFall             ; goto endFall; // draws the Tetrimino that failed to spawn
 
@@ -375,9 +375,9 @@ BMI keepMinY
 STB                     ; minY = min(minY, tetriminoY);
 
 keepMinY:
-SMN state
-SEA STATE_CLEAR_LINES
-STA                     ; state = STATE_CLEAR_LINES;
+SMN mode
+SEA MODE_CLEAR_LINES
+STA                     ; mode = MODE_CLEAR_LINES;
 
 decFallTimer:
 SMN fallTimer
