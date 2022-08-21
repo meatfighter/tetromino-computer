@@ -2618,6 +2618,20 @@
 <span class="line">  <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">00</span>  <span class="comment">; 22</span></span>
 </pre>
 
+<p>The green rectangular region is the visible playfield. It spans rows 2&ndash;21 and columns 0&ndash;9. Tetriminos spawn in the middle of its ceiling, centered at row 2 (<span class="mono">SPAWN_Y</span>) and column 5 (<span class="mono">SPAWN_X</span>).</p>
+
+<p>Rows 0 and 1 comprise the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. <span class="mono">SPAWN_ROTATION</span> ensures that newly spawned Tetriminos are oriented such that none of its blocks start out in the vanish zone.</p>
+
+<p>Consisting entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner, row 22 and column 10 act as barriers that prevent pieces from shifting, rotating, or dropping into the floor or walls. The subroutine that validates a requested move verifies all four cells of the Tetrimino at the proposed location are empty without confirming they are all within the boundaries of the visible playfield. The confirmation is unnecessary because row 22 and column 10 make out-of-bounds cells appear solid.</p>
+
+<p>Column 10 takes care of both the right and the left walls. It is able to do this due to the fact that the matrix, like all data regions, is actually a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element.</p> 
+
+<p>When a Tetrimino locks into the pile, four rows about its center are checked for completion. As with the subroutine, the completion check ignores the visible playfield boundaries. It always includes column 10 and it may include row 22. The reason the cell in the lower-right corner is empty is to prevent the inadvertent removal of row 22.</p>
+
+<p>When a completed row is detected, it is cleared by copying all the rows above it downward. Then row 0 is reset to 10 empty cells followed by a solid cell.</p> 
+
+<p>When a new game begins, the playfield is entirely reset to the state in the listing above.</p> 
+
 <p>...</p>
 
 <pre class="code" style="counter-increment: step 45;">
