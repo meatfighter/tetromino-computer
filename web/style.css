@@ -374,6 +374,10 @@ span.number {
     color: #81BBE8; /* #6897BB; */
 }
 
+span.number2 {
+    color: #80E580;
+}
+
 span.identifier {
     color: #BD94D3; /* #9876AA; */
 }
