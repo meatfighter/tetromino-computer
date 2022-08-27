@@ -2553,9 +2553,9 @@
 
 <h2 id="tetris-program">Tetris Program</h2>
 
-<p>The Tetris program is a barebones implementation of the game. It employs the standard playfield and the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the player shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
+<p>The Tetris program is a barebones implementation of the game that employs the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the player shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
 
-<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. Consequentially, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, and no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>. There is nothing beyond the core game mechanics.</p>
+<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. That being the case, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>, no music or sound effects, no multiplayer or <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span>. There is nothing beyond the core game mechanics.</p>
 
 <p>The program begins by defining a set of constants:</p>
 
@@ -2579,13 +2579,13 @@
 <span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
 </pre>
 
-<p><span class="mono">FALL_SPEED</span> is the initial value of the fall timer. On each frame, if the fall timer is not <span class="mono">0</span>, then it is decremented by <span class="mono">1</span>. Otherwise, a gravity drop occurs and the fall timer is reset to <span class="mono">FALL_SPEED</span>. A <span class="mono">FALL_SPEED</span> of <span class="mono">1</span> means a gravity drop occurs every other frame. Since the frame rate is approximately 5 frames-per-sec, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. That fall speed is roughly equivalent to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+<p><span class="mono">FALL_SPEED</span> is the initial value of the fall timer. On each frame, if the fall timer is not <span class="mono">0</span>, then it is decremented by <span class="mono">1</span>. Otherwise, a gravity drop occurs and the fall timer is reset to <span class="mono">FALL_SPEED</span>. A <span class="mono">FALL_SPEED</span> of <span class="mono">1</span> means a gravity drop occurs every other frame. Since the frame rate is approximately 5 frames/sec, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. That fall speed is roughly equivalent to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed or an empty playfield in the case of program startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
+<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> on display, or an empty playfield at startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
 
-<p>The program declares a single subroutine that can perform the actions defined on lines 7 and 8. <span class="mono">ACTION_DRAW</span> directs the subroutine to paint the four playfield cells corresponding to a named Tetrimino at a specified location and orientation in a prescribed color. <span class="mono">ACTION_TEST</span> directs the subroutine to verify that the four playfield cells corresponding to a named Tetrimino at a specified location and orientation are all empty. It enables the program to determine if a requested move is a valid move.</p>
+<p>The program declares a single subroutine that can perform the actions defined on lines 7 and 8. <span class="mono">ACTION_DRAW</span> directs the subroutine to paint four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation in a prescribed color. <span class="mono">ACTION_TEST</span> directs the subroutine to verify that four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the language does not support a call stack, the subroutine receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. The action constants are the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>. They are injected into the subroutine to alter its behavior.</p>
+<p>Since the language does not support a call stack, the subroutine receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. The action constants are the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>. They are used to overwrite an instruction in the subroutine to alter its behavior.</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with 23 rows and 11 columns (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -2622,15 +2622,29 @@
 
 <p>Rows 0 and 1 comprise the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. <span class="mono">SPAWN_ROTATION</span> ensures that newly spawned Tetriminos are oriented such that none of its blocks start out in the vanish zone.</p>
 
-<p>Consisting entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner, row 22 and column 10 act as barriers that prevent pieces from shifting, rotating, or dropping into the floor or walls. The subroutine that validates a requested move verifies all four cells of the Tetrimino at the proposed location are empty without confirming they are all within the boundaries of the visible playfield. The confirmation is unnecessary because row 22 and column 10 make out-of-bounds cells appear solid.</p>
+<p>Row 22 and column 10 consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. They simplify the aforementioned subroutine. When it scans for empty spaces, row 22 and column 10 make out-of-bounds cells appear solid.</p>  
 
-<p>Column 10 takes care of both the right and the left walls. It is able to do this due to the fact that the matrix, like all data regions, is actually a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element.</p> 
+<p>Note: Regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element. This means, column 10 serves as both the right wall and the left wall. On the other hand, row 22 is just the floor.</p> 
 
-<p>When a Tetrimino locks into the pile, four rows about its center are checked for completion. As with the subroutine, the completion check ignores the visible playfield boundaries. It always includes column 10 and it may include row 22. The reason the cell in the lower-right corner is empty is to prevent the inadvertent removal of row 22.</p>
+<p>When a Tetrimino locks into the pile, four rows about its center are scanned for lines with no regard to the bounds of the visible playfield. To prevent row 22 from inadvertently being detected as a line, its rightmost cell is empty and the scan is designed to detect eleven contiguous solid cells. This works on the visible rows thanks to column 10.</p>
 
-<p>When a completed row is detected, it is cleared by copying all the rows above it downward. Then row 0 is reset to 10 empty cells followed by a solid cell.</p> 
+<p>Upon forming a line, a row is cleared by overwriting it with a copy of its preceding row. Then the preceding row is overwritten with a copy of its preceding row. And so on, until the start of the matrix is reached. After that, row 0 is reset to ten empty cells followed by a solid cell. The result is that all the rows above the line shift downward.</p> 
 
-<p>When a new game begins, the playfield is entirely reset to the state in the listing above.</p> 
+<p>At the start of a new game, the playfield is reset to the initial state seen in the listing above.</p> 
+
+<p>The segment directive, on line 19, is superfluous because no instructions or data appear before the playfield. But it makes it clear that the playfield is located at the start of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
+
+<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span> long, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with 3 bytes to spare. This means, the cell at <span class="nowrap">(<span class="mono">row</span>, <span class="mono">col</span>)</span> is addressable with the following pseudocode.</p> 
+
+<pre class="pseudocode">
+M = 0;               // page zero
+
+N = 11 * row + col;  // offset within page zero
+</pre>
+
+<p>...</p>
+
+<object data="sample-gameplay.png" type="image/png" class="diagram">Sample Gameplay</object>
 
 <p>...</p>
 

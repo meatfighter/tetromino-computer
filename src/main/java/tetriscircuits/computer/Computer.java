@@ -64,12 +64,12 @@ public class Computer {
             }
         }
         playfieldFrame.update(playfieldModel);        
-        processor.writeMemory(0x00FE, playfieldModel.isLeftPressed() ? 0xFF : 00);
-        processor.writeMemory(0x00FF, playfieldModel.isRightPressed() ? 0xFF : 00);
-        processor.writeMemory(0x0170, playfieldModel.isStartPressed() ? 0xFF : 00);
-        processor.writeMemory(0x0171, playfieldModel.isCcwRotatePressed() ? 0xFF : 00);
-        processor.writeMemory(0x0172, playfieldModel.isCwRotatePressed() ? 0xFF : 00);
-        processor.writeMemory(0x0173, playfieldModel.isDownPressed() ? 0xFF : 00);
+        processor.writeMemory(0x00FE, playfieldModel.isLeftPressed() ? 1 : 0);
+        processor.writeMemory(0x00FF, playfieldModel.isRightPressed() ? 1 : 0);
+        processor.writeMemory(0x0170, playfieldModel.isStartPressed() ? 1 : 0);
+        processor.writeMemory(0x0171, playfieldModel.isCcwRotatePressed() ? 1 : 0);
+        processor.writeMemory(0x0172, playfieldModel.isCwRotatePressed() ? 1 : 0);
+        processor.writeMemory(0x0173, playfieldModel.isDownPressed() ? 1 : 0);
     }
     
     private void printExtendedPlayfield() {

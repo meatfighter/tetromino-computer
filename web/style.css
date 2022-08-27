@@ -316,6 +316,11 @@ td.border-left {
     border-left: 1pt solid silver;
 }
 
+pre.pseudocode {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+}
+
 pre.code {
     font-family: 'Source Code Pro', monospace;
     font-size: 13px;
