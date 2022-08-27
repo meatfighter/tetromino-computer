@@ -300,6 +300,11 @@ td.mono {
     text-align: center;    
 }
 
+td.roboto {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;    
+}
+
 td.centered {
     text-align: center; 
 }

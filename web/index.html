@@ -13,7 +13,7 @@
 <link rel="manifest" href="manifest.json"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
 <meta name="date" content="2022-04-21"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -2642,9 +2642,23 @@ M = 0;               // page zero
 N = 11 * row + col;  // offset within page zero
 </pre>
 
-<p>...</p>
+<p>To enable a human player to interact with the game, a peripheral display device is required that presents a visual representation of the region of RAM containing the visible playfield. This device takes the form of the window below.</p>
 
 <object data="sample-gameplay.png" type="image/png" class="diagram">Sample Gameplay</object>
+
+<p>...</p>
+
+<table class="borderless">
+<tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
+<tr><td class="mono">0</td><td class="roboto centered"> </td><td class="borderless">Black</td></tr>
+<tr><td class="mono">1</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
+<tr><td class="mono">2</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
+<tr><td class="mono">3</td><td class="roboto centered">Z</td><td class="borderless">Red</td></tr>
+<tr><td class="mono">4</td><td class="roboto centered">O</td><td class="borderless">Yellow</td></tr>
+<tr><td class="mono">5</td><td class="roboto centered">S</td><td class="borderless">Green</td></tr>
+<tr><td class="mono">6</td><td class="roboto centered">L</td><td class="borderless">Orange</td></tr>
+<tr><td class="mono">7</td><td class="roboto centered">I</td><td class="borderless">Cyan</td></tr>
+</table>
 
 <p>...</p>
 
