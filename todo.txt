@@ -49,3 +49,6 @@ remaining sections:
 -13 F3
 -14 F2
 -15 F1
+
+brighten blue
+redo Tetris game UI
