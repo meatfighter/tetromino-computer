@@ -2642,15 +2642,17 @@ M = 0;               // page zero
 N = 11 * row + col;  // offset within page zero
 </pre>
 
-<p>To enable a human player to interact with the game, a peripheral display device is required that presents a visual representation of the region of RAM containing the visible playfield. This device takes the form of the window below.</p>
+<p>As discussed thus far, the machine that runs Tetris is comprised of an <span class="nowrap">8-bit</span> CPU and up to <span class="nowrap">64 KiB</span> of RAM initialized with the instructions and the data of the program to be executed. RAM initialization is carried out by a mechanism analogous to a peripheral data storage device. However, with that peripheral alone, the machine is limited to <a href="https://en.wikipedia.org/wiki/Batch_processing" target="_blank">batch processing</a>. To establish a real-time interface between the machine and a human player, additional peripherals are required.</p>
+
+<p>One such peripheral is a display device that presents a graphical representation of the visible playfield. It takes the form of the window below.</p>
 
 <object data="sample-gameplay.png" type="image/png" class="diagram">Sample Gameplay</object>
 
-<p>...</p>
+<p>The window portrays a <span class="nowrap">20 row</span> by <span class="nowrap">10 column</span> grid of colored cells, where each color corresponds to the <span class="nowrap">lower-3</span> bits of a byte of visible playfield RAM per the following mapping. </p>
 
 <table class="borderless">
 <tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
-<tr><td class="mono">0</td><td class="roboto centered"> </td><td class="borderless">Black</td></tr>
+<tr><td class="mono">0</td><td class="roboto centered">(empty)</td><td class="borderless">Black</td></tr>
 <tr><td class="mono">1</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
 <tr><td class="mono">2</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
 <tr><td class="mono">3</td><td class="roboto centered">Z</td><td class="borderless">Red</td></tr>
