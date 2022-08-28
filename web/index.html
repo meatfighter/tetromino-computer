@@ -2626,13 +2626,13 @@
 
 <p>Note: Regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element. This means, column 10 serves as both the right wall and the left wall. On the other hand, row 22 is just the floor.</p> 
 
-<p>When a Tetrimino locks into the pile, four rows about its center are scanned for lines with no regard to the bounds of the visible playfield. To prevent row 22 from inadvertently being detected as a line, its rightmost cell is empty and the scan is designed to detect eleven contiguous solid cells. This works on the visible rows thanks to column 10.</p>
+<p>When a Tetrimino locks into the pile, four rows about its center are scanned for lines. The scan ignores the bounds of the visible playfield for code simplicity. To prevent row 22 from inadvertently being detected as a line, its rightmost element is marked empty and the scan is rigged to check for a row of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of column 10.</p>
 
-<p>Upon forming a line, a row is cleared by overwriting it with a copy of its preceding row. Then the preceding row is overwritten with a copy of its preceding row. And so on, until the start of the matrix is reached. After that, row 0 is reset to ten empty cells followed by a solid cell. The result is that all the rows above the line shift downward.</p> 
+<p>Clearing a line means all the rows above it shift downward. This is accomplished by overwriting each row with a copy of its preceding row. Row 0, which has no preceding row, is reset to ten empty cells followed by a solid cell.</p> 
 
 <p>At the start of a new game, the playfield is reset to the initial state seen in the listing above.</p> 
 
-<p>The segment directive, on line 19, is superfluous because no instructions or data appear before the playfield. But it makes it clear that the playfield is located at the start of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
+<p>The segment directive (line 19) is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
 
 <p>At <span class="nowrap">23 &times; 11 = 253 bytes</span> long, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with 3 bytes to spare. This means, the cell at <span class="nowrap">(<span class="mono">row</span>, <span class="mono">col</span>)</span> is addressable with the following pseudocode.</p> 
 
