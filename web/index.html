@@ -21,8 +21,11 @@
 
 <body>
 
-<p class="title">Tetris is Turing-complete</p>  
-<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation of such a computer are demonstrated by running Tetris on Tetris.</p>
+<p class="title">Tetris is Turing-complete</p>
+
+<p class="subtitle">From Tetris to NAND and Back Again</p>
+
+<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation are demonstrated by running Tetris on Tetris.</p>
 
 <h1 id="preliminaries">Preliminaries</h1>
 
@@ -2662,9 +2665,9 @@ N = 11 * row + col;  // offset within page zero
 <tr><td class="mono">7</td><td class="roboto centered">I</td><td class="borderless">Cyan</td></tr>
 </table>
 
-<p>The window is driven by a two-dimensional array that functions similar to a VRAM <a href="https://en.wikipedia.org/wiki/Framebuffer" target="_blank">framebuffer</a>. It contains the cell values of a generated frame. And its independence from RAM enables the CPU to incrementally update the playfield without displaying the intermediate changes. In other words, the playfield in RAM is an off-screen buffer.</p> 
+<p>The displayed image is backed by a two-dimensional array that works like a VRAM <a href="https://en.wikipedia.org/wiki/Framebuffer" target="_blank">framebuffer</a>. Its independence from RAM enables the program to incrementally update the playfield without revealing the intermediate changes. In other words, the playfield in RAM is an off-screen buffer.</p> 
 
-<p>After the program finishes updating that buffer, it signals the window via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. Specifically, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag shown below.
+<p>The program communicates with the window via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After updating the off-screen buffer, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag shown below.
 
 <pre class="code" style="counter-increment: step 45;">
 <span class="line"><span class="keyword">segment</span> <span class="number">00FD</span></span>
@@ -2673,7 +2676,7 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield data in RAM to the two-dimensional array. Then the window repaints itself to display the newly generated frame.</p>
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to the two-dimensional array. Then it repaints the displayed image based on that data.</p>
 
 
 
