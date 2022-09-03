@@ -2678,7 +2678,9 @@ N = 11 * row + col;  // offset within page zero
 
 <p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to the two-dimensional array. Then it repaints the displayed image, revealing the array's new content.</p>
 
-<p>Following a repaint, the window provides the program with a status update of the game controls. For each button, it writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the button. As shown in the code above, the window transfers the states of left and right buttons in the final-two bytes of memory page zero. The addresses of the remaining buttons appear later in the code because aligned with the start of page one is the Tetriminos table:</p>
+<p>Following a repaint, the window provides the program with a status update of the game controls. For each button, it writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the button. Then, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span> in preparation of the next frame.</p>
+
+<p>As shown in the code above, the window transfers the states of left and right buttons in the final-two bytes of memory page zero. The addresses of the remaining buttons appear later in the code because aligned with the start of page one is the Tetriminos table:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
@@ -2778,6 +2780,8 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
 
+<p>That completes the data region. The rest of the program is instructions, beginning with <span class="mono">main</span>, the entry point of the application:</p>
+
 <pre class="code" style="counter-increment: step 116;">
 <span class="line"><span class="label">main:</span> <span class="comment">; ------------------------------------------------------------------------------------------------------</span></span>
 <span class="line"></span>
@@ -2806,7 +2810,11 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>...</p>
+<p>The code signals the window to repaint by writing <span class="mono">01</span> to <span class="mono">drawFrame</span>. It does not wait for <span class="mono">drawFrame</span> to reset because the processor pauses until the window writes <span class="mono">00</span> back to that address.</p>
+
+<p>The code increments the <span class="mono">frameCounter</span> by <span class="mono">1</span>.</p>
+
+<p>In play mode or clear lines mode, the code jumps to respective handlers. Otherwise, the program is in attract mode. There, it monitors the status of the start button. If released, the program loops back to the entry point. Else, the following code executes.</p>
 
 <pre class="code" style="counter-increment: step 142;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span>                <span class="comment">; // Start button pressed</span></span>
@@ -2838,7 +2846,11 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>...</p>
+<p>The code resets <span class="mono">minY</span> to its maximum value, the index of the hidden row beneath the floor.</p> 
+
+<p>The code clears all cells of the playfield in <span class="nowrap">rows 21</span> and below. Subsequently, it solidifies the cells of <span class="nowrap">column 11</span> in the same rows. This restores the playfield to its initial state.</p> 
+
+<p>Next, the first Tetrimino of the game spawns:</p>
 
 <pre class="code" style="counter-increment: step 169;">
 <span class="line"><span class="label">spawn:</span></span>
@@ -2859,7 +2871,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
 </pre>
 
-<p>...</p>
+<p>The program finally changes to play mode. It happens here, rather than earlier, because this spawn code also executes at the completion of clear lines mode to resume play.</p>
+
+<p>The code positions and orients the Tetrimino at the spawn point.</p> 
+
+<p>The code resets the <span class="mono">fallTimer</span> to its maximum value to prevent the Tetrimino from gravity dropping immediately after spawning.</p> 
+
+<p>Next, the program randomly chooses the Tetrimino type:</p> 
 
 <pre class="code" style="counter-increment: step 186;">
 <span class="line"><span class="label">randomlyChoose:</span></span>
