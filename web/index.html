@@ -68,7 +68,7 @@
 
 <h1 id="method-overview">Method Overview</h1>
 
-<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the <span class="nowrap">bottom-2</span> rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the <span class="nowrap">top-2</span> rows of that structure, an output data set is decoded.</p>
+<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the <span class="nowrap">bottom-two</span> rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the <span class="nowrap">top-two</span> rows of that structure, an output data set is decoded.</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
@@ -1499,7 +1499,7 @@
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>Memory is an information storage device consisting of a rectangular pile with finite dimensions. The left edge of the pile abuts the left boundary of the workspace. The memory state is encoded as a sequence of bits in the <span class="nowrap">top-2</span> rows. The bits are regularly-spaced, 10 columns apart. And the number of bits is divisible by 8, which makes the sequence a finite list of bytes ordered left-to-right.</p>
+<p>Memory is an information storage device consisting of a rectangular pile with finite dimensions. The left edge of the pile abuts the left boundary of the workspace. The memory state is encoded as a sequence of bits in the <span class="nowrap">top-two</span> rows. The bits are regularly-spaced, 10 columns apart. And the number of bits is divisible by 8, which makes the sequence a finite list of bytes ordered left-to-right.</p>
 
 <p>The bytes are manipulated by applying functions. This involves constructing a function on top of the bytes to be changed and using identity functions to keep the remaining bytes the same. Since functions have a uniform height, the identity functions also keep the pile rectangular.</p>
 
@@ -2651,7 +2651,7 @@ N = 11 * row + col;  // offset within page zero
 
 <object data="sample-gameplay.png" type="image/png" class="diagram">Sample Gameplay</object>
 
-<p>The window portrays a <span class="nowrap">20 row</span> by <span class="nowrap">10 column</span> grid of colored cells, where each color corresponds to the <span class="nowrap">lower-3</span> bits of a byte of visible playfield RAM per the following mapping. </p>
+<p>The window portrays a <span class="nowrap">20 row</span> by <span class="nowrap">10 column</span> grid of colored cells, where each color corresponds to the <span class="nowrap">lower-3</span> bits of a byte of visible playfield RAM per the following mapping.</p>
 
 <table class="borderless">
 <tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
@@ -2667,7 +2667,7 @@ N = 11 * row + col;  // offset within page zero
 
 <p>The displayed image is backed by a two-dimensional array that works like a VRAM <a href="https://en.wikipedia.org/wiki/Framebuffer" target="_blank">framebuffer</a>. Its independence from RAM enables the program to incrementally update the playfield without revealing the intermediate changes. In other words, the playfield in RAM is an off-screen buffer.</p> 
 
-<p>The program communicates with the window via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After updating the off-screen buffer, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag shown below.
+<p>The program and the window communicate via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After the program updates the off-screen buffer, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag in the listing below.
 
 <pre class="code" style="counter-increment: step 45;">
 <span class="line"><span class="keyword">segment</span> <span class="number">00FD</span></span>
@@ -2676,9 +2676,9 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to the two-dimensional array. Then it repaints the displayed image based on that data.</p>
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to the two-dimensional array. Then it repaints the displayed image, revealing the array's new content.</p>
 
-
+<p>Following a repaint, the window provides the program with a status update of the game controls. For each button, it writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the button. As shown in the code above, the window transfers the states of left and right buttons in the final-two bytes of memory page zero. The addresses of the remaining buttons appear later in the code because aligned with the start of page one is the Tetriminos table:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
@@ -2720,7 +2720,19 @@ N = 11 * row + col;  // offset within page zero
 <span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
-<p>...</p>
+<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a one-dimensional data region representing a two-dimensional matrix of width 11, the relative coordinates of each block, <span class="nowrap">(<span class="mono">x</span>, <span class="mono">y</span>)</span>, are encoded as:</p> 
+
+<p><span class="mono">offset = 11 * y + x;</span></p>
+
+<p>To simplify the code, each Tetrimino is assumed to have four orientations. Table rows are repeated to pad out <span class="serif">I</span>, <span class="serif">S</span>, and <span class="serif">Z</span>, which only have two orientations per the NRS, and <span class="serif">O</span>, which only has one. </p>
+
+<p>Because the table is aligned with the start of memory page one, each element is addressable with the following pseudocode.</p>
+
+<pre class="pseudocode">
+M = 1;  // page one
+
+N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
+</pre>
 
 <pre class="code" style="counter-increment: step 88;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>

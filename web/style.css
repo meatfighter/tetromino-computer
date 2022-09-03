@@ -128,6 +128,11 @@ span.math {
     white-space: nowrap;
 }
 
+span.roboto {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;    
+}
+
 object.diagram {
     display: block;
     margin-left: auto;
