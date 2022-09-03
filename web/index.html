@@ -2558,7 +2558,7 @@
 
 <p>The Tetris program is a barebones implementation of the game that employs the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the player shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
 
-<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. That being the case, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>, no music or sound effects, no multiplayer or <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span>. There is nothing beyond the core game mechanics.</p>
+<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. That being the case, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>, no music or sound effects, no multiplayer or <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span>, no title screen, menus, configuration, demo, or endings. There is nothing beyond the core game mechanics.</p>
 
 <p>The program begins by defining a set of constants:</p>
 
@@ -2734,6 +2734,8 @@ M = 1;  // page one
 N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
 </pre>
 
+<p>Immediately following the table are the bytes that carry the remaining button states:</p>
+
 <pre class="code" style="counter-increment: step 88;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>
 <span class="line"><span class="label">startButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
@@ -2742,7 +2744,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">downButton:</span>          <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>...</p>
+<p><span class="mono">ccw</span> and <span class="mono">cw</span> are abbreviations for &ldquo;counterclockwise&rdquo; and &ldquo;clockwise&rdquo;, respectively.</p>
+
+<p>The variables containing the entire state of the game are defined next:</p>
 
 <pre class="code" style="counter-increment: step 94;">
 <span class="line"><span class="label">tetriminoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
@@ -2768,7 +2772,11 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
 </pre>
 
-<p>...</p>
+<p>The variables on lines 95&ndash;98 describe the falling Tetrimino. Prior servicing a request to rotate or shift it, its orientation and <span class="nowrap">x-coordinate</span> are backed up in the variables on lines 100&ndash;101. If the requested move is found to be invalid, the original values are restored from the backups.</p>
+
+<p>The variables on lines 103&ndash;107 are related to the randomizer. It updates the <span class="nowrap">16-bit</span> value in <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by passing it through a randomization function. The function also takes as input the variable <span class="mono">frameCounter</span>, which is incremented at the start of each frame. Since the randomization function is only applied when a Tetrimino spawns, <span class="mono">frameCounter</span> provides a source of randomness linked to the timing of the human player’s actions. The output of the function, a single, randomly generated bit, is stored in <span class="mono">nextBit</span>.</p>
+
+<p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
 
 <pre class="code" style="counter-increment: step 116;">
 <span class="line"><span class="label">main:</span> <span class="comment">; ------------------------------------------------------------------------------------------------------</span></span>
