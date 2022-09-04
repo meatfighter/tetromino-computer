@@ -243,7 +243,7 @@ STB                     ; tetriminoType = B;
 SMN drawOrTest
 SEA ACTION_TEST
 STA                     ; drawOrTest = ACTION_TEST;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty region
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty space
 BEQ keepPosition        ;   goto playing;
                         ; }
 
@@ -325,7 +325,7 @@ validatePosition:
 SMN drawOrTest
 SEA ACTION_TEST
 STA                     ; drawOrTest = ACTION_TEST;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty region
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty space
 BEQ keepPosition        ;   goto keepPosition;
                         ; }
 
@@ -358,7 +358,7 @@ SMN tetriminoY          ; // Drop Tetrimino
 LDA
 INC
 STA                     ; ++tetriminoY;
-JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty region
+JSR drawOrTestTetrimino ; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty space
 BEQ endFall             ;   goto endFall;
                         ; }
 

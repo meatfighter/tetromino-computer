@@ -2586,9 +2586,9 @@
 
 <p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> on display, or an empty playfield at startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
 
-<p>The program declares a single subroutine that can perform the actions defined on lines 7 and 8. <span class="mono">ACTION_DRAW</span> directs the subroutine to paint four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation in a prescribed color. <span class="mono">ACTION_TEST</span> directs the subroutine to verify that four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation are all empty. It enables the program to determine if a requested move is a valid move.</p>
+<p>The program declares a single subroutine called <span class="mono">drawOrTestTetrimino</span> that performs the actions defined on lines 7 and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetrimino</span> to paint four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetrimino</span> to verify that four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the language does not support a call stack, the subroutine receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. The action constants are the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>. They are used to overwrite an instruction in the subroutine to alter its behavior.</p>
+<p>Since the language does not support a call stack, <span class="mono">drawOrTestTetrimino</span> receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. The action constants are the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>. They are used to overwrite an instruction in <span class="mono">drawOrTestTetrimino</span> to alter its behavior.</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with 23 rows and 11 columns (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -2625,7 +2625,7 @@
 
 <p>Rows 0 and 1 comprise the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. <span class="mono">SPAWN_ROTATION</span> ensures that newly spawned Tetriminos are oriented such that none of its blocks start out in the vanish zone.</p>
 
-<p>Row 22 and column 10 consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. They simplify the aforementioned subroutine. When it scans for empty spaces, row 22 and column 10 make out-of-bounds cells appear solid.</p>  
+<p>Row 22 and column 10 consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. They simplify <span class="mono">drawOrTestTetrimino</span>. When it scans for empty spaces, row 22 and column 10 make out-of-bounds cells appear solid.</p>  
 
 <p>Note: Regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element. This means, column 10 serves as both the right wall and the left wall. On the other hand, row 22 is just the floor.</p> 
 
@@ -2965,11 +2965,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>If the randomly chosen Tetrimino is the same as the last one, the program loops back to line 187 to pick again. Unfortunately, nothing prevents it from alternating duplicate pieces. And, by not taking selection history into account, long droughts are possible.</p>
 
+
+
 <pre class="code" style="counter-increment: step 242;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty region</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto playing;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
@@ -3054,7 +3056,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty region</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto keepPosition;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
@@ -3091,7 +3093,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetriminoY;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty region</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">endFall</span>             <span class="comment">;   goto endFall;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
