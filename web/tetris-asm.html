@@ -238,7 +238,7 @@
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">RS1</span></span>
 <span class="line"><span class="normal">OR</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh << 7) | (seedLow >> 1);</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh << 7) | (seedLow >>> 1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
 <span class="line"><span class="normal">LDB</span></span>
@@ -246,7 +246,7 @@
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">RS1</span></span>
 <span class="line"><span class="normal">OR</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh >> 1);</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh >>> 1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">frameCounter</span></span>
 <span class="line"><span class="normal">LDB</span></span>

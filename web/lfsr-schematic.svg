@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="svg.css"?>
 
 <svg
    width="546.5"
@@ -12,7 +12,8 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
+   xmlns:svg="http://www.w3.org/2000/svg"
+   style="background-color: white">
   <sodipodi:namedview
      id="namedview7"
      pagecolor="#ffffff"
@@ -56,22 +57,8 @@
       <path
          transform="scale(-0.6)"
          d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         style="fill:#000000;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
          id="path45250" />
-    </marker>
-    <marker
-       style="overflow:visible"
-       id="Arrow2Mend-2"
-       refX="0"
-       refY="0"
-       orient="auto"
-       inkscape:stockid="Arrow2Mend"
-       inkscape:isstock="true">
-      <path
-         transform="scale(-0.6)"
-         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
-         id="path45250-1" />
     </marker>
   </defs>
   <g
@@ -96,7 +83,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:5.02708px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:5.02708px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="17.197916"
        y="21.166666"
        id="text4937"><tspan
@@ -107,7 +94,7 @@
          y="21.166666" /></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="40.110836"
        y="43.373676"
        id="text6967"><tspan
@@ -118,7 +105,7 @@
          y="43.373676">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="48.048336"
        y="43.373676"
        id="text6967-7"><tspan
@@ -129,7 +116,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="55.985832"
        y="43.373676"
        id="text6967-4"><tspan
@@ -140,7 +127,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="63.923332"
        y="43.373676"
        id="text6967-7-1"><tspan
@@ -151,7 +138,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="71.860832"
        y="43.373676"
        id="text6967-0"><tspan
@@ -162,7 +149,7 @@
          y="43.373676">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="79.798332"
        y="43.373676"
        id="text6967-7-0"><tspan
@@ -173,7 +160,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="87.735832"
        y="43.373676"
        id="text6967-4-3"><tspan
@@ -243,7 +230,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="95.673332"
        y="43.373676"
        id="text6967-7-1-0"><tspan
@@ -254,7 +241,7 @@
          y="43.373676">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="111.54834"
        y="43.373676"
        id="text6967-47"><tspan
@@ -265,7 +252,7 @@
          y="43.373676">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="119.48583"
        y="43.373676"
        id="text6967-7-6"><tspan
@@ -276,7 +263,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="127.42333"
        y="43.373676"
        id="text6967-4-2"><tspan
@@ -287,7 +274,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="135.36084"
        y="43.373676"
        id="text6967-7-1-03"><tspan
@@ -298,7 +285,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="143.29834"
        y="43.373676"
        id="text6967-0-3"><tspan
@@ -309,7 +296,7 @@
          y="43.373676">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="151.23582"
        y="43.373676"
        id="text6967-7-0-6"><tspan
@@ -320,7 +307,7 @@
          y="43.373676">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="159.17332"
        y="43.373676"
        id="text6967-4-3-3"><tspan
@@ -390,7 +377,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:7.40833px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:7.40833px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="167.11082"
        y="43.373676"
        id="text6967-7-1-0-4"><tspan
@@ -419,14 +406,14 @@
        d="m 101.86458,41.010417 h 6.74114"
        id="path20990"
        sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-2)"
+    <path       
+       style="fill:none;stroke:#000000;stroke-width:0.529167;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
        d="m 30.427083,41.010417 h 6.74114"
        id="path20990-2"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="41.243252"
        y="35.716721"
        id="text27340"><tspan
@@ -437,7 +424,7 @@
          y="35.716721">7</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="49.218853"
        y="35.716721"
        id="text31288"><tspan
@@ -448,7 +435,7 @@
          y="35.716721">6</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="57.158466"
        y="35.716721"
        id="text36352"><tspan
@@ -459,7 +446,7 @@
          y="35.716721">5</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="65.070564"
        y="35.716721"
        id="text37038"><tspan
@@ -470,7 +457,7 @@
          y="35.716721">4</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="73.016533"
        y="35.716721"
        id="text37900"><tspan
@@ -481,7 +468,7 @@
          y="35.716721">3</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="80.954025"
        y="35.716721"
        id="text38850"><tspan
@@ -492,7 +479,7 @@
          y="35.716721">2</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="88.859779"
        y="35.716721"
        id="text39844"><tspan
@@ -503,7 +490,7 @@
          y="35.716721">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="96.835381"
        y="35.716721"
        id="text42150"><tspan
@@ -514,7 +501,7 @@
          y="35.716721">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="112.68075"
        y="35.716633"
        id="text27340-0"><tspan
@@ -525,7 +512,7 @@
          y="35.716633">7</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="120.65635"
        y="35.716633"
        id="text31288-9"><tspan
@@ -536,7 +523,7 @@
          y="35.716633">6</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="128.59596"
        y="35.716633"
        id="text36352-3"><tspan
@@ -547,7 +534,7 @@
          y="35.716633">5</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="136.50806"
        y="35.716633"
        id="text37038-1"><tspan
@@ -558,7 +545,7 @@
          y="35.716633">4</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="144.45403"
        y="35.716633"
        id="text37900-8"><tspan
@@ -569,7 +556,7 @@
          y="35.716633">3</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="152.39153"
        y="35.716633"
        id="text38850-4"><tspan
@@ -580,7 +567,7 @@
          y="35.716633">2</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="160.29727"
        y="35.716633"
        id="text39844-7"><tspan
@@ -591,7 +578,7 @@
          y="35.716633">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:4.23333px;line-height:1.25;font-family:'Source Serif Pro';-inkscape-font-specification:'Source Serif Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:4.23333px;line-height:1.25;font-family: 'Source Serif Pro', serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="168.27287"
        y="35.716633"
        id="text42150-0"><tspan
@@ -602,7 +589,7 @@
          y="35.716633">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.35px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.35px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="54.893623"
        y="22.593142"
        id="text59696"><tspan
@@ -613,7 +600,7 @@
          y="22.593142">seedHigh</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.35px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.35px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="128.01706"
        y="22.593142"
        id="text61356"><tspan
@@ -624,7 +611,7 @@
          y="22.593142">seedLow</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:6.35px;line-height:1.25;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       style="font-size:6.35px;line-height:1.25;font-family: 'Source Code Pro', monospace;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
        x="33.253124"
        y="61.68758"
        id="text64322"><tspan

@@ -213,7 +213,7 @@ SMN seedLow
 LDA
 RS1
 OR
-STA                     ; seedLow = (seedHigh << 7) | (seedLow >> 1);
+STA                     ; seedLow = (seedHigh << 7) | (seedLow >>> 1);
 
 SMN nextBit
 LDB
@@ -221,7 +221,7 @@ SMN seedHigh
 LDA
 RS1
 OR
-STA                     ; seedHigh = nextBit | (seedHigh >> 1);
+STA                     ; seedHigh = nextBit | (seedHigh >>> 1);
 
 SMN frameCounter
 LDB
