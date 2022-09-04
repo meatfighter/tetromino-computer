@@ -2958,10 +2958,12 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <pre class="pseudocode">
 = (8 * v - v) / 32
 
+= ((v << 3) - v) / 32
+
 = ((v << 3) - v) >> 5
 </pre>
 
-<p>...</p>
+<p>If the randomly chosen Tetrimino is the same as the last one, the program loops back to line 187 to pick again. Unfortunately, nothing prevents it from alternating duplicate pieces. And, by not taking selection history into account, long droughts are possible.</p>
 
 <pre class="code" style="counter-increment: step 242;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
