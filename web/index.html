@@ -3072,7 +3072,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = lastX;</span></span>
 </pre>
 
-<p>...</p>
+<p>The handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. The paint value, <span class="mono">CELL_EMPTY</span>, is written to <span class="mono">drawCell+1</span>, the address of operand of an instruction in <span class="mono">drawOrTestTetrimino</span>. Meaning, like the action stored in <span class="mono">drawOrTest</span>, the write modifies code.</p>
 
 <pre class="code" style="counter-increment: step 340;">
 <span class="line"><span class="label">keepPosition:</span></span>
