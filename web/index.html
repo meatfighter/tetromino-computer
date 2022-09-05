@@ -3215,6 +3215,16 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
+The clear lines handler executes after a Tetrimino locks into the pile. It scans for and removes lines. 
+
+The NRS centers the 7 Tetriminos at 19 different orientations in 5x5 matrices. But the bottom row of every matrix is completely empty. This means, only four rows need to be checked for lines in the range [ tetriminoY–2, tetriminoY+1 ].  
+
+The clear lines handler loops backwards over that range. It initializes global variables i to 3 and origin to the index of the first element of the tetriminoY + 1 row. At the end of each iteration, i is decremented by 1 and origin is decremented by PLAYFIELD_WIDTH, repositioning it to the start of the previous row. The loop terminates when i drops below zero.  
+
+When a line is cleared, all the rows above it shift downward, a time-consuming process owing to the amount of data needed to be copied. To minimize the time, the empty rows above the pile are not shifted because empty space looks the same shifted or not. 
+
+The first row above the pile guaranteed to be completed empty is derived from minY, the y-coordinate of the highest Tetrimino on the pile. It is row minY – 3, or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at minN+1 to the index of the first element of that row.  
+
 <p>...</p>
 
 <pre class="code" style="counter-increment: step 460;">
