@@ -525,7 +525,7 @@ drawOrTestTetrimino: ; ---------------------------------------------------------
 ; tetriminoX        - x
 ; tetriminoY        - y
 ;
-; z: 0 = valid position, 1 = invalid position
+; z: 0 = some solid, 1 = all empty
 
 SMN i
 SEA 03

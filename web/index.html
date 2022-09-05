@@ -2941,31 +2941,31 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <object data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 
-<p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> operate as a combined, <span class="nowrap">16-bit</span> register. It is logical right shifted, during which the lowest bit is lost and the highest bit is set to <span class="mono">nextBit</span>.</p>
+<p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> collectively operate as a <span class="nowrap">16-bit</span> register. It is logical right shifted, during which the lowest bit is lost and the highest bit is set to <span class="mono">nextBit</span>.</p>
 
 <p>The initial high and low seeds are <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same, arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The circuit produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human player.</p>
+<p>The LFSR produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human player.</p>
 
-<p>Because there are seven Tetriminos, the XORed value needs to be reduced to the range <span class="nowrap serif">[0, 6]</span>. Ideally, this would be achieved through a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo operation</a> that produces the remainder of integer division by <span class="serif">7</span>. But implementing mod in assembly language is challenging. Instead, the following formula is applied, where <span class="mono">v</span> is the lower-five bits of the XORed value.</p> 
+<p>Because there are seven Tetriminos, the XORed value needs to be reduced to the range <span class="nowrap">[ 0, 6 ]</span>. That could be achieved with a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo operation</a> that produces the remainder of integer division by 7. But mod is computationally expensive. Instead, code based on the following expression is used, where <span class="mono">v</span> is the lower-five bits of the XORed value.</p> 
 
 <p><span class="mono">7 * v / 32</span></p>
 
-<p>Since <span class="nowrap"><span class="mono">v</span><span class="serif"> &isin; [0, 31]</span></span>, <span class="serif">7</span> is multiplied by a fraction less-than <span class="serif">1.0</span>, producing a value in the correct range.</p>
+<p>Since <span class="nowrap"><span class="mono">v</span><span class="serif"> &isin; </span>[ 0, 31 ]</span>, 7 is multiplied by a fraction less-than 1.0, producing a value in the correct range.</p>
 
-<p>For the code, the formula is simplified thusly:</p>
+<p>The expression is transformed into a version that is both efficient and readily implementable thusly:</p>
 
 <pre class="pseudocode">
 = (8 * v - v) / 32
 
 = ((v << 3) - v) / 32
 
-= ((v << 3) - v) >> 5
+= ((v << 3) - v) >>> 5
 </pre>
 
-<p>If the randomly chosen Tetrimino is the same as the last one, the program loops back to line 187 to pick again. Unfortunately, nothing prevents it from alternating duplicate pieces. And, by not taking selection history into account, long droughts are possible.</p>
+<p>If the randomly chosen Tetrimino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts, unfortunately.</p>
 
-
+<p>Next, the program verifies that the Tetrimino spawned into empty space by calling the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
 
 <pre class="code" style="counter-increment: step 242;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
@@ -2982,7 +2982,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the Tetrimino that failed to spawn</span></span>
 </pre>
 
-<p>...</p>
+<p>Based on the action constant written to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetrimino</span> either paints or examines the four playfield cells corresponding to the blocks of the falling Tetrimino. But, unlike the inputs that describe the falling Tetrimino&mdash;<span class="mono">tetriminoType</span>, <span class="mono">tetriminoRotation</span>, <span class="mono">tetriminoX</span>, and <span class="mono">tetriminoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. Rather, it resolves to the address an instruction inside of <span class="mono">drawOrTestTetrimino</span>. Meaning, writing to <span class="mono">drawOrTest</span> modifies code. </p>
+
+<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetrimino</span> to set the zero flag iff all four examined cells are empty. If they are, the code jumps the play handler, where button presses manipulate the falling Tetrimino. Otherwise, a top out occurred, in which case, the code switches to attract mode and it jumps to <span class="mono">endFall</span>. There, the Tetrimino is drawn at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then, the program loops back to the beginning, where it waits for the Start button to be pressed.</p>
 
 <pre class="code" style="counter-increment: step 256;">
 <span class="line"><span class="label">playing:</span>                <span class="comment">; // Play handler</span></span>
@@ -3271,7 +3273,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="comment">; tetriminoX        - x</span></span>
 <span class="line"><span class="comment">; tetriminoY        - y</span></span>
 <span class="line"><span class="comment">;</span></span>
-<span class="line"><span class="comment">; z: 0 = valid position, 1 = invalid position</span></span>
+<span class="line"><span class="comment">; z: 0 = some solid, 1 = all empty</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
