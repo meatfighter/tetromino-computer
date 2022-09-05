@@ -41,7 +41,7 @@
 
 <p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employs the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
 
-<p>NRS centers each Tetrimino in a 5&times;5 matrix and it rotates them 90&deg; about that center. Of the 24 possible orientations, it uses only 19.</p>
+<p>NRS centers each Tetrimino in a 5&times;5 matrix and it rotates them 90&deg; about that center. Of the 28 possible orientations, it uses only 19.</p>
 
 <object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
 
@@ -3072,7 +3072,17 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = lastX;</span></span>
 </pre>
 
-<p>The handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. The paint value, <span class="mono">CELL_EMPTY</span>, is written to <span class="mono">drawCell+1</span>, the address of operand of an instruction in <span class="mono">drawOrTestTetrimino</span>. Meaning, like the action stored in <span class="mono">drawOrTest</span>, the write modifies code.</p>
+<p>The handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. The paint value, <span class="mono">CELL_EMPTY</span>, is written to <span class="mono">drawCell+1</span>, the address of an operand of an instruction in <span class="mono">drawOrTestTetrimino</span>. Meaning, as with <span class="mono">drawOrTest</span>, the write modifies code.</p>
+
+<p>The handler backs up the orientation and the <span class="nowrap">x-coordinate</span> of the falling Tetrimino.</p>
+
+<p>If the Left button is pressed, the handler decrements the <span class="nowrap">x-coordinate</span> by 1. Otherwise, if the Right button is pressed, the handler increments the <span class="nowrap">x-coordinate</span> by 1.</p>
+
+<p>If the Counterclockwise Rotation button is pressed, the handler decrements the orientation by 1, such that 0 wraps to 3. Otherwise, if the Clockwise Rotation button is pressed, the handler increments the orientation by 1, such that 3 wraps to 0.</p>
+
+<p>The handler verifies that the manipulated Tetrimino is fully within empty space by calling <span class="mono">drawOrTestTetrimino</span>. If it is not, the original orientation and <span class="nowrap">x-coordinate</span> are restored from the backups.</p>
+
+<p>Next, the handler deals with drops:</p>
 
 <pre class="code" style="counter-increment: step 340;">
 <span class="line"><span class="label">keepPosition:</span></span>
@@ -3136,7 +3146,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">JMP</span> <span class="identifier">main</span>                <span class="comment">; goto main;</span></span>
 </pre>
 
-<p>...</p>
+<p>If the Down button is pressed, <span class="mono">fallTimer</span> is assigned zero.</p>  
+
+<p>If <span class="mono">fallTimer</span> is zero, the handler resets it to <span class="mono">FALL_SPEED</span>. Then, the handler drops the Tetrimino by incrementing its <span class="nowrap">y-coordinate</span> by 1. If the dropped Tetrimino is not fully within empty space, per a check by <span class="mono">drawOrTestTetrimino</span>, then the <span class="nowrap">y-coordinate</span> is decremented by 1, restoring its position to where it now locks into the pile. Subsequently, <span class="mono">minY</span> is updated based off the new pile height and the program switches to clear lines mode.</p> 
+
+<p>After that, the program flows into the code that normally runs when <span class="mono">fallTimer</span> is not zero. It decrements <span class="mono">fallTimer</span> by 1 and it calls <span class="mono">drawOrTestTetrimino</span> to draw the Tetrimino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetriminoType + 1</span>, because 0 represents an empty cell.</p>  
+
+<p>The handler ends by jumping back to the beginning of the program, where, if the Tetrimino locked into the pile, it will invoke the clear lines handler in the listing below.</p> 
 
 <pre class="code" style="counter-increment: step 401;">
 <span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
@@ -3152,7 +3168,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
 <span class="line"><span class="normal">ADD</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // 1 row above tetriminoY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // row below Tetrimino center</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">clearLinesLoop:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>

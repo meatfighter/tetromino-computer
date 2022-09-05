@@ -412,7 +412,7 @@ SUB
 SEB PLAYFIELD_WIDTH
 ADD
 SMN origin
-STA                     ; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // 1 row above tetriminoY
+STA                     ; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // row below Tetrimino center
 
 clearLinesLoop:
 SMN minY
