@@ -32,23 +32,6 @@ remaining sections:
 - hash, speed up
 - TetrisScript Editor tutorial
 - where are all the files, how to run
- 
-
- -1 FF
- -2 FE
- -3 FD
- -4 FC
- -5 FB
- -6 FA
- -7 F9
- -8 F8
- -9 F7
--10 F6
--11 F5
--12 F4
--13 F3
--14 F2
--15 F1
 
 brighten blue
 redo Tetris game UI
