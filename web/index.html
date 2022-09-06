@@ -23,7 +23,7 @@
 
 <p class="title">Tetris is Turing-complete</p>
 
-<p class="subtitle">A Voyage from Tetris to NAND and Back Again</p>
+<p class="subtitle">From Tetris to NAND and Back Again</p>
 
 <p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation are demonstrated by running Tetris on Tetris.</p>
 
@@ -2963,7 +2963,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 = ((v << 3) - v) >>> 5
 </pre>
 
-<p>If the randomly chosen Tetrimino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts, unfortunately.</p>
+<p>If the randomly chosen Tetrimino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
 
 <p>Next, the program verifies that the Tetrimino spawned into empty space by calling the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
 
