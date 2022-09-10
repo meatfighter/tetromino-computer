@@ -3197,7 +3197,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"><span class="normal">TBA</span></span>
 <span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--B < 0) { </span></span>
-<span class="line"><span class="normal">BMI</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines; // Found 10 consecutive empty cells         </span></span>
+<span class="line"><span class="normal">BMI</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines; // Found a line         </span></span>
 <span class="line"><span class="normal">TAB</span>                     <span class="comment">; }</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">TNA</span></span>
@@ -3213,17 +3213,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-The clear lines handler executes after a Tetrimino locks into the pile. It scans for and removes lines. 
+<p>The NRS centers the 7 Tetriminos at 19 different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, only rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetriminoY–2</span>, <span class="mono">tetriminoY+1</span><span class="serif"> ]</span></span> need to be checked for lines. The handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
 
-The NRS centers the 7 Tetriminos at 19 different orientations in 5x5 matrices. But the bottom row of every matrix is completely empty. This means, only four rows need to be checked for lines in the range [ tetriminoY–2, tetriminoY+1 ].  
+<p><span class="mono">origin</span> is a pointer to the row to be checked. It is initialized to the index of the first element of row <span class="mono">tetriminoY+1</span>. At the end of each iteration, if a line was not found, <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> to reposition it to the next row. However, if a line was found, all the rows above it shift downward. In that case, <span class="mono">origin</span> is not decremented because the row that shifted into the cleared line is the next row to be checked.</p> 
 
-The clear lines handler loops backwards over that range. It initializes global variables i to 3 and origin to the index of the first element of the tetriminoY + 1 row. At the end of each iteration, i is decremented by 1 and origin is decremented by PLAYFIELD_WIDTH, repositioning it to the start of the previous row. The loop terminates when i drops below zero.  
+<p>As previously mentioned, as an optimization, the empty rows above the pile are not shifted because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is derived from <span class="mono">minY</span>, the <span class="nowrap">y-coordinate</span> of the highest Tetrimino on the pile. It is row <span class="mono">minY–3</span>, or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the first element of that row.</p>
 
-When a line is cleared, all the rows above it shift downward, a time-consuming process owing to the amount of data needed to be copied. To minimize the time, the empty rows above the pile are not shifted because empty space looks the same shifted or not. 
-
-The first row above the pile guaranteed to be completed empty is derived from minY, the y-coordinate of the highest Tetrimino on the pile. It is row minY – 3, or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at minN+1 to the index of the first element of that row.  
-
-<p>...</p>
+<p>Lines 434&ndash;459 comprise an inner-loop that examines the cells of a row, including the element in column 10. If an empty cell is found, it breaks out of the loop and <span class="mono">origin</span> is decremented as described above. If no empty cells are found, then its a line and the following code clears it.</p>
 
 <pre class="code" style="counter-increment: step 460;">
 <span class="line"><span class="label">copyLines:</span>              <span class="comment">; // Clear line by copying down the lines above it</span></span>

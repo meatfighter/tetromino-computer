@@ -443,7 +443,7 @@ BEQ continueClearLines  ;   goto continueClearLines;
                         ; }
 TBA
 DEC                     ; if (--B < 0) { 
-BMI copyLines           ;   goto copyLines; // Found 10 consecutive empty cells         
+BMI copyLines           ;   goto copyLines; // Found a line         
 TAB                     ; }
 
 TNA
