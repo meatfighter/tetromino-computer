@@ -477,8 +477,8 @@ TNA
 DEC
 TAN
 minN:
-SEB 00                  ; *** self-modifying code [minN] ***
-SUB                     ; if (--N != minN) {
+SEB 00                  ; *** self-modifying code [minN+1] ***
+SUB                     ; if (--N != *(minN+1)) {
 BNE copyLines           ;   goto copyLines;
                         ; }
 SEA 09
@@ -578,7 +578,7 @@ JMP incDrawLoop         ;   goto incDrawLoop;
 
 drawCell:
 SEA 00                  ; *** self-modifying code [ 00 = empty; otherwise solid ] ***
-STA                     ; playfield[tetriminos[tetriminosIndex] + origin] = [drawCell+1];
+STA                     ; playfield[tetriminos[tetriminosIndex] + origin] = *(drawCell+1);
 
 incDrawLoop:
 SMN i

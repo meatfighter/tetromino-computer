@@ -3217,9 +3217,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p><span class="mono">origin</span> is a pointer to the row to be checked. It is initialized to the index of the first element of row <span class="mono">tetriminoY+1</span>. At the end of each iteration, if a line was not found, <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> to reposition it to the next row. However, if a line was found, all the rows above it shift downward. In that case, <span class="mono">origin</span> is not decremented because the row that shifted into the cleared line is the next row to be checked.</p> 
 
-<p>As previously mentioned, as an optimization, the empty rows above the pile are not shifted because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is derived from <span class="mono">minY</span>, the <span class="nowrap">y-coordinate</span> of the highest Tetrimino on the pile. It is row <span class="mono">minY–3</span>, or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the first element of that row.</p>
+<p>As previously mentioned, as an optimization, the empty rows above the pile are not shifted because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is derived from <span class="mono">minY</span>, the <span class="nowrap">y-coordinate</span> of the highest Tetrimino on the pile. It is either row <span class="mono">minY–3</span> or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the last element of that row.</p>
 
-<p>Lines 434&ndash;459 comprise an inner-loop that examines the cells of a row, including the element in column 10. If an empty cell is found, it breaks out of the loop and <span class="mono">origin</span> is decremented as described above. If no empty cells are found, then its a line and the following code clears it.</p>
+<p>Lines 434&ndash;459 comprises an inner-loop that examines the cells of a row, including the element in <span class="nowrap">column 10</span>. If an empty cell is found, it breaks out of the loop and <span class="mono">origin</span> is decremented as described above. If no empty cells are found, then its a line and the following code clears it.</p>
 
 <pre class="code" style="counter-increment: step 460;">
 <span class="line"><span class="label">copyLines:</span>              <span class="comment">; // Clear line by copying down the lines above it</span></span>
@@ -3241,8 +3241,8 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">DEC</span></span>
 <span class="line"><span class="normal">TAN</span></span>
 <span class="line"><span class="label">minN:</span></span>
-<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [minN] ***</span></span>
-<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (--N != minN) {</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [minN+1] ***</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (--N != *(minN+1)) {</span></span>
 <span class="line"><span class="normal">BNE</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">09</span></span>
@@ -3281,7 +3281,22 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>...</p>
+<p>The program enters the code above with <span class="mono">N</span> assigned to the index of the last element of the line. The inner-loop at 461&ndash;483 copies the nonempty rows above the line down by one row. It is equivalent to:</p>
+
+<pre class="pseudocode">
+M = 0;
+do {
+  *MN = *(MN - PLAYFIELD_WIDTH);
+} while (--N != *(minN+1));
+</pre>
+
+<p>The inner-loop at 484&ndash;494 resets <span class="nowrap">row 0</span> to all empty cells, except for <span class="nowrap">column 10</span>. It is necessary for the rare case that a Tetrimino locks into the vanish zone.</p>
+
+<p>The code increments <span class="mono">minY</span> by 1 because clearing a line reduces the height of the pile by that amount.</p> 
+
+<p>Finally, the end of the outer-loop is reached where <span class="mono">i</span> is decremented by 1 and <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> iff a line was not found.</p>  
+
+<p>The only remaining bit of code is the definition of the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
 
 <pre class="code" style="counter-increment: step 518;">
 <span class="line"><span class="label">drawOrTestTetrimino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
@@ -3346,7 +3361,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"></span>
 <span class="line"><span class="label">drawCell:</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [ 00 = empty; otherwise solid ] ***</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetriminos[tetriminosIndex] + origin] = [drawCell+1];</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetriminos[tetriminosIndex] + origin] = *(drawCell+1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">incDrawLoop:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
@@ -3368,7 +3383,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
 </pre>
 
-<p>...</p>
+<p>Lines 530&ndash;559 prepares three variables. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to 3 to make the loop on lines 561&ndash;598 iterate over the four Tetrimino blocks.</p> 
+
+<p>Writing <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span> changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. The zero flag is guaranteed to be reset when the program arrives at that line due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>; that <span class="mono">ADD</span> cannot set the zero flag because it is not possible to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> runs lines 573&ndash;577 and <span class="mono">ACTION_DRAW</span> runs lines 580&ndash;581.</p> 
+
+<p>Both pathways access the playfield element at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. The <span class="mono">ACTION_TEST</span> code reads from that location. If the read value is nonzero, the subroutine returns with the zero flag reset. If all read values are zero, the subroutine returns with the zero flag set, thanks to <span class="nowrap">line 585</span>.</p>
+
+<p>The <span class="mono">ACTION_DRAW</span> code writes the value at <span class="mono">drawCell+1</span> to that location. Self-modifying code is used in both cases to reduce memory accesses, which speeds up the loop.</p>
 
 </body>
 
