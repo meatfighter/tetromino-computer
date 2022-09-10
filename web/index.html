@@ -3150,7 +3150,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>After that, the program flows into the code that normally runs when <span class="mono">fallTimer</span> is not zero. It decrements <span class="mono">fallTimer</span> by 1 and it calls <span class="mono">drawOrTestTetrimino</span> to draw the Tetrimino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetriminoType + 1</span>, because 0 represents an empty cell.</p>  
 
-<p>The handler ends by jumping back to the beginning of the program, where, if the Tetrimino locked into the pile, it will invoke the clear lines handler in the listing below.</p> 
+<p>The handler ends by jumping back to the beginning of the program, where, if the Tetrimino locked into the pile, it will invoke the clear lines handler in the listing below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
 
 <pre class="code" style="counter-increment: step 401;">
 <span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
@@ -3296,7 +3296,7 @@ do {
 
 <p>Finally, the end of the outer-loop is reached where <span class="mono">i</span> is decremented by 1 and <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> iff a line was not found.</p>  
 
-<p>The only remaining bit of code is the definition of the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
+<p>The only remaining code is the definition of the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
 
 <pre class="code" style="counter-increment: step 518;">
 <span class="line"><span class="label">drawOrTestTetrimino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
@@ -3383,13 +3383,15 @@ do {
 <span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
 </pre>
 
-<p>Lines 530&ndash;559 prepares three variables. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to 3 to make the loop on lines 561&ndash;598 iterate over the four Tetrimino blocks.</p> 
+<p>The code on lines 530&ndash;559 prepares three variables. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to 3 to make the loop on lines 561&ndash;598 iterate over the four Tetrimino blocks.</p> 
 
 <p>Writing <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span> changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. The zero flag is guaranteed to be reset when the program arrives at that line due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>; that <span class="mono">ADD</span> cannot set the zero flag because it is not possible to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> runs lines 573&ndash;577 and <span class="mono">ACTION_DRAW</span> runs lines 580&ndash;581.</p> 
 
 <p>Both pathways access the playfield element at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. The <span class="mono">ACTION_TEST</span> code reads from that location. If the read value is nonzero, the subroutine returns with the zero flag reset. If all read values are zero, the subroutine returns with the zero flag set, thanks to <span class="nowrap">line 585</span>.</p>
 
-<p>The <span class="mono">ACTION_DRAW</span> code writes the value at <span class="mono">drawCell+1</span> to that location. Self-modifying code is used in both cases to reduce memory accesses, which speeds up the loop.</p>
+<p>The <span class="mono">ACTION_DRAW</span> code writes the value at <span class="mono">drawCell+1</span> to that location. Self-modifying code is used in both instances because the alternative&mdash;moving values in and out of memory&mdash;imposes a performance cost and introduces complexity.</p>
+
+<p>Each iteration decrements <span class="mono">i</span> by 1 and increments <span class="mono">tetriminosIndex</span> by 1.</p>
 
 </body>
 
