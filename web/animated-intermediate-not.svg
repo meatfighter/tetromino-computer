@@ -74,28 +74,28 @@
         <text x="350.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
     
-    <use href="#o" x="105.5" y="35.5">
+    <use href="#o" x="105.5" y="-100">
         <animate id="left1" begin="0s;right4.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5" dur="2.2222222222222222222222222222222s" calcMode="discrete" fill="freeze"/>
         <animate id="left2" begin="left1.end" attributeName="x" values="125.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>
-        <animate id="left3" begin="right3.end + 2.49s" attributeName="y" values="35.5" dur="0.01s" calcMode="discrete" fill="freeze"/>
-        <animate id="left4" begin="right3.end + 2.49s" attributeName="x" values="105.5" dur="0.01s" calcMode="discrete" fill="freeze"/>
+        <animate id="left3" begin="right3.end + 2s" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
+        <animate id="left4" begin="right3.end + 2s" attributeName="x" values="105.5" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </use>
 
-    <use href="#o" x="330.5" y="35.5">
+    <use href="#o" x="330.5" y="-100">
         <animate id="right1" begin="left1.begin" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5" dur="2.2222222222222222222222222222222s" calcMode="discrete" fill="freeze"/>
         <animate id="right2" begin="right1.end" attributeName="x" values="330.5; 333.5; 330.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
-        <animate id="right3" begin="right2.end" attributeName="y" values="115.5; 135.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>        
-        <animate id="right4" begin="right3.end + 2.49s" attributeName="y" values="35.5" dur="0.01s" calcMode="discrete" fill="freeze"/>
+        <animate id="right3" begin="right2.end" attributeName="y" values="115.5; 135.5" dur="0.88888888888888888888888888888889s" calcMode="discrete" fill="freeze"/>        
+        <animate id="right4" begin="right3.end + 2s" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </use>
 
     <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="visible">?
-        <animate id="question1" begin="left1.end" attributeName="visibility" values="hidden" dur="2.49s" calcMode="discrete" fill="freeze"/>
-        <animate id="question2" begin="right3.end + 2.49s" attributeName="visibility" values="visible" dur="0.01s" calcMode="discrete" fill="freeze"/>
+        <animate id="question1" begin="left1.end" attributeName="visibility" values="hidden" dur="2s" calcMode="discrete" fill="freeze"/>
+        <animate id="question2" begin="right3.end + 2s" attributeName="visibility" values="visible" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </text>      
     
     <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="hidden">1
-        <animate id="one1" begin="left1.end" attributeName="visibility" values="visible" dur="2.49s" calcMode="discrete" fill="freeze"/>
-        <animate id="one2" begin="right3.end + 2.49s" attributeName="visibility" values="hidden" dur="0.01s" calcMode="discrete" fill="freeze"/>
+        <animate id="one1" begin="left1.end" attributeName="visibility" values="visible" dur="2s" calcMode="discrete" fill="freeze"/>
+        <animate id="one2" begin="right3.end + 2s" attributeName="visibility" values="hidden" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </text> 
 
 </svg>
