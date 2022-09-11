@@ -77,6 +77,7 @@
     <use href="#o" x="105.5" y="-100">
         <animate id="left1" begin="0s;right4.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5" dur="2.2222222222222222222222222222222s" calcMode="discrete" fill="freeze"/>
         <animate id="left2" begin="left1.end" attributeName="x" values="125.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>
+        <animate id="left2a" begin="left2.end" attributeName="x" values="145.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>
         <animate id="left3" begin="right3.end + 2s" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
         <animate id="left4" begin="right3.end + 2s" attributeName="x" values="105.5" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </use>
@@ -84,7 +85,8 @@
     <use href="#o" x="330.5" y="-100">
         <animate id="right1" begin="left1.begin" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5" dur="2.2222222222222222222222222222222s" calcMode="discrete" fill="freeze"/>
         <animate id="right2" begin="right1.end" attributeName="x" values="330.5; 333.5; 330.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
-        <animate id="right3" begin="left2.end" attributeName="y" values="135.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>        
+        <animate id="right2a" begin="left2.end" attributeName="x" values="330.5; 333.5; 330.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
+        <animate id="right3" begin="left2a.end" attributeName="y" values="135.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>                
         <animate id="right4" begin="right3.end + 2s" attributeName="y" values="-100" dur="0.5s" calcMode="discrete" fill="freeze"/>
     </use>
 
