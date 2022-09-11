@@ -270,7 +270,7 @@
 
 <p>A buffer is a single-input, binary <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a>. The output value is the input value, unchanged.</p>
 
-<p>The code below realizes a buffer by dropping a vertically-oriented I-Tetrimino onto an input node.</p>
+<p>The code below realizes a buffer by dropping a vertically-oriented <span class="nowrap">I-Tetrimino</span> onto an input node.</p>
 
 <pre class="code">
 <span class="filename">buffer.t</span>
@@ -290,7 +290,7 @@
 
 <p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">complement</a> of the input.</p>
 
-<p>The code below makes an inverter by sandwiching an O-Tetrimino between horizontal L-and-J-Tetriminos.</p>
+<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-Tetrimino</span> between horizontal L-and-J-Tetriminos.</p>
 
 <pre class="code">
 <span class="filename">not.t</span>
@@ -480,9 +480,29 @@
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
-<p>...</p>
+<p>The inverter discussed above consists of three Tetriminos: an O sandwiched between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
+
+<pre class="code">
+<span class="filename">_notLeft.t</span>
+<span class="line"><span class="normal">o </span><span class="number">-1 2 0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
+</pre>
+
+<p>As shown in the animated constructions below, the input and output nodes overlap. For input <span class="mono">1</span>, the overlap establishes output <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. Though, for input <span class="mono">0</span>, the output node is initially unassigned. </p>
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
+
+<p>...</p>
+
+<pre class="code">
+<span class="filename">_notLeft2.t</span>
+<span class="line"><span class="normal">o </span><span class="number">-1 2 1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
+</pre>
 
 <p>...</p>
 
@@ -490,7 +510,32 @@
 
 <p>...</p>
 
+<pre class="code">
+<span class="filename">_norLeft.t</span>
+<span class="line"><span class="normal">or </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">_notLeft2 </span><span class="number">-1 2</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 3</span></span>
+</pre>
+
+<p>...</p>
+
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
+
+<p>...</p>
+
+<pre class="code">
+<span class="filename">_nand.t</span>
+<span class="line"><span class="normal">_notLeft </span><span class="number">-1 0</span></span>
+<span class="line"><span class="normal">_notRight </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">or </span><span class="number">0 1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 3</span></span>
+</pre>
 
 <p>...</p>
 
@@ -498,7 +543,41 @@
 
 <p>...</p>
 
+<pre class="code">
+<span class="filename">_andLeft.t</span>
+<span class="line"><span class="normal">_nand </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">_notLeft2 </span><span class="number">-1 3</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 4</span></span>
+</pre>
+
+<p>...</p>
+
 <object data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
+
+<p>...</p>
+
+<pre class="code">
+<span class="filename">_xor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">3</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">_norRight </span><span class="number">3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">or </span><span class="number">0 9</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 11</span></span>
+</pre>
 
 <p>...</p>
 

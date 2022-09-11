@@ -42,7 +42,7 @@ public class HtmlGenerator {
     }
     
     public void generate(final PrintStream out, final String componentName, final String tetrisScript) {
-        out.format("<pre class=\"tetrisscript\">%n");
+        out.format("<pre class=\"code\">%n");
         out.format("<span class=\"filename\">%s.t</span>%n", componentName);        
         try (final Scanner scanner = new Scanner(tetrisScript)) {
             while (scanner.hasNextLine()) {
