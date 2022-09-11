@@ -73,13 +73,13 @@
     <use href="#o" x="125.5" y="-100">
         <animate id="left2" begin="left1.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5; 135.5; 155.5" dur="3.1111111111111111111111111111111s" calcMode="discrete" fill="freeze"/>
         <animate id="left3" begin="left2.end" attributeName="x" values="145.5" dur="0.44444444444444444444444444444444s" calcMode="discrete" fill="freeze"/>
-        <animate id="left8" begin="left6.end" attributeName="y" values="-100" dur="0.00001s" calcMode="discrete" fill="freeze"/>
-        <animate id="left9" begin="left6.end" attributeName="x" values="125.5" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="left8" begin="left6.end" attributeName="y" values="-100" dur="0.01s" calcMode="discrete" fill="freeze"/>
+        <animate id="left9" begin="left6.end" attributeName="x" values="125.5" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </use>
     <use href="#o" x="370.5" y="-100">
         <animate id="right2" begin="left1.end" attributeName="y" values="35.5; 55.5; 75.5; 95.5; 115.5; 135.5; 155.5" dur="3.1111111111111111111111111111111s" calcMode="discrete" fill="freeze"/>
         <animate id="right3" begin="right2.end" attributeName="x" values="370.5; 373.5; 370.5" keyTimes="0; 0.5; 1" keySplines="0 0.5 0.5 1; 0.5 0 1 0.5" dur="0.15s" calcMode="spline"/>
-        <animate id="right8" begin="left6.end" attributeName="y" values="-100" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="right8" begin="left6.end" attributeName="y" values="-100" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </use>
     
     <use href="#jd" x="125.5" y="-100">
@@ -93,19 +93,19 @@
        
     <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="visible">?
         <animate id="left5" begin="left3.end + 1.7777777777777777777777777777778s" attributeName="visibility" values="hidden" dur="2.5s" calcMode="discrete" fill="freeze"/>
-        <animate id="left11" begin="left6.end" attributeName="visibility" values="visible" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="left11" begin="left6.end" attributeName="visibility" values="visible" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </text>
     <text x="125.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="hidden">1
         <animate id="left6" begin="left3.end + 1.7777777777777777777777777777778s" attributeName="visibility" values="visible" dur="2.5s" calcMode="discrete" fill="freeze"/>
-        <animate id="left12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="left12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </text>
     
     <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="visible">?
         <animate id="right5" begin="left3.end + 2.2222222222222222222222222222222s" attributeName="visibility" values="hidden" dur="2.5s" calcMode="discrete" fill="freeze"/>
-        <animate id="right11" begin="left6.end" attributeName="visibility" values="visible" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="right11" begin="left6.end" attributeName="visibility" values="visible" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </text>
     <text x="370.5" y="95.5" class="terminals" dy="0.25em" text-anchor="middle" style="font-size: 20px;" visibility="hidden">0
         <animate id="right5" begin="left3.end + 2.2222222222222222222222222222222s" attributeName="visibility" values="visible" dur="2.5s" calcMode="discrete" fill="freeze"/>
-        <animate id="right12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.00001s" calcMode="discrete" fill="freeze"/>
+        <animate id="right12" begin="left6.end" attributeName="visibility" values="hidden" dur="0.01s" calcMode="discrete" fill="freeze"/>
     </text>    
 </svg>
