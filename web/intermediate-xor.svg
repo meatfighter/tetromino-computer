@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="1226" height="331" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="970" height="261.8841761827079934747145187602" viewBox="0 0 1226 331" 
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>

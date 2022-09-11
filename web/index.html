@@ -308,9 +308,9 @@
 
 <object data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
 
-<p>When the input is <span class="mono">0</span>, the L-Tetrimino lands low, which enables the O-Tetrimino to shift upon its protuberance. In turn, the J-Tetrimino lands high.</p>
+<p>When the input is <span class="mono">0</span>, the <span class="nowrap">L-Tetrimino</span> lands low. That enables the <span class="nowrap">O-Tetrimino</span> to shift upon the <span class="nowrap">L-Tetrimino's</span> protuberance. The <span class="nowrap">J-Tetrimino</span>, in turn, lands high, producing an output of <span class="mono">1</span>.</p>
 
-<p>When the input is <span class="mono">1</span>, the L-Tetrimino lands high and acts a barrier that obstructs the horizontal movement of the O-Tetrimino. The result is a configuration where the J-Tetrimino lands low.</p>
+<p>When the input is <span class="mono">1</span>, the <span class="nowrap">L-Tetrimino</span> lands high. That causes it to act a barrier that obstructs the horizontal movement of the <span class="nowrap">O-Tetrimino</span>. Consequentially, the <span class="nowrap">J-Tetrimino</span> lands low, generating an output of <span class="mono">0</span>.</p>
 
 <p>In both cases, the output is the opposite of the input.</p>
 
@@ -320,9 +320,9 @@
 
 <h2 id="or">OR</h2>
 
-<p>OR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
+<p>OR is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
 
-<p>The code below creates an OR gate by dropping a single O-Tetrimino onto abutting input nodes.</p>
+<p>The code below creates an OR gate by dropping a single <span class="nowrap">O-Tetrimino</span> onto abutting input nodes.</p>
 
 <pre class="code">
 <span class="filename">or.t</span>
@@ -337,13 +337,13 @@
 
 <object data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
-<p>The O-Tetrimino lands low unless one or both inputs is <span class="mono">1</span>.</p>
+<p>The <span class="nowrap">O-Tetrimino</span> lands low unless one or both inputs is <span class="mono">1</span>.</p>
 
 <h2 id="nor">NOR</h2>
 
-<p>NOR is a 2-input gate that evaluates the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
+<p>NOR is a <span class="nowrap">2-input</span> gate that evaluates the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
 
-<p>The code below realizes a NOR gate by feeding 2 inputs into an inverter.</p>
+<p>The code below realizes a NOR gate by feeding two inputs into an inverter.</p>
 
 <pre class="code">
 <span class="filename">nor.t</span>
@@ -358,11 +358,11 @@
 
 <object data="nor.svg" type="image/svg+xml" class="diagram">NOR</object>
 
-<p>The L-Tetrimino operates as an OR gate, resulting in output opposite of OR.</p>
+<p>The <span class="nowrap">L-Tetrimino</span> operates as an OR gate, resulting in output opposite of OR.</p>
 
 <h2 id="nand">NAND</h2>
 
-<p>NAND is a 2-input gate that provides the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
+<p>NAND is a <span class="nowrap">2-input</span> gate that provides the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
 
@@ -381,11 +381,11 @@
 
 <object data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
 
-<p>The horizontal I-Tetrimino functions as an OR gate.</p>
+<p>The horizontal <span class="nowrap">I-Tetrimino</span> functions as an OR gate.</p>
 
 <h2 id="and">AND</h2>
 
-<p>AND is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
+<p>AND is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
 
 <p>The code below constructs AND from a NAND gate followed by an inverter.</p>
 
@@ -404,11 +404,11 @@
 
 <object data="and.svg" type="image/svg+xml" class="diagram">AND</object>
 
-<p>The J-Tetrimino of the upper inverter functions as an OR gate.</p>
+<p>The <span class="nowrap">J-Tetrimino</span> of the upper inverter functions as an OR gate.</p>
 
 <h2 id="xor">XOR</h2>
 
-<p>XOR is a 2-input gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when both inputs are unequal.</p>
+<p>XOR is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when both inputs are unequal.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -450,17 +450,17 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
 </pre>
 
-<p><span class="mono">_norLeft</span> is a NOR gate composed of two O-Tetriminos. It is detailed in a later section.</p>
+<p><span class="mono">_norLeft</span> is a NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in a later section.</p>
 
 <p>Here are the results for all input combinations:</p>
 
 <object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
 
-<p>The vertical I-Tetriminos and the L-and-J-Tetriminos resting on the O-Tetrimino act as wires. The bases of the inverters serve as OR gates, making them function as NORs. The horizontal I-Tetrimino at the top operates as an OR gate.</p>
+<p>The vertical <span class="nowrap">I-Tetriminos</span> and the L-and-J-Tetriminos resting on the <span class="nowrap">O-Tetrimino</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. The horizontal <span class="nowrap">I-Tetrimino</span> at the top operates as an OR gate.</p>
 
 <h2 id="xnor">XNOR</h2>
 
-<p>XNOR is a 2-input gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
+<p>XNOR is a <span class="nowrap">2-input</span> gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
 
 <p>The code below composes XNOR from XOR followed by an inverter.</p>
 
@@ -477,6 +477,34 @@
 <p>The following image shows the outputs for all possible inputs.</p>
 
 <object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
+
+<h2 id="intermediate-gates">Intermediate Gates</h2>
+
+<p>...</p>
+
+<object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
+
+<p>...</p>
+
+<object data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
+
+<p>...</p>
+
+<object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
+
+<p>...</p>
+
+<object data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
+
+<p>...</p>
+
+<object data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
+
+<p>...</p>
+
+<object data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
+
+<p>...</p>
 
 <h1 id="wires">Wires</h1>
 
