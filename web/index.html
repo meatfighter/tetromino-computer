@@ -494,11 +494,11 @@
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p>Its compact size translates to smaller circuits. However, <span class="mono">_notLeft</span> must be used sparingly and cautiously due to a drawback exhibited in the animation above. When the input is <span class="mono">1</span>, the <span class="nowrap">O-Tetrimino</span> lands on the floor. But, in a circuit, it will plummet until it meets the surface of the pile, potentially disrupting other circuits. In addition, this construction interferes an optimization covered in a later section that is based on circuits which are fully contained within rectangular regions.</p>
+<p>Its compact size translates to smaller circuits. However, <span class="mono">_notLeft</span> must be used sparingly and cautiously due to a drawback exhibited in the animation above. When the input is <span class="mono">1</span>, the <span class="nowrap">O-Tetrimino</span> lands on the floor. But, in a circuit, it will plummet until it meets the surface of the pile, potentially disrupting other circuits. In addition, this construction interferes with an optimization covered in a later section that is based on circuits which are fully contained within rectangular regions.</p>
 
 <p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, they are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. The names of such gates begin with an underscore to make them instantly distinguishable from ordinary gates.</p>
 
-<p>Due to their ordinary counterparts, intermediate gates are dispensable. They exist primarily to enhance circuit aesthetics. The following variation of the compact inverter is a case in point. </p>
+<p>Smaller circuits suggest faster computations. But the aforementioned optimization makes circuits built purely out of ordinary gates evaluate just as quickly despite their larger size. Intermediate gates are dispensable; however, their compact nature effectuates aesthetically pleasing designs. That is the reason the following variation of the intermediate inverter exists.</p>
 
 <pre class="code">
 <span class="filename">_notLeft2.t</span>
