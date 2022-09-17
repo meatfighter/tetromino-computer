@@ -480,7 +480,7 @@
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
-<p>The inverter discussed above consists of three Tetriminos: an O sandwiched between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
+<p>The inverter described above consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
 
 <pre class="code">
 <span class="filename">_notLeft.t</span>
@@ -490,11 +490,15 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
 </pre>
 
-<p>As shown in the animated constructions below, the input and output nodes overlap. For input <span class="mono">1</span>, the overlap establishes output <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. Though, for input <span class="mono">0</span>, the output node is initially unassigned. </p>
+<p>As shown in the animated constructions below, the input and output nodes of <span class="mono">_notLeft</span> overlap. When the input is <span class="mono">1</span> (right), the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. On the other hand, when the input is <span class="mono">0</span> (left), the output node is initially unassigned.</p>
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p>...</p>
+<p>Its compact size translates to smaller circuits. However, <span class="mono">_notLeft</span> must be used sparingly and cautiously due to a drawback exhibited in the animation above. When the input is <span class="mono">1</span>, the <span class="nowrap">O-Tetrimino</span> lands on the floor. But, in a circuit, it will plummet until it meets the surface of the pile, potentially disrupting other circuits. In addition, this construction interferes an optimization covered in a later section that is based on circuits which are fully contained within rectangular regions.</p>
+
+<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, they are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. The names of such gates begin with an underscore to make them instantly distinguishable from ordinary gates.</p>
+
+<p>Due to their ordinary counterparts, intermediate gates are dispensable. They exist primarily to enhance circuit aesthetics. The following variation of the compact inverter is a case in point. </p>
 
 <pre class="code">
 <span class="filename">_notLeft2.t</span>
@@ -504,11 +508,15 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
 </pre>
 
-<p>...</p>
+<p><span class="mono">_notLeft2</span> nudges the <span class="nowrap">O-Tetrimino</span> right twice:</p>
 
 <object data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
 
-<p>...</p>
+<p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-Tetrimino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
+
+<p>The <span class="mono">Left</span> in the names of these components refer to the side of the input node approached by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span> and <span class="mono">_notRight2</span>.</p>
+
+<p>The intermediate NOR gate, <span class="mono">_norLeft</span>, is composed of an ordinary OR gate in series with an intermediate inverter:</p>
 
 <pre class="code">
 <span class="filename">_norLeft.t</span>
@@ -520,11 +528,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 3</span></span>
 </pre>
 
-<p>...</p>
+<p>Its behavior for all possible inputs appears below. </p>
 
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
 
-<p>...</p>
+<p>As with the intermediate inverter, a horizontally-reflected version of the intermediate NOR gate exists called <span class="mono">_norRight</span>.</p>
+
+<p>The intermediate NAND gate, <span class="mono">_nand</span>, uses intermediate inverters to feed input complements into an ordinary OR gate:</p>
 
 <pre class="code">
 <span class="filename">_nand.t</span>
@@ -537,11 +547,11 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 3</span></span>
 </pre>
 
-<p>...</p>
+<p>The following sequence reveals the intermediate NAND leaks up to two <span class="nowrap">O-Tetriminos</span>.</p>
 
 <object data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
 
-<p>...</p>
+<p>The intermediate AND gate, <span class="mono">_andLeft</span>, consists of an intermediate NAND in series with an intermediate inverter:</p>
 
 <pre class="code">
 <span class="filename">_andLeft.t</span>
@@ -553,11 +563,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 4</span></span>
 </pre>
 
-<p>...</p>
+<p>Here is its responses to all inputs:</p>
 
 <object data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
 
-<p>...</p>
+<p>Its horizontally-reflected version goes by the name <span class="mono">_andRight</span>.</p>
+
+<p>While a single intermediate NOR appears in the definition of ordinary XOR, the intermediate XOR gate, <span class="mono">_xor</span>, employs three of them:</p>
 
 <pre class="code">
 <span class="filename">_xor.t</span>
@@ -579,7 +591,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 11</span></span>
 </pre>
 
-<p>...</p>
+<p>Like the intermediate NAND and AND gates, intermediate XOR emits up to two <span class="nowrap">O-Tetriminos</span>:</p>
 
 <object data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
 
@@ -653,8 +665,6 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o1 </span><span class="number">-6..-3 21</span></span>
 <span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
 </pre>
-
-<p><span class="mono">_norLeft</span> and <span class="mono">_norRight</span> are NOR gates composed of two O-Tetriminos. They are detailed in a later section.</p>
 
 <p>Here are the results for all input combinations:</p>
 
