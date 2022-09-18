@@ -450,7 +450,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
 </pre>
 
-<p><span class="mono">_norLeft</span> is a NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in a later section.</p>
+<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in a later section.</p>
 
 <p>Here are the results for all input combinations:</p>
 
@@ -530,11 +530,11 @@
 
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
 
-<p>In the code, if <span class="mono">_notLeft2</span> is changed to <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, in the case of both inputs <span class="mono">0</span>, the vertical column decays into a lopsided column, which is less aesthetically pleasing.</p>
+<p>In the code, if <span class="mono">_notLeft2</span> is changed to <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-Tetriminos</span> becomes lopsided, an aesthetically displeasing state.</p>
 
+<p><span class="mono">_norLeft</span> is found in the interior of the ordinary XOR gate to reduce its size and to guarantee the <span class="nowrap">O-Tetrimino</span> is always caught.</p>
 
-
-<p>As with the intermediate inverter, a horizontally-reflected version of the intermediate NOR gate exists called <span class="mono">_norRight</span>.</p>
+<p>The <span class="mono">Left</span> in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
 
 <p>The intermediate NAND gate, <span class="mono">_nand</span>, uses intermediate inverters to feed input complements into an ordinary OR gate:</p>
 
@@ -571,7 +571,7 @@
 
 <p>Its horizontally-reflected version goes by the name <span class="mono">_andRight</span>.</p>
 
-<p>While a single intermediate NOR appears in the definition of ordinary XOR, the intermediate XOR gate, <span class="mono">_xor</span>, employs three of them:</p>
+<p>While a single intermediate NOR appears in the ordinary XOR, the intermediate XOR, <span class="mono">_xor</span>, employs three of them:</p>
 
 <pre class="code">
 <span class="filename">_xor.t</span>
@@ -597,7 +597,7 @@
 
 <object data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
 
-<p>...</p>
+<p>Other intermediate gates are possible. But aside from the intermediate NOR gate and the intermediate inverter it is based on, the rest are not used. Their petiteness and visual appeal are not compelling enough to use them over ordinary gates, which operate safely in all circumstances.</p>
 
 <h1 id="wires">Wires</h1>
 
