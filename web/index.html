@@ -494,11 +494,11 @@
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p>Its compact size translates to smaller circuits. However, <span class="mono">_notLeft</span> must be used sparingly and cautiously due to a drawback exhibited in the animation above. When the input is <span class="mono">1</span>, the <span class="nowrap">O-Tetrimino</span> lands on the floor. But, in a circuit, it will plummet until it meets the surface of the pile, potentially disrupting other circuits. In addition, this construction interferes with an optimization covered in a later section that is based on circuits which are fully contained within rectangular regions.</p>
+<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But, in practice, it is used sparingly due to a drawback exhibited in the animation above. It shows the <span class="nowrap">O-Tetrimino</span> lands on the floor when the input is <span class="mono">1</span>. However, in a circuit, the <span class="nowrap">O-Tetrimino</span> will plummet until it meets the surface of the pile, where it can induce unpredictable behavior by interfering with the construction of other circuits. In addition, the side effects of leaking Tetriminos breaks an optimization covered in a later section that depends on a consistent result for a given input.</p>
 
 <p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, they are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. The names of such gates begin with an underscore to make them instantly distinguishable from ordinary gates.</p>
 
-<p>Smaller circuits suggest faster computations. But the aforementioned optimization makes circuits built purely out of ordinary gates evaluate just as quickly despite their larger size. Intermediate gates are dispensable; however, their compact nature effectuates aesthetically pleasing designs. That is the reason the following variation of the intermediate inverter exists.</p>
+<p>Smaller circuits suggest faster processing. But the aforementioned optimization makes circuits built purely out of ordinary gates compute just as quickly despite their larger size. There is no justification for intermediate gates except that their compact nature effectuates aesthetically pleasing designs. That is the impetus behind the following variation of the intermediate inverter.</p>
 
 <pre class="code">
 <span class="filename">_notLeft2.t</span>
@@ -514,9 +514,7 @@
 
 <p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-Tetrimino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
 
-<p>The <span class="mono">Left</span> in the names of these components refer to the side of the input node approached by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span> and <span class="mono">_notRight2</span>.</p>
-
-<p>The intermediate NOR gate, <span class="mono">_norLeft</span>, is composed of an ordinary OR gate in series with an intermediate inverter:</p>
+<p><span class="mono">_notLeft2</span> is attached to the output of an ordinary OR gate to create an intermediate NOR gate:</p>
 
 <pre class="code">
 <span class="filename">_norLeft.t</span>
@@ -528,9 +526,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 3</span></span>
 </pre>
 
-<p>Its behavior for all possible inputs appears below. </p>
+<p>Its response to all possible inputs appears below.</p>
 
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
+
+<p>In the code, if <span class="mono">_notLeft2</span> is changed to <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, in the case of both inputs <span class="mono">0</span>, the vertical column decays into a lopsided column, which is less aesthetically pleasing.</p>
+
+
 
 <p>As with the intermediate inverter, a horizontally-reflected version of the intermediate NOR gate exists called <span class="mono">_norRight</span>.</p>
 
