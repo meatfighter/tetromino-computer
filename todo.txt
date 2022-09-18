@@ -1,4 +1,3 @@
-animations
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
 remove playfield size spinner
@@ -18,18 +17,15 @@ negator
 test mechanism
 
 refactor packages:
-
 tetrisscript
-
 computer
 
 
 workspace -> TetrisScript and MetaTetrisScript
 
 remaining sections:
-- intermediate gates
 - Tetris Program (and peripherals: video memory, keyboard input)
-- hash, speed up
+- Simulation (hash, speed up)
 - TetrisScript Editor tutorial
 - where are all the files, how to run
 
