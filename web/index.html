@@ -3514,7 +3514,7 @@ do {
 
 <h2 id="simulation">Simulation</h2>
 
-<p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the initial state of the playfield. Or, more specifically, it is the bit pattern of the <span class="nowrap">bottom-two</span> rows of a workspace with <span class="nowrap">8 &times; 1,019 = 8,152 columns</span>. Based on that size, MetaTetrisScripts are generated for the downward and upward cycles of the machine. Then, the assembled program, the TetrisScripts for all the components, and the pair of MetaTetrisScripts is fed into a simulator. The simulator creates a window that operates as both the playfield display device and the source of game controller button states. Finally, by repeatedly the building the structures described in the input files, the simulator manifests Tetris.</p>  
+<p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the initial state of the playfield. Or, more specifically, it is the bit pattern of the <span class="nowrap">bottom-two</span> rows of an otherwise empty workspace with <span class="nowrap">8 &times; 1,019 = 8,152 columns</span>. Based on that size, MetaTetrisScripts are generated for the downward and upward cycles of the machine. Then, the assembled program, the TetrisScripts for all the components, and the pair of MetaTetrisScripts is fed into a simulator. The simulator creates a window that operates as both the playfield display device and the source of game controller button input. Finally, by repeatedly the building the structures described in the input files, the simulator manifests Tetris.</p>  
 
 <p>The process is summarized in the image below.</p>
 
