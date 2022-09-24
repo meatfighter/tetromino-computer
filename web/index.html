@@ -3514,11 +3514,20 @@ do {
 
 <h2 id="simulation">Simulation</h2>
 
-<p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the initial state of the playfield. Or, more specifically, it is the bit pattern of the <span class="nowrap">bottom-two</span> rows of an otherwise empty workspace with <span class="nowrap">8 &times; 1,019 = 8,152 columns</span>. Based on that size, MetaTetrisScripts are generated for the downward and upward cycles of the machine. Then, the assembled program, the TetrisScripts for all the components, and the pair of MetaTetrisScripts is fed into a simulator. The simulator creates a window that operates as both the playfield display device and the source of game controller button input. Finally, by repeatedly the building the structures described in the input files, the simulator manifests Tetris.</p>  
+<p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the starting state of the playfield. Or, more specifically, it is the configuration of the <span class="nowrap">bottom-two</span> rows of an otherwise empty workspace with:</p>
 
-<p>The process is summarized in the image below.</p>
+<p>1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</p>
+  
+<p>Based on that size, a process generates MetaTetrisScripts for the downward and upward cycles of the machine.</p>
 
-<p>[ TODO SIMULATOR PIC ]</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates a playfield to accommodate the Tetris program and it initializes the bottom-two rows accordingly. It pops open a window to serve as both a display device and a button listener. Then, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
+
+<p>By actualizing a MetaTetrisScript, the simulator effectuates a machine cycle. And each machine cycle executes a single instruction.</p>
+
+<p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the playfield from the pile to the window and it copies the button states from the window to the pile.</p>
+
+
+
 
 </body>
 
