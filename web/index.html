@@ -2965,7 +2965,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The code resets <span class="mono">minY</span> to its maximum value, the index of the hidden row beneath the floor.</p> 
 
-<p>The code clears all cells of the playfield in <span class="nowrap">rows 21</span> and below. Subsequently, it solidifies the cells of <span class="nowrap">column 11</span> in the same rows. This restores the playfield to its initial state.</p> 
+<p>The code clears all cells of the playfield in <span class="nowrap">rows 21</span> and below. Subsequently, it solidifies the cells of <span class="nowrap">column 10</span> in the same rows. This restores the playfield to its initial state.</p> 
 
 <p>Next, the first Tetrimino of the game spawns:</p>
 
@@ -3520,14 +3520,23 @@ do {
   
 <p>Based on that size, a process generates MetaTetrisScripts for the downward and upward cycles of the machine.</p>
 
-<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates a playfield to accommodate the Tetris program and it initializes the bottom-two rows accordingly. It pops open a window to serve as both a display device and a button listener. Then, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. Per the assembled Tetris program, it allocates and initialized a playfield. Then, it pops open a window that acts as a display device and a buttons listener. Finally, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
 
 <p>By actualizing a MetaTetrisScript, the simulator effectuates a machine cycle. And each machine cycle executes a single instruction.</p>
 
-<p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the playfield from the pile to the window and it copies the button states from the window to the pile.</p>
+<p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
 
+<p>The simulator’s maximum frame rate depends on the instruction execution time and the number of instructions executed per frame. Execution time is constant across all instructions. It is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM during a machine cycle. That length depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the greater the frame rate.</p>
 
+<p>The first 388 bytes of the assembled Tetris program&mdash;more than a third of its length&mdash;is data. It consists of the following.</p>
 
+<table class="borderless">
+  <tr><th class="borderless">Source</th><th class="borderless">Bytes</th></tr>
+  <tr><td>Playfield</td><td class="centered">253</td></tr>
+  <tr><td>Tetriminos table</td><td class="centered">112</td></tr>  
+  <tr><td>Variables</td><td class="centered">16</td></tr>
+  <tr><td>Memory-mapped I/O</td><td class="centered">7</td></tr>
+</table>
 
 </body>
 

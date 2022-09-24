@@ -297,7 +297,7 @@ td.pad-left {
 }
 
 td.pad-right {
-    padding-left: 25px;
+    padding-right: 25px;
 }
 
 td.mono {
@@ -325,6 +325,10 @@ td.pseudocode {
 
 td.border-left {
     border-left: 1pt solid silver;
+}
+
+td.number {
+    text-align: right;
 }
 
 pre.pseudocode {
