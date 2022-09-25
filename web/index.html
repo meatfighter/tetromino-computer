@@ -3526,19 +3526,21 @@ do {
 
 <p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
 
-<p>Instead of individually placing Tetriminos to compute every state of the evolving playfield, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm to evaluate its long-term fate. The algorithm precomputes a table for each component that maps all possible input values to their corresponding output values. The tables allow the algorithm to emulate the effects of building a component without actually building it. For example, here are the full constructions of the swap circuit for all possible inputs:</p>
+<p>Instead of individually placing Tetriminos to compute every state of the evolving playfield, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm to evaluate its long-term fate. The algorithm precomputes a table for each component that maps all possible input values to their corresponding output values. The tables allow the algorithm to emulate the effects of building components without actually building them. For example, here are the full constructions of the swap circuit for all possible inputs:</p>
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
-<p>Rather than manipulating all those pieces, the algorithm inspects the input nodes, it performs a table lookup, and it draws the expected output nodes, omitting everything in between:</p>
+<p>Rather than manipulating all those pieces, the algorithm inspects the input nodes, it performs a table lookup, and it paints the expected output nodes, omitting everything in between:</p>
 
 <object data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
 
 <p>To rapidly compute the tables, the algorithm orders the components into a dependency tree. Then, it progresses through the tree, starting from the components that have no dependencies and working outward. When a TetrisScript references a component for which a table already exists, the algorithm applies the technique described above to reduce construction time. To speed up table computation even further, the process is parallelized.</p>
 
-<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined ahead of time. However, intermediate components never appear in the MetaTetrisScripts, quashing any benefits of such tables. But the ordinary components that rely on intermediate components do have tables. And those tables indirectly capture the contributions of intermediate components.</p>
+<p>The algorithm uses the TetrisScripts only to compute the tables. At runtime, it operates off the MetaTetrisScripts and the tables for the functions referenced by them.</p>
 
-<p>At runtime, the algorithm works fully from the tables, oblivious to Tetriminos. It does not wait for the randomizer to spawn the required pieces. Nor does it deal with type filtering or the discards pile.</p>
+<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined ahead of time. However, intermediate components never appear in the MetaTetrisScripts, nullifying the potential benefit of such tables.</p>
+
+
 
 
 
