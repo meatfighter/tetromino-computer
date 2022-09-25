@@ -38,6 +38,7 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>Gameplay</word>
         <word>iff</word>
         <word>Incrementor</word>
+        <word>memoized</word>
         <word>MetaTetrisScript</word>
         <word>NAND</word>
         <word>NORs</word>

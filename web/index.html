@@ -3520,11 +3520,21 @@ do {
   
 <p>Based on that size, a process generates MetaTetrisScripts for the downward and upward cycles of the machine.</p>
 
-<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. Per the assembled Tetris program, it allocates and initialized a playfield. Then, it pops open a window that acts as a display device and a buttons listener. Finally, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. Per the assembled Tetris program, it allocates and initialized a playfield. Then, it pops open a window to display the game’s graphics and to listen for button presses. Finally, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
 
 <p>By actualizing a MetaTetrisScript, the simulator effectuates a machine cycle. And each machine cycle executes a single instruction.</p>
 
 <p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
+
+<p>Instead of individually placing Tetriminos to computing every state of the evolving playfield, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm to evaluate its long-term fate. The algorithm precomputes a table for each component that maps all possible input values to their output values. At runtime, the tables enable the algorithm to emulate the effects of building a component without actually building the component. For example, here are the full constructions of the swap circuit for all possible inputs:</p>
+
+<object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
+
+<p>Rather than placing all those Tetriminos, the algorithm inspects the input nodes to obtain the input value, it performs a lookup to get the output value, and it draws the corresponding output nodes in empty space, devoid of supporting structures:</p>
+
+<object data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
+
+<p>...</p>
 
 <p>The simulator’s maximum frame rate depends on the instruction execution time and the number of instructions executed per frame. Execution time is constant across all instructions. It is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM during a machine cycle. That length depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the greater the frame rate.</p>
 
