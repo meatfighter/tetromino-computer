@@ -3518,28 +3518,32 @@ do {
 
 <p>1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</p>
   
-<p>Based on that size, a process generates MetaTetrisScripts for the downward and upward cycles of the machine.</p>
+<p>A process generates a pair of MetaTetrisScripts for the downward and upward cycles of the machine based on that size.</p>
 
-<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. Per the assembled Tetris program, it allocates and initialized a playfield. Then, it pops open a window to display the game’s graphics and to listen for button presses. Finally, it enters an infinite loop, where it repeatedly builds the structures described by the TetrisScripts and the MetaTetrisScripts.</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates and initialized a playfield per the size of the assembled Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it actualizes the MetaTetrisScripts, infinitely alternating between the downward and upward cycles of the machine.</p>
 
-<p>By actualizing a MetaTetrisScript, the simulator effectuates a machine cycle. And each machine cycle executes a single instruction.</p>
+<p>At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
 
-<p>Between instruction executions, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
-
-<p>Instead of individually placing Tetriminos to compute every state of the evolving playfield, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm to evaluate its long-term fate. The algorithm precomputes a table for each component that maps all possible input values to their corresponding output values. The tables allow the algorithm to emulate the effects of building components without actually building them. For example, here are the full constructions of the swap circuit for all possible inputs:</p>
+<p>Instead of individually placing Tetriminos to compute every state of the evolving playfield, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm to evaluate its long-term fate. The algorithm precomputes a table for each component that maps all possible inputs to their corresponding outputs. The tables allow the algorithm to emulate the effects of building components without actually building them. For example, here are the full constructions of the swap circuit for all possible inputs:</p>
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
-<p>Rather than manipulating all those pieces, the algorithm inspects the input nodes, it performs a table lookup, and it paints the expected output nodes, omitting everything in between:</p>
+<p>Rather than manipulating all those pieces, the algorithm inspects the inputs, it performs a table lookup, and it paints the expected outputs, omitting everything in between:</p>
 
 <object data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
 
-<p>To rapidly compute the tables, the algorithm orders the components into a dependency tree. Then, it progresses through the tree, starting from the components that have no dependencies and working outward. When a TetrisScript references a component for which a table already exists, the algorithm applies the technique described above to reduce construction time. To speed up table computation even further, the process is parallelized.</p>
+<p>Despite their seeming levitation, the output nodes support structures successively built on top of them as if the swap circuit were really there.</p>
 
-<p>The algorithm uses the TetrisScripts only to compute the tables. At runtime, it operates off the MetaTetrisScripts and the tables for the functions referenced by them.</p>
+<p>To efficiently compute the tables, the algorithm orders the TetrisScripts into a dependency tree. Then, starting from those that have no dependencies and working outward through the tree, it repeatedly builds components, plugging in all possible inputs and recording the results. When a TetrisScript invokes a component for which a table already exists, the algorithm applies the technique described above to considerably reduce construction time. To finish even faster, the algorithm processes multiple TetrisScripts in parallel.</p>
 
-<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined ahead of time. However, intermediate components never appear in the MetaTetrisScripts, nullifying the potential benefit of such tables.</p>
+<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs table lookups only for the components in the MetaTetrisScripts. And, since intermediate components are confined to the interior of circuits, they never appear in the MetaTetrisScripts.</p>
 
+
+
+
+A MetaTetrisScript instruction directs the simulator to build a function at specified location on the pile and to level the remaining surface by assembling identity functions everywhere else. Meaning, it expands a rectangular pile by the uniform function height.   
+
+To emulate a pile with unbounded height, the algorithm only maintains the surface, dispensing with history entirely. To execute a MetaTetrisScript instruction, the algorithm reads the input off the surface, it performs a table lookup, and it stores the output on the same place of the surface, overwriting the read value. 
 
 
 
