@@ -17,7 +17,7 @@ import tetriscircuits.computer.ui.PlayfieldModel;
 
 public class Computer {
 
-    private static final double MAX_FRAMES_PER_SECOND = 6;
+    private static final double MAX_FRAMES_PER_SECOND = 10;
     private static final int MAX_FRAMES_LOST = 3;
     private static final int MIN_SLEEP_MILLIS = 2;
     private static final int SECONDS_PER_SAMPLE_FPS = 5;

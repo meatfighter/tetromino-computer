@@ -85,46 +85,38 @@ public final class Simulator3 implements Processor {
             if (mapping == null) {
                 throw new IOException("Unknown component: " + instruction.getComponent());
             }
+            final byte[] map = mapping.getMap();
             final int index = instruction.getIndex();
             switch (mapping.getMappingType()) {
                 case ONE_BYTE: {
-                    final byte[] map = mapping.getMap();
                     runnables[r] = () -> {
                         bytes[index] = 0xFF & map[bytes[index]];
                     };
                     break;
                 }
                 case TWO_BYTES: {
-                    final byte[] map = mapping.getMap();
-                    final int index1 = index + 1;
                     runnables[r] = () -> {
-                        final int i = 512 * bytes[index] + 2 * bytes[index1];
+                        final int i = 512 * bytes[index] + 2 * bytes[index + 1];
                         bytes[index] = 0xFF & map[i];
-                        bytes[index1] = 0xFF & map[i + 1];
+                        bytes[index + 1] = 0xFF & map[i + 1];
                     };
                     break;
                 }
                 case TWO_BYTES_BIT: {
-                    final byte[] map = mapping.getMap();
-                    final int index1 = index + 1;
-                    final int index2 = index + 2;
                     runnables[r] = () -> {
-                        final int i = 1536 * bytes[index] + 6 * bytes[index1] + 3 * bytes[index2];
+                        final int i = 1536 * bytes[index] + 6 * bytes[index + 1] + 3 * bytes[index + 2];
                         bytes[index] = 0xFF & map[i];
-                        bytes[index1] = 0xFF & map[i + 1];
-                        bytes[index2] = 0xFF & map[i + 2];
+                        bytes[index + 1] = 0xFF & map[i + 1];
+                        bytes[index + 2] = 0xFF & map[i + 2];
                     };
                     break;
                 }
                 default: {
-                    final byte[] map = mapping.getMap();
-                    final int index1 = index + 1;
-                    final int index2 = index + 2;
                     runnables[r] = () -> {
-                        final int i = 196608 * bytes[index] + 768 * bytes[index1] + 3 * bytes[index2];
+                        final int i = 196608 * bytes[index] + 768 * bytes[index + 1] + 3 * bytes[index + 2];
                         bytes[index] = 0xFF & map[i];
-                        bytes[index1] = 0xFF & map[i + 1];
-                        bytes[index2] = 0xFF & map[i + 2];
+                        bytes[index + 1] = 0xFF & map[i + 1];
+                        bytes[index + 2] = 0xFF & map[i + 2];
                     };
                     break;
                 }

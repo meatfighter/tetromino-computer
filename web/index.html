@@ -1670,7 +1670,7 @@
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p>The blindfolded player cannot read the contents of memory, but it can manipulate it by executing <span class="term">MetaTetrisScript</span>, a language that specifies where to assemble functions. It has 2 instructions. The first consists of a structure name and a byte index:</p>
+<p>The blindfolded player cannot read memory, but it can manipulate memory by executing <span class="term">MetaTetrisScript</span>, a language that specifies where to assemble functions. It has 2 instructions. The first consists of a structure name and a byte index:</p>
 
 <p class="definition">structure x</p>
 
@@ -3538,14 +3538,21 @@ do {
 
 <p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs table lookups only for the components in the MetaTetrisScripts. And, since intermediate components are confined to the interior of circuits, they never appear in the MetaTetrisScripts.</p>
 
+<p>A MetaTetrisScript instruction directs the simulator to build a function at specified location on the pile and to level the remaining surface by assembling identity functions everywhere else. As such, its execution expands the rectangular pile by the uniform function height.</p>
 
+<p>To emulate the unbounded playfield required to accommodate an ever-taller pile, the algorithm reduces the pile to its surface. For each MetaTetrisScript instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to expanding the pile and truncating everything below the surface.</p>
 
+<p>The algorithm represents the surface as a one-dimensional byte array, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. That representation enables the algorithm to execute a MetaTetrisScript instruction of the form:</p>
 
-A MetaTetrisScript instruction directs the simulator to build a function at specified location on the pile and to level the remaining surface by assembling identity functions everywhere else. Meaning, it expands a rectangular pile by the uniform function height.   
+<p><span class="mono">function x</span></p>
 
-To emulate a pile with unbounded height, the algorithm only maintains the surface, dispensing with history entirely. To execute a MetaTetrisScript instruction, the algorithm reads the input off the surface, it performs a table lookup, and it stores the output on the same place of the surface, overwriting the read value. 
+<p>by performing:</p>
 
+<p><span class="serif">lookup(function, surface<span class="sub3">x</span>&mldr;surface<span class="sub3">x+k&minus;1</span>) &rarr; surface<span class="sub3">x</span>&mldr;surface<span class="sub3">x+k&minus;1</span></span></p>
 
+<p>where <span class="serif">k</span> is the function byte-width.</p>
+
+<p>The operation is performant, but a <span class="nowrap"><span class="serif">k</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">k</span></span> bytes</span>. That is, <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively.</p>
 
 
 
