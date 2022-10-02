@@ -24,10 +24,11 @@ computer
 workspace -> TetrisScript and MetaTetrisScript
 
 remaining sections:
-- Tetris Program (and peripherals: video memory, keyboard input)
 - Simulation (hash, speed up)
+- Implications
 - TetrisScript Editor tutorial
 - where are all the files, how to run
+
 
 brighten blue
 redo Tetris game UI

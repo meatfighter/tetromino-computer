@@ -3554,12 +3554,11 @@ do {
 
 <p>The operation is performant, but a <span class="nowrap"><span class="serif">k</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">k</span></span> bytes</span>. That is, <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, which enables the algorithm to safely cache the results in <span class="nowrap">128 KiB</span> tables.</p>
 
+<p>The simulator’s speed&mdash;the number of machines cycles it simulates per second&mdash;is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM. That, in turn, depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the faster it runs.</p>
 
+<p>A potential way to slim down the program is to shrink the representation of the playfield, which, at <span class="nowrap">253 bytes</span>, takes up nearly a quarter of the space. That can be accomplished by introducing boundary checks. They would eliminate the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls), as well as <span class="nowrap">rows 0</span> and 1 (the vanish zone), leaving just the <span class="nowrap">200 cells</span> of the visible playfield. Since there are only eight colors (including the background), each cell could be packed into a nibble, resulting in a playfield of <span class="nowrap">100 bytes.</span> If the palette is reduced to two colors, each cell could be packed into a bit, slimming the playfield all the way down to <span class="nowrap">25 bytes</span>, less than a tenth of the current size.</p>
 
-
-<p>The simulator’s maximum frame rate depends on the instruction execution time and the number of instructions executed per frame. Execution time is constant across all instructions. It is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM during a machine cycle. That length depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the greater the frame rate.</p>
-
-<p>The first 388 bytes of the assembled Tetris program&mdash;more than a third of its length&mdash;is data. It consists of the following.</p>
+<!--<p>The first 388 bytes of the assembled Tetris program&mdash;more than a third of its length&mdash;is data. It consists of the following.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Source</th><th class="borderless">Bytes</th></tr>
@@ -3567,7 +3566,7 @@ do {
   <tr><td>Tetriminos table</td><td class="centered">112</td></tr>  
   <tr><td>Variables</td><td class="centered">16</td></tr>
   <tr><td>Memory-mapped I/O</td><td class="centered">7</td></tr>
-</table>
+</table>-->
 
 </body>
 
