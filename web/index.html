@@ -3520,7 +3520,7 @@ do {
   
 <p>A process generates a pair of MetaTetrisScripts for the downward and upward cycles of the machine based on that size.</p>
 
-<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates and initialized a playfield per the size of the assembled Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it actualizes the MetaTetrisScripts, infinitely alternating between the downward and upward cycles of the machine.</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates and initialized a playfield with the Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it enters an infinite loop, where it actualizes the MetaTetrisScripts, alternating between the downward and upward cycles of the machine.</p>
 
 <p>At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
 
@@ -3528,31 +3528,31 @@ do {
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
-<p>Rather than manipulating all those pieces, the algorithm inspects the inputs, it performs a table lookup, and it paints the expected outputs, omitting everything in between:</p>
+<p>Rather than manipulating all those pieces, the algorithm inspects the input cells, it performs a table lookup, and it sets the output cells, omitting everything in between:</p>
 
 <object data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
 
-<p>Despite their seeming levitation, the output nodes support structures successively built on top of them as if the swap circuit were really there.</p>
+<p>Despite their seeming levitation, the output cells are capable of supporting structures built on top of them as if the swap circuit was really there.</p>
 
-<p>To efficiently compute the tables, the algorithm orders the TetrisScripts into a dependency tree. Then, starting from those that have no dependencies and working outward through the tree, it repeatedly builds components, plugging in all possible inputs and recording the results. When a TetrisScript invokes a component for which a table already exists, the algorithm applies the technique described above to considerably reduce construction time. To finish even faster, the algorithm processes multiple TetrisScripts in parallel.</p>
+<p>To efficiently compute the tables, the algorithm orders the TetrisScripts into a dependency tree. Then, starting from those that have no dependencies and working outward through the tree, it repeatedly builds components, plugging in all possible inputs and recording the results. When a TetrisScript invokes a component for which a table already exists, the algorithm uses a previously computed result, per the technique described above, instead of recomputing it. That memoized method considerably reduces construction time. To finish even faster, the algorithm processes multiple TetrisScripts in parallel.</p>
 
-<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs table lookups only for the components in the MetaTetrisScripts. And, since intermediate components are confined to the interior of circuits, they never appear in the MetaTetrisScripts.</p>
+<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs lookups only for the components in the MetaTetrisScripts. And, since intermediate components are confined to the interior of circuits, they never appear in the MetaTetrisScripts.</p>
 
-<p>A MetaTetrisScript instruction directs the simulator to build a function at specified location on the pile and to level the remaining surface by assembling identity functions everywhere else. As such, its execution expands the rectangular pile by the uniform function height.</p>
+<p>When the simulator executes a MetaTetrisScript instruction, the always-rectangular pile grows by the uniform function height. This is because the instruction directs the simulator to build a specified function at specified location on the pile and to level the remaining surface by assembling identity functions everywhere else.</p>
 
-<p>To emulate the unbounded playfield required to accommodate an ever-taller pile, the algorithm reduces the pile to its surface. For each MetaTetrisScript instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to expanding the pile and truncating everything below the surface.</p>
+<p>Rather than accommodating an ever-taller pile, the algorithm only keeps track of its surface. For each MetaTetrisScript instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to growing the pile and truncating everything below the surface.</p>
 
 <p>The algorithm represents the surface as a one-dimensional byte array, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. That representation enables the algorithm to execute a MetaTetrisScript instruction of the form:</p>
 
 <p><span class="mono">function x</span></p>
 
-<p>by performing:</p>
+<p>by doing:</p>
 
-<p><span class="serif">lookup(function, surface<span class="sub3">x</span>&mldr;surface<span class="sub3">x+k&minus;1</span>) &rarr; surface<span class="sub3">x</span>&mldr;surface<span class="sub3">x+k&minus;1</span></span></p>
+<p><span class="serif">lookup(function, surface<span class="sub3">x</span>, &mldr;, surface<span class="sub3">x+k&minus;1</span>) &rarr; surface<span class="sub3">x</span>, &mldr;, surface<span class="sub3">x+k&minus;1</span></span></p>
 
-<p>where <span class="serif">k</span> is the function byte-width.</p>
+<p>where <span class="serif">k</span> is the byte-width of the function.</p>
 
-<p>The operation is performant, but a <span class="nowrap"><span class="serif">k</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">k</span></span> bytes</span>. That is, <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively.</p>
+<p>The operation is performant, but a <span class="nowrap"><span class="serif">k</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">k</span></span> bytes</span>. That is, <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, which enables the algorithm to safely cache the results in <span class="nowrap">128 KiB</span> tables.</p>
 
 
 
