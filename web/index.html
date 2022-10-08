@@ -3550,25 +3550,17 @@ do {
 
 <p>The simulator’s speed&mdash;the number of machines cycles it simulates per second&mdash;is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM. That, in turn, depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the faster it runs.</p>
 
-<p>A potential way to slim down the program is to shrink its playfield representation, which, at <span class="nowrap">253 bytes</span>, takes up nearly a quarter of the space. It can be reduced to the <span class="nowrap">200 bytes</span> of the visible playfield by introducing boundary checks that eliminate the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls), as well as <span class="nowrap">rows 0</span> and 1 (the vanish zone). From there, the size can be halved by packing each cell into a nibble rather than a full byte. And, if the palette is reduced to two colors, the size can be halved twice more, squeezing the playfield into a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size.</p>
+<p>A potential way to slim down the program is to shrink its playfield representation, which, at <span class="nowrap">253 bytes</span>, takes up nearly a quarter of the space. It can be reduced to the <span class="nowrap">200 bytes</span> of the visible playfield by introducing boundary checks that eliminate the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls), as well as <span class="nowrap">rows 0</span> and 1 (the vanish zone). From there, the size can be halved by packing each cell into a nibble rather than a full byte. And, if the palette is reduced to two colors, the size can be halved twice more by packing each cell into a single bit. The resultant playfield would be a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size.</p>
 
 <p>However, with the machine's minimal instruction set, the code modifications required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller playfield. Worse, the change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetrimino</span> loop. At five subroutine calls per frame and four blocks per Tetrimino, the execution time of each of those instructions is amplified twenty-fold.</p>
 
-<p>Drawbacks aside, the proposed change would likely speed up line clears. As revealed in the video below, there is a noticeable delay when clearing lines due to the amount of data copied. But, if multiple cells were packed into each byte, there will be less data to copy.</p>
+<p>Drawbacks aside, the proposed change would likely speed up line clears. As revealed in the video below, there is a noticeable delay when clearing lines due to the amount of data copied. But, if multiple cells were packed into each byte, then they get copied in parallel, hastening the process.</p>
 
 <p>[ TODO VIDEO OF LINE CLEARS ]</p>
 
 <p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetriminos</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows requires 28 bytes. And indirection increases access time.</p>
 
-
-<!--
-<table class="borderless">
-  <tr><th class="borderless">Source</th><th class="borderless">Bytes</th></tr>
-  <tr><td>Playfield</td><td class="centered">253</td></tr>
-  <tr><td>Tetriminos table</td><td class="centered">112</td></tr>  
-  <tr><td>Variables</td><td class="centered">16</td></tr>
-  <tr><td>Memory-mapped I/O</td><td class="centered">7</td></tr>
-</table>-->
+<p>The choices made in designing the Tetris program presented here were guided by the principle of keeping the code simple even at the expense of larger data representations. The optimal balance between data, instruction path lengths, and program size that maximizes the game’s frame rate is left for future research.</p>
 
 </body>
 
