@@ -80,49 +80,49 @@ circle.grid-center {
 
 polygon.t {
     fill: #BA08FF;
-    stroke: #8001B1;
+    stroke: #8D00D3;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.j {
-    fill: #1801FF;
-    stroke: #1000B2;
+    fill: #1955FF;
+    stroke: #0037D8;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.z {
     fill: #FF113C;
-    stroke: #B10B2A;
+    stroke: #C9001A;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.o {
     fill: #FFDE00;
-    stroke: #B29B00;
+    stroke: #AD9600;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.s {
     fill: #68FF06;
-    stroke: #47B100;
+    stroke: #00B100;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.l {
     fill: #FF7308;
-    stroke: #B25005;
+    stroke: #C03F00;
     stroke-width: 1; 
     stroke-linecap: square;
 }
 
 polygon.i {
     fill: #04E6FF;
-    stroke: #00A1B1;
+    stroke: #00A0B7;
     stroke-width: 1; 
     stroke-linecap: square;
 }
