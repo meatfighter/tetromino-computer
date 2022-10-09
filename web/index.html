@@ -31,7 +31,7 @@
 
 <h2 id="terminology">Terminology</h1>
 
-<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, as shown below, has 20 visible rows and 10 columns, but the dimensions are arbitrary.</p>
+<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, as shown below, has twenty visible rows and ten columns, but the dimensions are arbitrary.</p>
 
 <object data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
 
@@ -80,17 +80,21 @@
 
 <h2 id="blindfolded-player">The Blindfolded Player</h2>
 
-<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player with knowledge of how data is encoded could read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces to change the state of the playfield. In other words, it can make Tetris function like RAM.</p>
+<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player with knowledge of how to encode data can read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces in a pattern that updates the state of the playfield. In other words, it can make Tetris function like RAM.</p>
 
 <p>To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
-<p>On an infinite playfield, completing a line requires infinite pieces and infinite time, neither of which the player can provide. Instead, the player deliberately grows the pile, building unbounded yet finite structures. And because lines are never cleared, the game always remains on the starting level (at the slowest drop speed).</p>
+<p>On an infinite playfield, Tetriminos spawn at row infinity and column zero. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the player can shift the piece into any finite column. And once in position, the player can hard drop the piece.</p>  
 
-<p>Tetriminos spawn in column 0 at infinite height. Due to the nature of infinity, as a spawned piece falls, it never gets any closer to the floor regardless of the drop speed. In finite (though potentially vast) time, the player can shift the piece into any column. And once in position, it can hard drop to lock the piece into the surface of the pile.</p>
+<p>A hard drop attempts to vertically translates the piece from row infinity to row zero, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
 
-<p>The player can also perform a <span class="term">semihard drop</span>. It works like a hard drop, but instead of stopping when the piece can fall no further, it stops at a specified height. It is the only way to translate a piece from infinity to a finite distance above the floor.</p>
+<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translates the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the player is free to shift, rotate, and drop the piece from there and the piece does get closer to the floor as it falls.</p>
+
+<p>The player’s actions are limited to those that take finite time. It cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. But, as demonstrated in successive sections, it can build structures of unbounded, yet finite, height and width.</p> 
+
+<p>On a side note, since the player cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
 
 <h1 id="spawn-signal">Spawn Signal</h1>
 
