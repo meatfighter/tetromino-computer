@@ -25,64 +25,66 @@
 
 <p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. The capabilities and performance of an implementation are demonstrated by running Tetris on Tetris.</p>
 
-<h1 id="preliminaries">Preliminaries</h1>
+<h1 id="introduction">Introduction</h1>
 
-<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield has 20 visible rows and 10 columns, but the dimensions are arbitrary.</p>
+<p> ... </p>
+
+<h2 id="terminology">Terminology</h1>
+
+<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, as shown below, has 20 visible rows and 10 columns, but the dimensions are arbitrary.</p>
 
 <object data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
 
 <p>Each playfield cell is in one of two states: empty or solid.</p>
 
-<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;consist four solid cells painted any color. The seven Tetriminos have single-character, shape-based names.</p>
+<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;consist of four solid cells painted any color. Each has a single-character, shape-based name:</p>
 
 <object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
 
-<p>A <span class="term">rotation</span> system describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The method employs the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adapted.</p>
+<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. The right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) is used here due to its simplicity, but <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them could be adopted.</p>
 
-<p>NRS centers each Tetrimino in a 5&times;5 matrix and it rotates them 90&deg; about that center. Of the 28 possible orientations, it uses only 19.</p>
+<p>NRS centers each Tetrimino in a 5&times;5 matrix and it quarter turns them. However, of the 28 possible orientations, it uses only 19:</p>
 
 <object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
 
-<p>The left-most column comprises the spawn orientations, the way the pieces initially appear. The steps of clockwise rotation span left-to-right.</p>
+<p>In the table above, the left-most column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right. And the mnemonic over each orientation consists of Tetrimino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
 
-<p>The mnemonics above each orientation consist of the piece type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
-
-<p>A <span class="term">move</span> is a 90&deg; rotation or a 1-cell translation of the piece in play. The following terms apply to translation.</p>
+<p>A <span class="term">move</span> is a 90&deg; rotation or a one-cell translation of the piece in play. The following terms apply to translation.</p>
 
 <ul>
     <li>A <span class="term">shift</span> is a horizontal translation.</li>
     <li>A <span class="term">drop</span> is a downward translation.
         <ul>
-            <li>A <span class="term">soft drop</span> is a player-controlled, 1-cell drop.</li>
-            <li>A <span class="term">hard drop</span> is a meta-move that forces the piece as far down as it can go and <span class="term">locks</span> it into place. It is operationally-equivalent to repeated soft drops.</li>
-            <li>A <span class="term">gravity drop</span> is an automatic, 1-cell drop triggered by the <span class="term">fall timer</span>.</li>
+            <li>A <span class="term">soft drop</span> is a player-controlled, one-cell drop.</li>
+            <li>A <span class="term">hard drop</span> is a player-controlled, drop as far down as the piece can go that <span class="term">locks</span> the piece where it lands.</li>
+            <li>A <span class="term">gravity drop</span> is an automatic, one-cell drop triggered by the <span class="term">fall timer</span>.</li>
         </ul>
     </li>
 </ul>
 
 <p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
 
-<p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all seven Tetriminos from any point in the sequence will work with the method.</p>
+<p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all Tetriminos types in some order from any point in the sequence will work with the method described in this article.</p>
 
-<h1 id="method-overview">Method Overview</h1>
+<h2 id="method-overview">Method Overview</h2>
 
-<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the <span class="nowrap">bottom-two</span> rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the <span class="nowrap">top-two</span> rows of that structure, an output data set is decoded.</p>
+<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the <span class="nowrap">bottom-two</span> rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the <span class="nowrap">top-two</span> rows of that structure, an output data set is decoded:</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
-<p>The output rows serve as input rows of a structure built above it and the process can be repeated indefinitely. The effect is a state machine where the data rows are states and the structures are transition functions.</p>
+<p>The output rows serve as input rows of a structure built above it and the process is repeated indefinitely. The effect is a state machine where the data rows are states and the structures are transition functions:</p>
 
 <object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
 
-<p>A construction exists where the data capacity of a state always exceeds its predecessor. It is a means of building an abstract computing device with unbounded storage, a.k.a. a Turing machine.</p>
+<p>A construction exists where the data capacity of a state always exceeds its predecessor. It is a means of building an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on a given input.</p>
 
-<h1 id="blindfolded-player">The Blindfolded Player</h1>
+<h2 id="blindfolded-player">The Blindfolded Player</h2>
 
-<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player can read input data, perform calculations via any mechanism, and drop pieces to write output data. In other words, it can make Tetris function like RAM.</p>
+<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player with knowledge of how data is encoded could read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces to change the state of the playfield. In other words, it can make Tetris function like RAM.</p>
 
 <p>To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
 
-<h1 id="infinite-playfield">Infinite Playfield</h1>
+<h2 id="infinite-playfield">Infinite Playfield</h2>
 
 <p>On an infinite playfield, completing a line requires infinite pieces and infinite time, neither of which the player can provide. Instead, the player deliberately grows the pile, building unbounded yet finite structures. And because lines are never cleared, the game always remains on the starting level (at the slowest drop speed).</p>
 
