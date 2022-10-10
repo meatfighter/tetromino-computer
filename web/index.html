@@ -88,29 +88,33 @@
 
 <p>On an infinite playfield, Tetriminos spawn at row infinity and column zero. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the player can shift the piece into any finite column. And once in position, the player can hard drop the piece.</p>  
 
-<p>A hard drop attempts to vertically translates the piece from row infinity to row zero, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
+<p>A hard drop attempts to vertically translate the piece from row infinity to row zero, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
 
-<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translates the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the player is free to shift, rotate, and drop the piece from there and the piece does get closer to the floor as it falls.</p>
+<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the player is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
 
 <p>The player’s actions are limited to those that take finite time. It cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. But, as demonstrated in successive sections, it can build structures of unbounded, yet finite, height and width.</p> 
 
-<p>On a side note, since the player cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
+<p>Since the player cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
 
-<h1 id="spawn-signal">Spawn Signal</h1>
+<h2 id="spawn-signal">Spawn Signal</h2>
 
-<p>Since the player cannot see, the game signals when a spawn occurs. It reveals the randomly selected piece to the player, who responds with a timed sequence of requests to move it. If the playfield were empty, the game would satisfy every request and the player would know exactly where the piece is at any time. But the playfield is not empty. Existing pieces can interrupt a shift, as illustrated in the animation below; it shows where the blindfolded player expects a piece to be (left) and where it actually ends up (right).</p>
+<p>With no visual feedback, the blindfolded player precisely controls the falling piece with a carefully timed sequence of requests to move it. The player knows when to begin the sequence because the game provides a signal that conveys the randomly selected Tetrimino type to the player when a spawn occurs.</p>
+
+<p>On a completely empty playfield, the game would satisfy every request in the sequence and the player would know exactly where the piece is at any time. But the playfield is not necessarily empty and the player is not privy to its contents.</p>
+
+<p>Since the game denies requests to move the piece into solid cells, the blindfolded player can never be certain where a piece ultimately ends up. For example, in the animation below, the player attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
-<p>The same applies to gravity and soft drops:</p>
+<p>In the following example, the player attempts to drop the <span class="nowrap">O-Tetrimino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>Since the spawn signal occurs after a piece locks, it could be abused to extract data out of the playfield, violating the concept of the blindfolded player. This is achieved by semihard dropping a piece into a column and observing how long it takes to lock, which is proportional to the height of the column. The entire surface of the pile could be probed.</p>
+<p>Since the spawn signal occurs shortly after a piece locks, the player could abuse it to learn about the contents of the playfield. Specifically, it could semihard drop a piece into a column and then monitor how long it takes gravity to trigger the spawn signal. That duration is proportional to the column height.</p>
 
-<p>To render such abuse ineffective, the method employs a version of Tetris that will not lock a piece until the player hard drops. The piece in play may rest indefinitely on a solid surface pending that explicit request to commit it to the pile.</p>
+<p>To render such abuse ineffective, the game only provides a spawn signal subsequent to a hard drop. In other words, the player must force the piece to lock. If it waits for gravity to do so, it will not be signaled when the next piece spawns.</p>
 
-<h1 id="type-filtering">Type Filtering</h1>
+<h2 id="type-filtering">Type Filtering</h2>
 
 <p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
 
