@@ -116,22 +116,22 @@
 
 <h2 id="type-filtering">Type Filtering</h2>
 
-<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece that the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
+<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>Structures are made from the remaining pieces in columns &ge; 0. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
+<p>The player makes structures from the remaining pieces in <span class="nowrap">columns &ge; 0</span>. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
 
-<h1 id="boolean-circuit-nodes">Boolean Circuit Nodes</h1>
+<h2 id="boolean-circuit-nodes">Boolean Circuit Nodes</h2>
 
 <p>Nodes consist of pairs of vertically-adjacent cells. They can be in the following states.</p>
 
 <object data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
 
 <ul>
-    <li><span class="mono">0</span> (false) &mdash; lower cell is solid, upper cell is empty.</li> 
-    <li><span class="mono">1</span> (true) &mdash; upper cell is solid, lower cell is empty or solid.</li>  
-    <li><span class="mono">?</span> (unassigned) &mdash; both cells are empty.</li>  
+    <li><span class="mono">0</span> (false) &mdash; lower-cell solid, upper-cell empty</li> 
+    <li><span class="mono">1</span> (true) &mdash; upper-cell solid, lower-cell empty or solid</li>  
+    <li><span class="mono">?</span> (unassigned) &mdash; both cells empty</li>  
 </ul>
 
 <p>Nodes are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. The image below shows one possible encoding of <span class="mono">01010</span>.</p>
@@ -140,9 +140,9 @@
 
 <p>The right-most bit is stored in a noncontiguous node.</p>
 
-<h1 id="tetrisscript">TetrisScript</h1>
+<h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It only has 3 instructions. The first consists of a mnemonic and a column index:</p>
+<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instructions. The first consists of a mnemonic and a column index:</p>
 
 <p class="definition">mnemonic x</p>
 
@@ -152,7 +152,7 @@
     <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
     <li>Rotate the piece into the mnemonic orientation.</li>   
     <li>Shift the piece to column <span class="mono">x</span>.</li>   
-    <li>Hard drop the piece to lock it into the pile.</li> 
+    <li>Hard drop the piece.</li> 
 </ol>
 
 <p>The code below demonstrates this instruction type.</p>
@@ -168,7 +168,7 @@
 <span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
 
-<p>If the player carries out those instructions, the following structure results.</p>
+<p>If the player carries out those instructions, it will produce the following.</p>
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
@@ -184,10 +184,10 @@
     <li>Shift the piece to column <span class="mono">x1</span>.</li>
     <li>Semihard drop the piece to row <span class="mono">y</span>.</li>
     <li>Shift the piece to column <span class="mono">x2</span>.</li>
-    <li>Hard drop the piece to lock it into the pile.</li> 
+    <li>Hard drop the piece.</li> 
 </ol>
 
-<p>If a gravity drop were to happen after step 4, but before step 5 finishes, it would corrupt the structure. To prevent that possibility, the player maintains a timer synchronized with the fall timer. The player uses it to semihard drop immediately after a gravity drop, maximizing the time to perform the shift to column <span class="mono">x2</span>. The horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is always tiny, guaranteeing the shift can occur in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player would misplace the piece. To prevent that possibility, the player maintains a timer synchronized with the fall timer. It enables the player to semihard drop immediately after a gravity drop, maximizing the time to perform the shift to <span class="nowrap">column <span class="mono">x2</span></span>. In addition, the horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is always tiny, guaranteeing the shift can occur in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -212,7 +212,7 @@
 
 <p>It means: build the specified structure at location <span class="mono">(x,y)</span>.</p>
 
-<p>The following code demonstrates this instruction type by referencing the prior examples.</p>
+<p>The following code demonstrates this instruction type. It references the prior examples.</p>
 
 <pre class="code">
 <span class="filename">example3.t</span>
