@@ -142,7 +142,7 @@
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instructions. The first consists of a mnemonic and a column index:</p>
+<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instruction types. The first consists of a mnemonic and a column index:</p>
 
 <p class="definition">mnemonic x</p>
 
@@ -155,7 +155,7 @@
     <li>Hard drop the piece.</li> 
 </ol>
 
-<p>The code below demonstrates this instruction type.</p>
+<p>The example code below demonstrates this instructions type.</p>
 
 <pre class="code">
 <span class="filename">example1.t</span>
@@ -168,7 +168,7 @@
 <span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
 
-<p>If the player carries out those instructions, it will produce the following.</p>
+<p>A player carrying out those instructions produces the following.</p>
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
@@ -187,7 +187,7 @@
     <li>Hard drop the piece.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player would misplace the piece. To prevent that possibility, the player maintains a timer synchronized with the fall timer. It enables the player to semihard drop immediately after a gravity drop, maximizing the time to perform the shift to <span class="nowrap">column <span class="mono">x2</span></span>. In addition, the horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is always tiny, guaranteeing the shift can occur in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player would misplace the piece. To avert that possibility, the player has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -1793,7 +1793,7 @@
 
 <h1 id="computer-architecture">Computer Architecture</h1>
 
-<p>...</p>
+<p>This section begins by constructing a Turing machine in Tetris, demonstrating Tetris is Turing-complete. Then it delves into the internal workings of an <span class="nowrap">8-bit</span> computer that supports up to <span class="nowrap">64 KiB</span> of RAM. That is followed by an exploration of the assembly language understood by that computer. Afterwards, it details a Tetris program written in that language. Finally, it explains how a simulator running that program manifests a real-time version of Tetris on Tetris.</p>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
@@ -1902,6 +1902,8 @@
 <p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an expanding, yet finite, number of TetrisScript instructions to execute per cycle, where <span class="serif">k</span> is encoded in increasing <span class="nowrap">x-coordinate</span> values.</p>
 
 <p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
+
+<p>Since one can realize a Turing machine in Tetris, Tetris is Turing-complete. Furthermore, the problem of determining if the information encoded on the pile’s surface will eventually transition to a given state from an initial state is <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a>. This is a corollary of the <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halting problem</a>. It is equivalent to asking if an arbitrary program will ultimately halt for some input dataset.</p>
 
 <h2 id="tetris-machine">Tetris Machine</h2>
 
