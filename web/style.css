@@ -336,6 +336,15 @@ pre.pseudocode {
     font-size: 16px;
 }
 
+pre.definition {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;   
+    background: #E7E9EB;
+    width: calc(100% - 56px);
+    padding: 15px 25px 15px 25px;
+    border-left: 6px solid #888888;
+}
+
 pre.code {
     font-family: 'Source Code Pro', monospace;
     font-size: 13px;

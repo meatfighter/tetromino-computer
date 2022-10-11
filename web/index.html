@@ -142,20 +142,20 @@
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instruction types. The first consists of a mnemonic and a column index:</p>
+<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instruction types. The first directs the player to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
 
 <p class="definition">mnemonic x</p>
 
-<p>It means:</p>
+<p>It commands the player to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
-    <li>Rotate the piece into the mnemonic orientation.</li>   
+    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
+    <li>Rotate the piece into <span class="mono">mnemonic</span>'s orientation.</li>   
     <li>Shift the piece to column <span class="mono">x</span>.</li>   
     <li>Hard drop the piece.</li> 
 </ol>
 
-<p>The example code below demonstrates this instructions type.</p>
+<p>The example below demonstrates this instructions type.</p>
 
 <pre class="code">
 <span class="filename">example1.t</span>
@@ -168,26 +168,26 @@
 <span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
 
-<p>A player carrying out those instructions produces the following.</p>
+<p>The code guides the player to produce the following.</p>
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type consists of a mnemonic, a column index, a row index, and a second column index:</p>
+<p>The second instruction type directs the player to semihard drop a specified Tetrimino into a specified column down to a specified row. Then, it directs the player to hard drop the Tetrimino into a different specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, the semihard drop’s column index, the semihard drop’s row index, and the hard drop's column index:</p>
 
 <p class="definition">mnemonic x1 y x2</p>
 
-<p>It means:</p>
+<p>It commands the player to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by the mnemonic type.</li> 
-    <li>Rotate the piece into the mnemonic orientation.</li>   
+    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
+    <li>Rotate the piece into <span class="mono">mnemonic</span>'s orientation.</li>   
     <li>Shift the piece to column <span class="mono">x1</span>.</li>
     <li>Semihard drop the piece to row <span class="mono">y</span>.</li>
     <li>Shift the piece to column <span class="mono">x2</span>.</li>
     <li>Hard drop the piece.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player would misplace the piece. To avert that possibility, the player has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the horizontal distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player will misplace the piece. To avert that possibility, the player has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -206,11 +206,17 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction type provides a way to compose complex structures from simpler ones. It consists of a structure name and a pair of coordinates:</p>
+<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the player to build a specified structure at a specified location. It consists of the name of the structure to build, the target column index, and the target row index:</p>
 
 <p class="definition">structure x y</p>
 
-<p>It means: build the specified structure at location <span class="mono">(x,y)</span>.</p>
+<p>It commands the player to:
+  
+<ol>  
+    <li>Replace the instruction with <span class="mono">structure</span>'s TetrisScript program.</li>
+    <li>Increment the column and row indices of each new instruction by <span class="mono">x</span> and <span class="mono">y</span>, respectively.</li>
+    <li>Execute the new instructions.</li>
+</ol>
 
 <p>The following code demonstrates this instruction type. It references the prior examples.</p>
 
@@ -220,7 +226,7 @@
 <span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
 </pre>
 
-<p>Column and row indices within the structures are offset by the provided coordinates, which makes the code above equivalent to:</p>
+<p>The player expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
 
 <pre class="code">
 <span class="filename">example3Expanded.t</span>
@@ -243,21 +249,25 @@
 <span class="line"><span class="normal">ih </span><span class="number">15 17 16</span></span>
 </pre>
 
-<p>Lines 1 and 10 are comments.</p>
+<p>As exhibited by lines 1 and 10, <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">line comments</a> begin with a <span class="mono">#</span> and they end with a <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a> character. TetrisScript does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
 
-<p>Circular references are not allowed. The code must be fully expandable to mnemonic instructions.</p>
+<p>The player recursively expands instructions of the third type until all what remains are instructions of the first and second types. This means, <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a> are not allowed.</p>
 
-<p>Executing that code produces:</p>
+<p>The code above guides the player to create structure below.</p>
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
-<p>To make testing circuits easier, TetrisScript provides syntax for labeling nodes:</p>
+<p>To make testing circuits easier, TetrisScript provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
 
-<p class="definition">in/out name x y ...</p>
+<pre class="definition">
+in name x1 y1 x2 y2 ... xN yN
 
-<p>The node type&mdash;<span class="mono">in</span> or <span class="mono">out</span>&mdash;is followed by the node name. The successive coordinates specify the node location. They refer to the lower-cell of the vertically-adjacent pairs. Spans can be indicated with range notation (<span class="mono">begin..end</span>). Multiple coordinate pairs/ranges can be provided for disjoint nodes.</p>
+out name x1 y1 x2 y2 ... xN yN
+</pre>
 
-<p>The example below declares 5 input nodes.</p>
+<p>The node type, <span class="mono">in</span> or <span class="mono">out</span>, is followed by the node name. The successive coordinates specify the node location. They refer to the lower-cell of the vertically-adjacent pairs. Each coordinate is either a single integer or a range of integers, <span class="mono nowrap">min..max</span>.</p>
+
+<p>The example below declares five input nodes.</p>
 
 <pre class="code">
 <span class="filename">nodes.t</span>
@@ -268,7 +278,7 @@
 <span class="line"><span class="keyword">in </span><span class="normal">e </span><span class="number">9..10 0 12..13 0</span></span>
 </pre>
 
-<p>Node <span class="mono">a</span> is a single pair. Node <span class="mono">b</span> is a horizontal line consisting of 3 pairs. Nodes <span class="mono">c</span> and <span class="mono">d</span> are adjoining, single pairs. Node <span class="mono">e</span> is disjoint. They are illustrated below, where nodes <span class="mono">a</span>, <span class="mono">b</span>, <span class="mono">c</span>, <span class="mono">d</span>, and <span class="mono">e</span> are set to <span class="mono">0</span>, <span class="mono">1</span>, <span class="mono">0</span>, <span class="mono">1</span>, and <span class="mono">0</span>, respectively.</p>
+<p>Node <span class="mono">a</span> is a single pair. Node <span class="mono">b</span> is a horizontal line consisting of three pairs. Nodes <span class="mono">c</span> and <span class="mono">d</span> are adjoining, single pairs. Node <span class="mono">e</span> is disjoint. They are illustrated below, where nodes <span class="mono">a</span>, <span class="mono">b</span>, <span class="mono">c</span>, <span class="mono">d</span>, and <span class="mono">e</span> are set to <span class="mono">0</span>, <span class="mono">1</span>, <span class="mono">0</span>, <span class="mono">1</span>, and <span class="mono">0</span>, respectively.</p>
 
 <object data="nodes.svg" type="image/svg+xml" class="diagram">Nodes</object>
 
