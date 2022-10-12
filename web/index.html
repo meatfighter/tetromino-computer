@@ -432,7 +432,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="xor">XOR</h2>
 
-<p>XOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a> of its inputs. That is, it outputs <span class="mono">1</span> only when both inputs are unequal.</p>
+<p>XOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a> of its inputs. That is, it outputs <span class="mono">1</span> only when the inputs are unequal.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -484,9 +484,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="xnor">XNOR</h2>
 
-<p>XNOR is a <span class="nowrap">two-input</span> gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
+<p>XNOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a> of its inputs. That is, the output is <span class="mono">1</span> only when the inputs are equal.</p>
 
-<p>The code below composes XNOR from XOR followed by an inverter.</p>
+<p>The code below constructs XNOR from an XOR gate connected to an inverter.</p>
 
 <pre class="code">
 <span class="filename">xnor.t</span>
@@ -504,7 +504,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
-<p>The inverter described above consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
+<p>The <a href="#inverter-not">inverter described above</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
 
 <pre class="code">
 <span class="filename">_notLeft.t</span>
@@ -514,13 +514,13 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
 </pre>
 
-<p>As shown in the animated constructions below, the input and output nodes of <span class="mono">_notLeft</span> overlap. When the input is <span class="mono">1</span> (right), the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. On the other hand, when the input is <span class="mono">0</span> (left), the output node is initially unassigned.</p>
+<p>As shown in the animated constructions below, the input and output nodes overlap. When the input is <span class="mono">1</span>, the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. Though, when the input is <span class="mono">0</span>, the output node is initially unassigned.</p>
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But, in practice, it is used sparingly due to a drawback exhibited in the animation above. It shows the <span class="nowrap">O-Tetrimino</span> lands on the floor when the input is <span class="mono">1</span>. However, in a circuit, the <span class="nowrap">O-Tetrimino</span> will plummet until it meets the surface of the pile, where it can induce unpredictable behavior by interfering with the construction of other circuits. In addition, the side effects of leaking Tetriminos breaks an optimization covered in a later section that depends on a consistent result for a given input.</p>
+<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-Tetrimino</span>. If that <span class="nowrap">O-Tetrimino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in <a href="#simulation">a later section</a>, which depends on consistent circuit operation.</p>
 
-<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, they are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. The names of such gates begin with an underscore to make them instantly distinguishable from ordinary gates.</p>
+<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, <span class="mono">_notLeft</span> and other leaky gates are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. Their names start with an underscore to make them instantly distinguishable from ordinary gates.</p>
 
 <p>Smaller circuits suggest faster processing. But the aforementioned optimization makes circuits built purely out of ordinary gates compute just as quickly despite their larger size. There is no justification for intermediate gates except that their compact nature effectuates aesthetically pleasing designs. That is the impetus behind the following variation of the intermediate inverter.</p>
 
@@ -554,11 +554,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
 
-<p>In the code, if <span class="mono">_notLeft2</span> is changed to <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-Tetriminos</span> becomes lopsided, an aesthetically displeasing state.</p>
+<p>On <span class="nowrap">line 2</span> of the code, if <span class="mono">_notLeft2</span> is replaced with <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-Tetriminos</span> becomes lopsided, an aesthetically displeasing configuration.</p>
 
 <p><span class="mono">_norLeft</span> is found in the interior of the ordinary XOR gate to reduce its size and to guarantee the <span class="nowrap">O-Tetrimino</span> is always caught.</p>
 
-<p>The <span class="mono">Left</span> in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
+<p>The &ldquo;<span class="mono">Left</span>&rdquo; in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
 
 <p>The intermediate NAND gate, <span class="mono">_nand</span>, uses intermediate inverters to feed input complements into an ordinary OR gate:</p>
 
@@ -573,7 +573,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 3</span></span>
 </pre>
 
-<p>The following sequence reveals the intermediate NAND leaks up to two <span class="nowrap">O-Tetriminos</span>.</p>
+<p>Intermediate NAND leaks up to two <span class="nowrap">O-Tetriminos</span>:</p>
 
 <object data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
 
@@ -629,7 +629,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="fan-out">Fan-out</h2>
 
-<p><span class="term">Fan-out</span> is the number of connections radiating from an output node. As illustrated in the animation below, lines of S-and-Z-Tetriminos enable unlimited fan-out.</p>
+<p><span class="term">Fan-out</span> is the number of connections radiating from an output node. As illustrated in the animation below, lines of S- and Z-Tetriminos enable unlimited fan-out.</p>
 
 <object data="fan-out.svg" type="image/svg+xml" class="diagram">Fan-out</object>
 
@@ -637,7 +637,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="fan-in">Fan-in</h2>
 
-<p>Wires that converge on a common node require a device to combine their signals, such as a multi-input OR gate. <span class="term">Fan-in</span> is the number of inputs of such a device. As demonstrated in the following animation, a line of Z-or-S-Tetriminos can provide unlimited fan-in. </p>
+<p>Wires that converge on a common node require a device to combine their signals, such as a multi-input OR gate. <span class="term">Fan-in</span> is the number of inputs of such a device. As demonstrated in the following animation, a line of Z- or S-Tetriminos can provide unlimited fan-in. </p>
 
 <object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
 
