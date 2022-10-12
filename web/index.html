@@ -27,9 +27,9 @@
 
 <h1 id="introduction">Introduction</h1>
 
-<p> ... </p>
+<p>This section begins with a review of Tetris fundamentals that defines terminology used throughout this paper. Then it presents an overview of the method of calculating within Tetris. That is followed by an introduction to the agent that propels the method. Afterwards, it discusses the implications of playing Tetris on an infinite playfield. Then it explains how to encode data within such a playfield. Finally, it describes the language that guides the agent.</p>
 
-<h2 id="terminology">Terminology</h1>
+<h2 id="fundamentals">Fundamentals</h1>
 
 <p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, as shown below, has twenty visible rows and ten columns, but the dimensions are arbitrary.</p>
 
@@ -80,7 +80,7 @@
 
 <h2 id="blindfolded-player">The Blindfolded Player</h2>
 
-<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. A sighted player with knowledge of how to encode data can read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces in a pattern that updates the state of the playfield. In other words, it can make Tetris function like RAM.</p>
+<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. With knowledge of how to encode data, a sighted player can read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces in a pattern that updates the state of the playfield. In other words, it can make Tetris function like RAM.</p>
 
 <p>To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
 
@@ -290,7 +290,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>A buffer is a single-input, binary <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a>. The output value is the input value, unchanged.</p>
 
-<p>The code below realizes a buffer by dropping a vertically-oriented <span class="nowrap">I-Tetrimino</span> onto an input node.</p>
+<p>The code below realizes a buffer by dropping a vertical <span class="nowrap">I-Tetrimino</span> onto an input node.</p>
 
 <pre class="code">
 <span class="filename">buffer.t</span>
@@ -300,7 +300,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 4</span></span>
 </pre>
 
-<p>The result for both input values is shown below.</p>
+<p>The result for both input values follows.</p>
 
 <object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
 
@@ -310,7 +310,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">complement</a> of the input.</p>
 
-<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-Tetrimino</span> between horizontal L-and-J-Tetriminos.</p>
+<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-Tetrimino</span> between horizontal L- and J-Tetriminos.</p>
 
 <pre class="code">
 <span class="filename">not.t</span>
@@ -322,9 +322,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 5</span></span>
 </pre>
 
-<p>Note: Although workspace coordinates are always &ge; 0 due to the floor and the discards pile, structure definitions can use negative column values because the coordinates are relative to where the structure is built.</p>
+<p>Note: While workspace coordinates are always &ge; 0 due to the floor and the discards pile, structure definitions may contain negative column indices because the coordinates are relative to where the structure is built.</p>
 
-<p>The follow animation shows what happens for both input values.</p>
+<p>The following animation shows what happens for both input values.</p>
 
 <object data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
 
@@ -340,7 +340,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="or">OR</h2>
 
-<p>OR is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
+<p>OR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a> of its inputs. That is, the output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
 
 <p>The code below creates an OR gate by dropping a single <span class="nowrap">O-Tetrimino</span> onto abutting input nodes.</p>
 
@@ -361,7 +361,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="nor">NOR</h2>
 
-<p>NOR is a <span class="nowrap">2-input</span> gate that evaluates the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>. It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a> that can be combined to form any other logic gate.</p>
+<p>NOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a> of its inputs. That is, the output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>.</p>
+
+<p>It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a>. NOR gates alone can be combined to form any other gate.</p>
 
 <p>The code below realizes a NOR gate by feeding two inputs into an inverter.</p>
 
@@ -382,9 +384,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="nand">NAND</h2>
 
-<p>NAND is a <span class="nowrap">2-input</span> gate that provides the complement of <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>. It is a universal gate that can be combined to form any other logic gate.</p>
+<p>NAND is a <span class="nowrap">two-input</span> gate that outputs the complement of the <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a> of its inputs. That is, the output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>.</p>
 
-<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>: <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>. The code below uses this equivalence. It realizes NAND as inverters feeding into an OR.</p>
+<p>It is a universal gate. NAND gates alone can be combined to form any other gate.</p>
+
+<p>The code below realizes NAND as inverters feeding into an OR. It is based on one of <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>, <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>.</p>
 
 <pre class="code">
 <span class="filename">nand.t</span>
@@ -405,9 +409,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="and">AND</h2>
 
-<p>AND is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a>. The output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
+<p>AND is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a> of its inputs. That is, the output is <span class="mono">1</span> only when both inputs are <span class="mono">1</span>.</p>
 
-<p>The code below constructs AND from a NAND gate followed by an inverter.</p>
+<p>The code below constructs AND from a NAND gate connected to an inverter.</p>
 
 <pre class="code">
 <span class="filename">and.t</span>
@@ -428,7 +432,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="xor">XOR</h2>
 
-<p>XOR is a <span class="nowrap">2-input</span> gate that performs <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a>. It outputs <span class="mono">1</span> only when both inputs are unequal.</p>
+<p>XOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a> of its inputs. That is, it outputs <span class="mono">1</span> only when both inputs are unequal.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -470,17 +474,17 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
 </pre>
 
-<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in a later section.</p>
+<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in <a href="#intermediate-gates">a later section</a>.</p>
 
 <p>Here are the results for all input combinations:</p>
 
 <object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
 
-<p>The vertical <span class="nowrap">I-Tetriminos</span> and the L-and-J-Tetriminos resting on the <span class="nowrap">O-Tetrimino</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. The horizontal <span class="nowrap">I-Tetrimino</span> at the top operates as an OR gate.</p>
+<p>The L- and J-Tetriminos resting on the <span class="nowrap">O-Tetriminos</span> and the vertical <span class="nowrap">I-Tetriminos</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. And the horizontal <span class="nowrap">I-Tetrimino</span> at the top operates as an OR gate.</p>
 
 <h2 id="xnor">XNOR</h2>
 
-<p>XNOR is a <span class="nowrap">2-input</span> gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
+<p>XNOR is a <span class="nowrap">two-input</span> gate that evaluates <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a>. The output is <span class="mono">1</span> only when both inputs are equal. It is the complement of XOR.</p>
 
 <p>The code below composes XNOR from XOR followed by an inverter.</p>
 
