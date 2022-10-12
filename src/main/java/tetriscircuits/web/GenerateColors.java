@@ -2,8 +2,44 @@ package tetriscircuits.web;
 
 public class GenerateColors {
     
+    private static final int[] SRGBS = {
+        0xB802FD,
+        0x0000FF,
+        0xFE103C,
+        0xFFDE00,
+        0x66FD00,
+        0xFF7308,
+        0x00E6FE,
+    };
+    
+    private static final String[] NAMES = { "t", "j", "z", "o", "s", "l", "i" };
+    
     public void launch() {
         
+        final LinearColor[] colors = new LinearColor[SRGBS.length];
+        final LinearColor[] darks = new LinearColor[SRGBS.length];
+        
+        for (int i = 0; i < SRGBS.length; ++i) {
+            colors[i] = new LinearColor(SRGBS[i]);
+            colors[i].maxBrigten();             
+        }
+        
+        colors[1].brighten(1.0 / 3.0);
+        
+        for (int i = 0; i < SRGBS.length; ++i) {
+            darks[i] = new LinearColor(colors[i]);
+            darks[i].darken(0.7 * darks[i].getY());
+        }
+        
+        for (int i = 0; i < SRGBS.length; ++i) {
+            System.out.format("polygon.%s {%n", NAMES[i]);
+            System.out.format("    fill: #%s;%n", colors[i].toSRGBString());
+            System.out.format("    stroke: #%s;%n", darks[i].toSRGBString());
+            System.out.format("    stroke-width: 1;%n"); 
+            System.out.format("    stroke-linecap: square;%n");
+            System.out.format("}%n");
+            System.out.format("%n");
+        }
     }    
     
     public static void main(final String... args) throws Exception {
@@ -13,11 +49,25 @@ public class GenerateColors {
 
 final class LinearColor {
     
+    private static final double FR = 0.299;
+    private static final double FG = 0.587;
+    private static final double FB = 0.114;
+    
+    private static final double IR = FR / 65536.0;
+    private static final double IG = FG / 65536.0;
+    private static final double IB = FB / 65536.0;    
+    
     private double r;
     private double g;
     private double b;
 
     public LinearColor() {        
+    }
+    
+    public LinearColor(final LinearColor color) {
+        r = color.r;
+        g = color.g;
+        b = color.b;
     }
     
     public LinearColor(final double r, final double g, final double b) {
@@ -28,6 +78,30 @@ final class LinearColor {
     
     public LinearColor(final int sRGB) {
         setSRGB(sRGB);
+    }
+    
+    public void maxBrigten() {
+        while (r < 1.0 && g < 1.0 && b < 1.0) {
+            r = Math.min(1.0, r + IR);
+            g = Math.min(1.0, g + IG);
+            b = Math.min(1.0, b + IB);
+        }
+    }
+    
+    public void brighten(final double targetY) {
+        while (getY() < targetY) {
+            r = Math.min(1.0, r + IR);
+            g = Math.min(1.0, g + IG);
+            b = Math.min(1.0, b + IB);
+        }
+    }
+    
+    public void darken(final double targetY) {
+        while (getY() > targetY) {
+            r = Math.max(0.0, r - IR);
+            g = Math.max(0.0, g - IG);
+            b = Math.max(0.0, b - IB);
+        }
     }
     
     public double getR() {
@@ -55,7 +129,7 @@ final class LinearColor {
     }
     
     public double getY() {
-        return 0.299 * r + 0.587 * g + 0.114 * b;
+        return FR * r + FG * g + FB * b;
     }
     
     public void setSRGB(final int sRGB) {
