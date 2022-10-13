@@ -645,23 +645,23 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="crossing">Crossing</h2>
 
-<p>The wires of a circuit can cross over each other without connecting in a 3-dimensional universe. But, on the 2-dimensional playfield, a cross requires a planar device that mutually exchanges 2 inputs. The device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>: </p>
+<p>In a three-dimensional universe, wires can cross over each other without connecting. But on the two-dimensional playfield, a cross requires a planar device that mutually exchanges inputs. That device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>:</p>
 
 <p><span class="math">C = A &oplus; B</span></p>
 
-<p>Then it XORs the inputs with the temporary variable, which swaps them:</p>
+<p>Then it XORs the inputs with that temporary variable, which swaps them:</p>
 
 <p><span class="math">A &oplus; C = A &oplus; A &oplus; B = B</span></p>
 
 <p><span class="math">B &oplus; C = B &oplus; A &oplus; B = A</span></p>
 
-<p>The algorithm suggests the following circuit.</p>
+<p>Those steps suggests this circuit:</p>
 
 <object data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
 
-<p>Since the circuit has no cross-overs and XOR is realizable, it achieves a planar swap.</p>
+<p>Since two-dimensional XOR gates exist and the circuit does not contain any cross-overs, it achieves a planar swap.</p>
 
-<p>In the code below, which is based on that schematic, the lower XOR gate is expanded into 3 NORs and a horizontal I-Tetrimino operating as an OR. The other pieces function as wires.</p>
+<p>In following the actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-Tetrimino operating as an OR. The other pieces function as wires.</p>
 
 <pre class="code">
 <span class="filename">swap.t</span>
@@ -692,17 +692,17 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
 </pre>
 
-<p>Here are the results for all input combinations:</p>
+<p>As demonstrated below, the outputs are the inputs, but positionally exchanged.</p>
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
 
-<p>The following animation makes repeated use of the swap circuit. It shows a diagonal wire crossing over multiple vertical wires.</p>
+<p>The following animation shows a diagonal wire crossing over multiple vertical wires via repeated application of the swap circuit.</p>
 
 <object data="cross-seven.svg" type="image/svg+xml" class="diagram">Cross Seven</object>
 
 <h2 id="multiplexing">Multiplexing</h2>
 
-<p>A multiplexer is a controlled switch that channels one of the inputs to the output. The output of a 2-to-1 multiplexer is <span class="math">AS + B<span class="overline">S</span></span> where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the selector.</p>
+<p>A <span class="term">multiplexer</span> is a switch that channels one of the inputs to the output. A <span class="nowrap">2-to-1</span> multiplexer outputs <span class="math">AS + B<span class="overline">S</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the <span class="term">selector</span> that controls the switch.</p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
@@ -712,7 +712,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
 
-<p>That suggests the following construction from 2 NAND gates, an OR gate, and an inverter.</p>
+<p>That suggests two NAND gates, an OR gate, and an inverter arranged as follows.</p>
 
 <object data="mux-schematic.svg" type="image/svg+xml" class="diagram">Multiplexer Schematic</object>
 
@@ -742,21 +742,23 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
 
-<p>The selector (the center input) is <span class="mono">0</span> in the upper row and <span class="mono">1</span> in the lower row. As its name suggests, <span class="mono">muxLeft</span> outputs the left input when the selector is <span class="mono">1</span>. The horizontally reflected version, <span class="mono">muxRight</span>, outputs the right input when the selector is <span class="mono">1</span>.</p>
+<p>The selector (the center input) is <span class="mono">0</span> in the upper-row and <span class="mono">1</span> in the lower-row.</p>
+
+<p>As suggested by its name, <span class="mono">muxLeft</span> outputs the left-input when the selector is <span class="mono">1</span>. A horizontally-reflected version, <span class="mono">muxRight</span>, outputs the right-input when the selector is <span class="mono">1</span>.</p>
 
 <h1 id="functions">Functions</h1>
 
-<p>This section describes the arithmetic and logic functions created for the computer.</p>
+<p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
 
-<h2 id="interoperability">Interoperability</h2>
+<h2 id="composition">Composition</h2>
 
-<p>The functions are stackable. Meaning, the output of any function can serve as the input of another. To make that work:</p>
+<p>Functions are structures designed for <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a>. The output of any function can serve as the input another simply by stacking them. To make that work, they have the following properties.</p>
 
 <ul>
-<li>Each function operates on an <span class="nowrap">8-bit</span>, <span class="nowrap">16-bit</span>, or <span class="nowrap">24-bit</span> value.</li>
-<li>The number of input bits always equals the number of output bits.</li> 
+<li>The input and output values have the same bit-width: either 8-, 16-, or <span class="nowrap">24-bits</span>.</li>
+<li>The input and output nodes are all single-column nodes.</li>
 <li>Each input node has a corresponding output node in the same column.</li> 
-<li>The terminals are evenly spaced, 10 cells apart. That width provides room for wide components, such as the swap circuit. And a round, base-10 number makes measurements easier.</li>
+<li>Nodes are evenly spaced, ten columns apart. That width provides room for wide components, such as the swap circuit. And a round, <span class="nowrap">base-10</span> number simplifies measurements during design.</li>
 </ul>
 
 <h2 id="arrays">Arrays</h2>
