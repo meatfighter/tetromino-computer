@@ -756,35 +756,34 @@ out name x1 y1 x2 y2 ... xN yN
 
 <ul>
 <li>The input and output values have the same bit-width: either 8-, 16-, or <span class="nowrap">24-bits</span>.</li>
-<li>The input and output nodes are all single-column nodes.</li>
-<li>Each input node has a corresponding output node in the same column.</li> 
-<li>Nodes are evenly spaced, ten columns apart. That width provides room for wide components, such as the swap circuit. And a round, <span class="nowrap">base-10</span> number simplifies measurements during design.</li>
+<li>The input and output nodes are single-column nodes that are evenly spaced, ten columns apart. That provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
+<li>The input and output nodes line up. That is, the input node for the <span class="math">i<span class="sup">th</span></span> bit of the input value is in the same column as the output node for the <span class="math">i<span class="sup">th</span></span> bit of the output value.</li> 
 </ul>
 
 <h2 id="arrays">Arrays</h2>
 
-<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as an array of 2 bytes, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">two-byte</span> array, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 652px">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top right green">B<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as an array of 3 bytes, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">three-byte</span> array, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top green">B<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">23</span></td><td class="bottom blue">V<span class="sub">22</span></td><td class="bottom blue">V<span class="sub">21</span></td><td class="bottom blue">V<span class="sub">20</span></td><td class="bottom blue">V<span class="sub">19</span></td><td class="bottom blue">V<span class="sub">18</span></td><td class="bottom blue">V<span class="sub">17</span></td><td class="bottom blue">V<span class="sub">16</span></td><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>One <span class="nowrap">24-bit</span> function interprets the input value, <span class="math">V</span>, as a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
+<p>One <span class="nowrap">24-bit</span> function interprets the input value, <span class="math">V</span>, as a <span class="nowrap">two-element</span> array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top cyan">W<span class="sub">15</span></td><td class="top cyan">W<span class="sub">14</span></td><td class="top cyan">W<span class="cyan">13</span></td><td class="top cyan">W<span class="sub">12</span></td><td class="top cyan">W<span class="sub">11</span></td><td class="top cyan">W<span class="sub">10</span></td><td class="top cyan">W<span class="sub">9</span></td><td class="top cyan">W<span class="sub">8</span></td><td class="top cyan">W<span class="sub">7</span></td><td class="top cyan">W<span class="sub">6</span></td><td class="top cyan">W<span class="sub">5</span></td><td class="top cyan">W<span class="sub">4</span></td><td class="top cyan">W<span class="sub">3</span></td><td class="top cyan">W<span class="sub">2</span></td><td class="top cyan">W<span class="sub">1</span></td><td class="top cyan">W<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">23</span></td><td class="bottom blue">V<span class="sub">22</span></td><td class="bottom blue">V<span class="sub">21</span></td><td class="bottom blue">V<span class="sub">20</span></td><td class="bottom blue">V<span class="sub">19</span></td><td class="bottom blue">V<span class="sub">18</span></td><td class="bottom blue">V<span class="sub">17</span></td><td class="bottom blue">V<span class="sub">16</span></td><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Functions that accept arrays return arrays with the same dimensions.</p>
+<p>A function that accepts an array will return an array of identical dimension.</p>
 
 <h2 id="identity">Identity</h2>
 
@@ -798,11 +797,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="constant">Constant</h2>
 
-<p>A constant function returns the same value regardless of the argument:</p>
+<p>A constant function outputs the same value regardless of its input:</p>
 
 <p><span class="math">f(x) = k</span></p>
 
-<p>There are two <span class="nowrap">1-bit</span> versions. The first outputs <span class="mono">0</span>. This is achieved by XORing the input with itself:</p>
+<p>A <span class="nowrap">1-bit</span> function that always returns <span class="mono">0</span> is realized by XORing the input with itself:</p>
 
 <p><span class="math">f(A) = A &oplus; A = </span><span class="serif">0</span></p>
 
@@ -817,11 +816,11 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 12</span></span>
 </pre>
 
-<p>The tests in the following image affirm the circuit always outputs <span class="mono">0</span>.</p>
+<p>The tests in the following image affirm the circuit consistently outputs <span class="mono">0</span>.</p>
 
 <object data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
-<p>The second <span class="nowrap">1-bit</span> function outputs <span class="mono">1</span>. This is accomplished by XNORing the input with itself:</p>
+<p>A <span class="nowrap">1-bit</span> function that always returns <span class="mono">1</span> is realized by XNORing the input with itself:</p>
 
 <p><span class="math">f(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
 
@@ -840,11 +839,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="true.svg" type="image/svg+xml" class="diagram">True</object>
 
-<p><span class="nowrap">8-bit</span> constant functions are realized by applying the <span class="nowrap">1-bit</span> versions to each bit. The following example resets a byte to <span class="mono">0</span>.</p>
+<p>A constant byte function is an assemblage of eight <span class="nowrap">1-bit</span> constant functions. The image below depicts the constant byte function <span class="nowrap"><span class="math">f(x) = </span><span class="serif">0</span></span> for an arbitrary input value.</p>
 
 <object data="clear.svg" type="image/svg+xml" class="diagram">Clear</object>
 
-<p>The image below depicts the requisite <span class="math">f(x) = </span><span class="serif">42</span> function. </p>
+<p>And here is the requisite <span class="math">f(x) = </span><span class="serif">42</span> function:</p>
 
 <object data="constant-42.svg" type="image/svg+xml" class="diagram">42</object>
 
@@ -864,19 +863,19 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
 
-<p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span> (rounding toward <span class="serif">0</span>):</p>
+<p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span>, rounding toward <span class="serif">0</span>:</p>
 
-<p><span class="math">f(x) = </span><span class="math">x</span><span class="serif">/2</span><span class="math pow">n</span></p>
+<p><span class="math">f(x) = </span><span class="math">x</span><span class="serif"> / 2</span><span class="math pow">n</span></p>
 
 <h2 id="logical-and">Logical AND</h2>
 
-<p>The logical AND function operates on a 3-byte array, where all 3 elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second elements together, and stores the result in the third element:</p>
+<p>The logical AND function operates on a <span class="nowrap">three-byte</span> array, where all three bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second bytes together, and it puts the result in the third byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">C = AB</span></p>
 
-<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
 
 <p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are ANDed together:</p>
 
@@ -888,29 +887,29 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="logical-and-not">Logical AND-NOT</h2>
 
-<p>The logical AND-NOT function operates on a 2-byte array, where both elements are Booleans, variables restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first element with the first element ANDed with the inverse of the second element:</p>
+<p>The logical AND-NOT function operates on a <span class="nowrap">two-byte</span> array, where both bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first byte with the first byte ANDed with the inverse of the second byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">Q = A<span class="overline">B</span></span></p>
 
-<p><span class="math">B</span> passes through unchanged while <span class="math">A</span> is lost.</p>
+<p><span class="math">B</span> passes through unchanged, while <span class="math">A</span> is lost.</p>
 
 <p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">Q</span>:</p>
 
 <object data="and-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>In the Tetris version, shown below, the horizontal <span class="math">B<span class="sub">0</span></span> wire is realized as a chain of swap circuits. The swaps are stacked from right-to-left, producing a diagonal line while shuttling the signal.</p>
+<p>The wire leading to the inverter&mdash;the horizontal line in the schematic above&mdash;appears diagonal in the Tetris realization because it consists of swap circuits stacked right-to-left, the arrangement required to propagate the signal across the <span class="math">B</span> lines:</p>
 
 <object data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>There is a variation that operates on an array of 3 Booleans. It sets the first element to the second element ANDed with the inverse of the third element:</p>
+<p>There is a variation that operates on a three-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
 <p><span class="math">C = A<span class="overline">B</span></span></p>
 
-<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
 
 <p>As above, only the lowest bits of <span class="math">A</span> and <span class="math">B</span> are used to generate the result:</p>
 
