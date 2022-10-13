@@ -921,7 +921,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="bitwise-and">Bitwise AND</h2>
 
-<p>The bitwise AND function operates on a 2-byte array. It sets the first byte to the bitwise AND of both bytes:</p>
+<p>The bitwise AND function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise AND of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -931,7 +931,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="bitwise-and-fb-schematic.svg" type="image/svg+xml" class="diagram">Bitwise AND Schematic</object>
 
-<p>In the Tetris version below, the row of AND gates is in the upper-left. The parallelogram dominating the space is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
+<p>In the Tetris version below, the AND gates are arranged in a line in the top-left. The space-dominating parallelogram is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
 
 <object data="bitwise-and-fb.svg" type="image/svg+xml" class="diagram">Bitwise AND</object>
 
@@ -951,7 +951,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="bitwise-or">Bitwise OR</h2>
 
-<p>The bitwise OR function operates on a 2-byte array. It sets the first byte to the bitwise OR of both bytes:</p>
+<p>The bitwise OR function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise OR of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -961,15 +961,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="bitwise-or-schematic.svg" type="image/svg+xml" class="diagram">Bitwise OR Schematic</object>
 
-<p>In the Tetris version below, the row of yellow O-Tetriminos in the upper-left are the OR gates. The parallelogram dominating the space is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
+<p>In the Tetris version below, the line of yellow <span class="nowrap">O-Tetriminos</span> in the top-left are the OR gates. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
 
 <object data="bitwise-or.svg" type="image/svg+xml" class="diagram">Bitwise OR</object>
 
-<p>The horizontal reflection was not implemented.</p>
+<p>A horizontally reflected version was not implemented.</p>
 
 <h2 id="bitwise-xor">Bitwise XOR</h2>
 
-<p>The bitwise XOR function operates on a 2-byte array. It sets the first byte to the bitwise XOR of both bytes:</p>
+<p>The bitwise XOR function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise XOR of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -979,15 +979,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="bitwise-xor-schematic.svg" type="image/svg+xml" class="diagram">Bitwise XOR Schematic</object>
 
-<p>In the Tetris version below, the row of XOR gates is in the upper-left. The parallelogram dominating the space is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
+<p>In the Tetris version below, the XOR gates are arranged in a line in the top-left. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
 
 <object data="bitwise-xor.svg" type="image/svg+xml" class="diagram">Bitwise XOR</object>
 
-<p>The horizontal reflection was not implemented.</p>
+<p>A horizontally reflected version was not implemented.</p>
 
 <h2 id="byte-swap">Byte Swap</h2>
 
-<p>The byte swap function exchanges the elements of a 2-byte array:</p>
+<p>The byte swap function exchanges the elements of a <span class="nowrap">two-byte</span> array:</p>
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
 
@@ -1001,11 +1001,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="byte-match">Byte Match</h2>
 
-<p>The byte match function operates on a 2-byte array:</p>
+<p>The byte match function operates on a <span class="nowrap">two-byte</span> array:</p>
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
 
-<p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>. If it doesn’t, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged while <span class="math">X</span> is discarded.</p>
+<p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>; otherwise, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged, while <span class="math">X</span> is discarded.</p>
 
 <p>The bit pattern consists of zeros, ones, and <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-cares</a>. Meaning, each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, is either compared against a constant or it is ignored. For example, the following expression checks if all <span class="math">A<span class="sub">i</span></span> are <span class="mono">1</span>:</p> 
 
@@ -1023,7 +1023,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
 
-<p>Horizontal J-Tetriminos operate as OR gates. They feed each input bit to both terminals of a swap circuit.</p>
+<p>Horizontal <span class="nowrap">J-Tetriminos</span> operate as OR gates. Each feeds an input bit to both terminals of a swap circuit.</p>
 
 <p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
 
@@ -1037,7 +1037,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
 
-<p>In the Tetris realization below, 2 of the horizontal J-Tetriminos are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
+<p>In the Tetris realization below, two of the horizontal <span class="nowrap">J-Tetriminos</span> are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
 
 <object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
 
@@ -1045,7 +1045,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
 
-<p>Its circuit is nearly the horizontal reflection of the one above:  </p>
+<p>Its circuit is nearly the horizontal-reflection of the one above:  </p>
 
 <object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
 
@@ -1055,11 +1055,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="equals">Equals</h2>
 
-<p>The equals function operates on a 3-byte array:</p>
+<p>The equals function operates on a <span class="nowrap">three-byte</span> array:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
 
-<p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>. Otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged while <span class="math">X</span> is discarded.</p>
+<p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>; otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
 
 <p><span class="math">E</span> is defined by the following expression, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
@@ -1081,7 +1081,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></p>
 
-<p>Its circuit is roughly the horizontal reflection of the one above:</p>
+<p>Its circuit is roughly the horizontal-reflection of the one above:</p>
 
 <object data="equals-e-a-b-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
@@ -1089,7 +1089,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
-<p>There is a another variation that uses all 3 input bytes:</p>
+<p>There is a another variation that uses all three input bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, V </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="math">]</span>, where <span class="math">V,E </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -1119,11 +1119,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
 
-<p>The horizontal reflection of this variation was not implemented. </p>
+<p>The horizontal-reflection of this variation was not implemented. </p>
 
 <h2 id="byte-copy">Byte Copy</h2>
 
-<p>The byte copy function operates on a 2-byte array. It copies the first byte to the second byte:</p> 
+<p>The byte copy function operates on a <span class="nowrap">two-byte</span> array. It copies the first byte to the second byte:</p> 
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
 
@@ -1131,17 +1131,17 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
 
-<p>As shown below, the Tetris version is dominated by swap circuits.</p>
+<p>The Tetris version appears below.</p>
 
 <object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
 
-<p>Since the evaluation order is established by the sequence in which components are built, each signal propagates upward as it advances from left-to-right. The triangular arrangement is a consequence of the parallel, diagonally-upward lines. After the center wire is crossed, horizontal lines of Z-Tetriminos are used in the same way as the horizontal lines in the schematic above it.</p>
+<p>The space-dominating triangle consists of diagonally-upward chains of swap circuit. After they cross the center wire, horizontal lines of <span class="nowrap">Z-Tetriminos</span> carry the signals the rest of the way.</p>
 
 <p>A variation of the function copies the second byte to the first byte:</p>
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
 
-<p>It is the horizontal reflection of the previous circuit:</p>
+<p>It is the horizontal-reflection of the previous circuit:</p>
 
 <object data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
 
