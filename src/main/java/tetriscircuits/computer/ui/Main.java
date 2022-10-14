@@ -20,6 +20,13 @@ public class Main {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
+        final PlayfieldModel playfieldModel = new PlayfieldModel();
+        final int[][] cells = playfieldModel.getCells();
+        for (int i = 0; i < 7; ++i) {
+            cells[10][i + 2] = i + 1;
+        }        
+        frame.update(playfieldModel);
     }
     
     public static void main(final String... args) {
