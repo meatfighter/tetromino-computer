@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Turing-complete</title>
-<link rel="stylesheet" href="style.css?v=2022-10-09" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-10-14" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-10-09"/>
+<meta name="date" content="2022-10-14"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -1223,7 +1223,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &minus; 1 = 0</span></td></tr>
 </table>
 
-<p>From the table, <span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
+<p>The table reveals <span class="math">B</span> and <span class="math">D</span> are:</p>
 
 <p><span class="math">B = <span class="overline">X</span>Y</span></p>
 
@@ -1285,7 +1285,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
 
-<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> decrement function that calculated <span class="nowrap serif">0 &minus; 1</span>. It rolled back to all ones, the two's complement representation of &minus;1 or the maximum unsigned integer value.</p>
+<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> decrement function that calculated <span class="nowrap serif">0 &minus; 1</span>. It rolled back to all ones, the <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two's complement</a> representation of &minus;1 or the maximum unsigned integer value.</p>
 
 <object data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
 
@@ -1305,7 +1305,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
 </table>
 
-<p>From the table, <span class="math">C</span> and <span class="math">S</span> can be expressed as:</p>
+<p>The table reveals <span class="math">C</span> and <span class="math">S</span> are:</p>
 
 <p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
@@ -1380,7 +1380,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>; otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
 
-<p>As shown in the schematic below, it is realized by feeding the lowest bit of <span class="math">C</span> into the <span class="nowrap">carry-in</span> of a <span class="nowrap">16-bit</span> incrementer. The <span class="nowrap">carry-out</span> is discarded.</p>
+<p>As shown below, its circuit consists of a <span class="nowrap">16-bit</span> incrementer, where the <span class="nowrap">carry-in</span> is <span class="math">C<span class="sub">0</span></span> and the <span class="nowrap">carry-out</span> is discarded.</p>
 
 <object data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
 
@@ -1394,11 +1394,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></p>
 
-<p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic addition.</p>
+<p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic add.</p>
 
 <p><span class="math">B</span> passes through, unchanged.</p>
 
-<p>The implementation of the function consists of a chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Full_adder" target="_blank">full adders</a>, devices capable of single-digit addition. Each accepts three <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span>, <span class="math">Y</span>, and <span class="math">Z</span>, and outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+<p>Its circuit consists of a chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Full_adder" target="_blank">full adders</a>, devices capable of single-digit addition. Each full adder accepts three <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span>, <span class="math">Y</span>, and <span class="math">Z</span>, and it outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below shows the outputs for all possible inputs.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="math">Z</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
@@ -1412,7 +1412,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 1 &plus; 1 = 3</span></td></tr>
 </table>
 
-<p><span class="math">S</span> can be expressed as an OR of ANDs and NOTs from the rows of the table where it is <span class="mono">1</span>: 
+<p>Per the table rows where <span class="math">S</span> is <span class="mono">1</span>:</p>
 
 <p><span class="math">S = <span class="overline">X</span> <span class="overline">Y</span> Z + <span class="overline">X</span> Y <span class="overline">Z</span> + X <span class="overline">Y</span> <span class="overline">Z</span> + X Y Z</span></p>
 
@@ -1428,7 +1428,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
 
-<p>Similarly, <span class="math">C</span> can be expressed from the rows of the table where it is <span class="mono">1</span>:</p>
+<p>Per the table rows where <span class="math">C</span> is <span class="mono">1</span>:</p>
 
 <p><span class="math">C = <span class="overline">X</span> Y Z + X <span class="overline">Y</span> Z + X Y <span class="overline">Z</span> + X Y Z</span></p>
 
@@ -1456,7 +1456,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math"> = (X + Y) (Z + <span class="overline">X &oplus; Y</span>)</span></p>
 
-<p>They can be combined:</p>
+<p>The expressions for <span class="math">S</span> and <span class="math">C</span> are combined:</p>
 
 <p><span class="math">T = <span class="overline">X &oplus; Y</span></span></p>
 
@@ -1464,27 +1464,27 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">C = (X + Y) (Z + T) = <span class="high-overline"><span class="overline">X + Y</span> + <span class="overline">Z + T</span></span></span></p>
 
-<p>Since XNOR can be realized from 4 NORs, the result suggests the following.</p>
+<p>The resultant expressions suggest the following circuit, where the XNORs (the gray rectangles) are composed from four NORs.</p>
 
 <object data="full-adder-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic</object>
 
-<p>The circuit employed by the Tetris version preserves <span class="math">X</span> by outputting it between <span class="math">C</span> and <span class="math">S</span>. As shown below, it requires 9 NORs and 3 crosses.</p>
+<p>The Tetris realization is based on a slight modification that forwards input <span class="math">X</span> through and out between <span class="math">C</span> and <span class="math">S</span>. It consists of nine NORs and three crosses, as shown below.</p>
 
 <object data="full-adder-x-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic, Outputs X</object>
 
-<p>The following image presents the Tetris version for all <span class="math">Y</span> and <span class="math">Z</span> when <span class="math">X</span> is <span class="mono">0</span>. The space is dominated by the 3 swap circuits.</p>
+<p>Here are the results for <span class="math">X = </span><span class="mono">0</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
 
 <object data="full-adder-x-0.svg" type="image/svg+xml" class="diagram">Full Adder, X = 0</object>
 
-<p>Here are the outcomes when <span class="math">X</span> is <span class="mono">1</span>:</p>
+<p>Here are the results for <span class="math">X = </span><span class="mono">1</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
 
 <object data="full-adder-x-1.svg" type="image/svg+xml" class="diagram">Full Adder, X = 1</object>
 
-<p>For the function, full adders are chained, as shown below. Each accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and outputs a sum digit, <span class="math">Q<span class="sub">i</span></span>, along with an unmodified addend digit, <span class="math">B<span class="sub">i</span></span>.</p>
+<p>The complete circuit consists of full adders chained in the arrangement below. Each full adder accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and it outputs their sum digit, <span class="math">Q<span class="sub">i</span></span>, along with one of the input digits, <span class="math">B<span class="sub">i</span></span>, unmodified.</p>
 
 <object data="adder-schematic.svg" type="image/svg+xml" class="diagram">4-bit Adder Schematic</object>
 
-<p>As when addition is done by hand, the digit columns are evaluated right-to-left. In each column, if the sum of the <span class="nowrap">carry-in</span>, <span class="math">Z</span>, and the addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, is not a single digit number, then the upper digit of that sum, <span class="math">C</span>, is carried out to the next column. The initial carry-in is <span class="mono">0</span> (far right) and the final carry-out is lost.</p>
+<p>The circuit evaluates right-to-left. For each full adder, if the sum of the <span class="nowrap">carry-in</span>, <span class="math">Z</span>, and the addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, is not a single-digit number, then the high digit, <span class="math">C</span>, is carried out to the full adder on its left. The initial <span class="nowrap">carry-in</span> is <span class="mono">0</span> (far right) and the final <span class="nowrap">carry-out</span> is lost.</p>
 
 <p>Crisscrossing wires are required to interlace the inputs and to disentangle the outputs:</p>
 
@@ -1506,17 +1506,17 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">B</span> passes through, unchanged.</p>
 
-<p>Since <span class="math">A</span>, <span class="math">B</span>, and <span class="math">Q</span> are <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two’s complement numbers</a>, the subtraction can be transformed into a sum:</p>
+<p>Since <span class="math">A</span>, <span class="math">B</span>, and <span class="math">Q</span> are two’s complement numbers, the subtraction can be transformed into a sum:</p>
 
 <p><span class="math">A &minus; B = A + -B = A + </span><span class="serif">~</span><span class="math">B + </span><span class="serif">1</span>, where <span class="serif">~</span> means <a href="https://en.wikipedia.org/wiki/Bitwise_operation#NOT" target="_blank">bitwise inversion</a>.</p>
 
-<p>Consequentially, the subtraction circuit is the modified addition circuit shown below.</p>
+<p>Its circuit is a modification of the add circuit:</p>
 
 <object data="subtract-schematic.svg" type="image/svg+xml" class="diagram">8-bit Subtractor Schematic</object>
 
-<p>The <span class="mono">1</span> required by the transformation is provided by the initial carry-in (far right).</p>
+<p>The initial <span class="nowrap">carry-in</span> (far right) serves as the <span class="serif">+ 1</span> term of the sum.</p>  
 
-<p>The bits of <span class="math">B</span> are inverted twice to return it with its original value.</p>
+<p><span class="math">B</span> is inverted twice to output it unchanged.</p> 
 
 <p>The Tetris realization follows.</p>
 
@@ -1524,7 +1524,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="height-unification">Height Unification</h2>
 
-<p>Subtract is the tallest function, at least as the functions have been portrayed thus far. In reality, functions are padded with buffers that extends them to a common height. Consequentially, every functions fits in a rectangle with a base that covers either 8, 16, or 24 bits, and a height that matches the subtract function. With only those 3 possible dimensions, functions fit together like interchangeable, building blocks that process information.</p>
+<p>Subtract is the tallest function, at least as the functions have been portrayed thus far. In reality, functions are padded with buffers that extends them to a common height. As such, every functions fits in a rectangle with a base that covers either 8, 16, or 24 bits, and a height that matches the subtract function. With only those three possible dimensions, functions fit together like interchangeable, building blocks that process information.</p>
 
 <h2 id="function-catalog">Function Catalog</h2>
 
