@@ -762,14 +762,14 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="arrays">Arrays</h2>
 
-<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">two-byte</span> array, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 652px">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top right green">B<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">three-byte</span> array, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">3-byte</span> array, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top green">B<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
@@ -869,7 +869,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="logical-and">Logical AND</h2>
 
-<p>The logical AND function operates on a <span class="nowrap">three-byte</span> array, where all three bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second bytes together, and it puts the result in the third byte:</p>
+<p>The logical AND function operates on a <span class="nowrap">3-byte</span> array, where all three bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second bytes together, and it puts the result in the third byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -887,7 +887,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="logical-and-not">Logical AND-NOT</h2>
 
-<p>The logical AND-NOT function operates on a <span class="nowrap">two-byte</span> array, where both bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first byte with the first byte ANDed with the inverse of the second byte:</p>
+<p>The logical AND-NOT function operates on a <span class="nowrap">2-byte</span> array, where both bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first byte with the first byte ANDed with the inverse of the second byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -903,7 +903,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
-<p>There is a variation that operates on a three-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
+<p>There is a variation that operates on a 3-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
@@ -921,7 +921,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="bitwise-and">Bitwise AND</h2>
 
-<p>The bitwise AND function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise AND of both bytes:</p>
+<p>The bitwise AND function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise AND of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -951,7 +951,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="bitwise-or">Bitwise OR</h2>
 
-<p>The bitwise OR function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise OR of both bytes:</p>
+<p>The bitwise OR function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise OR of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -969,7 +969,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="bitwise-xor">Bitwise XOR</h2>
 
-<p>The bitwise XOR function operates on a <span class="nowrap">two-byte</span> array. It sets the first byte to the bitwise XOR of both bytes:</p>
+<p>The bitwise XOR function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise XOR of both bytes:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
 
@@ -987,7 +987,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="byte-swap">Byte Swap</h2>
 
-<p>The byte swap function exchanges the elements of a <span class="nowrap">two-byte</span> array:</p>
+<p>The byte swap function exchanges the elements of a <span class="nowrap">2-byte</span> array:</p>
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
 
@@ -1001,7 +1001,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="byte-match">Byte Match</h2>
 
-<p>The byte match function operates on a <span class="nowrap">two-byte</span> array:</p>
+<p>The byte match function operates on a <span class="nowrap">2-byte</span> array:</p>
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
 
@@ -1055,7 +1055,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="equals">Equals</h2>
 
-<p>The equals function operates on a <span class="nowrap">three-byte</span> array:</p>
+<p>The equals function operates on a <span class="nowrap">3-byte</span> array:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
 
@@ -1123,7 +1123,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="byte-copy">Byte Copy</h2>
 
-<p>The byte copy function operates on a <span class="nowrap">two-byte</span> array. It copies the first byte to the second byte:</p> 
+<p>The byte copy function operates on a <span class="nowrap">2-byte</span> array. It copies the first byte to the second byte:</p> 
 
 <p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
 
@@ -1151,13 +1151,13 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="conditional-byte-copy">Conditional Byte Copy</h2>
 
-<p>The conditional byte copy function operates on a 3-byte array. It either copies the first byte to the second byte, or it does nothing, per the value of the third byte.</p>
+<p>The conditional byte copy function operates on a <span class="nowrap">3-byte</span> array. It either copies the first byte to the second byte, or it does nothing, per the value of the third byte.</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
-<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
 
-<p>This is achieved by the circuit below where each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of a 2-to-1 multiplexer that selects between <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> based on <span class="math">C<span class="sub">0</span></span>.</p>
+<p>In its circuit, shown below, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of a <span class="nowrap">2-to-1</span> multiplexer that selects between <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> based on <span class="math">C<span class="sub">0</span></span>.</p>
 
 <object data="copy-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
 
@@ -1169,7 +1169,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, Q, B </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
-<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">C</span> and <span class="math">B</span> pass through, unchanged.</p>
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">C</span> and <span class="math">B</span> pass through, unchanged.</p>
 
 <p>The flipped circuit appears below.</p>
 
@@ -1183,7 +1183,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, Q </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
-<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
 
 <p>Here is the schematic:</p>
 
@@ -1197,7 +1197,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
-<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">B</span> and <span class="math">C</span> pass through, unchanged.</p>
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">B</span> and <span class="math">C</span> pass through, unchanged.</p>
 
 <p>The flipped circuit follows.</p>
 
@@ -1213,7 +1213,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f(x) = x &minus; </span><span class="serif">1</span></p>
 
-<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each accepts a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and outputs their signed difference, a <span class="nowrap">2-bit</span> value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below lists all possibilities.</p>
+<p>Its circuit consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each half subtractor accepts a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and it returns their signed difference, a <span class="nowrap">2-bit</span> value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below shows the outputs for all possible inputs.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">B</th><th class="math">D</th><th class="border-left borderless">Meaning</th></tr>
@@ -1223,7 +1223,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &minus; 1 = 0</span></td></tr>
 </table>
 
-<p><span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
+<p>From the table, <span class="math">B</span> and <span class="math">D</span> can be expressed as:</p>
 
 <p><span class="math">B = <span class="overline">X</span>Y</span></p>
 
@@ -1271,21 +1271,21 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">d </span><span class="number">-2 14</span></span>
 </pre>
 
-<p>Here are the outputs for all possible inputs:</p>
+<p>Here is its response to all input combinations:</p>
 
 <object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
 
-<p>For the function, half subtractors are chained in the following configuration where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+<p>In the full circuit, half subtractors are chained in the following configuration, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
 <object data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
 
-<p>The circuit is a binary odometer that counts down. If a digit rolls back (transitions from <span class="mono">0</span> to <span class="mono">1</span>), then the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term">borrow-in</span> is <span class="mono">1</span> (far right). If an input digit is <span class="mono">0</span> and the borrow-in is <span class="mono">1</span>, then both the output digit and the <span class="term">borrow-out</span> is <span class="mono">1</span>.</p>
+<p>The circuit is a binary odometer that counts down. When a digit rolls back&mdash;when it transitions from <span class="mono">0</span> to <span class="mono">1</span>&mdash;the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term nowrap">borrow-in</span> is <span class="mono">1</span> (far right). Its effect ripples right-to-left. For each half subtractor, if the input digit is <span class="mono">0</span> and the <span class="nowrap">borrow-in</span> is <span class="mono">1</span>, then both the output digit and the <span class="term nowrap">borrow-out</span> are <span class="mono">1</span>. Otherwise, the <span class="nowrap">borrow-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
 
-<p>The <span class="nowrap">8-bit</span> function in the image below decrements <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a <span class="nowrap">1-bit</span> constant function at the bottom-right that supplies the initial borrow-in. From there, digits are evaluated right-to-left (and bottom-up). The final borrow-out is discarded.</p>
+<p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> decrement function that calculated <span class="nowrap serif">42 &minus; 1</span>. The sequence in which components were built determined the evaluation order. It started with a <span class="nowrap">1-bit</span> constant function in the bottom-right, which supplied the initial <span class="nowrap">borrow-in</span>. From there, digits were evaluated right-to-left and bottom-up. The final <span class="nowrap">borrow-out</span> was discarded.</p>
 
 <object data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
 
-<p>When the input is <span class="mono">0</span>, the decrement function rolls back to the maximum value. This is demonstrated in the following image that shows the <span class="nowrap">16-bit</span> version. </p>
+<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> decrement function that calculated <span class="nowrap serif">0 &minus; 1</span>. It rolled back to all ones, the two's complement representation of &minus;1 or the maximum unsigned integer value.</p>
 
 <object data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
 
@@ -1295,7 +1295,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f(x) = x + </span><span class="serif">1</span></p>
 
-<p>It consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each accepts two <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below lists all possibilities.</p>
+<p>Its circuit consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each half adder accepts two <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and it outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below shows the outputs for all possible inputs.</p>
 
 <table class="borderless">
 <tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
@@ -1305,7 +1305,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
 </table>
 
-<p><span class="math">C</span> and <span class="math">S</span> can be expressed as:</p>
+<p>From the table, <span class="math">C</span> and <span class="math">S</span> can be expressed as:</p>
 
 <p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
@@ -1315,7 +1315,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
 
-<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line 14) enables the output of the bottom NOR (line 13) to hop over the input of the <span class="math">Y</span> inverter (line 17). The <span class="math">X</span> inverter (line 16) feeds into the middle NOR (line 18), which in turn feeds into the top NOR (line 25).</p>
+<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line 14) enables the output of the bottom NOR (line 13) to hop over the input of the <span class="math">Y</span> inverter (line 17). The <span class="math">X</span> inverter (line 16) feeds into the middle NOR (line 18), which, in turn, feeds into the top NOR (line 25).</p>
 
 <pre class="code">
 <span class="filename">halfAdder.t</span>
@@ -1354,31 +1354,31 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="keyword">out </span><span class="normal">s </span><span class="number">-3..0 44</span></span>
 </pre>
 
-<p>In the following image that shows the outputs for all possible inputs, the swap circuit dominates the space.</p>
+<p>As revealed in the following image, which shows the responses to all input combinations, the Tetris realization of a half adder is significantly larger than a half subtractor due to the swap circuit.</p>
 
 <object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
-<p>For the function, half adders are chained in the configuration below where each <span class="math">I<span class="sub">i</span></span> is an input digits and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+<p>In the full circuit, half adders are chained in the configuration below, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
 <object data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
 
-<p>The circuit is a binary odometer that counts up. If a digit rolls over (transitions from <span class="mono">1</span> to <span class="mono">0</span>), then the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term"><span class="nowrap">carry-in</span></span> is <span class="mono">0</span> (far right). If an input digit is <span class="mono">1</span> and the <span class="nowrap">carry-in</span> is <span class="mono">1</span>, then output digit is <span class="mono">0</span> and the <span class="term"><span class="nowrap">carry-out</span></span> is <span class="mono">1</span>.</p>
+<p>The circuit is a binary odometer that counts up. When a digit rolls over&mdash;when it transitions from <span class="mono">1</span> to <span class="mono">0</span>&mdash;the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term"><span class="nowrap">carry-in</span></span> is <span class="mono">0</span> (far right). Its effect ripples right-to-left. For each half adder, if both the input digit and the <span class="nowrap">carry-in</span> is <span class="mono">1</span>, then the output digit is <span class="mono">0</span> and the <span class="term nowrap">carry-out</span> is <span class="mono">1</span>. Otherwise, the <span class="nowrap">carry-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
 
-<p>The <span class="nowrap">8-bit</span> function in the following image increments <span class="mono">42</span>. The evaluation order is the order in which components are built. It starts with a <span class="nowrap">1-bit</span> constant function at the bottom-right that supplies the initial <span class="nowrap">carry-in</span>. From there, digits are evaluated right-to-left (and bottom-up). The final <span class="nowrap">carry-out</span> is discarded.</p>
+<p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> increment function that calculated <span class="nowrap serif">42 + 1</span>. A <span class="nowrap">1-bit</span> constant function at the bottom-right supplied the initial <span class="nowrap">carry-in</span>. The final <span class="nowrap">carry-out</span> was discarded.</p>
 
 <object data="incrementor-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Incrementor</object>
 
-<p>When the input is the maximum value, the increment function rolls over to <span class="mono">0</span>. This is demonstrated in the image below that shows the <span class="nowrap">16-bit</span> version.</p>
+<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> increment function. The input is all ones, the two's complement representation of &minus;1 or the maximum unsigned integer value. The function rolled over to all zeros, in agreement with <span class="nowrap serif">&minus;1 + 1.</span></p>
 
 <object data="incrementor-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Incrementor</object>
 
 <h2 id="conditional-increment">Conditional Increment</h2>
 
-<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned, <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean (a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>):</p>
+<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
 
 <p><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
 
-<p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>. Otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
+<p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>; otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
 
 <p>As shown in the schematic below, it is realized by feeding the lowest bit of <span class="math">C</span> into the <span class="nowrap">carry-in</span> of a <span class="nowrap">16-bit</span> incrementer. The <span class="nowrap">carry-out</span> is discarded.</p>
 
@@ -2078,11 +2078,11 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) M = s0;</span></span>
 </pre>
 
-<p>Since the transfer instructions are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored.</p>
+<p>Since the transfer instructions are <span class="nowrap">1-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored.</p>
 
 <p>Arithmetic and logic instructions are handled next. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), then the <span class="term">negative flag</span>, <span class="mono">n</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>. If the result is zero, then the <span class="term">zero flag</span>, <span class="mono">z</span>, is set to <span class="mono">1</span>; otherwise, it is reset to <span class="mono">0</span>.</p>
 
-<p>There are 12 arithmetic and logic instructions, all of which are <span class="nowrap">single-byte</span> instructions. As shown below, each implementation follows the same pattern. First, <span class="mono">s1</span> is assigned the result of a comparison between <span class="mono">i</span> and an opcode. Then, <span class="mono">s0</span> is set to a function of <span class="mono">A</span> or of <span class="mono">A</span>-and-<span class="mono">B</span>. Finally, <span class="mono">s0</span> is conditionally copied to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
+<p>There are 12 arithmetic and logic instructions, all of which are <span class="nowrap">1-byte</span> instructions. As shown below, each implementation follows the same pattern. First, <span class="mono">s1</span> is assigned the result of a comparison between <span class="mono">i</span> and an opcode. Then, <span class="mono">s0</span> is set to a function of <span class="mono">A</span> or of <span class="mono">A</span>-and-<span class="mono">B</span>. Finally, <span class="mono">s0</span> is conditionally copied to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
 
 <pre class="code">
 <span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.mt</span>
@@ -2302,7 +2302,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">STX_C </span><span class="number">6                 </span><span class="comment">; w = (i matches ST*);</span></span>
 </pre>
 
-<p>Since they are <span class="nowrap">single-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored. </p>
+<p>Since they are <span class="nowrap">1-byte</span> instructions, <span class="mono">j</span> and <span class="mono">k</span> are ignored. </p>
 
 <p>The implementation of the second phase appears below. As the state register slides across RAM, <span class="mono">MN</span> is compared with <span class="mono">a</span>. When they match, <span class="mono">I</span> is copied to <span class="mono">m</span> if <span class="mono">r</span> indicates read, or <span class="mono">m</span> is copied to <span class="mono">I</span> if <span class="mono">w</span> indicates write.</p>
 
@@ -2633,7 +2633,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
 </pre>
 
-<p><span class="mono">v</span> is a placeholder for the address of the single-byte data region. But, since it can be used as an operand, it works like a byte variable. Lines 3&ndash;6 are equivalent to <span class="mono">++v;</span></p>
+<p><span class="mono">v</span> is a placeholder for the address of the 1-byte data region. But, since it can be used as an operand, it works like a byte variable. Lines 3&ndash;6 are equivalent to <span class="mono">++v;</span></p>
 
 <p>The next example reserves and initializes an <span class="nowrap">8-element</span> byte array, <span class="mono">table</span>, and a byte variable, <span class="mono">index</span>.</p>
 
