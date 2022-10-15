@@ -750,11 +750,14 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
 
-<h2 id="building-blocks">Building Blocks</h2>
+<h2 id="building-blocks">Composition</h2>
 
-<p>Functions are designed to fit together like interchangeable building blocks. By stacking them, the output of any function becomes the input of another. That method of <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a> works because functions have the following properties.</p>
+<p>Function surfaces are   Two functions are <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composed</a> by building one on top of the other. Upon contact, the output of one function becomes the input of other. To ensure compatibility, functions are designed with the following rules.</p>
 
 <ul>
+  <li>The bottom and top surfaces of the function consist of the input and output nodes are arranged in a row, respectively.</li>
+
+  
 <li>The number of input nodes equals the number of output nodes. It varies per function, but the number is either 8, 16, or 24.</li>
 <li>The input and outputs are a row of single-column nodes, evenly spaced, ten columns apart. The spacing provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
 <li>The input and output nodes line up. That is, the input node for the <span class="math">i<span class="sup">th</span></span> bit of the input value is in the same column as the output node for the <span class="math">i<span class="sup">th</span></span> bit of the output value.</li> 

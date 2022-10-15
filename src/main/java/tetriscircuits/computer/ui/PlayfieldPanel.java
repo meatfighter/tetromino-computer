@@ -3,13 +3,15 @@ package tetriscircuits.computer.ui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Path2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Rectangle2D;
 
 import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_HEIGHT;
 import static tetriscircuits.computer.ui.PlayfieldModel.PLAYFIELD_WIDTH;
@@ -20,28 +22,50 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final Color BORDER_COLOR = new Color(0xFFFFFF);
     private static final Color BACKGROUND_COLOR = new Color(0x090909);
     
-    private static final Color[] BLOCK_FILL_COLORS = {
-        new Color(0xB802FD),
-        new Color(0x1801FF),
-        new Color(0xFE103C),
-        new Color(0xFFDE00),
-        new Color(0x66FD00),
-        new Color(0xFF7308),
-        new Color(0x00E6FE),
-    };    
+    public static final Color[] BLOCK_GRADIENT_BRIGHT_COLORS = convertRgbsToColors(new int[] {
+        0xD163FF,
+        0x7994FF,
+        0xFF7471,
+        0xFFEE99,
+        0xC2FF9B,
+        0xFFB481,
+        0xAFF4FF,
+    });
+
+    public static final Color[] BLOCK_GRADIENT_DARK_COLORS = convertRgbsToColors(new int[] {
+        0x9400DB,
+        0x0054DA,
+        0xD2001F,
+        0xBBA200,
+        0x00BE00,
+        0xCA4800,
+        0x00ACC3,
+    });
+
+    public static final Color[] BLOCK_HIGHLIGHT_COLORS = convertRgbsToColors(new int[] {
+        0xDE8AFF,
+        0xA1ADFF,
+        0xFFA098,
+        0xFFEE99,
+        0xC2FF9B,
+        0xFFBA8B,
+        0xAFF4FF,
+    });
+
+    public static final Color[] BLOCK_SHADOW_COLORS = convertRgbsToColors(new int[] {
+        0x7900C1,
+        0x0040C0,
+        0xB2000B,
+        0x8C7900,
+        0x009200,
+        0xA62800,
+        0x00849A,
+    });
     
-    private static final Color[] BLOCK_DRAW_COLORS = new Color[BLOCK_FILL_COLORS.length];
-    static {
-        for (int i = BLOCK_FILL_COLORS.length - 1; i >= 0; --i) {
-            BLOCK_DRAW_COLORS[i] = BLOCK_FILL_COLORS[i].darker();
-        }
-    }
+    private static Paint[] GRADIENT_PAINTS = new Paint[BLOCK_GRADIENT_BRIGHT_COLORS.length];
     
     private static final int CELL_SIZE = 32;
     private static final int PLAYFIELD_PADDING = 10;
-    
-    private static final float BORDER_ARC_SIZE = 7;
-    private static final float BLOCK_ARC_SIZE = 14;
     
     private static final float GRID_STROKE_WIDTH = 2.5f;
     private static final Stroke GRID_STROKE = new BasicStroke(GRID_STROKE_WIDTH);
@@ -49,24 +73,34 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     private static final float BORDER_STROKE_WIDTH = 3.5f;
     private static final Stroke BORDER_STROKE = new BasicStroke(BORDER_STROKE_WIDTH);
     
-    private static final float BLOCK_STROKE_WIDTH = 8f / 3f;
-    private static final Stroke BLOCK_STROKE = new BasicStroke(BLOCK_STROKE_WIDTH);
-    
     private static final int PREFERRED_WIDTH = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
     private static final int PREFERRED_HEIGHT = 2 * PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_HEIGHT;
     private static final Dimension PREFERRED_SIZE = new Dimension(PREFERRED_WIDTH, PREFERRED_HEIGHT);
     
     private static final Path2D.Float GRID_PATH = new Path2D.Float();
-    private static final Shape BORDER_SHAPE = new RoundRectangle2D.Float(
-            PLAYFIELD_PADDING - BLOCK_STROKE_WIDTH / 2, PLAYFIELD_PADDING - BLOCK_STROKE_WIDTH / 2, 
-            CELL_SIZE * PLAYFIELD_WIDTH + BLOCK_STROKE_WIDTH, CELL_SIZE * PLAYFIELD_HEIGHT + BLOCK_STROKE_WIDTH, 
-            BORDER_ARC_SIZE, BORDER_ARC_SIZE);    
-    private static final Shape BLOCK_SHAPE = new RoundRectangle2D.Float(
-            0, 0, 
-            CELL_SIZE - BLOCK_STROKE_WIDTH, CELL_SIZE - BLOCK_STROKE_WIDTH, 
-            BLOCK_ARC_SIZE, BLOCK_ARC_SIZE);
+    private static final Shape BORDER_SHAPE = new Rectangle2D.Float(PLAYFIELD_PADDING - BORDER_STROKE_WIDTH / 2, 
+            PLAYFIELD_PADDING - BORDER_STROKE_WIDTH / 2, CELL_SIZE * PLAYFIELD_WIDTH + BORDER_STROKE_WIDTH, 
+            CELL_SIZE * PLAYFIELD_HEIGHT + BORDER_STROKE_WIDTH); 
+        
+    private static final Shape BLOCK_HIGHLIGHT_SHAPE = new Rectangle2D.Float(0, 0, CELL_SIZE, CELL_SIZE);
+    private static final Path2D.Float BLOCK_SHADOW_SHAPE = new Path2D.Float();
+    
+    private static final float BLOCK_CENTER_FRACTION = 0.8125f;
+    private static final Shape BLOCK_CENTER_SHAPE = new Rectangle2D.Float((1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2, 
+            (1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2, BLOCK_CENTER_FRACTION * CELL_SIZE, 
+            BLOCK_CENTER_FRACTION * CELL_SIZE);
     
     static {
+        for (int i = BLOCK_GRADIENT_BRIGHT_COLORS.length - 1; i >= 0; --i) {
+            GRADIENT_PAINTS[i] = new GradientPaint(
+                    (1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2 + BLOCK_CENTER_FRACTION * CELL_SIZE / 2,
+                    (1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2,
+                    BLOCK_GRADIENT_BRIGHT_COLORS[i],
+                    (1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2 + BLOCK_CENTER_FRACTION * CELL_SIZE / 2,
+                    (1 - BLOCK_CENTER_FRACTION) * CELL_SIZE / 2 + BLOCK_CENTER_FRACTION * CELL_SIZE,
+                    BLOCK_GRADIENT_DARK_COLORS[i]);
+        }
+        
         final float maxX = PLAYFIELD_PADDING + CELL_SIZE * PLAYFIELD_WIDTH;
         for (int i = PLAYFIELD_HEIGHT - 1; i >= 1; --i) {
             float y = PLAYFIELD_PADDING + i * CELL_SIZE;
@@ -79,6 +113,19 @@ public class PlayfieldPanel extends javax.swing.JPanel {
             GRID_PATH.moveTo(x, PLAYFIELD_PADDING);
             GRID_PATH.lineTo(x, maxY);
         }
+        
+        BLOCK_SHADOW_SHAPE.moveTo(0, 32);
+        BLOCK_SHADOW_SHAPE.lineTo(32, 0);
+        BLOCK_SHADOW_SHAPE.lineTo(32, 32);
+        BLOCK_SHADOW_SHAPE.closePath();
+    }
+    
+    private static Color[] convertRgbsToColors(final int[] rgbs) {
+        final Color[] colors = new Color[rgbs.length];
+        for (int i = rgbs.length - 1; i >= 0; --i) {
+            colors[i] = new Color(rgbs[i]);
+        }
+        return colors;
     }
     
     private int[][] cells = new int[PLAYFIELD_HEIGHT][PLAYFIELD_WIDTH];
@@ -168,8 +215,6 @@ public class PlayfieldPanel extends javax.swing.JPanel {
         g.setStroke(BORDER_STROKE);
         g.draw(BORDER_SHAPE);
         
-        g.translate(GRID_STROKE_WIDTH / 2, GRID_STROKE_WIDTH / 2);
-        g.setStroke(BLOCK_STROKE);
         for (int i = PLAYFIELD_HEIGHT - 1; i >= 0; --i) {
             float ty = PLAYFIELD_PADDING + i * CELL_SIZE;
             for (int j = PLAYFIELD_WIDTH - 1; j >= 0; --j) {
@@ -180,10 +225,16 @@ public class PlayfieldPanel extends javax.swing.JPanel {
                 --index;
                 float tx = PLAYFIELD_PADDING + j * CELL_SIZE;
                 g.translate(tx, ty);
-                g.setColor(BLOCK_FILL_COLORS[index]);
-                g.fill(BLOCK_SHAPE);
-                g.setColor(BLOCK_DRAW_COLORS[index]);
-                g.draw(BLOCK_SHAPE);
+                g.setColor(BLOCK_HIGHLIGHT_COLORS[index]);
+                g.fill(BLOCK_HIGHLIGHT_SHAPE);
+                g.setColor(BLOCK_SHADOW_COLORS[index]);
+                g.fill(BLOCK_SHADOW_SHAPE);
+                
+                final Paint paint = g.getPaint();
+                g.setPaint(GRADIENT_PAINTS[index]);
+                g.fill(BLOCK_CENTER_SHAPE);
+                g.setPaint(paint);
+                
                 g.translate(-tx, -ty);
             }
         }
