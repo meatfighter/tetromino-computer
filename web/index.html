@@ -750,13 +750,13 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
 
-<h2 id="composition">Composition</h2>
+<h2 id="interchangeable-building-blocks">Interchangeable Building Blocks</h2>
 
-<p>Functions are structures designed for <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a>. The output of any function can serve as the input another simply by stacking them. To make that work, they have the following properties.</p>
+<p>Functions are designed to fit together like interchangeable building blocks. Simply by stacking them, the output of any function becomes the input of another. That form of <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a> works because their structures have the following properties.</p>
 
 <ul>
-<li>The input and output values have the same bit-width: either 8-, 16-, or <span class="nowrap">24-bits</span>.</li>
-<li>The input and output nodes are single-column nodes that are evenly spaced, ten columns apart. That provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
+<li>The input and output interfaces are a row of single-column nodes, evenly spaced, ten columns apart. That spacing provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
+<li>The number of input nodes equals the number of output nodes: either 8, 16, or <span class="nowrap">24</span> nodes.</li>
 <li>The input and output nodes line up. That is, the input node for the <span class="math">i<span class="sup">th</span></span> bit of the input value is in the same column as the output node for the <span class="math">i<span class="sup">th</span></span> bit of the output value.</li> 
 </ul>
 
@@ -791,7 +791,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="math">f(x) = x</span></p> 
 
-<p>The image below depicts an <span class="nowrap">8-bit</span> identity function. The height is arbitrary.</p>
+<p>The image below depicts an <span class="nowrap">8-bit</span> identity function of an arbitrary height.</p>
 
 <object data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
 
@@ -1522,7 +1522,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
 
-<h2 id="height-unification">Height Unification</h2>
+<h2 id="uniform-height">Uniform Height</h2>
 
 <p>Subtract is the tallest function, at least as the functions have been portrayed thus far. In reality, functions are padded with buffers that extends them to a common height. As such, every functions fits in a rectangle with a base that covers either 8, 16, or 24 bits, and a height that matches the subtract function. With only those three possible dimensions, functions fit together like interchangeable, building blocks that process information.</p>
 
