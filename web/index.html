@@ -750,14 +750,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
 
-<h2 id="interchangeable-building-blocks">Interchangeable Building Blocks</h2>
+<h2 id="building-blocks">Building Blocks</h2>
 
-<p>Functions are designed to fit together like interchangeable building blocks. Simply by stacking them, the output of any function becomes the input of another. That form of <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a> works because their structures have the following properties.</p>
+<p>Functions are designed to fit together like interchangeable building blocks. By stacking them, the output of any function becomes the input of another. That method of <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composition</a> works because functions have the following properties.</p>
 
 <ul>
-<li>The input and output interfaces are a row of single-column nodes, evenly spaced, ten columns apart. That spacing provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
-<li>The number of input nodes equals the number of output nodes: either 8, 16, or <span class="nowrap">24</span> nodes.</li>
+<li>The number of input nodes equals the number of output nodes. It varies per function, but the number is either 8, 16, or 24.</li>
+<li>The input and outputs are a row of single-column nodes, evenly spaced, ten columns apart. The spacing provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
 <li>The input and output nodes line up. That is, the input node for the <span class="math">i<span class="sup">th</span></span> bit of the input value is in the same column as the output node for the <span class="math">i<span class="sup">th</span></span> bit of the output value.</li> 
+<li>The number of rows between the inputs and the outputs is always the same. Meaning, functions have a uniform height.</li>
 </ul>
 
 <h2 id="arrays">Arrays</h2>
