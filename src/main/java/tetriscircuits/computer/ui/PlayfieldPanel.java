@@ -45,11 +45,11 @@ public class PlayfieldPanel extends javax.swing.JPanel {
     public static final Color[] BLOCK_HIGHLIGHT_COLORS = convertRgbsToColors(new int[] {
         0xDE8AFF,
         0xA1ADFF,
-        0xFFA098,
-        0xFFEE99,
-        0xC2FF9B,
-        0xFFBA8B,
-        0xAFF4FF,
+        0xFFA099,
+        0xFFF1AD,
+        0xD0FFB0,
+        0xFFC8A2,
+        0xC0F6FF,
     });
 
     public static final Color[] BLOCK_SHADOW_COLORS = convertRgbsToColors(new int[] {
