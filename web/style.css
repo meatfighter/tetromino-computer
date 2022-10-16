@@ -234,6 +234,10 @@ td.blue {
     border-left: 1px solid;
 }
 
+table.matchers {
+    border-collapse: collapse;
+}
+
 table.borderless {
     margin-left: auto;
     margin-right: auto;

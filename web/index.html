@@ -1532,7 +1532,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="function-catalog">Function Catalog</h2>
 
-<p>The table below summarizes the arithmetic and logic functions created for the computer. Parameters <span class="mono">A</span> and <span class="mono">B</span> are bytes, <span class="mono">W</span> is a <span class="nowrap">16-bit</span> word, and <span class="mono">C</span>, <span class="mono">D</span>, and <span class="mono">E</span> are Booleans (bytes restricted to <span class="mono">0</span> and <span class="mono">1</span>).</p>
+<p>The table below provides the names and definitions of the functions created for the machine that runs Tetris, with the exception of the byte match functions, which are covered separately.</p>
+
+<p>Parameters <span class="mono">A</span> and <span class="mono">B</span> are bytes, <span class="mono">W</span> is a <span class="nowrap">16-bit</span> word, and <span class="mono">C</span>, <span class="mono">D</span>, and <span class="mono">E</span> are Booleans (bytes restricted to <span class="mono">0</span> and <span class="mono">1</span>).</p>
 
 <table class="borderless">
   <tr><th class="borderless">Function</th><th class="borderless">Definition</th></tr>
@@ -1572,11 +1574,14 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, A, C ? A : B ]</td></tr>
 </table>
 
-<p>The following table summarizes the remaining functions, byte matchers primarily designed to detect individual machine language <a href="https://en.wikipedia.org/wiki/Opcode" target="_blank">opcodes</a> or sets of opcodes. The center column contains the bit patterns, where <span class="mono">*</span> means <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-care</a>. The right column comprises the associated match value or values.</p>
+<p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns the byte unchanged, and a Boolean indicating if the byte matches a specific bit pattern. The order of the parameters is declared in the function name:</p>
 
-<p>Names ending with <span class="mono">_C</span> map <span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span>.</p>
+<table class="matchers">
+  <tr><td style="text-align: right; padding-right: 15px;">Ends with <span class="mono">_C</span>:</td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
+  <tr><td style="text-align: left; padding-right: 15px;">Starts with <span class="mono">C_</span>:</td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span></td></tr>
+</table>
 
-<p>Names starting with <span class="mono">C_</span> map <span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span>.</p>
+<p>The following table details the byte match functions. Those with bit patterns containing <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-care</a> are capable of matching multiple values, as shown in the right column.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Function</th><th class="borderless">Pattern</th><th class="borderless">Values</th></tr>
@@ -1635,9 +1640,13 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="pseudocode">C_ZERO</td><td class="pseudocode">00000000</td><td class="pseudocode">00</td></tr>
 </table>
 
-<p><span class="mono">THREE_C</span> detects the opcodes of the <span class="nowrap">3-byte</span> machine language instructions. <span class="mono">MINUS_C</span> and <span class="mono">C_MINUS</span> recognize negative numbers, those with <span class="nowrap">bit-7</span> set per <span class="nowrap">two’s complement</span>. <span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
+<p>As their names suggest, the byte match functions primarily detect machine language <a href="https://en.wikipedia.org/wiki/Opcode" target="_blank">opcodes</a> or sets of opcodes. The most generic of them, <span class="mono">THREE_C</span>, matches the opcodes for all <span class="nowrap">3-byte</span> instructions.</p> 
 
-<p>The identity function does not appear above. It is synthesized on demand, as explained in a later section.</p>
+<p><span class="mono">MINUS_C</span> and <span class="mono">C_MINUS</span> recognize negative numbers, those with <span class="nowrap">bit-7</span> set per <span class="nowrap">two’s complement</span>.</p>
+
+<p><span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
+
+<p>Notably missing from the tables above is the <a href="#identity">identity function</a>. Its absence is due to the fact that&mdash;unlike all other functions&mdash;it is not defined by a TetrisScript program. Rather, as explained in a later section [ TODO LINK ], it is synthesized on demand.</p>
 
 <h1 id="memory">Memory</h1>
 
