@@ -1574,7 +1574,7 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, A, C ? A : B ]</td></tr>
 </table>
 
-<p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns the byte unchanged, and a Boolean indicating if the byte matches a specific bit pattern. The order of the parameters is declared in the function name:</p>
+<p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The order of the parameters is declared in the function name:</p>
 
 <table class="matchers">
   <tr><td style="text-align: right; padding-right: 15px;">Ends with <span class="mono">_C</span>:</td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
@@ -1646,7 +1646,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
 
-<p>Notably missing from the tables above is the <a href="#identity">identity function</a>. Its absence is due to the fact that&mdash;unlike all other functions&mdash;it is not defined by a TetrisScript program. Rather, as explained in a later section [ TODO LINK ], it is synthesized on demand.</p>
+<p>Notably missing from the tables above is the <a href="#identity">identity function</a>. Its absence is due to the fact that&mdash;unlike all other functions&mdash;it is not defined by a TetrisScript program. Rather, it is synthesized on demand, as explained in a later section. [ TODO LINK ]</p>
 
 <h1 id="memory">Memory</h1>
 
@@ -1654,11 +1654,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>Memory is an information storage device consisting of a rectangular pile with finite dimensions. The left edge of the pile abuts the left boundary of the workspace. The memory state is encoded as a sequence of bits in the <span class="nowrap">top-two</span> rows. The bits are regularly-spaced, 10 columns apart. And the number of bits is divisible by 8, which makes the sequence a finite list of bytes ordered left-to-right.</p>
+<p>The <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> of the computers described in subsequent sections consists of a rectangular pile with large, yet finite, dimensions. The computers store an ordered list of bytes encoded as a sequence of nodes in the <span class="nowrap">top-two</span> rows of the pile. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
-<p>The bytes are manipulated by applying functions. This involves constructing a function on top of the bytes to be changed and using identity functions to keep the remaining bytes the same. Since functions have a uniform height, the identity functions also keep the pile rectangular.</p>
+<p>To perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation, a computer builds a function on top of the bytes to be changed. The output nodes of the function represent the initial segment of a new surface of a taller pile. The computer raises the remaining surface flush with the function’s output nodes by constructing identity functions over all the remaining bytes. That process leaves everything the same, excluding the bytes the computer intended to modify.</p>
 
-<p>An example of byte manipulation appears below. The numbered, green rows contain successive memory states. The blue row comprises the functions that transition states. Memory <span class="nowrap">state <span class="mono">0</span></span> (the bottom row) consists of 5 bytes that are all zero. <span class="nowrap">Byte <span class="mono">2</span></span> is incremented by building the <span class="mono">INC</span> function on the surface of the pile at the location of <span class="nowrap">byte <span class="mono">2</span></span>, and erecting identity functions (the up arrows) on top of the remaining bytes. The result is memory <span class="nowrap">state <span class="mono">1</span></span> (the top row). The delta appears yellow.</p>
+<p>To help make this clear, a visualization of a read-modify-write operation follows. The bottom row depicts a starting memory state: five bytes that are all zero. A computer builds an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output appears in the yellow cell above it. To complete the operation, the computer builds identify functions (the <span class="nowrap">up-arrows</span>) over the remaining bytes. The top row depicts the ending memory state: all bytes zero, except for <span class="nowrap">byte <span class="mono">2</span></span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
