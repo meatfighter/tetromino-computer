@@ -1722,15 +1722,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p><span class="term">MetaTetrisScript</span> is a language for expressing a sequence of read-modify-write operations. It has only two instruction types. The first directs the player to build a specified function on the surface of the pile above a specified byte. It consists of the function name and the target byte index:</p>
+<p><span class="term">MetaTetrisScript</span> is a language for expressing a sequence of read-modify-write operations. It has only two instruction types. The first directs the player to alter a specified byte in memory by applying a specified function. It consists of the function name and the target byte index:</p>
 
 <p class="definition">function x</p>
 
 <p>It commands the player to:</p>
 
 <ol>
-<li>Build the specified structure on the surface of the pile at <span class="nowrap">byte <span class="mono">x</span></span>. Since bits are 10 columns apart and there are 8 bits per byte, the left edge of the structure coincides with playfield column 80<span class="mono">x</span>.</li> 
-<li>Build identity functions on top of the other bytes.</li>
+  <li>Execute the TetrisScript program for the specified function on the surface of the pile at column 80<span class="mono">x</span> (since <span class="nowrap">8 nodes/byte &times; 10 columns/node = 80 columns/byte</span>).</li> 
+  <li>Build <span class="nowrap">8-bit</span> identity functions on the surface of the pile over all the other bytes.</li>
 </ol>
 
 <p>To build structures on top of the pile, the player must keep track of the pile height, which is equal to the number of memory state transitions times the uniform function height. In addition, the player needs the width of the pile and the width of each function to know how many identity functions to build. Disclosing these values does not expose the contents of memory to the player.</p>
