@@ -1722,7 +1722,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p><span class="term">MetaTetrisScript</span> is a language for expressing a sequence of read-modify-write operations. It has only two instruction types. The first directs the player to alter a specified byte in memory by applying a specified function. It consists of the function name and the target byte index:</p>
+<p><span class="term">MetaTetrisScript</span> is a language for expressing a sequence of read-modify-write operations. It has only two instruction types. The first directs the player to alter a specified byte of memory by applying a specified function. It consists of the function name and the byte index:</p>
 
 <p class="definition">function x</p>
 
@@ -1732,6 +1732,18 @@ out name x1 y1 x2 y2 ... xN yN
   <li>Execute the TetrisScript program for the specified function on the surface of the pile at column 80<span class="mono">x</span> (since <span class="nowrap">8 nodes/byte &times; 10 columns/node = 80 columns/byte</span>).</li> 
   <li>Build <span class="nowrap">8-bit</span> identity functions on the surface of the pile over all the other bytes.</li>
 </ol>
+
+[ TODO ]
+
+For step 1, the player needs the row index of the pile’s surface. For step 2, the player needs the byte width of the both the function and the pile.  
+
+To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. At runtime, it increments the surface row index by the uniform function height after a read-modify-write operation.  
+
+ 
+
+ 
+
+In short, the player keeps track of the memory size and the number of memory updates.
 
 <p>To build structures on top of the pile, the player must keep track of the pile height, which is equal to the number of memory state transitions times the uniform function height. In addition, the player needs the width of the pile and the width of each function to know how many identity functions to build. Disclosing these values does not expose the contents of memory to the player.</p>
 
