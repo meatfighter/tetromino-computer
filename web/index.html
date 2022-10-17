@@ -1646,7 +1646,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
 
-<p>A notable omission from the tables above is the <a href="#identity">identity function</a>. Its absence is due to the fact that&mdash;unlike all other functions&mdash;it is not defined by a TetrisScript program. Rather, it is synthesized on demand, as explained in a later section. [ TODO LINK ]</p>
+<p>The <a href="#identity">identity function</a> does not appear in either table above because, unlike all other functions, it is not defined by a TetrisScript program. As explained in a later section, it is synthesized on demand. [ TODO LINK ]</p>
 
 <h1 id="memory">Memory</h1>
 
@@ -1654,11 +1654,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>The <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> of the computers described in subsequent sections consists of a rectangular pile with large, yet finite, dimensions. The computers store an ordered list of bytes encoded as a sequence of nodes in the <span class="nowrap">top-two</span> rows of the pile. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
+<p>The Tetris implementation of a computer’s <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
-<p>To perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation, a computer builds a function on top of the bytes to be changed. The output nodes of the function represent the initial segment of a new surface of a taller pile. The computer raises the remaining surface flush with the function’s output nodes by constructing identity functions over all the remaining bytes. That process leaves everything the same, excluding the bytes the computer intended to modify.</p>
+<p>Since the blindfolded player cannot see the playfield, it cannot read from memory. But it can perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation. To do so, the player builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The player raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the player modified.</p> 
 
-<p>To help make this clear, a visualization of a read-modify-write operation follows. The bottom row depicts a starting memory state: five bytes that are all zero. A computer builds an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output appears in the yellow cell above it. To complete the operation, the computer builds identify functions (the <span class="nowrap">up-arrows</span>) over the remaining bytes. The top row depicts the ending memory state: all bytes zero, except for <span class="nowrap">byte <span class="mono">2</span></span>.</p>
+<p>To help make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The player built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the player built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>. And the player learned nothing about the memory contents while effecting the change.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
@@ -1669,7 +1669,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
 </table> 
 
-<p>In the more elaborate example below, a computer sets <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
+<p>In the more elaborate example below, the player set <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top yellow">0A</td><td class="left bottom top mono yellow">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left right bottom top mono green">04</td></tr>
@@ -1704,21 +1704,21 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
 </table>
 
-<p>Here is an explanation each step:</p>
+<p>Here is an explanation each layer:</p>
 
 <ol>
-  <li><span class="mono">COPY_B_A</span> copies byte <span class="mono">1</span> to byte <span class="mono">0</span>.</li>
-  <li><span class="mono">ADD_AB_FB</span> puts the sum of bytes <span class="mono">1</span> and <span class="mono">2</span> into byte <span class="mono">1</span>.</li> 
-  <li><span class="mono">SWAP</span> exchanges bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
-  <li><span class="mono">ADD_AB_FB</span> puts the sum of bytes <span class="mono">2</span> and <span class="mono">3</span> into byte <span class="mono">2</span>.</li> 
-  <li><span class="mono">SWAP</span> exchanges bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
-  <li><span class="mono">ADD_AB_FB</span> puts the sum of bytes <span class="mono">3</span> and <span class="mono">4</span> into byte <span class="mono">3</span>.</li> 
-  <li><span class="mono">SWAP</span> exchanges bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
-  <li><span class="mono">SWAP</span> exchanges bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
-  <li><span class="mono">SWAP</span> exchanges bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
+  <li><span class="mono">COPY_B_A</span> copied byte <span class="mono">1</span> to byte <span class="mono">0</span>.</li>
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">1</span> and <span class="mono">2</span> into byte <span class="mono">1</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">2</span> and <span class="mono">3</span> into byte <span class="mono">2</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">3</span> and <span class="mono">4</span> into byte <span class="mono">3</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
 </ol>  
 
-<p>The <span class="mono">SWAP</span> function enables a computer to move values around in memory. Above, it was used to bring values together, where they could be combined.</p>
+<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the player used it to bring values together for the purpose of combining them.</p>
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
