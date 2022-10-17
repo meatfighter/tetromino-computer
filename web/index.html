@@ -1733,19 +1733,11 @@ out name x1 y1 x2 y2 ... xN yN
   <li>Build <span class="nowrap">8-bit</span> identity functions on the surface of the pile over all the other bytes.</li>
 </ol>
 
-[ TODO ]
+<p>For <span class="nowrap">step 1</span>, the player needs the row index of the pile’s surface. For <span class="nowrap">step 2</span>, the player needs function's byte width and the pile's byte width.</p>
 
-For step 1, the player needs the row index of the pile’s surface. For step 2, the player needs the byte width of the both the function and the pile.  
+<p>To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. At runtime, it increments the surface row index by the uniform function height after a read-modify-write operation.</p>
 
-To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. At runtime, it increments the surface row index by the uniform function height after a read-modify-write operation.  
-
- 
-
- 
-
-In short, the player keeps track of the memory size and the number of memory updates.
-
-<p>To build structures on top of the pile, the player must keep track of the pile height, which is equal to the number of memory state transitions times the uniform function height. In addition, the player needs the width of the pile and the width of each function to know how many identity functions to build. Disclosing these values does not expose the contents of memory to the player.</p>
+<p>This means, the player is aware of the memory size, the number of memory updates, and the function sizes. But it does not know the memory contents nor what the functions do. The latter inhibits it from contributing to the computations performed by Tetris.</p>
 
 <p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
 
