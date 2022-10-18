@@ -1791,7 +1791,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="expansion">Expansion</h2>
 
-<p>To expand the memory capacity by one byte, the player drops eight horizontal I-Tetriminos, evenly-spaced, ten columns apart, onto the playfield floor, immediately to the right of the pile. That introduces eight new zero-nodes:</p>
+<p>The memory capacity is always finite, but it can be expanded indefinitely. To allocate a byte, the player drops eight horizontal <span class="nowrap">I-Tetriminos</span>&mdash;evenly-spaced, ten columns apart&mdash;onto the playfield floor, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
 <object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
@@ -1832,15 +1832,19 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
 </table>
 
-<p>Since the region containing <span class="nowrap">byte <span class="mono">5</span></span> starts out empty, memory state <span class="mono">0</span> (the bottom row) shows its initial value as question mark. To allocate the byte, a <span class="mono">CLEAR</span> function is constructed directly on the playfield floor, establishing the value zero as exhibited in memory state <span class="mono">1</span>. Then multiple identity functions propagate the zero to the top of the pile.</p> 
+<p>The player automatically allocates memory whenever a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
 
-<p>The player carries out this action when a MetaTetrisScript instruction directs it to construct a function outside the current bounds of the pile. To do so, the player keeps track of both the pile height and the (potentially increasing) pile width.</p>
-
-<p>For the models of computation discussed below, memory is never deallocated, though it is possible. The process requires the player to keep track of the heights of all the columns. With that, it can contract the pile and later, during subsequent expansion, it can restore abandoned columns back to the pile height.</p>
+<p>The player never deallocates memory. The pile's width either remains constant or it increases.</p>
 
 <h2 id="memory-initialization">Initialization</h2>
 
-<p>Although the player could initialize memory by dropping a sequence of constant functions directly onto the playfield floor, that would violate its principles. The blindfolded player can never be made aware of any memory state, including the initial state. Instead, the playfield, rather than starting out empty, begins with the input dataset already encoded within it. And, due to the way memory expands, the unallocated region is effectively initialized to zeros.</p>
+<p>Before the player executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">J-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
+
+<object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
+
+<p>All memory locations beyond final byte of the input dataset contain zero because, upon access, the player automatically allocates and initializes those bytes to zero.</p>
+
+<p>The player is not privy to the contents of the input dataset. But, as mentioned, it knows the length of the input dataset.</p>
 
 <h2 id="dynamic-array-abstraction">Dynamic Array Abstraction</h2>
 
