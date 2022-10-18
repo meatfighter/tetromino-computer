@@ -213,9 +213,9 @@
 <p>It commands the player to:
   
 <ol>  
-    <li>Replace the instruction with <span class="mono">structure</span>'s TetrisScript program.</li>
-    <li>Increment the column and row indices of each new instruction by <span class="mono">x</span> and <span class="mono">y</span>, respectively.</li>
-    <li>Execute the new instructions.</li>
+    <li>Replace the instruction with the structure's TetrisScript program instructions.</li>
+    <li>Increment the column and row arguments of each of the structure's instructions by <span class="mono">x</span> and <span class="mono">y</span>, respectively.</li>
+    <li>Execute the modified instructions.</li>
 </ol>
 
 <p>The following code demonstrates this instruction type. It references the prior examples.</p>
@@ -1751,20 +1751,26 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>The second instruction type executes a specified MetaTetrisScript program relative to a specified memory address. It consists of the MetaTetrisScript program name and the address:</p>
+<p>The second instruction type executes a specified MetaTetrisScript program relative to a specified memory address. It consists of the program name and the address:</p>
 
 <p class="definition">program address</p>
 
-<p>It gets expanded into the contents of the specified MetaTetrisScript, but all the numerical values are offset by <span class="mono">x</span>.</p>
+<p>It commands the player to:</p>
 
-<p>The code below demonstrates this instruction type by referencing the summation MetaTetrisScript.</p>
+<ol>
+  <li>Replace the instruction with the program's instructions.</li>
+  <li>Increment the address argument of each of the program's instructions by the specified address.</li>
+  <li>Execute the modified instructions.</li>
+</ol>
+
+<p>The code below demonstrates this instruction type. It references the summation example.</p>
 
 <pre class="code">
 <span class="filename">sum5.mt</span>
 <span class="line"><span class="normal">sum </span><span class="number">5</span></span>
 </pre>
 
-<p>It applies <span class="mono">sum</span> at index <span class="mono">5</span>, which makes it equivalent to:</p>
+<p>The player expands the instruction, offsetting the memory locations per the provided address:</p>
 
 <pre class="code">
 <span class="filename">sum5Expanded.mt</span>
@@ -1779,13 +1785,19 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">SWAP </span><span class="number">5</span></span>
 </pre>
 
-<p><span class="mono">sum5</span> adds together elements <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into element <span class="mono">5</span>.</p>
+<p>The expanded version reveals that <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
 
-<p>Circular references within the same MetaTetrisScript or across multiple MetaTetrisScript files are not permitted.</p>
+<p>The player recursively expands instructions of the second type until all what remains are instructions of the first type. This means, circular dependencies are not allowed.</p>
 
 <h2 id="expansion">Expansion</h2>
 
-<p>The number of allocated bytes&mdash;the width of the pile divided by 80&mdash;is finite. But, since the workspace spans to infinity, memory capacity has no bounds. The player can construct functions beyond the edge of the pile by expanding it. This involves building a constant function on the playfield floor to initialize a new byte, and then repeatedly assembling identity functions above it until it reaches the height of the rest of the pile. This is portrayed in the following example. It shows a newly allocated byte appended to the right side of the previous pile.</p>
+<p>To expand the memory capacity by one byte, the player drops eight horizontal I-Tetriminos, evenly-spaced, ten columns apart, onto the playfield floor, immediately to the right of the pile. That introduces eight new zero-nodes:</p>
+
+<object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
+
+<p>Then the player repeatedly builds identity functions above the new nodes until the output of one of the identity functions reaches the height of the rest of the pile.</p>
+
+<p>The process is portrayed in the following example. It shows a newly allocated byte appended to the summation pile.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top green">0A</td><td class="left bottom top mono green">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left bottom top mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
@@ -1813,9 +1825,9 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
 
 <tr><td class="row-number">1</td><td class="mono bottom green">01</td><td class="left bottom mono green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue mono">CLEAR</td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
 
-<tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td><td class="left right mono green">?</td></tr>  
+<tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td><td class="left right mono yellow">00</td></tr>  
 
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
 </table>

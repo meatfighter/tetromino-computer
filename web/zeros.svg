@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="950" height="70.724346076458752515090543259557" viewBox="0 0 1491 111" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="850" height="60.831721470019342359767891682785" viewBox="0 0 1551 111" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
@@ -22,9 +22,9 @@
         <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
-    <line x1="15.5" y1="35.5" x2="1475.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
-    <line x1="15.5" y1="55.5" x2="1475.5" y2="55.5" class="grid" vector-effect="non-scaling-stroke"/>
-    <line x1="15.5" y1="75.5" x2="1475.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="35.5" x2="1535.5" y2="35.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="55.5" x2="1535.5" y2="55.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="15.5" y1="75.5" x2="1535.5" y2="75.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="15.5" y1="36.5" x2="15.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="35.5" y1="36.5" x2="35.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="55.5" y1="36.5" x2="55.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
@@ -99,28 +99,31 @@
     <line x1="1435.5" y1="36.5" x2="1435.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="1455.5" y1="36.5" x2="1455.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
     <line x1="1475.5" y1="36.5" x2="1475.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1495.5" y1="36.5" x2="1495.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1515.5" y1="36.5" x2="1515.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1535.5" y1="36.5" x2="1535.5" y2="74.5" class="grid" vector-effect="non-scaling-stroke"/>
     <g style="font-size: 20px;">
-        <rect x="1435.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="1445.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="1235.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="1245.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="1035.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="1045.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="835.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="845.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="635.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="645.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="435.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="445.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="235.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="245.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="35.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="45.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1435.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="1475.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1235.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="1275.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1035.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="1075.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="835.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="875.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="635.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="675.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="435.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="475.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="235.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="275.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="35.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
+        <text x="75.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
-    <use href="#ih" x="1425.5" y="65.5"/>
-    <use href="#ih" x="1225.5" y="65.5"/>
-    <use href="#ih" x="1025.5" y="65.5"/>
-    <use href="#ih" x="825.5" y="65.5"/>
+    <use href="#ih" x="1485.5" y="65.5"/>
+    <use href="#ih" x="1285.5" y="65.5"/>
+    <use href="#ih" x="1085.5" y="65.5"/>
+    <use href="#ih" x="885.5" y="65.5"/>
     <use href="#ih" x="685.5" y="65.5"/>
     <use href="#ih" x="485.5" y="65.5"/>
     <use href="#ih" x="285.5" y="65.5"/>
