@@ -142,7 +142,7 @@
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language that specifies where to put the pieces. It has only three instruction types. The first directs the player to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
+<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language for expressing where to put the pieces. It has only three instruction types. The first directs the player to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
 
 <p class="definition">mnemonic x</p>
 
@@ -1541,6 +1541,7 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &#8614; </span>0</td></tr>
   <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A - 1</td></tr>
   <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W - 1</td></tr>
+  <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A</td></tr>
   <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A + 1</td></tr>
   <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W + 1</td></tr>
   <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A << 2</td></tr>
@@ -1646,8 +1647,6 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
 
-<p>The <a href="#identity">identity function</a> does not appear in either table above because, unlike all other functions, it is not defined by a TetrisScript program. As explained in a later section, it is synthesized on demand. [ TODO LINK ]</p>
-
 <h1 id="memory">Memory</h1>
 
 <p>This section describes how memory works.</p>
@@ -1708,36 +1707,34 @@ out name x1 y1 x2 y2 ... xN yN
 
 <ol>
   <li><span class="mono">COPY_B_A</span> copied byte <span class="mono">1</span> to byte <span class="mono">0</span>.</li>
-  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">1</span> and <span class="mono">2</span> into byte <span class="mono">1</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">1</span> and <span class="mono">2</span> into <span class="nowrap">byte <span class="mono">1</span></span>.</li> 
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
-  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">2</span> and <span class="mono">3</span> into byte <span class="mono">2</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">2</span> and <span class="mono">3</span> into <span class="nowrap">byte <span class="mono">2</span></span>.</li> 
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
-  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">3</span> and <span class="mono">4</span> into byte <span class="mono">3</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">3</span> and <span class="mono">4</span> into <span class="nowrap">byte <span class="mono">3</span></span>.</li> 
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
 </ol>  
 
-<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the player used it to bring values together for the purpose of combining them.</p>
+<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the player used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p><span class="term">MetaTetrisScript</span> is a language for expressing a sequence of read-modify-write operations. It has only two instruction types. The first directs the player to alter a specified byte of memory by applying a specified function. It consists of the function name and the byte index:</p>
+<p>Rather than operating directly from TetrisScript, the player manipulates memory by executing <span class="term">MetaTetrisScript</span>, a higher level language for expressing read-modify-write operations. It has only two instruction types. The first orders the player to alter a specified byte of memory by applying a specified function. It consists of the function name and the memory address:</p>
 
-<p class="definition">function x</p>
+<p class="definition">function address</p>
 
 <p>It commands the player to:</p>
 
 <ol>
-  <li>Execute the TetrisScript program for the specified function on the surface of the pile at column 80<span class="mono">x</span> (since <span class="nowrap">8 nodes/byte &times; 10 columns/node = 80 columns/byte</span>).</li> 
-  <li>Build <span class="nowrap">8-bit</span> identity functions on the surface of the pile over all the other bytes.</li>
+  <li>Execute the TetrisScript program for the specified function on the surface of the pile at <span class="nowrap">column 80 &times; <span class="mono">address</span></span> (since <span class="nowrap">8 nodes/byte &times; 10 columns/node = 80 columns/byte</span>).</li> 
+  <li>Execute the TetrisScript program for the identity function on the surface of the pile over all other bytes.</li>
 </ol>
 
-<p>For <span class="nowrap">step 1</span>, the player needs the row index of the pile’s surface. For <span class="nowrap">step 2</span>, the player needs function's byte width and the pile's byte width.</p>
+<p>To build functions on the pile, the player needs the row index of the pile’s surface. To determine how many identity functions to build and where to put them, the player needs the pile’s width and the specified function’s width.</p>
 
-<p>To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. At runtime, it increments the surface row index by the uniform function height after a read-modify-write operation.</p>
-
-<p>This means, the player is aware of the memory size, the number of memory updates, and the function sizes. But it does not know the memory contents nor what the functions do. The latter inhibits it from contributing to the computations performed by Tetris.</p>
+<p>To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. The initial surface row index enables the player to add a layer to the pile. From there, it increments the row index by the uniform function height for each successive layer.</p>
 
 <p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
 
@@ -1754,9 +1751,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>The second instruction type assembles all the functions in a specified MetaTetrisScript at a designated location. It consists of a MetaTetrisScript name and a byte index:</p>
+<p>The second instruction type executes a specified MetaTetrisScript program relative to a specified memory address. It consists of the MetaTetrisScript program name and the address:</p>
 
-<p class="definition">script x</p>
+<p class="definition">program address</p>
 
 <p>It gets expanded into the contents of the specified MetaTetrisScript, but all the numerical values are offset by <span class="mono">x</span>.</p>
 
