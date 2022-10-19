@@ -27,7 +27,7 @@
 
 <h1 id="introduction">Introduction</h1>
 
-<p>This section begins by defining terminology used throughout the article. Then it presents an overview of the method of calculating within Tetris. That is followed by an introduction to the agent that propels the method. Afterwards, it discusses the implications of playing Tetris on an infinite playfield. Then it explains how to encode data within such a playfield. Finally, it describes the language that guides the agent.</p>
+<p>This section begins by defining terminology that is used throughout the article. Then it presents an overview of the method of calculating within Tetris. That is followed by an introduction to the agent that propels the method. Afterwards, it discusses the implications of playing Tetris on an infinite playfield. Then it explains how to encode data within such a playfield. Finally, it describes the language that guides the agent.</p>
 
 <h2 id="fundamentals">Fundamentals</h1>
 
@@ -1649,15 +1649,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h1 id="memory">Memory</h1>
 
-<p>This section describes how memory works.</p>
+<p>This section begins by explaining how random-access memory is implemented in Tetris. Then it describes a language designed for manipulating the data contained within the implementation. Afterwards, it divulges how the implementation can store a limitless amount of information. That is followed by discussion on memory initialization. Finally, it presents an abstraction that reduces memory down to its essence.</p>
 
 <h2 id="memory-implementation">Implementation</h2>
 
 <p>The Tetris implementation of a computer’s <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
-<p>Since the blindfolded player cannot see the playfield, it cannot read from memory. But it can perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation. To do so, the player builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The player raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the player modified.</p> 
+<p>Since the blindfolded player cannot see the playfield, it cannot read data from memory. But it can ask Tetris to perform to a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation on its behalf. To do so, the player builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The player raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the player indirectly modified.</p> 
 
-<p>To help make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The player built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the player built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>. And the player learned nothing about the memory contents while effecting the change.</p>
+<p>To make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The player built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the player built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
@@ -1668,7 +1668,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
 </table> 
 
-<p>In the more elaborate example below, the player set <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
+<p>In the more elaborate example below, the player delegated a sequence of read-modify-write operations to Tetris that set <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top yellow">0A</td><td class="left bottom top mono yellow">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left right bottom top mono green">04</td></tr>
@@ -1703,7 +1703,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
 </table>
 
-<p>Here is an explanation each layer:</p>
+<p>Here is an explanation each operation:</p>
 
 <ol>
   <li><span class="mono">COPY_B_A</span> copied byte <span class="mono">1</span> to byte <span class="mono">0</span>.</li>
@@ -1721,20 +1721,18 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p>Rather than operating directly from TetrisScript, the player manipulates memory by executing <span class="term">MetaTetrisScript</span>, a higher level language for expressing read-modify-write operations. It has only two instruction types. The first orders the player to alter a specified byte of memory by applying a specified function. It consists of the function name and the memory address:</p>
+<p><span class="term">MetaTetrisScript</span> is a language for expressing read-modify-write operations. It has only two instruction types. The first consists of a function name and a memory address:</p>
 
 <p class="definition">function address</p>
 
 <p>It commands the player to:</p>
 
 <ol>
-  <li>Execute the TetrisScript program for the specified function on the surface of the pile at <span class="nowrap">column 80 &times; <span class="mono">address</span></span> (since <span class="nowrap">8 nodes/byte &times; 10 columns/node = 80 columns/byte</span>).</li> 
-  <li>Execute the TetrisScript program for the identity function on the surface of the pile over all other bytes.</li>
+  <li>Execute the specified function's TetrisScript program on the surface of the pile at the specified address, covering either one, two, or three bytes of the surface per the function's byte width.</li> 
+  <li>Execute <span class="mono">IDENTITY</span>'s TetrisScript program on the surface of the pile over all other bytes.</li>
 </ol>
 
-<p>To build functions on the pile, the player needs the row index of the pile’s surface. To determine how many identity functions to build and where to put them, the player needs the pile’s width and the specified function’s width.</p>
-
-<p>To resolve those requirements, the player receives the initial dimensions of the pile and the dimensions of all functions before it executes a MetaTetrisScript program on a given playfield. The initial surface row index enables the player to add a layer to the pile. From there, it increments the row index by the uniform function height for each successive layer.</p>
+<p>Before the player executes a MetaTetrisScript program on a given playfield, it requires the pile’s initial dimensions. The pile’s height provides the original surface row index. Every time the player adds a layer to the pile, it increments that value by the uniform function height. The player deduces the uniform function height along with the byte widths of all functions by building them ahead of time on a private playfield. It uses the specified function’s byte width along with the pile’s width to determine how many identity functions to build and where to build them.</p>
 
 <p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
 
@@ -1791,7 +1789,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="expansion">Expansion</h2>
 
-<p>The memory capacity is always finite, but it can be expanded indefinitely. To allocate a byte, the player drops eight horizontal <span class="nowrap">I-Tetriminos</span>&mdash;evenly-spaced, ten columns apart&mdash;onto the playfield floor, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
+<p>The memory capacity is always finite, but it can be expanded indefinitely. To allocate a byte, the player drops eight horizontal <span class="nowrap">I-Tetriminos</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
 <object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
@@ -1832,23 +1830,34 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
 </table>
 
-<p>The player automatically allocates memory whenever a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
+<p>The player automatically allocates memory when a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
 
 <p>The player never deallocates memory. The pile's width either remains constant or it increases.</p>
 
 <h2 id="memory-initialization">Initialization</h2>
 
-<p>Before the player executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">J-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
+<p>Before the player executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">O-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
 
 <object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
-<p>All memory locations beyond final byte of the input dataset contain zero because, upon access, the player automatically allocates and initializes those bytes to zero.</p>
+<p>All memory locations after the final byte of the input dataset contain zero because, upon access, the player automatically allocates and initializes those bytes to zero.</p>
 
-<p>The player is not privy to the contents of the input dataset. But, as mentioned, it knows the length of the input dataset.</p>
+<p>The player is not privy to the contents of the input dataset. But, as mentioned, it is given the input dataset length.</p>
 
-<h2 id="dynamic-array-abstraction">Dynamic Array Abstraction</h2>
+<h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
-<p>When a function is constructed, it interacts exclusively with the surface of the pile. Everything beneath&mdash;the full history of memory&mdash;is irrelevant. Only the current state matters. This suggests an abstraction where memory operates like a <a href="https://en.wikipedia.org/wiki/Dynamic_array" target="_blank">dynamic array</a>, a random access, variable-size list of bytes. Applying a function at byte <span class="math">i</span> means updating bytes <span class="math">i</span> through <span class="math">i + n</span>, where <span class="math">n</span> is the byte-width of the function. All the other bytes remain the same. In other words, even though the pile is a <span class="nowrap">2-dimensional</span> matrix, it acts like a <span class="nowrap">1-dimensional</span> array where functions modify element sequences.</p>
+<p>Memory works like an infinitely long, one-dimensional, byte array. An input dataset of <span class="nowrap">length <span class="serif">L</span></span> is loaded into the array, <span class="serif">a</span>:</p>
+  
+<p><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">L&minus;1</span> &larr; input dataset</p>
+
+<p>The remaining bytes are set to zero:</p>
+
+<p><span class="serif">a<span class="sub2">i &ge; L</span> &larr; 0</span></p>
+
+<p>For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="serif">n</span>-byte</span> function, <span class="serif">n</span> consecutive bytes are modified, starting at index <span class="serif">x</span>:</p>
+
+<p><span class="serif">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; </span><span class="mono">f</span><span class="serif">(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></p>
+
 
 <h1 id="computer-architecture">Computer Architecture</h1>
 
@@ -1861,30 +1870,25 @@ out name x1 y1 x2 y2 ... xN yN
 <ul>
   <li>A <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a>.
     <ul style="padding-top: 1em;">
-      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless a sequence of bits. A finite, contiguous region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
+      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless sequence of bits. A finite, contiguous region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
       <li>The tape passes horizontally under the drive's read/write <span class="term">head</span>. From its point of view, the tape extends forever both left and right. The head is limited to accessing a single bit at any time. But the drive can shift the tape to move the head one bit left or one bit right. The head is initially positioned over the leftmost bit of the input dataset.</li>
     </ul>
   </li>
   <li style="padding-top: 1em;">A <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a>.
     <ul style="padding-top: 1em;">
       <li>A <span class="term">register</span> stores the current state, one of a finite many. It is initialized to a starting state. If it transitions to a halt state, then the machine finished whatever it was setup to do.</li>
-      <li>A <span class="term">state-transition table</span> with a finite number of entries. The key of each entry is the pair consisting of the current state and the current bit under the head. The value of each entry is a list of 3 instructions: 
+      <li>A <span class="term">state-transition table</span>, containing a finite number of entries, maps a state and a bit value to a list of instructions: 
         <ol style="padding-top: 1em;">
-          <li>Write a specified bit value at the position of the head.</li>
-          <li>Move the head one bit in a specified direction.</li> 
-          <li>Update the register with a specified state.</li>
-        </ol>
+          <li>Write a specified bit.</li>
+          <li>Move the head in a specified direction by one bit.</li> 
+          <li>Transition to a specified state.</li>
+        </ol>        
       </li>
     </ul>
   </li>
 </ul>
 
-<p>During each cycle of the machine:</p>
-<ol>
-  <li>The head reads a bit value.</li>
-  <li>The bit value along with the current state is used to do a lookup in the state-transition table.</li>
-  <li>The instructions in the <span class="nowrap">looked-up</span> entry are executed.</li>
-</ol>
+<p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
 
 <p>There are several ways to emulate a Turing machine using the dynamic array abstraction discussed above. The startup configuration of one approach places the state register into the first <span class="serif">N</span> bytes of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>. <span class="serif">N</span> is large enough to cover all possible state values and the register is initialized with the starting state.</p>
 
@@ -3613,11 +3617,11 @@ do {
 
 <p>Rather than accommodating an ever-taller pile, the algorithm only keeps track of its surface. For each MetaTetrisScript instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to growing the pile and truncating everything below the surface.</p>
 
-<p>The algorithm implements the surface as a one-dimensional byte array, <span class="serif">s</span>, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="serif">N</span>-byte</span> function, the algorithm updates <span class="serif">N</span> consecutive bytes of the surface, starting at index <span class="serif">x</span>, via the following table lookup and assignment.</p>
+<p>The algorithm implements the surface as a one-dimensional byte array, <span class="serif">s</span>, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="serif">n</span>-byte</span> function, the algorithm updates <span class="serif">n</span> consecutive bytes of the surface, starting at index <span class="serif">x</span>, via the following table lookup and assignment.</p>
 
-<p><span class="serif">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+N&minus;1</span> &larr; lookup(</span><span class="mono">f</span><span class="serif">, s<span class="sub2">x</span>&nldr;s<span class="sub2">x+N&minus;1</span>)</span></p>
+<p><span class="serif">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; lookup(</span><span class="mono">f</span><span class="serif">, s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></p>
 
-<p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="serif">N</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">N</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache their results in <span class="nowrap">128 KiB</span> tables.</p>
+<p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="serif">n</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache their results in <span class="nowrap">128 KiB</span> tables.</p>
 
 <p>The simulator’s speed&mdash;the number of machines cycles it simulates per second&mdash;is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM. That, in turn, depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the faster it runs.</p>
 

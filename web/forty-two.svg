@@ -105,27 +105,27 @@
     <g style="font-size: 20px;">
         <rect x="1435.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
         <text x="1475.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="1235.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="1245.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="1255.5" y="35.5" width="39" height="39" class="terminal-stroke"/>
+        <text x="1275.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
         <rect x="1035.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
         <text x="1075.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="835.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="845.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="855.5" y="35.5" width="39" height="39" class="terminal-stroke"/>
+        <text x="875.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
         <rect x="635.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
         <text x="675.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
-        <rect x="435.5" y="35.5" width="19" height="39" class="terminal-stroke"/>
-        <text x="445.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="455.5" y="35.5" width="39" height="39" class="terminal-stroke"/>
+        <text x="475.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
         <rect x="235.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
         <text x="275.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
         <rect x="35.5" y="35.5" width="79" height="39" class="terminal-stroke"/>
         <text x="75.5" y="25.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
+    <use href="#o" x="1285.5" y="45.5"/>
+    <use href="#o" x="885.5" y="45.5"/>
+    <use href="#o" x="485.5" y="45.5"/>
     <use href="#ih" x="1485.5" y="65.5"/>
     <use href="#ih" x="1085.5" y="65.5"/>
     <use href="#ih" x="685.5" y="65.5"/>
     <use href="#ih" x="285.5" y="65.5"/>
     <use href="#ih" x="85.5" y="65.5"/>
-    <use href="#ju" x="465.5" y="65.5"/>
-    <use href="#ju" x="865.5" y="65.5"/>
-    <use href="#ju" x="1265.5" y="65.5"/>
 </svg>

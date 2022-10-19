@@ -1,1 +1,2 @@
-o7 = o6 = o5 = o4 = o3 = o2 = o1 = o0 = false;
+o7 = o6 = o4 = o2 = o0 = false;
+o5 = o3 = o1 = true;
