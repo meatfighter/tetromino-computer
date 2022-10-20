@@ -1852,15 +1852,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>Memory works like an infinitely long, one-dimensional, byte array. An input dataset of <span class="nowrap">length <span class="serif">L</span></span> is loaded into the array, <span class="serif">a</span>:</p>
   
-<p><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">L&minus;1</span> &larr; input dataset</p>
+<p><span class="nowrap"><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">L&minus;1</span> &larr; input dataset</span></p>
 
 <p>The remaining bytes are set to zero:</p>
 
-<p><span class="serif">a<span class="sub2">i &ge; L</span> &larr; 0</span></p>
+<p><span class="nowrap"><span class="serif">a<span class="sub2">i &ge; L</span> &larr; 0</span></span></p>
 
 <p>For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="serif">n</span>-byte</span> function, <span class="serif">n</span> consecutive bytes are modified, starting at index <span class="serif">x</span>:</p>
 
-<p><span class="serif">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; </span><span class="mono">f</span><span class="serif">(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></p>
+<p><span class="nowrap"><span class="serif">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; </span><span class="mono">f</span><span class="serif">(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
 <h1 id="computer-architecture">Computer Architecture</h1>
 
@@ -1893,11 +1893,23 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
 
-<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a> as its foundation. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, is set to <span class="mono">FF</span>, a value the machine interprets as a boundary marker. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape. An input dataset is loaded into the first <span class="nowrap"><span class="serif">L</span> bytes</span> of the tape. The image below depicts this initial configuration.</p>
+<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a>. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, is set to <span class="mono">FF</span>. It acts as a <span class="term">boundary marker</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape. An input dataset is loaded into the first <span class="nowrap"><span class="serif">L</span> bytes</span> of the tape. Zeros fill the rest.</p>
+
+<p>The image below depicts the array's initial configuration.</p>
 
 <object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
 
-<p> The tape extends infinitely in both directions, but the array only does so in one. To compensate, the array stores two tracks as if the tape had been folded in half. That is:</p> 
+<p>The input dataset contains <span class="nowrap"><span class="serif">L</span> bits</span>, not <span class="nowrap"><span class="serif">L</span> bytes</span>. Meaning, each array byte contains only one bit of the input dataset. In fact, the bits of the array bytes work like separate tracks:</p> 
+
+<p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> = t<span class="sub2">i</span></span></p>
+
+<p><span class="nowrap serif">a:1<span class="sub2">i+N+1</span> = t<span class="sub2"> &minus;(i+1)</span></span></p>
+
+<p><span class="nowrap serif">a:2<span class="sub2">i+N+1</span> = h<span class="sub2">i</span></span></p>
+
+<p><span class="nowrap serif">a:3<span class="sub2">i+N+1</span> = h<span class="sub2"> &minus;(i+1)</span></span></p>
+
+<p><span class="nowrap serif">a:b<span class="sub2">i+N+1</span> = 0, b &ge; 4</span></p>
 
 <ul>
   <li><span class="nowrap">Bit-0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
@@ -1927,7 +1939,7 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="mono">9</td><td class="mono">00000001</td></tr>
 </table>
 
-<p>The register, <span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span>, contains the start state, <span class="nowrap"><span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span></span>. Those are random values picked for this example.</p>  
+<p>The register, <span class="nowrap"><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span></span>, contains the start state, <span class="nowrap"><span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span></span>. Those are random values picked for this example.</p>  
 
 <p>The boundary marker, <span class="mono">FF</span>, is in <span class="serif">a<span class="sub2">3</span></span>.</p>
 
@@ -3622,7 +3634,7 @@ do {
 
 <p>The algorithm implements the surface as a one-dimensional byte array, <span class="serif">s</span>, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="serif">n</span>-byte</span> function, the algorithm updates <span class="serif">n</span> consecutive bytes of the surface, starting at index <span class="serif">x</span>, via the following table lookup and assignment.</p>
 
-<p><span class="serif">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; lookup(</span><span class="mono">f</span><span class="serif">, s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></p>
+<p><span class="nowrap"><span class="serif">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; lookup(</span><span class="mono">f</span><span class="serif">, s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
 <p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="serif">n</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache their results in <span class="nowrap">128 KiB</span> tables.</p>
 
