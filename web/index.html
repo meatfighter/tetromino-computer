@@ -1893,7 +1893,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
 
-<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a> to store the data. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of those bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, map to:</p>
+<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a> as its storage. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of those bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, map to:</p>
 
 <p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> &equiv; t<span class="sub2">i</span></span></p>
 
@@ -1917,7 +1917,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
 
-<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the player to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register through the array. The following animation shows the technique for a <span class="nowrap">3-byte</span> register.</p>  
+<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the player to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register back and forth through the array. The following animation shows the motion of a <span class="nowrap">3-byte</span> register.</p>  
   
 <object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>
   
@@ -1925,23 +1925,25 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>Moving the register one step left, from <span class="serif">i</span> to <span class="serif">i&minus;1</span>, also takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
 
-<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the player to apply a sequence of functions that collectively operate as a transition function, <span class="serif">T</span>. It modifies the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as three extra bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>: 
+<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the player to apply a sequence of functions that operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as the three bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>. The collective effect of the sequence is function <span class="serif">F</span>:</p> 
 
-<p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; T(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
+<p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; F(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
 
-<p>Of those three extra bytes, <span class="serif">T</span> checks the middle one, <span class="serif">a<span class="sub2">i+N+1</span></span>, for the head:</p>
+<p><span class="serif">F</span> checks if <span class="serif">a<span class="sub2">i+N+1</span></span> contains the tape drive head:</p>
 
 <object data="register-and-extra-bytes.svg" type="image/svg+xml" class="diagram">Register and Extra Bytes</object>
   
-<p>If the head is not found (<span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">T</span> lets the inputs pass through, unchanged. Otherwise, <span class="serif">T</span> uses the data bit corresponding to the head, <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>, in conjunction with the register value to update the data bit, to move the head, and to update the register value.</p>  
+<p>If the head is not found (if <span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">F</span> passes its input through, unchanged. Otherwise, <span class="serif">F</span> carries out a Turing machine cycle; i.e., it uses the tape bit under the head (either <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>) in conjunction with the register value to output bytes that modifies the tape, the register, and the head.</p>  
 
-<p><span class="serif">T</span> is able to move the head because the 3 extra bytes include both adjacent neighbors of the byte containing the head. However, the first of the 3, <span class="serif">a<span class="sub2">i+N</span></span>, might be set to the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following table.</p>
+<p><span class="serif">F</span> can move the head because the three extra bytes include both adjacent neighbors of the byte containing the head. However, the leftmost of the three, <span class="serif">a<span class="sub2">i+N</span></span>, might contain the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following visualization.</p>
 
 <object data="moving-the-head.svg" type="image/svg+xml" class="diagram">Moving the Head</object>  
 
-<p>Each triplet portrays a state of the 3 extra bytes. The center column contains the initial configurations. The left and right columns show the 8 possible outcomes after the head moves left and right, respectively. The upper and lower circles correspond to bits 2 and 3 of each byte, where an unfilled circle is a <span class="mono">0</span> and a filled circle is a <span class="mono">1</span>.</p>
+<p>Each triplet represents a state of the three bytes. The upper and lower circles correspond to <span class="nowrap">bits 2</span> and 3 of each byte, where an unfilled circle is a <span class="mono">0</span> and a filled circle is a <span class="mono">1</span>.</p>
 
-<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the left byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from <span class="nowrap">bit-2</span> to <span class="nowrap">bit-3</span>. Similarly, in the fourth row, moving right does the opposite.</p>
+<p>The center column contains the possible initial states. The left and right columns show the eight outcomes after the head moves left and right, respectively. </p>
+
+<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the leftmost byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from <span class="nowrap">bit-2</span> to <span class="nowrap">bit-3</span>. Similarly, in the fourth row, moving right does the opposite.</p>
 
 <p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle.</p>
 
