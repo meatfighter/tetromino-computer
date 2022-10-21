@@ -1893,23 +1893,25 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
 
-<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a>. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, is set to <span class="mono">FF</span>. It acts as a <span class="term">boundary marker</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape. An input dataset is loaded into the first <span class="nowrap"><span class="serif">L</span> bytes</span> of the tape. Zeros fill the rest.</p>
+<p>The following approach for emulating a Turing machine stores its data in an <a href="#infinite-array-abstraction">infinite array abstraction</a>. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of each of its bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, maps to:</p>
+
+<p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> &equiv; t<span class="sub2">i</span></span></p>
+
+<p><span class="nowrap serif">a:1<span class="sub2">i+N+1</span> &equiv; t<span class="sub2"> &minus;(i+1)</span></span></p>
+
+<p><span class="nowrap serif">a:2<span class="sub2">i+N+1</span> &equiv; h<span class="sub2">i</span></span></p>
+
+<p><span class="nowrap serif">a:3<span class="sub2">i+N+1</span> &equiv; h<span class="sub2"> &minus;(i+1)</span></span></p>
+
+
 
 <p>The image below depicts the array's initial configuration.</p>
 
 <object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
 
-<p>The input dataset contains <span class="nowrap"><span class="serif">L</span> bits</span>, not <span class="nowrap"><span class="serif">L</span> bytes</span>. Meaning, each array byte contains only one bit of the input dataset. In fact, the bits of the array bytes work like separate tracks:</p> 
 
-<p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> = t<span class="sub2">i</span></span></p>
 
-<p><span class="nowrap serif">a:1<span class="sub2">i+N+1</span> = t<span class="sub2"> &minus;(i+1)</span></span></p>
 
-<p><span class="nowrap serif">a:2<span class="sub2">i+N+1</span> = h<span class="sub2">i</span></span></p>
-
-<p><span class="nowrap serif">a:3<span class="sub2">i+N+1</span> = h<span class="sub2"> &minus;(i+1)</span></span></p>
-
-<p><span class="nowrap serif">a:b<span class="sub2">i+N+1</span> = 0, b &ge; 4</span></p>
 
 <ul>
   <li><span class="nowrap">Bit-0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
