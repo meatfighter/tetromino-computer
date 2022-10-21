@@ -1893,7 +1893,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
 
-<p>The following approach for emulating a Turing machine stores its data in an <a href="#infinite-array-abstraction">infinite array abstraction</a>. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of each of its bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, maps to:</p>
+<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a> to store the data. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of those bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, map to:</p>
 
 <p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> &equiv; t<span class="sub2">i</span></span></p>
 
@@ -1903,61 +1903,29 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap serif">a:3<span class="sub2">i+N+1</span> &equiv; h<span class="sub2"> &minus;(i+1)</span></span></p>
 
+<p><span class="serif">t<span class="sub2">i</span></span> is the <span class="serif">i<span class="sup2">th</span></span> bit of the tape, such that increasing <span class="serif">i</span> moves rightward. An input dataset&mdash;a list of <span class="serif">L</span> bits&mdash;is loaded into <span class="serif">t<span class="sub2">i&isin;&lsqb;0,L&minus;1&rsqb;</span></span>. The remaining tape is initialized to zeros.</p>
 
+<p>The array stores the tape as if it were folded in half. <span class="nowrap serif">a:0<span class="sub2">x &ge; N+1</span></span> contains the right half and <span class="nowrap serif">a:1<span class="sub2">x &ge; N+1</span></span> contains the left half.</p>
+
+<p><span class="serif">h<span class="sub2">i</span></span> is an attribute of the <span class="serif">i<span class="sup2">th</span></span> bit of the tape. It is zero, unless the drive’s head points to that bit. Since the head starts out above the leftmost bit of the input dataset, <span class="serif">h<span class="sub2">0</span></span> is initialized to one, and the rest are zeros.</p>
+
+<p>Like <span class="serif">t</span>, the array stores <span class="serif">h</span> as if were folded in half. <span class="nowrap serif">a:2<span class="sub2">x &ge; N+1</span></span> contains the right half and <span class="nowrap serif">a:3<span class="sub2">x &ge; N+1</span></span> contains the left half.</p> 
+
+<p>The upper-four bits of the tape drive bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b &ge; 4, i &ge; 0</span>, are always zero.</p>
 
 <p>The image below depicts the array's initial configuration.</p>
 
 <object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
 
-
-
-
-
-<ul>
-  <li><span class="nowrap">Bit-0</span> of each byte, <span class="serif">a:0<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit-1</span> of each byte, <span class="serif">a:1<span class="sub2">i+N+1</span></span>, stores the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
-</ul>
-
-<p>The next two bits store the position of the head. Specifically:</p>
-
-<ul>
-  <li><span class="nowrap">Bit-2</span> of each byte, <span class="serif">a:2<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the leftmost bit of the input dataset and moving rightward.</li>
-  <li><span class="nowrap">Bit-3</span> of each byte, <span class="serif">a:3<span class="sub2">i+N+1</span></span>, is <span class="mono">1</span> iff the head is located at the <span class="serif">i<span class="sup2">th</span></span> bit of the tape indexed from the bit left of leftmost bit of the input dataset and moving leftward.</li>
-</ul>
-
-<p>To make this clear, the example below depicts the startup configuration of a machine where <span class="serif nowrap">N = 3</span> and <span class="serif nowrap">a<span class="sub2">i &ge; 10</span> = 0</span>.</p>
-
-<table class="borderless">
-  <tr><th class="mono">i</th><th class="mono">76543210</th></tr>
-  <tr><td class="mono">0</td><td class="mono">00001001</td></tr>
-  <tr><td class="mono">1</td><td class="mono">10101101</td></tr>	
-  <tr><td class="mono">2</td><td class="mono">01100010</td></tr>
-  <tr><td class="mono">3</td><td class="mono">11111111</td></tr>
-  <tr><td class="mono">4</td><td class="mono">00000101</td></tr>
-  <tr><td class="mono">5</td><td class="mono">00000001</td></tr>
-  <tr><td class="mono">6</td><td class="mono">00000000</td></tr>
-  <tr><td class="mono">7</td><td class="mono">00000001</td></tr>
-  <tr><td class="mono">8</td><td class="mono">00000000</td></tr>
-  <tr><td class="mono">9</td><td class="mono">00000001</td></tr>
-</table>
-
-<p>The register, <span class="nowrap"><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">2</span></span></span>, contains the start state, <span class="nowrap"><span class="serif">[</span><span class="mono"> 09, AD, 62 </span><span class="serif">]</span></span>. Those are random values picked for this example.</p>  
-
-<p>The boundary marker, <span class="mono">FF</span>, is in <span class="serif">a<span class="sub2">3</span></span>.</p>
-
-<p>The input dataset, <span class="nowrap"><span class="serif">[</span><span class="mono"> 1, 1, 0, 1, 0, 1 </span><span class="serif">]</span></span>, is in <span class="nowrap"><span class="serif">a:0<span class="sub2">4</span>&nldr;a:0<span class="sub2">9</span></span></span>. On the tape, everything to the left of the input dataset is zero. Hence, <span class="nowrap"><span class="serif">a:1<span class="sub2">4</span>&nldr;a:1<span class="sub2">9</span></span></span> contains all zeros.</p>
-
-<p><span class="serif">a:2<span class="sub2">4</span></span> is <span class="mono">1</span>, which indicates that the head points to the first element of the input dataset.
-
-<p>The register starts at index 0, but it is not fixed there. As revealed in the following animation, the register moves back-and-forth through the array by repeatedly applying the <span class="mono">SWAP</span> function.</p>  
+<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the player to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register through the array. The following animation shows the technique for a <span class="nowrap">3-byte</span> register.</p>  
   
 <object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>
   
-<p>A move from <span class="serif">i</span> to <span class="serif">i+1</span> requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
+<p>Moving the register one step right, from <span class="serif">i</span> to <span class="serif">i+1</span>, takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
 
-<p>A move from <span class="serif">i</span> to <span class="serif">i&minus;1</span> also requires <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
+<p>Moving the register one step left, from <span class="serif">i</span> to <span class="serif">i&minus;1</span>, also takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
 
-<p>Each time the register moves to some index <span class="serif">i</span>, a transition function, <span class="serif">T</span>, operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, and the three bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>: 
+<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the player to apply a sequence of functions that collectively operate as a transition function, <span class="serif">T</span>. It modifies the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as three extra bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>: 
 
 <p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; T(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
 
