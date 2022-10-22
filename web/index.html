@@ -1929,11 +1929,11 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; F(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
 
-<p><span class="serif">F</span> checks if <span class="serif">a<span class="sub2">i+N+1</span></span> contains the tape drive head:</p>
+<p><span class="serif">F</span> conditionally carries out a Turing machine cycle based on <span class="serif">a<span class="sub2">i+N+1</span></span>. It checks if that byte contains the tape drive head:</p>
 
 <object data="register-and-extra-bytes.svg" type="image/svg+xml" class="diagram">Register and Extra Bytes</object>
   
-<p>If the head is not found (if <span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">F</span> passes its input through, unchanged. Otherwise, <span class="serif">F</span> carries out a Turing machine cycle; i.e., it uses the tape bit under the head (either <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>) in conjunction with the register value to output bytes that modifies the tape, the register, and the head.</p>  
+<p>If the head is not found (if <span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">F</span> passes its input through, unchanged. Otherwise, it uses the tape bit referenced by the head (either <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>) in conjunction with the register value to output bytes that modifies the tape, the register, and the head. Meaning, it performs the equivalent of executing the instructions looked up in the state-transition table.</p>  
 
 <p><span class="serif">F</span> can move the head because the three extra bytes include both adjacent neighbors of the byte containing the head. However, the leftmost of the three, <span class="serif">a<span class="sub2">i+N</span></span>, might contain the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following visualization.</p>
 
