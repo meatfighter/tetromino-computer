@@ -335,6 +335,34 @@ td.number {
     text-align: right;
 }
 
+pre.pseudocode2 {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+    border-left: 6px;
+    width: calc(100% - 71px);
+    padding: 15px 15px 15px 50px;
+    white-space: pre-wrap;
+    counter-reset: step;
+    counter-increment: step 0;
+    position: relative;    
+}
+
+pre.pseudocode2 .line:before {
+    color: #3F3F3F;
+    content: counter(step);
+    counter-increment: step;     
+    display: inline-block;
+    width: 2em;
+    padding-right: 1em;
+    margin-right: 1em;
+    text-align: right;
+    margin-left: -3.25em;
+}
+
+span.keyword2 {
+    font-weight: bold;
+}
+
 pre.pseudocode {
     font-family: 'Source Code Pro', monospace;
     font-size: 16px;
