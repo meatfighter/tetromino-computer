@@ -1850,22 +1850,22 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
-<p>Memory works like an infinitely long, one-dimensional, byte array, <span class="serif">a</span>, initialized with an input dataset containing <span class="nowrap"><span class="serif">L</span> bytes</span>:</p>
+<p>Memory behaves like an infinitely long, one-dimensional, byte array, <span class="mono">a</span>, that is initialized as follows.</p>
   
-<p><span class="nowrap"><span class="serif">a<span class="sub2">0</span>&nldr;a<span class="sub2">L&minus;1</span> &larr; L-byte input dataset</span></p>
+<p><span class="nowrap"><span class="mono">a<span class="sub2">i&lt;L</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte of an <span class="nowrap"><span class="mono">L</span>-byte</span> input dataset</p>
 
-<p><span class="nowrap"><span class="serif">a<span class="sub2">i &ge; L</span> &larr; 0</span></span></p>
+<p><span class="nowrap"><span class="mono">a<span class="sub2">i&ge;L</span> &larr; 0</span></span></p>
 
-<p>Each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="serif">n</span>-byte</span> function, modifies <span class="serif">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="serif">x</span></span>:</p>
+<p>Each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
 
-<p><span class="nowrap"><span class="serif">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; </span><span class="mono">f</span><span class="serif">(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></span></p>
+<p><span class="nowrap"><span class="mono">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; f(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
 <p>p q r</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
-<span class="line">  <span class="keyword2">if</span> a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">N&minus;4</span></span>
-<span class="line">    a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">N&minus;4</span></span>
+<span class="line">  <span class="keyword2">if</span> a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span></span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
 <span class="line">    <span class="keyword2">break</span></span>
 </pre>
 
@@ -1874,12 +1874,18 @@ out name x1 y1 x2 y2 ... xN yN
   can't do if-statement
   can't do break</p>
 
+<p><span class="nowrap mono">p &equiv; a<span class="sub3">x+n</span></span></p>
+
+<p><span class="nowrap mono">q &equiv; a<span class="sub3">x+n+1</span></span></p>
+
+<p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
+
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
-<span class="line">  q &larr; (a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">N&minus;4</span>) <span class="keyword2">and not</span> r</span>
-<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">N&minus;4</span> : a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span></span>
-<span class="line">  r &larr; q</span>
+<span class="line">  q &larr; (a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span>) <span class="keyword2">and not</span> r</span>
+<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
 <p>...</p>
@@ -1888,11 +1894,11 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">r &larr; 0</span>
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
-<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> N&minus;4</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    p &larr; a<span class="sub3">i</span> = k<span class="sub3">i</span></span>
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
-<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">N&minus;4</span> : a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span></span>
-<span class="line">  r &larr; q</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
 <p>...</p>
@@ -1901,38 +1907,56 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">r &larr; 0</span>
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
-<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">    <span class="keyword2">for</span> j &larr; i+1 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>    
-<span class="line">    p &larr; a<span class="sub3">N&minus;4</span> = k<span class="sub3">i</span></span>
-<span class="line">    <span class="keyword2">for</span> j &larr; N&minus;4 <span class="keyword2">to</span> i+1</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>    
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
-<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">N&minus;4</span> : a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;4</span></span>
-<span class="line">  r &larr; q</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
 <p>...</p>
+
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
-<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">    <span class="keyword2">for</span> j &larr; i+1 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>    
-<span class="line">    p &larr; a<span class="sub3">N&minus;4</span> = k<span class="sub3">i</span></span>
-<span class="line">    <span class="keyword2">for</span> j &larr; N&minus;4 <span class="keyword2">to</span> i+1</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>    
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
-<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">    <span class="keyword2">for</span> j &larr; i+1 <span class="keyword2">to</span> N&minus;4</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>
-<span class="line">    p &larr; v<span class="sub3">i</span>
-<span class="line">    a<span class="sub3">N&minus;3</span> &larr; q ? p : a<span class="sub3">N&minus;4</span></span>
-<span class="line">    <span class="keyword2">for</span> j &larr; N&minus;3 <span class="keyword2">to</span> i+1</span>
-<span class="line">      [a<span class="sub3">j</span>,a<span class="sub3">j&minus;1</span>] &larr; [a<span class="sub3">j&minus;1</span>,a<span class="sub3">j</span>]</span>    
-<span class="line">  r &larr; q</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>...</p>
+
+<pre class="pseudocode2">
+<span class="line">a<span class="sub3">x+n+2</span> &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line">  a<span class="sub3">x+n+1</span> &larr; <span class="keyword2">not</span> a<span class="sub3">x+n+2</span></span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">    a<span class="sub3">x+n</span> &larr; a<span class="sub3">n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">    a<span class="sub3">x+n+1</span> &larr; a<span class="sub3">x+n+1</span> <span class="keyword2">and</span> a<span class="sub3">x+n</span></span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span>
+<span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; a<span class="sub3">x+n+1</span> ? a<span class="sub3">x+n</span> : a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
+<span class="line">      [a<span class="sub3">j+1</span>,a<span class="sub3">j</span>] &larr; [a<span class="sub3">j</span>,a<span class="sub3">j+1</span>]</span>    
+<span class="line">  a<span class="sub3">x+n+2</span> &larr; a<span class="sub3">x+n+2</span> <span class="keyword2">or</span> a<span class="sub3">x+n+1</span></span>
 </pre>
 
 <h1 id="computer-architecture">Computer Architecture</h1>
