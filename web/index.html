@@ -27,7 +27,7 @@
 
 <h1 id="introduction">Introduction</h1>
 
-<p>This section begins by defining terminology that is used throughout the article. Then it presents an overview of the method of calculating within Tetris. That is followed by an introduction to the agent that propels the method. Afterwards, it discusses the implications of playing Tetris on an infinite playfield. Then it explains how to encode data within such a playfield. Finally, it describes the language that guides the agent.</p>
+<p>This section introduces the method of calculating in Tetris.</p>
 
 <h2 id="fundamentals">Fundamentals</h1>
 
@@ -37,11 +37,11 @@
 
 <p>Each playfield cell is in one of two states: empty or solid.</p>
 
-<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;are composed of four solid cells painted any color. Each has a single-character, shape-based name:</p>
+<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;are composed of four solid cells, painted any color. Each has a single-character, shape-based name:</p>
 
 <object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
 
-<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS) due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them will work just as well.</p>
+<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist. And any of them will work just as well.</p>
 
 <p>NRS centers each Tetrimino in a 5&times;5 matrix and it quarter turns them. Of the 28 possible orientations, it uses only 19:</p>
 
@@ -68,7 +68,7 @@
 
 <h2 id="method-overview">Method Overview</h2>
 
-<p>On an infinite playfield&mdash;bounded only by the floor&mdash;an input data set is encoded into the cells of the <span class="nowrap">bottom-two</span> rows. Tetriminos are dropped onto those cells, forming a structure logically-equivalent to a Boolean circuit. From the <span class="nowrap">top-two</span> rows of that structure, an output data set is decoded:</p>
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of an infinite playfield that is bounded only by the floor. An agent drops Tetriminos onto those cells, forming a structure operationally identical to a combinational logic circuit. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure.</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
