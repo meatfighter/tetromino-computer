@@ -23,11 +23,11 @@
 
 <p class="title">Tetris is Turing-complete</p>
 
-<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It demonstrates the capabilities and the performance of an implementation of the method by running Tetris on Tetris.</p>
+<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
 <h1 id="introduction">Introduction</h1>
 
-<p>This section introduces the method of calculating in Tetris.</p>
+<p>This section introduces a way to calculate within Tetris.</p>
 
 <h2 id="fundamentals">Fundamentals</h1>
 
@@ -41,7 +41,7 @@
 
 <object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
 
-<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist. And any of them will work just as well.</p>
+<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them will work just as well.</p>
 
 <p>NRS centers each Tetrimino in a 5&times;5 matrix and it quarter turns them. Of the 28 possible orientations, it uses only 19:</p>
 
@@ -68,59 +68,59 @@
 
 <h2 id="method-overview">Method Overview</h2>
 
-<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of an infinite playfield that is bounded only by the floor. An agent drops Tetriminos onto those cells, forming a structure operationally identical to a combinational logic circuit. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure.</p>
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that functions identical to a combinational logic circuit. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
-<p>The output rows serve as input rows of a structure built above it and the process is repeated indefinitely. The effect is a state machine where the data rows are states and the structures are transition functions:</p>
+<p>The agent builds a second structure above the first, such that the output rows of the first serve as the input rows of the second. It repeats with a third structure, a fourth, a fifth, and so on. The effect is a state machine, where the data rows are the states and the structures are the transition functions:</p>
 
 <object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
 
-<p>A construction exists where the data capacity of a state always exceeds its predecessor. It is a means of building an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on a given input.</p>
+<p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on a given input.</p>
 
-<h2 id="blindfolded-player">The Blindfolded Player</h2>
+<h2 id="blindfolded-agent">The Blindfolded Agent</h2>
 
-<p>Tetris requires a player. But if the player can see the playfield, then constructing a Turing machine is trivial. With knowledge of how to encode data, a sighted player can read input by observing the state of the playfield, perform calculations by some external mechanism, and write output by dropping pieces in a pattern that updates the state of the playfield. In other words, it can make Tetris function like RAM.</p>
+<p>If the agent can see, then it can be the calculator. That is, a sighted agent can read input by observing the playfield, it can perform calculations by its own means, and it can write output by dropping pieces that update the playfield. In other words, it can make Tetris function like RAM.</p>
 
-<p>To inhibit the player from contributing to calculations, it must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the player. With that constraint, if the system composed of the player and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
+<p>To eliminate that possibility, the agent must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the agent. With that constraint, if the system composed of the agent and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
-<p>On an infinite playfield, Tetriminos spawn at row infinity and column zero. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the player can shift the piece into any finite column. And once in position, the player can hard drop the piece.</p>  
+<p>On an infinite playfield, Tetriminos spawn at row infinity and column zero. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
 
 <p>A hard drop attempts to vertically translate the piece from row infinity to row zero, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
 
-<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the player is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
+<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the agent is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
 
-<p>The player’s actions are limited to those that take finite time. It cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. But, as demonstrated in successive sections, it can build structures of unbounded, yet finite, height and width.</p> 
+<p>The agent’s actions are limited to those that take finite time. It cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. But, as demonstrated in successive sections, it can build structures of unbounded, yet finite, width and height.</p> 
 
-<p>Since the player cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
+<p>Since the agent cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
 
 <h2 id="spawn-signal">Spawn Signal</h2>
 
-<p>With no visual feedback, the blindfolded player precisely controls the falling piece with a carefully timed sequence of requests to move it. The player knows when to begin the sequence because the game provides a signal that conveys the randomly selected Tetrimino type to the player when a spawn occurs.</p>
+<p>With no visual feedback, the blindfolded agent precisely controls the falling piece with a carefully timed sequence of requests to move it. The agent knows when to begin the sequence because the game provides a signal that conveys the randomly selected Tetrimino type to the agent when a spawn occurs.</p>
 
-<p>On a completely empty playfield, the game would satisfy every request in the sequence and the player would know exactly where the piece is at any time. But the playfield is not necessarily empty and the player is not privy to its contents.</p>
+<p>On a completely empty playfield, the game would satisfy every request in the sequence and the agent would know exactly where the piece is at any time. But the playfield is not necessarily empty and the agent is not privy to its contents.</p>
 
-<p>Since the game denies requests to move the piece into solid cells, the blindfolded player can never be certain where a piece ultimately ends up. For example, in the animation below, the player attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+<p>Since the game denies requests to move the piece into solid cells, the blindfolded agent can never be certain where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
-<p>In the following example, the player attempts to drop the <span class="nowrap">O-Tetrimino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+<p>In the following example, the agent attempts to drop the <span class="nowrap">O-Tetrimino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>Since the spawn signal occurs shortly after a piece locks, the player could abuse it to learn about the contents of the playfield. Specifically, it could semihard drop a piece into a column and then monitor how long it takes gravity to trigger the spawn signal. That duration is proportional to the column height.</p>
+<p>Since the spawn signal occurs shortly after a piece locks, the agent could abuse it to learn about the contents of the playfield. Specifically, it could semihard drop a piece into a column and then monitor how long it takes gravity to trigger the spawn signal. That duration is proportional to the column height.</p>
 
-<p>To render such abuse ineffective, the game only provides a spawn signal subsequent to a hard drop. In other words, the player must force the piece to lock. If it waits for gravity to do so, it will not be signaled when the next piece spawns.</p>
+<p>To render such abuse ineffective, the game only provides a spawn signal subsequent to a hard drop. In other words, the agent must force the piece to lock. If it waits for gravity to do so, it will not be signaled when the next piece spawns.</p>
 
 <h2 id="type-filtering">Type Filtering</h2>
 
-<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the player cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece the player does not want, the player hard drops it onto an unbounded pile of discards in column &minus;2.</p>
+<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the agent cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece the agent does not want, the agent hard drops it onto an unbounded pile of discards in column &minus;2.</p>
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>The player makes structures from the remaining pieces in <span class="nowrap">columns &ge; 0</span>. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
+<p>The agent makes structures from the remaining pieces in <span class="nowrap">columns &ge; 0</span>. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
 
 <h2 id="boolean-circuit-nodes">Boolean Circuit Nodes</h2>
 
@@ -142,11 +142,11 @@
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The player builds structures by executing <span class="term">TetrisScript</span>, a language for expressing where to put the pieces. It has only three instruction types. The first directs the player to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
+<p>The agent builds structures by executing <span class="term">TetrisScript</span>, a language for expressing where to put the pieces. It has only three instruction types. The first directs the agent to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
 
 <p class="definition">mnemonic x</p>
 
-<p>It commands the player to:</p>
+<p>It commands the agent to:</p>
 
 <ol>
     <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
@@ -168,15 +168,15 @@
 <span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
 
-<p>The code guides the player to produce the following.</p>
+<p>The code guides the agent to produce the following.</p>
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type directs the player to semihard drop a specified Tetrimino into a specified column down to a specified row. Then, it directs the player to hard drop the Tetrimino into a different specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, the semihard drop’s column index, the semihard drop’s row index, and the hard drop's column index:</p>
+<p>The second instruction type directs the agent to semihard drop a specified Tetrimino into a specified column down to a specified row. Then, it directs the agent to hard drop the Tetrimino into a different specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, the semihard drop’s column index, the semihard drop’s row index, and the hard drop's column index:</p>
 
 <p class="definition">mnemonic x1 y x2</p>
 
-<p>It commands the player to:</p>
+<p>It commands the agent to:</p>
 
 <ol>
     <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
@@ -187,7 +187,7 @@
     <li>Hard drop the piece.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the player will misplace the piece. To avert that possibility, the player has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the agent has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -206,11 +206,11 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the player to build a specified structure at a specified location. It consists of the name of the structure to build, the target column index, and the target row index:</p>
+<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the agent to build a specified structure at a specified location. It consists of the name of the structure to build, the target column index, and the target row index:</p>
 
 <p class="definition">structure x y</p>
 
-<p>It commands the player to:
+<p>It commands the agent to:
   
 <ol>  
     <li>Replace the instruction with the structure's TetrisScript program instructions.</li>
@@ -226,7 +226,7 @@
 <span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
 </pre>
 
-<p>The player expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
+<p>The agent expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
 
 <pre class="code">
 <span class="filename">example3Expanded.t</span>
@@ -251,9 +251,9 @@
 
 <p>As exhibited by lines 1 and 10, <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">line comments</a> begin with a <span class="mono">#</span> and they end with a <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a> character. TetrisScript does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
 
-<p>The player recursively expands instructions of the third type until all what remains are instructions of the first and second types. This means, <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a> are not allowed.</p>
+<p>The agent recursively expands instructions of the third type until all what remains are instructions of the first and second types. This means, <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a> are not allowed.</p>
 
-<p>The code above guides the player to create structure below.</p>
+<p>The code above guides the agent to create structure below.</p>
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
@@ -1655,9 +1655,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The Tetris implementation of a computer’s <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
-<p>Since the blindfolded player cannot see the playfield, it cannot read data from memory. But it can ask Tetris to perform to a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation on its behalf. To do so, the player builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The player raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the player indirectly modified.</p> 
+<p>Since the blindfolded agent cannot see the playfield, it cannot read data from memory. But it can ask Tetris to perform to a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation on its behalf. To do so, the agent builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The agent raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the agent indirectly modified.</p> 
 
-<p>To make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The player built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the player built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>.</p>
+<p>To make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The agent built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the agent built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
@@ -1668,7 +1668,7 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
 </table> 
 
-<p>In the more elaborate example below, the player delegated a sequence of read-modify-write operations to Tetris that set <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
+<p>In the more elaborate example below, the agent delegated a sequence of read-modify-write operations to Tetris that set <span class="nowap">byte <span class="mono">0</span></span> to the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>.</p>
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top yellow">0A</td><td class="left bottom top mono yellow">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left right bottom top mono green">04</td></tr>
@@ -1717,7 +1717,7 @@ out name x1 y1 x2 y2 ... xN yN
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
 </ol>  
 
-<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the player used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
+<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the agent used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
@@ -1725,18 +1725,18 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p class="definition">function address</p>
 
-<p>It commands the player to:</p>
+<p>It commands the agent to:</p>
 
 <ol>
   <li>Execute the specified function's TetrisScript program on the surface of the pile at the specified address, covering either one, two, or three bytes of the surface per the function's byte width.</li> 
   <li>Execute <span class="mono">IDENTITY</span>'s TetrisScript program on the surface of the pile above all other bytes.</li>
 </ol>
 
-<p>The player builds the specified function at column 80 &times; address since:</p>
+<p>The agent builds the specified function at column 80 &times; address since:</p>
 
 <p>8 nodes/byte &times; 10 columns/node = 80 columns</p>
 
-<p>For the specified function’s row index and the coordinates of the identity functions, the player needs the pile's initial dimensions. The initial height provides the original surface row index. Every time the player adds a layer to the pile, it increments that value by the uniform function height. The player deduces the uniform function height along with the byte widths of all functions by building them ahead of time on a private playfield. It uses the specified function’s byte width along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
+<p>For the specified function’s row index and the coordinates of the identity functions, the agent needs the pile's initial dimensions. The initial height provides the original surface row index. Every time the agent adds a layer to the pile, it increments that value by the uniform function height. The agent deduces the uniform function height along with the byte widths of all functions by building them ahead of time on a private playfield. It uses the specified function’s byte width along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
 
 <p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
 
@@ -1757,7 +1757,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p class="definition">program address</p>
 
-<p>It commands the player to:</p>
+<p>It commands the agent to:</p>
 
 <ol>
   <li>Replace the instruction with the program's instructions.</li>
@@ -1772,7 +1772,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">sum </span><span class="number">5</span></span>
 </pre>
 
-<p>The player expands the instruction, offsetting the memory locations per the provided address:</p>
+<p>The agent expands the instruction, offsetting the memory locations per the provided address:</p>
 
 <pre class="code">
 <span class="filename">sum5Expanded.mt</span>
@@ -1789,15 +1789,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The expanded version reveals that <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
 
-<p>The player recursively expands instructions of the second type until all what remains are instructions of the first type. This means, circular dependencies are not allowed.</p>
+<p>The agent recursively expands instructions of the second type until all what remains are instructions of the first type. This means, circular dependencies are not allowed.</p>
 
 <h2 id="expansion">Expansion</h2>
 
-<p>The memory capacity is always finite, but it can be expanded indefinitely. To allocate a byte, the player drops eight horizontal <span class="nowrap">I-Tetriminos</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
+<p>The memory capacity is always finite, but it can be expanded indefinitely. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-Tetriminos</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
 <object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
-<p>Then the player repeatedly builds identity functions above the new nodes until the output of one of the identity functions reaches the height of the rest of the pile.</p>
+<p>Then the agent repeatedly builds identity functions above the new nodes until the output of one of the identity functions reaches the height of the rest of the pile.</p>
 
 <p>The process is portrayed in the following example. It shows a newly allocated byte appended to the summation pile.</p>
 
@@ -1834,19 +1834,19 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
 </table>
 
-<p>The player automatically allocates memory when a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
+<p>The agent automatically allocates memory when a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
 
-<p>The player never deallocates memory. The pile's width either remains constant or it increases.</p>
+<p>The agent never deallocates memory. The pile's width either remains constant or it increases.</p>
 
 <h2 id="memory-initialization">Initialization</h2>
 
-<p>Before the player executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">O-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
+<p>Before the agent executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">O-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
 
 <object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
-<p>All memory locations after the final byte of the input dataset contain zero because, upon access, the player automatically allocates and initializes those bytes to zero.</p>
+<p>All memory locations after the final byte of the input dataset contain zero because, upon access, the agent automatically allocates and initializes those bytes to zero.</p>
 
-<p>The player is not privy to the contents of the input dataset. But, as mentioned, it is given the input dataset length.</p>
+<p>The agent is not privy to the contents of the input dataset. But, as mentioned, it is given the input dataset length.</p>
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
@@ -2076,7 +2076,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
 
-<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the player to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register back and forth through the array. The following animation shows the motion of a <span class="nowrap">3-byte</span> register.</p>  
+<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the agent to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register back and forth through the array. The following animation shows the motion of a <span class="nowrap">3-byte</span> register.</p>  
   
 <object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>
   
@@ -2084,7 +2084,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>Moving the register one step left, from <span class="serif">i</span> to <span class="serif">i&minus;1</span>, also takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
 
-<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the player to apply a sequence of functions that operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as the three bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>. The collective effect of the sequence is function <span class="serif">F</span>:</p> 
+<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the agent to apply a sequence of functions that operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as the three bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>. The collective effect of the sequence is function <span class="serif">F</span>:</p> 
 
 <p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; F(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
 
@@ -2110,7 +2110,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an expanding, yet finite, number of TetrisScript instructions to execute per cycle, where <span class="serif">k</span> is encoded in increasing <span class="nowrap">x-coordinate</span> values.</p>
 
-<p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the player could be synthesized on demand.</p>
+<p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the agent could be synthesized on demand.</p>
 
 <p>Since one can realize a Turing machine in Tetris, Tetris is Turing-complete. Furthermore, the problem of determining if the information encoded on the pile’s surface will eventually transition to a given state from an initial state is <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a>. This is a corollary of the <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halting problem</a>. It is equivalent to asking if an arbitrary program will ultimately halt for some input dataset.</p>
 
@@ -2611,7 +2611,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The placeholders, <span class="serif">L&minus;x</span>, presented in the listings above represent numerical values in the actual files. Consequentially, the file contents depend on the length of the machine code program. Since the maximum program length, <span class="serif">L<span class="sub3">max</span></span>, is only 65,536, it is possible to generate the full universe of files, making available whatever is required at startup. However, in practice, a pair of new files is simply created prior to loading a program based on its length.</p>
 
-<p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TetrisScript fed to the player. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
+<p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TetrisScript fed to the agent. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
@@ -2894,9 +2894,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="tetris-program">Tetris Program</h2>
 
-<p>The Tetris program is a barebones implementation of the game that employs the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the player shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
+<p>The Tetris program is a barebones implementation of the game that employs the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the agent shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
 
-<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. That being the case, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>, no music or sound effects, no multiplayer or <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span>, no title screen, menus, configuration, demo, or endings. There is nothing beyond the core game mechanics.</p>
+<p>The game does not keep track of the number of lines cleared, nor the score or any other statistics. That being the case, the level never increases and the drop speed remains constant. There is no hard drop, no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span>, no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span>, no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span>, no music or sound effects, no multiagent or <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span>, no title screen, menus, configuration, demo, or endings. There is nothing beyond the core game mechanics.</p>
 
 <p>The program begins by defining a set of constants:</p>
 
@@ -2922,7 +2922,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="mono">FALL_SPEED</span> is the initial value of the fall timer. On each frame, if the fall timer is not <span class="mono">0</span>, then it is decremented by <span class="mono">1</span>. Otherwise, a gravity drop occurs and the fall timer is reset to <span class="mono">FALL_SPEED</span>. A <span class="mono">FALL_SPEED</span> of <span class="mono">1</span> means a gravity drop occurs every other frame. Since the frame rate is approximately 5 frames/sec, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. That fall speed is roughly equivalent to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> on display, or an empty playfield at startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
+<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> on display, or an empty playfield at startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the agent interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes completed lines.</p>
 
 <p>The program declares a single subroutine called <span class="mono">drawOrTestTetrimino</span> that performs the actions defined on lines 7 and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetrimino</span> to paint four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetrimino</span> to verify that four playfield cells corresponding to the blocks of a named Tetrimino at a specified location and orientation are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
@@ -2983,7 +2983,7 @@ M = 0;               // page zero
 N = 11 * row + col;  // offset within page zero
 </pre>
 
-<p>As discussed thus far, the machine that runs Tetris is comprised of an <span class="nowrap">8-bit</span> CPU and up to <span class="nowrap">64 KiB</span> of RAM initialized with the instructions and the data of the program to be executed. RAM initialization is carried out by a mechanism analogous to a peripheral data storage device. However, with that peripheral alone, the machine is limited to <a href="https://en.wikipedia.org/wiki/Batch_processing" target="_blank">batch processing</a>. To establish a real-time interface between the machine and a human player, additional peripherals are required.</p>
+<p>As discussed thus far, the machine that runs Tetris is comprised of an <span class="nowrap">8-bit</span> CPU and up to <span class="nowrap">64 KiB</span> of RAM initialized with the instructions and the data of the program to be executed. RAM initialization is carried out by a mechanism analogous to a peripheral data storage device. However, with that peripheral alone, the machine is limited to <a href="https://en.wikipedia.org/wiki/Batch_processing" target="_blank">batch processing</a>. To establish a real-time interface between the machine and a human agent, additional peripherals are required.</p>
 
 <p>One such peripheral is a display device that presents a graphical representation of the visible playfield. It takes the form of the window below.</p>
 
@@ -3114,7 +3114,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The variables on lines 95&ndash;98 describe the falling Tetrimino. Prior servicing a request to rotate or shift it, its orientation and <span class="nowrap">x-coordinate</span> are backed up in the variables on lines 100&ndash;101. If the requested move is found to be invalid, the original values are restored from the backups.</p>
 
-<p>The variables on lines 103&ndash;107 are related to the randomizer. It updates the <span class="nowrap">16-bit</span> value spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by passing it through a randomization function. The function also takes as input the variable <span class="mono">frameCounter</span>, which is incremented at the start of each frame. Since the randomization function is only applied when a Tetrimino spawns, <span class="mono">frameCounter</span> provides a source of randomness linked to the timing of the human player’s actions. The output of the function, a single, randomly generated bit, is stored in <span class="mono">nextBit</span>.</p>
+<p>The variables on lines 103&ndash;107 are related to the randomizer. It updates the <span class="nowrap">16-bit</span> value spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by passing it through a randomization function. The function also takes as input the variable <span class="mono">frameCounter</span>, which is incremented at the start of each frame. Since the randomization function is only applied when a Tetrimino spawns, <span class="mono">frameCounter</span> provides a source of randomness linked to the timing of the human agent’s actions. The output of the function, a single, randomly generated bit, is stored in <span class="mono">nextBit</span>.</p>
 
 <p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves an extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
 
@@ -3283,7 +3283,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The initial high and low seeds are <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same, arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The LFSR produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human player.</p>
+<p>The LFSR produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human agent.</p>
 
 <p>Because there are seven Tetriminos, the XORed value needs to be reduced to the range <span class="nowrap">[ 0, 6 ]</span>. That could be achieved with a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo operation</a> that produces the remainder of integer division by 7. But mod is computationally expensive. Instead, code based on the following expression is used, where <span class="mono">v</span> is the lower-five bits of the XORed value.</p> 
 
