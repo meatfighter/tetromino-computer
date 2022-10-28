@@ -1840,19 +1840,19 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="memory-initialization">Initialization</h2>
 
-<p>Before the agent executes a MetaTetrisScript program, a process loads a finite, input dataset into memory by dropping a sequence of I- and <span class="nowrap">O-Tetriminos</span> onto the playfield floor&mdash;evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>&mdash;that represents the dataset bits as <span class="mono">0</span>- and <span class="mono">1</span>-nodes, respectively. For instance, here is the result of loading a single byte, the value 42:</p>
+<p>Before the agent executes a MetaTetrisScript program, an independent process loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-Tetriminos</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-Tetriminos</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
 
 <object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
-<p>All memory locations after the final byte of the input dataset contain zero because, upon access, the agent automatically allocates and initializes those bytes to zero.</p>
+<p>All memory locations after the final byte of the initial state contain zero because, upon access, the agent automatically allocates and clears those bytes.</p>
 
-<p>The agent is not privy to the contents of the input dataset. But, as mentioned, it is given the input dataset length.</p>
+<p>The agent is not privy to the initial memory content. But, as mentioned, it knows the initial memory size.</p>
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
-<p>Memory behaves like an infinitely long, one-dimensional, byte array, <span class="mono">a</span>, that is initialized as:</p>
+<p>Memory works like an infinitely long, one-dimensional, byte array, <span class="mono">a</span>, initialized as:</p>
   
-<p><span class="nowrap"><span class="mono">a<span class="sub2">i&isin;[0,L-1]</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte of an <span class="nowrap"><span class="mono">L</span>-byte</span> input dataset</p>
+<p><span class="nowrap"><span class="mono">a<span class="sub2">i&isin;[0,L-1]</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte of an <span class="nowrap"><span class="mono">L</span>-byte</span> initial memory state</p>
 
 <p><span class="nowrap"><span class="mono">a<span class="sub2">i&isin;[L,&infin;)</span> &larr; 0</span></span></p>
 
@@ -1860,7 +1860,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap"><span class="mono">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; f(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
-<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte keys</span> to <span class="nowrap"><span class="mono">n</span>-byte values</span>. As such, the MetaTetrisScript program simply needs to mimic the following pseudocode.</p>
+<p>This abstraction is used in the next section to construct computing machines.</p>
+
+<h1 id="computing-machines">Computing Machines</h1>
+
+<p>This section explores several models of computation, with a particular focus on a machine that runs Tetris.</p>
+
+<h2 id="function-emulation">Function Emulation</h2>
+
+<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, the MetaTetrisScript program simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
@@ -1869,13 +1877,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    <span class="keyword2">break</span></span>
 </pre>
 
-<p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the <span class="nowrap">array bytes</span> equal the <span class="nowrap">key bytes</span>, then it assigns the <span class="nowrap">array bytes</span> to the <span class="nowrap">value bytes</span>, and it break out of the loop. If it reaches the end of the loop without finding a matching key, it exits without making a change.</p> 
+<p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array bytes equal the key bytes, then it overwrites the array bytes with the value bytes, and it breaks out of the loop to prevent the value from matching the key of a successive entry. If it reaches the end without finding a match, it finishes without changing the array.</p> 
 
-<p>Unfortunately, MetaTetrisScript does not support loops. But loops can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code).</p>  
-
-<p>MetaTetrisScript also does not provide a way to jump past instructions. There is no way to break out of the loop, unrolled or otherwise. And the break is required; it prevents an assigned value from matching the key of a successive entry.</p>  
-
-<p>This and other issues are resolved with the assistance of three temporary variables:</p>
+<p>Unfortunately, MetaTetrisScript does not support loops, nor conditional branches (if-statements), nor unconditional branches (such as the break statement). After all, it is nothing more than a shorthand for expressing an uninterrupted sequence of Tetrimino placements. But loops can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
 
 <p><span class="nowrap mono">p &equiv; a<span class="sub3">x+n</span></span></p>
 
@@ -1883,9 +1887,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
 
-<p>They make <span class="mono">F</span> an <span class="nowrap"><span class="mono">(n+3)</span>-byte</span> function. Any input values can be provided for them and their outputs should be ignored.</p>
+<p>They can be initialized to anything and their resultant values should be ignored.</p>
 
-[ TODO MAYBE DISCUSS HOW THOSE VARIABLES CAN BE SHARED WITH OTHER PROGRAMS. ]
+
 
 
 <pre class="pseudocode2">
@@ -2020,10 +2024,6 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">      SWAP j</span>
 <span class="line">  OR_AB_AF n+1</span>
 </pre>
-
-<h1 id="computer-architecture">Computer Architecture</h1>
-
-<p>This section explains how to build a Turing machine in Tetris, demonstrating Tetris is Turing-complete. Then it delves into the internal workings of an <span class="nowrap">8-bit</span> computer that supports up to <span class="nowrap">64 KiB</span> of RAM. That is followed by an exploration of the assembly language understood by that computer. Afterwards, it details a Tetris program written in that language. Finally, it describes how a simulator running that program manifests a real-time version of Tetris on Tetris.</p>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
