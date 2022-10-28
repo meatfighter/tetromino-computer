@@ -1887,9 +1887,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
 
-<p>They are initialized to anything and their resultant values are ignored.</p>
+<p>At execution time, the temporary variables are initialized to anything and their resultant values are ignored.</p>
 
-<p>The code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with a flag check:</p>
+<p>With those variables, the code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with a flag test:</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1901,7 +1901,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The loop no longer exits early, but <span class="mono">r</span> ensures the assignment happens at most once.</p>
 
-<p>Next, the <span class="mono">if</span> statement is converted to a ternary operation:</p>
+<p>Next, the <span class="mono">if</span> statement is converted to a <a href="https://en.wikipedia.org/wiki/Ternary_operation" target="_blank">ternary operation</a>:</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1911,7 +1911,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>Each iteration overwrites the array segment, but its value changes only upon the first match.</p>
+<p>Each iteration overwrites the array segment with itself, except the first time a key matches.</p>
 
 <p><span class="nowrap">Line 3</span> is expanded into <span class="nowrap">lines 3&ndash;6</span> below.
 
@@ -1926,7 +1926,11 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>The comparison on <span class="nowrap">line 5</span> is ultimately replaced with a byte matcher. However, a byte matcher operates on a pair of adjacent elements. So, the following version repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span> <span class="nowrap">(lines 5&ndash;6)</span>. Then the byte matcher is applied to the pair <span class="mono nowrap">[a<span class="sub3">x+n&minus;1</span>,p]</span> <span class="nowrap">(line 7)</span>. Finally, the code performs the swaps in reverse order, restoring the moved value back to its original location <span class="nowrap">(lines 8&ndash;9)</span>.</p>
+<p>When the inner loop is unrolled, each comparison, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher of the form:</p>
+
+<p><span class="mono">[ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
+
+<p>However, every byte matcher operates on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
