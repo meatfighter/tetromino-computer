@@ -1860,13 +1860,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap"><span class="mono">a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span> &larr; f(a<span class="sub2">x</span>&nldr;a<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
+<p>By convention, the array is described as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward index infinity.</p>
+
 <p>This abstraction is used in the next section to construct computing machines.</p>
 
 <h1 id="computing-machines">Computing Machines</h1>
 
 <p>This section explores several models of computation, with a particular focus on a machine that runs Tetris.</p>
 
-<h2 id="function-emulation">Function Emulation</h2>
+<h2 id="function-emulator">Function Emulator</h2>
 
 <p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program, <span class="mono">G</span>, that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">G</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
@@ -1876,6 +1878,8 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
 <span class="line">    <span class="keyword2">break</span></span>
 </pre>
+
+<p><span class="mono">a</span> is the infinite array abstraction from the previous section. <span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span> is the segment of the array the function operates on.</p>
 
 <p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
 
@@ -1887,7 +1891,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
 
-<p>The initial values of those elements do not matter. But they must reserved since <span class="mono">G</span> overwrites them.</p>
+<p>The initial values of those elements do not matter. But they must be reserved since <span class="mono">G</span> overwrites them.</p>
 
 <p>The code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with <span class="mono">r</span> acting as a flag:</p>
 
@@ -2063,6 +2067,16 @@ out name x1 y1 x2 y2 ... xN yN
 <p>The final step is to unroll the loops. As that happens, the key-value pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. And, depending on the number of entries in the map, the end result may be an extremely long, yet finite, program.</p>
 
 <p>Clearly, this is not the most practical or efficient way to implement an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function. But the point of this exercise was to demonstrate MetaTetrisScript can emulate them, at least in principle.</p>
+
+<h2 id="state-machine">State Machine</h2>
+
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that deterministically returns the next element of some sequence upon being prompted to do so. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register. A process initializes it to the starting state. When the process wants the next element of the sequence, it applies a transition function, <span class="mono">T</span>, on the register:</p>
+
+<p><span class="nowrap mono">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span></p>
+
+<p>If <span class="mono">T</span> is an emulated function, some of the register’s bytes may be reserved for temporary values, as <a href="#function-emulator">explained previously</a>.</p>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
