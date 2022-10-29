@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Turing-complete</title>
-<link rel="stylesheet" href="style.css?v=2022-10-14" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-10-29" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-10-14"/>
+<meta name="date" content="2022-10-29"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -1868,7 +1868,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="function-emulation">Function Emulation</h2>
 
-<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, the MetaTetrisScript program simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
+<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program, <span class="mono">G</span>, that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">G</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
@@ -1877,7 +1877,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    <span class="keyword2">break</span></span>
 </pre>
 
-<p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array bytes equal the key bytes, then it overwrites the array bytes with the value bytes, and it breaks out of the loop to prevent the value from matching the key of a successive entry. If it reaches the end without finding a match, it finishes without changing the array.</p> 
+<p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
 
 <p>Unfortunately, MetaTetrisScript does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). After all, it is nothing more than a shorthand for expressing an uninterrupted sequence of Tetrimino placements. But loops can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
 
@@ -1887,9 +1887,9 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
 
-<p>At execution time, the temporary variables are initialized to anything and their resultant values are ignored.</p>
+<p>When a program invokes <span class="mono">G</span>, which is now an emulation of an <span class="nowrap"><span class="mono">(n+3)</span>-byte</span> function, it passes arbitrary values into the temporary variables, and it ignores their output values.</p>
 
-<p>With those variables, the code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with a flag test:</p>
+<p>The code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with <span class="mono">r</span> acting as a flag:</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1901,7 +1901,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The loop no longer exits early, but <span class="mono">r</span> ensures the assignment happens at most once.</p>
 
-<p>Next, the <span class="mono">if</span> statement is converted to a <a href="https://en.wikipedia.org/wiki/Ternary_operation" target="_blank">ternary operation</a>:</p>
+<p>Next, the <span class="mono">if</span> statement is converted to a <a href="https://en.wikipedia.org/wiki/Ternary_operation" target="_blank">ternary operation</a>, where the condition is stored in <span class="mono">q</span>:</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1911,9 +1911,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>Each iteration overwrites the array segment with itself, except the first time a key matches.</p>
+<p>Each iteration overwrites the array segment with itself, except when a key matches for the first time.</p>
 
-<p><span class="nowrap">Line 3</span> is expanded into <span class="nowrap">lines 3&ndash;6</span> below.
+<p><span class="nowrap">Line 3</span> is expanded into <span class="nowrap">lines 3&ndash;6</span> below.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1926,29 +1926,13 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>When the inner loop is unrolled, each comparison, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher of the form:</p>
+<p>When the inner loop is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
 
-<p><span class="mono">[ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
+<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
 
-<p>However, every byte matcher operates on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
+<p>The first parameter is the array element that gets compared with <span class="mono">k<span class="sub3">i</span></span>. It passes through unchanged. The second parameter is the element that stores the result of the comparison. In this case, it is always <span class="mono">p</span>.</p>
 
-<pre class="pseudocode2">
-<span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
-<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
-<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
-<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
-<span class="line">    p &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
-<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
-<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
-<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
-<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
-<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
-</pre>
-
-<p>...</p>
-
+<p>To make this work, 256 implementations of that byte matcher need to be added to the function catalog, one for each possible value of <span class="mono">k<span class="sub3">i</span></span>. However, the byte matchers operate on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1965,7 +1949,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>...</p>
+<p><span class="nowrap">Line 11</span> is expanded into <span class="nowrap">lines 11&ndash;13</span> below.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1979,9 +1963,39 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
-<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    p &larr; v<span class="sub3">i</span>
+<span class="line">    a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>When the loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
+
+<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &#8614; v<span class="sub3">i</span></span></p>
+
+<p>The parameter is the array element to be assigned <span class="mono">v<span class="sub3">i</span></span>. In this case, it is always <span class="mono">p</span>.</p>
+
+<p>As with the byte matchers, 256 implementations need to be added to the function catalog, one for each possible value of <span class="mono">v<span class="sub3">i</span></span>.</p>
+
+<p>Additionally, every conditional-assignment, <span class="mono">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
+
+<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &#8614; [ C ? B : A, B, C ]</span>.</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    p &larr; v<span class="sub3">i</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; q ? p : a<span class="sub3">x+n&minus;1</span></span>
 <span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
@@ -2002,9 +2016,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    a<span class="sub3">x+n+1</span> &larr; a<span class="sub3">x+n+1</span> <span class="keyword2">and</span> a<span class="sub3">x+n</span></span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
-<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span>
 <span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; a<span class="sub3">x+n+1</span> ? a<span class="sub3">x+n</span> : a<span class="sub3">x+n&minus;1</span></span>
 <span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
@@ -2025,9 +2039,9 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">      SWAP j</span>
 <span class="line">    AND_AB_AF n</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    CONST_v<span class="sub3">i</span> n
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      SWAP j</span>
-<span class="line">    CONST_v<span class="sub3">i</span> n
 <span class="line">    COPY_B_A_C n-1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">to</span> i</span>
 <span class="line">      SWAP j</span>
