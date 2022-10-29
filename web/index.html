@@ -1539,8 +1539,8 @@ out name x1 y1 x2 y2 ... xN yN
 <table class="borderless">
   <tr><th class="borderless">Function</th><th class="borderless">Definition</th></tr>
   <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &#8614; </span>0</td></tr>
-  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A - 1</td></tr>
-  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W - 1</td></tr>
+  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &minus; 1</td></tr>
+  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W &minus; 1</td></tr>
   <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A</td></tr>
   <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A + 1</td></tr>
   <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W + 1</td></tr>
@@ -1554,21 +1554,21 @@ out name x1 y1 x2 y2 ... xN yN
   <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A + B, B ]</td></tr>
   <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A & B ]</td></tr>
   <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A & B, B ]</td></tr>
-  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &#8614; </span>[ D, D && !E ]</td></tr>
+  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &#8614; </span>[ D, D <span class="keyword2">and not</span> E ]</td></tr>
   <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A ]</td></tr>
   <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, B ]</td></tr>
   <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &#8614; </span>[ C ? W + 1 : W, C ]</td></tr>
   <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A | B, B ]</td></tr>
-  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A - B, B ]</td></tr>
+  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A &minus; B, B ]</td></tr>
   <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, A ]</td></tr>
   <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A ^ B, B ]</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
-  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &#8614; </span>[ D, E, D && E ]</td></tr>
-  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &#8614; </span>[ D && !E, D, E ]</td></tr>
-  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, A == B ]</td></tr>  
-  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, (A == B) && C ]</td></tr>
-  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ A == B, A, B ]</td></tr>
+  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &#8614; </span>[ D, E, D <span class="keyword2">and</span> E ]</td></tr>
+  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &#8614; </span>[ D <span class="keyword2">and not</span> E, D, E ]</td></tr>
+  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, A = B ]</td></tr>  
+  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, (A = B) <span class="keyword2">and</span> C ]</td></tr>
+  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ A = B, A, B ]</td></tr>
   <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, C ? A : B, C ]</td></tr>
   <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ C ? B : A, B, C ]</td></tr>  
   <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, C ? B : A, B ]</td></tr>
@@ -1887,7 +1887,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
 
-<p>When a program invokes <span class="mono">G</span>, which is now an emulation of an <span class="nowrap"><span class="mono">(n+3)</span>-byte</span> function, it passes arbitrary values into the temporary variables, and it ignores their output values.</p>
+<p>The initial values of those elements do not matter. But they must reserved since <span class="mono">G</span> overwrites them.</p>
 
 <p>The code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with <span class="mono">r</span> acting as a flag:</p>
 
@@ -1926,7 +1926,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>When the inner loop is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
+<p>When that inner loop is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
 
 <p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
 
@@ -1981,6 +1981,12 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &#8614; [ C ? B : A, B, C ]</span>.</p>
 
+<p>The first parameter is the destination element and it is also the source element when the condition is false. The second parameter is the source element when the condition is true. And the third parameter is the condition element.</p>
+
+<p>The second and third parameters pass through, unchanged. In this case, they are always <span class="mono">p</span> and <span class="mono">q</span>, respectively.</p>
+
+<p><span class="mono">COPY_B_A_C</span> already exists in the function catalog. However, it operates on a triplet of consecutive elements. So, the following version duplicates the strategy used for the byte matchers. It moves the value in <span class="mono">a<span class="sub3">x+i</span></span> into <span class="mono">a<span class="sub3">x+n&minus;1</span></span> via repeated swaps. There, it performs the copy. Then it restores the moved value back to its original location.</p>
+
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
@@ -2002,7 +2008,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>...</p>
+<p>Next, the placeholders, <span class="mono">p</span>, <span class="mono">q</span>, and <span class="mono">r</span>, are filled in with the corresponding array elements, <span class="mono">a<span class="sub3">x+n</span></span>, <span class="mono">a<span class="sub3">x+n+1</span></span>, and <span class="mono">a<span class="sub3">x+n+2</span></span>, respectively:</p>
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">x+n+2</span> &larr; 0</span>
@@ -2025,7 +2031,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  a<span class="sub3">x+n+2</span> &larr; a<span class="sub3">x+n+2</span> <span class="keyword2">or</span> a<span class="sub3">x+n+1</span></span>
 </pre>
 
-<p>...</p>
+<p>Then all references to the array are replaced with MetaTetrisScript instructions:</p>
 
 <pre class="pseudocode2">
 <span class="line">CLEAR n+2</span>
@@ -2047,6 +2053,16 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">      SWAP j</span>
 <span class="line">  OR_AB_AF n+1</span>
 </pre>
+
+<p>The code needs two variations of existing functions:</p>
+
+<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &#8614; [ <span class="keyword2">not</span> E, E ]</span></p>
+
+<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &#8614; [ A, A | B ]</span></p>
+
+<p>The final step is to unroll the loops. As that happens, the key-value pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. And, depending on the number of entries in the map, the end result may be an extremely long, yet finite, program.</p>
+
+<p>Clearly, this is not the most practical or efficient way to implement an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function. But the point of this exercise was to demonstrate MetaTetrisScript can emulate them, at least in principle.</p>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
