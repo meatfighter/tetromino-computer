@@ -2070,13 +2070,34 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="state-machine">State Machine</h2>
 
-<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that deterministically returns the next element of some sequence upon being prompted to do so. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+<p>...</p>
 
-<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register. A process initializes it to the starting state. When the process wants the next element of the sequence, it applies a transition function, <span class="mono">T</span>, on the register:</p>
+<h3 id="sequencer">Sequencer</h3>
 
-<p><span class="nowrap mono">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span></p>
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that deterministically returns the next element of some sequence when prompted to do so. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
-<p>If <span class="mono">T</span> is an emulated function, some of the register’s bytes may be reserved for temporary values, as <a href="#function-emulator">explained previously</a>.</p>
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register. A process initializes it to the starting state. When the process wants the next element of the sequence, it applies a transition function, <span class="mono">T<span class="sub3">s</span></span>, on the register:</p>
+
+<p><span class="nowrap mono">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span></p>
+
+<p>If <span class="mono">T<span class="sub3">s</span></span> is an emulated function, some of the register’s bytes may be reserved for temporary values, as <a href="#function-emulator">explained previously</a>.</p>
+
+<h3 id="classifier">Classifier</h3>
+
+<p>A <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Classifiers" target="_blank">classifier</a> is a device that categorizes an input string. If there are only two categories, then the device is referred to as an <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Acceptors" target="_blank">acceptor</a>. For instance, a <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression</a> matcher determines if an input string is consistent with a specific pattern or not.</p>
+
+<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, of length <span class="mono">L</span>, into a MetaTetrisScript program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register, and a process initializes it to the starting state. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i = 0 <span class="keyword2">to</span> L&minus;1</span>
+<span class="line">  a<span class="sub3">N</span> &larr; s<span class="sub3">i</span></span>
+<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">N</span> &larr; T<span class="sub3">c</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N</span>)</span>
+</pre>
+
+<p>The final state of the register is the category.</p>
+
+
+
 
 <h2 id="turing-machine">Turing Machine</h2>
 
