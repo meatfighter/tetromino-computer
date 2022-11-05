@@ -70,8 +70,13 @@ span.sup2 {
 }
 
 span.sup3 {
-  vertical-align: super;
-  font-size: smaller;
+    vertical-align: super;
+    font-size: smaller;
+}
+
+span.sup3 {
+    vertical-align: super;
+    font-size: smaller;
 }
 
 span.serif {
