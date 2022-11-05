@@ -2072,17 +2072,19 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="state-machine">State Machine</h2>
 
-<p>...</p>
+<p>This section discusses deterministic <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">finite-state machines</a>, abstract devices consisting of a state register and a transition function that maps an input state and optionally an input character to an output state and optionally an output character.</p>
 
 <h3 id="sequencer">Sequencer</h3>
 
-<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that deterministically returns the next element of some sequence when prompted to do so. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that returns the next element of some sequence when prompted to do so. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
-<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register. A process initializes it to the starting state. When the process wants the next element of the sequence, it runs a MetaTetrisScript program equivalent to the single line of pseudocode below.</p>
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register, where a subset or all of those bytes represent the most recently generated element of the sequence. A process initializes the register to a starting state. When the process wants the next element of the sequence, it runs a MetaTetrisScript program equivalent to the single line of pseudocode below.</p>
 
-<p><span class="nowrap mono">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span></p>
+<pre class="pseudocode2">
+<span class="line">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span>
+</pre>
 
-<p>The program passes the register value into a transition function, <span class="mono">T<span class="sub3">s</span></span>, and it puts the result back into the register. If <span class="mono">T<span class="sub3">s</span></span> is an emulated function, some of the register’s bytes may be reserved for temporary values, as <a href="#function-emulator">explained previously</a>.</p>
+<p>The program passes the register value into a transition function, <span class="mono">T<span class="sub3">s</span></span>, and it puts the result back into the register.</p>
 
 <p>Since the register is limited to a finite number of states, the generated sequence eventually becomes cyclic.</p>
 
@@ -2090,7 +2092,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>A <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Classifiers" target="_blank">classifier</a> is a device that categorizes an input string. If there are only two categories, then the device is referred to as an <span class="term"><a href="https://en.wikipedia.org/wiki/Finite-state_machine#Acceptors" target="_blank">acceptor</a></span>. For instance, a <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression</a> matcher determines if an input string is consistent with a specific pattern or not.</p>
 
-<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, comprised of <span class="mono">L</span> single-byte characters, into a MetaTetrisScript program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register, and a process initializes it to the starting state. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
+<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, comprised of <span class="mono">L</span> single-byte characters, into a MetaTetrisScript program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> state register, and a process initializes it to a starting state. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> L&minus;1</span>
@@ -2141,19 +2143,26 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    [a<span class="sub3">i+j+1</span>,a<span class="sub3">i+j</span>] &larr; [a<span class="sub3">i+j</span>,a<span class="sub3">i+j+1</span>]</span>
 </pre>
 
-<p><span class="nowrap">Line 2</span> applies the transition function at <span class="nowrap">index <span class="mono">i</span></span>, rather than <span class="nowrap">index <span class="mono">0</span></span>. <span class="nowrap">Lines 3&ndash;4</span> move the register right, from <span class="nowrap">index <span class="mono">i</span></span> to <span class="nowrap">index <span class="mono">i+1</span></span>, by repeatedly swapping the <span class="mono">i<span class="sup2">th</span></span> character of the string leftward through the register.</p>
+<p><span class="nowrap">Line 2</span> applies the transition function at <span class="nowrap">index <span class="mono">i</span></span>, rather than <span class="nowrap">index <span class="mono">0</span></span>. <span class="nowrap">Lines 3&ndash;4</span> move the register right, from <span class="nowrap">index <span class="mono">i</span></span> to <span class="nowrap">index <span class="mono">i+1</span></span>, by repeatedly swapping the <span class="mono">i<span class="sup2">th</span></span> character of the string leftward, through the register.</p>
 
 <p>It takes <span class="mono">LN</span> swaps. For strings significantly larger than the width of the register, the second strategy has order <span class="mono nowrap">&Oscr;(L)</span>, far more efficient than the first strategy, which has order <span class="mono nowrap">&Oscr;(L<span class="sup3">2</span>)</span>.</p>
 
-<p>Regarding reusability, the program demands the number of cycles to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if the transition function ignores zeros&mdash;those characters to the right of the input string&mdash;then the program is applicable to all strings of length <span class="mono">L</span> or less. </p>
-
-
+<p>Regarding reusability, the program contains the number of cycles required to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if <span class="mono">T<span class="sub3">c</span></span> ignores zeros&mdash;those characters to the right of the input string&mdash;then the program is applicable to all strings of length <span class="mono">L</span> or less.</p>
 
 <h3 id="transducer">Transducer</h3>
 
-<p>TODO explain what is and show the code is nearly identical to the last code</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Finite-state_transducer" target="_blank">transducer</a> is a device that translates an input string into an output string. One example is a <a href="https://en.wikipedia.org/wiki/Cipher" target="_blank">cipher</a>, a machine that performs encryption or decryption.</p>
 
-<p>TODO visualizations</p>
+<p>The following transducer implementation is identical to the classifier, except for the transition function, <span class="mono">T<span class="sub3">t</span></span>, which modifies both the register state and the <span class="mono">i<span class="sup2">th</span></span> character of the string, as opposed to just the register state.</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> L&minus;1</span>
+<span class="line">  a<span class="sub3">i</span>&nldr;a<span class="sub3">N+i</span> &larr; T<span class="sub3">t</span>(a<span class="sub3">i</span>&nldr;a<span class="sub3">N+i</span>)</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; N&minus;1 <span class="keyword2">down to</span> 0</span>
+<span class="line">    [a<span class="sub3">i+j+1</span>,a<span class="sub3">i+j</span>] &larr; [a<span class="sub3">i+j</span>,a<span class="sub3">i+j+1</span>]</span>
+</pre>
+
+<p>As the program slides the register over the string, it transforms each input character into an output character.</p>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
