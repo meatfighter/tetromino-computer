@@ -1862,8 +1862,6 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>By convention, the array is described as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward index infinity.</p>
 
-<p>The notation, <span class="nowrap mono">a:b<span class="sub3">i</span></span>, means the <span class="mono">b<span class="sup2">th</span></span> bit of the <span class="mono">i<span class="sup2">th</span></span> byte of <span class="mono">a</span>.</p>
-
 <p>This abstraction is used in the next section to construct computing machines.</p>
 
 <h1 id="computing-machines">Computing Machines</h1>
@@ -2163,6 +2161,92 @@ out name x1 y1 x2 y2 ... xN yN
 </pre>
 
 <p>As the program slides the register over the string, it transforms each input character into an output character.</p>
+
+<h2 id="turing-machine">Turing Machine</h2>
+
+<p>...</p>
+
+<p><span class="nowrap mono">m<span class="sub3">0</span>, d<span class="sub3">0</span>, m<span class="sub3">&minus;1</span>, d<span class="sub3">&minus;1</span>, m<span class="sub3">1</span>, d<span class="sub3">1</span>, m<span class="sub3">&minus;2</span>, d<span class="sub3">&minus;2</span>, m<span class="sub3">2</span>, d<span class="sub3">2</span>, m<span class="sub3">&minus;3</span>, d<span class="sub3">&minus;3</span>, m<span class="sub3">3</span>, d<span class="sub3">3</span>, &mldr;</span></p>
+
+<p>...</p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+0</span> &equiv; m<span class="sub3">i</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+1</span> &equiv; d<span class="sub3">i</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+2</span> &equiv; m<span class="sub3">&minus;i</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+3</span> &equiv; d<span class="sub3">&minus;i</span></span></p>
+
+<p>...</p>
+
+<p><span class="nowrap mono">m<span class="sub3">i</span>, d<span class="sub3">i</span>, m<span class="sub3">&minus;(i+1)</span>, d<span class="sub3">&minus;(i+1)</span>, m<span class="sub3">i+1</span>, d<span class="sub3">i+1</span>, m<span class="sub3">&minus;(i+2)</span>, d<span class="sub3">&minus;(i+2)</span></span></p>
+
+<p>...</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">while true</span></span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">    applyTransitionFunction(j)</span>
+<span class="line">    moveRegister(j, j+4)</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; &infin; <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    applyTransitionFunction(j)</span>
+<span class="line">    moveRegister(j, j&minus;4)</span>
+</pre>
+
+<p>...</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    applyTransitionFunction(j)</span>
+<span class="line">    moveRegister(j, j+4)</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    applyTransitionFunction(j)</span>
+<span class="line">    moveRegister(j, j&minus;4)</span>
+</pre>
+
+<p>...</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    moveRegister(j, j+4)</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    moveRegister(j, j&minus;4)</span>
+</pre>
+
+<p>...</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    <span class="keyword2">for</span> k &larr; 0 <span class="keyword2">to</span> 3</span>
+<span class="line">      <span class="keyword2">for</span> p &larr; N&minus;1 <span class="keyword2">down to</span> 0</span>
+<span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    <span class="keyword2">for</span> k &larr; 3 <span class="keyword2">down to</span> 0</span>
+<span class="line">      <span class="keyword2">for</span> p &larr; 0 <span class="keyword2">to</span> N&minus;1</span>
+<span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
+</pre>
+
+
+
+
+
+
+
+
+
+
 
 <h2 id="turing-machine">Turing Machine</h2>
 
