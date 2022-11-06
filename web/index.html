@@ -2210,15 +2210,22 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">a<span class="sub3">N+4i+3</span> &equiv; t<span class="sub3">&minus;(i+1)</span></span></p>
 
-<p>...</p>
+<p>At runtime, the machine moves the register to indices divisible by four. At those locations, <span class="mono">j</span>, it applies a transition function, <span class="mono">T<span class="sub3">m</span></span>, that operates on the register bytes, <span class="mono nowrap">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N&minus;1</span></span>, and the eight bytes immediately to the right of the register, <span class="mono nowrap">a<span class="sub3">j+N</span>&nldr;a<span class="sub3">j+N+7</span></span>:</p>
 
-<p><span class="nowrap mono">h<span class="sub3">i</span>, t<span class="sub3">i</span>, h<span class="sub3">&minus;(i+1)</span>, t<span class="sub3">&minus;(i+1)</span>, h<span class="sub3">i+1</span>, t<span class="sub3">i+1</span>, h<span class="sub3">&minus;(i+2)</span>, t<span class="sub3">&minus;(i+2)</span></span></p>
+<p><span class="nowrap mono">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span></p>
 
+<p>The extra bytes correspond to the subsequence:</p>
 
-<p>...</p>
+<p><span class="nowrap mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
+
+<p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if all four metadata bytes are zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it alters two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
+
+<p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
+
+<p>The MetaTetrisScript program that governs the machine only needs to apply <span class="mono">T<span class="sub3">m</span></span> to the region of the tape that may contain the head. The head starts out over <span class="mono">t<span class="sub3">0</span></span>, and during each cycle of the machine, it can step one index further away from that origin. Meaning, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the region expands to <span class="mono nowrap">t<span class="sub3">&plusmn;y</span></span>. This suggests the following iterative deepening.</p>
 
 <pre class="pseudocode2">
-<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
 <span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
 <span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
 <span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
@@ -2229,10 +2236,12 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    moveRegister(j, &minus;4)</span>
 </pre>
 
+<p><span class="nowrap">Lines 2&ndash;5</span> slide the register from the origin to <span class="nowrap">index <span class="mono">i</span></span>, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way. <span class="nowrap">Lines 6&ndash;9</span> slides the register back to the origin, again applying <span class="mono">T<span class="sub3">m</span></span> as it goes. With each pass of the outer loop, the register ventures farther away.</p>
+
 <p>...</p>
 
 <pre class="pseudocode2">
-<span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
 <span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
 <span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
 <span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
