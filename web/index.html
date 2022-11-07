@@ -2166,19 +2166,23 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="turing-machine">Turing Machine</h2>
 
+<p>...</p>
+
+<h3 id="turing-machine-definition">Definition</h3>
+
 <p>A <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a>&mdash;an abstract device that can run any algorithm&mdash;consists of a <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a> and a state machine. Mounted onto the drive is an infinitely long <span class="term">tape</span> that stores an endless sequence of characters, <span class="mono">t</span>, all of which are initially zero:</p> 
 
 <p><span class="nowrap mono">t<span class="sub3">i&isin;(&minus;&infin;, &infin;)</span> &larr; 0</span></p>
 
-<p>A process loads an input string beginning at <span class="nowrap">index <span class="mono">0</span></span>:</p>  
+<p>A process writes an input string to the tape at <span class="nowrap">index <span class="mono">0</span></span>:</p>  
 
 <p><span class="nowrap mono">t<span class="sub3">i&isin;[0,L&minus;1]</span> &larr; i<span class="sup2">th</span></span> character of an input string of length <span class="mono">L</span></p>
 
-<p>After the load, the drive’s read/write <span class="term">head</span>&mdash;which is limited to accessing a single character at any time&mdash;is repositioned over the first character of the input string, <span class="mono">t<span class="sub3">0</span></span>. On command, the head can step left from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i&minus;1</span></span>, or right from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i+1</span></span>.</p> 
+<p>Afterwards, the drive’s read/write <span class="term">head</span>&mdash;which is limited to accessing a single character at any time&mdash;is repositioned over the first character of the input string, <span class="mono">t<span class="sub3">0</span></span>. On command, the head can step left from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i&minus;1</span></span>, or right from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i+1</span></span>.</p> 
 
-<p>The state machine begins in a starting state. If it transitions to a halt state, then the executing algorithm finished.</p> 
+<p>A process initializes the state machine to a starting state. At runtime, if the state machine transitions to a halt state, then the algorithm finished. At that point, the process may read output strings deposited on the tape by the algorithm.</p> 
 
-<p>During each processing cycle, the machine pairs the character under the head, <span class="mono">r</span>, with the current state, <span class="mono">s</span>, to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
+<p>For each processing cycle, the machine reads the character under the head, <span class="mono">r</span>, it pairs that character with the current state, <span class="mono">s</span>, and it uses the pair to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
 
 <p><span class="nowrap mono">[ r, s ] &#8614; [ w, d, z ]</span></p>
 
@@ -2190,11 +2194,20 @@ out name x1 y1 x2 y2 ... xN yN
   <li>Transition to state <span class="mono">z</span>.</li>
 </ol>
 
+<h3 id="turing-machine-implementation">Implementation</h3>
+
 <p>The following Turing machine implementation stores its data in an <a href="#infinite-array-abstraction">infinite array abstract</a>. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset of those bytes store the state machine’s current state. The remaining bytes, <span class="mono nowrap">a<span class="sub3">N</span>&nldr;a<span class="sub3">&infin;</span></span>, emulate the tape drive, where each data byte, <span class="mono">t<span class="sub3">i</span></span>, is paired with a <a href="https://en.wikipedia.org/wiki/Metadata" target="_blank">metadata</a> byte, <span class="mono">h<span class="sub3">i</span></span>:</p>
 
 <p><span class="nowrap mono">h<span class="sub3">i</span> &equiv; 1</span> if the head is over <span class="mono">t<span class="sub3">i</span></span>; otherwise, <span class="mono">0</span>.</p>
 
 <p>Initially, <span class="nowrap mono">h<span class="sub3">0</span> = 1</span> and <span class="nowrap mono">h<span class="sub3">i&ne;0</span> = 0</span>, because the head starts out over <span class="mono">t<span class="sub3">0</span></span>.</p>
+
+<p>To step the head, adjacent elements of <span class="mono">h</span> are swapped:</p>
+
+<table class="map"> 
+  <tr><td class="key">step left:</td><td><span class="nowrap mono">[h<span class="sub3">i</span>,h<span class="sub3">i&minus;1</span>] &larr; [h<span class="sub3">i&minus;1</span>,h<span class="sub3">i</span>]</span></td></tr>
+  <tr><td class="key">step right:</td><td><span class="nowrap mono">[h<span class="sub3">i</span>,h<span class="sub3">i+1</span>] &larr; [h<span class="sub3">i+1</span>,h<span class="sub3">i</span>]</span></td></tr>
+</table>
 
 <p>Since the array is bounded on the left, the tape is &ldquo;folded in half at the origin&rdquo; and the pairs are interlaced:</p>
 
@@ -2210,35 +2223,35 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap mono">a<span class="sub3">N+4i+3</span> &equiv; t<span class="sub3">&minus;(i+1)</span></span></p>
 
-<p>At runtime, the machine moves the register to indices divisible by four. At those locations, <span class="mono">j</span>, it applies a transition function, <span class="mono">T<span class="sub3">m</span></span>, that operates on the register bytes, <span class="mono nowrap">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N&minus;1</span></span>, and the eight bytes immediately to the right of the register, <span class="mono nowrap">a<span class="sub3">j+N</span>&nldr;a<span class="sub3">j+N+7</span></span>:</p>
+<p>At runtime, the machine slides the register to indices divisible by four. At those locations, <span class="mono">j</span>, it applies a transition function, <span class="mono">T<span class="sub3">m</span></span>, that operates on the register bytes, <span class="mono nowrap">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N&minus;1</span></span>, and eight extra bytes immediately to the right of the register, <span class="mono nowrap">a<span class="sub3">j+N</span>&nldr;a<span class="sub3">j+N+7</span></span>:</p>
 
 <p><span class="nowrap mono">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span></p>
 
-<p>The extra bytes correspond to the subsequence:</p>
+<p>The eight extra bytes correspond to the segment:</p>
 
 <p><span class="nowrap mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
 
-<p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if all four metadata bytes are zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it alters two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
+<p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if metadata bytes <span class="mono">h<span class="sub3">j</span></span>, <span class="mono">h<span class="sub3">&minus;(j+1)</span></span>, <span class="mono">h<span class="sub3">j+1</span></span>, and <span class="mono">h<span class="sub3">&minus;(j+2)</span></span> are all zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it swaps two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
 
 <p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
 
-<p>The MetaTetrisScript program that governs the machine only needs to apply <span class="mono">T<span class="sub3">m</span></span> to the region of the tape that may contain the head. The head starts out over <span class="mono">t<span class="sub3">0</span></span>, and during each cycle of the machine, it can step one index further away from that origin. Meaning, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the region expands to <span class="mono nowrap">t<span class="sub3">&plusmn;y</span></span>. This suggests the following iterative deepening.</p>
+<p>The MetaTetrisScript program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to a minimal region of the tape guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
 <span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
 <span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
 <span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
-<span class="line">    moveRegister(j, 4)</span>
+<span class="line">    slideRegister(j, 4)</span>
 <span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
 <span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
 <span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
-<span class="line">    moveRegister(j, &minus;4)</span>
+<span class="line">    slideRegister(j, &minus;4)</span>
 </pre>
 
-<p><span class="nowrap">Lines 2&ndash;5</span> slide the register from the origin to <span class="nowrap">index <span class="mono">i</span></span>, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way. <span class="nowrap">Lines 6&ndash;9</span> slides the register back to the origin, again applying <span class="mono">T<span class="sub3">m</span></span> as it goes. With each pass of the outer loop, the register ventures farther away.</p>
+<p><span class="nowrap">Lines 2&ndash;5</span> slide the register rightward across the widening region. And <span class="nowrap">lines 6&ndash;9</span> handle the return trip.</p>
 
-<p>...</p>
+<p>The following version expands <span class="mono">slideRegister</span> into nested loops that repeated swap array elements through the register. </p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
@@ -2256,104 +2269,11 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
 </pre>
 
+<p>...</p>
 
+<h3 id="turing-machine-implications">Implications</h3>
 
-
-
-
-
-
-
-
-
-<h2 id="turing-machine">Turing Machine</h2>
-
-<p>Of the many ways to define a <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a>, for this discussion, it is an <a href="https://en.wikipedia.org/wiki/Abstract_machine" target="_blank">abstract machine</a> consisting of the following parts.</p>
-
-<ul>
-  <li>A <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a>.
-    <ul style="padding-top: 1em;">
-      <li>Mounted onto the drive is an infinitely long <span class="term">tape</span> capable of storing an endless sequence of bits. A finite, contiguous region of the tape is initialized with an input dataset. The remainder contains zeros.</li>
-      <li>The tape passes horizontally under the drive's read/write <span class="term">head</span>. From its point of view, the tape extends forever both left and right. The head is limited to accessing a single bit at any time. But the drive can shift the tape to move the head one bit left or one bit right. The head is initially positioned over the leftmost bit of the input dataset.</li>
-    </ul>
-  </li>
-  <li style="padding-top: 1em;">A <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a>.
-    <ul style="padding-top: 1em;">
-      <li>A <span class="term">register</span> stores the current state, one of a finite many. It is initialized to a starting state. If it transitions to a halt state, then the machine finished whatever it was setup to do.</li>
-      <li>A <span class="term">state-transition table</span>, containing a finite number of entries, maps a state and a bit to a list of three instructions: 
-        <ol style="padding-top: 1em;">
-          <li>Write a specified bit.</li>
-          <li>Move the head in a specified direction by one bit.</li> 
-          <li>Transition to a specified state.</li>
-        </ol>        
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>During each cycle, the machine reads a bit, it uses the current state and the read value to lookup instructions in the state-transition table, and it executes the instructions.</p>
-
-<p>The following approach for emulating a Turing machine uses an <a href="#infinite-array-abstraction">infinite array abstraction</a> as its storage. The first <span class="nowrap"><span class="serif">N</span> bytes</span> of the array, <span class="nowrap"><span class="serif">a<span class="sub2">0</span></span>&nldr;<span class="serif">a<span class="sub2">N&minus;1</span></span></span>, serve as the state register. It is initialized to the starting state. The next byte, <span class="serif">a<span class="sub2">N</span></span>, acts as a <span class="term">boundary marker</span>. It is set to <span class="mono">FF</span>. The remaining bytes, <span class="nowrap"><span class="serif">a<span class="sub2">N+1</span>&nldr;a<span class="sub2">&infin;</span></span></span>, represent the tape drive. The lower-four bits of those bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b < 4, i &ge; 0</span>, map to:</p>
-
-<p><span class="nowrap serif">a:0<span class="sub2">i+N+1</span> &equiv; t<span class="sub2">i</span></span></p>
-
-<p><span class="nowrap serif">a:1<span class="sub2">i+N+1</span> &equiv; t<span class="sub2"> &minus;(i+1)</span></span></p>
-
-<p><span class="nowrap serif">a:2<span class="sub2">i+N+1</span> &equiv; h<span class="sub2">i</span></span></p>
-
-<p><span class="nowrap serif">a:3<span class="sub2">i+N+1</span> &equiv; h<span class="sub2"> &minus;(i+1)</span></span></p>
-
-<p><span class="serif">t<span class="sub2">i</span></span> is the <span class="serif">i<span class="sup2">th</span></span> bit of the tape, such that increasing <span class="serif">i</span> moves rightward. An input dataset&mdash;a list of <span class="serif">L</span> bits&mdash;is loaded into <span class="serif">t<span class="sub2">i&isin;&lsqb;0,L&minus;1&rsqb;</span></span>. The remaining tape is initialized to zeros.</p>
-
-<p>The array stores the tape as if it were folded in half. <span class="nowrap serif">a:0<span class="sub2">x &ge; N+1</span></span> contains the right half and <span class="nowrap serif">a:1<span class="sub2">x &ge; N+1</span></span> contains the left half.</p>
-
-<p><span class="serif">h<span class="sub2">i</span></span> is an attribute of the <span class="serif">i<span class="sup2">th</span></span> bit of the tape. It is zero, unless the drive’s head points to that bit. Since the head starts out above the leftmost bit of the input dataset, <span class="serif">h<span class="sub2">0</span></span> is initialized to one, and the rest are zeros.</p>
-
-<p>Like <span class="serif">t</span>, the array stores <span class="serif">h</span> as if were folded in half. <span class="nowrap serif">a:2<span class="sub2">x &ge; N+1</span></span> contains the right half and <span class="nowrap serif">a:3<span class="sub2">x &ge; N+1</span></span> contains the left half.</p> 
-
-<p>The upper-four bits of the tape drive bytes, <span class="serif">a:b<span class="sub2">i+N+1</span>, b &ge; 4, i &ge; 0</span>, are always zero.</p>
-
-<p>The image below depicts the array's initial configuration.</p>
-
-<object data="array-at-startup.svg" type="image/svg+xml" class="diagram">Array at startup</object>
-
-<p>The register starts at <span class="nowrap">index 0</span>, but it is not fixed there. The Turing machine’s MetaTetrisScript directs the agent to repeatedly apply <span class="mono">SWAP</span> functions in patterns that slide the register back and forth through the array. The following animation shows the motion of a <span class="nowrap">3-byte</span> register.</p>  
-  
-<object data="animated-register.svg" type="image/svg+xml" class="diagram">Animated Register</object>
-  
-<p>Moving the register one step right, from <span class="serif">i</span> to <span class="serif">i+1</span>, takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i+N</span>, a<span class="sub2">i+N&minus;1</span> ], [ a<span class="sub2">i+N&minus;1</span>, a<span class="sub2">i+N&minus;2</span> ], &mldr;, [ a<span class="sub2">i+1</span>, a<span class="sub2">i</span> ]</span>.</p>
-
-<p>Moving the register one step left, from <span class="serif">i</span> to <span class="serif">i&minus;1</span>, also takes <span class="serif">N</span> swaps: <span class="serif nowrap">[ a<span class="sub2">i&minus;1</span>, a<span class="sub2">i</span> ], [ a<span class="sub2">i</span>, a<span class="sub2">i+1</span> ], &mldr;, [ a<span class="sub2">i+N&minus;2</span>, a<span class="sub2">i+N&minus;1</span> ]</span>.</p>
-
-<p>After the register moves one step, in either direction, to some index <span class="serif">i</span>, the MetaTetrisScript directs the agent to apply a sequence of functions that operates on the register bytes, <span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N&minus;1</span></span>, as well as the three bytes immediately to the right of the register, <span class="serif nowrap">a<span class="sub2">i+N</span>&nldr;a<span class="sub2">i+N+2</span></span>. The collective effect of the sequence is function <span class="serif">F</span>:</p> 
-
-<p><span class="serif nowrap">a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span> &larr; F(a<span class="sub2">i</span>&nldr;a<span class="sub2">i+N+2</span>)</span></p>
-
-<p><span class="serif">F</span> conditionally carries out a Turing machine cycle based on <span class="serif">a<span class="sub2">i+N+1</span></span>. It checks if that byte contains the tape drive head:</p>
-
-<object data="register-and-extra-bytes.svg" type="image/svg+xml" class="diagram">Register and Extra Bytes</object>
-  
-<p>If the head is not found (if <span class="serif nowrap">a:2<span class="sub2">i+N+1</span></span> and <span class="serif nowrap">a:3<span class="sub2">i+N+1</span></span> are both 0), then <span class="serif">F</span> passes its input through, unchanged. Otherwise, it uses the tape bit referenced by the head (either <span class="serif nowrap">a:0<span class="sub2">i+N+1</span></span> or <span class="serif nowrap">a:1<span class="sub2">i+N+1</span></span>) in conjunction with the register value to output bytes that modifies the tape, the register, and the head. Meaning, it performs the equivalent of executing the instructions looked up in the state-transition table.</p>  
-
-<p><span class="serif">F</span> can move the head because the three extra bytes include both adjacent neighbors of the byte containing the head. However, the leftmost of the three, <span class="serif">a<span class="sub2">i+N</span></span>, might contain the boundary marker, <span class="mono">FF</span>, which represents the &ldquo;fold&rdquo; in the tape. This leads to the possibilities depicted in the following visualization.</p>
-
-<object data="moving-the-head.svg" type="image/svg+xml" class="diagram">Moving the Head</object>  
-
-<p>Each triplet represents a state of the three bytes. The upper and lower circles correspond to <span class="nowrap">bits 2</span> and 3 of each byte, where an unfilled circle is a <span class="mono">0</span> and a filled circle is a <span class="mono">1</span>.</p>
-
-<p>The center column contains the possible initial states. The left and right columns show the eight outcomes after the head moves left and right, respectively. </p>
-
-<p>In the first row, the head moves in the direction corresponding to the specified direction. In the second row, the head moves opposite to the specified direction because the tape is &ldquo;folded over&rdquo;. In the third and fourth rows, both circles of the leftmost byte are filled since it contains the boundary marker. In the third row, moving left transfers the head from <span class="nowrap">bit-2</span> to <span class="nowrap">bit-3</span>. Similarly, in the fourth row, moving right does the opposite.</p>
-
-<p>A machine cycle consists of sliding the register from index 0 to a finite index <span class="serif">k</span> and then back to index 0, applying the transition function at each step along the way. <span class="serif">k</span> is initialized to 1 and it is incremented by 1 at the end of each cycle.</p>
-
-<p>Since the head starts at the element corresponding to the leftmost bit of the input dataset and the transition function advances the head by at most one element, the expanding motion of the register is guaranteed to update the head at least once per cycle, and potentially multiple times per cycle. In this way, the machine always makes progress.</p>
-
-<p>Each cycle of the machine requires more steps than the preceding cycle. This translates to an expanding, yet finite, number of TetrisScript instructions to execute per cycle, where <span class="serif">k</span> is encoded in increasing <span class="nowrap">x-coordinate</span> values.</p>
-
-<p>The number cycles needed to complete the computation (for the machine to halt) is unknown in the general case. This necessitates an endless TetrisScript. However, since each cycle is an extension of its predecessor, the TetrisScript fed to the agent could be synthesized on demand.</p>
-
-<p>Since one can realize a Turing machine in Tetris, Tetris is Turing-complete. Furthermore, the problem of determining if the information encoded on the pile’s surface will eventually transition to a given state from an initial state is <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a>. This is a corollary of the <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halting problem</a>. It is equivalent to asking if an arbitrary program will ultimately halt for some input dataset.</p>
+<p>Since a Turing machine is realizable in Tetris, Tetris is Turing-complete. Furthermore, the problem of determining if an input string encoded on the pile’s surface eventually transforms into a specified output string is <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> because that is equivalent to asking if a given program ultimately <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
 <h2 id="tetris-machine">Tetris Machine</h2>
 

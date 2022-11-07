@@ -234,6 +234,14 @@ td.blue {
     border-left: 1px solid;
 }
 
+table.map{
+    border-collapse: collapse;
+}
+
+td.key {
+    padding-right: 10px;
+}
+
 table.matchers {
     border-collapse: collapse;
 }
