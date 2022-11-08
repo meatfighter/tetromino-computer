@@ -28,7 +28,7 @@
     <line x1="87" y1="22" x2="117.5" y2="22" class="arrow" marker-end="url(#arrow)"/>
     <text x="75" y="22" dy="0.25em" class="descriptions" text-anchor="end" style="font-size: 20px;">output</text>
     <text x="130" y="120.5" class="braces" dy="0.25em" text-anchor="end" style="font-size: 178.5px;">{</text>
-    <text x="75" y="115" dy="0.25em" class="descriptions" text-anchor="end" style="font-size: 20px;">circuit</text>
+    <text x="75" y="115" dy="0.25em" class="descriptions" text-anchor="end" style="font-size: 20px;">logic</text>
     <text x="75" y="206" dy="0.25em" class="descriptions" text-anchor="end" style="font-size: 20px;">input</text>
     <line x1="87" y1="206" x2="117.5" y2="206" class="arrow" marker-end="url(#arrow)"/>
     <g transform="translate(125 0) scale(0.4)">

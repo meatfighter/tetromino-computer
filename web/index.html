@@ -68,21 +68,31 @@
 
 <h2 id="method-overview">Method Overview</h2>
 
-<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that functions identical to a combinational logic circuit. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
-<p>The agent builds a second structure above the first, such that the output rows of the first structure serve as the input rows of the second structure. Through repetition of this procedure, the agent effectuates a state machine, where the data rows are states and the structures are transition functions:</p>
+<p>The agent builds a second structure above the first, such that the output rows of the first structure serve as the input rows of the second structure. By repeating this procedure, the agent effectuates a state machine, where the data rows are states and the structures are transition functions:</p>
 
 <object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
 
 <p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on a given input.</p>
 
-<h2 id="blindfolded-agent">The Blindfolded Agent</h2>
+<h2 id="nodes">Nodes</h2>
 
-<p>If the agent can see, then it can be the calculator. That is, a sighted agent can read input by observing the playfield, it can perform calculations by its own means, and it can write output by dropping pieces that update the playfield. In other words, it can make Tetris function like RAM.</p>
+<p>A pair of vertically-adjacent playfield cells stores a Boolean value via the following scheme.</p>
 
-<p>To eliminate that possibility, the agent must play blindfolded. Input data, intermediate states, and output data must be inaccessible to the agent. With that constraint, if the system composed of the agent and the game processes information in the manor of a computer, then Tetris must be functioning as both RAM and a CPU.</p>
+<object data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
+
+<ul>
+    <li><span class="mono">0</span> (false) &mdash; lower-cell solid, upper-cell empty</li> 
+    <li><span class="mono">1</span> (true) &mdash; upper-cell solid, lower-cell empty or solid</li>  
+    <li><span class="mono">?</span> (unassigned) &mdash; both cells empty</li>  
+</ul>
+
+<p>The input, intermediate, and output nodes of combinational logic structures are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. For instance, the image below shows one possible encoding of <span class="mono">01010</span>, where a noncontiguous node stores the right-most bit.</p>
+
+<object data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
@@ -96,49 +106,27 @@
 
 <p>Since the agent cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
 
-<h2 id="spawn-signal">Spawn Signal</h2>
+<h2 id="inputscript">InputScript</h2>
 
-<p>With no visual feedback, the blindfolded agent precisely controls the falling piece with a carefully timed sequence of requests to move it. The agent knows when to begin the sequence because the game provides a signal that conveys the randomly selected Tetrimino type to the agent when a spawn occurs.</p>
+<p>An <span class="term">InputScript</span> program directs the agent to control the falling Tetrimino by pressing buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in timed sequences. Each InputScript instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
 
-<p>On a completely empty playfield, the game would satisfy every request in the sequence and the agent would know exactly where the piece is at any time. But the playfield is not necessarily empty and the agent is not privy to its contents.</p>
+<p class="definition">t b<span class="sub3">0</span> b<span class="sub3">1</span> b<span class="sub3">2</span> &mldr; b<span class="sub3">N&minus;1</span></p> 
 
-<p>Since the game denies requests to move the piece into solid cells, the blindfolded agent can never be certain where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame to enables it to execute the sequence with the proper timing.</p> 
+
+<p>When a Tetrimino spawns, the agent compares Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
+
+<object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
+
+<p>InputScript programs direct the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
+
+<p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
 <p>In the following example, the agent attempts to drop the <span class="nowrap">O-Tetrimino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
-
-<p>Since the spawn signal occurs shortly after a piece locks, the agent could abuse it to learn about the contents of the playfield. Specifically, it could semihard drop a piece into a column and then monitor how long it takes gravity to trigger the spawn signal. That duration is proportional to the column height.</p>
-
-<p>To render such abuse ineffective, the game only provides a spawn signal subsequent to a hard drop. In other words, the agent must force the piece to lock. If it waits for gravity to do so, it will not be signaled when the next piece spawns.</p>
-
-<h2 id="type-filtering">Type Filtering</h2>
-
-<p>Building a structure logically-equivalent to a Boolean circuit requires placement of a specific sequence of Tetriminos. But the agent cannot summon the pieces it needs into existence. Instead, it filters the provided pieces. When the randomizer spawns a piece the agent does not want, the agent hard drops it onto an unbounded pile of discards in column &minus;2.</p>
-
-<object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
-
-<p>The agent makes structures from the remaining pieces in <span class="nowrap">columns &ge; 0</span>. That infinite region&mdash;bounded on the bottom by the floor and on the left by the discards pile&mdash;serves as the workspace for building circuits.</p>
-
-<h2 id="boolean-circuit-nodes">Boolean Circuit Nodes</h2>
-
-<p>Nodes consist of pairs of vertically-adjacent cells. They can be in the following states.</p>
-
-<object data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
-
-<ul>
-    <li><span class="mono">0</span> (false) &mdash; lower-cell solid, upper-cell empty</li> 
-    <li><span class="mono">1</span> (true) &mdash; upper-cell solid, lower-cell empty or solid</li>  
-    <li><span class="mono">?</span> (unassigned) &mdash; both cells empty</li>  
-</ul>
-
-<p>Nodes are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. The image below shows one possible encoding of <span class="mono">01010</span>.</p>
-
-<object data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
-
-<p>The right-most bit is stored in a noncontiguous node.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
