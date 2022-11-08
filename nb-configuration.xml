@@ -47,11 +47,13 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>NRS</word>
         <word>playfield</word>
         <word>precomputes</word>
+        <word>robotically</word>
         <word>semihard</word>
         <word>Subtractor</word>
         <word>subtractors</word>
         <word>Tetriminos</word>
         <word>TetrisScript</word>
+        <word>TS</word>
         <word>XNOR</word>
         <word>XORing</word>
     </spellchecker-wordlist>

@@ -68,7 +68,7 @@
 
 <h2 id="method-overview">Method Overview</h2>
 
-<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield that is infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
@@ -90,35 +90,35 @@
     <li><span class="mono">?</span> (unassigned) &mdash; both cells empty</li>  
 </ul>
 
-<p>The input, intermediate, and output nodes of combinational logic structures are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. For instance, the image below shows one possible encoding of <span class="mono">01010</span>, where a noncontiguous node stores the right-most bit.</p>
+<p>The input, intermediate, and output nodes of combinational logic structures are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. For instance, the image below shows one possible encoding of <span class="mono">01010</span>, where a noncontiguous node stores the rightmost bit.</p>
 
 <object data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
-<p>On an infinite playfield, Tetriminos spawn at row infinity and column zero. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
+<p>On an infinite playfield, Tetriminos spawn at &ldquo;<span class="nowrap">row infinity</span>&rdquo; and <span class="nowrap">column zero</span>. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
 
-<p>A hard drop attempts to vertically translate the piece from row infinity to row zero, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
+<p>A hard drop attempts to vertically translate the piece from <span class="nowrap">row infinity</span> to <span class="nowrap">row zero</span>, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
 
-<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from row infinity to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the agent is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
+<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from <span class="nowrap">row infinity</span> to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the agent is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
 
 <p>The agent’s actions are limited to those that take finite time. It cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. But, as demonstrated in successive sections, it can build structures of unbounded, yet finite, width and height.</p> 
 
 <p>Since the agent cannot clear lines, the game remains stuck on the first level. It perpetually runs at the lowest drop speed.</p>
 
-<h2 id="inputscript">InputScript</h2>
+<h2 id="inputscript">Tetris Input Language</h2>
 
-<p>An <span class="term">InputScript</span> program directs the agent to control the falling Tetrimino by pressing buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in timed sequences. Each InputScript instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
+<p>A <span class="term">Tetris Input Language</span> (TIL) program directs the agent to control the falling Tetrimino by pressing buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a>. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
 
 <p class="definition">t b<span class="sub3">0</span> b<span class="sub3">1</span> b<span class="sub3">2</span> &mldr; b<span class="sub3">N&minus;1</span></p> 
 
-<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame to enables it to execute the sequence with the proper timing.</p> 
+<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
 
-<p>When a Tetrimino spawns, the agent compares Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
+<p>When a Tetrimino spawns, the agent compares the Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>InputScript programs direct the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
+<p>TIL programs direct the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -128,9 +128,13 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
+<p>TIL works only if the game permits deterministic control of the falling Tetrimino by a precisely timed sequence of inputs. However, due to the aforementioned type filtering, TIL is compatible with a nondeterministic randomizer.</p>
+
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p>The agent builds structures by executing <span class="term">TetrisScript</span>, a language for expressing where to put the pieces. It has only three instruction types. The first directs the agent to hard drop a specified Tetrimino into a specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
+<p><span class="term">TetrisScript</span> (TS) is a language that provides a concise way to express where to put the pieces. It compiles to TIL.</p>
+
+<p>TS has three instruction types. The first directs the agent to hard drop a Tetrimino into a column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
 
 <p class="definition">mnemonic x</p>
 
@@ -201,7 +205,7 @@
 <p>It commands the agent to:
   
 <ol>  
-    <li>Replace the instruction with the structure's TetrisScript program instructions.</li>
+    <li>Replace the instruction with the structure's TS program instructions.</li>
     <li>Increment the column and row arguments of each of the structure's instructions by <span class="mono">x</span> and <span class="mono">y</span>, respectively.</li>
     <li>Execute the modified instructions.</li>
 </ol>
@@ -237,7 +241,7 @@
 <span class="line"><span class="normal">ih </span><span class="number">15 17 16</span></span>
 </pre>
 
-<p>As exhibited by lines 1 and 10, <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">line comments</a> begin with a <span class="mono">#</span> and they end with a <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a> character. TetrisScript does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
+<p>As exhibited by lines 1 and 10, <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">line comments</a> begin with a <span class="mono">#</span> and they end with a <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a> character. TS does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
 
 <p>The agent recursively expands instructions of the third type until all what remains are instructions of the first and second types. This means, <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a> are not allowed.</p>
 
@@ -245,7 +249,7 @@
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
-<p>To make testing circuits easier, TetrisScript provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
+<p>To make testing circuits easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
 
 <pre class="definition">
 in name x1 y1 x2 y2 ... xN yN
@@ -1709,15 +1713,15 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="metatetrisscript">MetaTetrisScript</h2>
 
-<p><span class="term">MetaTetrisScript</span> is a language for expressing read-modify-write operations. It has only two instruction types. The first consists of a function name and a memory address:</p>
+<p><span class="term">MetaTetrisScript</span> (MTS) is a language for expressing read-modify-write operations. It has only two instruction types. The first consists of a function name and a memory address:</p>
 
 <p class="definition">function address</p>
 
 <p>It commands the agent to:</p>
 
 <ol>
-  <li>Execute the specified function's TetrisScript program on the surface of the pile at the specified address, covering either one, two, or three bytes of the surface per the function's byte width.</li> 
-  <li>Execute <span class="mono">IDENTITY</span>'s TetrisScript program on the surface of the pile above all other bytes.</li>
+  <li>Execute the specified function's TS program on the surface of the pile at the specified address, covering either one, two, or three bytes of the surface per the function's byte width.</li> 
+  <li>Execute <span class="mono">IDENTITY</span>'s TS program on the surface of the pile above all other bytes.</li>
 </ol>
 
 <p>The agent builds the specified function at column 80 &times; address since:</p>
@@ -1726,7 +1730,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>For the specified function’s row index and the coordinates of the identity functions, the agent needs the pile's initial dimensions. The initial height provides the original surface row index. Every time the agent adds a layer to the pile, it increments that value by the uniform function height. The agent deduces the uniform function height along with the byte widths of all functions by building them ahead of time on a private playfield. It uses the specified function’s byte width along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
 
-<p>An example MetaTetrisScript follows. It formalizes the steps of the summation from the previous section.</p>
+<p>An example MTS follows. It formalizes the steps of the summation from the previous section.</p>
 
 <pre class="code">
 <span class="filename">sum.mt</span>
@@ -1741,7 +1745,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>The second instruction type executes a specified MetaTetrisScript program relative to a specified memory address. It consists of the program name and the address:</p>
+<p>The second instruction type executes a specified MTS program relative to a specified memory address. It consists of the program name and the address:</p>
 
 <p class="definition">program address</p>
 
@@ -1822,13 +1826,13 @@ out name x1 y1 x2 y2 ... xN yN
 <tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
 </table>
 
-<p>The agent automatically allocates memory when a MetaTetrisScript instruction directs it to construct a function outside the pile’s bounds.</p>
+<p>The agent automatically allocates memory when a MTS instruction directs it to construct a function outside the pile’s bounds.</p>
 
 <p>The agent never deallocates memory. The pile's width either remains constant or it increases.</p>
 
 <h2 id="memory-initialization">Initialization</h2>
 
-<p>Before the agent executes a MetaTetrisScript program, an independent process loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-Tetriminos</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-Tetriminos</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
+<p>Before the agent executes a MTS program, an independent process loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-Tetriminos</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-Tetriminos</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
 
 <object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
@@ -1844,7 +1848,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[L,&infin;)</span> &larr; 0</span></span></p>
 
-<p>Each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
+<p>Each MTS instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; f(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span>)</span></span></p>
 
@@ -1858,7 +1862,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <h2 id="function-emulator">Function Emulator</h2>
 
-<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MetaTetrisScript program, <span class="mono">G</span>, that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">G</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
+<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">F</span>, there exists a MTS program, <span class="mono">G</span>, that emulates <span class="mono">F</span>. This is because, regardless of how <span class="mono">F</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">G</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
@@ -1871,7 +1875,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
 
-<p>Unfortunately, MetaTetrisScript does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). After all, it is nothing more than a shorthand for expressing an uninterrupted sequence of Tetrimino placements. But loops can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
+<p>Unfortunately, MTS does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). After all, it is nothing more than a shorthand for expressing an uninterrupted sequence of Tetrimino placements. But loops can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
 
 <p><span class="nowrap mono">p &equiv; a<span class="sub3">x+n</span></span></p>
 
@@ -2023,7 +2027,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">  a<span class="sub3">x+n+2</span> &larr; a<span class="sub3">x+n+2</span> <span class="keyword2">or</span> a<span class="sub3">x+n+1</span></span>
 </pre>
 
-<p>Then all references to the array are replaced with MetaTetrisScript instructions:</p>
+<p>Then all references to the array are replaced with MTS instructions:</p>
 
 <pre class="pseudocode2">
 <span class="line">CLEAR n+2</span>
@@ -2054,7 +2058,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The final step is to unroll the loops. As that happens, the key-value pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. With up to <span class="mono">256<span class="sup3">n</span></span> such pairs, that unrolling procedure may produce an extremely long program.</p>
 
-<p>Clearly, this is not the most practical or efficient way to implement an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function. But the point of this exercise was to demonstrate MetaTetrisScript programs have the capacity of emulating any of them, at least in principle.</p>
+<p>Clearly, this is not the most practical or efficient way to implement an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function. But the point of this exercise was to demonstrate MTS programs have the capacity of emulating any of them, at least in principle.</p>
 
 <h2 id="state-machine">State Machine</h2>
 
@@ -2064,7 +2068,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
-<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all of those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a MetaTetrisScript program equivalent to the single line of pseudocode below.</p>
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all of those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a MTS program equivalent to the single line of pseudocode below.</p>
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span>
@@ -2078,7 +2082,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>A <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Classifiers" target="_blank">classifier</a> is a device that categorizes an input string. If there are only two categories, then the device is referred to as an <span class="term"><a href="https://en.wikipedia.org/wiki/Finite-state_machine#Acceptors" target="_blank">acceptor</a></span>. For instance, a <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression</a> matcher determines if an input string is consistent with a specific pattern or not.</p>
 
-<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, comprised of <span class="mono">L</span> single-byte characters, into a MetaTetrisScript program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, and a process initializes it to a starting value. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
+<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, comprised of <span class="mono">L</span> single-byte characters, into a MTS program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, and a process initializes it to a starting value. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> L&minus;1</span>
@@ -2090,7 +2094,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>At completion, the process reads the computed category, which is stored in a subset or all of the bytes of the register.</p>
 
-<p>Unfortunately, since the string is hard-coded, this approach requires a separate MetaTetrisScript program per input. Alternatively, and preferably, a process loads the input string into the elements right of the register:</p> 
+<p>Unfortunately, since the string is hard-coded, this approach requires a separate MTS program per input. Alternatively, and preferably, a process loads the input string into the elements right of the register:</p> 
 
 <p><span class="nowrap mono">a<span class="sub3">N+i</span> &larr; s<span class="sub3">i&isin;[0,L-1]</span></span></p>
 
@@ -2223,7 +2227,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
 
-<p>The MetaTetrisScript program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to a minimal region of the tape guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
+<p>The MTS program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to a minimal region of the tape guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
@@ -2297,7 +2301,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
 
-<p>This process is orchestrated by MetaTetrisScripts. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+<p>This process is orchestrated by MTSs. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
 
 <pre class="code">
 <span class="filename">MOVE_STATE_REG_DOWN.mt</span>
@@ -2353,7 +2357,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q down</span></span>
 </pre>
 
-<p>The instruction fetch is carried out by the following MetaTetrisScript.</p>
+<p>The instruction fetch is carried out by the following MTS.</p>
 
 <pre class="code">
 <span class="filename">FETCH.mt</span>
@@ -2760,7 +2764,7 @@ out name x1 y1 x2 y2 ... xN yN
 
 <p>The placeholders, <span class="serif">L&minus;x</span>, presented in the listings above represent numerical values in the actual files. Consequentially, the file contents depend on the length of the machine code program. Since the maximum program length, <span class="serif">L<span class="sub3">max</span></span>, is only 65,536, it is possible to generate the full universe of files, making available whatever is required at startup. However, in practice, a pair of new files is simply created prior to loading a program based on its length.</p>
 
-<p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TetrisScript fed to the agent. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MetaTetrisScript programs.</p>
+<p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TS fed to the agent. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle MTS programs.</p>
 
 <h2 id="assembly-language">Assembly Language</h2>
 
@@ -3888,9 +3892,9 @@ do {
 
 <p>1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</p>
   
-<p>A process generates a pair of MetaTetrisScripts for the downward and upward cycles of the machine based on that size.</p>
+<p>A process generates a pair of MTSs for the downward and upward cycles of the machine based on that size.</p>
 
-<p>To bring the game to life, a simulator loads the assembled Tetris program, the TetrisScripts for all components, and the pair of MetaTetrisScripts. It allocates and initialized a playfield with the Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it enters an infinite loop, where it actualizes the MetaTetrisScripts, alternating between the downward and upward cycles of the machine.</p>
+<p>To bring the game to life, a simulator loads the assembled Tetris program, the TSs for all components, and the pair of MTSs. It allocates and initialized a playfield with the Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it enters an infinite loop, where it actualizes the MTSs, alternating between the downward and upward cycles of the machine.</p>
 
 <p>At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window and it copies the button states from the window to the pile.</p>
 
@@ -3904,21 +3908,21 @@ do {
 
 <p>Despite their seeming levitation, the output cells are capable of supporting structures built on top of them as if the swap circuit was really there.</p>
 
-<p>To efficiently compute the tables, the algorithm orders the TetrisScripts into a dependency tree. Then, starting from those that have no dependencies and working outward through the tree, it repeatedly builds components, plugging in all possible inputs and recording the results. When a TetrisScript invokes a component for which a table already exists, the algorithm uses a previously computed result, per the technique described above, instead of recomputing it. That memoized method considerably reduces construction time. To finish even faster, the algorithm processes multiple TetrisScripts in parallel.</p>
+<p>To efficiently compute the tables, the algorithm orders the TSs into a dependency tree. Then, starting from those that have no dependencies and working outward through the tree, it repeatedly builds components, plugging in all possible inputs and recording the results. When a TS invokes a component for which a table already exists, the algorithm uses a previously computed result, per the technique described above, instead of recomputing it. That memoized method considerably reduces construction time. To finish even faster, the algorithm processes multiple TSs in parallel.</p>
 
-<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs lookups only for the components in the MetaTetrisScripts. And, since intermediate components are confined to the interior of circuits, they never appear in the MetaTetrisScripts.</p>
+<p>The algorithm does not precompute tables for intermediate components because the side effects of leaking Tetriminos cannot be determined in advance. However, at runtime, the algorithm performs lookups only for the components in the MTSs. And, since intermediate components are confined to the interior of circuits, they never appear in the MTSs.</p>
 
-<p>When the simulator executes a MetaTetrisScript instruction, the always-rectangular pile grows by the uniform function height. This is because the instruction directs the simulator to build a specified function at a particular location on the pile and to level the remaining surface by assembling identity functions everywhere else.</p>
+<p>When the simulator executes a MTS instruction, the always-rectangular pile grows by the uniform function height. This is because the instruction directs the simulator to build a specified function at a particular location on the pile and to level the remaining surface by assembling identity functions everywhere else.</p>
 
-<p>Rather than accommodating an ever-taller pile, the algorithm only keeps track of its surface. For each MetaTetrisScript instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to growing the pile and truncating everything below the surface.</p>
+<p>Rather than accommodating an ever-taller pile, the algorithm only keeps track of its surface. For each MTS instruction, it reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is the equivalent to growing the pile and truncating everything below the surface.</p>
 
-<p>The algorithm implements the surface as a one-dimensional byte array, <span class="serif">s</span>, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. For each MetaTetrisScript instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="serif">n</span>-byte</span> function, the algorithm updates <span class="serif">n</span> consecutive bytes of the surface, starting at index <span class="serif">x</span>, via the following table lookup and assignment.</p>
+<p>The algorithm implements the surface as a one-dimensional byte array, <span class="serif">s</span>, where each byte contains the data normally spaced across <span class="nowrap">80 columns</span> of the <span class="nowrap">top-two</span> rows of the pile. For each MTS instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="serif">n</span>-byte</span> function, the algorithm updates <span class="serif">n</span> consecutive bytes of the surface, starting at index <span class="serif">x</span>, via the following table lookup and assignment.</p>
 
 <p><span class="nowrap"><span class="serif">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; lookup(</span><span class="mono">f</span><span class="serif">, s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></span></p>
 
 <p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="serif">n</span>-byte</span> function requires a precomputed table of size <span class="nowrap"><span class="serif">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache their results in <span class="nowrap">128 KiB</span> tables.</p>
 
-<p>The simulator’s speed&mdash;the number of machines cycles it simulates per second&mdash;is proportional to the MetaTetrisScript length, the total operations required to slide the state register across RAM. That, in turn, depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the faster it runs.</p>
+<p>The simulator’s speed&mdash;the number of machines cycles it simulates per second&mdash;is proportional to the MTS length, the total operations required to slide the state register across RAM. That, in turn, depends on the amount of RAM, which is equal to the assembled Tetris program size. In other words, the smaller the program, the faster it runs.</p>
 
 <p>A potential way to slim down the program is to shrink its playfield representation, which, at <span class="nowrap">253 bytes</span>, takes up nearly a quarter of the space. It can be reduced to the <span class="nowrap">200 bytes</span> of the visible playfield by introducing boundary checks that eliminate the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls), as well as <span class="nowrap">rows 0</span> and 1 (the vanish zone). From there, the size can be halved by packing each cell into a nibble rather than a full byte. And, if the palette is reduced to two colors, the size can be halved twice more by packing each cell into a single bit. The resultant playfield would be a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size.</p>
 
