@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Turing-complete</title>
-<link rel="stylesheet" href="style.css?v=2022-10-29" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-09" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-10-29"/>
+<meta name="date" content="2022-11-09"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -108,17 +108,17 @@
 
 <h2 id="inputscript">Tetris Input Language</h2>
 
-<p>The agent is a device that taps buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in precisely timed sequences per a <span class="term">Tetris Input Language</span> (TIL) program. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
+<p>The agent is a device that enters game input in precisely timed sequences specified by a <span class="term">Tetris Input Language</span> (TIL) program. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by an input sequence, <span class="mono">d</span>:</p>
 
-<p class="definition">t b<span class="sub3">0</span> b<span class="sub3">1</span> b<span class="sub3">2</span> &mldr; b<span class="sub3">N&minus;1</span></p> 
+<p class="definition">t d<span class="sub3">0</span> d<span class="sub3">1</span> d<span class="sub3">2</span> &mldr; d<span class="sub3">N&minus;1</span></p> 
 
-<p>When a Tetrimino spawns, the agent compares the Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
+<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters <span class="mono">d</span> and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>The agent assembles combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns left of the discards pile are unused.</p> 
+<p>The agent assembles combinational logic structures in <span class="nowrap">columns &ge; 0</span>. It does not use columns left of the discards pile.</p> 
 
-<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, indicates the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
+<p>The game samples input only once per frame. Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, is one frame's worth of input. The agent receives a signal at the start of each frame to enable it to key in the input with the proper timing.</p> 
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -177,7 +177,7 @@
     <li>Hard drop the Tetrimino.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column xs to column xh. The strategy works as long as the distance between the columns is not greater-than the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">x</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -196,19 +196,13 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the agent to build a specified structure at a specified location. It consists of the name of the structure to build, the target column index, and the target row index:</p>
+<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the agent to build a previously defined structure at a specified location. The instruction consists of the name of the structure to build, <span class="mono">n</span>, the column index, <span class="mono">x</span>, and the row index, <span class="mono">y</span>:</p>
 
-<p class="definition">structure x y</p>
+<p class="definition">n x y</p>
 
-<p>It commands the agent to:
-  
-<ol>  
-    <li>Replace the instruction with the structure's TS program instructions.</li>
-    <li>Increment the column and row arguments of each of the structure's instructions by <span class="mono">x</span> and <span class="mono">y</span>, respectively.</li>
-    <li>Execute the modified instructions.</li>
-</ol>
+<p>The <span class="nowrap">TS compiler</span> replaces the instruction with the contents of <span class="mono">n</span>’s program, such that the column and row arguments of <span class="mono">n</span>’s instructions are incremented by <span class="mono">x</span> and <span class="mono">y</span>, respectively. The compiler recursively repeats that process until all what remains are instructions of the first and second types. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
 
-<p>The following code demonstrates this instruction type. It references the prior examples.</p>
+<p>The following code demonstrates the third instruction type by referencing the prior examples.</p>
 
 <pre class="code">
 <span class="filename">example3.t</span>
@@ -216,7 +210,7 @@
 <span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
 </pre>
 
-<p>The agent expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
+<p>The compiler expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
 
 <pre class="code">
 <span class="filename">example3Expanded.t</span>
@@ -239,23 +233,21 @@
 <span class="line"><span class="normal">ih </span><span class="number">15 17 16</span></span>
 </pre>
 
-<p>As exhibited by lines 1 and 10, <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">line comments</a> begin with a <span class="mono">#</span> and they end with a <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a> character. TS does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">Line comments</a> begin with <span class="mono">#</span> and end with <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a>, as demonstrated by <span class="nowrap">lines 1 and 10</span>. TS does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
 
-<p>The agent recursively expands instructions of the third type until all what remains are instructions of the first and second types. This means, <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a> are not allowed.</p>
-
-<p>The code above guides the agent to create structure below.</p>
+<p>The code above instructs the agent to create structure below.</p>
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
-<p>To make testing circuits easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
+<p>To make testing easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
 
 <pre class="definition">
-in name x1 y1 x2 y2 ... xN yN
+<span class="keyword2">in</span> n x<span class="sub3">0</span> y<span class="sub3">0</span> x<span class="sub3">1</span> y<span class="sub3">1</span> &mldr; x<span class="sub3">N&minus;1</span> y<span class="sub3">N&minus;1</span>
 
-out name x1 y1 x2 y2 ... xN yN
+<span class="keyword2">out</span> n x<span class="sub3">0</span> y<span class="sub3">0</span> x<span class="sub3">1</span> y<span class="sub3">1</span> &mldr; x<span class="sub3">N&minus;1</span> y<span class="sub3">N&minus;1</span>
 </pre>
 
-<p>The node type, <span class="mono">in</span> or <span class="mono">out</span>, is followed by the node name. The successive coordinates specify the node location. They refer to the lower-cell of the vertically-adjacent pairs. Each coordinate is either a single integer or a range of integers, <span class="mono nowrap">min..max</span>.</p>
+<p>The node type, <span class="mono keyword2">in</span> or <span class="mono keyword2">out</span>, is followed by the node name, <span class="mono">n</span>. The successive coordinates, <span class="mono">x<span class="sub3">i</span> y<span class="sub3">i</span></span>, refer to the lower-cells of the node's vertically-adjacent pairs. Each coordinate is either a single integer or a range of integers, <span class="mono nowrap">min..max</span>.</p>
 
 <p>The example below declares five input nodes.</p>
 
@@ -2042,7 +2034,7 @@ out name x1 y1 x2 y2 ... xN yN
 <span class="line">    CONST_v<span class="sub3">i</span> n
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      SWAP j</span>
-<span class="line">    COPY_B_A_C n-1</span>
+<span class="line">    COPY_B_A_C n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
 <span class="line">      SWAP j</span>
 <span class="line">  OR_AB_AF n+1</span>
