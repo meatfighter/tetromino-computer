@@ -76,7 +76,7 @@
 
 <object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
 
-<p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on a given input.</p>
+<p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on given input.</p>
 
 <h2 id="nodes">Nodes</h2>
 
@@ -108,17 +108,17 @@
 
 <h2 id="inputscript">Tetris Input Language</h2>
 
-<p>The agent is a device that enters game input in precisely timed sequences specified by a <span class="term">Tetris Input Language</span> (TIL) program. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by an input sequence, <span class="mono">d</span>:</p>
+<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of a <span class="term">Tetris Input Language</span> (TIL) program. Each instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by an input sequence, <span class="mono">d</span>:</p>
 
 <p class="definition">t d<span class="sub3">0</span> d<span class="sub3">1</span> d<span class="sub3">2</span> &mldr; d<span class="sub3">N&minus;1</span></p> 
 
-<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters <span class="mono">d</span> and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
+<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">d</span>, and it advances to the next instruction. Otherwise, the agent hard drops the Tetrimino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>The agent assembles combinational logic structures in <span class="nowrap">columns &ge; 0</span>. It does not use columns left of the discards pile.</p> 
+<p>TIL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
-<p>The game samples input only once per frame. Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, is one frame's worth of input. The agent receives a signal at the start of each frame to enable it to key in the input with the proper timing.</p> 
+<p>The game samples input once per frame and each element of the input sequence, <span class="mono">d<span class="sub3">i</span></span>, represents a frame's worth of input. The agent receives a signal at the start of each frame to enable it to enter the sequence with the proper timing.</p> 
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -128,11 +128,11 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording for a <a href="https://en.wikipedia.org/wiki/Video_game_console_emulator" target="_blank">video game console emulator</a>. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a Tetris implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
+<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a Tetris implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p><span class="term">TetrisScript</span> (TS) is a human-friendly language that compiles to TIL. With only three instruction types, it provides a way to concisely express where to put the pieces. The first instruction type directs the agent to hard drop a Tetrimino into a column. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p><span class="term">TetrisScript</span> (TS) is a human-friendly language that compiles to TIL. With only three instruction types, it provides a way to concisely express where to put the pieces. The first instruction type directs the agent to hard drop a Tetrimino. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">h</span></p>
 
@@ -162,7 +162,7 @@
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type directs the agent to semihard drop a Tetrimino into a column down to a row, and then to shift and hard drop the Tetrimino into a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p>The second instruction type directs the agent to semihard drop a Tetrimino down to a specified row, and then to hard drop the Tetrimino in a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">s</span> y<span class="sub3">s</span> x<span class="sub3">h</span></p>
 
@@ -177,7 +177,7 @@
     <li>Hard drop the Tetrimino.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">x</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">s</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -196,7 +196,7 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction type provides a way to compose complex structures from simpler ones. It directs the agent to build a previously defined structure at a specified location. The instruction consists of the name of the structure to build, <span class="mono">n</span>, the column index, <span class="mono">x</span>, and the row index, <span class="mono">y</span>:</p>
+<p>The third instruction directs the agent to build a previously defined structure. It consists of the name of the structure to build, <span class="mono">n</span>, and the coordinates for where to build, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
 
 <p class="definition">n x y</p>
 
@@ -235,7 +235,7 @@
 
 <p><a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">Line comments</a> begin with <span class="mono">#</span> and end with <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a>, as demonstrated by <span class="nowrap">lines 1 and 10</span>. TS does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
 
-<p>The code above instructs the agent to create structure below.</p>
+<p>The code above instructs the agent to create the structure below.</p>
 
 <object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
@@ -1631,11 +1631,11 @@
 
 <h1 id="memory">Memory</h1>
 
-<p>This section begins by explaining how random-access memory is implemented in Tetris. Then it describes a language designed for manipulating the data contained within the implementation. Afterwards, it divulges how the implementation can store a limitless amount of information. That is followed by discussion on memory initialization. Finally, it presents an abstraction that reduces memory down to its essence.</p>
+<p>This section discusses random-access memory (RAM).</p>
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>The Tetris implementation of a computer’s <a href="https://en.wikipedia.org/wiki/Computer_data_storage#Primary_storage" target="_blank">main memory</a> consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
+<p>RAM consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
 <p>Since the blindfolded agent cannot see the playfield, it cannot read data from memory. But it can ask Tetris to perform to a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation on its behalf. To do so, the agent builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The agent raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes the agent indirectly modified.</p> 
 
