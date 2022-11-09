@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-<title>Tetris is Turing-complete</title>
+<title>Tetris to NAND and Back Again</title>
 <link rel="stylesheet" href="style.css?v=2022-10-29" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -21,7 +21,7 @@
 
 <body>
 
-<p class="title">Tetris is Turing-complete</p>
+<p class="title">Tetris to NAND and Back Again</p>
 
 <p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
@@ -108,17 +108,17 @@
 
 <h2 id="inputscript">Tetris Input Language</h2>
 
-<p>A <span class="term">Tetris Input Language</span> (TIL) program directs the agent to control the falling Tetrimino by pressing buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a>. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
+<p><span class="term">Tetris Input Language</span> (TIL) commands the agent to tap buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in a precisely timed sequence when a piece spawns. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
 
 <p class="definition">t b<span class="sub3">0</span> b<span class="sub3">1</span> b<span class="sub3">2</span> &mldr; b<span class="sub3">N&minus;1</span></p> 
 
-<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
+<p>Every element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
 
 <p>When a Tetrimino spawns, the agent compares the Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>TIL programs direct the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
+<p>TIL directs the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -128,13 +128,11 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>TIL works only if the game permits deterministic control of the falling Tetrimino by a precisely timed sequence of inputs. However, due to the aforementioned type filtering, TIL is compatible with a nondeterministic randomizer.</p>
+<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording for a <a href="https://en.wikipedia.org/wiki/Video_game_console_emulator" target="_blank">video game console emulator</a>. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p><span class="term">TetrisScript</span> (TS) is a language that provides a concise way to express where to put the pieces. It compiles to TIL.</p>
-
-<p>TS has three instruction types. The first directs the agent to hard drop a Tetrimino into a column. It consists of the mnemonic describing the Tetrimino’s type and orientation, and the target column index:</p>
+<p><span class="term">TetrisScript</span> (TS) is a language for concise expression of where to put the pieces, which compiles to TIL. It has three instruction types. The first directs the agent to hard drop a Tetrimino into a column. It consists of a mnemonic describing the Tetrimino’s type and orientation, and a target column index:</p>
 
 <p class="definition">mnemonic x</p>
 
