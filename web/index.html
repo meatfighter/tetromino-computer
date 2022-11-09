@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-<title>Tetris to NAND and Back Again</title>
+<title>Tetris is Turing-complete</title>
 <link rel="stylesheet" href="style.css?v=2022-10-29" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -21,13 +21,13 @@
 
 <body>
 
-<p class="title">Tetris to NAND and Back Again</p>
+<p class="title">Tetris is Turing-complete</p>
 
 <p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
 <h1 id="introduction">Introduction</h1>
 
-<p>This section introduces a way to calculate within Tetris.</p>
+<p>The section provides a foundation for understanding the way to compute within Tetris.</p>
 
 <h2 id="fundamentals">Fundamentals</h1>
 
@@ -108,17 +108,17 @@
 
 <h2 id="inputscript">Tetris Input Language</h2>
 
-<p><span class="term">Tetris Input Language</span> (TIL) commands the agent to tap buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in a precisely timed sequence when a piece spawns. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
+<p>The agent is a device that taps buttons on the <a href="https://en.wikipedia.org/wiki/Game_controller" target="_blank">game controller</a> in precisely timed sequences per a <span class="term">Tetris Input Language</span> (TIL) program. Each TIL instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a button sequence, <span class="mono">b</span>:</p>
 
 <p class="definition">t b<span class="sub3">0</span> b<span class="sub3">1</span> b<span class="sub3">2</span> &mldr; b<span class="sub3">N&minus;1</span></p> 
-
-<p>Every element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, specifies the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
 
 <p>When a Tetrimino spawns, the agent compares the Tetrimino type to the one in the current instruction. If they match, the agent carries out the button sequence, and it advances to the next instruction. Otherwise, the agent shifts the Tetrimino into column &minus;2, it hard drops the Tetrimino onto an unbounded pile of discards, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>TIL directs the agent to assemble combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns to the left of the discards pile are unused.</p> 
+<p>The agent assembles combinational logic structures in <span class="nowrap">columns &ge; 0</span>. Columns left of the discards pile are unused.</p> 
+
+<p>Each element of the button sequence, <span class="mono">b<span class="sub3">i</span></span>, indicates the buttons pressed or released during a frame of the game. The agent receives a signal at the start of each frame for proper timing.</p> 
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -128,21 +128,21 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording for a <a href="https://en.wikipedia.org/wiki/Video_game_console_emulator" target="_blank">video game console emulator</a>. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
+<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording for a <a href="https://en.wikipedia.org/wiki/Video_game_console_emulator" target="_blank">video game console emulator</a>. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a Tetris implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p><span class="term">TetrisScript</span> (TS) is a language for concise expression of where to put the pieces, which compiles to TIL. It has three instruction types. The first directs the agent to hard drop a Tetrimino into a column. It consists of a mnemonic describing the Tetrimino’s type and orientation, and a target column index:</p>
+<p><span class="term">TetrisScript</span> (TS) is a human-friendly language that compiles to TIL. With only three instruction types, it provides a way to concisely express where to put the pieces. The first instruction type directs the agent to hard drop a Tetrimino into a column. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
-<p class="definition">mnemonic x</p>
+<p class="definition">m x<span class="sub3">h</span></p>
 
 <p>It commands the agent to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
-    <li>Rotate the piece into <span class="mono">mnemonic</span>'s orientation.</li>   
-    <li>Shift the piece to column <span class="mono">x</span>.</li>   
-    <li>Hard drop the piece.</li> 
+    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the Tetrimino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">h</span></span>.</li>   
+    <li>Hard drop the Tetrimino.</li> 
 </ol>
 
 <p>The example below demonstrates this instructions type.</p>
@@ -158,26 +158,26 @@
 <span class="line"><span class="normal">ih </span><span class="number">25</span></span>
 </pre>
 
-<p>The code guides the agent to produce the following.</p>
+<p>The program instructs the agent to produce the following.</p>
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type directs the agent to semihard drop a specified Tetrimino into a specified column down to a specified row. Then, it directs the agent to hard drop the Tetrimino into a different specified column. It consists of the mnemonic describing the Tetrimino’s type and orientation, the semihard drop’s column index, the semihard drop’s row index, and the hard drop's column index:</p>
+<p>The second instruction type directs the agent to semihard drop a Tetrimino into a column down to a row, and then to shift and hard drop the Tetrimino into a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
-<p class="definition">mnemonic x1 y x2</p>
+<p class="definition">m x<span class="sub3">s</span> y<span class="sub3">s</span> x<span class="sub3">h</span></p>
 
 <p>It commands the agent to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">mnemonic</span>'s type.</li> 
-    <li>Rotate the piece into <span class="mono">mnemonic</span>'s orientation.</li>   
-    <li>Shift the piece to column <span class="mono">x1</span>.</li>
-    <li>Semihard drop the piece to row <span class="mono">y</span>.</li>
-    <li>Shift the piece to column <span class="mono">x2</span>.</li>
-    <li>Hard drop the piece.</li> 
+    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the Tetrimino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">s</span></span>.</li>
+    <li>Semihard drop the Tetrimino to row <span class="mono">y<span class="sub3">s</span></span>.</li>
+    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">h</span></span>.</li>
+    <li>Hard drop the Tetrimino.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the agent has a timer synchronized with the fall timer, which it uses to semihard drop immediately after a gravity drop. Doing so maximizes the time to shift from <span class="nowrap">column <span class="mono">x1</span></span> to <span class="nowrap">column <span class="mono">x2</span></span>. That strategy works as long as the distance between <span class="mono">x1</span> and <span class="mono">x2</span> is not greater-than the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column xs to column xh. The strategy works as long as the distance between the columns is not greater-than the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
