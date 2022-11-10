@@ -21,7 +21,7 @@ tetrisscript
 computer
 
 
-workspace -> TetrisScript and MetaTetrisScript
+workspace -> TetrisScript and TetrisMemoryScript
 
 remaining sections:
 - fix function composition

@@ -10,10 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-public final class GenerateMetaTetrisScripts {
+public final class GenerateTetrisMemoryScripts {
     
-    private static final String CYCLE_DOWN_FILENAME = "MetaTetrisScripts/CYCLE_DOWN.mt";
-    private static final String CYCLE_UP_FILENAME = "MetaTetrisScripts/CYCLE_UP.mt";
+    private static final String CYCLE_DOWN_FILENAME = "TetrisMemoryScripts/CYCLE_DOWN.tm";
+    private static final String CYCLE_UP_FILENAME = "TetrisMemoryScripts/CYCLE_UP.tm";
               
     private int[] bytes;
     private int maxAddress;
@@ -102,6 +102,6 @@ public final class GenerateMetaTetrisScripts {
     }
     
     public static void main(final String... args) throws Exception {
-        new GenerateMetaTetrisScripts().launch();
+        new GenerateTetrisMemoryScripts().launch();
     }    
 }

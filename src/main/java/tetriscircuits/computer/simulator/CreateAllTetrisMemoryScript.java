@@ -7,11 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-// Converts GenerateTetrisExecutable.java to an all-in-one MetaTetrisScript (prints output)
+// Converts GenerateTetrisExecutable.java to an all-in-one TetrisMemoryScript (prints output)
 
 //         apply(address + 16, ADD_AB_FB);     // s0 += B;
 
-public class CreateAllMetaTetrisScript {
+public class CreateAllTetrisMemoryScript {
     
     private static final String SRC_DIR = "src";
     private static final String SOURCE_FILE = "GenerateTetrisExecutable.java";
@@ -72,6 +72,6 @@ public class CreateAllMetaTetrisScript {
     }
     
     public static void main(final String... args) throws Exception {
-        new CreateAllMetaTetrisScript().launch();
+        new CreateAllTetrisMemoryScript().launch();
     }
 }

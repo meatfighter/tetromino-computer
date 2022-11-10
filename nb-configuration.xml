@@ -22,11 +22,11 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Computer" profiles=""/>
             <configuration id="Computer UI" profiles=""/>
             <configuration id="ConvertAsmToHtml" profiles=""/>
-            <configuration id="ConvertMetaTetrisScriptToHtml" profiles=""/>
+            <configuration id="ConvertTetrisMemoryScriptToHtml" profiles=""/>
             <configuration id="Emulator" profiles=""/>
             <configuration id="Generate Instruction Detectors" profiles=""/>
             <configuration id="Generate Orientation Table" profiles=""/>
-            <configuration id="GenerateMetaTetrisScript" profiles=""/>
+            <configuration id="GenerateTetrisMemoryScript" profiles=""/>
             <configuration id="GenerateMovingRegister" profiles=""/>
             <configuration id="GenerateTetrisExecutable" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
@@ -41,7 +41,7 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>Incrementor</word>
         <word>InputScript</word>
         <word>memoized</word>
-        <word>MetaTetrisScript</word>
+        <word>TetrisMemoryScript</word>
         <word>NAND</word>
         <word>NORs</word>
         <word>NRS</word>

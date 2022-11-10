@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import tetriscircuits.computer.mapping.ByteMapping;
 
-// Replaced by Tetris executable (.tx) with GenerateMetaTetrisScript (.mt).
+// Replaced by Tetris executable (.t) with GenerateTetrisMemoryScript (.tm).
 // writeMaps is replaced by maps2
 
 // 0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  1  1  1  1  1  2  2  2  2   2

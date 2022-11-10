@@ -1,4 +1,4 @@
-package tetriscircuits.computer.metatetrisscript;
+package tetriscircuits.computer.tetrismemoryscript;
 
 public class Instruction {
     

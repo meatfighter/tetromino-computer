@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 import tetriscircuits.computer.Processor;
 import tetriscircuits.computer.mapping.ByteMapping;
-import tetriscircuits.computer.metatetrisscript.Instruction;
-import tetriscircuits.computer.metatetrisscript.Parser;
+import tetriscircuits.computer.tetrismemoryscript.Instruction;
+import tetriscircuits.computer.tetrismemoryscript.Parser;
 import tetriscircuits.parser.ParseException;
 
 public final class Simulator2 implements Processor {
     
-    private static final String METATETRISSCRIPTS_DIR = "MetaTetrisScripts";
+    private static final String TETRISMEMORYSCRIPTS_DIR = "TetrisMemoryScripts";
     
     private Runnable[] cycleDownRunnables;
     private Runnable[] cycleUpRunnables;
@@ -75,7 +75,7 @@ public final class Simulator2 implements Processor {
             throws IOException, ParseException {
         
         final Parser parser = new Parser();
-        final Map<String, Instruction[]> components = parser.parseAll(METATETRISSCRIPTS_DIR);
+        final Map<String, Instruction[]> components = parser.parseAll(TETRISMEMORYSCRIPTS_DIR);
         final List<Instruction> instructions = parser.expand(script, components);
         final Runnable[] runnables = new Runnable[instructions.size()];
         
