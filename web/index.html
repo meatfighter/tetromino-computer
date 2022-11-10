@@ -212,11 +212,11 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction directs the agent to build a previously defined structure. It consists of the structure's name, <span class="mono">n</span>, and the coordinates of where to build it, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
+<p>The third instruction directs the agent to build a previously defined structure. It consists of the structure's name, <span class="mono">s</span>, and the coordinates of where to build it, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
 
-<p class="definition">n x y</p>
+<p class="definition">s x y</p>
 
-<p>The <span class="nowrap">TS compiler</span> replaces the instruction with the contents of <span class="mono">n</span>’s program, such that the column and row arguments of <span class="mono">n</span>’s instructions are incremented by <span class="mono">x</span> and <span class="mono">y</span>, respectively. The compiler recursively repeats that process until all what remains are instructions of the first and second types. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
+<p>The <span class="nowrap">TS compiler</span> replaces the instruction with the contents of <span class="mono">s</span>’s program, such that the column and row arguments of <span class="mono">n</span>’s instructions are incremented by <span class="mono">x</span> and <span class="mono">y</span>, respectively. The compiler recursively repeats that process until all what remains are instructions of the first and second types. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
 
 <p>The following code demonstrates the third instruction type by referencing the prior examples.</p>
 
@@ -1781,13 +1781,7 @@
   <li>Repeatedly build <span class="mono">IDENTITY</span> on the surface of the pile, covering all remaining bytes.</li>
 </ol>
 
-<p>The agent builds the specified function at column 80 &times; address since:</p>
-
-<p>8 nodes/byte &times; 10 columns/node = 80 columns</p>
-
-<p>For the specified function’s row index and the coordinates of the identity functions, the agent needs the pile's initial dimensions. The initial height provides the original surface row index. Every time the agent adds a layer to the pile, it increments that value by the uniform function height. The agent deduces the uniform function height along with the byte widths of all functions by building them ahead of time on a private playfield. It uses the specified function’s byte width along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
-
-<p>An example TMS follows. It formalizes the steps of the summation from the previous section.</p>
+<p>The following TMS program demonstrate this instruction type. It performs the sum from the previous section.</p>
 
 <pre class="code">
 <span class="filename">sum.tm</span>
@@ -1802,26 +1796,20 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>The second instruction type executes a specified TMS program relative to a specified memory address. It consists of the program name and the address:</p>
+<p>The second instruction type directs the agent to execute a previously defined TMS program, <span class="mono">p</span>, relative to a specified memory address, <span class="mono">x</span>: 
 
-<p class="definition">program address</p>
+<p class="definition">p x</p>
 
-<p>It commands the agent to:</p>
+<p>The TMS compiler replaces the instruction with <span class="mono">p</span>'s contents, such that the memory address arguments of <span class="mono">p</span>'s instruction are incremented by <span class="mono">x</span>. The compiler recursively repeats that process until all what remains are instructions of the first type. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
 
-<ol>
-  <li>Replace the instruction with the program's instructions.</li>
-  <li>Increment the address argument of each of the program's instructions by the specified address.</li>
-  <li>Execute the modified instructions.</li>
-</ol>
-
-<p>The code below demonstrates this instruction type. It references the summation example.</p>
+<p>The code below references the last example to illustrate this instruction type.</p>
 
 <pre class="code">
 <span class="filename">sum5.tm</span>
 <span class="line"><span class="normal">sum </span><span class="number">5</span></span>
 </pre>
 
-<p>The agent expands the instruction, offsetting the memory locations per the provided address:</p>
+<p>The compiler expands the single instruction, offsetting the memory locations per the provided address:</p>
 
 <pre class="code">
 <span class="filename">sum5Expanded.tm</span>
@@ -1836,9 +1824,13 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">5</span></span>
 </pre>
 
-<p>The expanded version reveals that <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
+<p>The expanded version reveals <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
 
-<p>The agent recursively expands instructions of the second type until all what remains are instructions of the first type. This means, circular dependencies are not allowed.</p>
+<p>TMS does not provide instructions for initializing memory. Rather, a <span class="nowrap">TMS program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">TMS programs</span>.</p>
+
+<p>The <span class="nowrap">TMS compiler</span> requires the existing rectangular pile’s dimensions. Its height provides the original surface row index. Each time the compiler adds a layer to the pile, it increments that value by the uniform function height. The compiler deduces the uniform function height along with the byte widths of all functions by building them on a private playfield at the get-go. It uses the byte width of the function specified in an instruction along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
+
+<p>[ TODO MEMORY EXPANSION ]</p>
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
@@ -1852,7 +1844,7 @@
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; f(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span>)</span></span></p>
 
-<p>By convention, the array is described as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward index infinity.</p>
+<p>By convention, the array is described as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward infinity.</p>
 
 <p>This abstraction is used in the next section to construct computing machines.</p>
 
