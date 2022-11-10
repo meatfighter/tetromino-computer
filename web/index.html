@@ -49,15 +49,15 @@
 
 <p>In the table above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right. And the mnemonic over each orientation consists of Tetrimino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
 
-<p>A <span class="term">move</span> is a 90&deg; rotation or a one-cell translation of the piece in play. The following terms apply to translation.</p>
+<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
 
 <ul>
     <li>A <span class="term">shift</span> is a horizontal translation.</li>
     <li>A <span class="term">drop</span> is a downward translation.
         <ul>
-            <li>A <span class="term">soft drop</span> is a player-controlled, one-cell drop.</li>
+            <li>A <span class="term">soft drop</span> is a player-controlled, one-row drop.</li>
             <li>A <span class="term">hard drop</span> is a player-controlled, drop as far down as the piece can go. The move <span class="term">locks</span> the piece where it lands.</li>
-            <li>A <span class="term">gravity drop</span> is an automatic, one-cell drop triggered by the <span class="term">fall timer</span>.</li>
+            <li>A <span class="term">gravity drop</span> is an automatic, one-row drop triggered by the <span class="term">fall timer</span>.</li>
         </ul>
     </li>
 </ul>
@@ -108,17 +108,31 @@
 
 <h2 id="inputscript">Tetris Input Language</h2>
 
-<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of a <span class="term">Tetris Input Language</span> (TIL) program. Each instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by an input sequence, <span class="mono">d</span>:</p>
+<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of a <span class="term">Tetris Input Language</span> (TIL) program. Each instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
 
-<p class="definition">t d<span class="sub3">0</span> d<span class="sub3">1</span> d<span class="sub3">2</span> &mldr; d<span class="sub3">N&minus;1</span></p> 
+<p class="definition">t m<span class="sub3">0</span> m<span class="sub3">1</span> m<span class="sub3">2</span> &mldr; m<span class="sub3">N&minus;1</span></p> 
 
-<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">d</span>, and it advances to the next instruction. Otherwise, the agent hard drops the Tetrimino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
+<p>Each element of the sequence, <span class="mono">m<span class="sub3">i</span></span>, is one of the following.</p>
+
+<ul>
+    <li><span class="mono nowrap">QUARTER_TURN_COUNTERCLOCKWISE</span></li>
+    <li><span class="mono nowrap">QUARTER_TURN_CLOCKWISE</span></li>
+    <li><span class="mono nowrap">SHIFT_LEFT_ONE_COLUMN</span></li>
+    <li><span class="mono nowrap">SHIFT_RIGHT_ONE_COLUMN</span></li>
+    <li><span class="mono nowrap">SOFT_DROP_ONE_ROW</span></li>
+    <li><span class="mono nowrap">SEMIHARD_DROP_TO_ROW y</span></li>
+    <li><span class="mono nowrap">HARD_DROP</span></li>  
+</ul>
+
+<p>Note: <span class="mono">SEMIHARD_DROP_TO_ROW</span> requires a parameter, the target row, <span class="mono">y</span>.</p>
+
+<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">m</span>, and it advances to the next instruction. Otherwise, the agent hard drops the Tetrimino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
 <p>TIL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
-<p>The game samples input once per frame and each element of the input sequence, <span class="mono">d<span class="sub3">i</span></span>, represents a frame's worth of input. The agent receives a signal at the start of each frame to enable it to enter the sequence with the proper timing.</p> 
+<p>The agents enters one <span class="mono">m<span class="sub3">i</span></span> per frame, the fastest rate the game can accept input. To ensure proper timing, the agent receives a signal at the start of each frame. At the end of the sequence, the agent waits for the next piece to spawn.</p>
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -128,11 +142,13 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL is able handle nondeterministic randomizers because it &ldquo;pauses&rdquo; play back when unwanted pieces spawn. Though, if a Tetris implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then it is a fully deterministic system and its TIL programs reduce to nothing more than TAS recordings.</p>
+<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL supports nondeterministic randomizers because it discards unwanted pieces. And it waits for a piece to spawn before entering input. However, if the game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>&mdash;which would make it a fully deterministic system&mdash;then a TAS recording would do the job.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
-<p><span class="term">TetrisScript</span> (TS) is a human-friendly language that compiles to TIL. With only three instruction types, it provides a way to concisely express where to put the pieces. The first instruction type directs the agent to hard drop a Tetrimino. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p><span class="term">TetrisScript</span> (TS) is a language that provides a concise way to express where to put the pieces. It compiles to TIL, the move sequences required to get the pieces to their destinations.</p>
+
+<p>TS consists of three instruction types. The first directs the agent to hard drop a Tetrimino. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">h</span></p>
 
@@ -162,7 +178,7 @@
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type directs the agent to semihard drop a Tetrimino down to a specified row, and then to hard drop the Tetrimino in a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p>The second instruction type directs the agent to perform a semihard drop followed by a hard drop in a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">s</span> y<span class="sub3">s</span> x<span class="sub3">h</span></p>
 
@@ -196,7 +212,7 @@
 
 <object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
-<p>The third instruction directs the agent to build a previously defined structure. It consists of the name of the structure to build, <span class="mono">n</span>, and the coordinates for where to build, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
+<p>The third instruction directs the agent to build a previously defined structure. It consists of the structure's name, <span class="mono">n</span>, and the coordinates of where to build it, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
 
 <p class="definition">n x y</p>
 
@@ -2082,7 +2098,7 @@
 
 <p><span class="mono">T<span class="sub3">c</span></span> only modifies the register. It passes the character through, unchanged.</p>
 
-<p>At completion, the process reads the computed category, which is stored in a subset or all of the bytes of the register.</p>
+<p>At completion, the process reads the computed category, which is stored in a subset or all bytes of the register.</p>
 
 <p>Unfortunately, since the string is hard-coded, this approach requires a separate MTS program per input. Alternatively, and preferably, a process loads the input string into the elements right of the register:</p> 
 
