@@ -3,8 +3,8 @@
 <html lang="en">
 
 <head>
-<title>Tetris is Turing-complete</title>
-<link rel="stylesheet" href="style.css?v=2022-11-09" type="text/css"/>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-11-11" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,13 +15,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-09"/>
+<meta name="date" content="2022-11-11"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
 <body>
 
-<p class="title">Tetris is Turing-complete</p>
+<p class="title">Tetris is Capable of <span class="nowrap">Universal Computation</span></p>
 
 <p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
@@ -1857,7 +1857,7 @@
 <p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">f</span>, there exists a TMS program, <span class="mono">E</span>, that emulates <span class="mono">f</span>. This is because, regardless of how <span class="mono">f</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">E</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
 <pre class="pseudocode2">
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  <span class="keyword2">if</span> a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span></span>
 <span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
 <span class="line">    <span class="keyword2">break</span></span>
@@ -1881,7 +1881,7 @@
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  <span class="keyword2">if</span> (a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span>) <span class="keyword2">and not</span> r</span>
 <span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
 <span class="line">    r &larr; 1</span>
@@ -1893,7 +1893,7 @@
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; (a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span>) <span class="keyword2">and not</span> r</span>
 <span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
@@ -1905,7 +1905,7 @@
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>
@@ -1924,7 +1924,7 @@
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
@@ -1941,7 +1941,7 @@
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
@@ -1971,13 +1971,13 @@
 
 <p><span class="mono">A</span> is the destination element. When the condition is false, it is also the source element. <span class="mono">B</span> is the source element when the condition is true. And <span class="mono">C</span> is the condition element.</p>
 
-<p><span class="mono">B</span> and <span class="mono">C</span> pass through, unchanged. In this case, they are <span class="mono">p</span> and <span class="mono">q</span>, respectively.</p>
+<p><span class="mono">B</span> and <span class="mono">C</span> pass through, unchanged. They are <span class="mono">p</span> and <span class="mono">q</span>, respectively.</p>
 
 <p><span class="mono">COPY_B_A_C</span> already exists in the function catalog. However, it operates on a triplet of consecutive elements. So, the following version duplicates the strategy used for the byte matchers. It moves the value in <span class="mono">a<span class="sub3">x+i</span></span> into <span class="mono">a<span class="sub3">x+n&minus;1</span></span> via repeated swaps. There, it performs the copy. Then it restores the moved value back to its original location.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  q &larr; <span class="keyword2">not</span> r</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
@@ -2000,7 +2000,7 @@
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">x+n+2</span> &larr; 0</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  a<span class="sub3">x+n+1</span> &larr; <span class="keyword2">not</span> a<span class="sub3">x+n+2</span></span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
@@ -2023,7 +2023,7 @@
 
 <pre class="pseudocode2">
 <span class="line">CLEAR n+2</span>
-<span class="line"><span class="keyword2">for each</span> (k, v) <span class="keyword2">in</span> m</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
 <span class="line">  COPY_NOT_B_A n+1</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
@@ -2048,9 +2048,9 @@
 
 <p><span class="mono">OR_AB_AF &equiv; [ A, B ] &#8614; [ A, A | B ]</span></p>
 
-<p>The final step is to unroll the loops. As that happens, the key-value pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. With up to <span class="mono">256<span class="sup3">n</span></span> such pairs, that unrolling procedure may produce an extremely long program.</p>
+<p>The final step is to unroll the loops. As that happens, the <span class="mono">(k,v)</span> pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. However, since <span class="mono">m</span> contains up to <span class="mono">256<span class="sup3">n</span></span> entries, the unroll may produce an extremely long program.</p>
 
-<p>Clearly, this is not the most practical or efficient way to implement an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function. But the point of this exercise was to demonstrate TMS programs have the capacity of emulating any of them, at least in principle.</p>
+<p>Clearly, this technique is not practical or efficient. Nonetheless, it demonstrates a <span class="nowrap">TMS program</span> can emulate an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function, at least in principle.</p>
 
 <h2 id="state-machine">State Machine</h2>
 
@@ -2060,7 +2060,7 @@
 
 <p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
-<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all of those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a TMS program equivalent to the single line of pseudocode below.</p>
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a TMS program equivalent to the single line of pseudocode below.</p>
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span>
@@ -2131,7 +2131,7 @@
 
 <p>It takes <span class="mono">LN</span> swaps. For strings significantly larger than the width of the register, the second strategy has order <span class="mono nowrap">&Oscr;(L)</span>, far more efficient than the first strategy, which has order <span class="mono nowrap">&Oscr;(L<span class="sup3">2</span>)</span>.</p>
 
-<p>Regarding reusability, the program contains the number of cycles required to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if <span class="mono">T<span class="sub3">c</span></span> ignores zeros&mdash;those characters to the right of the input string&mdash;then the program is applicable to all strings of length <span class="mono">L</span> or less.</p>
+<p>Regarding reusability, the program contains the number of cycles required to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if <span class="mono">T<span class="sub3">c</span></span> ignores zeros&mdash;all characters right of the input string&mdash;then the program is applicable to strings with length &le; <span class="mono">L</span>.</p>
 
 <h3 id="transducer">Transducer</h3>
 
@@ -2150,11 +2150,11 @@
 
 <h2 id="turing-machine">Turing Machine</h2>
 
-<p>...</p>
+<p>This section discusses <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machines</a>, abstract devices capable of running any algorithm.</p>
 
 <h3 id="turing-machine-definition">Definition</h3>
 
-<p>A <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a>&mdash;an abstract device that can run any algorithm&mdash;consists of a <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a> and a state machine. Mounted onto the drive is an infinitely long <span class="term">tape</span> that stores an endless sequence of characters, <span class="mono">t</span>, all of which are initially zero:</p> 
+<p>A <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a> consists of a <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a> coupled to a state machine. Mounted onto the drive is an infinitely long <span class="term">tape</span> that stores an endless sequence of characters, <span class="mono">t</span>, all of which are initially zero:</p> 
 
 <p><span class="nowrap mono">t<span class="sub3">i&isin;(&minus;&infin;, &infin;)</span> &larr; 0</span></p>
 
@@ -2166,7 +2166,7 @@
 
 <p>A process initializes the state machine to a starting state. At runtime, if the state machine transitions to a halt state, then the algorithm finished. At that point, the process may read output strings deposited on the tape by the algorithm.</p> 
 
-<p>For each processing cycle, the machine reads the character under the head, <span class="mono">r</span>, it pairs that character with the current state, <span class="mono">s</span>, and it uses the pair to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
+<p>During each processing cycle, the machine reads the character under the head, <span class="mono">r</span>, it pairs the character with the current state, <span class="mono">s</span>, and it uses the pair to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
 
 <p><span class="nowrap mono">[ r, s ] &#8614; [ w, d, z ]</span></p>
 
@@ -2219,7 +2219,7 @@
 
 <p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
 
-<p>The TMS program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to a minimal region of the tape guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
+<p>The TMS program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to the minimal tape region guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
@@ -2253,11 +2253,11 @@
 <span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
 </pre>
 
-<p>...</p>
+<p>Through a chain of conversions from pseudocode to TMS to TS to TIL, that program ultimately represents an endless sequence of game inputs that can run any algorithm.</p>
 
-<h3 id="turing-machine-implications">Implications</h3>
+<h3 id="turing-machine-discussion">Discussion</h3>
 
-<p>Since a Turing machine is realizable in Tetris, Tetris is Turing-complete. Furthermore, the problem of determining if an input string encoded on the pile’s surface eventually transforms into a specified output string is <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> because that is equivalent to asking if a given program ultimately <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
+<p>If <span class="mono">T<span class="sub3">m</span></span> along with the starting memory state defines a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a universal system. However, since the system depends on a finitely described yet infinite sequence, the nature of its universality is <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">weak</a>. Nonetheless, its existence implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if a starting memory state evolves into a particular ending memory state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
 <h2 id="tetris-machine">Tetris Machine</h2>
 

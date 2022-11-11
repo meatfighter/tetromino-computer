@@ -20,11 +20,12 @@ li {
 }
 
 p.title {  
-    font-size: 60px;   
+    font-size: 43px;   
     font-weight: 400;
     text-align: center;
     margin-top: 80px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    line-height: 50px;
 }
 
 h1 {  
