@@ -2303,7 +2303,7 @@
 
 <p>A process initializes <span class="mono">a</span> to the address of rightmost machine code byte, <span class="mono">L&minus;1</span>.</p>
 
-<p>The <span class="nowrap">TMS program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
+<p>Two separate <span class="nowrap">TMS programs</span> implement <span class="mono">slideRegister</span>. The program that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
 
 <pre class="code">
 <span class="filename">SLIDE_STATE_REG_LEFT.tm</span>
