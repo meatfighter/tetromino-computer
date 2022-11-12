@@ -2180,7 +2180,7 @@
 
 <h3 id="turing-machine-implementation">Implementation</h3>
 
-<p>The following Turing machine implementation stores its data in an <a href="#infinite-array-abstraction">infinite array abstract</a>. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset of those bytes store the state machine’s current state. The remaining bytes, <span class="mono nowrap">a<span class="sub3">N</span>&nldr;a<span class="sub3">&infin;</span></span>, emulate the tape drive, where each data byte, <span class="mono">t<span class="sub3">i</span></span>, is paired with a <a href="https://en.wikipedia.org/wiki/Metadata" target="_blank">metadata</a> byte, <span class="mono">h<span class="sub3">i</span></span>:</p>
+<p>The following Turing machine implementation stores its data in an <a href="#infinite-array-abstraction">infinite array abstraction</a>. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset of those bytes store the state machine’s current state. The remaining bytes, <span class="mono nowrap">a<span class="sub3">N</span>&nldr;a<span class="sub3">&infin;</span></span>, emulate the tape drive, where each data byte, <span class="mono">t<span class="sub3">i</span></span>, is paired with a <a href="https://en.wikipedia.org/wiki/Metadata" target="_blank">metadata</a> byte, <span class="mono">h<span class="sub3">i</span></span>:</p>
 
 <p><span class="nowrap mono">h<span class="sub3">i</span> &equiv; 1</span> if the head is over <span class="mono">t<span class="sub3">i</span></span>; otherwise, <span class="mono">0</span>.</p>
 
@@ -2257,27 +2257,47 @@
 
 <h3 id="turing-machine-discussion">Discussion</h3>
 
-<p>If <span class="mono">T<span class="sub3">m</span></span> along with the starting memory state defines a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a universal system. However, since the system depends on a finitely described yet infinite sequence, the nature of its universality is <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">weak</a>. Nonetheless, its existence implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if a starting memory state evolves into a particular ending memory state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
+<p>If <span class="mono">T<span class="sub3">m</span></span> along with the starting memory state emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if a starting memory state evolves into a particular ending memory state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
 <h2 id="tetris-machine">Tetris Machine</h2>
 
-<p>Like the Turing machine implementation described above, the machine that runs Tetris consists of a state register traversing an array. On startup, a program written in <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a>&mdash;instructions and data encoded into a sequence of bytes of length <span class="serif">L</span>&mdash;is loaded into the array, followed by 2 padding bytes both set to zero, followed by a <span class="nowrap">21-byte</span> state register, as shown below.</p>
+<p>The machine that runs Tetris is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> computer, supporting up to <span class="nowrap">64 KiB</span> of RAM. Like all the computing devices presented thus far, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code bytes operate as RAM with an address space of <span class="serif">0</span> to <span class="serif">L&minus;1</span>. In the initial configuration above, the RAM addresses of the elements equal the array indices. However, as the state registers moves, elements shift position. Those below the state register retain RAM addresses equal to the array indices while those above it acquire RAM addresses equal to the indices minus the width of the state register <span class="nowrap serif">(address = index &minus; 21).</span></p>
+<p>The TMS program that governs the computer slides the state register back-and-forth across the machine code, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way:</p>
 
-<p>At runtime, the length of the array remains constant. The RAM filled with machine code constitutes the full extent of the machine’s memory. This constraint makes the machine a <span class="italic"><a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automata</a></span>, where &ldquo;linear bounded&rdquo; means the memory capacity is fixed at a linear function of the input size, <span class="serif">L</span>. It is not as powerful as a Turing machine. But, without a dependency on infinite storage, the machine is physically realizable.</p>
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">while true</span></span>
+<span class="line">  <span class="keyword2">for</span> x &larr; L&minus;1 <span class="keyword2">down to</span> 1</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span>)</span>
+<span class="line">    slideRegister(x+3, &minus;1)</span>
+<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span> &larr; fetchLoadStore(a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span>)</span>
+<span class="line">  a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span> &larr; decodeExecute(a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span>)</span>
+<span class="line">  <span class="keyword2">for</span> x &larr; 0 <span class="keyword2">to</span> L&minus;2</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23)</span>
+<span class="line">    slideRegister(x+3, 1)</span>
+<span class="line">  a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span> &larr; fetchLoadStore(a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span>)</span>
+<span class="line">  a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span> &larr; decodeExecute(a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span>)</span>
+</pre>
 
-<p>The transition function operates on a <span class="nowrap">25-element</span> subarray that includes the 3 bytes immediately below the state register and the byte immediately above it. As revealed in the following diagram, those bytes are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
+<p>The inner loop on <span class="nowrap">line 2</span> slides the state register leftward and the inner loop on <span class="nowrap">line 7</span> slides the state register rightward.</p>
+
+<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. For fetch, it conditionally copies a machine code instruction from the three extra bytes to a segment of the state register. For load and store, it conditionally copies one of the extra bytes to a state register byte, and vice versa.</p>
+
+<p>The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Similarly, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
+
+<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It decodes and executes the fetched machine code instruction, except for load and store instructions. As just mentioned, <span class="mono">fetchLoadStore</span> executes load and store instructions as it engages the machine code bytes.</p>
+
+<p><span class="mono">fetchLoadStore</span>, <span class="mono">decodeExecute</span>, and <span class="mono">slideRegister</span> collectively manipulate the <span class="nowrap">25-byte</span> subarray visualized below. The three bytes immediately left of the state register and the byte immediately right of it are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
 
 <object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
-<p>Several of the bytes represent segments of <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> words:</p>
+<p>Several bytes represent segments of <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> words:</p>
 
 <object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
 
-<p>In the center is the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>. At startup, it is initialized to the highest RAM address, <span class="serif">L&minus;1</span>. That value corresponds to the element at the state register’s start index minus 3. When the state register takes a downward step, <span class="mono">a</span> is decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at element <span class="mono">I</span>:</p>
+<p>In the center is the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>. At startup, a process initialized it to the rightmost machine code address, <span class="serif">L&minus;1</span>. When the state register slides left by 1, <span class="mono">a</span> decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at element <span class="mono">I</span>:</p>
   
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
 
@@ -2296,57 +2316,57 @@
 <p>This process is orchestrated by TMSs. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
 
 <pre class="code">
-<span class="filename">MOVE_STATE_REG_DOWN.tm</span>
+<span class="filename">SLIDE_STATE_REG_LEFT.tm</span>
 <span class="line"><span class="normal">DEC_16 </span><span class="number">13               </span><span class="comment">; --a;</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap K up</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K up</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K right</span></span>
 </pre>
 
 <p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
 
 <pre class="code">
-<span class="filename">MOVE_STATE_REG_UP.tm</span>
+<span class="filename">SLIDE_STATE_REG_RIGHT.tm</span>
 <span class="line"><span class="normal">INC_16 </span><span class="number">13               </span><span class="comment">; ++a;</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q down</span></span>
-<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q down</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q left</span></span>
 </pre>
 
 <p>The instruction fetch is carried out by the following TMS.</p>
@@ -2679,28 +2699,28 @@
 <p>Putting it all together, the downward cycle of the machine looks like this:</p>
 
 <pre class="code">
-<span class="filename">CYCLE_DOWN.tm</span>
+<span class="filename">CYCLE_LEFT.tm</span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-1</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-2</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-3</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">...</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">2</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_DOWN </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">1</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
@@ -2719,28 +2739,28 @@
 <p>The upward cycle of the machine follows. Aside from moving the state register in the opposite direction, it is identical to the downward cycle.</p>
 
 <pre class="code">
-<span class="filename">CYCLE_UP.tm</span>
+<span class="filename">CYCLE_RIGHT.tm</span>
 <span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">0</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">0</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">1</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">2</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">...</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">L-3</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
-<span class="line"><span class="normal">MOVE_STATE_REG_UP </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">L-2</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>

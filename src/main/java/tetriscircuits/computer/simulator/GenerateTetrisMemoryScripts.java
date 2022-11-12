@@ -12,24 +12,24 @@ import java.io.PrintStream;
 
 public final class GenerateTetrisMemoryScripts {
     
-    private static final String CYCLE_DOWN_FILENAME = "TetrisMemoryScripts/CYCLE_DOWN.tm";
-    private static final String CYCLE_UP_FILENAME = "TetrisMemoryScripts/CYCLE_UP.tm";
+    private static final String CYCLE_LEFT_FILENAME = "TetrisMemoryScripts/CYCLE_LEFT.tm";
+    private static final String CYCLE_RIGHT_FILENAME = "TetrisMemoryScripts/CYCLE_RIGHT.tm";
               
     private int[] bytes;
     private int maxAddress;
     
-    private void slideStateRegisterUp(final PrintStream out) {
+    private void slideStateRegisterRight(final PrintStream out) {
         for (int address = 0; address < maxAddress; ++address) {
             fetchExecuteLoadStore(out, address);
-            print(out, "MOVE_STATE_REG_UP", address);
+            print(out, "SLIDE_STATE_REG_RIGHT", address);
         }
         fetchExecuteLoadStore(out, maxAddress);
     }
     
-    private void slideStateRegisterDown(final PrintStream out) {
+    private void slideStateRegisterLeft(final PrintStream out) {
         for (int address = maxAddress; address > 0; --address) {
             fetchExecuteLoadStore(out, address);
-            print(out, "MOVE_STATE_REG_DOWN", address);
+            print(out, "SLIDE_STATE_REG_LEFT", address);
         }
         fetchExecuteLoadStore(out, 0x0000);
     }    
@@ -90,13 +90,13 @@ public final class GenerateTetrisMemoryScripts {
         loadBinFile("asm/tetris.bin");
         writeInputData();
 
-        try (final PrintStream out = new PrintStream(CYCLE_DOWN_FILENAME)) {
-            slideStateRegisterDown(out);
+        try (final PrintStream out = new PrintStream(CYCLE_LEFT_FILENAME)) {
+            slideStateRegisterLeft(out);
             executeInstruction(out, 0x0000);   
         }
         
-        try (final PrintStream out = new PrintStream(CYCLE_UP_FILENAME)) {
-            slideStateRegisterUp(out);
+        try (final PrintStream out = new PrintStream(CYCLE_RIGHT_FILENAME)) {
+            slideStateRegisterRight(out);
             executeInstruction(out, maxAddress);    
         }
     }

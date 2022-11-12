@@ -1,0 +1,22 @@
+DEC_16 13               ; --a;
+SWAP 2                  ; swap K right
+SWAP 3                  ; swap K right
+SWAP 4                  ; swap K right
+SWAP 5                  ; swap K right
+SWAP 6                  ; swap K right
+SWAP 7                  ; swap K right
+SWAP 8                  ; swap K right
+SWAP 9                  ; swap K right
+SWAP 10                 ; swap K right
+SWAP 11                 ; swap K right
+SWAP 12                 ; swap K right
+SWAP 13                 ; swap K right
+SWAP 14                 ; swap K right
+SWAP 15                 ; swap K right
+SWAP 16                 ; swap K right
+SWAP 17                 ; swap K right
+SWAP 18                 ; swap K right
+SWAP 19                 ; swap K right
+SWAP 20                 ; swap K right
+SWAP 21                 ; swap K right
+SWAP 22                 ; swap K right

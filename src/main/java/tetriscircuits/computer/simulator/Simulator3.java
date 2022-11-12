@@ -18,10 +18,10 @@ public final class Simulator3 implements Processor {
     
     private static final String TETRISMEMORYSCRIPTS_DIR = "TetrisMemoryScripts";
     
-    private Runnable[] cycleDownRunnables;
-    private Runnable[] cycleUpRunnables;
+    private Runnable[] cycleLeftRunnables;
+    private Runnable[] cycleRightRunnables;
     private int[] bytes;
-    private boolean cycleDown = true;
+    private boolean cycleLeft = true;
     
     private int read(final int index) {
         return bytes[index];
@@ -50,12 +50,12 @@ public final class Simulator3 implements Processor {
 
     @Override
     public int readMemory(int address) {
-        return bytes[(cycleDown || address < 3) ? address : (address + 21)];            
+        return bytes[(cycleLeft || address < 3) ? address : (address + 21)];            
     }
 
     @Override
     public void writeMemory(int address, int value) {
-        bytes[(cycleDown || address < 3) ? address : (address + 21)] = value;
+        bytes[(cycleLeft || address < 3) ? address : (address + 21)] = value;
     }
     
     private Map<String, ByteMapping2> loadMaps() throws IOException {
@@ -139,24 +139,24 @@ public final class Simulator3 implements Processor {
     @Override
     public void init() throws Exception {
         final Map<String, ByteMapping2> mappings = loadMaps();
-        cycleDownRunnables = loadExecutable(mappings, "CYCLE_DOWN");
-        cycleUpRunnables = loadExecutable(mappings, "CYCLE_UP");
+        cycleLeftRunnables = loadExecutable(mappings, "CYCLE_LEFT");
+        cycleRightRunnables = loadExecutable(mappings, "CYCLE_RIGHT");
         loadInputData();
     }
 
     @Override
     public void runInstruction() {
-        if (cycleDown) {
-            cycleDown = false;
-            final int length = cycleDownRunnables.length;
+        if (cycleLeft) {
+            cycleLeft = false;
+            final int length = cycleLeftRunnables.length;
             for (int i = 0; i < length; ++i) {
-                cycleDownRunnables[i].run();
+                cycleLeftRunnables[i].run();
             }
         } else {
-            cycleDown = true;
-            final int length = cycleUpRunnables.length;
+            cycleLeft = true;
+            final int length = cycleRightRunnables.length;
             for (int i = 0; i < length; ++i) {
-                cycleUpRunnables[i].run();
+                cycleRightRunnables[i].run();
             }           
         } 
     }
