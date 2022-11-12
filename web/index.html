@@ -2287,9 +2287,9 @@
 
 <p>The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Similarly, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
 
-<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It decodes and executes the fetched machine code instruction, except for load and store instructions. As just mentioned, <span class="mono">fetchLoadStore</span> executes load and store instructions as it engages the machine code bytes.</p>
+<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It decodes and executes the fetched instruction, modifying the state register value in the process, with two exceptions: load and store instructions. It decodes those instructions, but it cannot executed them since it does not engage any machine code bytes. Instead, as explained above, <span class="mono">fetchLoadStore</span> executes load and store instructions as the state register slides.</p>
 
-<p><span class="mono">fetchLoadStore</span>, <span class="mono">decodeExecute</span>, and <span class="mono">slideRegister</span> collectively manipulate the <span class="nowrap">25-byte</span> subarray visualized below. The three bytes immediately left of the state register and the byte immediately right of it are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
+<p><span class="mono">fetchLoadStore</span>, <span class="mono">decodeExecute</span>, and <span class="mono">slideRegister</span> collectively manipulate the <span class="nowrap">25-byte</span> subarray visualized below. The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
 
 <object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
@@ -2297,23 +2297,13 @@
 
 <object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
 
-<p>In the center is the <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>. At startup, a process initialized it to the rightmost machine code address, <span class="serif">L&minus;1</span>. When the state register slides left by 1, <span class="mono">a</span> decremented by 1. Likewise, when the state register takes an upward step, <span class="mono">a</span> is incremented by 1. This keeps <span class="mono">a</span> pointed at element <span class="mono">I</span>:</p>
-  
+<p>The <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, stores <span class="mono">I</span>’s address:</p>
+
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
 
-<p>Since <span class="mono">a</span> is a <span class="nowrap">16-bit</span> register, the maximum RAM size, <span class="serif">L<span class="sub3">max</span></span>, is <span class="serif">2<span class="sup3">16</span> B = 64 KiB</span>.</p>
+<p>A process initializes <span class="mono">a</span> to the address of rightmost machine code byte, <span class="mono">L&minus;1</span>.</p>
 
-<p>During each cycle of the machine, the state register slides from one end of the array to the other. On even cycles, it descends from index <span class="serif">L+2</span> to index 3 (<span class="mono">a</span> decrements from address <span class="serif">L&minus;1</span> to address 0). And on odd cycles, it ascends from index 3 to index <span class="serif">L+2</span> (<span class="mono">a</span> increments from address 0 to address <span class="serif">L&minus;1</span>). In other words, on each cycle, the state register traverses all of RAM.</p>
-
-<p>In the course of the state register traversal, a machine code instruction is fetched from RAM into the <span class="term">instruction register</span>, <span class="mono">ijk</span>. Instructions vary in length from 1 to 3 bytes, where the first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At 24 bits wide, <span class="mono">ijk</span> has the capacity to store any instruction.</p>
-
-<p>The diagram below shows <span class="mono">ijk</span> along with the <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, which holds the address of the instruction to be fetched. As the state register slides across RAM, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span> at the moment <span class="mono">P</span> equals <span class="mono">a</span>.</p>
-
-<object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
-
-<p>After the slide, the instruction in <span class="mono">ijk</span> is decoded and executed. If the instruction does not take up the full width of <span class="mono">ijk</span>, the remainder is discarded.</p>
-
-<p>This process is orchestrated by TMSs. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+<p>The <span class="nowrap">TMS program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
 
 <pre class="code">
 <span class="filename">SLIDE_STATE_REG_LEFT.tm</span>
@@ -2341,7 +2331,7 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K right</span></span>
 </pre>
 
-<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
+<p>Similarly, the <span class="nowrap">TMS program</span> that slides the state register right increments <span class="mono">a</span>:</p>
 
 <pre class="code">
 <span class="filename">SLIDE_STATE_REG_RIGHT.tm</span>
@@ -2368,6 +2358,18 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q left</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q left</span></span>
 </pre>
+
+<p>The <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, stores the address of the instruction to be fetched. As the state register slides across the machine code, <span class="mono">fetchLoadStore</span> copies <span class="mono">IJK</span> into the <span class="term">instruction register</span>, <span class="mono">ijk</span>, when and only when <span class="mono">P</span> equals <span class="mono">a</span>:</p>
+
+<object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
+
+<p>Instructions vary in length from 1 to 3 bytes, where the first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At <span class="nowrap">24 bits</span> wide, <span class="mono">ijk</span> has the capacity to store any instruction. If the instruction does not take up the full width of <span class="mono">ijk</span>, <span class="mono">decodeExecute</span> discards the remainder.</p>
+
+<p>This process is orchestrated by TMSs. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
+
+<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
+
+
 
 <p>The instruction fetch is carried out by the following TMS.</p>
 
