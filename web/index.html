@@ -2265,7 +2265,16 @@
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The TMS program that governs the computer slides the state register back-and-forth across the machine code, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way:</p>
+<p>The machine code program is a sequence of bytes representing instructions and data. As it executes, the program manipulates its data bytes. If need be, it can alter its instruction bytes. The program length, <span class="mono">L</span>, establishes the RAM size and the address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The program length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum RAM size.</p>
+
+<p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function called <span class="mono">fetchLoadStore</span> to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
+
+<p>Similarly, a segment of state register may contain the address of a byte to load or store. If present, when the state register reaches that address, <span class="mono">fetchLoadStore</span> copies a <span class="nowrap">RAM byte</span> to a state register byte, or <span class="nowrap">vice versa</span>.</p> 
+
+<p>After the computer slides the state register across RAM, it applies a function called <span class="mono">decodeExecute</span> that decodes and executes the fetched instruction. It puts the calculation results into segments of the state register.</p>
+
+
+<p>The TMS program that governs the computer slides the state register back-and-forth across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way:</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">while true</span></span>
@@ -2283,7 +2292,7 @@
 
 <p>The inner loop on <span class="nowrap">line 2</span> slides the state register leftward and the inner loop on <span class="nowrap">line 7</span> slides the state register rightward.</p>
 
-<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. For fetch, it conditionally copies a machine code instruction from the three extra bytes to a segment of the state register. For load and store, it conditionally copies one of the extra bytes to a state register byte, and vice versa.</p>
+<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. It conditionally performs the activities in its name. To fetch, it copies a machine code instruction from the three extra bytes to a segment of the state register. To load and store, it copies one of the extra bytes to a state register byte, and vice versa.</p>
 
 <p>The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Similarly, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
 
