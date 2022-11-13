@@ -313,6 +313,10 @@ td.pad-right {
     padding-right: 25px;
 }
 
+td.pad-right2 {
+    padding-right: 20px;
+}
+
 td.mono {
     font-size: 16px;
     font-family: 'Source Code Pro', monospace;

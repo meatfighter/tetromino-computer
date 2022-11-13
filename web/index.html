@@ -2259,22 +2259,21 @@
 
 <p>If <span class="mono">T<span class="sub3">m</span></span> along with the starting memory state emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if a starting memory state evolves into a particular ending memory state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
-<h2 id="tetris-machine">Tetris Machine</h2>
+<h2 id="tetris-machine-overview">Tetris Machine Overview</h2>
 
 <p>The machine that runs Tetris is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> computer, supporting up to <span class="nowrap">64 KiB</span> of RAM. Like all the computing devices presented thus far, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code program is a sequence of bytes representing instructions and data. As it executes, the program manipulates its data bytes. If need be, it can alter its instruction bytes. The program length, <span class="mono">L</span>, establishes the RAM size and the address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The program length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum RAM size.</p>
+<p>The machine code program is a sequence of bytes representing instructions and data. The program length, <span class="mono">L</span>, establishes the <span class="nowrap">RAM size</span> and the RAM address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. It cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
 
-<p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function called <span class="mono">fetchLoadStore</span> to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
+<p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
 
 <p>Similarly, a segment of state register may contain the address of a byte to load or store. If present, when the state register reaches that address, <span class="mono">fetchLoadStore</span> copies a <span class="nowrap">RAM byte</span> to a state register byte, or <span class="nowrap">vice versa</span>.</p> 
 
-<p>After the computer slides the state register across RAM, it applies a function called <span class="mono">decodeExecute</span> that decodes and executes the fetched instruction. It puts the calculation results into segments of the state register.</p>
+<p>After the computer slides the state register across RAM, it applies a function, <span class="mono">decodeExecute</span>, to decode and execute the fetched instruction. It stores calculated results in segments of the state register.</p>
 
-
-<p>The TMS program that governs the computer slides the state register back-and-forth across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way:</p>
+<p>The following pseudocode summarizes the computer. The inner loop on <span class="nowrap">line 2</span> slides the state register leftward and the inner loop on <span class="nowrap">line 7</span> slides the state register rightward.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">while true</span></span>
@@ -2290,15 +2289,15 @@
 <span class="line">  a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span> &larr; decodeExecute(a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span>)</span>
 </pre>
 
-<p>The inner loop on <span class="nowrap">line 2</span> slides the state register leftward and the inner loop on <span class="nowrap">line 7</span> slides the state register rightward.</p>
+<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Similarly, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
 
-<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. It conditionally performs the activities in its name. To fetch, it copies a machine code instruction from the three extra bytes to a segment of the state register. To load and store, it copies one of the extra bytes to a state register byte, and vice versa.</p>
+<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It defers execution of load and store instructions to <span class="mono">fetchLoadStore</span> since it does not engage RAM.</p>
 
-<p>The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Similarly, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
+<h2 id="tetris-machine-microcode">Tetris Machine Microcode</h2>
 
-<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It decodes and executes the fetched instruction, modifying the state register value in the process, with two exceptions: load and store instructions. It decodes those instructions, but it cannot executed them since it does not engage any machine code bytes. Instead, as explained above, <span class="mono">fetchLoadStore</span> executes load and store instructions as the state register slides.</p>
+<p>This section presents the <span class="nowrap">TMS programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
 
-<p><span class="mono">fetchLoadStore</span>, <span class="mono">decodeExecute</span>, and <span class="mono">slideRegister</span> collectively manipulate the <span class="nowrap">25-byte</span> subarray visualized below. The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location.</p>
+<p>The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location:</p>
 
 <object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
@@ -2310,9 +2309,7 @@
 
 <object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
 
-<p>A process initializes <span class="mono">a</span> to the address of rightmost machine code byte, <span class="mono">L&minus;1</span>.</p>
-
-<p>Two separate <span class="nowrap">TMS programs</span> implement <span class="mono">slideRegister</span>. The program that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
+<p>At startup, a process assigns <span class="mono">a</span> to the highest <span class="nowrap">RAM address</span>, <span class="mono">L&minus;1</span>. The <span class="nowrap">TMS program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
 
 <pre class="code">
 <span class="filename">SLIDE_STATE_REG_LEFT.tm</span>
@@ -2368,19 +2365,13 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q left</span></span>
 </pre>
 
-<p>The <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, stores the address of the instruction to be fetched. As the state register slides across the machine code, <span class="mono">fetchLoadStore</span> copies <span class="mono">IJK</span> into the <span class="term">instruction register</span>, <span class="mono">ijk</span>, when and only when <span class="mono">P</span> equals <span class="mono">a</span>:</p>
+<p>The <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, stores the address of the instruction to be fetched. As the computer slides the state register across RAM, it copies <span class="mono">IJK</span> into the <span class="term">instruction register</span>, <span class="mono">ijk</span>, at the instant <span class="mono">P</span> equals <span class="mono">a</span>:</p>
 
 <object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
 
-<p>Instructions vary in length from 1 to 3 bytes, where the first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At <span class="nowrap">24 bits</span> wide, <span class="mono">ijk</span> has the capacity to store any instruction. If the instruction does not take up the full width of <span class="mono">ijk</span>, <span class="mono">decodeExecute</span> discards the remainder.</p>
+<p>Machine code instructions vary in length from one to three bytes. The first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At <span class="nowrap">24 bits</span> wide, <span class="mono">ijk</span> can store any instruction. And at decode time, if the instruction does not take up the full width of <span class="mono">ijk</span>, the computer discards the remainder.</p>
 
-<p>This process is orchestrated by TMSs. For instance, the following code decrements <span class="mono">a</span> and it moves the state register downward by repeatedly swapping <span class="mono">K</span> upward, fully across the state register.</p>
-
-<p>Similarly, the code below increments <span class="mono">a</span> and it moves the state register upward by repeatedly swapping <span class="mono">Q</span> downward.</p>
-
-
-
-<p>The instruction fetch is carried out by the following TMS.</p>
+<p>The implementation follows. To highlight the most pertinent code, the listings omit <span class="mono">SWAP</span>s from this point forward.</p>
 
 <pre class="code">
 <span class="filename">FETCH.tm</span>
@@ -2391,13 +2382,9 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
-<p>The <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span>, <span class="mono">s1</span> and <span class="mono">s0</span>, meander the state register, shuttling intermediate values between production sites and consumption sites. One of them, <span class="mono">s1</span>, appears in the code above. The <span class="mono">SWAP</span>s that move it and other registers around were omitted to highlight the most pertinent code. Similar lines were excluded from the programs below for the same reason.</p>
+<p>Since there is no <span class="nowrap">16-bit</span> comparator, the program separately compares the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, and the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. It stores the result in <span class="mono">s1</span>, one of two <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span> that transport intermediate values between production sites and consumption sites. Because there is no <span class="nowrap">24-bit</span> copy function, the program individually and conditionally copies the bytes of <span class="mono">IJK</span> to <span class="mono">ijk</span> if <span class="mono">s1</span> is set.</p>
 
-<p>The snippet compares <span class="mono">P</span> and <span class="mono">a</span>. Since there is no <span class="nowrap">16-bit</span> comparator, the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, are checked for equality with an <span class="nowrap">8-bit</span> comparator, followed by the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. The result is stored in <span class="mono">s1</span>.</p>
-
-<p>If <span class="mono">s1</span> is set, <span class="mono">IJK</span> is copied to <span class="mono">ijk</span>. Because there is no <span class="nowrap">24-bit</span> copy function, an <span class="nowrap">8-bit</span> conditional-copy is applied to each byte.</p>
-
-<p>After the state register slides across RAM, <span class="mono">P</span> is incremented by the fetched instruction length in preparation of the next fetch. This is achieved with match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2-byte</span> or a <span class="nowrap">3-byte</span> instruction:</p>
+<p>After the computer slides the state register across RAM, it increments <span class="mono">P</span> by the fetched instruction length in preparation of the next fetch. The implementation uses match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2- or 3-byte</span> instruction:</p>
 
 <pre class="code">
 <span class="filename">INCREMENT_P.tm</span>
@@ -2409,17 +2396,17 @@
 <span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
 </pre>
 
-<p>After <span class="mono">P</span> is incremented, the fetched instruction is decoded and executed. The process begins with the <span class="term">transfer instructions</span>. Each copies a specified <span class="nowrap">8-bit</span> source register to a specified <span class="nowrap">8-bit</span> destination register. The register choices are:</p>
+<p>After the computer increments <span class="mono">P</span>, it decodes and executes the fetched instruction. Decoding begins with the <span class="term">transfer instructions</span>, each of which copies an <span class="nowrap">8-bit</span> source register to an <span class="nowrap">8-bit</span> destination register, among those listed below.</p>
 
-<ul>
-  <li>The <span class="term">accumulator</span>, <span class="mono">A</span>, which operates as both an input and the output of <span class="term">arithmetic and logic instructions</span>.</li>
+TODO CENTER?
 
-  <li>The <span class="term">data register</span>, <span class="mono">B</span>, which operates as an input of arithmetic and logic instructions.</li> 
-
-  <li>The <span class="term">high memory address register</span>, <span class="mono">M</span>, which is the upper byte of the <span class="nowrap">16-bit</span> <span class="term">memory address register</span>, <span class="mono">MN</span>. <span class="mono">MN</span> is used as the source address of <span class="term">load instructions</span> and the destination address of <span class="term">store instructions</span>.</li> 
-
-  <li>The <span class="term">low memory address register</span>, <span class="mono">N</span>, which is the lower byte of <span class="mono">MN</span>.</li>
-</ul>
+<table class="borderless high-rows">  
+  <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Description</th></tr>
+  <tr><td class="mono">A</td><td class="pad-right2">Accumulator</td><td class="borderless">Input and lone output of all arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">B</td><td class="pad-right2"><span class="nowrap">Data Register</span></td><td class="borderless">Input of some arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">M</td><td class="pad-right2"><span class="nowrap">High Memory Register</span></td><td class="borderless"><span class="nowrap">High byte</span> of the <span class="nowrap">16-bit</span> <span class="term">Memory Register</span>, <span class="mono">MN</span>, which stores the <span class="nowrap">source address</span> of <span class="nowrap">load instructions</span> and the <span class="nowrap">destination address</span> of <span class="nowrap">store instructions</span>.</td></tr>
+  <tr><td class="mono">N</td><td class="pad-right2"><span class="nowrap">Low Memory Register</span></td><td class="borderless"><span class="nowrap">Low byte</span> of <span class="mono">MN</span>.</td></tr>
+</table>
 
 <p>As illustrated below, there are 12 ways to transfer data between these registers.</p>
 
@@ -2789,7 +2776,7 @@
 
 <p>Because Tetris is a game, it is designed to loop forever. The machine never halts. This necessitates an endless stream of TS fed to the agent. The stream is synthesized on demand by perpetually alternating between expansions of the downward and upward cycle TMS programs.</p>
 
-<h2 id="assembly-language">Assembly Language</h2>
+<h2 id="tetris-machine-assembly-language">Tetris Machine Assembly Language</h2>
 
 <p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converted it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
 
@@ -2799,13 +2786,13 @@
 
 <table class="borderless high-rows">  
   <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Bits</th><th class="borderless">Description</th></tr>
-  <tr><td class="mono">A</td><td>Accumulator</td><td class="centered">8</td><td class="borderless">An input and the lone output of all arithmetic and logic instructions.</td></tr>
-  <tr><td class="mono">B</td><td>Data Register</td><td class="centered">8</td><td class="borderless">An input of some arithmetic and logic instructions.</td></tr>
-  <tr><td class="mono">MN</td><td>Memory Address Register</td><td class="centered">16</td><td class="borderless">The source address of load instructions and the destination address of store instructions. The <span class="nowrap">8-bit</span> <span class="mono">M</span> and <span class="mono">N</span> registers contain its high and low bytes, respectively. </td></tr>
-  <tr><td class="mono">P</td><td>Program Counter</td><td class="centered">16</td><td class="borderless">The address of the instruction to execute next.</td></tr>
-  <tr><td class="mono">R</td><td>Return Register</td><td class="centered">16</td><td class="borderless">The address of the instruction to return to at the end of a subroutine.</td></tr>
-  <tr><td class="mono">n</td><td>Negative Flag</td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is negative.</td></tr>
-  <tr><td class="mono">z</td><td>Zero Flag</td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is zero.</td></tr>
+  <tr><td class="mono">A</td><td>Accumulator</td><td class="centered">8</td><td class="borderless">Input and lone output of all arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">B</td><td><span class="nowrap">Data Register</span></td><td class="centered">8</td><td class="borderless">Input of some arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">MN</td><td><span class="nowrap">Memory Register</span></td><td class="centered">16</td><td class="borderless">Source address of load instructions and the destination address of store instructions. The <span class="nowrap">8-bit</span> <span class="mono">M</span> and <span class="mono">N</span> registers contain its high and low bytes, respectively. </td></tr>
+  <tr><td class="mono">P</td><td><span class="nowrap">Program Counter</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to execute next.</td></tr>
+  <tr><td class="mono">R</td><td><span class="nowrap">Return Register</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to return to at the end of a subroutine.</td></tr>
+  <tr><td class="mono">n</td><td><span class="nowrap">Negative Flag</span></td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is negative.</td></tr>
+  <tr><td class="mono">z</td><td><span class="nowrap">Zero Flag</span></td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is zero.</td></tr>
 </table>
 
 <h3 id="transfer-instructions">Transfer Instructions</h3>
@@ -3068,7 +3055,7 @@
 
 <p>The same applies to branch instructions; i.e., the target of the branch can any of the above. But it is rarely worthwhile to jump to a numerical address or to a label offset by a constant.</p>
 
-<h2 id="tetris-program">Tetris Program</h2>
+<h2 id="tetris-machine-program">Tetris Machine Program</h2>
 
 <p>The Tetris program is a barebones implementation of the game that employs the right-handed Nintendo Rotation System (NRS). As a randomly-selected Tetrimino falls, the agent shifts it left or right, rotates it clockwise or counterclockwise, or soft drops it. When the piece locks into the pile, completed lines are cleared, the rows above them shift downward, and the next piece spawns.</p>
 
@@ -3909,7 +3896,7 @@ do {
 
 <p>Each iteration decrements <span class="mono">i</span> by 1 and it increments <span class="mono">tetriminosIndex</span> by 1.</p>
 
-<h2 id="simulation">Simulation</h2>
+<h2 id="tetris-machine-simulation">Tetris Machine Simulation</h2>
 
 <p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the starting state of the playfield. Or, more specifically, it is the configuration of the <span class="nowrap">bottom-two</span> rows of an otherwise empty workspace with:</p>
 
