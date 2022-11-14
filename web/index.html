@@ -2386,7 +2386,7 @@
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
 </pre>
 
-<p>Since there is no <span class="nowrap">16-bit</span> comparator, the program separately compares the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, and the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. It stores the result in <span class="mono">s1</span>, one of two <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span> that transport intermediate values between production sites and consumption sites. Because there is no <span class="nowrap">24-bit</span> copy function, the program individually and conditionally copies the bytes of <span class="mono">IJK</span> to <span class="mono">ijk</span> if <span class="mono">s1</span> is set.</p>
+<p>Since there is no <span class="nowrap">16-bit</span> comparator, the program separately compares the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, and the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. It puts the result in <span class="mono">s1</span>, one of two <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span> that transport intermediate values between production sites and consumption sites. Because there is no <span class="nowrap">24-bit</span> copy function, the program individually and conditionally copies the bytes of <span class="mono">IJK</span> to <span class="mono">ijk</span> if <span class="mono">s1</span> is set.</p>
 
 <p>After the computer slides the state register across RAM, it increments <span class="mono">P</span> by the fetched instruction length in preparation of the next fetch. The implementation uses match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2- or 3-byte</span> instruction:</p>
 
@@ -2406,8 +2406,8 @@
   <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Description</th></tr>
   <tr><td class="mono">A</td><td class="pad-right2">Accumulator</td><td class="borderless">Input and lone output of all arithmetic and logic instructions.</td></tr>
   <tr><td class="mono">B</td><td class="pad-right2"><span class="nowrap">Data Register</span></td><td class="borderless">Input of some arithmetic and logic instructions.</td></tr>
-  <tr><td class="mono">M</td><td class="pad-right2"><span class="nowrap">High Memory Address Register</span></td><td class="borderless"><span class="nowrap">High byte</span> of the <span class="nowrap">16-bit</span> <span class="term">Memory Address Register</span>, <span class="mono">MN</span>, which stores the <span class="nowrap">source address</span> of <span class="nowrap">load instructions</span> and the <span class="nowrap">destination address</span> of <span class="nowrap">store instructions</span>.</td></tr>
-  <tr><td class="mono">N</td><td class="pad-right2"><span class="nowrap">Low Memory Address Register</span></td><td class="borderless"><span class="nowrap">Low byte</span> of <span class="mono">MN</span>.</td></tr>
+  <tr><td class="mono">M</td><td class="pad-right2"><span class="nowrap">High Memory Register</span></td><td class="borderless"><span class="nowrap">High byte</span> of the <span class="nowrap">16-bit</span> <span class="term">Memory Register</span>, <span class="mono">MN</span>, which contains the <span class="nowrap">source address</span> of <span class="nowrap">load instructions</span> and the <span class="nowrap">destination address</span> of <span class="nowrap">store instructions</span>.</td></tr>
+  <tr><td class="mono">N</td><td class="pad-right2"><span class="nowrap">Low Memory Register</span></td><td class="borderless"><span class="nowrap">Low byte</span> of <span class="mono">MN</span>.</td></tr>
 </table>
 
 <p>There are twelve ways to transfer data between those registers:</p>
@@ -2439,7 +2439,7 @@
 
 <p>If the opcode in <span class="mono">i</span> matches the pattern of a transfer instruction, then the program copies the source register to <span class="mono">s0</span> <span class="nowrap">(lines 1&ndash;8)</span>. Subsequently, the program copies <span class="mono">s0</span> to the destination register, again conditioned on <span class="mono">i</span> <span class="nowrap">(lines 10&ndash;17)</span>. Since transfer instructions are <span class="nowrap">1-byte</span> instructions, the program ignores <span class="mono">j</span> and <span class="mono">k</span>.</p>
 
-<p>Next, the computer handles <span class="term">arithmetic and logic instructions</span>. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span> and <span class="mono">B</span></span>, and it stores the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), the instruction sets the <span class="term">negative flag</span>, <span class="mono">n</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">n</span> to <span class="mono">0</span>. If the result is zero, the instruction sets the <span class="term">zero flag</span>, <span class="mono">z</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">z</span> to <span class="mono">0</span>.</p>
+<p>Next, the computer handles <span class="term">arithmetic and logic instructions</span>. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), the instruction sets the <span class="term">negative flag</span>, <span class="mono">n</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">n</span> to <span class="mono">0</span>. If the result is zero, the instruction sets the <span class="term">zero flag</span>, <span class="mono">z</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">z</span> to <span class="mono">0</span>.</p>
 
 <p>The <span class="nowrap">TMS program</span> below decodes and executes the twelve arithmetic and logic instructions, all of which are <span class="nowrap">1-byte</span> instructions. Each implementation follows the same pattern. First, the program compares <span class="mono">i</span> and an opcode, storing the result in <span class="mono">s1</span>. Then, the program sets <span class="mono">s0</span> to a function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>. Finally, the program conditionally copies <span class="mono">s0</span> to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
 
@@ -2622,7 +2622,7 @@
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) P0 = R0;</span></span>
 </pre>
 
-<p>Last, the computer handles the store and load instructions. A store instruction writes a source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. While decoding, if the instruction is not a store instruction, the computer resets the <span class="term">write flag</span>, <span class="mono">w</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">w</span> to <span class="mono">1</span>, and it copies the source register to the <span class="nowrap">8-bit</span> <span class="term">memory data register</span>, m:</p>
+<p>Last, the computer handles the store and load instructions. A store instruction writes a source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. While decoding, if the instruction is not a store instruction, the computer resets the <span class="term">write flag</span>, <span class="mono">w</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">w</span> to <span class="mono">1</span>, and it copies the source register to the <span class="nowrap">8-bit</span> <span class="term">memory value register</span>, m:</p>
 
 <object data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
 
@@ -2774,11 +2774,11 @@
 
 <h2 id="tetris-machine-assembly-language">Tetris Machine Assembly Language</h2>
 
-<p>The Tetris program was written in the <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> detailed in this section. The <a href="https://en.wikipedia.org/wiki/Assembly_language#Assembler" target="_blank">assembler</a> that converted it into machine code is case-insensitive. Though, as a convention, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">opcode mnemonics</a> appear uppercase and the rest <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>. </p>
+<p>This section details an <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> for the Tetris machine. The language is case-insensitive. However, in this text, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">mnemonics</a> appear uppercase while everything else appears <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>.</p>
 
 <h3 id="registers">Registers</h3>
 
-<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, the subset of processor registers exposed to assembly language instructions.</p>
+<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, those available to assembly language instructions.</p>
 
 <table class="borderless high-rows">  
   <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Bits</th><th class="borderless">Description</th></tr>
@@ -2787,13 +2787,13 @@
   <tr><td class="mono">MN</td><td><span class="nowrap">Memory Register</span></td><td class="centered">16</td><td class="borderless">Source address of load instructions and the destination address of store instructions. The <span class="nowrap">8-bit</span> <span class="mono">M</span> and <span class="mono">N</span> registers contain its high and low bytes, respectively. </td></tr>
   <tr><td class="mono">P</td><td><span class="nowrap">Program Counter</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to execute next.</td></tr>
   <tr><td class="mono">R</td><td><span class="nowrap">Return Register</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to return to at the end of a subroutine.</td></tr>
-  <tr><td class="mono">n</td><td><span class="nowrap">Negative Flag</span></td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is negative.</td></tr>
-  <tr><td class="mono">z</td><td><span class="nowrap">Zero Flag</span></td><td class="centered">1</td><td class="borderless">Indicates the output of an arithmetic, logic, or load instruction is zero.</td></tr>
+  <tr><td class="mono">n</td><td><span class="nowrap">Negative Flag</span></td><td class="centered">1</td><td class="borderless">Indicates an arithmetic, logic, or load instruction produced a negatively signed value.</td></tr>
+  <tr><td class="mono">z</td><td><span class="nowrap">Zero Flag</span></td><td class="centered">1</td><td class="borderless">Indicates an arithmetic, logic, or load instruction produced zero.</td></tr>
 </table>
 
 <h3 id="transfer-instructions">Transfer Instructions</h3>
 
-<p>A transfer instruction copies the value of a source register to a destination register. The instruction format is:</p>  
+<p>A transfer instruction copies the value of a source register to a destination register. Its format is:</p>  
 
 <p class="definition">T(source)(destination)</p>
 
@@ -2809,7 +2809,7 @@
   <tr><td class="mono">11</td><td class="mono">N</td></tr>
 </table>
 
-<p>The 12 transfer instructions follow.</p>
+<p>The twelve transfer instructions follow.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
@@ -2831,7 +2831,7 @@
 
 <h3 id="arithmetic-and-logic-instructions">Arithmetic and Logic Instructions</h3>
 
-<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="nowrap"><span class="mono">A</span>-and-<span class="mono">B</span></span>, and it stores the result in <span class="mono">A</span>:</p>
+<p>An arithmetic or logic instruction computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and it puts the result in <span class="mono">A</span>:</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
@@ -2849,25 +2849,25 @@
   <tr><td class="mono">XOR</td><td class="borderless">Bitwise XOR</td><td class="pseudocode">A ^= B;</td><td class="mono">1B</td></tr>
 </table>
 
-<p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no add-with-carry instruction nor a subtract-with-borrow instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
+<p>The <span class="nowrap">carry-outs</span> of <span class="mono">ADD</span> and <span class="mono">INC</span>, the <span class="nowrap">borrow-outs</span> of <span class="mono">SUB</span> and <span class="mono">DEC</span>, and the <span class="span">shift-outs</span> of the shift instructions are lost. There is no <span class="nowrap">add-with-carry</span> instruction nor a <span class="nowrap">subtract-with-borrow</span> instruction. All shift instructions <span class="nowrap">shift-in</span> <span class="mono">0</span>.</p> 
 
-<p>The zero flag, <span class="mono">z</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero; otherwise, it is reset to <span class="mono">0</span>.</p>
+<p>Every arithmetic and logic instruction assigns the zero flag, <span class="mono">z</span>, to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is zero, and to <span class="mono">0</span>, otherwise. Similarly, it assigns the negative flag, <span class="mono">n</span>, to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), and to <span class="mono">0</span>, otherwise.</p>
 
-<p>The negative flag, <span class="mono">n</span>, is set to <span class="mono">1</span> if the resultant value in <span class="mono">A</span> is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>); otherwise, it is reset to <span class="mono">0</span>.</p>
-
-<p>Each arithmetic or logic instruction corresponds to an opcode with bits <span class="mono">0001xxxx</span>. Of the 16 possibilities, only 12 are assigned. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
+<p>Every arithmetic and logic instruction corresponds to an opcode with bits <span class="mono">0001xxxx</span>. The computer implements twelve of the sixteen opcodes. Potential additions include Bitwise <span class="mono">NOT</span> and shifts by other values. The instructions above were selected to satisfy the requirements of a single program, one that runs Tetris.</p>
 
 <h3 id="branch-instructions">Branch Instructions</h3>
 
-<p>A branch instruction can direct execution to a specified location in the program. With one exception, the branch instructions have the following format.</p>
+<p>A branch instruction redirects execution to a specified location, either conditionally or unconditionally. With one exception, the branch instructions have the following format.</p>
 
 <p class="definition">mnemonic label</p>
 
 <p>A label is a placeholder for an address. In this case, it is the address of the code to run if the branch is taken.</p>
 
-<p>A label is declared immediately before target code or data, enabling resolution of its address during assembly. The declaration consists of a unique name followed by a colon, as shown below.</p>
+<p>The declaration of a label consists of a unique name followed by a colon, as shown below.</p>
 
 <p class="definition">name:</p>
+
+<p>The declaration appears immediately before target code or data, and the assembler resolves its address based on its position.</p>
 
 <p>Here are all the branch instructions:</p>
 
@@ -2882,15 +2882,16 @@
   <tr><td class="mono">RTS</td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
-<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by the label address encoded <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a>. The opcode is composed of bits <span class="mono">0010rstu</span>:</p>
+<p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by a <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a> address. The opcode comprises <span class="nowrap">bits <span class="mono">0010rstu</span></span>, where only one of <span class="mono">r</span>, <span class="mono">s</span>, and <span class="mono">t</span> are set, and <span class="mono">u</span> is a value compared to <span class="mono">s</span> or <span class="mono">t</span>:</p>
 
-<ul>
-  <li>If <span class="mono">t</span> is <span class="mono">1</span>, then the zero flag, <span class="mono">z</span>, must equal <span class="mono">u</span> to branch.</li>
-  <li>If <span class="mono">s</span> is <span class="mono">1</span>, then the negative flag, <span class="mono">n</span>, must equal <span class="mono">u</span> to branch.</li>
-  <li>If <span class="mono">r</span> is <span class="mono">1</span>, then the program counter, <span class="mono">P</span>, is copied to the return register, <span class="mono">R</span>, before jumping. That feature is used by <span class="mono">JSR</span> while <span class="mono">RTS</span> does the opposite. This enables subroutine calls one level deep. No other instructions access <span class="mono">R</span>.</li>
-</ul>
+<table class="borderless">
+<tr><th class="borderless">Set Bit</th><th class="borderless">Instructions</th><th class="borderless">Description</th></tr>
+<tr><td class="mono">r</td><td class="mono">JSR</td><td>The computer copies the program counter, <span class="mono">P</span>, to the return register, <span class="mono">R</span>, and it branches.</td></tr>
+<tr><td class="mono">s</td><td class="mono">BPL,BMI</td><td>The computer branches iff the negative flag, <span class="mono">n</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>
+<tr><td class="mono">t</td><td class="mono">BNE,BEQ</td><td>The computer branches iff the zero flag, <span class="mono">z</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>
+</table>
 
-<p>The conditional branch instructions&mdash;<span class="mono">BNE</span>, <span class="mono">BEQ</span>, <span class="mono">BPL</span>, and <span class="mono">BMI</span>&mdash;can serve as <a href="https://en.wikipedia.org/wiki/Relational_operator" target="_blank">relational operators</a> by branching on the result of <span class="nowrap mono">A - B</span>. However, <span class="mono">BPL</span> and <span class="mono">BMI</span> treat the difference as a signed number. This leads to the following limitations.</p>
+<p>A program can use the conditional branch instructions&mdash;<span class="mono">BNE</span>, <span class="mono">BEQ</span>, <span class="mono">BPL</span>, and <span class="mono">BMI</span>&mdash;as <a href="https://en.wikipedia.org/wiki/Relational_operator" target="_blank">relational operators</a> by branching on the result of <span class="nowrap mono">A - B</span>. However, <span class="mono">BPL</span> and <span class="mono">BMI</span> treat the difference as a signed number. This leads to the following limitations.</p>
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Relation</th><th class="borderless">Limitations</th></tr>
@@ -2900,7 +2901,7 @@
   <tr><td class="mono">BMI</td><td class="pseudocode">A &lt; B</td><td class="pseudocode">A - B &#8714; [-128, -1]</td></tr>
 </table>
 
-<p>Since there is no <a href="https://en.wikipedia.org/wiki/Carry_flag" target="_blank">carry flag</a> nor its complementary <span class="mono">BCC</span> and <span class="mono">BCS</span> instructions, an <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank">inequality</a> test for an unsigned difference requires multiple steps. One option is to logical right shift <span class="mono">A</span> and <span class="mono">B</span> by <span class="mono">1</span> before subtracting. If the difference is nonzero, then the test is complete. Otherwise, the original <span class="nowrap">bit-0s</span> need to be compared.</p>
+<p>Since there is no <a href="https://en.wikipedia.org/wiki/Carry_flag" target="_blank">carry flag</a> nor its complementary <span class="mono">BCC</span> and <span class="mono">BCS</span> instructions, an <a href="https://en.wikipedia.org/wiki/Inequality_(mathematics)" target="_blank">inequality</a> test for an unsigned difference requires multiple steps. For instance, a program logical right shifts <span class="mono">A</span> and <span class="mono">B</span> by <span class="mono">1</span> before subtracting. If the difference is nonzero, then its done. Otherwise, the program compares the original <span class="nowrap">bit-0s</span>.</p>
 
 <p>While there is no <a href="https://en.wikipedia.org/wiki/Indirect_branch" target="_blank">indirect branch</a> instruction, <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a> can be used to alter a branch target at runtime.</p>
 
