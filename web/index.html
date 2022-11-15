@@ -3117,23 +3117,25 @@
 <span class="line">  <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">00</span>  <span class="comment">; 22</span></span>
 </pre>
 
-<p>The green rectangular region is the visible playfield. It spans rows 2&ndash;21 and columns 0&ndash;9. Tetriminos spawn in the middle of its ceiling, centered at <span class="nowrap">row 2</span> (<span class="mono">SPAWN_Y</span>) and <span class="nowrap">column 5</span>(<span class="mono">SPAWN_X</span>).</p>
+<p>The green rectangular region is the visible playfield. It spans <span class="nowrap">rows 2&ndash;21</span> and <span class="nowrap">columns 0&ndash;9</span>. Tetriminos spawn in the middle of its ceiling, centered at <span class="nowrap">row 2</span> (<span class="mono">SPAWN_Y</span>) and <span class="nowrap">column 5</span> (<span class="mono">SPAWN_X</span>).</p>
 
-<p><span class="nowrap">Rows 0</span> and 1 are the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned Tetriminos start out in the vanish zone.</p>
+<p><span class="nowrap">Rows 0&ndash;1</span> constitute the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned Tetriminos start out in the vanish zone.</p>
 
-<p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. When <span class="mono">drawOrTestTetrimino</span> scans for empty spaces, <span class="nowrap">row 22</span> and <span class="nowrap">column 10</span> make out-of-bounds cells appear solid.</p>  
+<p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. When <span class="mono">drawOrTestTetrimino</span> scans for empty spaces, they make out-of-bounds cells seem solid.</p>  
 
-<p>Note: Regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. As such, every row of the visible playfield has a solid cell after its rightmost element and before its leftmost element. This means, <span class="nowrap">column 10</span> serves as both the right wall and the left wall. On the other hand, <span class="nowrap">row 22</span> is just the floor.</p> 
+<p><span class="nowrap">Column 10</span> serves as both the right wall and the left wall. This is because, regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. Meaning, each matrix row wraps into the next row. As such, every visible playfield row has a solid cell after its rightmost element and a solid cell before its leftmost element.</p>
 
-<p>When a Tetrimino locks into the pile, four rows about its center are scanned for lines. The scan ignores the bounds of the visible playfield for code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently being detected as a line, its rightmost element is marked empty and the scan is rigged to check for a row of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
+<p><span class="nowrap">Row 22</span> acts only as the floor.</p> 
 
-<p>Clearing a line means all the rows above it shift downward. This is accomplished by overwriting each row with a copy of its preceding row. <span class="nowrap">Row 0</span>, which has no preceding row, is reset to ten empty cells followed by a solid cell.</p> 
+<p>When a Tetrimino locks into the pile, the program scans four rows about the Tetrimino's center for lines. The scan ignores the visible playfield boundaries for reasons of performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
 
-<p>At the start of a new game, the playfield is reset to the initial state seen in the listing above.</p> 
+<p>To clear a line, the program shifts all rows above the line downward. And to achieve that, the program overwrites each row with a copy of the preceding row. Since <span class="nowrap">row 0</span> has no preceding row, the program fills it with ten empty cells followed by a solid cell.</p> 
 
-<p>The segment directive (<span class="nowrap">line 19</span>) is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
+<p>At the start of a new game, the program resets the playfield to the initial state seen in the listing above.</p> 
 
-<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span> long, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with <span class="nowrap">three bytes</span> to spare. This means, the cell at <span class="nowrap">(<span class="mono">row</span>, <span class="mono">col</span>)</span> is addressable with the following pseudocode.</p> 
+<p>The segment directive on <span class="nowrap">line 19</span> is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
+
+<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span> long, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with <span class="nowrap">three bytes</span> to spare. That enables the program to address a cell at <span class="nowrap mono">(row,col)</span> with code equivalent to:</p> 
 
 <pre class="pseudocode">
 M = 0;               // page zero
@@ -3141,29 +3143,25 @@ M = 0;               // page zero
 N = 11 * row + col;  // offset within page zero
 </pre>
 
-<p>As discussed thus far, the machine that runs Tetris is consists of an <span class="nowrap">8-bit</span> CPU and up to <span class="nowrap">64 KiB</span> of RAM initialized with the instructions and the data of the program to be executed. RAM initialization is carried out by a mechanism analogous to a peripheral data storage device. However, with that peripheral alone, the machine is limited to <a href="https://en.wikipedia.org/wiki/Batch_processing" target="_blank">batch processing</a>. To establish a real-time interface between the machine and a human agent, additional peripherals are required.</p>
+<p>The computer is connected to an external peripheral device, a window that serves as a proxy for the player’s physical monitor and keyboard. It presents a graphical representation of the visible playfield:</p> 
 
-<p>One such peripheral is a display device that presents a graphical representation of the visible playfield. It takes the form of the window below.</p>
+<p>[ TODO PIC ]</p>
 
-<object data="sample-gameplay.png" type="image/png" class="diagram">Sample Gameplay</object>
-
-<p>The window portrays a <span class="nowrap">20 row</span> by <span class="nowrap">10 column</span> grid of colored cells, where each color corresponds to the <span class="nowrap">lower-3</span> bits of a byte of visible playfield RAM per the following mapping.</p>
+<p>The <span class="nowrap">lower-three</span> bits of each visible playfield byte drives a colored cell per the following mapping.</p>
 
 <table class="borderless">
 <tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
-<tr><td class="mono">0</td><td class="roboto centered">(empty)</td><td class="borderless">Black</td></tr>
-<tr><td class="mono">1</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
-<tr><td class="mono">2</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
-<tr><td class="mono">3</td><td class="roboto centered">Z</td><td class="borderless">Red</td></tr>
-<tr><td class="mono">4</td><td class="roboto centered">O</td><td class="borderless">Yellow</td></tr>
-<tr><td class="mono">5</td><td class="roboto centered">S</td><td class="borderless">Green</td></tr>
-<tr><td class="mono">6</td><td class="roboto centered">L</td><td class="borderless">Orange</td></tr>
-<tr><td class="mono">7</td><td class="roboto centered">I</td><td class="borderless">Cyan</td></tr>
+<tr><td class="mono">000</td><td class="roboto centered">(empty)</td><td class="borderless">Black</td></tr>
+<tr><td class="mono">001</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
+<tr><td class="mono">010</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
+<tr><td class="mono">011</td><td class="roboto centered">Z</td><td class="borderless">Red</td></tr>
+<tr><td class="mono">100</td><td class="roboto centered">O</td><td class="borderless">Yellow</td></tr>
+<tr><td class="mono">101</td><td class="roboto centered">S</td><td class="borderless">Green</td></tr>
+<tr><td class="mono">110</td><td class="roboto centered">L</td><td class="borderless">Orange</td></tr>
+<tr><td class="mono">111</td><td class="roboto centered">I</td><td class="borderless">Cyan</td></tr>
 </table>
 
-<p>The displayed image is backed by a two-dimensional array that works like a VRAM <a href="https://en.wikipedia.org/wiki/Framebuffer" target="_blank">framebuffer</a>. Its independence from RAM enables the program to incrementally update the playfield without revealing the intermediate changes. In other words, the playfield in RAM is an off-screen buffer.</p> 
-
-<p>The program and the window communicate via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After the program updates the off-screen buffer, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag in the listing below.
+<p>The computer and the window communicate via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After the program updates the visible playfield in RAM, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag in the listing below.
 
 <pre class="code" style="counter-increment: step 45;">
 <span class="line"><span class="keyword">segment</span> <span class="number">00FD</span></span>
@@ -3172,11 +3170,9 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to the two-dimensional array. Then it repaints the displayed image, revealing the array's new content.</p>
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each of the keyboard keys that control the game, the window writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the key. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
 
-<p>Following a repaint, the window provides the program with a status update of the game controls. For each button, it writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the button. Then, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span> in preparation of the next frame.</p>
-
-<p>As shown in the code above, the window transfers the states of left and right buttons in the final-two bytes of memory page zero. The addresses of the remaining buttons appear later in the code because aligned with the start of page one is the Tetriminos table:</p>
+<p>The window transfers the states of the left and right <span class="nowrap">arrow keys</span> in the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>, <span class="mono">leftButton</span> and <span class="mono">rightButton</span> in the code above, respectively. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
@@ -3218,7 +3214,7 @@ N = 11 * row + col;  // offset within page zero
 <span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
-<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a one-dimensional data region representing a two-dimensional matrix of width 11, the relative coordinates of each block, <span class="nowrap">(<span class="mono">x</span>, <span class="mono">y</span>)</span>, are encoded as:</p> 
+<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of each block, <span class="mono">(x,y)</span>, is:</p> 
 
 <p><span class="mono">offset = 11 * y + x;</span></p>
 
