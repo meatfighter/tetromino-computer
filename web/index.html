@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-11" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-15" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-11"/>
+<meta name="date" content="2022-11-15"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -3214,13 +3214,11 @@ N = 11 * row + col;  // offset within page zero
 <span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
-<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of each block, <span class="mono">(x,y)</span>, is:</p> 
+<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
 
-<p><span class="mono">offset = 11 * y + x;</span></p>
+<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> Tetrimino orientations. However, to simplify access, the table contains <span class="nowrap">four rows</span> for each Tetrimino. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times.</p>
 
-<p>To simplify the code, each Tetrimino is assumed to have four orientations. Table rows are repeated to pad out <span class="serif">I</span>, <span class="serif">S</span>, and <span class="serif">Z</span>, which only have two orientations per the NRS, and <span class="serif">O</span>, which only has one. </p>
-
-<p>Because the table is aligned with the start of memory page one, each element is addressable with the following pseudocode.</p>
+<p>Because the table is aligned with the start of memory page one, the program addresses each element with code equivalent to:</p>
 
 <pre class="pseudocode">
 M = 1;  // page one
@@ -3228,7 +3226,7 @@ M = 1;  // page one
 N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
 </pre>
 
-<p>Immediately following the table are the bytes that carry the remaining button states:</p>
+<p>The bytes that transport the remaining keyboard key states immediately follow the table:</p>
 
 <pre class="code" style="counter-increment: step 88;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>
@@ -3240,7 +3238,19 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p><span class="mono">ccw</span> and <span class="mono">cw</span> are abbreviations for &ldquo;counterclockwise&rdquo; and &ldquo;clockwise&rdquo;, respectively.</p>
 
-<p>The variables containing the entire state of the game are defined next:</p>
+<p>Here is the full key mapping:</p>
+
+<table class="borderless">
+<tr><th class="borderless">Label</th><th class="borderless">Key</th></tr>
+<tr><td class="mono2">startButton</td><td class="borderless centered">Enter</td></tr>
+<tr><td class="mono2">leftButton</td><td class="borderless centered">&larr;</td></tr>
+<tr><td class="mono2">rightButton</td><td class="borderless centered">&rarr;</td></tr>
+<tr><td class="mono2">downButton</td><td class="borderless centered">&darr;</td></tr>
+<tr><td class="mono2">ccwRotateButton</td><td class="borderless centered">Z</td></tr>
+<tr><td class="mono2">cwRotateButton</td><td class="borderless centered">X</td></tr>
+</table>
+
+<p>Next, the program declares the game state variables:</p>
 
 <pre class="code" style="counter-increment: step 94;">
 <span class="line"><span class="label">tetriminoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
@@ -3266,9 +3276,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
 </pre>
 
-<p>The variables on lines 95&ndash;98 describe the falling Tetrimino. Prior servicing a request to rotate or shift it, its orientation and <span class="nowrap">x-coordinate</span> are backed up in the variables on lines 100&ndash;101. If the requested move is found to be invalid, the original values are restored from the backups.</p>
+<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a request to move it, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
 
-<p>The variables on lines 103&ndash;107 are related to the randomizer. It updates the <span class="nowrap">16-bit</span> value spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by passing it through a randomization function. The function also takes as input the variable <span class="mono">frameCounter</span>, which is incremented at the start of each frame. Since the randomization function is only applied when a Tetrimino spawns, <span class="mono">frameCounter</span> provides a source of randomness linked to the timing of the human agent’s actions. The output of the function, a single, randomly generated bit, is stored in <span class="mono">nextBit</span>.</p>
+<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The function uses <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;as a source of entropy dependent on the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
 
 <p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves an extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
 
