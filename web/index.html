@@ -3220,7 +3220,7 @@ M = 1;  // page one
 N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
 </pre>
 
-<p>The orientation of the falling Tetrimino, <span class="mono">tetriminoRotation</span>, is in the range <span class="mono">[0,3]</span> regardless of the Tetrimino type.</p>
+<p>The orientation of the falling Tetrimino, <span class="mono">tetriminoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the Tetrimino type.</p>
 
 <p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetriminos</span> table.</p>
 
@@ -3437,15 +3437,15 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The program initializes <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> to <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The LFSR produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human agent.</p>
+<p>The LFSR generates a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the program bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. Since the program increments the <span class="mono">frameCounter</span> at the beginning of every frame, even during attract mode, the XOR makes the Tetrimino order dependent on when the player hits the Start button. The number of frames between spawns also affects the order. And the player’s inputs influence that number.</p>
 
-<p>Because there are seven Tetriminos, the XORed value needs to be reduced to the range <span class="nowrap">[ 0, 6 ]</span>. That could be achieved with a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo operation</a> that produces the remainder of integer division by 7. But mod is computationally expensive. Instead, code based on the following expression is used, where <span class="mono">v</span> is the lower-five bits of the XORed value.</p> 
+<p>The program reduces the XORed value to the range <span class="nowrap">[ 0, 6 ]</span> because there are seven Tetriminos. Since the computer does not provide a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo</a> instruction, the program performs the reduction with the following formula, where <span class="mono">v</span> is the <span class="nowrap">lower-five</span> bits of the XORed value.</p>
 
 <p><span class="mono">7 * v / 32</span></p>
 
-<p>Since <span class="nowrap"><span class="mono">v</span><span class="serif"> &isin; </span>[ 0, 31 ]</span>, 7 is multiplied by a fraction less-than 1.0, producing a value in the correct range.</p>
+<p>Since <span class="nowrap"><span class="mono">v</span><span class="serif"> &isin; </span>[ 0, 31 ]</span>, the formula multiplies 7 by a fraction less-than 1.0, producing a value in the correct range when floored.</p>
 
-<p>The expression is transformed into a version that is both efficient and readily implementable thusly:</p>
+<p>The program employs a transformed version of the formula:</p>
 
 <pre class="pseudocode">
 = (8 * v - v) / 32
@@ -3457,7 +3457,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>If the randomly chosen Tetrimino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
 
-<p>Next, the program verifies that the Tetrimino spawned into empty space by calling the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
+<p>Next, the program verifies the Tetrimino spawned into empty space by invoking <span class="mono">drawOrTestTetrimino</span>:</p>
 
 <pre class="code" style="counter-increment: step 242;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
