@@ -3054,9 +3054,9 @@
 
 <h2 id="tetris-program">Tetris Program</h2>
 
-<p>The Tetris program is a bare-bones implementation of the game. As randomly-selected Tetriminos fall, the player shifts, rotates, and soft drops them into place, and the game clears lines. There is <span class="nowrap">no score</span>, <span class="nowrap">no statistics</span>, <span class="nowrap">no hard drop</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span></span>, <span class="nowrap">no music</span>, <span class="nowrap">no sound effects</span>, <span class="nowrap">no multiplayer</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span></span>, <span class="nowrap">no title screen</span>, <span class="nowrap">no menus</span>, <span class="nowrap">no demo</span>, <span class="nowrap">no endings</span>, etc. Since the game does not keep track of lines cleared, the level never increases and the drop speed remains constant.</p>
+<p>The Tetris program is a bare-bones implementation of the game. As randomly-selected Tetriminos fall, the player shifts, rotates, and soft drops them into place, and the game clears lines. There is <span class="nowrap">no score</span>, <span class="nowrap">no statistics</span>, <span class="nowrap">no hard drop</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span></span>, <span class="nowrap">no music</span>, <span class="nowrap">no sound effects</span>, <span class="nowrap">no multiplayer</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span></span>, <span class="nowrap">no title screen</span>, <span class="nowrap">no menus</span>, <span class="nowrap">no demo</span>, <span class="nowrap">no endings</span>, etc. The game does not keep track of the number of lines cleared. Consequentially, the level never increases and the drop speed remains constant.</p>
 
-<p>The program begins by defining a set of constants:</p>
+<p>The program is written in the assembly language detailed in the <a href="#tetris-machine-assembly-language">previous section</a>. It begins by defining constants:</p>
 
 <pre class="code">
 <span class="line"><span class="keyword">define</span> <span class="identifier">FALL_SPEED</span> <span class="number">01</span></span>
@@ -3078,13 +3078,13 @@
 <span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
 </pre>
 
-<p><span class="mono">FALL_SPEED</span> is the initial value of the fall timer. On each frame, if the fall timer is not <span class="mono">0</span>, then it is decremented by <span class="mono">1</span>. Otherwise, a gravity drop occurs and the fall timer is reset to <span class="mono">FALL_SPEED</span>. A <span class="mono">FALL_SPEED</span> of <span class="mono">1</span> means a gravity drop occurs every other frame. Since the frame rate is approximately <span class="nowrap">5 frames/sec</span>, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>, a speed roughly equivalent to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. At the start of each frame, the program inspects the fall timer. If it is not zero, the program decrements it by one. Otherwise, the program resets it to <span class="mono">FALL_SPEED</span>, and the program effects a gravity drop. Since the frame rate is approximately <span class="nowrap">5 frames/sec</span>, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. The rate is similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which clears the playfield and transitions to <span class="mono">MODE_PLAY</span>. As its name suggests, that is the mode where the agent interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
+<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which causes the program to clear the playfield and to transition to <span class="mono">MODE_PLAY</span>. As its name suggests, <span class="mono">MODE_PLAY</span> is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
 
 <p>The program declares a single subroutine called <span class="mono">drawOrTestTetrimino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetrimino</span> to paint four playfield cells corresponding to the blocks of a named Tetrimino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetrimino</span> to verify that four playfield cells corresponding to the blocks of a named Tetrimino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the computer does not provide a native call stack, <span class="mono">drawOrTestTetrimino</span> receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. The action constants are the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>. The program overwrites an instruction in <span class="mono">drawOrTestTetrimino</span> with them to alter the subroutine's behavior.</p>
+<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetrimino</span> receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with <span class="nowrap">23 rows</span> and <span class="nowrap">11 columns</span> (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -3121,21 +3121,17 @@
 
 <p><span class="nowrap">Rows 0&ndash;1</span> constitute the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned Tetriminos start out in the vanish zone.</p>
 
-<p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. When <span class="mono">drawOrTestTetrimino</span> scans for empty spaces, they make out-of-bounds cells seem solid.</p>  
+<p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. <span class="nowrap">Row 22</span> acts as the floor. <span class="nowrap">Column 10</span> serves as both the left wall and the right wall since the matrix, like all data regions, is a one-dimensional array, and each of its row wraps into the next.</p>
 
-<p><span class="nowrap">Column 10</span> serves as both the right wall and the left wall. This is because, regardless of how it is formatted, the matrix, like all data regions, is a one-dimensional array. Meaning, each matrix row wraps into the next row. As such, every visible playfield row has a solid cell after its rightmost element and a solid cell before its leftmost element.</p>
+<p>When a Tetrimino locks into the pile, the program scans four rows about the Tetrimino's center for lines. The scan ignores the visible playfield boundaries for performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
 
-<p><span class="nowrap">Row 22</span> acts only as the floor.</p> 
+<p>To clear a line, the program shifts all rows above the line downward. To achieve that, the program overwrites each row with a copy of the preceding row. Since <span class="nowrap">row 0</span> has no preceding row, the program fills it with ten empty cells followed by a solid cell.</p> 
 
-<p>When a Tetrimino locks into the pile, the program scans four rows about the Tetrimino's center for lines. The scan ignores the visible playfield boundaries for reasons of performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
+<p>At the start of a new game, the program resets the playfield to the state in the listing above.</p> 
 
-<p>To clear a line, the program shifts all rows above the line downward. And to achieve that, the program overwrites each row with a copy of the preceding row. Since <span class="nowrap">row 0</span> has no preceding row, the program fills it with ten empty cells followed by a solid cell.</p> 
+<p>The segment directive on <span class="nowrap">line 19</span> is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0000</span>.</p>
 
-<p>At the start of a new game, the program resets the playfield to the initial state seen in the listing above.</p> 
-
-<p>The segment directive on <span class="nowrap">line 19</span> is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0</span>.</p>
-
-<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span> long, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with <span class="nowrap">three bytes</span> to spare. That enables the program to address a cell at <span class="nowrap mono">(row,col)</span> with code equivalent to:</p> 
+<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span>, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with <span class="nowrap">three bytes</span> to spare. That enables the program to address a cell at <span class="nowrap mono">(row,col)</span> with code equivalent to:</p> 
 
 <pre class="pseudocode">
 M = 0;               // page zero
@@ -3147,7 +3143,7 @@ N = 11 * row + col;  // offset within page zero
 
 <p>[ TODO PIC ]</p>
 
-<p>The <span class="nowrap">lower-three</span> bits of each visible playfield byte drives a colored cell per the following mapping.</p>
+<p>Each visible playfield byte's lower-three bits determine the color of each cell per the following mapping.</p>
 
 <table class="borderless">
 <tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
@@ -3170,9 +3166,9 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each of the keyboard keys that control the game, the window writes either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed to an address specific to the key. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each keyboard key that controls the game, the window writes the key's status to a key-specific address, either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
 
-<p>The window transfers the states of the left and right <span class="nowrap">arrow keys</span> in the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>, <span class="mono">leftButton</span> and <span class="mono">rightButton</span> in the code above, respectively. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
+<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>, <span class="mono">leftButton</span> and <span class="mono">rightButton</span> in the code above, respectively. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
@@ -3214,11 +3210,9 @@ N = 11 * row + col;  // offset within page zero
 <span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
-<p>Each row contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
+<p>Each row of the <span class="mono">tetriminos</span> table contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
 
-<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> Tetrimino orientations. However, to simplify access, the table contains <span class="nowrap">four rows</span> for each Tetrimino. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times.</p>
-
-<p>Because the table is aligned with the start of memory page one, the program addresses each element with code equivalent to:</p>
+<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> Tetrimino orientations. But the <span class="mono">tetriminos</span> table contains <span class="nowrap">four rows</span> for every Tetrimino type. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times. This simplifies access. The program addresses each element with code equivalent to:</p>
 
 <pre class="pseudocode">
 M = 1;  // page one
@@ -3226,7 +3220,9 @@ M = 1;  // page one
 N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
 </pre>
 
-<p>The bytes that transport the remaining keyboard key states immediately follow the table:</p>
+<p>The orientation of the falling Tetrimino, <span class="mono">tetriminoRotation</span>, is in the range <span class="mono">[0,3]</span> regardless of the Tetrimino type.</p>
+
+<p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetriminos</span> table.</p>
 
 <pre class="code" style="counter-increment: step 88;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>
@@ -3241,7 +3237,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <p>Here is the full key mapping:</p>
 
 <table class="borderless">
-<tr><th class="borderless">Label</th><th class="borderless">Key</th></tr>
+<tr><th class="borderless">Status Variable</th><th class="borderless">Key</th></tr>
 <tr><td class="mono2">startButton</td><td class="borderless centered">Enter</td></tr>
 <tr><td class="mono2">leftButton</td><td class="borderless centered">&larr;</td></tr>
 <tr><td class="mono2">rightButton</td><td class="borderless centered">&rarr;</td></tr>
@@ -3276,9 +3272,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
 </pre>
 
-<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a request to move it, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
+<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a request to move, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
 
-<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The function uses <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;as a source of entropy dependent on the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
+<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The function uses <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;as a source of entropy derived from the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
 
 <p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves an extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
 
