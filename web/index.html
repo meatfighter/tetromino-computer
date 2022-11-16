@@ -2058,7 +2058,7 @@
 
 <h3 id="sequencer">Sequencer</h3>
 
-<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a> (LFSR), such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> (PRNG) in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a>, such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
 <p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a TMS program equivalent to the single line of pseudocode below.</p>
 
@@ -3078,7 +3078,7 @@
 <span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
 </pre>
 
-<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. At the start of each frame, the program inspects the fall timer. If it is not zero, the program decrements it by one. Otherwise, the program resets it to <span class="mono">FALL_SPEED</span>, and the program effects a gravity drop. Since the frame rate is approximately <span class="nowrap">5 frames/sec</span>, a gravity drop happens about every <span class="nowrap">400 milliseconds</span>. The rate is similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. While generating a frame, the program decrements the <span class="nowrap">fall timer</span> by one if it is nonzero. Otherwise, the program resets the <span class="nowrap">fall timer</span> to <span class="mono">FALL_SPEED</span>, and it executes a gravity drop. Since the frame rate is approximately <span class="nowrap">5 frames/sec</span>, a <span class="mono">FALL_SPEED</span> of <span class="mono">01</span> translates to a gravity drop about every <span class="nowrap">400 milliseconds</span>, a rate similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
 
 <p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which causes the program to clear the playfield and to transition to <span class="mono">MODE_PLAY</span>. As its name suggests, <span class="mono">MODE_PLAY</span> is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
 
@@ -3143,7 +3143,7 @@ N = 11 * row + col;  // offset within page zero
 
 <p>[ TODO PIC ]</p>
 
-<p>Each visible playfield byte's lower-three bits determine the color of each cell per the following mapping.</p>
+<p>The lower-three bits of each visible playfield byte determine the color of each cell per the following mapping.</p>
 
 <table class="borderless">
 <tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
@@ -3166,9 +3166,9 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
 </pre>
 
-<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each keyboard key that controls the game, the window writes the key's status to a key-specific address, either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each keyboard key that controls the game, the window writes the key's status&mdash;either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed&mdash;to a key-specific address. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
 
-<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>, <span class="mono">leftButton</span> and <span class="mono">rightButton</span> in the code above, respectively. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
+<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in <span class="mono">leftButton</span> and <span class="mono">rightButton</span>, respectively, the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
@@ -3272,13 +3272,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
 </pre>
 
-<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a request to move, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
+<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a move request, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
 
-<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The function uses <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;as a source of entropy derived from the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
+<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;influences the randomization function. It provides a source of entropy based on the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
 
-<p>Code comments describe the rest of the variables, though <span class="mono">minY</span> deserves an extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. It is used to speed up line clears by limiting the shifted rows to those containing solid cells. The empty rows above the highest Tetrimino do not need to shift because empty space looks the same shifted or not.</p>
+<p>The code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. The program uses it to improved the performance of clearing lines. Specifically, the program does not shift the empty rows above the highest Tetrimino because empty space looks the same shifted or not.</p>
 
-<p>That completes the data region. The rest of the program is instructions, beginning with <span class="mono">main</span>, the entry point of the application:</p>
+<p>That completes the data region. The rest of the program consists of instructions, beginning with its entry point:</p>
 
 <pre class="code" style="counter-increment: step 116;">
 <span class="line"><span class="label">main:</span> <span class="comment">; ------------------------------------------------------------------------------------------------------</span></span>
@@ -3308,11 +3308,11 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The code signals the window to repaint by writing <span class="mono">01</span> to <span class="mono">drawFrame</span>. It does not wait for <span class="mono">drawFrame</span> to reset because the processor pauses until the window writes <span class="mono">00</span> back to that address.</p>
+<p>The program signals the window to display the current playfield state by writing <span class="mono">01</span> to <span class="mono">drawFrame</span>. It does not wait for the window to write <span class="mono">00</span> back to <span class="mono">drawFrame</span> because the window runs at blistering speed compared to the program.</p>
 
-<p>The code increments the <span class="mono">frameCounter</span> by <span class="mono">1</span>.</p>
+<p>The program increments the <span class="mono">frameCounter</span> by one.</p>
 
-<p>In play mode or clear lines mode, the code jumps to respective handlers. Otherwise, the program is in attract mode. There, it monitors the status of the start button. If released, the program loops back to the entry point. Else, the following code executes.</p>
+<p>In play mode and clear lines mode, the program jumps to respective handlers. Otherwise, the program is in attract mode, where it monitors the Start button's status. If the button is released, the program loops back to the entry point. Else it continues to:</p>
 
 <pre class="code" style="counter-increment: step 142;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span>                <span class="comment">; // Start button pressed</span></span>
@@ -3344,11 +3344,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The code resets <span class="mono">minY</span> to its maximum value, the index of the hidden row beneath the floor.</p> 
-
-<p>The code clears all cells of the playfield in <span class="nowrap">rows 21</span> and below. Subsequently, it solidifies the cells of <span class="nowrap">column 10</span> in the same rows. This restores the playfield to its initial state.</p> 
-
-<p>Next, the first Tetrimino of the game spawns:</p>
+<p>The program resets <span class="mono">minY</span> to the floor index, it clears <span class="nowrap">rows 0&ndash;21</span>, and it resolidifies <span class="nowrap">column 10</span>. Then the program spawns the first Tetrimino of the game:</p>
 
 <pre class="code" style="counter-increment: step 169;">
 <span class="line"><span class="label">spawn:</span></span>
@@ -3369,11 +3365,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
 </pre>
 
-<p>The program finally changes to play mode. It happens here, rather than earlier, because this spawn code also executes at the completion of clear lines mode to resume play.</p>
+<p>The program finally changes to play mode. It happens here, rather than earlier, because this spawn code also executes at the end of clear lines mode to resume play mode.</p>
 
-<p>The code positions and orients the Tetrimino at the spawn point.</p> 
-
-<p>The code resets the <span class="mono">fallTimer</span> to its maximum value to prevent the Tetrimino from gravity dropping immediately after spawning.</p> 
+<p>The program positions and orients the Tetrimino at the spawn point, and it resets the <span class="mono">fallTimer</span> to the maximum value to prevent the Tetrimino from gravity dropping immediately after spawning.</p>
 
 <p>Next, the program randomly chooses the Tetrimino type:</p> 
 
@@ -3435,13 +3429,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STB</span>                     <span class="comment">; tetriminoType = B;</span></span>
 </pre>
 
-<p>The randomization function employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator (PRNG) in <a href="https://meatfighter.com/nintendotetrisai/#Picking_Tetriminos" target="_blank">NES Tetris</a>. As shown below, the next random bit, <span class="mono">nextBit</span>, is generated by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
+<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_Tetriminos" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
 
 <object data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 
-<p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> collectively operate as a <span class="nowrap">16-bit</span> register. It is logical right shifted, during which the lowest bit is lost and the highest bit is set to <span class="mono">nextBit</span>.</p>
+<p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> collectively operate as a <span class="nowrap">16-bit</span> register. The program logical right shifts it, discarding the lowest bit, and <span class="nowrap">shifting-in</span> <span class="mono">nextBit</span>.</p>
 
-<p>The initial high and low seeds are <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same, arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
+<p>The program initializes <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> to <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
 
 <p>The LFSR produces a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the code bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. As explained above, the <span class="mono">frameCounter</span> increments at the beginning of every frame, even during attract mode. This means, the order depends on the number of frames between program startup (or game over) and Start button activation. It is similarly affected by the number of frames between spawns. In other words, the code taps into the inherent randomness of the human agent.</p>
 
