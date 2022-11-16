@@ -3474,9 +3474,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the Tetrimino that failed to spawn</span></span>
 </pre>
 
-<p>Based on the action constant written to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetrimino</span> either paints or examines the four playfield cells corresponding to the blocks of the falling Tetrimino. But, unlike the inputs that describe the falling Tetrimino&mdash;<span class="mono">tetriminoType</span>, <span class="mono">tetriminoRotation</span>, <span class="mono">tetriminoX</span>, and <span class="mono">tetriminoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. Rather, it resolves to the address an instruction inside of <span class="mono">drawOrTestTetrimino</span>. Meaning, writing to <span class="mono">drawOrTest</span> modifies code. </p>
+<p>Based on the action constant stored to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetrimino</span> either paints or examine the four playfield cells corresponding to the blocks of the falling Tetrimino. But unlike the inputs that describe the falling Tetrimino&mdash;<span class="mono">tetriminoType</span>, <span class="mono">tetriminoRotation</span>, <span class="mono">tetriminoX</span>, and <span class="mono">tetriminoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. It is a label that resolves to the address an instruction inside of <span class="mono">drawOrTestTetrimino</span>. When the program &ldquo;assigns&rdquo; <span class="mono">drawOrTest</span>, it modifies its own code. </p>
 
-<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetrimino</span> to set the zero flag iff all four examined cells are empty. If they are, the code jumps the play handler, where button presses manipulate the falling Tetrimino. Otherwise, a top out occurred, in which case, the code switches to attract mode and it jumps to <span class="mono">endFall</span>. There, the Tetrimino is drawn at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then, the program loops back to the beginning, where it waits for the Start button to be pressed.</p>
+<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetrimino</span> to set the zero flag iff all four examined cells are empty. If they are, the program jumps to the play handler below. Otherwise, a top out occurred. In that case, the program switches to attract mode, and it jumps to <span class="mono">endFall</span>. There, the program draws the Tetrimino at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then the program loops back to the beginning, where it waits for player to press the Start button once again.</p>
 
 <pre class="code" style="counter-increment: step 256;">
 <span class="line"><span class="label">playing:</span>                <span class="comment">; // Play handler</span></span>
@@ -3564,15 +3564,15 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = lastX;</span></span>
 </pre>
 
-<p>The handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. The paint value, <span class="mono">CELL_EMPTY</span>, is written to <span class="mono">drawCell+1</span>, the address of an operand of an instruction in <span class="mono">drawOrTestTetrimino</span>. Meaning, as with <span class="mono">drawOrTest</span>, the write modifies code.</p>
+<p>The play handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. In another example of self-modifying code, the handler stores the paint value, <span class="mono">CELL_EMPTY</span>, to <span class="mono">drawCell+1</span>, the address of an instruction operand in <span class="mono">drawOrTestTetrimino</span>.</p>
 
 <p>The handler backs up the orientation and the <span class="nowrap">x-coordinate</span> of the falling Tetrimino.</p>
 
-<p>If the Left button is pressed, the handler decrements the <span class="nowrap">x-coordinate</span> by 1. Otherwise, if the Right button is pressed, the handler increments the <span class="nowrap">x-coordinate</span> by 1.</p>
+<p>If the Left button is pressed, the handler decrements the <span class="nowrap">x-coordinate</span> by one. Otherwise, if the Right button is pressed, the handler increments the <span class="nowrap">x-coordinate</span> by one.</p>
 
-<p>If the Counterclockwise Rotation button is pressed, the handler decrements the orientation by 1, such that 0 wraps to 3. Otherwise, if the Clockwise Rotation button is pressed, the handler increments the orientation by 1, such that 3 wraps to 0.</p>
+<p>If the Counterclockwise Rotation button is pressed, the handler decrements the orientation by one, such that zero wraps to three. Otherwise, if the Clockwise Rotation button is pressed, the handler increments the orientation by one, such that three wraps to zero.</p>
 
-<p>The handler verifies that the manipulated Tetrimino is fully within empty space by calling <span class="mono">drawOrTestTetrimino</span>. If it is not, the original orientation and <span class="nowrap">x-coordinate</span> are restored from the backups.</p>
+<p>The handler verifies the manipulated Tetrimino is fully within empty space by calling <span class="mono">drawOrTestTetrimino</span>. If it is not, the handler restores the original orientation and <span class="nowrap">x-coordinate</span> from the backups.</p>
 
 <p>Next, the handler deals with drops:</p>
 
@@ -3638,13 +3638,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">JMP</span> <span class="identifier">main</span>                <span class="comment">; goto main;</span></span>
 </pre>
 
-<p>If the Down button is pressed, <span class="mono">fallTimer</span> is assigned zero.</p>  
+<p>If the Down button is pressed, the handler assigns <span class="mono">fallTimer</span> zero.</p>  
 
-<p>If <span class="mono">fallTimer</span> is zero, the handler resets it to <span class="mono">FALL_SPEED</span>. Then, the handler drops the Tetrimino by incrementing its <span class="nowrap">y-coordinate</span> by 1. If the dropped Tetrimino is not fully within empty space, per a check by <span class="mono">drawOrTestTetrimino</span>, then the <span class="nowrap">y-coordinate</span> is decremented by 1, restoring its position to where it now locks into the pile. Subsequently, <span class="mono">minY</span> is updated based off the new pile height and the program switches to clear lines mode.</p> 
+<p>If <span class="mono">fallTimer</span> is zero, the handler resets <span class="mono">fallTimer</span> to <span class="mono">FALL_SPEED</span>, and it increments the Tetrimino's <span class="nowrap">y-coordinate</span> by one. If the dropped Tetrimino is not fully within empty space per a check by <span class="mono">drawOrTestTetrimino</span>, the handler decrements the Tetrimino's <span class="nowrap">y-coordinate</span> by one, restoring its position to where it now locks into the pile. Afterwards, the handler updates <span class="mono">minY</span> based off the new pile height, and it switches to clear lines mode.</p> 
 
-<p>After that, the program flows into the code that normally runs when <span class="mono">fallTimer</span> is not zero. It decrements <span class="mono">fallTimer</span> by 1 and it calls <span class="mono">drawOrTestTetrimino</span> to draw the Tetrimino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetriminoType + 1</span>, because 0 represents an empty cell.</p>  
+<p>Then the handler flows into the code that normally runs when <span class="mono">fallTimer</span> is nonzero. It decrements <span class="mono">fallTimer</span> by one, and it calls <span class="mono">drawOrTestTetrimino</span> to draw the Tetrimino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetriminoType + 1</span> because zero represents an empty cell.</p>  
 
-<p>The handler ends by jumping back to the beginning of the program, where, if the Tetrimino locked into the pile, it will invoke the clear lines handler in the listing below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
+<p>Finally, the handler jumps back to the beginning of the program. If the Tetrimino locked into the pile, the program will jump from there to the clear lines handler below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
 
 <pre class="code" style="counter-increment: step 401;">
 <span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
@@ -3707,13 +3707,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The NRS centers the 7 Tetriminos at 19 different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, only rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetriminoY–2</span>, <span class="mono">tetriminoY+1</span><span class="serif"> ]</span></span> need to be checked for lines. The handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
+<p>The NRS centers the seven Tetriminos at nineteen different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetriminoY&minus;2</span>, <span class="mono">tetriminoY+1</span><span class="serif"> ]</span></span> for lines. To that end, the handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
 
-<p><span class="mono">origin</span> is a pointer to the row to be checked. It is initialized to the index of the first element of row <span class="mono">tetriminoY+1</span>. At the end of each iteration, if a line was not found, <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> to reposition it to the next row. However, if a line was found, all the rows above it shift downward. In that case, <span class="mono">origin</span> is not decremented because the row that shifted into the cleared line is the next row to be checked.</p> 
+<p><span class="mono">origin</span> is a pointer to the row to be checked. The handler initializes it to the index of row <span class="mono">tetriminoY+1</span>'s first element. At the end of each iteration, if handler did not find a line, it moves <span class="mono">origin</span> to the next row by decrementing it by <span class="mono">PLAYFIELD_WIDTH</span>. However, if the handler found a line, it shifts all the rows above the line downward. In that case, the handler does not decrement <span class="mono">origin</span> because the row that shifted into the cleared line is the next row to be checked.</p> 
 
-<p>As previously mentioned, as an optimization, the empty rows above the pile are not shifted because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is derived from <span class="mono">minY</span>, the <span class="nowrap">y-coordinate</span> of the highest Tetrimino on the pile. It is either row <span class="mono">minY–3</span> or 0, whichever is larger. In another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the last element of that row.</p>
+<p>As previously mentioned, the handler does not shift the empty rows above the pile because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is either <span class="nowrap">row <span class="mono">minY&minus;3</span></span> or <span class="mono">0</span>, whichever is larger. In yet another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the last element of that row.</p>
 
-<p>Lines 434&ndash;459 comprise an inner-loop that examines the cells of a row, including the element in <span class="nowrap">column 10</span>. If an empty cell is found, it breaks out of the loop and <span class="mono">origin</span> is decremented as described above. If no empty cells are found, then its a line and the following code clears it.</p>
+<p>In the inner loop on <span class="nowrap">lines 434&ndash;459</span>, the handler examines a row, including <span class="nowrap">column 10</span>. If the handler detects an empty cell, it breaks out of the loop, and it decrements <span class="mono">origin</span> as described above. If it does not detect any empty cells, then the handler discovered a line, and it runs the following code to clear the line.</p>
 
 <pre class="code" style="counter-increment: step 460;">
 <span class="line"><span class="label">copyLines:</span>              <span class="comment">; // Clear line by copying down the lines above it</span></span>
@@ -3775,20 +3775,22 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The program enters the code above with <span class="mono">N</span> assigned to the index of the last element of the line. The inner-loop at 461&ndash;483 copies the nonempty rows above the line down by one row. It is equivalent to:</p>
+<p>At the start of this snippet, <span class="mono">N</span> contains the index of the last element of the line to be cleared.</p>
 
-<pre class="pseudocode">
-M = 0;
-do {
-  *MN = *(MN - PLAYFIELD_WIDTH);
-} while (--N != *(minN+1));
+<p>In the inner loop on <span class="nowrap">lines 461&ndash;483</span>, the handler copies the nonempty rows above the line down by one row. The loop is equivalent to the following pseudocode.</p>
+
+<pre class="pseudocode2">
+<span class="line">M = 0;</span>
+<span class="line">do {</span>
+<span class="line">  *MN = *(MN - PLAYFIELD_WIDTH);</span>
+<span class="line">} while (--N != *(minN+1));</span>
 </pre>
 
-<p>The inner-loop at 484&ndash;494 resets <span class="nowrap">row 0</span> to all empty cells, except for <span class="nowrap">column 10</span>. It is necessary for the rare case that a Tetrimino locks into the vanish zone.</p>
+<p>In the inner loop on <span class="nowrap">lines 484&ndash;494</span>, the handler fills <span class="nowrap">row 0</span> with empty cells, except for <span class="nowrap">column 10</span>. The loop is necessary for the rare case that a Tetrimino locks into the vanish zone.</p>
 
-<p>The code increments <span class="mono">minY</span> by 1 because clearing a line reduces the height of the pile by that amount.</p> 
+<p>The handler increments <span class="mono">minY</span> by one because clearing a line reduces the height of the pile by that amount.</p> 
 
-<p>Finally, the end of the outer-loop is reached where <span class="mono">i</span> is decremented by 1 and <span class="mono">origin</span> is decremented by <span class="mono">PLAYFIELD_WIDTH</span> iff a line was not found.</p>  
+<p>At the end of the outer loop, the handler decrements <span class="mono">i</span> by one, and if it did not find a line, it decrements <span class="mono">origin</span> by <span class="mono">PLAYFIELD_WIDTH</span>.</p>
 
 <p>The only remaining code is the definition of the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
 
@@ -3877,15 +3879,15 @@ do {
 <span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
 </pre>
 
-<p>The code on lines 530&ndash;559 prepares three variables. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to 3 to make the loop on lines 561&ndash;598 iterate over the four Tetrimino blocks.</p> 
+<p>The program prepares three variables on <span class="nowrap">lines 530&ndash;559</span>. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to three to make the loop on <span class="nowrap">lines 561&ndash;598</span> iterate over the four Tetrimino blocks.</p> 
 
-<p>Writing <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span> changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. The zero flag is guaranteed to be reset when the program arrives at that line due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>; that <span class="mono">ADD</span> cannot set the zero flag because it is not possible to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> runs lines 573&ndash;577 and <span class="mono">ACTION_DRAW</span> runs lines 580&ndash;581.</p> 
+<p>When the program stores <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span>, it changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. When the program arrives at that line, the zero flag is reset due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>. That <span class="mono">ADD</span> cannot set the zero flag because the player cannot to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> directs the program to <span class="nowrap">lines 573&ndash;577</span>, and <span class="mono">ACTION_DRAW</span> directs the program to <span class="nowrap">lines 580&ndash;581</span>.</p> 
 
-<p>Both pathways access the playfield element at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. The <span class="mono">ACTION_TEST</span> code reads from that location. If the read value is nonzero, the subroutine returns with the zero flag reset. If all read values are zero, the subroutine returns with the zero flag set, thanks to <span class="nowrap">line 585</span>.</p>
+<p>In both pathways, the program accesses the playfield element at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> code, the program reads from that location. If the read value is nonzero, the program returns from the subroutine with the zero flag reset. If all read values are zero, the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>.</p>
 
-<p>The <span class="mono">ACTION_DRAW</span> code writes the value at <span class="mono">drawCell+1</span> to that location. Self-modifying code is used in both instances because the alternative&mdash;moving values in and out of memory&mdash;imposes a performance cost and introduces complexity.</p>
+<p>In the <span class="mono">ACTION_DRAW</span> code, the program writes the value at <span class="mono">drawCell+1</span> to that location. The program employs self-modifying code in both instances because the alternative&mdash;moving values in and out of memory&mdash;imposes a performance cost and introduces complexity.</p>
 
-<p>Each iteration decrements <span class="mono">i</span> by 1 and it increments <span class="mono">tetriminosIndex</span> by 1.</p>
+<p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetriminosIndex</span> by one.</p>
 
 <h2 id="tetris-machine-simulation">Tetris Machine Simulation</h2>
 
