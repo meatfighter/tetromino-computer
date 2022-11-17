@@ -1848,9 +1848,9 @@
 
 <p>The computing machines of the next section employ this abstraction to satisfy their data storage needs. The text describes the array as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward infinity.</p>
 
-<h1 id="computing-machines">Computing Machines</h1>
+<h1 id="abstract-computing-machines">Abstract Computing Machines</h1>
 
-<p>This section explores several models of computation, with a particular focus on a machine that runs Tetris.</p>
+<p>This section explores several models of computation.</p>
 
 <h2 id="function-emulator">Function Emulator</h2>
 
@@ -2259,7 +2259,11 @@
 
 <p>If <span class="mono">T<span class="sub3">m</span></span> along with data on the tape emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if the information encoded on the pile's surface evolves into a particular state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
-<h2 id="tetris-machine-overview">Tetris Machine Overview</h2>
+<h1>Tetris Machine</h1>
+
+<p>This section provides a deep dive into the machine that runs Tetris.</p>
+
+<h2 id="tetris-machine-overview">Overview</h2>
 
 <p>The machine that runs Tetris is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> computer, supporting up to <span class="nowrap">64 KiB</span> of RAM. Like all the computing devices presented thus far, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
@@ -2293,7 +2297,7 @@
 
 <p><span class="mono">decodeExecute</span> operates exclusively on the state register. It defers execution of load and store instructions to <span class="mono">fetchLoadStore</span> since it does not engage RAM.</p>
 
-<h2 id="tetris-machine-microcode">Tetris Machine Microcode</h2>
+<h2 id="tetris-machine-microcode">Microcode</h2>
 
 <p>This section presents the <span class="nowrap">TMS programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
 
@@ -2772,7 +2776,7 @@
 
 <p>The Tetris machine alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
 
-<h2 id="tetris-machine-assembly-language">Tetris Machine Assembly Language</h2>
+<h2 id="tetris-machine-assembly-language">Assembly Language</h2>
 
 <p>This section details an <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> for the Tetris machine. The language is case-insensitive. However, in this text, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">mnemonics</a> appear uppercase while everything else appears <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>.</p>
 
@@ -3883,19 +3887,22 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>When the program stores <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span>, it changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. When the program arrives at that line, the zero flag is reset due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>. That <span class="mono">ADD</span> cannot set the zero flag because the player cannot to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> directs the program to <span class="nowrap">lines 573&ndash;577</span>, and <span class="mono">ACTION_DRAW</span> directs the program to <span class="nowrap">lines 580&ndash;581</span>.</p> 
 
-<p>In both pathways, the program accesses the playfield element at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> code, the program reads from that location. If the read value is nonzero, the program returns from the subroutine with the zero flag reset. If all read values are zero, the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>.</p>
+<p>In both pathways, the program accesses the playfield byte at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> pathway, the program reads from that location. If a read byte is a solid cell (nonzero), the program returns from the subroutine with the zero flag reset. Otherwise, if all read bytes are empty cells (all zeros), the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>. In the <span class="mono">ACTION_DRAW</span> pathway, the program writes the value at <span class="mono">drawCell+1</span> to that location.</p>
 
-<p>In the <span class="mono">ACTION_DRAW</span> code, the program writes the value at <span class="mono">drawCell+1</span> to that location. The program employs self-modifying code in both instances because the alternative&mdash;moving values in and out of memory&mdash;imposes a performance cost and introduces complexity.</p>
+<p>The subroutine employs self-modifying code twice because the alternative&mdash;moving values in and out of memory&mdash;imposes complexity and a performance cost.</p>
 
 <p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetriminosIndex</span> by one.</p>
 
-<h2 id="tetris-machine-simulation">Tetris Machine Simulation</h2>
+<h2 id="tetris-machine-simulation">Simulator</h2>
 
-<p>The assembled Tetris program&mdash;a binary of length 1,019 bytes&mdash;represents the starting state of the playfield. Or, more specifically, it is the configuration of the <span class="nowrap">bottom-two</span> rows of an otherwise empty workspace with:</p>
+<p>An assembler converts the Tetris program to machine code, producing a binary of length <span class="nowrap">1,019 bytes</span>. A process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">TMS programs</span> based on the binary's length.</p> 
 
-<p>1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</p>
-  
-<p>A process generates a pair of TMSs for the downward and upward cycles of the machine based on that size.</p>
+<p>A simulator loads the binary, the generated and hand coded <span class="nowrap">TMS programs</span> that contain the memory manipulating microcode, and the <span class="nowrap">TS programs</span> that define the functions and the combinational logic components. It encodes the binary into a sequence of horizontal <span class="nowrap">I-Tetriminos</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-Tetriminos</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) on the floor of an otherwise empty playfield, evenly spaced, <span class="nowrap">ten columns</span> apart, starting at <span class="nowrap">column 0</span>, and spanning rightward for:</p> 
+
+<p><span class="nowrap">1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</span></p>
+
+
+
 
 <p>To bring the game to life, a simulator loads the assembled Tetris program, the TSs for all components, and the pair of TMSs. It allocates and initialized a playfield with the Tetris program. It pops open a window to display the game’s graphics and to listen for button presses. Then, it enters an infinite loop, where it actualizes the TMSs, alternating between the downward and upward cycles of the machine.</p>
 
