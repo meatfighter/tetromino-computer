@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-15" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-18" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-15"/>
+<meta name="date" content="2022-11-18"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -748,37 +748,35 @@
 
 <p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
 
-<h2 id="building-blocks">Composition</h2>
+<h2 id="functions-overview">Overview</h2>
 
-<p>Function surfaces are   Two functions are <a href="https://en.wikipedia.org/wiki/Function_composition" target="_blank">composed</a> by building one on top of the other. Upon contact, the output of one function becomes the input of other. To ensure compatibility, functions are designed with the following rules.</p>
+<p>A function, <span class="math">f</span>, is a structure with a rectangular footprint whose bottom edge consists a row of input nodes that stores an input value, <span class="math">V</span>, and whose top edge consists of a row of output nodes that stores an output value, <span class="math">f(V)</span>:</p>
 
-<ul>
-  <li>The bottom and top surfaces of the function consist of the input and output nodes are arranged in a row, respectively.</li>
+<p>[ TODO PIC ]</p>
 
-  
-<li>The number of input nodes equals the number of output nodes. It varies per function, but the number is either 8, 16, or 24.</li>
-<li>The input and outputs are a row of single-column nodes, evenly spaced, ten columns apart. The spacing provides sufficient room for bits to cross or to combine. And a round, base-10 number simplifies measurements during design.</li>
-<li>The input and output nodes line up. That is, the input node for the <span class="math">i<span class="sup">th</span></span> bit of the input value is in the same column as the output node for the <span class="math">i<span class="sup">th</span></span> bit of the output value.</li> 
-<li>The number of rows between the inputs and the outputs is always the same. Meaning, functions have a uniform height.</li>
-</ul>
+<p>The composition of two functions, <span class="math">f(g(V))</span>, comprises <span class="math">f</span> on top of <span class="math">g</span> on top of <span class="math">V</span>, where <span class="math">g</span>’s output nodes serve as <span class="math">f</span>’s input nodes:</p>
 
-<h2 id="arrays">Arrays</h2>
+<p>[ TODO PIC ]</p>
 
-<p>Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Functions employ a standard interface: a row of nodes, evenly spaced, ten columns apart. That interval provides sufficient room for bits to cross or to combine. And a round, <span class="nowrap">base-10</span> number simplifies measurements during design.</p> 
+
+<p>A function’s input and output values have the same <span class="nowrap">bit width</span> and their bits line up. That is, the <span class="math">i<span class="sup">th</span></span> input node shares a common column with the <span class="math">i<span class="sup">th</span></span> output node.</p>  
+
+<p>The Tetris machine utilizes 8-, 16-, and </span class="nowrap">24-bit</span> functions. Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 652px">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top right green">B<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">3-byte</span> array, <span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">3-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span></span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top green">B<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">23</span></td><td class="bottom blue">V<span class="sub">22</span></td><td class="bottom blue">V<span class="sub">21</span></td><td class="bottom blue">V<span class="sub">20</span></td><td class="bottom blue">V<span class="sub">19</span></td><td class="bottom blue">V<span class="sub">18</span></td><td class="bottom blue">V<span class="sub">17</span></td><td class="bottom blue">V<span class="sub">16</span></td><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>One <span class="nowrap">24-bit</span> function interprets the input value, <span class="math">V</span>, as a <span class="nowrap">two-element</span> array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
+<p>One <span class="nowrap">24-bit</span> function interprets the input value, <span class="math">V</span>, as a <span class="nowrap">two-element</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span></span>, where <span class="math">W</span> is a word composed of the high and middle bytes of <span class="math">V</span>, and <span class="math">C</span> is the low byte of <span class="math">V</span>:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top cyan">W<span class="sub">15</span></td><td class="top cyan">W<span class="sub">14</span></td><td class="top cyan">W<span class="cyan">13</span></td><td class="top cyan">W<span class="sub">12</span></td><td class="top cyan">W<span class="sub">11</span></td><td class="top cyan">W<span class="sub">10</span></td><td class="top cyan">W<span class="sub">9</span></td><td class="top cyan">W<span class="sub">8</span></td><td class="top cyan">W<span class="sub">7</span></td><td class="top cyan">W<span class="sub">6</span></td><td class="top cyan">W<span class="sub">5</span></td><td class="top cyan">W<span class="sub">4</span></td><td class="top cyan">W<span class="sub">3</span></td><td class="top cyan">W<span class="sub">2</span></td><td class="top cyan">W<span class="sub">1</span></td><td class="top cyan">W<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
@@ -786,6 +784,8 @@
 </table>
 
 <p>A function that accepts an array will return an array of identical dimension.</p>
+
+<p>Before the Tetris machine puts them to use, a process pads functions with buffers, extending them to a <span class="term">uniform height</span>. The padded functions are homogeneously tall, rectangularly-shaped structures with a base that spans either 8, 16, or <span class="nowrap">24 nodes</span>. With only three sizes, the machine readily arranges them like interchangeable building blocks.</p>
 
 <h2 id="identity">Identity</h2>
 
@@ -796,6 +796,8 @@
 <p>The image below depicts an <span class="nowrap">8-bit</span> identity function of an arbitrary height.</p>
 
 <object data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
+
+<p>[ TODO: MARGIN ]</p>
 
 <h2 id="constant">Constant</h2>
 
@@ -1523,10 +1525,6 @@
 <p>The Tetris realization follows.</p>
 
 <object data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
-
-<h2 id="uniform-height">Uniform Height</h2>
-
-<p>Subtract is the tallest function, at least as the functions have been portrayed thus far. In reality, functions are padded with buffers that extends them to a common height. As such, every functions fits in a rectangle with a base that covers either 8, 16, or 24 bits, and a height that matches the subtract function. With only those three possible dimensions, functions fit together like interchangeable, building blocks that process information.</p>
 
 <h2 id="function-catalog">Function Catalog</h2>
 
