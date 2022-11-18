@@ -99,25 +99,27 @@ public class SvgGenerator {
                 (svgWidth != viewBoxWidth || svgHeight != viewBoxHeight) 
                         ? String.format(" viewBox=\"0 0 %s %s\"", toString(viewBoxWidth), toString(viewBoxHeight)) 
                         : "");
-        out.println("    <defs>");
-        for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
-            for (final TetriminoPath path : paths) {
-                final Tetrimino tetrimino = path.getTetrimino();
-                final PathPoint[] points = path.getPoints();
-                out.format("        <polygon id=\"%s\" points=\"", tetrimino.getName());
-                for (int i = 0; i < points.length; ++i) {
-                    final PathPoint p = points[i];
-                    if (i != 0) {
-                        out.print(" ");
+        if (renderTetriminos) {
+            out.println("    <defs>");
+            for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
+                for (final TetriminoPath path : paths) {
+                    final Tetrimino tetrimino = path.getTetrimino();
+                    final PathPoint[] points = path.getPoints();
+                    out.format("        <polygon id=\"%s\" points=\"", tetrimino.getName());
+                    for (int i = 0; i < points.length; ++i) {
+                        final PathPoint p = points[i];
+                        if (i != 0) {
+                            out.print(" ");
+                        }
+                        final double x = cellSize * (p.getX() - 3.5) - (p.isRight() ? 1 : 0);
+                        final double y = cellSize * (p.getY() - 3.5) - (p.isBottom() ? 1 : 0);
+                        out.format("%s,%s", toString(x), toString(y));
                     }
-                    final double x = cellSize * (p.getX() - 3.5) - (p.isRight() ? 1 : 0);
-                    final double y = cellSize * (p.getY() - 3.5) - (p.isBottom() ? 1 : 0);
-                    out.format("%s,%s", toString(x), toString(y));
+                    out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
                 }
-                out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
             }
+            out.println("    </defs>");
         }
-        out.println("    </defs>");        
         
         double offsetX = margin;
         for (int q = 0; q < structs.length; ++q) {

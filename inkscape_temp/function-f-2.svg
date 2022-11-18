@@ -1,0 +1,1564 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<?xml-stylesheet type="text/css" href="svg.css"?>-->
+
+<svg
+   width="5491"
+   height="5751"
+   version="1.1"
+   id="svg41794"
+   sodipodi:docname="function-f-2.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs41798">
+    <marker
+       style="overflow:visible;"
+       id="marker47908"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6) rotate(180) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path47906" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker47898"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path47896" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6) rotate(180) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path47593" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path47587" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker47908-8"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path47906-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker47908-84"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(-0.6)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.625;stroke-linejoin:round"
+         id="path47906-5" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="namedview41796"
+     pagecolor="#2b2b2b"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.56841046"
+     inkscape:cx="1074.0478"
+     inkscape:cy="719.55044"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg41794" />
+  <style
+     id="style41434">
+svg {
+    background-color: #2B2B2B;
+}
+
+text.math {
+    font-family: 'Bentham', serif;
+    fill: #FFFFF0;
+}
+
+text.braces {    
+    font-family: 'Work Sans', sans-serif;
+    fill: #FFFFF0;
+}
+
+text.component {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.axes {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.terminals {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.label {
+    font-family: 'Roboto Mono', monospace;
+    fill: #FFFFF0;
+}
+
+text.descriptions {
+    font-family: 'Open Sans', monospace;
+    fill: #FFFFF0;
+}
+
+rect.component {
+    opacity: 0.5;
+    fill: #000000;
+    stroke: #000000;  
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-fill {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-stroke {
+    fill: none;
+    stroke: #B2B2A8;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid {
+    stroke: #555555;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid-axis {
+    stroke: #A9B7C6;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+circle.grid-center {
+    fill: #FFFFF0;
+    stroke: none;
+}
+
+polygon.t {
+    fill: #BA08FF;
+    stroke: #8D00D3;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.j {
+    fill: #0072FF;
+    stroke: #004ED3;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.z {
+    fill: #FF113C;
+    stroke: #C9001A;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.o {
+    fill: #FFDE00;
+    stroke: #AD9600;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.s {
+    fill: #68FF06;
+    stroke: #00B100;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.l {
+    fill: #FF7308;
+    stroke: #C03F00;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.i {
+    fill: #04E6FF;
+    stroke: #00A0B7;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.arrow {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 3.5; 
+    stroke-linecap: square;
+}
+
+path.arrowhead {
+    fill: #FFFFF0;
+    stroke: none;
+}
+
+text.array {
+    font-family: 'Source Code Pro', monospace;
+    fill: #000000;
+    font-size: 19px;
+}
+
+line.array {
+    stroke: #000000;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.array-register {
+    fill: #CEFFCE;
+    stroke: none;
+}
+
+rect.array-tape {
+    fill: #FFCECE;
+    stroke: none;
+}
+</style>
+  <g
+     id="g47092"
+     transform="translate(400,500)">
+    <line
+       x1="15.5"
+       y1="35.5"
+       x2="1475.5"
+       y2="35.5"
+       class="grid"
+       id="line41436" />
+    <line
+       x1="15.5"
+       y1="55.5"
+       x2="1475.5"
+       y2="55.5"
+       class="grid"
+       id="line41438" />
+    <line
+       x1="15.5"
+       y1="75.5"
+       x2="1475.5"
+       y2="75.5"
+       class="grid"
+       id="line41440" />
+    <line
+       x1="15.5"
+       y1="95.5"
+       x2="1475.5"
+       y2="95.5"
+       class="grid"
+       id="line41442" />
+    <line
+       x1="15.5"
+       y1="115.5"
+       x2="1475.5"
+       y2="115.5"
+       class="grid"
+       id="line41444" />
+    <line
+       x1="15.5"
+       y1="135.5"
+       x2="1475.5"
+       y2="135.5"
+       class="grid"
+       id="line41446" />
+    <line
+       x1="15.5"
+       y1="155.5"
+       x2="1475.5"
+       y2="155.5"
+       class="grid"
+       id="line41448" />
+    <line
+       x1="15.5"
+       y1="175.5"
+       x2="1475.5"
+       y2="175.5"
+       class="grid"
+       id="line41450" />
+    <line
+       x1="15.5"
+       y1="195.5"
+       x2="1475.5"
+       y2="195.5"
+       class="grid"
+       id="line41452" />
+    <line
+       x1="15.5"
+       y1="215.5"
+       x2="1475.5"
+       y2="215.5"
+       class="grid"
+       id="line41454" />
+    <line
+       x1="15.5"
+       y1="235.5"
+       x2="1475.5"
+       y2="235.5"
+       class="grid"
+       id="line41456" />
+    <line
+       x1="15.5"
+       y1="255.5"
+       x2="1475.5"
+       y2="255.5"
+       class="grid"
+       id="line41458" />
+    <line
+       x1="15.5"
+       y1="275.5"
+       x2="1475.5"
+       y2="275.5"
+       class="grid"
+       id="line41460" />
+    <line
+       x1="15.5"
+       y1="295.5"
+       x2="1475.5"
+       y2="295.5"
+       class="grid"
+       id="line41462" />
+    <line
+       x1="15.5"
+       y1="315.5"
+       x2="1475.5"
+       y2="315.5"
+       class="grid"
+       id="line41464" />
+    <line
+       x1="15.5"
+       y1="335.5"
+       x2="1475.5"
+       y2="335.5"
+       class="grid"
+       id="line41466" />
+    <line
+       x1="15.5"
+       y1="355.5"
+       x2="1475.5"
+       y2="355.5"
+       class="grid"
+       id="line41468" />
+    <line
+       x1="15.5"
+       y1="375.5"
+       x2="1475.5"
+       y2="375.5"
+       class="grid"
+       id="line41470" />
+    <line
+       x1="15.5"
+       y1="395.5"
+       x2="1475.5"
+       y2="395.5"
+       class="grid"
+       id="line41472" />
+    <line
+       x1="15.5"
+       y1="415.5"
+       x2="1475.5"
+       y2="415.5"
+       class="grid"
+       id="line41474" />
+    <line
+       x1="15.5"
+       y1="435.5"
+       x2="1475.5"
+       y2="435.5"
+       class="grid"
+       id="line41476" />
+    <line
+       x1="15.5"
+       y1="455.5"
+       x2="1475.5"
+       y2="455.5"
+       class="grid"
+       id="line41478" />
+    <line
+       x1="15.5"
+       y1="475.5"
+       x2="1475.5"
+       y2="475.5"
+       class="grid"
+       id="line41480" />
+    <line
+       x1="15.5"
+       y1="495.5"
+       x2="1475.5"
+       y2="495.5"
+       class="grid"
+       id="line41482" />
+    <line
+       x1="15.5"
+       y1="515.5"
+       x2="1475.5"
+       y2="515.5"
+       class="grid"
+       id="line41484" />
+    <line
+       x1="15.5"
+       y1="535.5"
+       x2="1475.5"
+       y2="535.5"
+       class="grid"
+       id="line41486" />
+    <line
+       x1="15.5"
+       y1="555.5"
+       x2="1475.5"
+       y2="555.5"
+       class="grid"
+       id="line41488" />
+    <line
+       x1="15.5"
+       y1="575.5"
+       x2="1475.5"
+       y2="575.5"
+       class="grid"
+       id="line41490" />
+    <line
+       x1="15.5"
+       y1="595.5"
+       x2="1475.5"
+       y2="595.5"
+       class="grid"
+       id="line41492" />
+    <line
+       x1="15.5"
+       y1="615.5"
+       x2="1475.5"
+       y2="615.5"
+       class="grid"
+       id="line41494" />
+    <line
+       x1="15.5"
+       y1="635.5"
+       x2="1475.5"
+       y2="635.5"
+       class="grid"
+       id="line41496" />
+    <line
+       x1="15.5"
+       y1="655.5"
+       x2="1475.5"
+       y2="655.5"
+       class="grid"
+       id="line41498" />
+    <line
+       x1="15.5"
+       y1="675.5"
+       x2="1475.5"
+       y2="675.5"
+       class="grid"
+       id="line41500" />
+    <line
+       x1="15.5"
+       y1="695.5"
+       x2="1475.5"
+       y2="695.5"
+       class="grid"
+       id="line41502" />
+    <line
+       x1="15.5"
+       y1="715.5"
+       x2="1475.5"
+       y2="715.5"
+       class="grid"
+       id="line41504" />
+    <line
+       x1="15.5"
+       y1="36.5"
+       x2="15.5"
+       y2="714.5"
+       class="grid"
+       id="line41506" />
+    <line
+       x1="35.5"
+       y1="36.5"
+       x2="35.5"
+       y2="714.5"
+       class="grid"
+       id="line41508" />
+    <line
+       x1="55.5"
+       y1="36.5"
+       x2="55.5"
+       y2="714.5"
+       class="grid"
+       id="line41510" />
+    <line
+       x1="75.5"
+       y1="36.5"
+       x2="75.5"
+       y2="714.5"
+       class="grid"
+       id="line41512" />
+    <line
+       x1="95.5"
+       y1="36.5"
+       x2="95.5"
+       y2="714.5"
+       class="grid"
+       id="line41514" />
+    <line
+       x1="115.5"
+       y1="36.5"
+       x2="115.5"
+       y2="714.5"
+       class="grid"
+       id="line41516" />
+    <line
+       x1="135.5"
+       y1="36.5"
+       x2="135.5"
+       y2="714.5"
+       class="grid"
+       id="line41518" />
+    <line
+       x1="155.5"
+       y1="36.5"
+       x2="155.5"
+       y2="714.5"
+       class="grid"
+       id="line41520" />
+    <line
+       x1="175.5"
+       y1="36.5"
+       x2="175.5"
+       y2="714.5"
+       class="grid"
+       id="line41522" />
+    <line
+       x1="195.5"
+       y1="36.5"
+       x2="195.5"
+       y2="714.5"
+       class="grid"
+       id="line41524" />
+    <line
+       x1="215.5"
+       y1="36.5"
+       x2="215.5"
+       y2="714.5"
+       class="grid"
+       id="line41526" />
+    <line
+       x1="235.5"
+       y1="36.5"
+       x2="235.5"
+       y2="714.5"
+       class="grid"
+       id="line41528" />
+    <line
+       x1="255.5"
+       y1="36.5"
+       x2="255.5"
+       y2="714.5"
+       class="grid"
+       id="line41530" />
+    <line
+       x1="275.5"
+       y1="36.5"
+       x2="275.5"
+       y2="714.5"
+       class="grid"
+       id="line41532" />
+    <line
+       x1="295.5"
+       y1="36.5"
+       x2="295.5"
+       y2="714.5"
+       class="grid"
+       id="line41534" />
+    <line
+       x1="315.5"
+       y1="36.5"
+       x2="315.5"
+       y2="714.5"
+       class="grid"
+       id="line41536" />
+    <line
+       x1="335.5"
+       y1="36.5"
+       x2="335.5"
+       y2="714.5"
+       class="grid"
+       id="line41538" />
+    <line
+       x1="355.5"
+       y1="36.5"
+       x2="355.5"
+       y2="714.5"
+       class="grid"
+       id="line41540" />
+    <line
+       x1="375.5"
+       y1="36.5"
+       x2="375.5"
+       y2="714.5"
+       class="grid"
+       id="line41542" />
+    <line
+       x1="395.5"
+       y1="36.5"
+       x2="395.5"
+       y2="714.5"
+       class="grid"
+       id="line41544" />
+    <line
+       x1="415.5"
+       y1="36.5"
+       x2="415.5"
+       y2="714.5"
+       class="grid"
+       id="line41546" />
+    <line
+       x1="435.5"
+       y1="36.5"
+       x2="435.5"
+       y2="714.5"
+       class="grid"
+       id="line41548" />
+    <line
+       x1="455.5"
+       y1="36.5"
+       x2="455.5"
+       y2="714.5"
+       class="grid"
+       id="line41550" />
+    <line
+       x1="475.5"
+       y1="36.5"
+       x2="475.5"
+       y2="714.5"
+       class="grid"
+       id="line41552" />
+    <line
+       x1="495.5"
+       y1="36.5"
+       x2="495.5"
+       y2="714.5"
+       class="grid"
+       id="line41554" />
+    <line
+       x1="515.5"
+       y1="36.5"
+       x2="515.5"
+       y2="714.5"
+       class="grid"
+       id="line41556" />
+    <line
+       x1="535.5"
+       y1="36.5"
+       x2="535.5"
+       y2="714.5"
+       class="grid"
+       id="line41558" />
+    <line
+       x1="555.5"
+       y1="36.5"
+       x2="555.5"
+       y2="714.5"
+       class="grid"
+       id="line41560" />
+    <line
+       x1="575.5"
+       y1="36.5"
+       x2="575.5"
+       y2="714.5"
+       class="grid"
+       id="line41562" />
+    <line
+       x1="595.5"
+       y1="36.5"
+       x2="595.5"
+       y2="714.5"
+       class="grid"
+       id="line41564" />
+    <line
+       x1="615.5"
+       y1="36.5"
+       x2="615.5"
+       y2="714.5"
+       class="grid"
+       id="line41566" />
+    <line
+       x1="635.5"
+       y1="36.5"
+       x2="635.5"
+       y2="714.5"
+       class="grid"
+       id="line41568" />
+    <line
+       x1="655.5"
+       y1="36.5"
+       x2="655.5"
+       y2="714.5"
+       class="grid"
+       id="line41570" />
+    <line
+       x1="675.5"
+       y1="36.5"
+       x2="675.5"
+       y2="714.5"
+       class="grid"
+       id="line41572" />
+    <line
+       x1="695.5"
+       y1="36.5"
+       x2="695.5"
+       y2="714.5"
+       class="grid"
+       id="line41574" />
+    <line
+       x1="715.5"
+       y1="36.5"
+       x2="715.5"
+       y2="714.5"
+       class="grid"
+       id="line41576" />
+    <line
+       x1="735.5"
+       y1="36.5"
+       x2="735.5"
+       y2="714.5"
+       class="grid"
+       id="line41578" />
+    <line
+       x1="755.5"
+       y1="36.5"
+       x2="755.5"
+       y2="714.5"
+       class="grid"
+       id="line41580" />
+    <line
+       x1="775.5"
+       y1="36.5"
+       x2="775.5"
+       y2="714.5"
+       class="grid"
+       id="line41582" />
+    <line
+       x1="795.5"
+       y1="36.5"
+       x2="795.5"
+       y2="714.5"
+       class="grid"
+       id="line41584" />
+    <line
+       x1="815.5"
+       y1="36.5"
+       x2="815.5"
+       y2="714.5"
+       class="grid"
+       id="line41586" />
+    <line
+       x1="835.5"
+       y1="36.5"
+       x2="835.5"
+       y2="714.5"
+       class="grid"
+       id="line41588" />
+    <line
+       x1="855.5"
+       y1="36.5"
+       x2="855.5"
+       y2="714.5"
+       class="grid"
+       id="line41590" />
+    <line
+       x1="875.5"
+       y1="36.5"
+       x2="875.5"
+       y2="714.5"
+       class="grid"
+       id="line41592" />
+    <line
+       x1="895.5"
+       y1="36.5"
+       x2="895.5"
+       y2="714.5"
+       class="grid"
+       id="line41594" />
+    <line
+       x1="915.5"
+       y1="36.5"
+       x2="915.5"
+       y2="714.5"
+       class="grid"
+       id="line41596" />
+    <line
+       x1="935.5"
+       y1="36.5"
+       x2="935.5"
+       y2="714.5"
+       class="grid"
+       id="line41598" />
+    <line
+       x1="955.5"
+       y1="36.5"
+       x2="955.5"
+       y2="714.5"
+       class="grid"
+       id="line41600" />
+    <line
+       x1="975.5"
+       y1="36.5"
+       x2="975.5"
+       y2="714.5"
+       class="grid"
+       id="line41602" />
+    <line
+       x1="995.5"
+       y1="36.5"
+       x2="995.5"
+       y2="714.5"
+       class="grid"
+       id="line41604" />
+    <line
+       x1="1015.5"
+       y1="36.5"
+       x2="1015.5"
+       y2="714.5"
+       class="grid"
+       id="line41606" />
+    <line
+       x1="1035.5"
+       y1="36.5"
+       x2="1035.5"
+       y2="714.5"
+       class="grid"
+       id="line41608" />
+    <line
+       x1="1055.5"
+       y1="36.5"
+       x2="1055.5"
+       y2="714.5"
+       class="grid"
+       id="line41610" />
+    <line
+       x1="1075.5"
+       y1="36.5"
+       x2="1075.5"
+       y2="714.5"
+       class="grid"
+       id="line41612" />
+    <line
+       x1="1095.5"
+       y1="36.5"
+       x2="1095.5"
+       y2="714.5"
+       class="grid"
+       id="line41614" />
+    <line
+       x1="1115.5"
+       y1="36.5"
+       x2="1115.5"
+       y2="714.5"
+       class="grid"
+       id="line41616" />
+    <line
+       x1="1135.5"
+       y1="36.5"
+       x2="1135.5"
+       y2="714.5"
+       class="grid"
+       id="line41618" />
+    <line
+       x1="1155.5"
+       y1="36.5"
+       x2="1155.5"
+       y2="714.5"
+       class="grid"
+       id="line41620" />
+    <line
+       x1="1175.5"
+       y1="36.5"
+       x2="1175.5"
+       y2="714.5"
+       class="grid"
+       id="line41622" />
+    <line
+       x1="1195.5"
+       y1="36.5"
+       x2="1195.5"
+       y2="714.5"
+       class="grid"
+       id="line41624" />
+    <line
+       x1="1215.5"
+       y1="36.5"
+       x2="1215.5"
+       y2="714.5"
+       class="grid"
+       id="line41626" />
+    <line
+       x1="1235.5"
+       y1="36.5"
+       x2="1235.5"
+       y2="714.5"
+       class="grid"
+       id="line41628" />
+    <line
+       x1="1255.5"
+       y1="36.5"
+       x2="1255.5"
+       y2="714.5"
+       class="grid"
+       id="line41630" />
+    <line
+       x1="1275.5"
+       y1="36.5"
+       x2="1275.5"
+       y2="714.5"
+       class="grid"
+       id="line41632" />
+    <line
+       x1="1295.5"
+       y1="36.5"
+       x2="1295.5"
+       y2="714.5"
+       class="grid"
+       id="line41634" />
+    <line
+       x1="1315.5"
+       y1="36.5"
+       x2="1315.5"
+       y2="714.5"
+       class="grid"
+       id="line41636" />
+    <line
+       x1="1335.5"
+       y1="36.5"
+       x2="1335.5"
+       y2="714.5"
+       class="grid"
+       id="line41638" />
+    <line
+       x1="1355.5"
+       y1="36.5"
+       x2="1355.5"
+       y2="714.5"
+       class="grid"
+       id="line41640" />
+    <line
+       x1="1375.5"
+       y1="36.5"
+       x2="1375.5"
+       y2="714.5"
+       class="grid"
+       id="line41642" />
+    <line
+       x1="1395.5"
+       y1="36.5"
+       x2="1395.5"
+       y2="714.5"
+       class="grid"
+       id="line41644" />
+    <line
+       x1="1415.5"
+       y1="36.5"
+       x2="1415.5"
+       y2="714.5"
+       class="grid"
+       id="line41646" />
+    <line
+       x1="1435.5"
+       y1="36.5"
+       x2="1435.5"
+       y2="714.5"
+       class="grid"
+       id="line41648" />
+    <line
+       x1="1455.5"
+       y1="36.5"
+       x2="1455.5"
+       y2="714.5"
+       class="grid"
+       id="line41650" />
+    <line
+       x1="1475.5"
+       y1="36.5"
+       x2="1475.5"
+       y2="714.5"
+       class="grid"
+       id="line41652" />
+    <g
+       style="font-size:13px"
+       id="g41662">
+      <g
+         id="g41660">
+        <rect
+           x="35.5"
+           y="55.5"
+           width="1419"
+           height="639"
+           class="component"
+           id="rect41654" />
+        <rect
+           x="35.5"
+           y="55.5"
+           width="1419"
+           height="639"
+           class="terminal-stroke"
+           id="rect41656" />
+        <text
+           transform="translate(745.5,375.5)"
+           class="component"
+           dy="0.25em"
+           text-anchor="middle"
+           id="text41658"
+           style="font-size:300px"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:300px;font-family:Bentham;-inkscape-font-specification:Bentham"
+             id="tspan45348">f</tspan></text>
+      </g>
+    </g>
+    <rect
+       x="1435.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41664" />
+    <rect
+       x="1235.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41666" />
+    <rect
+       x="1035.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41668" />
+    <rect
+       x="835.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41670" />
+    <rect
+       x="635.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41672" />
+    <rect
+       x="435.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41674" />
+    <rect
+       x="235.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41676" />
+    <rect
+       x="35.5"
+       y="675.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41678" />
+    <rect
+       x="1435.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-fill"
+       id="rect41680" />
+    <rect
+       x="1435.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41682" />
+    <rect
+       x="1235.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-fill"
+       id="rect41684" />
+    <rect
+       x="1235.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41686" />
+    <rect
+       x="1035.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-fill"
+       id="rect41688" />
+    <rect
+       x="1035.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41690" />
+    <rect
+       x="835.5"
+       y="55.5"
+       width="19"
+       height="19"
+       class="terminal-fill"
+       id="rect41692" />
+    <rect
+       x="835.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41694" />
+    <rect
+       x="635.5"
+       y="55.5"
+       width="19"
+       height="19"
+       class="terminal-fill"
+       id="rect41696" />
+    <rect
+       x="635.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41698" />
+    <rect
+       x="435.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-fill"
+       id="rect41700" />
+    <rect
+       x="435.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41702" />
+    <rect
+       x="235.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-fill"
+       id="rect41704" />
+    <rect
+       x="235.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41706" />
+    <rect
+       x="35.5"
+       y="55.5"
+       width="19"
+       height="19"
+       class="terminal-fill"
+       id="rect41708" />
+    <rect
+       x="35.5"
+       y="35.5"
+       width="19"
+       height="39"
+       class="terminal-stroke"
+       id="rect41710" />
+    <g
+       style="font-size:20px"
+       id="g41792">
+      <rect
+         x="1435.5"
+         y="695.5"
+         width="19"
+         height="19"
+         class="terminal-fill"
+         id="rect41712" />
+      <rect
+         x="1435.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41714" />
+      <text
+         x="1445.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41716">0</text>
+      <rect
+         x="1235.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-fill"
+         id="rect41718" />
+      <rect
+         x="1235.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41720" />
+      <text
+         x="1245.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41722">1</text>
+      <rect
+         x="1035.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-fill"
+         id="rect41724" />
+      <rect
+         x="1035.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41726" />
+      <text
+         x="1045.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41728">1</text>
+      <rect
+         x="835.5"
+         y="695.5"
+         width="19"
+         height="19"
+         class="terminal-fill"
+         id="rect41730" />
+      <rect
+         x="835.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41732" />
+      <text
+         x="845.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41734">0</text>
+      <rect
+         x="635.5"
+         y="695.5"
+         width="19"
+         height="19"
+         class="terminal-fill"
+         id="rect41736" />
+      <rect
+         x="635.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41738" />
+      <text
+         x="645.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41740">0</text>
+      <rect
+         x="435.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-fill"
+         id="rect41742" />
+      <rect
+         x="435.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41744" />
+      <text
+         x="445.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41746">1</text>
+      <rect
+         x="235.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-fill"
+         id="rect41748" />
+      <rect
+         x="235.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41750" />
+      <text
+         x="245.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41752">1</text>
+      <rect
+         x="35.5"
+         y="695.5"
+         width="19"
+         height="19"
+         class="terminal-fill"
+         id="rect41754" />
+      <rect
+         x="35.5"
+         y="675.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41756" />
+      <text
+         x="45.5"
+         y="728"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41758">0</text>
+      <rect
+         x="1435.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41760" />
+      <text
+         x="1445.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41762">1</text>
+      <rect
+         x="1235.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41764" />
+      <text
+         x="1245.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41766">1</text>
+      <rect
+         x="1035.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41768" />
+      <text
+         x="1045.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41770">1</text>
+      <rect
+         x="835.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41772" />
+      <text
+         x="845.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41774">0</text>
+      <rect
+         x="635.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41776" />
+      <text
+         x="645.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41778">0</text>
+      <rect
+         x="435.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41780" />
+      <text
+         x="445.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41782">1</text>
+      <rect
+         x="235.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41784" />
+      <text
+         x="245.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41786">1</text>
+      <rect
+         x="35.5"
+         y="35.5"
+         width="19"
+         height="39"
+         class="terminal-stroke"
+         id="rect41788" />
+      <text
+         x="45.5"
+         y="25.5"
+         class="terminals"
+         dy="0.25em"
+         text-anchor="middle"
+         id="text41790">0</text>
+    </g>
+  </g>
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908)"
+     d="M 291.25,1195.5 H 398.12699"
+     id="path47484"
+     sodipodi:nodetypes="cc" />
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908-84)"
+     d="M 291.25,555.5 H 398.12699"
+     id="path47484-1"
+     sodipodi:nodetypes="cc" />
+  <text
+     xml:space="preserve"
+     style="font-size:70px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px;fill:#ffffff"
+     x="236.43213"
+     y="1216.3069"
+     id="text53101"><tspan
+       sodipodi:role="line"
+       id="tspan53099"
+       x="236.43213"
+       y="1216.3069"
+       style="font-size:70px">V</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:70px;line-height:1.25;font-family:Bentham;-inkscape-font-specification:Bentham;letter-spacing:0px;word-spacing:0px"
+     x="160.43405"
+     y="573.26495"
+     id="text59793"><tspan
+       sodipodi:role="line"
+       id="tspan59791"
+       x="160.43405"
+       y="573.26495"
+       style="font-size:70px;fill:#ffffff">f(V)</tspan></text>
+</svg>

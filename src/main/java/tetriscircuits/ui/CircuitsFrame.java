@@ -1460,7 +1460,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void exportSvgMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSvgMenuItemActionPerformed
-        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), Integer.MAX_VALUE, 20);
+        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue(), 20);
     }//GEN-LAST:event_exportSvgMenuItemActionPerformed
 
     private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed

@@ -1,6 +1,170 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/css" href="svg.css"?>
+<!--<?xml-stylesheet type="text/css" href="svg.css"?>-->
 <svg width="1491" height="751" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+svg {
+    background-color: #2B2B2B;
+}
+
+text.math {
+    font-family: 'Bentham', serif;
+    fill: #FFFFF0;
+}
+
+text.braces {    
+    font-family: 'Work Sans', sans-serif;
+    fill: #FFFFF0;
+}
+
+text.component {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.axes {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.terminals {
+    font-family: 'Source Code Pro', monospace;
+    fill: #FFFFF0;
+}
+
+text.label {
+    font-family: 'Roboto Mono', monospace;
+    fill: #FFFFF0;
+}
+
+text.descriptions {
+    font-family: 'Open Sans', monospace;
+    fill: #FFFFF0;
+}
+
+rect.component {
+    opacity: 0.5;
+    fill: #000000;
+    stroke: #000000;  
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-fill {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.terminal-stroke {
+    fill: none;
+    stroke: #B2B2A8;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid {
+    stroke: #555555;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.grid-axis {
+    stroke: #A9B7C6;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+circle.grid-center {
+    fill: #FFFFF0;
+    stroke: none;
+}
+
+polygon.t {
+    fill: #BA08FF;
+    stroke: #8D00D3;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.j {
+    fill: #0072FF;
+    stroke: #004ED3;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.z {
+    fill: #FF113C;
+    stroke: #C9001A;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.o {
+    fill: #FFDE00;
+    stroke: #AD9600;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.s {
+    fill: #68FF06;
+    stroke: #00B100;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.l {
+    fill: #FF7308;
+    stroke: #C03F00;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+polygon.i {
+    fill: #04E6FF;
+    stroke: #00A0B7;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+line.arrow {
+    fill: #FFFFF0;
+    stroke: #FFFFF0;
+    stroke-width: 3.5; 
+    stroke-linecap: square;
+}
+
+path.arrowhead {
+    fill: #FFFFF0;
+    stroke: none;
+}
+
+text.array {
+    font-family: 'Source Code Pro', monospace;
+    fill: #000000;
+    font-size: 19px;
+}
+
+line.array {
+    stroke: #000000;
+    stroke-width: 1; 
+    stroke-linecap: square;
+}
+
+rect.array-register {
+    fill: #CEFFCE;
+    stroke: none;
+}
+
+rect.array-tape {
+    fill: #FFCECE;
+    stroke: none;
+}
+</style>
+
+
     <line x1="15.5" y1="35.5" x2="1475.5" y2="35.5" class="grid"/>
     <line x1="15.5" y1="55.5" x2="1475.5" y2="55.5" class="grid"/>
     <line x1="15.5" y1="75.5" x2="1475.5" y2="75.5" class="grid"/>
