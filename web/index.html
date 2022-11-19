@@ -752,11 +752,11 @@
 
 <p>A function, <span class="math">f</span>, is a structure with a rectangular footprint whose bottom edge consists a row of input nodes that stores an input value, <span class="math">V</span>, and whose top edge consists of a row of output nodes that stores an output value, <span class="math">f(V)</span>:</p>
 
-<p>[ TODO PIC ]</p>
+<object data="function-f.svg" type="image/svg+xml" class="diagram">Function f</object>
 
 <p>The composition of two functions, <span class="math">f(g(V))</span>, comprises <span class="math">f</span> on top of <span class="math">g</span> on top of <span class="math">V</span>, where <span class="math">g</span>’s output nodes serve as <span class="math">f</span>’s input nodes:</p>
 
-<p>[ TODO PIC ]</p>
+<object data="function-f-of-g.svg" type="image/svg+xml" class="diagram">Function f of g</object>
 
 <p>Functions employ a standard interface: a row of nodes, evenly spaced, ten columns apart. That interval provides sufficient room for bits to cross or to combine. And a round, <span class="nowrap">base-10</span> number simplifies measurements during design.</p> 
 
@@ -1649,7 +1649,7 @@
 
 <h2 id="memory-implementation">Implementation</h2>
 
-<p>Memory consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes encoded as a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
+<p>Memory consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes in a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
 
 <p>To perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation, the agent builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The agent raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes targeted by the operation.</p> 
 
@@ -1764,9 +1764,9 @@
 
 <p>Since the agent clears newly allocated bytes, all memory locations after the final byte of the initial state effectively contain zero.</p>
 
-<h2 id="tetrismemoryscript">TetrisMemoryScript</h2>
+<h2 id="tetris-memory-script">Tetris Memory Script</h2>
 
-<p><span class="term">TetrisMemoryScript</span> (TMS) is a language that provides a concise way to manipulate memory. It compiles to TS, and ultimately to TIL.</p> 
+<p><span class="term">Tetris Memory Script</span> (TMS) is a language that provides a concise way to manipulate memory. It compiles to TS, and ultimately <span class="nowrap">to TIL</span>.</p> 
 
 <p>TMS has of two instruction types. The first directs the agent to perform a read-modify-write operation. It consists of the modify function’s name, <span class="mono">f</span>, and the memory address where to apply it, <span class="mono">x</span>: 
 
@@ -1776,7 +1776,7 @@
 
 <ol>
   <li>Build <span class="mono">f</span> on the surface of the pile, starting at byte <span class="mono">x</span>, and covering either one, two, or three bytes per <span class="mono">f</span>'s byte width.</li> 
-  <li>Repeatedly build <span class="mono">IDENTITY</span> on the surface of the pile, covering all remaining bytes.</li>
+  <li>Repeatedly build identity functions on the surface of the pile, covering all remaining bytes.</li>
 </ol>
 
 <p>The following TMS program demonstrate this instruction type. It performs the sum from the previous section.</p>
@@ -1824,13 +1824,15 @@
 
 <p>The expanded version reveals <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
 
-<p>TMS does not provide instructions for initializing memory. Rather, a <span class="nowrap">TMS program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">TMS programs</span>.</p>
+<p>TMS does not provide instructions for initializing memory. Rather, a <span class="nowrap">TMS program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">TMS programs</span>. That being the case, the compiler requires the existing pile’s dimensions. The pile’s height provides the original surface <span class="nowrap">row index</span>. Then, for each <span class="nowrap">TMS instruction</span>, the compiler increments the surface <span class="nowrap">row index</span> by the height of the instruction’s function, and it uses the function’s <span class="nowrap">byte width</span> along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
 
-<p>The <span class="nowrap">TMS compiler</span> requires the existing rectangular pile’s dimensions. Its height provides the original surface row index. Each time the compiler adds a layer to the pile, it increments that value by the uniform function height. The compiler deduces the uniform function height along with the byte widths of all functions by building them at the get-go on a finite, private playfield. It uses the byte width of the function specified in an instruction along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
+<p>The compiler knows the function <span class="nowrap">byte widths</span> because, at startup, it counts the number of <span class="mono keyword2">in</span> directives in each <span class="nowrap">TS program</span>. And it knows the function heights because it builds an instance of each function on a finite, private playfield, using zeros for input.</p>
 
-<p>If the compiler encounters a <span class="nowrap">TMS instruction</span> that references a memory address beyond the pile’s width, then it expands the pile up to that address before it translates the instruction to TS. As explained in the last section, to allocate and initialize bytes, the compiler appends <span class="nowrap"><span class="mono">0</span>-nodes</span> in the form of horizontal <span class="nowrap">I-Tetriminos</span>, and it pads the nodes to the pile’s height with identity functions.</p>
+<p>For the identity functions, the compiler outputs a sequence of <span class="nowrap">TS instructions</span> that direct the agent to build columns above the pile’s surface nodes, primarily from vertical <span class="nowrap">I-Tetriminos</span>, where the heights of the columns equal the height of the <span class="nowrap">TMS instruction’s</span> function.</p>
 
-<p>The agent can execute the <span class="nowrap">TS program</span> generated by the <span class="nowrap">TMS compiler</span> on any rectangular pile matching the dimensions provided at compilation time. In doing so, the input data on the starting pile’s surface entirely determines the output data on the resultant pile’s surface.</p>
+<p>If the compiler encounters a <span class="nowrap">TMS instruction</span> that references a memory address beyond the pile’s width, then it expands the pile up to that address before it translates the instruction to TS. As explained in the last section, to allocate and initialize bytes, the compiler appends <span class="nowrap"><span class="mono">0</span>-nodes</span> in the form of horizontal <span class="nowrap">I-Tetriminos</span>, and it pads the nodes in the same way that it synthesizes the identity functions.</p>
+
+<p>The agent can execute the <span class="nowrap">TS program</span> generated by the <span class="nowrap">TMS compiler</span> on any rectangular pile matching the dimensions provided at compilation time.</p>
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
