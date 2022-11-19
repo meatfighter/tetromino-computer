@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-18" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-19" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-18"/>
+<meta name="date" content="2022-11-19"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -762,7 +762,7 @@
 
 <p>A function’s input and output values have the same <span class="nowrap">bit width</span> and their bits line up. That is, the <span class="math">i<span class="sup">th</span></span> input node shares a common column with the <span class="math">i<span class="sup">th</span></span> output node.</p>  
 
-<p>The Tetris machine utilizes 8-, 16-, and </span class="nowrap">24-bit</span> functions. Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>The machine that runs Tetris utilizes 8-, 16-, and </span class="nowrap">24-bit</span> functions. Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 652px">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top right green">B<span class="sub">0</span></td></tr>
@@ -784,8 +784,6 @@
 </table>
 
 <p>A function that accepts an array will return an array of identical dimension.</p>
-
-<p>Before the Tetris machine puts them to use, a process pads functions with buffers, extending them to a <span class="term">uniform height</span>. The padded functions are homogeneously tall, rectangularly-shaped structures with a base that spans either 8, 16, or <span class="nowrap">24 nodes</span>. With only three sizes, the machine readily arranges them like interchangeable building blocks.</p>
 
 <h2 id="identity">Identity</h2>
 
@@ -875,7 +873,7 @@
 
 <p>The logical AND function operates on a <span class="nowrap">3-byte</span> array, where all three bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second bytes together, and it puts the result in the third byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">C = AB</span></p>
 
@@ -893,7 +891,7 @@
 
 <p>The logical AND-NOT function operates on a <span class="nowrap">2-byte</span> array, where both bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first byte with the first byte ANDed with the inverse of the second byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q = A<span class="overline">B</span></span></p>
 
@@ -909,7 +907,7 @@
 
 <p>There is a variation that operates on a 3-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span>, where <span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">C = A<span class="overline">B</span></span></p>
 
@@ -927,7 +925,7 @@
 
 <p>The bitwise AND function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise AND of both bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></span></p>
 
 <p><span class="math">Q = AB</span> and <span class="math">B</span> passes through, unchanged.</p>
 
@@ -941,7 +939,7 @@
 
 <p>There is a variation that sets the second byte to the bitwise AND of both bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q </span><span class="math">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q </span><span class="math">]</span></span></p>
 
 <p><span class="math">Q = AB</span> and <span class="math">A</span> passes through, unchanged.</p>
 
@@ -957,7 +955,7 @@
 
 <p>The bitwise OR function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise OR of both bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></span></p>
 
 <p><span class="math">Q = A + B</span> and <span class="math">B</span> passes through, unchanged.</p>
 
@@ -975,7 +973,7 @@
 
 <p>The bitwise XOR function operates on a <span class="nowrap">2-byte</span> array. It sets the first byte to the bitwise XOR of both bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></span></p>
 
 <p><span class="math">Q = A &oplus; B</span> and <span class="math">B</span> passes through, unchanged.</p>
 
@@ -993,7 +991,7 @@
 
 <p>The byte swap function exchanges the elements of a <span class="nowrap">2-byte</span> array:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, A </span><span class="serif">]</span></span></p>
 
 <p>It is realized with the following wiring, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
@@ -1007,7 +1005,7 @@
 
 <p>The byte match function operates on a <span class="nowrap">2-byte</span> array:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f(</span><span class="serif"> [</span><span class="math">A, X</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, M </span><span class="serif">]</span></span></p>
 
 <p><span class="math">A</span> is compared against a bit pattern. If it matches, <span class="math">M</span> is <span class="mono">1</span>; otherwise, <span class="math">M</span> is <span class="mono">0</span>. In either case, <span class="math">A</span> passes through unchanged, while <span class="math">X</span> is discarded.</p>
 
@@ -1047,7 +1045,7 @@
 
 <p>There is a variation of the byte match function where the parameters are swapped:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f(</span><span class="serif"> [</span><span class="math">X, A</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> M, A </span><span class="serif">]</span></span></p>
 
 <p>Its circuit is nearly the horizontal-reflection of the one above:  </p>
 
@@ -1061,7 +1059,7 @@
 
 <p>The equals function operates on a <span class="nowrap">3-byte</span> array:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></span></p>
 
 <p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>; otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
 
@@ -1083,7 +1081,7 @@
 
 <p>There is a variation of the equals function where the parameters are rearranged:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></span></p>
 
 <p>Its circuit is roughly the horizontal-reflection of the one above:</p>
 
@@ -1095,7 +1093,7 @@
 
 <p>There is a another variation that uses all three input bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, V </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="math">]</span>, where <span class="math">V,E </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, V </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">V,E </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">E</span> is <span class="mono">1</span> iff <span class="math">A</span> equals <span class="math">B</span> and <span class="math">V</span> is <span class="mono">1</span>:</p>
 
@@ -1129,7 +1127,7 @@
 
 <p>The byte copy function operates on a <span class="nowrap">2-byte</span> array. It copies the first byte to the second byte:</p> 
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> A, A </span><span class="serif">]</span></span></p>
 
 <p>This is accomplished with the following wiring, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
@@ -1143,7 +1141,7 @@
 
 <p>A variation of the function copies the second byte to the first byte:</p>
 
-<p><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></p>
+<p><span class="nowrap"><span class="math">f(</span><span class="serif"> [</span><span class="math">A, B</span><span class="serif">] </span><span class="math">) = </span><span class="serif">[</span><span class="math"> B, B </span><span class="serif">]</span></span></p>
 
 <p>It is the horizontal-reflection of the previous circuit:</p>
 
@@ -1157,7 +1155,7 @@
 
 <p>The conditional byte copy function operates on a <span class="nowrap">3-byte</span> array. It either copies the first byte to the second byte, or it does nothing, per the value of the third byte.</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
 
@@ -1171,7 +1169,7 @@
 
 <p>Flipping the circuit horizontally creates a variation that either copies the third byte to the second byte, or does nothing, per the value of the first byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, Q, B </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, Q, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">C</span> and <span class="math">B</span> pass through, unchanged.</p>
 
@@ -1185,7 +1183,7 @@
 
 <p>Repositioning the multiplexers from the <span class="math">A</span> lines to the <span class="math">B</span> lines reverses the roles of the second and third bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, Q </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, Q </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
 
@@ -1199,7 +1197,7 @@
 
 <p>Finally, flipping that circuit horizontally yields a variation that either copies the second byte to the first byte, or does nothing, per the value of the third byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">B</span> and <span class="math">C</span> pass through, unchanged.</p>
 
@@ -1378,9 +1376,9 @@
 
 <h2 id="conditional-increment">Conditional Increment</h2>
 
-<p>The conditional increment function operates on a 2-element array, <span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span>, where <span class="math">W</span> is a signed or unsigned <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
+<p>The conditional increment function operates on a 2-element array, <span class="nowrap"><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span></span>, where <span class="math">W</span> is a signed or unsigned <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span>, where <span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
 
 <p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>; otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
 
@@ -1396,7 +1394,7 @@
 
 <p>The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></span></p>
 
 <p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic add.</p>
 
@@ -1504,7 +1502,7 @@
 
 <p>The subtract function operates on a 2-byte array. It sets the first byte to the difference of the first byte and the second byte:</p>
 
-<p><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span>, where <span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></span></p>
 
 <p><span class="math">Q = A &minus; B</span></p>
 
