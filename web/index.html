@@ -142,7 +142,7 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL supports nondeterministic randomizers because it discards unwanted pieces. And it waits for a piece to spawn before entering input. However, if the game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>&mdash;which would make it a fully deterministic system&mdash;then a TAS recording would do the job.</p>
+<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employed a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
 
 <h2 id="tetrisscript">TetrisScript</h2>
 
@@ -2107,7 +2107,11 @@
 
 <p><span class="nowrap mono">0 + 1 + &mldr; + L&minus;1 = L(L&minus;1)/2</span> swaps</p>
 
-<p>And in doing so, it reverses the input string. To maintain the order, the version below swaps each character back to its original location after applying the transition function.</p>
+<p>In doing so, it reverses the input string, as shown in the animation below, which depicts a classifier with a <span class="nowrap">3-byte</span> register.</p>
+
+<object data="classifier-data-to-reg.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register</object>
+
+<p>To maintain the order, the following version swaps each character back to its original location after applying the transition function.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> L&minus;1</span>
@@ -2118,7 +2122,9 @@
 <span class="line">    [a<span class="sub3">N+j&minus;1</span>,a<span class="sub3">N+j</span>] &larr; [a<span class="sub3">N+j</span>,a<span class="sub3">N+j&minus;1</span>]</span>
 </pre> 
 
-<p>It uses <span class="nowrap mono">L(L&minus;1)</span> swaps.</p>
+<p>It performs <span class="nowrap mono">L(L&minus;1)</span> swaps:</p>
+
+<object data="classifier-data-to-reg-and-back.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register and Back</object>
 
 <p>The second strategy moves the register to the characters:</p>
 
@@ -2131,7 +2137,9 @@
 
 <p><span class="nowrap">Line 2</span> applies the transition function at <span class="nowrap">index <span class="mono">i</span></span>, rather than <span class="nowrap">index <span class="mono">0</span></span>. <span class="nowrap">Lines 3&ndash;4</span> move the register right, from <span class="nowrap">index <span class="mono">i</span></span> to <span class="nowrap">index <span class="mono">i+1</span></span>, by repeatedly swapping the <span class="mono">i<span class="sup2">th</span></span> character of the string leftward, through the register.</p>
 
-<p>It takes <span class="mono">LN</span> swaps. For strings significantly larger than the width of the register, the second strategy has order <span class="mono nowrap">&Oscr;(L)</span>, far more efficient than the first strategy, which has order <span class="mono nowrap">&Oscr;(L<span class="sup3">2</span>)</span>.</p>
+<p>It takes <span class="mono">LN</span> swaps. For strings significantly larger than the width of the register, the second strategy has order <span class="mono nowrap">&Oscr;(L)</span>, far more efficient than the first strategy, which has order <span class="mono nowrap">&Oscr;(L<span class="sup3">2</span>)</span>. The animation below demonstrates the improved performance.</p>
+
+<object data="classifier-reg-to-data.svg" type="image/svg+xml" class="diagram">Classifier Animation: Register to Data</object>
 
 <p>Regarding reusability, the program contains the number of cycles required to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if <span class="mono">T<span class="sub3">c</span></span> ignores zeros&mdash;all characters right of the input string&mdash;then the program is applicable to strings with length &le; <span class="mono">L</span>.</p>
 
@@ -2148,7 +2156,9 @@
 <span class="line">    [a<span class="sub3">i+j+1</span>,a<span class="sub3">i+j</span>] &larr; [a<span class="sub3">i+j</span>,a<span class="sub3">i+j+1</span>]</span>
 </pre>
 
-<p>As the program slides the register over the string, it transforms each input character into an output character.</p>
+<p>As the program slides the register over the string, it transforms each input character into an output character:</p>
+
+<object data="transducer.svg" type="image/svg+xml" class="diagram">Transducer Animation</object>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
