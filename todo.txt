@@ -24,18 +24,16 @@ computer
 workspace -> TetrisScript and TetrisMemoryScript
 
 remaining sections:
-- functions overview
-- animations for state machines
-
 
 - TetrisScript Editor tutorial
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
 
-- icon colors
 - save SVG
 - save HTML
 - test
 - test all
 - faster than 5 fps?
+   - runnable tree? blocks of 1024 runnables
+
