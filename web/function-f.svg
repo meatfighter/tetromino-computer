@@ -26,7 +26,7 @@
       <path
          transform="scale(-0.6)"
          d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.625;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:#fffff0;fill-rule:evenodd;stroke:#fffff0;stroke-width:0.625;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="path47906" />
     </marker>
   </defs>
@@ -1298,18 +1298,18 @@
     </g>
   </g>
   <path
-     style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908)"
+     style="fill:none;stroke:#fffff0;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908)"
      d="M 239.25,718.5 H 346.12699"
      id="path47484"
      sodipodi:nodetypes="cc" />
   <path
-     style="fill:none;stroke:#ffffff;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908)"
+     style="fill:none;stroke:#fffff0;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker47908)"
      d="M 239.25,78.5 H 346.12699"
      id="path47484-1"
      sodipodi:nodetypes="cc" />
   <text
      xml:space="preserve"
-     style="font-size:70px;line-height:1.25;font-family:'Bentham', serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff"
+     style="font-size:70px;line-height:1.25;font-family:'Bentham', serif;letter-spacing:0px;word-spacing:0px;fill:#fffff0"
      x="184.43211"
      y="739.30688"
      id="text53101"><tspan
@@ -1328,5 +1328,5 @@
        id="tspan59791"
        x="108.43404"
        y="96.264954"
-       style="font-size:70px;fill:#ffffff">f(V)</tspan></text>
+       style="font-size:70px;fill:#fffff0">f(V)</tspan></text>
 </svg>

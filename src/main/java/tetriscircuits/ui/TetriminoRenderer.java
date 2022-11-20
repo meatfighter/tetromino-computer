@@ -17,29 +17,37 @@ public final class TetriminoRenderer implements Icon {
     
     private static final boolean[][] MATRIX = new boolean[7][7];
     
-    private static final Color[] COLORS = {
-        new Color(0xB802FD),
-        new Color(0x1801FF),
-        new Color(0xFE103C),
-        new Color(0xFFDE00),
-        new Color(0x66FD00),
-        new Color(0xFF7308),
-        new Color(0x00E6FE), 
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-        new Color(0xFFFFF0),
-    };   
+    public static final int[] BLOCK_RGBS = {
+        0xBA08FF,
+        0x0072FF,
+        0xFF113C,
+        0xFFDE00,
+        0x68FF06,
+        0xFF7308,
+        0x04E6FF,
+        0xFFFFF0,
+    };
+
+    public static final int[] DARK_BLOCK_RGBS = {
+        0x8D00D3,
+        0x004ED3,
+        0xC9001A,
+        0xAD9600,
+        0x00B100,
+        0xC03F00,
+        0x00A0B7,
+        0xABAB9D,
+    };    
     
-    private static final Color[] DARK_COLORS = new Color[COLORS.length];
+    private static final Color[] COLORS = new Color[16];
+    private static final Color[] DARK_COLORS = new Color[16];
     static {
-        for (int i = COLORS.length - 1; i >= 0; --i) {
-            DARK_COLORS[i] = COLORS[i].darker();
+        for (int i = 0, j = 0; i < COLORS.length; ++i) {
+            COLORS[i] = new Color(BLOCK_RGBS[j]);
+            DARK_COLORS[i] = new Color(DARK_BLOCK_RGBS[j]);
+            if (j + 1 < BLOCK_RGBS.length) {
+                ++j;
+            }
         }
     }
     
