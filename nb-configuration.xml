@@ -15,26 +15,6 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
     </properties>
-    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
-        <configurations>
-            <configuration id="Assembler" profiles=""/>
-            <configuration id="BitOperations" profiles=""/>
-            <configuration id="Computer" profiles=""/>
-            <configuration id="Computer UI" profiles=""/>
-            <configuration id="ConvertAsmToHtml" profiles=""/>
-            <configuration id="ConvertTetrisMemoryScriptToHtml" profiles=""/>
-            <configuration id="Emulator" profiles=""/>
-            <configuration id="Generate Instruction Detectors" profiles=""/>
-            <configuration id="Generate Orientation Table" profiles=""/>
-            <configuration id="GenerateTetrisMemoryScript" profiles=""/>
-            <configuration id="GenerateMovingRegister" profiles=""/>
-            <configuration id="GenerateTetrisExecutable" profiles=""/>
-            <configuration id="MapMaker" profiles=""/>
-            <configuration id="MirrorTetrisScript" profiles=""/>
-            <configuration id="Simulator" profiles=""/>
-            <configuration id="GenerateColors" profiles=""/>
-        </configurations>
-    </config-data>
     <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
         <word>Gameplay</word>
         <word>iff</word>
@@ -57,4 +37,28 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>XNOR</word>
         <word>XORing</word>
     </spellchecker-wordlist>
+    <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
+        <configurations>
+            <configuration id="Assembler" profiles=""/>
+            <configuration id="BitOperations" profiles=""/>
+            <configuration id="Computer" profiles=""/>
+            <configuration id="Computer UI" profiles=""/>
+            <configuration id="ConvertAsmToHtml" profiles=""/>
+            <configuration id="ConvertTetrisMemoryScriptToHtml" profiles=""/>
+            <configuration id="Emulator" profiles=""/>
+            <configuration id="Generate Classifier Data to Register" profiles=""/>
+            <configuration id="Generate Classifier Data to Register and Back Again" profiles=""/>
+            <configuration id="Generate Classifier Register to Data" profiles=""/>
+            <configuration id="Generate Instruction Detectors" profiles=""/>
+            <configuration id="Generate Orientation Table" profiles=""/>
+            <configuration id="GenerateColors" profiles=""/>
+            <configuration id="GenerateMovingRegister" profiles=""/>
+            <configuration id="GenerateTetrisExecutable" profiles=""/>
+            <configuration id="GenerateTetrisMemoryScript" profiles=""/>
+            <configuration id="MapMaker" profiles=""/>
+            <configuration id="MirrorTetrisScript" profiles=""/>
+            <configuration id="Simulator" profiles=""/>
+            <configuration id="Generate Transducer" profiles=""/>
+        </configurations>
+    </config-data>
 </project-shared-configuration>

@@ -42,3 +42,5 @@ remaining sections:
 - faster than 5 fps?
 
 - validate the HTML page on w3c
+
+det rand but seed cant be set

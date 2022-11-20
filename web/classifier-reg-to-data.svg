@@ -38,7 +38,7 @@
     <g visibility="hidden">
         <animate id="frame1" attributeName="visibility" values="visible" begin="frame0.end" dur="0.75s"/>
         <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="288.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
@@ -73,7 +73,7 @@
     <g visibility="hidden">
         <animate id="frame2" attributeName="visibility" values="visible" begin="frame1.end" dur="0.25s"/>
         <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="69.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="69.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="133.5" y="5.5" width="288.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -109,7 +109,7 @@
     <g visibility="hidden">
         <animate id="frame3" attributeName="visibility" values="visible" begin="frame2.end" dur="0.25s"/>
         <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="37.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="37.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="69.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="133.5" y="5.5" width="288.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -144,7 +144,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame4" attributeName="visibility" values="visible" begin="frame3.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="37.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="133.5" y="5.5" width="288.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -179,9 +179,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame5" attributeName="visibility" values="visible" begin="frame4.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="37.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="256.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
@@ -191,7 +191,7 @@
         <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">03</text>
         <text x="170.25" y="27.25" class="array">02</text>
-        <text x="138.25" y="27.25" class="array">10</text>
+        <text x="138.25" y="27.25" class="array">01</text>
         <text x="106.25" y="27.25" class="array">8C</text>
         <text x="74.25" y="27.25" class="array">B0</text>
         <text x="42.25" y="27.25" class="array">4B</text>
@@ -215,9 +215,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame6" attributeName="visibility" values="visible" begin="frame5.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="37.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="165.5" y="5.5" width="256.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -229,7 +229,7 @@
         <text x="202.25" y="27.25" class="array">03</text>
         <text x="170.25" y="27.25" class="array">02</text>
         <text x="138.25" y="27.25" class="array">8C</text>
-        <text x="106.25" y="27.25" class="array">10</text>
+        <text x="106.25" y="27.25" class="array">01</text>
         <text x="74.25" y="27.25" class="array">B0</text>
         <text x="42.25" y="27.25" class="array">4B</text>
         <text x="10.25" y="27.25" class="array">00</text>
@@ -252,9 +252,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame7" attributeName="visibility" values="visible" begin="frame6.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="37.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="69.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="69.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="165.5" y="5.5" width="256.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -267,7 +267,7 @@
         <text x="170.25" y="27.25" class="array">02</text>
         <text x="138.25" y="27.25" class="array">8C</text>
         <text x="106.25" y="27.25" class="array">B0</text>
-        <text x="74.25" y="27.25" class="array">10</text>
+        <text x="74.25" y="27.25" class="array">01</text>
         <text x="42.25" y="27.25" class="array">4B</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
@@ -289,7 +289,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame8" attributeName="visibility" values="visible" begin="frame7.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-dark-tape" />
         <rect x="69.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="165.5" y="5.5" width="256.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -303,7 +303,7 @@
         <text x="138.25" y="27.25" class="array">8C</text>
         <text x="106.25" y="27.25" class="array">B0</text>
         <text x="74.25" y="27.25" class="array">4B</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -324,9 +324,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame9" attributeName="visibility" values="visible" begin="frame8.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-dark-tape" />
         <rect x="69.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="224.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
@@ -335,11 +335,11 @@
         <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">03</text>
-        <text x="170.25" y="27.25" class="array">20</text>
+        <text x="170.25" y="27.25" class="array">02</text>
         <text x="138.25" y="27.25" class="array">E9</text>
         <text x="106.25" y="27.25" class="array">0A</text>
         <text x="74.25" y="27.25" class="array">EB</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -360,9 +360,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame10" attributeName="visibility" values="visible" begin="frame9.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-dark-tape" />
         <rect x="69.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="197.5" y="5.5" width="224.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -373,10 +373,10 @@
         <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">03</text>
         <text x="170.25" y="27.25" class="array">E9</text>
-        <text x="138.25" y="27.25" class="array">20</text>
+        <text x="138.25" y="27.25" class="array">02</text>
         <text x="106.25" y="27.25" class="array">0A</text>
         <text x="74.25" y="27.25" class="array">EB</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -397,9 +397,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame11" attributeName="visibility" values="visible" begin="frame10.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="64.0" height="32.0" class="array-dark-tape" />
         <rect x="69.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="197.5" y="5.5" width="224.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -411,9 +411,9 @@
         <text x="202.25" y="27.25" class="array">03</text>
         <text x="170.25" y="27.25" class="array">E9</text>
         <text x="138.25" y="27.25" class="array">0A</text>
-        <text x="106.25" y="27.25" class="array">20</text>
+        <text x="106.25" y="27.25" class="array">02</text>
         <text x="74.25" y="27.25" class="array">EB</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -434,7 +434,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame12" attributeName="visibility" values="visible" begin="frame11.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="197.5" y="5.5" width="224.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -447,8 +447,8 @@
         <text x="170.25" y="27.25" class="array">E9</text>
         <text x="138.25" y="27.25" class="array">0A</text>
         <text x="106.25" y="27.25" class="array">EB</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -469,9 +469,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame13" attributeName="visibility" values="visible" begin="frame12.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="192.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
@@ -479,12 +479,12 @@
         <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">04</text>
-        <text x="202.25" y="27.25" class="array">30</text>
+        <text x="202.25" y="27.25" class="array">03</text>
         <text x="170.25" y="27.25" class="array">70</text>
         <text x="138.25" y="27.25" class="array">18</text>
         <text x="106.25" y="27.25" class="array">31</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -505,9 +505,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame14" attributeName="visibility" values="visible" begin="frame13.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="229.5" y="5.5" width="192.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -517,11 +517,11 @@
         <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">70</text>
-        <text x="170.25" y="27.25" class="array">30</text>
+        <text x="170.25" y="27.25" class="array">03</text>
         <text x="138.25" y="27.25" class="array">18</text>
         <text x="106.25" y="27.25" class="array">31</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -542,9 +542,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame15" attributeName="visibility" values="visible" begin="frame14.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="96.0" height="32.0" class="array-dark-tape" />
         <rect x="101.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="229.5" y="5.5" width="192.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -555,10 +555,10 @@
         <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">70</text>
         <text x="170.25" y="27.25" class="array">18</text>
-        <text x="138.25" y="27.25" class="array">30</text>
+        <text x="138.25" y="27.25" class="array">03</text>
         <text x="106.25" y="27.25" class="array">31</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -579,7 +579,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame16" attributeName="visibility" values="visible" begin="frame15.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="229.5" y="5.5" width="192.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -591,9 +591,9 @@
         <text x="202.25" y="27.25" class="array">70</text>
         <text x="170.25" y="27.25" class="array">18</text>
         <text x="138.25" y="27.25" class="array">31</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -614,22 +614,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame17" attributeName="visibility" values="visible" begin="frame16.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="160.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">05</text>
-        <text x="234.25" y="27.25" class="array">40</text>
+        <text x="234.25" y="27.25" class="array">04</text>
         <text x="202.25" y="27.25" class="array">8D</text>
         <text x="170.25" y="27.25" class="array">B7</text>
         <text x="138.25" y="27.25" class="array">9F</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -650,9 +650,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame18" attributeName="visibility" values="visible" begin="frame17.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="261.5" y="5.5" width="160.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -661,12 +661,12 @@
         <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">8D</text>
-        <text x="202.25" y="27.25" class="array">40</text>
+        <text x="202.25" y="27.25" class="array">04</text>
         <text x="170.25" y="27.25" class="array">B7</text>
         <text x="138.25" y="27.25" class="array">9F</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -687,9 +687,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame19" attributeName="visibility" values="visible" begin="frame18.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="128.0" height="32.0" class="array-dark-tape" />
         <rect x="133.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="261.5" y="5.5" width="160.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -699,11 +699,11 @@
         <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">8D</text>
         <text x="202.25" y="27.25" class="array">B7</text>
-        <text x="170.25" y="27.25" class="array">40</text>
+        <text x="170.25" y="27.25" class="array">04</text>
         <text x="138.25" y="27.25" class="array">9F</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -724,7 +724,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame20" attributeName="visibility" values="visible" begin="frame19.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="261.5" y="5.5" width="160.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -735,10 +735,10 @@
         <text x="234.25" y="27.25" class="array">8D</text>
         <text x="202.25" y="27.25" class="array">B7</text>
         <text x="170.25" y="27.25" class="array">9F</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -759,22 +759,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame21" attributeName="visibility" values="visible" begin="frame20.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="128.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">06</text>
-        <text x="266.25" y="27.25" class="array">50</text>
+        <text x="266.25" y="27.25" class="array">05</text>
         <text x="234.25" y="27.25" class="array">3F</text>
         <text x="202.25" y="27.25" class="array">39</text>
         <text x="170.25" y="27.25" class="array">5B</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -795,9 +795,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame22" attributeName="visibility" values="visible" begin="frame21.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="293.5" y="5.5" width="128.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -805,13 +805,13 @@
         <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">3F</text>
-        <text x="234.25" y="27.25" class="array">50</text>
+        <text x="234.25" y="27.25" class="array">05</text>
         <text x="202.25" y="27.25" class="array">39</text>
         <text x="170.25" y="27.25" class="array">5B</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -832,9 +832,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame23" attributeName="visibility" values="visible" begin="frame22.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="160.0" height="32.0" class="array-dark-tape" />
         <rect x="165.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="293.5" y="5.5" width="128.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -843,12 +843,12 @@
         <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">3F</text>
         <text x="234.25" y="27.25" class="array">39</text>
-        <text x="202.25" y="27.25" class="array">50</text>
+        <text x="202.25" y="27.25" class="array">05</text>
         <text x="170.25" y="27.25" class="array">5B</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -869,7 +869,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame24" attributeName="visibility" values="visible" begin="frame23.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="293.5" y="5.5" width="128.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -879,11 +879,11 @@
         <text x="266.25" y="27.25" class="array">3F</text>
         <text x="234.25" y="27.25" class="array">39</text>
         <text x="202.25" y="27.25" class="array">5B</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -904,22 +904,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame25" attributeName="visibility" values="visible" begin="frame24.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="325.5" y="5.5" width="96.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">07</text>
-        <text x="298.25" y="27.25" class="array">60</text>
+        <text x="298.25" y="27.25" class="array">06</text>
         <text x="266.25" y="27.25" class="array">A5</text>
         <text x="234.25" y="27.25" class="array">C9</text>
         <text x="202.25" y="27.25" class="array">1D</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -940,23 +940,23 @@
     </g>
     <g visibility="hidden">
         <animate id="frame26" attributeName="visibility" values="visible" begin="frame25.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="325.5" y="5.5" width="96.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">A5</text>
-        <text x="266.25" y="27.25" class="array">60</text>
+        <text x="266.25" y="27.25" class="array">06</text>
         <text x="234.25" y="27.25" class="array">C9</text>
         <text x="202.25" y="27.25" class="array">1D</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -977,9 +977,9 @@
     </g>
     <g visibility="hidden">
         <animate id="frame27" attributeName="visibility" values="visible" begin="frame26.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="192.0" height="32.0" class="array-dark-tape" />
         <rect x="197.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="325.5" y="5.5" width="96.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -987,13 +987,13 @@
         <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">A5</text>
         <text x="266.25" y="27.25" class="array">C9</text>
-        <text x="234.25" y="27.25" class="array">60</text>
+        <text x="234.25" y="27.25" class="array">06</text>
         <text x="202.25" y="27.25" class="array">1D</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1014,7 +1014,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame28" attributeName="visibility" values="visible" begin="frame27.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="325.5" y="5.5" width="96.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -1023,12 +1023,12 @@
         <text x="298.25" y="27.25" class="array">A5</text>
         <text x="266.25" y="27.25" class="array">C9</text>
         <text x="234.25" y="27.25" class="array">1D</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1049,22 +1049,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame29" attributeName="visibility" values="visible" begin="frame28.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="357.5" y="5.5" width="64.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
-        <text x="330.25" y="27.25" class="array">70</text>
+        <text x="330.25" y="27.25" class="array">07</text>
         <text x="298.25" y="27.25" class="array">BA</text>
         <text x="266.25" y="27.25" class="array">A5</text>
         <text x="234.25" y="27.25" class="array">A7</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1085,23 +1085,23 @@
     </g>
     <g visibility="hidden">
         <animate id="frame30" attributeName="visibility" values="visible" begin="frame29.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="357.5" y="5.5" width="64.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">BA</text>
-        <text x="298.25" y="27.25" class="array">70</text>
+        <text x="298.25" y="27.25" class="array">07</text>
         <text x="266.25" y="27.25" class="array">A5</text>
         <text x="234.25" y="27.25" class="array">A7</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1122,23 +1122,23 @@
     </g>
     <g visibility="hidden">
         <animate id="frame31" attributeName="visibility" values="visible" begin="frame30.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="224.0" height="32.0" class="array-dark-tape" />
         <rect x="229.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="357.5" y="5.5" width="64.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">BA</text>
         <text x="298.25" y="27.25" class="array">A5</text>
-        <text x="266.25" y="27.25" class="array">70</text>
+        <text x="266.25" y="27.25" class="array">07</text>
         <text x="234.25" y="27.25" class="array">A7</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1159,7 +1159,7 @@
     </g>
     <g visibility="hidden">
         <animate id="frame32" attributeName="visibility" values="visible" begin="frame31.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="357.5" y="5.5" width="64.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
@@ -1167,13 +1167,13 @@
         <text x="330.25" y="27.25" class="array">BA</text>
         <text x="298.25" y="27.25" class="array">A5</text>
         <text x="266.25" y="27.25" class="array">A7</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1194,22 +1194,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame33" attributeName="visibility" values="visible" begin="frame32.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="357.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="357.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
-        <text x="362.25" y="27.25" class="array">80</text>
+        <text x="362.25" y="27.25" class="array">08</text>
         <text x="330.25" y="27.25" class="array">3B</text>
         <text x="298.25" y="27.25" class="array">42</text>
         <text x="266.25" y="27.25" class="array">31</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1230,23 +1230,23 @@
     </g>
     <g visibility="hidden">
         <animate id="frame34" attributeName="visibility" values="visible" begin="frame33.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="357.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">3B</text>
-        <text x="330.25" y="27.25" class="array">80</text>
+        <text x="330.25" y="27.25" class="array">08</text>
         <text x="298.25" y="27.25" class="array">42</text>
         <text x="266.25" y="27.25" class="array">31</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1267,23 +1267,23 @@
     </g>
     <g visibility="hidden">
         <animate id="frame35" attributeName="visibility" values="visible" begin="frame34.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="256.0" height="32.0" class="array-dark-tape" />
         <rect x="261.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="325.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">3B</text>
         <text x="330.25" y="27.25" class="array">42</text>
-        <text x="298.25" y="27.25" class="array">80</text>
+        <text x="298.25" y="27.25" class="array">08</text>
         <text x="266.25" y="27.25" class="array">31</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1304,21 +1304,21 @@
     </g>
     <g visibility="hidden">
         <animate id="frame36" attributeName="visibility" values="visible" begin="frame35.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-tape" />
         <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">3B</text>
         <text x="330.25" y="27.25" class="array">42</text>
         <text x="298.25" y="27.25" class="array">31</text>
-        <text x="266.25" y="27.25" class="array">80</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="266.25" y="27.25" class="array">08</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1339,21 +1339,21 @@
     </g>
     <g visibility="hidden">
         <animate id="frame37" attributeName="visibility" values="visible" begin="frame36.end" dur="0.75s"/>
-        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="96.0" height="32.0" class="array-register" />
-        <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
-        <text x="394.25" y="27.25" class="array">90</text>
+        <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
+        <text x="394.25" y="27.25" class="array">09</text>
         <text x="362.25" y="27.25" class="array">9D</text>
         <text x="330.25" y="27.25" class="array">44</text>
         <text x="298.25" y="27.25" class="array">FA</text>
-        <text x="266.25" y="27.25" class="array">80</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="266.25" y="27.25" class="array">08</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1374,22 +1374,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame38" attributeName="visibility" values="visible" begin="frame37.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="64.0" height="32.0" class="array-register" />
-        <rect x="357.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="357.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="389.5" y="5.5" width="32.0" height="32.0" class="array-register" />
         <text x="394.25" y="27.25" class="array">9D</text>
-        <text x="362.25" y="27.25" class="array">90</text>
+        <text x="362.25" y="27.25" class="array">09</text>
         <text x="330.25" y="27.25" class="array">44</text>
         <text x="298.25" y="27.25" class="array">FA</text>
-        <text x="266.25" y="27.25" class="array">80</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="266.25" y="27.25" class="array">08</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1410,22 +1410,22 @@
     </g>
     <g visibility="hidden">
         <animate id="frame39" attributeName="visibility" values="visible" begin="frame38.end" dur="0.25s"/>
-        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="288.0" height="32.0" class="array-dark-tape" />
         <rect x="293.5" y="5.5" width="32.0" height="32.0" class="array-register" />
-        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-mod-tape" />
+        <rect x="325.5" y="5.5" width="32.0" height="32.0" class="array-dark-tape" />
         <rect x="357.5" y="5.5" width="64.0" height="32.0" class="array-register" />
         <text x="394.25" y="27.25" class="array">9D</text>
         <text x="362.25" y="27.25" class="array">44</text>
-        <text x="330.25" y="27.25" class="array">90</text>
+        <text x="330.25" y="27.25" class="array">09</text>
         <text x="298.25" y="27.25" class="array">FA</text>
-        <text x="266.25" y="27.25" class="array">80</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="266.25" y="27.25" class="array">08</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />
@@ -1446,20 +1446,20 @@
     </g>
     <g visibility="hidden">
         <animate id="frame40" attributeName="visibility" values="visible" begin="frame39.end" dur="3.0s"/>
-        <rect x="5.5" y="5.5" width="320.0" height="32.0" class="array-mod-tape" />
+        <rect x="5.5" y="5.5" width="320.0" height="32.0" class="array-dark-tape" />
         <rect x="325.5" y="5.5" width="96.0" height="32.0" class="array-register" />
         <text x="394.25" y="27.25" class="array">9D</text>
         <text x="362.25" y="27.25" class="array">44</text>
         <text x="330.25" y="27.25" class="array">FA</text>
-        <text x="298.25" y="27.25" class="array">90</text>
-        <text x="266.25" y="27.25" class="array">80</text>
-        <text x="234.25" y="27.25" class="array">70</text>
-        <text x="202.25" y="27.25" class="array">60</text>
-        <text x="170.25" y="27.25" class="array">50</text>
-        <text x="138.25" y="27.25" class="array">40</text>
-        <text x="106.25" y="27.25" class="array">30</text>
-        <text x="74.25" y="27.25" class="array">20</text>
-        <text x="42.25" y="27.25" class="array">10</text>
+        <text x="298.25" y="27.25" class="array">09</text>
+        <text x="266.25" y="27.25" class="array">08</text>
+        <text x="234.25" y="27.25" class="array">07</text>
+        <text x="202.25" y="27.25" class="array">06</text>
+        <text x="170.25" y="27.25" class="array">05</text>
+        <text x="138.25" y="27.25" class="array">04</text>
+        <text x="106.25" y="27.25" class="array">03</text>
+        <text x="74.25" y="27.25" class="array">02</text>
+        <text x="42.25" y="27.25" class="array">01</text>
         <text x="10.25" y="27.25" class="array">00</text>
         <line x1="5.5" y1="5.5" x2="5.5" y2="37.5" class="array" />
         <line x1="37.5" y1="5.5" x2="37.5" y2="37.5" class="array" />

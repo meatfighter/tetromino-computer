@@ -294,6 +294,7 @@
     <g style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:300px;font-family:'Bentham', serif;">        
         <g>
             <rect x="1455.5" y="55.5" width="1779" height="639" class="component"/>
+            <rect x="1455.5" y="55.5" width="1779" height="639" class="terminal-stroke"/>
             <text transform="translate(2345.5 375.5)" class="component" dy="0.25em" text-anchor="middle"><tspan style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:300px;font-family:'Bentham', serif;">f</tspan></text>
         </g>        
     </g>

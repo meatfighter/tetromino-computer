@@ -160,13 +160,3 @@ rect.array-tape {
     fill: #FFCECE;
     stroke: none;
 }
-
-rect.array-mod-tape {
-    fill: #CCCDFF;
-    stroke: none;
-}
-
-rect.array-dark-tape {
-    fill: #D8AFAF;
-    stroke: none;
-}
