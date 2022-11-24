@@ -1,5 +1,6 @@
 package tetriscircuits.ui;
 
+import com.bulenkov.darcula.DarculaLaf;
 import java.awt.Image;
 import java.awt.Window;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public final class UiUtil {
     
@@ -19,6 +22,13 @@ public final class UiUtil {
                         String.format("/icons/logo%dx%d.png", i, i))));
             }
         } catch (final IOException e) {            
+        }
+    }
+    
+    public static void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(new DarculaLaf()); 
+        } catch (final UnsupportedLookAndFeelException e) {
         }
     }
 
