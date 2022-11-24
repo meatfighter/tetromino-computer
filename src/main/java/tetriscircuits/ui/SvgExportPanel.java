@@ -20,7 +20,8 @@ public class SvgExportPanel extends javax.swing.JPanel {
         
         dialog = new JDialog(owner, "Export SVG", MODELESS);
         dialog.setContentPane(new SvgExportPanel());
-        UiUtil.setIcons(dialog);        
+        UiUtil.setIcons(dialog);  
+        dialog.setPreferredSize(null);
         dialog.pack();
         dialog.setLocationRelativeTo(owner);
         dialog.setVisible(true);
@@ -45,7 +46,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
      */
     public SvgExportPanel() {
         initComponents();
-        UiUtil.setTextFieldColumns(fileTextField, 150);
+        UiUtil.setTextFieldColumns(fileTextField, 50);
     }
     
     public SvgExportModel getModel() {
@@ -106,8 +107,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
 
         jLabel3.setText("Pad Left:");
 
-        setPreferredSize(null);
-
         outputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
         outputPanel.setPreferredSize(null);
 
@@ -115,9 +114,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
         stdOutCheckBox.setPreferredSize(null);
 
         fileLabel.setText("File:");
-
-        fileTextField.setColumns(100);
-        fileTextField.setPreferredSize(null);
 
         browseFileButton.setMnemonic('b');
         browseFileButton.setText("Browse...");
@@ -144,13 +140,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
             .addGroup(outputPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(outputPanelLayout.createSequentialGroup()
-                        .addComponent(stdOutCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(stdOutCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(outputPanelLayout.createSequentialGroup()
                         .addComponent(fileLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                        .addComponent(fileTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,7 +238,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
                         .addComponent(padTopLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(padTopSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         gridPanelLayout.setVerticalGroup(
             gridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,7 +364,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
                         .addComponent(depthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         renderPanelLayout.setVerticalGroup(
             renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,8 +404,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
         valueLabel.setText("Value:");
         valueLabel.setPreferredSize(null);
 
-        inputValueTextField.setPreferredSize(null);
-
         javax.swing.GroupLayout inputPanelLayout = new javax.swing.GroupLayout(inputPanel);
         inputPanel.setLayout(inputPanelLayout);
         inputPanelLayout.setHorizontalGroup(
@@ -419,13 +411,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
             .addGroup(inputPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(inputPanelLayout.createSequentialGroup()
-                        .addComponent(allPossibleValuesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(allPossibleValuesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(inputPanelLayout.createSequentialGroup()
                         .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inputValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(inputValueTextField)))
                 .addContainerGap())
         );
         inputPanelLayout.setVerticalGroup(
@@ -446,15 +436,14 @@ public class SvgExportPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                    .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                    .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                    .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(outputPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE))
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

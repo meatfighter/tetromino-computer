@@ -41,8 +41,8 @@ public final class UiUtil {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < columns; ++i) {
             sb.append('M');
-        }
-        textField.setText(sb.toString());
+        }        
+        textField.setText(sb.toString());        
         textField.setMinimumSize(textField.getPreferredSize());
         textField.setMaximumSize(textField.getPreferredSize());
         textField.setText("");
