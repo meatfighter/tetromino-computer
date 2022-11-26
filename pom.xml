@@ -4,7 +4,7 @@
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.meatfighter</groupId>
-    <artifactId>tetris-circuits</artifactId>
+    <artifactId>tetromino-computer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     
