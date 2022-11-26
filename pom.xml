@@ -21,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>tetriscircuits.computer.Computer</mainClass>
+                            <mainClass>tetrominocomputer.computer.Computer</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

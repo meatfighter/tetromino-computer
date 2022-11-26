@@ -54,7 +54,7 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="GenerateExecutable" profiles=""/>
             <configuration id="GenerateMemoryCode" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
-            <configuration id="MirrorTetrominoesScript" profiles=""/>
+            <configuration id="MirrorTetrominoScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
             <configuration id="Generate Transducer" profiles=""/>
         </configurations>

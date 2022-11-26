@@ -21,11 +21,11 @@ tetrominoesscript
 computer
 
 
-workspace -> TetrisScript and TetrisMemoryScript
+workspace -> TetrominoScript and MemoryCode
 
 remaining sections:
 
-- TetrominoesScript Editor tutorial
+- TetrominoScript Editor tutorial
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
