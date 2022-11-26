@@ -394,14 +394,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="tetriminosCheckBox" min="-2" max="-2" attributes="0"/>
+                          <Component id="inputNodesCheckBox" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="structuresCheckBox" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="inputNodesCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="outputNodesCheckBox" min="-2" max="-2" attributes="0"/>
+                          <Component id="outputNodesCheckBox" min="-2" pref="114" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="nodeValuesCheckBox" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -426,8 +421,13 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="depthSpinner" min="-2" pref="60" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="tetrominoesCheckBox" min="-2" pref="106" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="structuresCheckBox" min="-2" pref="96" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -453,7 +453,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="tetriminosCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tetrominoesCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="structuresCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -468,9 +468,9 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="tetriminosCheckBox">
+        <Component class="javax.swing.JCheckBox" name="tetrominoesCheckBox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Tetriminos"/>
+            <Property name="text" type="java.lang.String" value="Tetrominoes"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="null" type="code"/>
             </Property>

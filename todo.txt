@@ -17,7 +17,7 @@ negator
 test mechanism
 
 refactor packages:
-tetrisscript
+tetrominoesscript
 computer
 
 
@@ -25,7 +25,7 @@ workspace -> TetrisScript and TetrisMemoryScript
 
 remaining sections:
 
-- TetrisScript Editor tutorial
+- TetrominoesScript Editor tutorial
 - where are all the files, how to run
 - index
 - splitting up in smaller pages

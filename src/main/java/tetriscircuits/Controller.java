@@ -119,7 +119,7 @@ public class Controller {
         final Component ss = new Component(String.format("s%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
-            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetromino.SH, null, null, new int[] { x }));
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -138,7 +138,7 @@ public class Controller {
         final Component zs = new Component(String.format("z%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
-            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetromino.ZH, null, null, new int[] { x }));
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -153,8 +153,8 @@ public class Controller {
         components.put(zs.getName(), zs);
     }
     
-    private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
-        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
+    private void addInstruction(final List<Instruction> instructions, final Tetromino tetromino, final int x) {
+        instructions.add(new Instruction(tetromino, null, null, new int[] { x }));
     }
     
     private void setInputs(final Component component, final int x, final int y) {
@@ -183,13 +183,13 @@ public class Controller {
         final int remainder = length % 4;
         switch(length % 4) {
             case 1:
-                addInstruction(instructions, Tetrimino.JL, 1);
+                addInstruction(instructions, Tetromino.JL, 1);
                 break;
             case 2:
-                addInstruction(instructions, Tetrimino.OS, 1);
+                addInstruction(instructions, Tetromino.OS, 1);
                 break;
             case 3:
-                addInstruction(instructions, Tetrimino.LR, 0);
+                addInstruction(instructions, Tetromino.LR, 0);
                 break;
         }
         if (remainder == 0) {
@@ -198,7 +198,7 @@ public class Controller {
             setInputs(is, 0, 1, 0);
         }
         for (int i = length >> 2; i > 0; --i) {
-            addInstruction(instructions, Tetrimino.IV, 0);
+            addInstruction(instructions, Tetromino.IV, 0);
         }
         is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         setOutputs(is, 0, length); 
@@ -215,13 +215,13 @@ public class Controller {
         final int remainder = length % 4;
         switch(length % 4) {
             case 1:
-                addInstruction(instructions, Tetrimino.LR, -1);
+                addInstruction(instructions, Tetromino.LR, -1);
                 break;
             case 2:
-                addInstruction(instructions, Tetrimino.OS, 0);
+                addInstruction(instructions, Tetromino.OS, 0);
                 break;
             case 3:
-                addInstruction(instructions, Tetrimino.JL, 0);
+                addInstruction(instructions, Tetromino.JL, 0);
                 break;
         }
         if (remainder == 0) {
@@ -230,7 +230,7 @@ public class Controller {
             setInputs(is, -1, 0, 0);
         }
         for (int i = length >> 2; i > 0; --i) {
-            addInstruction(instructions, Tetrimino.IV, 0);
+            addInstruction(instructions, Tetromino.IV, 0);
         }
         is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         setOutputs(is, 0, length); 
@@ -471,7 +471,7 @@ public class Controller {
             return ds;
         }
         for (final Instruction instruction : instructions) {
-            if (instruction.getTetrimino() != null) {
+            if (instruction.getTetromino() != null) {
                 continue;
             }
             final String compName = instruction.getComponentName();
@@ -513,9 +513,9 @@ public class Controller {
 
                 Extents e = null;
                 
-                final Tetrimino tetrimino = instruction.getTetrimino();
-                if (tetrimino != null) {
-                    e = tetrimino.getExtents();
+                final Tetromino tetromino = instruction.getTetromino();
+                if (tetromino != null) {
+                    e = tetromino.getExtents();
                 } else {                         
                     try {
                         e = getComponentExtents(componentExtents, instruction.getComponentName());

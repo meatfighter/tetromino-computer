@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class Tetrimino {
+public final class Tetromino {
     
     private static final boolean[][] MATRIX = new boolean[5][5];
     
@@ -38,34 +38,34 @@ public final class Tetrimino {
     private static final int[][] BLOCKS_IH = { { -2,  0 }, { -1,  0 }, {  0,  0 }, {  1,  0 }, };
     private static final int[][] BLOCKS_IV = { {  0, -2 }, {  0, -1 }, {  0,  0 }, {  0,  1 }, };
     
-    public static final Tetrimino TD;
-    public static final Tetrimino TL;
-    public static final Tetrimino TU;
-    public static final Tetrimino TR;
+    public static final Tetromino TD;
+    public static final Tetromino TL;
+    public static final Tetromino TU;
+    public static final Tetromino TR;
     
-    public static final Tetrimino JD;
-    public static final Tetrimino JL;
-    public static final Tetrimino JU;
-    public static final Tetrimino JR;
+    public static final Tetromino JD;
+    public static final Tetromino JL;
+    public static final Tetromino JU;
+    public static final Tetromino JR;
     
-    public static final Tetrimino ZH;
-    public static final Tetrimino ZV;
+    public static final Tetromino ZH;
+    public static final Tetromino ZV;
     
-    public static final Tetrimino OS;
+    public static final Tetromino OS;
     
-    public static final Tetrimino SH;
-    public static final Tetrimino SV;
+    public static final Tetromino SH;
+    public static final Tetromino SV;
     
-    public static final Tetrimino LD;
-    public static final Tetrimino LL;
-    public static final Tetrimino LU;
-    public static final Tetrimino LR;
+    public static final Tetromino LD;
+    public static final Tetromino LL;
+    public static final Tetromino LU;
+    public static final Tetromino LR;
     
-    public static final Tetrimino IH;
-    public static final Tetrimino IV;
+    public static final Tetromino IH;
+    public static final Tetromino IV;
     
-    private static final Map<String, Tetrimino> FROM_NAME = new HashMap<>();
-    private static final Map<String, Tetrimino> FROM_NAME_TO_TETRIMINO;
+    private static final Map<String, Tetromino> FROM_NAME = new HashMap<>();
+    private static final Map<String, Tetromino> FROM_NAME_TO_TETROMINO;
     
     private final String name;
     private final int index;
@@ -80,8 +80,8 @@ public final class Tetrimino {
     
     private final Extents extents;
     
-    private Tetrimino cw;
-    private Tetrimino ccw;
+    private Tetromino cw;
+    private Tetromino ccw;
     
     private static Point[] findLeftBlocks() {
         final List<Point> leftBlocks = new ArrayList<>();
@@ -125,67 +125,67 @@ public final class Tetrimino {
     }    
     
     static {
-        TD = new Tetrimino("td", 0, "t", 0, BLOCKS_TD);
-        TL = new Tetrimino("tl", 1, "t", 0, BLOCKS_TL);
-        TU = new Tetrimino("tu", 2, "t", 0, BLOCKS_TU);
-        TR = new Tetrimino("tr", 3, "t", 0, BLOCKS_TR);
+        TD = new Tetromino("td", 0, "t", 0, BLOCKS_TD);
+        TL = new Tetromino("tl", 1, "t", 0, BLOCKS_TL);
+        TU = new Tetromino("tu", 2, "t", 0, BLOCKS_TU);
+        TR = new Tetromino("tr", 3, "t", 0, BLOCKS_TR);
         
-        JD = new Tetrimino("jd", 0, "j", 1, BLOCKS_JD);
-        JL = new Tetrimino("jl", 1, "j", 1, BLOCKS_JL);
-        JU = new Tetrimino("ju", 2, "j", 1, BLOCKS_JU);
-        JR = new Tetrimino("jr", 3, "j", 1, BLOCKS_JR);
+        JD = new Tetromino("jd", 0, "j", 1, BLOCKS_JD);
+        JL = new Tetromino("jl", 1, "j", 1, BLOCKS_JL);
+        JU = new Tetromino("ju", 2, "j", 1, BLOCKS_JU);
+        JR = new Tetromino("jr", 3, "j", 1, BLOCKS_JR);
 
-        ZH = new Tetrimino("zh", 0, "z", 2, BLOCKS_ZH);
-        ZV = new Tetrimino("zv", 1, "z", 2, BLOCKS_ZV);
+        ZH = new Tetromino("zh", 0, "z", 2, BLOCKS_ZH);
+        ZV = new Tetromino("zv", 1, "z", 2, BLOCKS_ZV);
         
-        OS = new Tetrimino( "o", 0, "o", 3, BLOCKS_OS);
+        OS = new Tetromino( "o", 0, "o", 3, BLOCKS_OS);
         
-        SH = new Tetrimino("sh", 0, "s", 4, BLOCKS_SH);
-        SV = new Tetrimino("sv", 1, "s", 4, BLOCKS_SV);
+        SH = new Tetromino("sh", 0, "s", 4, BLOCKS_SH);
+        SV = new Tetromino("sv", 1, "s", 4, BLOCKS_SV);
 
-        LD = new Tetrimino("ld", 0, "l", 5, BLOCKS_LD);
-        LL = new Tetrimino("ll", 1, "l", 5, BLOCKS_LL);
-        LU = new Tetrimino("lu", 2, "l", 5, BLOCKS_LU);
-        LR = new Tetrimino("lr", 3, "l", 5, BLOCKS_LR);
+        LD = new Tetromino("ld", 0, "l", 5, BLOCKS_LD);
+        LL = new Tetromino("ll", 1, "l", 5, BLOCKS_LL);
+        LU = new Tetromino("lu", 2, "l", 5, BLOCKS_LU);
+        LR = new Tetromino("lr", 3, "l", 5, BLOCKS_LR);
         
-        IH = new Tetrimino("ih", 0, "i", 6, BLOCKS_IH);
-        IV = new Tetrimino("iv", 1, "i", 6, BLOCKS_IV);        
+        IH = new Tetromino("ih", 0, "i", 6, BLOCKS_IH);
+        IV = new Tetromino("iv", 1, "i", 6, BLOCKS_IV);        
     }
     
-    public static final Tetrimino[] T = { TD, TL, TU, TR };
-    public static final Tetrimino[] J = { JD, JL, JU, JR };
-    public static final Tetrimino[] Z = { ZH, ZV };
-    public static final Tetrimino[] O = { OS };
-    public static final Tetrimino[] S = { SH, SV };
-    public static final Tetrimino[] L = { LD, LL, LU, LR };
-    public static final Tetrimino[] I = { IH, IV };
+    public static final Tetromino[] T = { TD, TL, TU, TR };
+    public static final Tetromino[] J = { JD, JL, JU, JR };
+    public static final Tetromino[] Z = { ZH, ZV };
+    public static final Tetromino[] O = { OS };
+    public static final Tetromino[] S = { SH, SV };
+    public static final Tetromino[] L = { LD, LL, LU, LR };
+    public static final Tetromino[] I = { IH, IV };
     
-    public static final Tetrimino[][] TETRIMINOS = { T, J, Z, O, S, L, I };
+    public static final Tetromino[][] TETROMINOES = { T, J, Z, O, S, L, I };
     
     static {
-        for (final Tetrimino[] tetriminos : TETRIMINOS) {
-            FROM_NAME.put(tetriminos[0].getGroupName().toLowerCase(), tetriminos[0]);
-            for (int i = tetriminos.length - 1; i >= 0; --i) {
+        for (final Tetromino[] tetrominoes : TETROMINOES) {
+            FROM_NAME.put(tetrominoes[0].getGroupName().toLowerCase(), tetrominoes[0]);
+            for (int i = tetrominoes.length - 1; i >= 0; --i) {
                 int index = i + 1;
-                if (index >= tetriminos.length) {
+                if (index >= tetrominoes.length) {
                     index = 0;
                 } 
-                tetriminos[i].setCw(tetriminos[index]);
+                tetrominoes[i].setCw(tetrominoes[index]);
                 index = i - 1;
                 if (index < 0) {
-                    index = tetriminos.length - 1;
+                    index = tetrominoes.length - 1;
                 } 
-                tetriminos[i].setCcw(tetriminos[index]);
+                tetrominoes[i].setCcw(tetrominoes[index]);
             }
         }
-        FROM_NAME_TO_TETRIMINO = Collections.unmodifiableMap(FROM_NAME);
+        FROM_NAME_TO_TETROMINO = Collections.unmodifiableMap(FROM_NAME);
     }
     
-    public static Tetrimino fromName(final String name) {
-        return FROM_NAME_TO_TETRIMINO.get(name.toLowerCase());
+    public static Tetromino fromName(final String name) {
+        return FROM_NAME_TO_TETROMINO.get(name.toLowerCase());
     }
     
-    private Tetrimino(final String name, final int index, final String groupName, final int groupIndex, 
+    private Tetromino(final String name, final int index, final String groupName, final int groupIndex, 
             final int[][] blocks) {
         this.name = name;
         this.index = index;
@@ -224,11 +224,11 @@ public final class Tetrimino {
         FROM_NAME.put(name.toLowerCase(), this);
     }
 
-    public void setCw(final Tetrimino cw) {
+    public void setCw(final Tetromino cw) {
         this.cw = cw;
     }
 
-    public void setCcw(final Tetrimino ccw) {
+    public void setCcw(final Tetromino ccw) {
         this.ccw = ccw;
     }
 
@@ -264,11 +264,11 @@ public final class Tetrimino {
         return bottomBlocks;
     }
 
-    public Tetrimino getCw() {
+    public Tetromino getCw() {
         return cw;
     }
 
-    public Tetrimino getCcw() {
+    public Tetromino getCcw() {
         return ccw;
     }
 

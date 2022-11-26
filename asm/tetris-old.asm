@@ -30,7 +30,7 @@ define STATE_PLAYING     01
 define STATE_CLEAR_LINES 02
 
 segment 0000
-tetriminos:
+tetrominoes:
 ; X0 Y0  X1 Y1  X2 Y2  X3 Y3
   FF 00  00 00  01 00  00 01  ; 00 Td
   00 FF  FF 00  00 00  00 01  ; 01 Tl
@@ -83,12 +83,12 @@ autorepeatX:       00
 autorepeatY:       00
 dropSpeed:         00
 
-tetriminoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
-tetriminoRotation: 00 ; 00--03
-tetriminoX:        00 ; 00--09
-tetriminoY:        00 ; 00--13
+tetrominoType:     00 ; 00--06 (T, J, Z, O, S, L, I)
+tetrominoRotation: 00 ; 00--03
+tetrominoX:        00 ; 00--09
+tetrominoY:        00 ; 00--13
 
-tetriminoNextType: 00 ; 00--06 (T, J, Z, O, S, L, I)
+tetrominoNextType: 00 ; 00--06 (T, J, Z, O, S, L, I)
 
 lastLeft:          00 ; prior value of left button
 lastRight:         00 ; prior value of right button
@@ -99,10 +99,10 @@ lastCw:            00 ; prior value of clockwise rotation button
 seedHigh:          89 ; RNG high
 seedLow:           88 ; RNG low
 nextBit:           00 ; RNG bit
-randomType0:       00 ; Randomly selected tetrimino type
-randomType1:       03 ; Randomly selected tetrimino type
+randomType0:       00 ; Randomly selected tetromino type
+randomType1:       03 ; Randomly selected tetromino type
 
-tetriminoRow:      00 ; (type << 5) + (rotation << 3)
+tetrominoRow:      00 ; (type << 5) + (rotation << 3)
 i:                 00
 j:                 00
 blockX:            00
@@ -215,23 +215,23 @@ STA                     ; state = STATE_PLAYING;
 
 SMN randomType0
 LDA
-SMN tetriminoType
-STA                     ; tetriminoType = randomType0;
+SMN tetrominoType
+STA                     ; tetrominoType = randomType0;
 
 SMN randomType1
 LDA
-SMN tetriminoNextType   ; tetriminoNextType = randomType1;
+SMN tetrominoNextType   ; tetrominoNextType = randomType1;
 STA
 
-SMN tetriminoRotation
+SMN tetrominoRotation
 SEA 00
-STA                     ; tetriminoRotation = 0;
-SMN tetriminoY
-STA                     ; tetriminoY = 0;
+STA                     ; tetrominoRotation = 0;
+SMN tetrominoY
+STA                     ; tetrominoY = 0;
 
-SMN tetriminoX
+SMN tetrominoX
 SEA 05
-STA                     ; tetriminoX = 5;
+STA                     ; tetrominoX = 5;
 
 SMN autorepeatY
 SEA A0
@@ -285,10 +285,10 @@ STA                     ; i = -2;
 scanClears:
 SMN i
 LDA
-SMN tetriminoY
+SMN tetrominoY
 LDB
 ADD
-TAB                     ; B = tetriminoY + i;
+TAB                     ; B = tetrominoY + i;
                         ; if (B < 0) {
 BMI continueScanClears  ;   goto continueScanClears;
                         ; }
@@ -412,15 +412,15 @@ BNE scanClears          ;   goto scanClears;
 endScanClears:
 
 
-SMN tetriminoNextType
-LDA                     ; A = tetriminoNextType;
-SMN tetriminoType
-STA                     ; tetriminoType = A;
+SMN tetrominoNextType
+LDA                     ; A = tetrominoNextType;
+SMN tetrominoType
+STA                     ; tetrominoType = A;
 
 SMN randomType0
 LDB                     ; B = randomType0;
 SUB                     ; if (A != B) { 
-BNE setTetriminoNextType;   goto setTetriminoNextType;
+BNE setTetrominoesNextType;   goto setTetrominoesNextType;
                         ; }
 SMN randomType1
 LDA                     ; A = randomType1
@@ -429,19 +429,19 @@ TAB                     ; B = A;
 SMN randomType0
 STB                     ; randomType0 = B;
 
-setTetriminoNextType:
-SMN tetriminoNextType
-STB                     ; tetriminoNextType = B;
+setTetrominoesNextType:
+SMN tetrominoNextType
+STB                     ; tetrominoNextType = B;
 
 SEA 05
-SMN tetriminoX
-STA                     ; tetriminoX = 5;
+SMN tetrominoX
+STA                     ; tetrominoX = 5;
 
 SEA 00
-SMN tetriminoY
-STA                     ; tetriminoY = 0;
-SMN tetriminoRotation
-STA                     ; tetriminoRotation = 0;
+SMN tetrominoY
+STA                     ; tetrominoY = 0;
+SMN tetrominoRotation
+STA                     ; tetrominoRotation = 0;
 SMN autorepeatY
 STA                     ; autorepeatY = 0;
 
@@ -455,13 +455,13 @@ statePlaying:
 SEA EMPTY
 SMN drawTile+1
 STA                     ; [drawTile+1] = EMPTY;
-JSR drawTetrimino       ; drawTetrimino();
+JSR drawTetrominoes       ; drawTetrominoes();
 
 ; Handle shifting ------------------------------------------------------------------------------------------------------
-SMN tetriminoX
+SMN tetrominoX
 LDA
 SMN originalValue
-STA                     ; originalValue = tetriminoX;
+STA                     ; originalValue = tetrominoX;
 
 SMN BUTTON_DOWN
 LDA                     ; if (BUTTON_DOWN != RELEASED_VALUE) { 
@@ -513,12 +513,12 @@ SMN BUTTON_RIGHT
 LDA                     ; if (BUTTON_RIGHT == RELEASED_VALUE) {
 BEQ notPressingRight    ;   goto notPressingRight;
                         ; }
-SMN tetriminoX
+SMN tetrominoX
 LDA
 INC                    
-STA                     ; ++tetriminoX;
+STA                     ; ++tetrominoX;
 
-JSR testTetrimino       ; if (!testTetrimino()) {
+JSR testTetrominoes       ; if (!testTetrominoes()) {
 BNE restoreX            ;   goto restoreX;
                         ; }
 
@@ -530,12 +530,12 @@ SMN BUTTON_LEFT
 LDA                     ; if (BUTTON_LEFT == RELEASED_VALUE) {
 BEQ endShift            ;   goto endShift;
                         ; }
-SMN tetriminoX
+SMN tetrominoX
 LDA
 DEC                    
-STA                     ; --tetriminoX;
+STA                     ; --tetrominoX;
 
-JSR testTetrimino       ; if (!testTetrimino()) {
+JSR testTetrominoes       ; if (!testTetrominoes()) {
 BNE restoreX            ;   goto restoreX;
                         ; }
 
@@ -545,8 +545,8 @@ JMP endShift            ; goto endShift;
 restoreX:
 SMN originalValue
 LDA
-SMN tetriminoX
-STA                     ; tetriminoX = originalValue;
+SMN tetrominoX
+STA                     ; tetrominoX = originalValue;
 
 endShift:
 SMN BUTTON_LEFT
@@ -568,28 +568,28 @@ SMN lastCcw
 LDA                     ; if (lastCcw != RELEASED_VALUE) {
 BNE endCcw              ;   goto endCcw;
                         ; }
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 SMN originalValue
-STA                     ; originalValue = tetriminoRotation;
+STA                     ; originalValue = tetrominoRotation;
 
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 DEC
 BPL noCcwRollover       
-SEA 03                  ; if (--tetriminoRotation == 0) {
-noCcwRollover:          ;   tetriminoRotation = 3;
+SEA 03                  ; if (--tetrominoRotation == 0) {
+noCcwRollover:          ;   tetrominoRotation = 3;
 STA                     ; }
 
 JSR updateRandomType0;  ; updateRandomType0();
 
-JSR testTetrimino       ; if (testTetrimino()) {
+JSR testTetrominoes       ; if (testTetrominoes()) {
 BEQ endCcw              ;   goto endCcw;
                         ; }
 SMN originalValue
 LDA
-SMN tetriminoRotation
-STA                     ; tetriminoRotation = originalValue;
+SMN tetrominoRotation
+STA                     ; tetrominoRotation = originalValue;
 
 endCcw:
 SMN BUTTON_CCW
@@ -607,31 +607,31 @@ SMN lastCw
 LDA                     ; if (lastCw != RELEASED_VALUE) {
 BNE endCw               ;   goto endCw;
                         ; }
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 SMN originalValue
-STA                     ; originalValue = tetriminoRotation;
+STA                     ; originalValue = tetrominoRotation;
 
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 INC
 TAB
 SEA 04
 SUB
 BNE noCwRollover
-SEB 00                  ; if (++tetriminoRotation == 4) {
-noCwRollover:           ;   tetriminoRotation = 0;
+SEB 00                  ; if (++tetrominoRotation == 4) {
+noCwRollover:           ;   tetrominoRotation = 0;
 STB                     ; }
 
 JSR updateRandomType1;  ; updateRandomType1();
 
-JSR testTetrimino       ; if (testTetrimino()) {
+JSR testTetrominoes       ; if (testTetrominoes()) {
 BEQ endCw               ;   goto endCw;
                         ; }
 SMN originalValue
 LDA
-SMN tetriminoRotation
-STA                     ; tetriminoRotation = originalValue;
+SMN tetrominoRotation
+STA                     ; tetrominoRotation = originalValue;
 
 endCw:
 SMN BUTTON_CW
@@ -654,7 +654,7 @@ BPL autorepeating       ;   goto autorepeating;
                         ; }
 
                         ; game just started
-                        ; initial Tetrimino hanging at spawn point
+                        ; initial Tetrominoes hanging at spawn point
 
 SMN lastDown
 LDA                     ; if (lastDown != releasedButton) {
@@ -745,17 +745,17 @@ SEA 00
 SMN fallTimer
 STA                     ; fallTimer = 0;
 
-SMN tetriminoY
+SMN tetrominoY
 LDA
 SMN originalValue
-STA                     ; originalValue = tetriminoY;
+STA                     ; originalValue = tetrominoY;
 
-SMN tetriminoY
+SMN tetrominoY
 LDA
 INC
-STA                     ; ++tetriminoY
+STA                     ; ++tetrominoY
 
-JSR testTetrimino       ; if (testTetrimino()) {
+JSR testTetrominoes       ; if (testTetrominoes()) {
 BEQ endDrop             ;   goto endDrop;
                         ; }
 
@@ -763,8 +763,8 @@ BEQ endDrop             ;   goto endDrop;
 
 SMN originalValue
 LDA
-SMN tetriminoY
-STA                     ; tetriminoY = originalValue;
+SMN tetrominoY
+STA                     ; tetrominoY = originalValue;
 
 SMN state
 SEA STATE_CLEAR_LINES
@@ -820,20 +820,20 @@ STA                     ; lastDown = BUTTON_DOWN;  // --------------------------
 SEA SOLID
 SMN drawTile+1
 STA                     ; [drawTile+1] = SOLID;
-JSR drawTetrimino       ; drawTetrimino();
+JSR drawTetrominoes       ; drawTetrominoes();
 
 JMP mainLoop            ; goto mainLoop; // ----------------------------------------------------------------------------
 
 
-testTetrimino: ; -------------------------------------------------------------------------------------------------------
-; tetriminoType     - type
-; tetriminoRotation - rotation
-; tetriminoX        - x
-; tetriminoY        - y
+testTetrominoes: ; -------------------------------------------------------------------------------------------------------
+; tetrominoType     - type
+; tetrominoRotation - rotation
+; tetrominoX        - x
+; tetrominoY        - y
 
 ; z: 0 = valid position, 1 = invalid position
 
-SMN tetriminoType
+SMN tetrominoType
 LDA
 LSH
 LSH
@@ -841,14 +841,14 @@ LSH
 LSH
 LSH
 TAB
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 LSH
 LSH
 LSH
 ADD
-SMN tetriminoRow
-STA                     ; tetriminoRow = (tetriminoType << 5) + (tetriminoRotation << 3);
+SMN tetrominoRow
+STA                     ; tetrominoRow = (tetrominoType << 5) + (tetrominoRotation << 3);
 
 SMN i
 SEA 03
@@ -857,29 +857,29 @@ STA                     ; i = 3;
 testLoop:
 
 LSH
-SMN tetriminoRow
+SMN tetrominoRow
 LDB
 ADD
 SMN tableIndex          
-STA                     ; tableIndex = tetriminoRow + (i << 1);
+STA                     ; tableIndex = tetrominoRow + (i << 1);
 
-SMN tetriminos
+SMN tetrominoes
 TAN
 LDA
-SMN tetriminoX
+SMN tetrominoX
 LDB
 ADD
 SMN blockX              
-STA                     ; blockX = tetriminos[tableIndex] + tetriminoX;
+STA                     ; blockX = tetrominoes[tableIndex] + tetrominoX;
 
 SMN tableIndex
 LDA
 INC
-SMN tetriminos
+SMN tetrominoes
 TAN
 LDA
-SMN tetriminoY
-LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
+SMN tetrominoY
+LDB                     ; A = tetrominoes[tableIndex + 1] + tetrominoY;
 ADD                     ; if (A < 0) {
 BMI continueTestLoop    ;   goto continueTestLoop;                 
                         ; }
@@ -917,14 +917,14 @@ RTS                     ; return; // -------------------------------------------
 
 
 
-drawTetrimino: ; -------------------------------------------------------------------------------------------------------
-; tetriminoType     - type
-; tetriminoRotation - rotation
-; tetriminoX        - x
-; tetriminoY        - y
+drawTetrominoes: ; -------------------------------------------------------------------------------------------------------
+; tetrominoType     - type
+; tetrominoRotation - rotation
+; tetrominoX        - x
+; tetrominoY        - y
 ; drawTile+1        - tile
 
-SMN tetriminoType
+SMN tetrominoType
 LDA
 LSH
 LSH
@@ -932,14 +932,14 @@ LSH
 LSH
 LSH
 TAB
-SMN tetriminoRotation
+SMN tetrominoRotation
 LDA
 LSH
 LSH
 LSH
 ADD
-SMN tetriminoRow
-STA                     ; tetriminoRow = (tetriminoType << 5) + (tetriminoRotation << 3);
+SMN tetrominoRow
+STA                     ; tetrominoRow = (tetrominoType << 5) + (tetrominoRotation << 3);
 
 SMN i
 SEA 03
@@ -948,29 +948,29 @@ STA                     ; i = 3;
 drawLoop:
 
 LSH
-SMN tetriminoRow
+SMN tetrominoRow
 LDB
 ADD
 SMN tableIndex          
-STA                     ; tableIndex = tetriminoRow + (i << 1);
+STA                     ; tableIndex = tetrominoRow + (i << 1);
 
-SMN tetriminos
+SMN tetrominoes
 TAN
 LDA
-SMN tetriminoX
+SMN tetrominoX
 LDB
 ADD
 SMN blockX              
-STA                     ; blockX = tetriminos[tableIndex] + tetriminoX;
+STA                     ; blockX = tetrominoes[tableIndex] + tetrominoX;
 
 SMN tableIndex
 LDA
 INC
-SMN tetriminos
+SMN tetrominoes
 TAN
 LDA
-SMN tetriminoY
-LDB                     ; A = tetriminos[tableIndex + 1] + tetriminoY;
+SMN tetrominoY
+LDB                     ; A = tetrominoes[tableIndex + 1] + tetrominoY;
 ADD                     ; if (A < 0) {    
 BMI continueDrawLoop    ;   goto continueDrawLoop;
                         ; }

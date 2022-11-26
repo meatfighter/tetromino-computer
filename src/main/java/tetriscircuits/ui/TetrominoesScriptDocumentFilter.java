@@ -12,7 +12,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
-public class TetrisScriptDocumentFilter extends DocumentFilter {
+public class TetrominoesScriptDocumentFilter extends DocumentFilter {
 
     private static final Pattern KEYWORD_PATTERN = Pattern.compile("(in|out)($|\\s)");
     private static final Pattern NUMBER_PATTERN 

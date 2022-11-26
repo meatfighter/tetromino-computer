@@ -12,7 +12,7 @@ import static java.lang.Math.min;
 import tetriscircuits.Structure;
 import tetriscircuits.TerminalRectangle;
 import tetriscircuits.TerminalState;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 
 public class SvgGenerator {
 
@@ -25,7 +25,7 @@ public class SvgGenerator {
             final boolean renderGrid,
             final boolean renderInputTerminals,
             final boolean renderOutputTerminals,
-            final boolean renderTetriminos,
+            final boolean renderTetrominoes,
             final boolean renderYAxis,
             final boolean renderStructures,
             final boolean renderAxesNumbers,
@@ -39,7 +39,7 @@ public class SvgGenerator {
             final boolean renderGridWithNonscalingStroke) {
         try (final PrintStream o = new PrintStream(out)) {
             generate(o, structs, displayWidth, margin, cellSize, renderGrid, renderInputTerminals, 
-                    renderOutputTerminals, renderTetriminos, renderYAxis, renderStructures, renderAxesNumbers, 
+                    renderOutputTerminals, renderTetrominoes, renderYAxis, renderStructures, renderAxesNumbers, 
                     renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenLeft, 
                     renderOpenRight, renderOpenTop, renderGridWithNonscalingStroke);
         }
@@ -54,7 +54,7 @@ public class SvgGenerator {
             final boolean renderGrid,
             final boolean renderInputTerminals,
             final boolean renderOutputTerminals,
-            final boolean renderTetriminos,
+            final boolean renderTetrominoes,
             final boolean renderYAxis,
             final boolean renderStructures,
             final boolean renderAxesNumbers,
@@ -99,13 +99,13 @@ public class SvgGenerator {
                 (svgWidth != viewBoxWidth || svgHeight != viewBoxHeight) 
                         ? String.format(" viewBox=\"0 0 %s %s\"", toString(viewBoxWidth), toString(viewBoxHeight)) 
                         : "");
-        if (renderTetriminos) {
+        if (renderTetrominoes) {
             out.println("    <defs>");
-            for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
-                for (final TetriminoPath path : paths) {
-                    final Tetrimino tetrimino = path.getTetrimino();
+            for (final TetrominoPath[] paths : TetrominoPath.TETROMINO_PATHS) {
+                for (final TetrominoPath path : paths) {
+                    final Tetromino tetromino = path.getTetromino();
                     final PathPoint[] points = path.getPoints();
-                    out.format("        <polygon id=\"%s\" points=\"", tetrimino.getName());
+                    out.format("        <polygon id=\"%s\" points=\"", tetromino.getName());
                     for (int i = 0; i < points.length; ++i) {
                         final PathPoint p = points[i];
                         if (i != 0) {
@@ -115,7 +115,7 @@ public class SvgGenerator {
                         final double y = cellSize * (p.getY() - 3.5) - (p.isBottom() ? 1 : 0);
                         out.format("%s,%s", toString(x), toString(y));
                     }
-                    out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
+                    out.format("\" class=\"%s\"/>%n", tetromino.getGroupName());
                 }
             }
             out.println("    </defs>");
@@ -239,16 +239,16 @@ public class SvgGenerator {
                 out.println("    </g>");
             }
 
-            if (renderTetriminos) {
+            if (renderTetrominoes) {
                 for (int i = structures.length - 1; i >= 0; --i) {
                     final Structure s = structures[i];
-                    final Tetrimino tetrimino = s.getTetrimino();
-                    if (tetrimino == null) {
+                    final Tetromino tetromino = s.getTetromino();
+                    if (tetromino == null) {
                         continue;
                     }
                     final double x = struct.getX() + s.getX() - 0.5;
                     final double y = struct.getY() + s.getY() + 0.5;
-                    out.format("    <use href=\"#%s\" x=\"%s\" y=\"%s\"/>%n", tetrimino.getName(), 
+                    out.format("    <use href=\"#%s\" x=\"%s\" y=\"%s\"/>%n", tetromino.getName(), 
                             toString(ox + cellSize * x), toString(oy - cellSize * y));
                 }
             }

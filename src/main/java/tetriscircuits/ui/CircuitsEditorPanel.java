@@ -44,7 +44,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private static final KeyStroke UNINDENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK);
     private static final KeyStroke COMMENT_KEYSTROKE = KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, Event.CTRL_MASK);
     
-    private final UndoManager tetrisScriptUndoManager;
+    private final UndoManager tetrominoesScriptUndoManager;
     private final UndoManager javaScriptUndoManager;
     
     private CircuitsFrame circuitsFrame;
@@ -53,10 +53,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     private String componentName;
     private boolean aggregateComponent;
     
-    private boolean tetrisScriptHasFocus = true;
+    private boolean tetrominoesScriptHasFocus = true;
     private boolean javaScriptHasFocus;
     
-    private final TetrisScriptDocumentFilter tetrisScriptDocumentFilter = new TetrisScriptDocumentFilter();
+    private final TetrominoesScriptDocumentFilter tetrominoesScriptDocumentFilter = new TetrominoesScriptDocumentFilter();
     private final JavaScriptDocumentFilter javaScriptDocumentFilter = new JavaScriptDocumentFilter();
     
     /**
@@ -69,18 +69,18 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         javaScriptTextArea.getDocument().addUndoableEditListener(e -> javaScriptUndoManager.addEdit(e.getEdit()));
         createUndoRedoUnIndentHandlers(javaScriptScrollPane, javaScriptTextArea, javaScriptDocumentFilter);
         
-        tetrisScriptUndoManager = ((CustomTextPane)tetrisScriptTextPane).createUndoManager();
-        tetrisScriptTextPane.getDocument().addUndoableEditListener(e -> tetrisScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(tetrisScriptScrollPane, tetrisScriptTextPane, tetrisScriptDocumentFilter);
-        tetrisScriptTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+        tetrominoesScriptUndoManager = ((CustomTextPane)tetrominoesScriptTextPane).createUndoManager();
+        tetrominoesScriptTextPane.getDocument().addUndoableEditListener(e -> tetrominoesScriptUndoManager.addEdit(e.getEdit()));
+        createUndoRedoUnIndentHandlers(tetrominoesScriptScrollPane, tetrominoesScriptTextPane, tetrominoesScriptDocumentFilter);
+        tetrominoesScriptTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(COMMENT_KEYSTROKE, "commentKeyStroke");
-        tetrisScriptTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
+        tetrominoesScriptTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
             @Override
             public void actionPerformed(final ActionEvent evt) {
-                final StyledDocument doc = tetrisScriptTextPane.getStyledDocument();
+                final StyledDocument doc = tetrominoesScriptTextPane.getStyledDocument();
                 final Element root = doc.getDefaultRootElement();
-                final int startIndex = root.getElementIndex(tetrisScriptTextPane.getSelectionStart());
-                final int endIndex = root.getElementIndex(tetrisScriptTextPane.getSelectionEnd());
+                final int startIndex = root.getElementIndex(tetrominoesScriptTextPane.getSelectionStart());
+                final int endIndex = root.getElementIndex(tetrominoesScriptTextPane.getSelectionEnd());
                 final int lineCount = endIndex - startIndex + 1;
                 int comments = 0;
                 for (int i = startIndex; i <= endIndex; ++i) {
@@ -109,16 +109,16 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                             } else {                                
                                 doc.insertString(startOffset, "#", null);
                             }
-                            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
+                            TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                         } else if (comment) {
                             if (!line.startsWith("#")) {
                                 doc.insertString(startOffset, "#", null);
-                                TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
+                                TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                             }                            
                         } else {
                             if (line.startsWith("#")) {                                
                                 doc.remove(startOffset, 1);
-                                TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, element);
+                                TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc, element);
                             }                            
                         }                        
                     } catch (final BadLocationException e) {
@@ -130,7 +130,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public long getTetrisScriptChangeCount() {
-        return tetrisScriptDocumentFilter.getChangeCount();
+        return tetrominoesScriptDocumentFilter.getChangeCount();
     }
     
     public long getJavaScriptChangeCount() {
@@ -324,12 +324,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void clearTetrisScript() {
-        tetrisScriptTextPane.setText("");
+        tetrominoesScriptTextPane.setText("");
     }
     
-    public void setTetrisScript(final String tetrisScript) {
-        tetrisScriptTextPane.setText(tetrisScript);
-        TetrisScriptDocumentFilter.applySyntaxHighlighting(tetrisScriptTextPane.getStyledDocument());
+    public void setTetrisScript(final String tetrominoesScript) {
+        tetrominoesScriptTextPane.setText(tetrominoesScript);
+        TetrominoesScriptDocumentFilter.applySyntaxHighlighting(tetrominoesScriptTextPane.getStyledDocument());
     }
     
     public void clearJavaScript() {
@@ -360,18 +360,18 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setCursorRenderer(cursorRenderer);
     }  
     
-    public void tetriminoButtonPressed(final ActionEvent evt) {
+    public void tetrominoButtonPressed(final ActionEvent evt) {
         aggregateComponent = false;
-        componentName = ((TetriminoRenderer)((JButton)evt.getSource())
-                .getIcon()).getTetrimino().getName();
-        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetrimino(componentName));
+        componentName = ((TetrominoRenderer)((JButton)evt.getSource())
+                .getIcon()).getTetromino().getName();
+        playfieldPanel.setCursorRenderer(StructureRenderer.fromTetromino(componentName));
     }   
     
     public void goToLine(final int lineNumber) {        
         if (javaScriptHasFocus) {
             goToLine(lineNumber, javaScriptTextArea, javaScriptScrollPane);
         } else {
-            goToLine(lineNumber, tetrisScriptTextPane, tetrisScriptScrollPane);
+            goToLine(lineNumber, tetrominoesScriptTextPane, tetrominoesScriptScrollPane);
         }
     }
     
@@ -415,12 +415,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void insertStructure(final int cellX, final int cellY) {               
         try {            
-            final StyledDocument doc = tetrisScriptTextPane.getStyledDocument(); 
+            final StyledDocument doc = tetrominoesScriptTextPane.getStyledDocument(); 
             final Element root = doc.getDefaultRootElement();
-            final Element caretLine = root.getElement(root.getElementIndex(tetrisScriptTextPane.getCaretPosition()));
+            final Element caretLine = root.getElement(root.getElementIndex(tetrominoesScriptTextPane.getCaretPosition()));
             final int offset;
             boolean endWithNewline = false;
-            if (tetrisScriptTextPane.getCaretPosition() == caretLine.getStartOffset()) {
+            if (tetrominoesScriptTextPane.getCaretPosition() == caretLine.getStartOffset()) {
                 if (caretLine.getStartOffset() == 0) {
                     offset = 0;                    
                     endWithNewline = doc.getLength() > 0;
@@ -444,10 +444,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
             doc.insertString(offset, line, null); 
             final Element newLine = root.getElement(root.getElementIndex(offset + 1));
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, newLine);
-            tetrisScriptTextPane.setCaretPosition(newLine.getEndOffset() - 1);
+            TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc, newLine);
+            tetrominoesScriptTextPane.setCaretPosition(newLine.getEndOffset() - 1);
             if (componentName != null) {
-                circuitsFrame.buildAndRun(tetrisScriptTextPane.getText(), javaScriptTextArea.getText());
+                circuitsFrame.buildAndRun(tetrominoesScriptTextPane.getText(), javaScriptTextArea.getText());
             }
             clearCursorRenderer();            
         } catch (final BadLocationException e) {
@@ -456,8 +456,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void undo() {
         try {
-            if (tetrisScriptHasFocus) {
-                tetrisScriptUndoManager.undo();
+            if (tetrominoesScriptHasFocus) {
+                tetrominoesScriptUndoManager.undo();
             } else if (javaScriptHasFocus) {
                 javaScriptUndoManager.undo();
             }
@@ -467,8 +467,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void redo() {
         try {
-            if (tetrisScriptHasFocus) {
-                tetrisScriptUndoManager.redo();
+            if (tetrominoesScriptHasFocus) {
+                tetrominoesScriptUndoManager.redo();
             } else if (javaScriptHasFocus) {
                 javaScriptUndoManager.redo();
             }
@@ -477,40 +477,40 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void save(final String compName, final File tsFile, final File jsFile, final Runnable runnable) {
-        controller.save(compName, tsFile, tetrisScriptTextPane.getText(), jsFile, javaScriptTextArea.getText(), 
+        controller.save(compName, tsFile, tetrominoesScriptTextPane.getText(), jsFile, javaScriptTextArea.getText(), 
                 runnable);
     }
     
     public void build(final String componentName, final int depth) {
-        controller.build(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+        controller.build(componentName, tetrominoesScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
     }
     
     public void buildAndRun(final String componentName, final String testBitsStr, final int depth) {
-        controller.buildAndRun(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
+        controller.buildAndRun(componentName, tetrominoesScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
                 depth);
     }
     
     public void exportHtml(final String componentName) {
-        controller.exportHtmlAsync(componentName, tetrisScriptTextPane.getText());
+        controller.exportHtmlAsync(componentName, tetrominoesScriptTextPane.getText());
     }
     
     public void exportSvg(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
-        controller.exportSvgAsync(componentName, tetrisScriptTextPane.getText(), javaScriptTextArea.getText(), 
+        controller.exportSvgAsync(componentName, tetrominoesScriptTextPane.getText(), javaScriptTextArea.getText(), 
                 testBitsStr, false, depth, cellSize);
     }
     
     public boolean isTetrisScriptSelected() {
-        return tetrisScriptTextPane.getSelectionStart() != tetrisScriptTextPane.getSelectionEnd();
+        return tetrominoesScriptTextPane.getSelectionStart() != tetrominoesScriptTextPane.getSelectionEnd();
     }
     
     public String getTetrisScriptLines(final boolean selection) {
-        final int selectionStart = tetrisScriptTextPane.getSelectionStart();
-        final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
+        final int selectionStart = tetrominoesScriptTextPane.getSelectionStart();
+        final int selectionEnd = tetrominoesScriptTextPane.getSelectionEnd();
         if (!selection || selectionStart == selectionEnd) {
-            return tetrisScriptTextPane.getText();
+            return tetrominoesScriptTextPane.getText();
         }
         
-        final Document doc = tetrisScriptTextPane.getDocument();
+        final Document doc = tetrominoesScriptTextPane.getDocument();
         final Element root = doc.getDefaultRootElement();
         final int start = root.getElementIndex(selectionStart);
         final int end = root.getElementIndex(selectionEnd);
@@ -526,12 +526,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void replaceTetrisScriptLines(final String replacement, final boolean selection) {        
-        final StyledDocument doc = tetrisScriptTextPane.getStyledDocument();
-        final int selectionStart = tetrisScriptTextPane.getSelectionStart();
-        final int selectionEnd = tetrisScriptTextPane.getSelectionEnd();
+        final StyledDocument doc = tetrominoesScriptTextPane.getStyledDocument();
+        final int selectionStart = tetrominoesScriptTextPane.getSelectionStart();
+        final int selectionEnd = tetrominoesScriptTextPane.getSelectionEnd();
         if (!selection || selectionStart == selectionEnd) {
-            tetrisScriptTextPane.setText(replacement.substring(0, replacement.length() - 1));
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc);
+            tetrominoesScriptTextPane.setText(replacement.substring(0, replacement.length() - 1));
+            TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc);
             return;
         }
                 
@@ -548,7 +548,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             }
             doc.remove(start.getStartOffset(), length);
             doc.insertString(start.getStartOffset(), r, null);
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(doc, selectionStart, selectionEnd);
+            TetrominoesScriptDocumentFilter.applySyntaxHighlighting(doc, selectionStart, selectionEnd);
         } catch (final BadLocationException e) {
         }
     }
@@ -715,13 +715,13 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_javaScriptTextAreaFocusLost
 
     private void tetrisScriptTextPaneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tetrisScriptTextPaneFocusGained
-        tetrisScriptHasFocus = true;
+        tetrominoesScriptHasFocus = true;
         javaScriptHasFocus = false;
     }//GEN-LAST:event_tetrisScriptTextPaneFocusGained
 
     private void javaScriptTextAreaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_javaScriptTextAreaFocusGained
         javaScriptHasFocus = true;
-        tetrisScriptHasFocus = false;
+        tetrominoesScriptHasFocus = false;
     }//GEN-LAST:event_javaScriptTextAreaFocusGained
 
     private void updateCursorCoordinates(final JTextComponent textComponent) {
@@ -739,7 +739,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         if (javaScriptHasFocus) {
             findNext(javaScriptTextArea, javaScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
         } else {
-            findNext(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
+            findNext(tetrominoesScriptTextPane, tetrominoesScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
         }
     }
     
@@ -763,9 +763,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             replace(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
         } else {
-            replace(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+            replace(tetrominoesScriptTextPane, tetrominoesScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
-            TetrisScriptDocumentFilter.applySyntaxHighlighting(tetrisScriptTextPane.getStyledDocument());
+            TetrominoesScriptDocumentFilter.applySyntaxHighlighting(tetrominoesScriptTextPane.getStyledDocument());
         }
     }
     
@@ -794,7 +794,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             replaceAll(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
         } else {
-            replaceAll(tetrisScriptTextPane, tetrisScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
+            replaceAll(tetrominoesScriptTextPane, tetrominoesScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
         }
     } 
@@ -828,7 +828,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         textComponent.setText(sb.toString());        
         
         if (!javaScriptHasFocus) {
-            TetrisScriptDocumentFilter.applySyntaxHighlighting((StyledDocument)textComponent.getDocument());
+            TetrominoesScriptDocumentFilter.applySyntaxHighlighting((StyledDocument)textComponent.getDocument());
         }
     }
     

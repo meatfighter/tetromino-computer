@@ -22,7 +22,7 @@ import tetriscircuits.Component;
 import tetriscircuits.HorizontalLine;
 import tetriscircuits.Terminal;
 import tetriscircuits.TerminalType;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 
 public class Parser {
     
@@ -284,8 +284,8 @@ public class Parser {
             final int index) throws ParseException {
         
         final String operation = operationToken.getStr();
-        final Tetrimino tetrimino = Tetrimino.fromName(operation);
-        final Component component = (tetrimino == null) ? components.computeIfAbsent(operation, n -> new Component(n)) 
+        final Tetromino tetromino = Tetromino.fromName(operation);
+        final Component component = (tetromino == null) ? components.computeIfAbsent(operation, n -> new Component(n)) 
                 : null;
         
         String alias = null;
@@ -314,7 +314,7 @@ public class Parser {
         if (moves.isEmpty()) {
             throw new ParseException(operationToken, "Missing moves.");
         }
-        if (tetrimino == null && moves.size() != 2) {
+        if (tetromino == null && moves.size() != 2) {
             throw new ParseException(operationToken, "Invalid component coordinates.");
         }
         final int[] ms = new int[moves.size()];
@@ -322,7 +322,7 @@ public class Parser {
             ms[j] = moves.get(j);
         }
                         
-        instructions.add(new Instruction(tetrimino, name, alias, ms));
+        instructions.add(new Instruction(tetromino, name, alias, ms));
         
         return i;
     }

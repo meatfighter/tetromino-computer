@@ -232,23 +232,23 @@ public class Simulator {
             return;
         }
         
-        final Tetrimino tetrimino = instruction.getTetrimino();
+        final Tetromino tetromino = instruction.getTetromino();
         int x = originX + moves[0];
         int y = playfield.getMinY() - 3;
         
         for (int i = 1; i < moves.length; ++i) {
             if ((i & 1) == 1) {
-                y = moveDown(playfield, tetrimino, x, y, originY - moves[i]);
+                y = moveDown(playfield, tetromino, x, y, originY - moves[i]);
             } else {
-                x = moveHorizontally(playfield, tetrimino, x, y, originX + moves[i]);
+                x = moveHorizontally(playfield, tetromino, x, y, originX + moves[i]);
             }
         }
         
-        y = hardDrop(playfield, tetrimino, x, y);
-        lock(playfield, tetrimino, x, y);
+        y = hardDrop(playfield, tetromino, x, y);
+        lock(playfield, tetromino, x, y);
         
         if (listener != null) {
-            listener.structureLocked(new Structure(tetrimino, x - (playfield.getWidth() >> 1), 
+            listener.structureLocked(new Structure(tetromino, x - (playfield.getWidth() >> 1), 
                     playfield.getHeight() - 1 - y));
         }
     }
@@ -375,20 +375,20 @@ public class Simulator {
         }
     }
     
-    private int moveHorizontally(final Playfield playfield, final Tetrimino tetrimino, final int startX, 
+    private int moveHorizontally(final Playfield playfield, final Tetromino tetromino, final int startX, 
             final int startY, final int targetX) {        
         
         if (targetX < startX) {
-            return moveLeft(playfield, tetrimino, startX, startY, targetX);
+            return moveLeft(playfield, tetromino, startX, startY, targetX);
         } 
         
-        return moveRight(playfield, tetrimino, startX, startY, targetX);
+        return moveRight(playfield, tetromino, startX, startY, targetX);
     }
 
-    private int moveLeft(final Playfield playfield, final Tetrimino tetrimino, final int startX,
+    private int moveLeft(final Playfield playfield, final Tetromino tetromino, final int startX,
             final int startY, final int targetX) {
 
-        final Point[] leftBlocks = tetrimino.getLeftBlocks();
+        final Point[] leftBlocks = tetromino.getLeftBlocks();
         for (int x = startX; x >= targetX; --x) {
             for (int i = leftBlocks.length - 1; i >= 0; --i) {
                 final Point block = leftBlocks[i];
@@ -401,10 +401,10 @@ public class Simulator {
         return targetX;
     }
 
-    private int moveRight(final Playfield playfield, final Tetrimino tetrimino, final int startX,
+    private int moveRight(final Playfield playfield, final Tetromino tetromino, final int startX,
             final int startY, final int targetX) {
 
-        final Point[] rightBlocks = tetrimino.getRightBlocks();
+        final Point[] rightBlocks = tetromino.getRightBlocks();
         for (int x = startX; x <= targetX; ++x) {
             for (int i = rightBlocks.length - 1; i >= 0; --i) {
                 final Point block = rightBlocks[i];
@@ -417,10 +417,10 @@ public class Simulator {
         return targetX;
     }
     
-    private int moveDown(final Playfield playfield, final Tetrimino tetrimino, final int startX, final int startY,
+    private int moveDown(final Playfield playfield, final Tetromino tetromino, final int startX, final int startY,
             final int targetY) {
         
-        final Point[] bottomBlocks = tetrimino.getBottomBlocks();
+        final Point[] bottomBlocks = tetromino.getBottomBlocks();
         for (int y = startY; y <= targetY; ++y) {
             for (int i = bottomBlocks.length - 1; i >= 0; --i) {
                 final Point block = bottomBlocks[i];
@@ -433,9 +433,9 @@ public class Simulator {
         return targetY;
     }
     
-    private int hardDrop(final Playfield playfield, final Tetrimino tetrimino, final int startX, final int startY) {
+    private int hardDrop(final Playfield playfield, final Tetromino tetromino, final int startX, final int startY) {
         
-        final Point[] bottomBlocks = tetrimino.getBottomBlocks();
+        final Point[] bottomBlocks = tetromino.getBottomBlocks();
         for (int y = startY; y < playfield.getHeight(); ++y) {
             for (int i = bottomBlocks.length - 1; i >= 0; --i) {
                 final Point block = bottomBlocks[i];
@@ -448,14 +448,14 @@ public class Simulator {
         return playfield.getHeight() - 1;
     }
     
-    private void lock(final Playfield playfield, final Tetrimino tetrimino, final int lockX, final int lockY) {
+    private void lock(final Playfield playfield, final Tetromino tetromino, final int lockX, final int lockY) {
         
-        int value = tetrimino.getGroupIndex() + 1;
+        int value = tetromino.getGroupIndex() + 1;
         if (value > playfield.getMaxValue()) {
             value = playfield.getMaxValue();
         }
         
-        final Point[] blocks = tetrimino.getBlocks();
+        final Point[] blocks = tetromino.getBlocks();
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
             playfield.set(lockX + block.x, lockY + block.y, value);

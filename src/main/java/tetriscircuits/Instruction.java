@@ -3,20 +3,20 @@ package tetriscircuits;
 public class Instruction {
     
     private final String componentName;
-    private final Tetrimino tetrimino;
+    private final Tetromino tetromino;
     
     private final String alias;
     private final int[] moves;
 
-    public Instruction(final Tetrimino tetrimino, final String componentName, final String alias, final int[] moves) {
-        this.tetrimino = tetrimino;
+    public Instruction(final Tetromino tetromino, final String componentName, final String alias, final int[] moves) {
+        this.tetromino = tetromino;
         this.componentName = componentName;
         this.alias = alias;
         this.moves = moves;
     }
 
-    public Tetrimino getTetrimino() {
-        return tetrimino;
+    public Tetromino getTetromino() {
+        return tetromino;
     }
 
     public String getComponentName() {
@@ -37,7 +37,7 @@ public class Instruction {
         if (componentName != null) {
             sb.append(alias);
         } else {
-            sb.append(tetrimino.getName());
+            sb.append(tetromino.getName());
         }
         for (final int move : moves) {
             sb.append(' ').append(move);

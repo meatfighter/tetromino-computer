@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.Icon;
 import tetriscircuits.Point;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 
-public final class TetriminoRenderer implements Icon {
+public final class TetrominoRenderer implements Icon {
     
     private static final int ICON_CELL_SIZE = 5;
     private static final int ICON_SIZE = 5 * ICON_CELL_SIZE;
@@ -51,56 +51,56 @@ public final class TetriminoRenderer implements Icon {
         }
     }
     
-    public static final TetriminoRenderer TD = new TetriminoRenderer(Tetrimino.TD, 0);
-    public static final TetriminoRenderer TL = new TetriminoRenderer(Tetrimino.TL, 0);
-    public static final TetriminoRenderer TU = new TetriminoRenderer(Tetrimino.TU, 0);
-    public static final TetriminoRenderer TR = new TetriminoRenderer(Tetrimino.TR, 0);
+    public static final TetrominoRenderer TD = new TetrominoRenderer(Tetromino.TD, 0);
+    public static final TetrominoRenderer TL = new TetrominoRenderer(Tetromino.TL, 0);
+    public static final TetrominoRenderer TU = new TetrominoRenderer(Tetromino.TU, 0);
+    public static final TetrominoRenderer TR = new TetrominoRenderer(Tetromino.TR, 0);
     
-    public static final TetriminoRenderer JD = new TetriminoRenderer(Tetrimino.JD, 1);
-    public static final TetriminoRenderer JL = new TetriminoRenderer(Tetrimino.JL, 1);
-    public static final TetriminoRenderer JU = new TetriminoRenderer(Tetrimino.JU, 1);
-    public static final TetriminoRenderer JR = new TetriminoRenderer(Tetrimino.JR, 1);
+    public static final TetrominoRenderer JD = new TetrominoRenderer(Tetromino.JD, 1);
+    public static final TetrominoRenderer JL = new TetrominoRenderer(Tetromino.JL, 1);
+    public static final TetrominoRenderer JU = new TetrominoRenderer(Tetromino.JU, 1);
+    public static final TetrominoRenderer JR = new TetrominoRenderer(Tetromino.JR, 1);
     
-    public static final TetriminoRenderer ZH = new TetriminoRenderer(Tetrimino.ZH, 2);
-    public static final TetriminoRenderer ZV = new TetriminoRenderer(Tetrimino.ZV, 2);
+    public static final TetrominoRenderer ZH = new TetrominoRenderer(Tetromino.ZH, 2);
+    public static final TetrominoRenderer ZV = new TetrominoRenderer(Tetromino.ZV, 2);
     
-    public static final TetriminoRenderer OS = new TetriminoRenderer(Tetrimino.OS, 3);
+    public static final TetrominoRenderer OS = new TetrominoRenderer(Tetromino.OS, 3);
     
-    public static final TetriminoRenderer SH = new TetriminoRenderer(Tetrimino.SH, 4);
-    public static final TetriminoRenderer SV = new TetriminoRenderer(Tetrimino.SV, 4);
+    public static final TetrominoRenderer SH = new TetrominoRenderer(Tetromino.SH, 4);
+    public static final TetrominoRenderer SV = new TetrominoRenderer(Tetromino.SV, 4);
     
-    public static final TetriminoRenderer LD = new TetriminoRenderer(Tetrimino.LD, 5);
-    public static final TetriminoRenderer LL = new TetriminoRenderer(Tetrimino.LL, 5);
-    public static final TetriminoRenderer LU = new TetriminoRenderer(Tetrimino.LU, 5);
-    public static final TetriminoRenderer LR = new TetriminoRenderer(Tetrimino.LR, 5);
+    public static final TetrominoRenderer LD = new TetrominoRenderer(Tetromino.LD, 5);
+    public static final TetrominoRenderer LL = new TetrominoRenderer(Tetromino.LL, 5);
+    public static final TetrominoRenderer LU = new TetrominoRenderer(Tetromino.LU, 5);
+    public static final TetrominoRenderer LR = new TetrominoRenderer(Tetromino.LR, 5);
     
-    public static final TetriminoRenderer IH = new TetriminoRenderer(Tetrimino.IH, 6);
-    public static final TetriminoRenderer IV = new TetriminoRenderer(Tetrimino.IV, 6);
+    public static final TetrominoRenderer IH = new TetrominoRenderer(Tetromino.IH, 6);
+    public static final TetrominoRenderer IV = new TetrominoRenderer(Tetromino.IV, 6);
     
-    public static final TetriminoRenderer[] T = { TD, TL, TU, TR };
-    public static final TetriminoRenderer[] J = { JD, JL, JU, JR };
-    public static final TetriminoRenderer[] Z = { ZH, ZV };
-    public static final TetriminoRenderer[] O = { OS };
-    public static final TetriminoRenderer[] S = { SH, SV };
-    public static final TetriminoRenderer[] L = { LD, LL, LU, LR };
-    public static final TetriminoRenderer[] I = { IH, IV };
+    public static final TetrominoRenderer[] T = { TD, TL, TU, TR };
+    public static final TetrominoRenderer[] J = { JD, JL, JU, JR };
+    public static final TetrominoRenderer[] Z = { ZH, ZV };
+    public static final TetrominoRenderer[] O = { OS };
+    public static final TetrominoRenderer[] S = { SH, SV };
+    public static final TetrominoRenderer[] L = { LD, LL, LU, LR };
+    public static final TetrominoRenderer[] I = { IH, IV };
     
-    public static final TetriminoRenderer[][] TETRIMINO_RENDERERS = { T, J, Z, O, S, L, I };
+    public static final TetrominoRenderer[][] TETROMINO_RENDERERS = { T, J, Z, O, S, L, I };
     
-    private static final Map<Tetrimino, TetriminoRenderer> RENDERERS;
+    private static final Map<Tetromino, TetrominoRenderer> RENDERERS;
     
     static {
-        final Map<Tetrimino, TetriminoRenderer> map = new HashMap<>();
-        for (final TetriminoRenderer[] renderers : TETRIMINO_RENDERERS) {
-            for (final TetriminoRenderer renderer : renderers) {
-                map.put(renderer.getTetrimino(), renderer);
+        final Map<Tetromino, TetrominoRenderer> map = new HashMap<>();
+        for (final TetrominoRenderer[] renderers : TETROMINO_RENDERERS) {
+            for (final TetrominoRenderer renderer : renderers) {
+                map.put(renderer.getTetromino(), renderer);
             }
         }
         RENDERERS = Collections.unmodifiableMap(map);
     }
     
-    public static TetriminoRenderer fromTetrimino(final Tetrimino tetrimino) {
-        return RENDERERS.get(tetrimino);
+    public static TetrominoRenderer fromTetromino(final Tetromino tetromino) {
+        return RENDERERS.get(tetromino);
     }
     
     public static void renderBlock(final Graphics g, final int x, final int y, int colorIndex, 
@@ -112,15 +112,15 @@ public final class TetriminoRenderer implements Icon {
         g.drawRect(x, y, cellSize, cellSize);
     }
     
-    private final Tetrimino tetrimino;    
+    private final Tetromino tetromino;    
     private final Color fillColor;
     private final Color lineColor;
     
     private final BlockFaces[] blockFaces;
     
-    private TetriminoRenderer(final Tetrimino tetrimino, final int colorIndex) {
+    private TetrominoRenderer(final Tetromino tetromino, final int colorIndex) {
         
-        this.tetrimino = tetrimino;
+        this.tetromino = tetromino;
         this.fillColor = COLORS[colorIndex];
         this.lineColor = DARK_COLORS[colorIndex];
         
@@ -130,7 +130,7 @@ public final class TetriminoRenderer implements Icon {
                 row[j] = false;
             }
         }
-        final Point[] blocks = tetrimino.getBlocks();
+        final Point[] blocks = tetromino.getBlocks();
         for (Point block : blocks) {
             MATRIX[3 + block.y][3 + block.x] = true;
         }
@@ -154,8 +154,8 @@ public final class TetriminoRenderer implements Icon {
         }
     }
 
-    public Tetrimino getTetrimino() {
-        return tetrimino;
+    public Tetromino getTetromino() {
+        return tetromino;
     }
 
     public Color getFillColor() {
@@ -171,7 +171,7 @@ public final class TetriminoRenderer implements Icon {
     }
     
     public void render(final Graphics g, final int x, final int y, int cellSize) {        
-        final Point[] blocks = tetrimino.getBlocks();        
+        final Point[] blocks = tetromino.getBlocks();        
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
             final int ox = x + cellSize * block.x;

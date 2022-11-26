@@ -1,9 +1,9 @@
 package tetriscircuits.web;
 
 import java.io.PrintStream;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 import tetriscircuits.ui.PathPoint;
-import tetriscircuits.ui.TetriminoPath;
+import tetriscircuits.ui.TetrominoPath;
 
 public class GenerateOrientationTable {
     
@@ -21,8 +21,8 @@ public class GenerateOrientationTable {
         final PrintStream out = System.out;
         
         final double svgHeight = 2 * MARGIN 
-                + Tetrimino.TETRIMINOS.length * (5 * CELL_SIZE + FONT_SIZE + FONT_GAP)
-                + (Tetrimino.TETRIMINOS.length - 1) * VERTICAL_SPACER - 4;
+                + Tetromino.TETROMINOES.length * (5 * CELL_SIZE + FONT_SIZE + FONT_GAP)
+                + (Tetromino.TETROMINOES.length - 1) * VERTICAL_SPACER - 4;
         
         final double svgWidth = 2 * MARGIN
                 + 4 * (5 * CELL_SIZE + HORIZONTAL_SPACER) + 5;
@@ -32,11 +32,11 @@ public class GenerateOrientationTable {
         out.format("<svg width=\"%s\" height=\"%s\" xmlns=\"http://www.w3.org/2000/svg\" "
                 + "xmlns:xlink=\"http://www.w3.org/1999/xlink\">%n", toString(svgWidth), toString(svgHeight));
         out.println("    <defs>");
-        for (final TetriminoPath[] paths : TetriminoPath.TETRIMINO_PATHS) {
-            for (final TetriminoPath path : paths) {
-                final Tetrimino tetrimino = path.getTetrimino();
+        for (final TetrominoPath[] paths : TetrominoPath.TETROMINO_PATHS) {
+            for (final TetrominoPath path : paths) {
+                final Tetromino tetromino = path.getTetromino();
                 final PathPoint[] points = path.getPoints();
-                out.format("        <polygon id=\"%s\" points=\"", tetrimino.getName());
+                out.format("        <polygon id=\"%s\" points=\"", tetromino.getName());
                 for (int i = 0; i < points.length; ++i) {
                     final PathPoint p = points[i];
                     if (i != 0) {
@@ -46,15 +46,15 @@ public class GenerateOrientationTable {
                     final double y = CELL_SIZE * (p.getY() - 3.5) - (p.isBottom() ? 1 : 0);
                     out.format("%s,%s", toString(x), toString(y));
                 }
-                out.format("\" class=\"%s\"/>%n", tetrimino.getGroupName());
+                out.format("\" class=\"%s\"/>%n", tetromino.getGroupName());
             }
         }
         out.println("    </defs>");        
         
         out.format("    <g style=\"font-size: %dpx;\">%n", (int)(CELL_SIZE * 2.0 / 3.0));
-        for (int i = 0; i < Tetrimino.TETRIMINOS.length; ++i) {
-            for (int j = 0; j < Tetrimino.TETRIMINOS[i].length; ++j) {
-                final Tetrimino tetrimino = Tetrimino.TETRIMINOS[i][j];
+        for (int i = 0; i < Tetromino.TETROMINOES.length; ++i) {
+            for (int j = 0; j < Tetromino.TETROMINOES[i].length; ++j) {
+                final Tetromino tetromino = Tetromino.TETROMINOES[i][j];
                 final double ox = MARGIN + j * (5 * CELL_SIZE + ((j != 0) ? HORIZONTAL_SPACER : 0)) + LEFT_MARGIN;
                 final double oy = MARGIN + i * (5 * CELL_SIZE + FONT_SIZE + FONT_GAP 
                             + ((i != 0) ? VERTICAL_SPACER : 0)) + TOP_MARGIN;
@@ -68,19 +68,19 @@ public class GenerateOrientationTable {
                             toString(ox + CELL_SIZE * x), toString(oy),
                             toString(ox + CELL_SIZE * x), toString(oy + 5 * CELL_SIZE));
                 }
-                out.format("        <use href=\"#%s\" x=\"%s\" y=\"%s\"/>%n", tetrimino.getName(), 
+                out.format("        <use href=\"#%s\" x=\"%s\" y=\"%s\"/>%n", tetromino.getName(), 
                             toString(ox + 2.5 * CELL_SIZE), toString(oy + 2.5 * CELL_SIZE));
                 out.format("        <circle cx=\"%s\" cy=\"%s\" r=\"%s\" class=\"grid-center\"/>%n", 
                         toString(ox + 2.5 * CELL_SIZE - 0.5), toString(oy + 2.5 * CELL_SIZE - 0.5), CELL_SIZE / 4.0);
                 out.format("        <text x=\"%s\" y=\"%s\" dy=\"0.25em\" class=\"axes\" "
                         + "text-anchor=\"middle\">%s</text>%n", toString(ox + 2.5 * CELL_SIZE), 
-                        toString(oy - FONT_SIZE - FONT_GAP + 12), tetrimino.getName());
+                        toString(oy - FONT_SIZE - FONT_GAP + 12), tetromino.getName());
             }            
         }
         out.println("    </g>");
         out.format("    <g style=\"font-size: %dpx;\">%n", (int)(CELL_SIZE));
-        for (int i = 0; i < Tetrimino.TETRIMINOS.length; ++i) {
-            final String name = Tetrimino.TETRIMINOS[i][0].getGroupName().toUpperCase();
+        for (int i = 0; i < Tetromino.TETROMINOES.length; ++i) {
+            final String name = Tetromino.TETROMINOES[i][0].getGroupName().toUpperCase();
             final double ox = MARGIN + LEFT_MARGIN - 7;
             final double oy = MARGIN + i * (5 * CELL_SIZE + FONT_SIZE + FONT_GAP 
                     + ((i != 0) ? VERTICAL_SPACER : 0)) + TOP_MARGIN + 2.5 * CELL_SIZE;

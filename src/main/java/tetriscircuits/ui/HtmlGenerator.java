@@ -35,16 +35,16 @@ public class HtmlGenerator {
     private static final Pattern NUMBER_PATTERN 
             = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)");    
 
-    public void generate(final OutputStream out, final String componentName, final String tetrisScript) {
+    public void generate(final OutputStream out, final String componentName, final String tetrominoesScript) {
         try (final PrintStream o = new PrintStream(out)) {
-            generate(o, componentName, tetrisScript);
+            generate(o, componentName, tetrominoesScript);
         }
     }
     
-    public void generate(final PrintStream out, final String componentName, final String tetrisScript) {
+    public void generate(final PrintStream out, final String componentName, final String tetrominoesScript) {
         out.format("<pre class=\"code\">%n");
         out.format("<span class=\"filename\">%s.t</span>%n", componentName);        
-        try (final Scanner scanner = new Scanner(tetrisScript)) {
+        try (final Scanner scanner = new Scanner(tetrominoesScript)) {
             while (scanner.hasNextLine()) {
                 processLine(out, scanner.nextLine().trim());
             }

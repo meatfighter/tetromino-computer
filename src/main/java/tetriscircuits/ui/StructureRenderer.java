@@ -13,7 +13,7 @@ import java.util.Map;
 import tetriscircuits.TerminalRectangle;
 import tetriscircuits.Structure;
 import tetriscircuits.TerminalState;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 
 public class StructureRenderer {
     
@@ -30,9 +30,9 @@ public class StructureRenderer {
     
     static {
         final Map<String, StructureRenderer> structureRenderers = new HashMap<>();
-        for (final Tetrimino[] tetriminos : Tetrimino.TETRIMINOS) {
-            for (final Tetrimino tetrimino : tetriminos) {
-                structureRenderers.put(tetrimino.getName(), new StructureRenderer(new Structure(tetrimino, 0, 0)));
+        for (final Tetromino[] tetrominoes : Tetromino.TETROMINOES) {
+            for (final Tetromino tetromino : tetrominoes) {
+                structureRenderers.put(tetromino.getName(), new StructureRenderer(new Structure(tetromino, 0, 0)));
             }
         }
         STRUCTURE_RENDERERS = Collections.unmodifiableMap(structureRenderers);
@@ -54,8 +54,8 @@ public class StructureRenderer {
         return cellY;
     }
     
-    public static StructureRenderer fromTetrimino(final String tetriminoName) {
-        return STRUCTURE_RENDERERS.get(tetriminoName);
+    public static StructureRenderer fromTetromino(final String tetrominoName) {
+        return STRUCTURE_RENDERERS.get(tetrominoName);
     }
 
     public StructureRenderer(final Structure structure) {
@@ -70,8 +70,8 @@ public class StructureRenderer {
     
     public void render(final Graphics2D g, final int x, final int y, int cellSize) {
         
-        if (structure.getTetrimino() != null) {
-            TetriminoRenderer.fromTetrimino(structure.getTetrimino()).render(g, 
+        if (structure.getTetromino() != null) {
+            TetrominoRenderer.fromTetromino(structure.getTetromino()).render(g, 
                     x + cellSize * (cellX + structure.getX()), 
                     y - cellSize * (cellY + structure.getY()), 
                     cellSize);
@@ -128,11 +128,11 @@ public class StructureRenderer {
         
         for (int i = structures.length - 1; i >= 0; --i) {
             final Structure struct = structures[i];
-            final Tetrimino tetrimino = struct.getTetrimino();            
-            if (tetrimino == null) {
+            final Tetromino tetromino = struct.getTetromino();            
+            if (tetromino == null) {
                 continue;
             }
-            TetriminoRenderer.fromTetrimino(tetrimino).render(g, 
+            TetrominoRenderer.fromTetromino(tetromino).render(g, 
                     x + cellSize * (cellX + struct.getX()), 
                     y - cellSize * (cellY + struct.getY()), 
                     cellSize);

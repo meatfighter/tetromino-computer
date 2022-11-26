@@ -86,7 +86,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
         cancelButton = new javax.swing.JButton();
         exportButton = new javax.swing.JButton();
         renderPanel = new javax.swing.JPanel();
-        tetriminosCheckBox = new javax.swing.JCheckBox();
+        tetrominoesCheckBox = new javax.swing.JCheckBox();
         structuresCheckBox = new javax.swing.JCheckBox();
         inputNodesCheckBox = new javax.swing.JCheckBox();
         outputNodesCheckBox = new javax.swing.JCheckBox();
@@ -289,8 +289,8 @@ public class SvgExportPanel extends javax.swing.JPanel {
         renderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Render"));
         renderPanel.setPreferredSize(null);
 
-        tetriminosCheckBox.setText("Tetriminos");
-        tetriminosCheckBox.setPreferredSize(null);
+        tetrominoesCheckBox.setText("Tetrominoes");
+        tetrominoesCheckBox.setPreferredSize(null);
 
         structuresCheckBox.setText("Structures");
         structuresCheckBox.setPreferredSize(null);
@@ -337,13 +337,9 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(renderPanelLayout.createSequentialGroup()
-                        .addComponent(tetriminosCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(structuresCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(renderPanelLayout.createSequentialGroup()
-                        .addComponent(inputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(outputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(outputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nodeValuesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(renderPanelLayout.createSequentialGroup()
@@ -363,8 +359,12 @@ public class SvgExportPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(depthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, 0))
+                        .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(renderPanelLayout.createSequentialGroup()
+                        .addComponent(tetrominoesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(structuresCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         renderPanelLayout.setVerticalGroup(
             renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,7 +385,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
                     .addComponent(marginTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tetriminosCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tetrominoesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(structuresCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -523,7 +523,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
     private javax.swing.JPanel renderPanel;
     private javax.swing.JCheckBox stdOutCheckBox;
     private javax.swing.JCheckBox structuresCheckBox;
-    private javax.swing.JCheckBox tetriminosCheckBox;
+    private javax.swing.JCheckBox tetrominoesCheckBox;
     private javax.swing.JLabel valueLabel;
     private javax.swing.JCheckBox yAxisCheckBox;
     // End of variables declaration//GEN-END:variables

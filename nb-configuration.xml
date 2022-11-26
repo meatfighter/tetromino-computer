@@ -19,9 +19,7 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>Gameplay</word>
         <word>iff</word>
         <word>Incrementor</word>
-        <word>InputScript</word>
         <word>memoized</word>
-        <word>TetrisMemoryScript</word>
         <word>NAND</word>
         <word>NORs</word>
         <word>NRS</word>
@@ -31,8 +29,8 @@ Any value defined here will override the pom.xml file value but is only applicab
         <word>semihard</word>
         <word>Subtractor</word>
         <word>subtractors</word>
-        <word>Tetriminos</word>
-        <word>TetrisScript</word>
+        <word>tetromino</word>
+        <word>tetrominoes</word>
         <word>TS</word>
         <word>XNOR</word>
         <word>XORing</word>
@@ -44,7 +42,7 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Computer" profiles=""/>
             <configuration id="Computer UI" profiles=""/>
             <configuration id="ConvertAsmToHtml" profiles=""/>
-            <configuration id="ConvertTetrisMemoryScriptToHtml" profiles=""/>
+            <configuration id="ConvertMemoryCodeToHtml" profiles=""/>
             <configuration id="Emulator" profiles=""/>
             <configuration id="Generate Classifier Data to Register" profiles=""/>
             <configuration id="Generate Classifier Data to Register and Back Again" profiles=""/>
@@ -53,10 +51,10 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Generate Orientation Table" profiles=""/>
             <configuration id="GenerateColors" profiles=""/>
             <configuration id="GenerateMovingRegister" profiles=""/>
-            <configuration id="GenerateTetrisExecutable" profiles=""/>
-            <configuration id="GenerateTetrisMemoryScript" profiles=""/>
+            <configuration id="GenerateExecutable" profiles=""/>
+            <configuration id="GenerateMemoryCode" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
-            <configuration id="MirrorTetrisScript" profiles=""/>
+            <configuration id="MirrorTetrominoesScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
             <configuration id="Generate Transducer" profiles=""/>
         </configurations>

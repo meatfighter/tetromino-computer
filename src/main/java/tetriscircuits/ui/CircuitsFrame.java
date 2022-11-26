@@ -36,7 +36,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private Map<String, Structure> structures;
     
     private String circuitsDirectory;
-    private File tetrisScriptFile;
+    private File tetrominoesScriptFile;
     private File javaScriptFile;
     private String componentName;
     
@@ -49,7 +49,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private boolean lastRegex; 
     private boolean lastWrapAround;
     
-    private long tetrisScriptChangeCount;
+    private long tetrominoesScriptChangeCount;
     private long javaScriptChangeCount;
 
     /**
@@ -115,14 +115,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 } 
             }
         });
-        controller.setOpenListener((compName, tsFile, tetrisScript, jsFile, javaScript, testBits) -> {
+        controller.setOpenListener((compName, tsFile, tetrominoesScript, jsFile, javaScript, testBits) -> {
             setComponentName(compName);
-            tetrisScriptFile = tsFile;
-            circuitsEditorPanel.setTetrisScript(tetrisScript);
+            tetrominoesScriptFile = tsFile;
+            circuitsEditorPanel.setTetrisScript(tetrominoesScript);
             javaScriptFile = jsFile;
             circuitsEditorPanel.setJavaScript(javaScript);
             testTextField.setText(testBits);
-            tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+            tetrominoesScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
             javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
         });
     }
@@ -176,8 +176,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         return sb.toString();
     }
     
-    public void buildAndRun(final String tetrisScript, final String javaScript) {        
-        controller.buildAndRun(componentName, tetrisScript, javaScript, testTextField.getText(), 
+    public void buildAndRun(final String tetrominoesScript, final String javaScript) {        
+        controller.buildAndRun(componentName, tetrominoesScript, javaScript, testTextField.getText(), 
                 (int)depthSpinner.getValue());
     }
 
@@ -326,7 +326,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(addComponentButton);
 
-        tdButton.setIcon(TetriminoRenderer.TD);
+        tdButton.setIcon(TetrominoRenderer.TD);
         tdButton.setToolTipText("td");
         tdButton.setContentAreaFilled(false);
         tdButton.setFocusable(false);
@@ -342,7 +342,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tdButton);
 
-        tlButton.setIcon(TetriminoRenderer.TL);
+        tlButton.setIcon(TetrominoRenderer.TL);
         tlButton.setToolTipText("tl");
         tlButton.setContentAreaFilled(false);
         tlButton.setFocusable(false);
@@ -356,7 +356,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tlButton);
 
-        tuButton.setIcon(TetriminoRenderer.TU);
+        tuButton.setIcon(TetrominoRenderer.TU);
         tuButton.setToolTipText("tu");
         tuButton.setContentAreaFilled(false);
         tuButton.setFocusable(false);
@@ -370,7 +370,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tuButton);
 
-        trButton.setIcon(TetriminoRenderer.TR);
+        trButton.setIcon(TetrominoRenderer.TR);
         trButton.setToolTipText("tr");
         trButton.setContentAreaFilled(false);
         trButton.setFocusable(false);
@@ -384,7 +384,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(trButton);
 
-        jdButton.setIcon(TetriminoRenderer.JD);
+        jdButton.setIcon(TetrominoRenderer.JD);
         jdButton.setToolTipText("jd");
         jdButton.setContentAreaFilled(false);
         jdButton.setFocusable(false);
@@ -398,7 +398,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jdButton);
         toolBar.add(separator4);
 
-        jlButton.setIcon(TetriminoRenderer.JL);
+        jlButton.setIcon(TetrominoRenderer.JL);
         jlButton.setToolTipText("jl");
         jlButton.setContentAreaFilled(false);
         jlButton.setFocusable(false);
@@ -411,7 +411,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(jlButton);
 
-        juButton.setIcon(TetriminoRenderer.JU);
+        juButton.setIcon(TetrominoRenderer.JU);
         juButton.setToolTipText("ju");
         juButton.setContentAreaFilled(false);
         juButton.setFocusable(false);
@@ -424,7 +424,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(juButton);
 
-        jrButton.setIcon(TetriminoRenderer.JR);
+        jrButton.setIcon(TetrominoRenderer.JR);
         jrButton.setToolTipText("jr");
         jrButton.setContentAreaFilled(false);
         jrButton.setFocusable(false);
@@ -438,7 +438,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jrButton);
         toolBar.add(separator5);
 
-        zhButton.setIcon(TetriminoRenderer.ZH);
+        zhButton.setIcon(TetrominoRenderer.ZH);
         zhButton.setToolTipText("zh");
         zhButton.setContentAreaFilled(false);
         zhButton.setFocusable(false);
@@ -453,7 +453,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(zhButton);
 
-        zvButton.setIcon(TetriminoRenderer.ZV);
+        zvButton.setIcon(TetrominoRenderer.ZV);
         zvButton.setToolTipText("zv");
         zvButton.setContentAreaFilled(false);
         zvButton.setFocusable(false);
@@ -468,7 +468,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(zvButton);
         toolBar.add(separator6);
 
-        oButton.setIcon(TetriminoRenderer.OS);
+        oButton.setIcon(TetrominoRenderer.OS);
         oButton.setToolTipText("o");
         oButton.setContentAreaFilled(false);
         oButton.setFocusable(false);
@@ -483,7 +483,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(oButton);
         toolBar.add(separator7);
 
-        shButton.setIcon(TetriminoRenderer.SH);
+        shButton.setIcon(TetrominoRenderer.SH);
         shButton.setToolTipText("sh");
         shButton.setContentAreaFilled(false);
         shButton.setFocusable(false);
@@ -497,7 +497,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(shButton);
 
-        svButton.setIcon(TetriminoRenderer.SV);
+        svButton.setIcon(TetrominoRenderer.SV);
         svButton.setToolTipText("sv");
         svButton.setContentAreaFilled(false);
         svButton.setFocusable(false);
@@ -512,7 +512,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(svButton);
         toolBar.add(separator8);
 
-        ldButton.setIcon(TetriminoRenderer.LD);
+        ldButton.setIcon(TetrominoRenderer.LD);
         ldButton.setToolTipText("ld");
         ldButton.setContentAreaFilled(false);
         ldButton.setFocusable(false);
@@ -526,7 +526,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(ldButton);
 
-        llButton.setIcon(TetriminoRenderer.LL);
+        llButton.setIcon(TetrominoRenderer.LL);
         llButton.setToolTipText("ll");
         llButton.setContentAreaFilled(false);
         llButton.setFocusable(false);
@@ -540,7 +540,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(llButton);
 
-        luButton.setIcon(TetriminoRenderer.LU);
+        luButton.setIcon(TetrominoRenderer.LU);
         luButton.setToolTipText("lu");
         luButton.setContentAreaFilled(false);
         luButton.setFocusable(false);
@@ -554,7 +554,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(luButton);
 
-        lrButton.setIcon(TetriminoRenderer.LR);
+        lrButton.setIcon(TetrominoRenderer.LR);
         lrButton.setToolTipText("lr");
         lrButton.setContentAreaFilled(false);
         lrButton.setFocusable(false);
@@ -569,7 +569,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(lrButton);
         toolBar.add(jSeparator9);
 
-        ivButton.setIcon(TetriminoRenderer.IV);
+        ivButton.setIcon(TetrominoRenderer.IV);
         ivButton.setToolTipText("iv");
         ivButton.setContentAreaFilled(false);
         ivButton.setFocusable(false);
@@ -583,7 +583,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(ivButton);
 
-        ihButton.setIcon(TetriminoRenderer.IH);
+        ihButton.setIcon(TetrominoRenderer.IH);
         ihButton.setToolTipText("ih");
         ihButton.setContentAreaFilled(false);
         ihButton.setFocusable(false);
@@ -991,7 +991,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
     // returns true if handled
     private void promptSaveChanges(final Runnable runnable, final String question) {
-        if (tetrisScriptChangeCount != circuitsEditorPanel.getTetrisScriptChangeCount()
+        if (tetrominoesScriptChangeCount != circuitsEditorPanel.getTetrisScriptChangeCount()
                 || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
             switch (JOptionPane.showConfirmDialog(this, question, "Unsaved Changes", 
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
@@ -1017,79 +1017,79 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_redoMenuItemActionPerformed
 
     private void tdButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tdButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_tdButtonActionPerformed
 
     private void tlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tlButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_tlButtonActionPerformed
 
     private void tuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tuButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_tuButtonActionPerformed
 
     private void trButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_trButtonActionPerformed
 
     private void jdButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jdButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_jdButtonActionPerformed
 
     private void jlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jlButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_jlButtonActionPerformed
 
     private void juButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_juButtonActionPerformed
 
     private void jrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_jrButtonActionPerformed
 
     private void zhButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zhButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_zhButtonActionPerformed
 
     private void zvButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zvButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_zvButtonActionPerformed
 
     private void oButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_oButtonActionPerformed
 
     private void shButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_shButtonActionPerformed
 
     private void svButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_svButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_svButtonActionPerformed
 
     private void ldButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ldButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_ldButtonActionPerformed
 
     private void llButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_llButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_llButtonActionPerformed
 
     private void luButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_luButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_luButtonActionPerformed
 
     private void lrButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lrButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_lrButtonActionPerformed
 
     private void ivButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ivButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_ivButtonActionPerformed
 
     private void ihButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ihButtonActionPerformed
-        circuitsEditorPanel.tetriminoButtonPressed(evt);
+        circuitsEditorPanel.tetrominoButtonPressed(evt);
     }//GEN-LAST:event_ihButtonActionPerformed
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
@@ -1233,9 +1233,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
             return;
         }
         
-        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        tetrominoesScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
         javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
-        circuitsEditorPanel.save(componentName, tetrisScriptFile, javaScriptFile, runnable);
+        circuitsEditorPanel.save(componentName, tetrominoesScriptFile, javaScriptFile, runnable);
     }
     
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
@@ -1312,11 +1312,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }                    
         }
 
-        tetrisScriptFile = tsFile;
+        tetrominoesScriptFile = tsFile;
         javaScriptFile = jsFile;
         setComponentName(compName);
         
-        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        tetrominoesScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
         javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
         circuitsEditorPanel.save(compName, tsFile, jsFile, runnable);
     }
@@ -1496,14 +1496,14 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.reset();
         circuitsEditorPanel.centerPlayfield();
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);        
-        tetrisScriptFile = javaScriptFile = null;
+        tetrominoesScriptFile = javaScriptFile = null;
         testTextField.setText("");
         depthSpinner.setValue(1);
         playfieldWidthSpinner.setValue(8192);
         playfieldHeightSpinner.setValue(4096);
         cellSizeSpinner.setValue(16);
         controller.loadComponents();
-        tetrisScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
+        tetrominoesScriptChangeCount = circuitsEditorPanel.getTetrisScriptChangeCount();
         javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();
     }
     

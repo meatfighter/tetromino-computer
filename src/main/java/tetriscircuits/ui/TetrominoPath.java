@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import tetriscircuits.Point;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 
-public final class TetriminoPath {
+public final class TetrominoPath {
     
     private static final int UP = 0;
     private static final int RIGHT = 1;
@@ -18,64 +18,64 @@ public final class TetriminoPath {
     
     private static final boolean[][] MATRIX = new boolean[7][7];
     
-    public static final TetriminoPath TD = new TetriminoPath(Tetrimino.TD);
-    public static final TetriminoPath TL = new TetriminoPath(Tetrimino.TL);
-    public static final TetriminoPath TU = new TetriminoPath(Tetrimino.TU);
-    public static final TetriminoPath TR = new TetriminoPath(Tetrimino.TR);
+    public static final TetrominoPath TD = new TetrominoPath(Tetromino.TD);
+    public static final TetrominoPath TL = new TetrominoPath(Tetromino.TL);
+    public static final TetrominoPath TU = new TetrominoPath(Tetromino.TU);
+    public static final TetrominoPath TR = new TetrominoPath(Tetromino.TR);
     
-    public static final TetriminoPath JD = new TetriminoPath(Tetrimino.JD);
-    public static final TetriminoPath JL = new TetriminoPath(Tetrimino.JL);
-    public static final TetriminoPath JU = new TetriminoPath(Tetrimino.JU);
-    public static final TetriminoPath JR = new TetriminoPath(Tetrimino.JR);
+    public static final TetrominoPath JD = new TetrominoPath(Tetromino.JD);
+    public static final TetrominoPath JL = new TetrominoPath(Tetromino.JL);
+    public static final TetrominoPath JU = new TetrominoPath(Tetromino.JU);
+    public static final TetrominoPath JR = new TetrominoPath(Tetromino.JR);
     
-    public static final TetriminoPath ZH = new TetriminoPath(Tetrimino.ZH);
-    public static final TetriminoPath ZV = new TetriminoPath(Tetrimino.ZV);
+    public static final TetrominoPath ZH = new TetrominoPath(Tetromino.ZH);
+    public static final TetrominoPath ZV = new TetrominoPath(Tetromino.ZV);
     
-    public static final TetriminoPath OS = new TetriminoPath(Tetrimino.OS);
+    public static final TetrominoPath OS = new TetrominoPath(Tetromino.OS);
     
-    public static final TetriminoPath SH = new TetriminoPath(Tetrimino.SH);
-    public static final TetriminoPath SV = new TetriminoPath(Tetrimino.SV);
+    public static final TetrominoPath SH = new TetrominoPath(Tetromino.SH);
+    public static final TetrominoPath SV = new TetrominoPath(Tetromino.SV);
     
-    public static final TetriminoPath LD = new TetriminoPath(Tetrimino.LD);
-    public static final TetriminoPath LL = new TetriminoPath(Tetrimino.LL);
-    public static final TetriminoPath LU = new TetriminoPath(Tetrimino.LU);
-    public static final TetriminoPath LR = new TetriminoPath(Tetrimino.LR);
+    public static final TetrominoPath LD = new TetrominoPath(Tetromino.LD);
+    public static final TetrominoPath LL = new TetrominoPath(Tetromino.LL);
+    public static final TetrominoPath LU = new TetrominoPath(Tetromino.LU);
+    public static final TetrominoPath LR = new TetrominoPath(Tetromino.LR);
     
-    public static final TetriminoPath IH = new TetriminoPath(Tetrimino.IH);
-    public static final TetriminoPath IV = new TetriminoPath(Tetrimino.IV);
+    public static final TetrominoPath IH = new TetrominoPath(Tetromino.IH);
+    public static final TetrominoPath IV = new TetrominoPath(Tetromino.IV);
     
-    public static final TetriminoPath[] T = { TD, TL, TU, TR };
-    public static final TetriminoPath[] J = { JD, JL, JU, JR };
-    public static final TetriminoPath[] Z = { ZH, ZV };
-    public static final TetriminoPath[] O = { OS };
-    public static final TetriminoPath[] S = { SH, SV };
-    public static final TetriminoPath[] L = { LD, LL, LU, LR };
-    public static final TetriminoPath[] I = { IH, IV };
+    public static final TetrominoPath[] T = { TD, TL, TU, TR };
+    public static final TetrominoPath[] J = { JD, JL, JU, JR };
+    public static final TetrominoPath[] Z = { ZH, ZV };
+    public static final TetrominoPath[] O = { OS };
+    public static final TetrominoPath[] S = { SH, SV };
+    public static final TetrominoPath[] L = { LD, LL, LU, LR };
+    public static final TetrominoPath[] I = { IH, IV };
     
-    public static final TetriminoPath[][] TETRIMINO_PATHS = { T, J, Z, O, S, L, I }; 
+    public static final TetrominoPath[][] TETROMINO_PATHS = { T, J, Z, O, S, L, I }; 
     
-    private static final Map<Tetrimino, TetriminoPath> PATHS;
+    private static final Map<Tetromino, TetrominoPath> PATHS;
     
     static {
-        final Map<Tetrimino, TetriminoPath> map = new HashMap<>();
-        for (final TetriminoPath[] paths : TETRIMINO_PATHS) {
-            for (final TetriminoPath path : paths) {
-                map.put(path.getTetrimino(), path);
+        final Map<Tetromino, TetrominoPath> map = new HashMap<>();
+        for (final TetrominoPath[] paths : TETROMINO_PATHS) {
+            for (final TetrominoPath path : paths) {
+                map.put(path.getTetromino(), path);
             }
         }
         PATHS = Collections.unmodifiableMap(map);
     }
     
-    public static TetriminoPath fromTetrimino(final Tetrimino tetrimino) {
-        return PATHS.get(tetrimino);
+    public static TetrominoPath fromTetromino(final Tetromino tetromino) {
+        return PATHS.get(tetromino);
     }    
         
-    private final Tetrimino tetrimino;
+    private final Tetromino tetromino;
     private final PathPoint[] points;
     
-    private TetriminoPath(final Tetrimino tetrimino) {
+    private TetrominoPath(final Tetromino tetromino) {
         
-        this.tetrimino = tetrimino;
+        this.tetromino = tetromino;
         
         for (int i = MATRIX.length - 1; i >= 0; --i) {
             final boolean[] row = MATRIX[i];
@@ -83,7 +83,7 @@ public final class TetriminoPath {
                 row[j] = false;
             }
         }
-        final Point[] blocks = tetrimino.getBlocks();
+        final Point[] blocks = tetromino.getBlocks();
         for (Point block : blocks) {
             MATRIX[3 + block.y][3 + block.x] = true;
         }
@@ -201,8 +201,8 @@ public final class TetriminoPath {
         path.toArray(points);
     }
 
-    public Tetrimino getTetrimino() {
-        return tetrimino;
+    public Tetromino getTetromino() {
+        return tetromino;
     }
 
     public PathPoint[] getPoints() {
@@ -210,9 +210,9 @@ public final class TetriminoPath {
     }
     
     public static void main(final String... args) {
-        for (final TetriminoPath[] paths : TETRIMINO_PATHS) {
-            for (TetriminoPath path : paths) {
-                System.out.format("%s: %s%n", path.getTetrimino().getName(), Arrays.asList(path.getPoints()));
+        for (final TetrominoPath[] paths : TETROMINO_PATHS) {
+            for (TetrominoPath path : paths) {
+                System.out.format("%s: %s%n", path.getTetromino().getName(), Arrays.asList(path.getPoints()));
             }
         }
     }

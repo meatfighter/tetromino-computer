@@ -31,7 +31,7 @@ import tetriscircuits.Playfield;
 import tetriscircuits.Point;
 import tetriscircuits.Terminal;
 import tetriscircuits.TerminalType;
-import tetriscircuits.Tetrimino;
+import tetriscircuits.Tetromino;
 import tetriscircuits.parser.ParseException;
 import tetriscircuits.parser.Parser;
 
@@ -391,7 +391,7 @@ public class MapMaker {
             return ds;
         }
         for (final Instruction instruction : instructions) {
-            if (instruction.getTetrimino() != null) {
+            if (instruction.getTetromino() != null) {
                 continue;
             }
             final String compName = instruction.getComponentName();
@@ -503,20 +503,20 @@ public class MapMaker {
             return;
         }
         
-        final Tetrimino tetrimino = instruction.getTetrimino();
+        final Tetromino tetromino = instruction.getTetromino();
         int x = originX + moves[0];
         int y = playfield.getMinY() - 3;
         
         for (int i = 1; i < moves.length; ++i) {
             if ((i & 1) == 1) {
-                y = moveDown(playfield, tetrimino, x, y, originY - moves[i]);
+                y = moveDown(playfield, tetromino, x, y, originY - moves[i]);
             } else {
-                x = moveHorizontally(playfield, tetrimino, x, y, originX + moves[i]);
+                x = moveHorizontally(playfield, tetromino, x, y, originX + moves[i]);
             }
         }
         
-        y = hardDrop(playfield, tetrimino, x, y);
-        lock(playfield, tetrimino, x, y);
+        y = hardDrop(playfield, tetromino, x, y);
+        lock(playfield, tetromino, x, y);
     }    
     
     private void emulate(final Map<String, ComponentMapping> mappings, final Playfield playfield, 
@@ -572,20 +572,20 @@ public class MapMaker {
         }
     }    
     
-    private int moveHorizontally(final Playfield playfield, final Tetrimino tetrimino, final int startX, 
+    private int moveHorizontally(final Playfield playfield, final Tetromino tetromino, final int startX, 
             final int startY, final int targetX) {        
         
         if (targetX < startX) {
-            return moveLeft(playfield, tetrimino, startX, startY, targetX);
+            return moveLeft(playfield, tetromino, startX, startY, targetX);
         } 
         
-        return moveRight(playfield, tetrimino, startX, startY, targetX);
+        return moveRight(playfield, tetromino, startX, startY, targetX);
     }
 
-    private int moveLeft(final Playfield playfield, final Tetrimino tetrimino, final int startX,
+    private int moveLeft(final Playfield playfield, final Tetromino tetromino, final int startX,
             final int startY, final int targetX) {
 
-        final Point[] leftBlocks = tetrimino.getLeftBlocks();
+        final Point[] leftBlocks = tetromino.getLeftBlocks();
         for (int x = startX; x >= targetX; --x) {
             for (int i = leftBlocks.length - 1; i >= 0; --i) {
                 final Point block = leftBlocks[i];
@@ -598,10 +598,10 @@ public class MapMaker {
         return targetX;
     }
 
-    private int moveRight(final Playfield playfield, final Tetrimino tetrimino, final int startX,
+    private int moveRight(final Playfield playfield, final Tetromino tetromino, final int startX,
             final int startY, final int targetX) {
 
-        final Point[] rightBlocks = tetrimino.getRightBlocks();
+        final Point[] rightBlocks = tetromino.getRightBlocks();
         for (int x = startX; x <= targetX; ++x) {
             for (int i = rightBlocks.length - 1; i >= 0; --i) {
                 final Point block = rightBlocks[i];
@@ -614,10 +614,10 @@ public class MapMaker {
         return targetX;
     }
     
-    private int moveDown(final Playfield playfield, final Tetrimino tetrimino, final int startX, final int startY,
+    private int moveDown(final Playfield playfield, final Tetromino tetromino, final int startX, final int startY,
             final int targetY) {
         
-        final Point[] bottomBlocks = tetrimino.getBottomBlocks();
+        final Point[] bottomBlocks = tetromino.getBottomBlocks();
         for (int y = startY; y <= targetY; ++y) {
             for (int i = bottomBlocks.length - 1; i >= 0; --i) {
                 final Point block = bottomBlocks[i];
@@ -630,9 +630,9 @@ public class MapMaker {
         return targetY;
     }
     
-    private int hardDrop(final Playfield playfield, final Tetrimino tetrimino, final int startX, final int startY) {
+    private int hardDrop(final Playfield playfield, final Tetromino tetromino, final int startX, final int startY) {
         
-        final Point[] bottomBlocks = tetrimino.getBottomBlocks();
+        final Point[] bottomBlocks = tetromino.getBottomBlocks();
         for (int y = startY; y < playfield.getHeight(); ++y) {
             for (int i = bottomBlocks.length - 1; i >= 0; --i) {
                 final Point block = bottomBlocks[i];
@@ -645,22 +645,22 @@ public class MapMaker {
         return playfield.getHeight() - 1;
     }
     
-    private void lock(final Playfield playfield, final Tetrimino tetrimino, final int lockX, final int lockY) {
+    private void lock(final Playfield playfield, final Tetromino tetromino, final int lockX, final int lockY) {
         
-        int value = tetrimino.getGroupIndex() + 1;
+        int value = tetromino.getGroupIndex() + 1;
         if (value > playfield.getMaxValue()) {
             value = playfield.getMaxValue();
         }
         
-        final Point[] blocks = tetrimino.getBlocks();
+        final Point[] blocks = tetromino.getBlocks();
         for (int i = blocks.length - 1; i >= 0; --i) {
             final Point block = blocks[i];
             playfield.set(lockX + block.x, lockY + block.y, value);
         }
     }    
     
-    private void addInstruction(final List<Instruction> instructions, final Tetrimino tetrimino, final int x) {
-        instructions.add(new Instruction(tetrimino, null, null, new int[] { x }));
+    private void addInstruction(final List<Instruction> instructions, final Tetromino tetromino, final int x) {
+        instructions.add(new Instruction(tetromino, null, null, new int[] { x }));
     }
     
     private void setInputs(final Component component, final int x, final int y) {
@@ -695,13 +695,13 @@ public class MapMaker {
         final int remainder = length % 4;
         switch(length % 4) {
             case 1:
-                addInstruction(instructions, Tetrimino.JL, 1);
+                addInstruction(instructions, Tetromino.JL, 1);
                 break;
             case 2:
-                addInstruction(instructions, Tetrimino.OS, 1);
+                addInstruction(instructions, Tetromino.OS, 1);
                 break;
             case 3:
-                addInstruction(instructions, Tetrimino.LR, 0);
+                addInstruction(instructions, Tetromino.LR, 0);
                 break;
         }
         if (remainder == 0) {
@@ -710,7 +710,7 @@ public class MapMaker {
             setInputs(is, 0, 1, 0);
         }
         for (int i = length >> 2; i > 0; --i) {
-            addInstruction(instructions, Tetrimino.IV, 0);
+            addInstruction(instructions, Tetromino.IV, 0);
         }
         is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         setOutputs(is, 0, length); 
@@ -723,13 +723,13 @@ public class MapMaker {
         final int remainder = length % 4;
         switch(length % 4) {
             case 1:
-                addInstruction(instructions, Tetrimino.LR, -1);
+                addInstruction(instructions, Tetromino.LR, -1);
                 break;
             case 2:
-                addInstruction(instructions, Tetrimino.OS, 0);
+                addInstruction(instructions, Tetromino.OS, 0);
                 break;
             case 3:
-                addInstruction(instructions, Tetrimino.JL, 0);
+                addInstruction(instructions, Tetromino.JL, 0);
                 break;
         }
         if (remainder == 0) {
@@ -738,7 +738,7 @@ public class MapMaker {
             setInputs(is, -1, 0, 0);
         }
         for (int i = length >> 2; i > 0; --i) {
-            addInstruction(instructions, Tetrimino.IV, 0);
+            addInstruction(instructions, Tetromino.IV, 0);
         }
         is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         setOutputs(is, 0, length); 
@@ -749,7 +749,7 @@ public class MapMaker {
         final Component ss = new Component(String.format("s%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = -1; i >= 0; --i, x -= 2) {
-            instructions.add(new Instruction(Tetrimino.SH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetromino.SH, null, null, new int[] { x }));
         }
         ss.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         ss.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
@@ -763,7 +763,7 @@ public class MapMaker {
         final Component zs = new Component(String.format("z%d", length));
         final List<Instruction> instructions = new ArrayList<>();
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
-            instructions.add(new Instruction(Tetrimino.ZH, null, null, new int[] { x }));
+            instructions.add(new Instruction(Tetromino.ZH, null, null, new int[] { x }));
         }
         zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 

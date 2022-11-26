@@ -1,6 +1,6 @@
 package tetriscircuits.assembler;
 
-public class GenerateTetriminoTable {
+public class GenerateTetrominoTable {
 
     private static final int[][] BLOCKS_TD = { { -1,  0 }, {  0,  0 }, {  1,  0 }, {  0,  1 }, };
     private static final int[][] BLOCKS_TL = { {  0, -1 }, { -1,  0 }, {  0,  0 }, {  0,  1 }, };
@@ -28,7 +28,7 @@ public class GenerateTetriminoTable {
     private static final int[][] BLOCKS_IH = { { -2,  0 }, { -1,  0 }, {  0,  0 }, {  1,  0 }, };
     private static final int[][] BLOCKS_IV = { {  0, -2 }, {  0, -1 }, {  0,  0 }, {  0,  1 }, };
     
-    private static final int[][][] TETRIMINOS = {
+    private static final int[][][] TETROMINOES = {
         BLOCKS_TD, BLOCKS_TL, BLOCKS_TU, BLOCKS_TR,
         BLOCKS_JD, BLOCKS_JL, BLOCKS_JU, BLOCKS_JR,
         BLOCKS_ZH, BLOCKS_ZV, BLOCKS_ZH, BLOCKS_ZV,
@@ -49,10 +49,10 @@ public class GenerateTetriminoTable {
     };        
 
     public static void main(final String... args) {
-//        System.out.println("tetriminos:");
+//        System.out.println("tetrominoes:");
 //        System.out.println("; X0 Y0  X1 Y1  X2 Y2  X3 Y3");
-//        for (int i = 0; i < TETRIMINOS.length; ++i) {
-//            final int[][] blocks = TETRIMINOS[i];
+//        for (int i = 0; i < TETROMINOES.length; ++i) {
+//            final int[][] blocks = TETROMINOES[i];
 //            System.out.print("  ");
 //            for (final int[] bs : blocks) {
 //                System.out.format("%02X %02X  ", 0xFF & bs[0], 0xFF & bs[1]);
@@ -75,10 +75,10 @@ public class GenerateTetriminoTable {
 
         final int ROW_LENGTH = 11;
         
-        System.out.println("tetriminos:");
+        System.out.println("tetrominoes:");
         System.out.println(";  0  1  2  3");
-        for (int i = 0; i < TETRIMINOS.length; ++i) {
-            final int[][] blocks = TETRIMINOS[i];
+        for (int i = 0; i < TETROMINOES.length; ++i) {
+            final int[][] blocks = TETROMINOES[i];
             System.out.print("  ");
             for (final int[] bs : blocks) {
                 System.out.format("%02X ", 0xFF & (bs[0] + ROW_LENGTH * bs[1]));

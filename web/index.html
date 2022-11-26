@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-24" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-26" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-24"/>
+<meta name="date" content="2022-11-26"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -37,17 +37,17 @@
 
 <p>Each playfield cell is in one of two states: empty or solid.</p>
 
-<p><span class="term">Tetriminos</span>&mdash;the falling pieces&mdash;are composed of four solid cells, painted any color. Each has a single-character, shape-based name:</p>
+<p><span class="term">tetrominoes</span>&mdash;the falling pieces&mdash;are composed of four solid cells, painted any color. Each has a single-character, shape-based name:</p>
 
-<object data="seven-tetriminos.svg" type="image/svg+xml" class="diagram">Seven Tetriminos</object>
+<object data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
 
-<p>A <span class="term">rotation system</span> describes how Tetriminos rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them will work just as well.</p>
+<p>A <span class="term">rotation system</span> describes how tetrominoes rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them will work just as well.</p>
 
-<p>NRS centers each Tetrimino in a 5&times;5 matrix and it quarter turns them. Of the 28 possible orientations, it uses only 19:</p>
+<p>NRS centers each tetromino in a 5&times;5 matrix and it quarter turns them. Of the 28 possible orientations, it uses only 19:</p>
 
 <object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
 
-<p>In the table above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right. And the mnemonic over each orientation consists of Tetrimino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
+<p>In the table above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right. And the mnemonic over each orientation consists of tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
 
 <p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
 
@@ -62,13 +62,13 @@
     </li>
 </ul>
 
-<p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed Tetrimino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
+<p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed tetromino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
 
-<p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all Tetriminos types in some order from any point in the sequence will work with the method described in this article.</p>
+<p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all tetrominoes types in some order from any point in the sequence will work with the method described in this article.</p>
 
 <h2 id="method-overview">Method Overview</h2>
 
-<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield that is infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops Tetriminos onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield that is infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops tetrominoes onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
 
 <object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
@@ -96,7 +96,7 @@
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
-<p>On an infinite playfield, Tetriminos spawn at <span class="nowrap">&ldquo;row infinity&rdquo;</span> and <span class="nowrap">column zero</span>. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
+<p>On an infinite playfield, tetrominoes spawn at <span class="nowrap">&ldquo;row infinity&rdquo;</span> and <span class="nowrap">column zero</span>. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
 
 <p>A hard drop attempts to vertically translate the piece from <span class="nowrap">&ldquo;row infinity&rdquo;</span> to <span class="nowrap">row zero</span>, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
 
@@ -106,9 +106,9 @@
 
 <p>Since the agent constructs a pile near the origin that progressively grows taller and wider, it can work with <span class="nowrap">&ldquo;row infinity&rdquo;</span> defined as a row with a finite index that increases as a function of the pile’s size or of the number of spawns. For example, the game can increment the index by a constant after each spawn. Such a definition permits the agent to effect a semihard drop by executing a finite sequence of soft drops.</p>
 
-<h2 id="inputscript">Tetris Input Language</h2>
+<h2 id="input-language">Input Language</h2>
 
-<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of a <span class="term">Tetris Input Language</span> (TIL) program. Each instruction contains a Tetrimino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
+<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
 
 <p class="definition">t m<span class="sub3">0</span> m<span class="sub3">1</span> m<span class="sub3">2</span> &mldr; m<span class="sub3">N&minus;1</span></p> 
 
@@ -126,39 +126,39 @@
 
 <p>Note: <span class="mono">SEMIHARD_DROP_TO_ROW</span> requires a parameter, the target row, <span class="mono">y</span>.</p>
 
-<p>When a Tetrimino spawns, the agent compares the Tetrimino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">m</span>, and it advances to the next instruction. Otherwise, the agent hard drops the Tetrimino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
+<p>When a tetromino spawns, the agent compares the tetromino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">m</span>, and it advances to the next instruction. Otherwise, the agent hard drops the tetromino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
 
 <object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
-<p>TIL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
+<p>IL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
 <p>The agents enters one <span class="mono">m<span class="sub3">i</span></span> per frame, the fastest rate the game can accept input. To ensure proper timing, the agent receives a signal at the start of each frame. At the end of the sequence, the agent waits for the next piece to spawn.</p>
 
-<p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-Tetrimino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+<p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-tetromino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
-<p>In the following example, the agent attempts to drop the <span class="nowrap">O-Tetrimino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+<p>In the following example, the agent attempts to drop the <span class="nowrap">O-tetromino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>A TIL program resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But TIL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employed a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
+<p>An <span class="nowrap">IL program</span> resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employed a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
 
-<h2 id="tetrisscript">TetrisScript</h2>
+<h2 id="tetrominoesscript">TetrominoesScript</h2>
 
-<p><span class="term">TetrisScript</span> (TS) is a language that provides a concise way to express where to put the pieces. It compiles to TIL.</p>
+<p><span class="nowrap"><span class="term">TetrominoesScript</span> (TS)</span> is a language that provides a concise way to express where to put the pieces. It compiles to IL.</p>
 
-<p>TS has three instruction types. The first directs the agent to hard drop a Tetrimino. It consists of the Tetrimino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p>TS has three instruction types. The first directs the agent to hard drop a tetromino. It consists of the tetromino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">h</span></p>
 
 <p>It commands the agent to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
-    <li>Rotate the Tetrimino into <span class="mono">m</span>'s orientation.</li>   
-    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">h</span></span>.</li>   
-    <li>Hard drop the Tetrimino.</li> 
+    <li>Discard tetrominoes until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the tetromino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">h</span></span>.</li>   
+    <li>Hard drop the tetromino.</li> 
 </ol>
 
 <p>The example below demonstrates this instructions type.</p>
@@ -178,19 +178,19 @@
 
 <object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
-<p>The second instruction type directs the agent to perform a semihard drop followed by a hard drop in a different column. It consists of the Tetrimino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+<p>The second instruction type directs the agent to perform a semihard drop followed by a hard drop in a different column. It consists of the tetromino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
 <p class="definition">m x<span class="sub3">s</span> y<span class="sub3">s</span> x<span class="sub3">h</span></p>
 
 <p>It commands the agent to:</p>
 
 <ol>
-    <li>Discard Tetriminos until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
-    <li>Rotate the Tetrimino into <span class="mono">m</span>'s orientation.</li>   
-    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">s</span></span>.</li>
-    <li>Semihard drop the Tetrimino to row <span class="mono">y<span class="sub3">s</span></span>.</li>
-    <li>Shift the Tetrimino to column <span class="mono">x<span class="sub3">h</span></span>.</li>
-    <li>Hard drop the Tetrimino.</li> 
+    <li>Discard tetrominoes until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the tetromino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">s</span></span>.</li>
+    <li>Semihard drop the tetromino to row <span class="mono">y<span class="sub3">s</span></span>.</li>
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">h</span></span>.</li>
+    <li>Hard drop the tetromino.</li> 
 </ol>
 
 <p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">s</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
@@ -288,7 +288,7 @@
 
 <p>A buffer is a single-input, binary <a href="https://en.wikipedia.org/wiki/Identity_function" target="_blank">identity function</a>. The output value is the input value, unchanged.</p>
 
-<p>The code below realizes a buffer by dropping a vertical <span class="nowrap">I-Tetrimino</span> onto an input node.</p>
+<p>The code below realizes a buffer by dropping a vertical <span class="nowrap">I-tetromino</span> onto an input node.</p>
 
 <pre class="code">
 <span class="filename">buffer.t</span>
@@ -302,13 +302,13 @@
 
 <object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
 
-<p>The cells of the output node mirror the cells of the input node. Any Tetrimino or any stack of Tetriminos can be used to copy data in this way.</p>
+<p>The cells of the output node mirror the cells of the input node. Any tetromino or any stack of tetrominoes can be used to copy data in this way.</p>
 
 <h2 id="inverter-not">Inverter (NOT)</h2>
 
 <p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">complement</a> of the input.</p>
 
-<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-Tetrimino</span> between horizontal L- and J-Tetriminos.</p>
+<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-tetromino</span> between horizontal L- and J-tetrominoes.</p>
 
 <pre class="code">
 <span class="filename">not.t</span>
@@ -326,9 +326,9 @@
 
 <object data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
 
-<p>When the input is <span class="mono">0</span>, the <span class="nowrap">L-Tetrimino</span> lands low. That enables the <span class="nowrap">O-Tetrimino</span> to shift upon the <span class="nowrap">L-Tetrimino's</span> protuberance. The <span class="nowrap">J-Tetrimino</span>, in turn, lands high, producing an output of <span class="mono">1</span>.</p>
+<p>When the input is <span class="mono">0</span>, the <span class="nowrap">L-tetromino</span> lands low. That enables the <span class="nowrap">O-tetromino</span> to shift upon the <span class="nowrap">L-tetromino's</span> protuberance. The <span class="nowrap">J-tetromino</span>, in turn, lands high, producing an output of <span class="mono">1</span>.</p>
 
-<p>When the input is <span class="mono">1</span>, the <span class="nowrap">L-Tetrimino</span> lands high. That causes it to act a barrier that obstructs the horizontal movement of the <span class="nowrap">O-Tetrimino</span>. Consequentially, the <span class="nowrap">J-Tetrimino</span> lands low, generating an output of <span class="mono">0</span>.</p>
+<p>When the input is <span class="mono">1</span>, the <span class="nowrap">L-tetromino</span> lands high. That causes it to act a barrier that obstructs the horizontal movement of the <span class="nowrap">O-tetromino</span>. Consequentially, the <span class="nowrap">J-tetromino</span> lands low, generating an output of <span class="mono">0</span>.</p>
 
 <p>In both cases, the output is the opposite of the input.</p>
 
@@ -340,7 +340,7 @@
 
 <p>OR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_disjunction" target="_blank">disjunction</a> of its inputs. That is, the output is <span class="mono">0</span> only when both inputs are <span class="mono">0</span>.</p>
 
-<p>The code below creates an OR gate by dropping a single <span class="nowrap">O-Tetrimino</span> onto abutting input nodes.</p>
+<p>The code below creates an OR gate by dropping a single <span class="nowrap">O-tetromino</span> onto abutting input nodes.</p>
 
 <pre class="code">
 <span class="filename">or.t</span>
@@ -355,7 +355,7 @@
 
 <object data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
-<p>The <span class="nowrap">O-Tetrimino</span> lands low unless one or both inputs is <span class="mono">1</span>.</p>
+<p>The <span class="nowrap">O-tetromino</span> lands low unless one or both inputs is <span class="mono">1</span>.</p>
 
 <h2 id="nor">NOR</h2>
 
@@ -378,7 +378,7 @@
 
 <object data="nor.svg" type="image/svg+xml" class="diagram">NOR</object>
 
-<p>The <span class="nowrap">L-Tetrimino</span> operates as an OR gate, resulting in output opposite of OR.</p>
+<p>The <span class="nowrap">L-tetromino</span> operates as an OR gate, resulting in output opposite of OR.</p>
 
 <h2 id="nand">NAND</h2>
 
@@ -403,7 +403,7 @@
 
 <object data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
 
-<p>The horizontal <span class="nowrap">I-Tetrimino</span> functions as an OR gate.</p>
+<p>The horizontal <span class="nowrap">I-tetromino</span> functions as an OR gate.</p>
 
 <h2 id="and">AND</h2>
 
@@ -426,7 +426,7 @@
 
 <object data="and.svg" type="image/svg+xml" class="diagram">AND</object>
 
-<p>The <span class="nowrap">J-Tetrimino</span> of the upper inverter functions as an OR gate.</p>
+<p>The <span class="nowrap">J-tetromino</span> of the upper inverter functions as an OR gate.</p>
 
 <h2 id="xor">XOR</h2>
 
@@ -472,13 +472,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
 </pre>
 
-<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-Tetriminos</span>. It is detailed in <a href="#intermediate-gates">a later section</a>.</p>
+<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-tetrominoes</span>. It is detailed in <a href="#intermediate-gates">a later section</a>.</p>
 
 <p>Here are the results for all input combinations:</p>
 
 <object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
 
-<p>The L- and J-Tetriminos resting on the <span class="nowrap">O-Tetriminos</span> and the vertical <span class="nowrap">I-Tetriminos</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. And the horizontal <span class="nowrap">I-Tetrimino</span> at the top operates as an OR gate.</p>
+<p>The L- and J-tetrominoes resting on the <span class="nowrap">O-tetrominoes</span> and the vertical <span class="nowrap">I-tetrominoes</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. And the horizontal <span class="nowrap">I-tetromino</span> at the top operates as an OR gate.</p>
 
 <h2 id="xnor">XNOR</h2>
 
@@ -502,7 +502,7 @@
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
-<p>The <a href="#inverter-not">inverter described above</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-Tetrimino</span>:</p>
+<p>The <a href="#inverter-not">inverter described above</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-tetromino</span>:</p>
 
 <pre class="code">
 <span class="filename">_notLeft.t</span>
@@ -512,13 +512,13 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
 </pre>
 
-<p>As shown in the animated constructions below, the input and output nodes overlap. When the input is <span class="mono">1</span>, the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-Tetrimino</span> drops. Though, when the input is <span class="mono">0</span>, the output node is initially unassigned.</p>
+<p>As shown in the animated constructions below, the input and output nodes overlap. When the input is <span class="mono">1</span>, the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-tetromino</span> drops. Though, when the input is <span class="mono">0</span>, the output node is initially unassigned.</p>
 
 <object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-Tetrimino</span>. If that <span class="nowrap">O-Tetrimino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in <a href="#simulation">a later section</a>, which depends on consistent circuit operation.</p>
+<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-tetromino</span>. If that <span class="nowrap">O-tetromino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in <a href="#simulation">a later section</a>, which depends on consistent circuit operation.</p>
 
-<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-Tetrimino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, <span class="mono">_notLeft</span> and other leaky gates are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. Their names start with an underscore to make them instantly distinguishable from ordinary gates.</p>
+<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-tetromino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, <span class="mono">_notLeft</span> and other leaky gates are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. Their names start with an underscore to make them instantly distinguishable from ordinary gates.</p>
 
 <p>Smaller circuits suggest faster processing. But the aforementioned optimization makes circuits built purely out of ordinary gates compute just as quickly despite their larger size. There is no justification for intermediate gates except that their compact nature effectuates aesthetically pleasing designs. That is the impetus behind the following variation of the intermediate inverter.</p>
 
@@ -530,11 +530,11 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
 </pre>
 
-<p><span class="mono">_notLeft2</span> nudges the <span class="nowrap">O-Tetrimino</span> right twice:</p>
+<p><span class="mono">_notLeft2</span> nudges the <span class="nowrap">O-tetromino</span> right twice:</p>
 
 <object data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
 
-<p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-Tetrimino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
+<p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-tetromino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
 
 <p><span class="mono">_notLeft2</span> is attached to the output of an ordinary OR gate to create an intermediate NOR gate:</p>
 
@@ -552,11 +552,11 @@
 
 <object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
 
-<p>On <span class="nowrap">line 2</span> of the code, if <span class="mono">_notLeft2</span> is replaced with <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-Tetriminos</span> becomes lopsided, an aesthetically displeasing configuration.</p>
+<p>On <span class="nowrap">line 2</span> of the code, if <span class="mono">_notLeft2</span> is replaced with <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-tetrominoes</span> becomes lopsided, an aesthetically displeasing configuration.</p>
 
-<p><span class="mono">_norLeft</span> is found in the interior of the ordinary XOR gate to reduce its size and to guarantee the <span class="nowrap">O-Tetrimino</span> is always caught.</p>
+<p><span class="mono">_norLeft</span> is found in the interior of the ordinary XOR gate to reduce its size and to guarantee the <span class="nowrap">O-tetromino</span> is always caught.</p>
 
-<p>The &ldquo;<span class="mono">Left</span>&rdquo; in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-Tetrimino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
+<p>The &ldquo;<span class="mono">Left</span>&rdquo; in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-tetromino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
 
 <p>The intermediate NAND gate, <span class="mono">_nand</span>, uses intermediate inverters to feed input complements into an ordinary OR gate:</p>
 
@@ -571,7 +571,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 3</span></span>
 </pre>
 
-<p>Intermediate NAND leaks up to two <span class="nowrap">O-Tetriminos</span>:</p>
+<p>Intermediate NAND leaks up to two <span class="nowrap">O-tetrominoes</span>:</p>
 
 <object data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
 
@@ -615,7 +615,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 11</span></span>
 </pre>
 
-<p>Like the intermediate NAND and AND gates, intermediate XOR emits up to two <span class="nowrap">O-Tetriminos</span>:</p>
+<p>Like the intermediate NAND and AND gates, intermediate XOR emits up to two <span class="nowrap">O-tetrominoes</span>:</p>
 
 <object data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
 
@@ -627,15 +627,15 @@
 
 <h2 id="fan-out">Fan-out</h2>
 
-<p><span class="term">Fan-out</span> is the number of connections radiating from an output node. As illustrated in the animation below, lines of S- and Z-Tetriminos enable unlimited fan-out.</p>
+<p><span class="term">Fan-out</span> is the number of connections radiating from an output node. As illustrated in the animation below, lines of S- and Z-tetrominoes enable unlimited fan-out.</p>
 
 <object data="fan-out.svg" type="image/svg+xml" class="diagram">Fan-out</object>
 
-<p>Rising staircases of horizontal I-Tetriminos can achieve the same.</p>
+<p>Rising staircases of horizontal I-tetrominoes can achieve the same.</p>
 
 <h2 id="fan-in">Fan-in</h2>
 
-<p>Wires that converge on a common node require a device to combine their signals, such as a multi-input OR gate. <span class="term">Fan-in</span> is the number of inputs of such a device. As demonstrated in the following animation, a line of Z- or S-Tetriminos can provide unlimited fan-in. </p>
+<p>Wires that converge on a common node require a device to combine their signals, such as a multi-input OR gate. <span class="term">Fan-in</span> is the number of inputs of such a device. As demonstrated in the following animation, a line of Z- or S-tetrominoes can provide unlimited fan-in. </p>
 
 <object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
 
@@ -659,7 +659,7 @@
 
 <p>Since two-dimensional XOR gates exist and the circuit does not contain any cross-overs, it achieves a planar swap.</p>
 
-<p>In following the actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-Tetrimino operating as an OR. The other pieces function as wires.</p>
+<p>In following the actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-tetromino operating as an OR. The other pieces function as wires.</p>
 
 <pre class="code">
 <span class="filename">swap.t</span>
@@ -811,7 +811,7 @@
 
 <p><span class="math">f(A) = A &oplus; A = </span><span class="serif">0</span></p>
 
-<p>The code below links both inputs of an XOR gate with a horizontal I-Tetrimino.</p>
+<p>The code below links both inputs of an XOR gate with a horizontal I-tetromino.</p>
 
 <pre class="code">
 <span class="filename">false.t</span>
@@ -830,7 +830,7 @@
 
 <p><span class="math">f(A) = <span class="overline">A &oplus; A</span> = </span><span class="serif">1</span></p>
 
-<p>A horizontal I-Tetrimino joins the inputs of an XNOR gate in the code below.</p>
+<p>A horizontal I-tetromino joins the inputs of an XNOR gate in the code below.</p>
 
 <pre class="code">
 <span class="filename">true.t</span>
@@ -967,7 +967,7 @@
 
 <object data="bitwise-or-schematic.svg" type="image/svg+xml" class="diagram">Bitwise OR Schematic</object>
 
-<p>In the Tetris version below, the line of yellow <span class="nowrap">O-Tetriminos</span> in the top-left are the OR gates. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
+<p>In the Tetris version below, the line of yellow <span class="nowrap">O-tetrominoes</span> in the top-left are the OR gates. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
 
 <object data="bitwise-or.svg" type="image/svg+xml" class="diagram">Bitwise OR</object>
 
@@ -1029,7 +1029,7 @@
 
 <object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
 
-<p>Horizontal <span class="nowrap">J-Tetriminos</span> operate as OR gates. Each feeds an input bit to both terminals of a swap circuit.</p>
+<p>Horizontal <span class="nowrap">J-tetrominoes</span> operate as OR gates. Each feeds an input bit to both terminals of a swap circuit.</p>
 
 <p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
 
@@ -1043,7 +1043,7 @@
 
 <p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
 
-<p>In the Tetris realization below, two of the horizontal <span class="nowrap">J-Tetriminos</span> are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
+<p>In the Tetris realization below, two of the horizontal <span class="nowrap">J-tetrominoes</span> are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
 
 <object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
 
@@ -1141,7 +1141,7 @@
 
 <object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
 
-<p>The space-dominating triangle consists of diagonally-upward chains of swap circuit. After they cross the center wire, horizontal lines of <span class="nowrap">Z-Tetriminos</span> carry the signals the rest of the way.</p>
+<p>The space-dominating triangle consists of diagonally-upward chains of swap circuit. After they cross the center wire, horizontal lines of <span class="nowrap">Z-tetrominoes</span> carry the signals the rest of the way.</p>
 
 <p>A variation of the function copies the second byte to the first byte:</p>
 
@@ -1253,7 +1253,7 @@
 
 <object data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
 
-<p>In the code below, which is based on that schematic, a horizontal I-Tetrimino functions as the upper OR.</p>
+<p>In the code below, which is based on that schematic, a horizontal I-tetromino functions as the upper OR.</p>
 
 <pre class="code">
 <span class="filename">halfSubtractor.t</span>
@@ -1717,7 +1717,7 @@
 
 <p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the agent used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
 
-<p>Memory capacity is always finite, but the agent can expand it endlessly. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-Tetriminos</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
+<p>Memory capacity is always finite, but the agent can expand it endlessly. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-tetrominoes</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
 <object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
@@ -1760,17 +1760,17 @@
 
 <p>The agent never deallocates memory. The pile's width either remains constant or it increases.</p>
 
-<p>The agent loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-Tetriminos</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-Tetriminos</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
+<p>The agent loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-tetrominoes</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-tetrominoes</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
 
 <object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
 <p>Since the agent clears newly allocated bytes, all memory locations after the final byte of the initial state effectively contain zero.</p>
 
-<h2 id="tetris-memory-script">Tetris Memory Script</h2>
+<h2 id="memory-code">Memory Code</h2>
 
-<p><span class="term">Tetris Memory Script</span> (TMS) is a language that provides a concise way to manipulate memory. It compiles to TS, and ultimately <span class="nowrap">to TIL</span>.</p> 
+<p><span class="nowrap"><span class="term">Memory Code</span> (MC)</span> is a language that provides a concise way to manipulate memory. It compiles to TS, and ultimately <span class="nowrap">to IL</span>.</p> 
 
-<p>TMS has of two instruction types. The first directs the agent to perform a read-modify-write operation. It consists of the modify function’s name, <span class="mono">f</span>, and the memory address where to apply it, <span class="mono">x</span>: 
+<p>MC has of two instruction types. The first directs the agent to perform a read-modify-write operation. It consists of the modify function’s name, <span class="mono">f</span>, and the memory address where to apply it, <span class="mono">x</span>: 
 
 <p class="definition">f x</p> 
 
@@ -1781,10 +1781,10 @@
   <li>Repeatedly build identity functions on the surface of the pile, covering all remaining bytes.</li>
 </ol>
 
-<p>The following TMS program demonstrate this instruction type. It performs the sum from the previous section.</p>
+<p>The following <span class="nowrap">MC program</span> demonstrate this instruction type. It performs the sum from the previous section.</p>
 
 <pre class="code">
-<span class="filename">sum.tm</span>
+<span class="filename">sum.mc</span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">0</span></span>
 <span class="line"><span class="normal">ADD_AB_FB </span><span class="number">1</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">1</span></span>
@@ -1796,23 +1796,23 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
 </pre>
 
-<p>The second instruction type directs the agent to execute a previously defined TMS program, <span class="mono">p</span>, relative to a specified memory address, <span class="mono">x</span>: 
+<p>The second instruction type directs the agent to execute a previously defined <span class="nowrap">MC program</span>, <span class="mono">p</span>, relative to a specified memory address, <span class="mono">x</span>: 
 
 <p class="definition">p x</p>
 
-<p>The TMS compiler replaces the instruction with <span class="mono">p</span>'s contents, such that the memory address arguments of <span class="mono">p</span>'s instruction are incremented by <span class="mono">x</span>. The compiler recursively repeats that process until all what remains are instructions of the first type. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
+<p>The <span class="nowrap">MC compiler</span> replaces the instruction with <span class="mono">p</span>'s contents, such that the memory address arguments of <span class="mono">p</span>'s instruction are incremented by <span class="mono">x</span>. The compiler recursively repeats that process until all what remains are instructions of the first type. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
 
 <p>The code below references the last example to illustrate this instruction type.</p>
 
 <pre class="code">
-<span class="filename">sum5.tm</span>
+<span class="filename">sum5.mc</span>
 <span class="line"><span class="normal">sum </span><span class="number">5</span></span>
 </pre>
 
 <p>The compiler expands the single instruction, offsetting the memory locations per the provided address:</p>
 
 <pre class="code">
-<span class="filename">sum5Expanded.tm</span>
+<span class="filename">sum5Expanded.mc</span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">5</span></span>
 <span class="line"><span class="normal">ADD_AB_FB </span><span class="number">6</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">6</span></span>
@@ -1826,15 +1826,15 @@
 
 <p>The expanded version reveals <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
 
-<p>TMS does not provide instructions for initializing memory. Rather, a <span class="nowrap">TMS program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">TMS programs</span>. That being the case, the compiler requires the existing pile’s dimensions. The pile’s height provides the original surface <span class="nowrap">row index</span>. Then, for each <span class="nowrap">TMS instruction</span>, the compiler increments the surface <span class="nowrap">row index</span> by the height of the instruction’s function, and it uses the function’s <span class="nowrap">byte width</span> along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
+<p>MC does not provide instructions for initializing memory. Rather, an <span class="nowrap">MC program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">MC programs</span>. That being the case, the compiler requires the existing pile’s dimensions. The pile’s height provides the original surface <span class="nowrap">row index</span>. Then, for each <span class="nowrap">MC instruction</span>, the compiler increments the surface <span class="nowrap">row index</span> by the height of the instruction’s function, and it uses the function’s <span class="nowrap">byte width</span> along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
 
 <p>The compiler knows the function <span class="nowrap">byte widths</span> because, at startup, it counts the number of <span class="mono keyword2">in</span> directives in each <span class="nowrap">TS program</span>. And it knows the function heights because it builds an instance of each function on a finite, private playfield, using zeros for input.</p>
 
-<p>For the identity functions, the compiler outputs a sequence of <span class="nowrap">TS instructions</span> that direct the agent to build columns above the pile’s surface nodes, primarily from vertical <span class="nowrap">I-Tetriminos</span>, where the heights of the columns equal the height of the <span class="nowrap">TMS instruction’s</span> function.</p>
+<p>For the identity functions, the compiler outputs a sequence of <span class="nowrap">TS instructions</span> that direct the agent to build columns above the pile’s surface nodes, primarily from vertical <span class="nowrap">I-tetrominoes</span>, where the heights of the columns equal the height of the <span class="nowrap">MC instruction’s</span> function.</p>
 
-<p>If the compiler encounters a <span class="nowrap">TMS instruction</span> that references a memory address beyond the pile’s width, then it expands the pile up to that address before it translates the instruction to TS. As explained in the last section, to allocate and initialize bytes, the compiler appends <span class="nowrap"><span class="mono">0</span>-nodes</span> in the form of horizontal <span class="nowrap">I-Tetriminos</span>, and it pads the nodes in the same way that it synthesizes the identity functions.</p>
+<p>If the compiler encounters a <span class="nowrap">MC instruction</span> that references a memory address beyond the pile’s width, then it expands the pile up to that address before it translates the instruction to TS. As explained in the last section, to allocate and initialize bytes, the compiler appends <span class="nowrap"><span class="mono">0</span>-nodes</span> in the form of horizontal <span class="nowrap">I-tetrominoes</span>, and it pads the nodes in the same way that it synthesizes the identity functions.</p>
 
-<p>The agent can execute the <span class="nowrap">TS program</span> generated by the <span class="nowrap">TMS compiler</span> on any rectangular pile matching the dimensions provided at compilation time.</p>
+<p>The agent can execute the <span class="nowrap">TS program</span> generated by the <span class="nowrap">MC compiler</span> on any rectangular pile matching the dimensions provided at compilation time.</p>
 
 <h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
 
@@ -1844,19 +1844,19 @@
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[L,&infin;)</span> &larr; 0</span></span></p>
 
-<p>Each TMS instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
+<p>Each MC instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; f(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span>)</span></span></p>
 
 <p>The computing machines of the next section employ this abstraction to satisfy their data storage needs. The text describes the array as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward infinity.</p>
 
-<h1 id="abstract-computing-machines">Abstract Computing Machines</h1>
+<h1 id="abstract-machines">Abstract Machines</h1>
 
 <p>This section explores several models of computation.</p>
 
 <h2 id="function-emulator">Function Emulator</h2>
 
-<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">f</span>, there exists a TMS program, <span class="mono">E</span>, that emulates <span class="mono">f</span>. This is because, regardless of how <span class="mono">f</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">E</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
+<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">f</span>, there exists an <span class="nowrap">MC program</span>, <span class="mono">E</span>, that emulates <span class="mono">f</span>. This is because, regardless of how <span class="mono">f</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">E</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
@@ -1869,7 +1869,7 @@
 
 <p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
 
-<p>Unfortunately, TMS does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). But the loop can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
+<p>Unfortunately, MC does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). But the loop can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
 
 <p><span class="nowrap mono">p &equiv; a<span class="sub3">x+n</span></span></p>
 
@@ -2021,7 +2021,7 @@
 <span class="line">  a<span class="sub3">x+n+2</span> &larr; a<span class="sub3">x+n+2</span> <span class="keyword2">or</span> a<span class="sub3">x+n+1</span></span>
 </pre>
 
-<p>Then all references to the array are replaced with TMS instructions:</p>
+<p>Then all references to the array are replaced with MC instructions:</p>
 
 <pre class="pseudocode2">
 <span class="line">CLEAR n+2</span>
@@ -2052,7 +2052,7 @@
 
 <p>The final step is to unroll the loops. As that happens, the <span class="mono">(k,v)</span> pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. However, since <span class="mono">m</span> contains up to <span class="mono">256<span class="sup3">n</span></span> entries, the unroll may produce an extremely long program.</p>
 
-<p>Clearly, this technique is not practical or efficient. Nonetheless, it demonstrates a <span class="nowrap">TMS program</span> can emulate an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function, at least in principle.</p>
+<p>Clearly, this technique is not practical or efficient. Nonetheless, it demonstrates an <span class="nowrap">MC program</span> can emulate an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function, at least in principle.</p>
 
 <h2 id="state-machine">State Machine</h2>
 
@@ -2062,7 +2062,7 @@
 
 <p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a>, such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
-<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs a TMS program equivalent to the single line of pseudocode below.</p>
+<p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs an <span class="nowrap">MC program</span> equivalent to the single line of pseudocode below.</p>
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span>
@@ -2076,7 +2076,7 @@
 
 <p>A <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Classifiers" target="_blank">classifier</a> is a device that categorizes an input string. If there are only two categories, then the device is referred to as an <span class="term"><a href="https://en.wikipedia.org/wiki/Finite-state_machine#Acceptors" target="_blank">acceptor</a></span>. For instance, a <a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression</a> matcher determines if an input string is consistent with a specific pattern or not.</p>
 
-<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, consisting of <span class="mono">L</span> single-byte characters, into a TMS program. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, and a process initializes it to a starting value. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
+<p>The following approach for implementing a classifier embeds an input string, <span class="mono">s</span>, consisting of <span class="mono">L</span> single-byte characters, into an <span class="nowrap">MC program</span>. As with the sequencer, the first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, and a process initializes it to a starting value. At runtime, the program iterates over the input string. During each pass, it assigns the element immediately right of the register, <span class="mono">a<span class="sub3">N</span></span>, to the <span class="mono">i<span class="sup2">th</span></span> character of the input string, <span class="mono">s<span class="sub3">i</span></span>, and it applies a transition function, <span class="mono">T<span class="sub3">c</span></span>, to the segment of the array containing both the register and the character:</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> L&minus;1</span>
@@ -2088,7 +2088,7 @@
 
 <p>At completion, the process reads the computed category, which is stored in a subset or all bytes of the register.</p>
 
-<p>Unfortunately, since the string is hard-coded, this approach requires a separate TMS program per input. Alternatively, and preferably, a process loads the input string into the elements right of the register:</p> 
+<p>Unfortunately, since the string is hard-coded, this approach requires a separate <span class="nowrap">MC program</span> per input. Alternatively, and preferably, a process loads the input string into the elements right of the register:</p> 
 
 <p><span class="nowrap mono">a<span class="sub3">N+i</span> &larr; s<span class="sub3">i&isin;[0,L-1]</span></span></p>
 
@@ -2231,7 +2231,7 @@
 
 <p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
 
-<p>The TMS program that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to the minimal tape region guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
+<p>The <span class="nowrap">MC program</span> that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to the minimal tape region guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
 
 <pre class="pseudocode2">
 <span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
@@ -2265,7 +2265,7 @@
 <span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
 </pre>
 
-<p>Through a chain of conversions from pseudocode to TMS to TS to TIL, that program ultimately represents an endless sequence of game inputs that can run any algorithm.</p>
+<p>Through a chain of conversions from pseudocode to MC to TS to IL, that program ultimately represents an endless sequence of game inputs that can run any algorithm.</p>
 
 <h3 id="turing-machine-discussion">Discussion</h3>
 
@@ -2311,13 +2311,13 @@
 
 <h2 id="tetris-machine-microcode">Microcode</h2>
 
-<p>This section presents the <span class="nowrap">TMS programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
+<p>This section presents the <span class="nowrap">MC programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
 
 <p>As revealed in the image below, the state register consists of twenty-one <span class="nowrap">8-bit</span> registers. Most of them are internal registers, but a few are exposed to machine code instructions.</p>
 
 <object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
-<p>The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location. The TMS programs execute relative to <span class="nowrap">byte <span class="mono">I</span></span>.</p>
+<p>The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location. The <span class="nowrap">MC programs</span> execute relative to <span class="nowrap">byte <span class="mono">I</span></span>.</p>
 
 <p>Several <span class="nowrap">8-bit</span> registers jointly function as <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> registers:</p>
 
@@ -2329,10 +2329,10 @@
 
 <p>Since the state register starts out two bytes right of the machine code program, a process initializes <span class="mono">a</span> to <span class="mono">L&minus;1</span>.</p>
 
-<p>The <span class="nowrap">TMS program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
+<p>The <span class="nowrap">MC program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
 
 <pre class="code">
-<span class="filename">SLIDE_STATE_REG_LEFT.tm</span>
+<span class="filename">SLIDE_STATE_REG_LEFT.mc</span>
 <span class="line"><span class="normal">DEC_16 </span><span class="number">13               </span><span class="comment">; --a;</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K right</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K right</span></span>
@@ -2357,10 +2357,10 @@
 <span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K right</span></span>
 </pre>
 
-<p>Similarly, the <span class="nowrap">TMS program</span> that slides the state register right increments <span class="mono">a</span>:</p>
+<p>Similarly, the <span class="nowrap">MC program</span> that slides the state register right increments <span class="mono">a</span>:</p>
 
 <pre class="code">
-<span class="filename">SLIDE_STATE_REG_RIGHT.tm</span>
+<span class="filename">SLIDE_STATE_REG_RIGHT.mc</span>
 <span class="line"><span class="normal">INC_16 </span><span class="number">13               </span><span class="comment">; ++a;</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q left</span></span>
 <span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q left</span></span>
@@ -2394,7 +2394,7 @@
 <p>The implementation follows. To highlight the most pertinent code, the listings omit <span class="mono">SWAP</span>s from this point forward.</p>
 
 <pre class="code">
-<span class="filename">FETCH.tm</span>
+<span class="filename">FETCH.mc</span>
 <span class="line"><span class="normal">CMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (P1 == a1);</span></span>
 <span class="line"><span class="normal">CMP_AND_C </span><span class="number">10            </span><span class="comment">; s1 &= (P0 == a0);</span></span>
 <span class="line"><span class="normal">COPY_A_B_C </span><span class="number">2            </span><span class="comment">; if (s1) i = I;</span></span>
@@ -2407,7 +2407,7 @@
 <p>After the computer slides the state register across RAM, it increments <span class="mono">P</span> by the fetched instruction length in preparation of the next fetch. The implementation uses match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2- or 3-byte</span> instruction:</p>
 
 <pre class="code">
-<span class="filename">INCREMENT_P.tm</span>
+<span class="filename">INCREMENT_P.mc</span>
 <span class="line"><span class="normal">INC_16 </span><span class="number">8                </span><span class="comment">; ++P;</span></span>
 <span class="line"><span class="normal">SEX_C </span><span class="number">12                </span><span class="comment">; s1 = (i is a 2-byte instruction);</span></span>
 <span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
@@ -2430,10 +2430,10 @@
 
 <object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
-<p>The following <span class="nowrap">TMS program</span> decodes and executes the transfer instructions.</p>
+<p>The following <span class="nowrap">MC program</span> decodes and executes the transfer instructions.</p>
 
 <pre class="code">
-<span class="filename">DECODE_EXECUTE_TRANSFER.tm</span>
+<span class="filename">DECODE_EXECUTE_TRANSFER.mc</span>
 <span class="line"><span class="normal">TMX_C </span><span class="number">12                </span><span class="comment">; s1 = (i matches TM*);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">13           </span><span class="comment">; if (s1) s0 = M;</span></span>
 <span class="line"><span class="normal">TNX_C </span><span class="number">13                </span><span class="comment">; s1 = (i matches TN*);</span></span>
@@ -2457,10 +2457,10 @@
 
 <p>Next, the computer handles <span class="term">arithmetic and logic instructions</span>. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), the instruction sets the <span class="term">negative flag</span>, <span class="mono">n</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">n</span> to <span class="mono">0</span>. If the result is zero, the instruction sets the <span class="term">zero flag</span>, <span class="mono">z</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">z</span> to <span class="mono">0</span>.</p>
 
-<p>The <span class="nowrap">TMS program</span> below decodes and executes the twelve arithmetic and logic instructions, all of which are <span class="nowrap">1-byte</span> instructions. Each implementation follows the same pattern. First, the program compares <span class="mono">i</span> and an opcode, storing the result in <span class="mono">s1</span>. Then, the program sets <span class="mono">s0</span> to a function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>. Finally, the program conditionally copies <span class="mono">s0</span> to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
+<p>The <span class="nowrap">MC program</span> below decodes and executes the twelve arithmetic and logic instructions, all of which are <span class="nowrap">1-byte</span> instructions. Each implementation follows the same pattern. First, the program compares <span class="mono">i</span> and an opcode, storing the result in <span class="mono">s1</span>. Then, the program sets <span class="mono">s0</span> to a function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>. Finally, the program conditionally copies <span class="mono">s0</span> to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
 
 <pre class="code">
-<span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.tm</span>
+<span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.mc</span>
 <span class="line"><span class="normal">CLEAR </span><span class="number">14                </span><span class="comment">; d = 0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">ADD_C </span><span class="number">12                </span><span class="comment">; s1 = (i is ADD);</span></span>
@@ -2552,10 +2552,10 @@
 
 <object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
 
-<p>The following <span class="nowrap">TMS program</span> decodes and executes the set instructions.</p>
+<p>The following <span class="nowrap">MC program</span> decodes and executes the set instructions.</p>
 
 <pre class="code">
-<span class="filename">DECODE_EXECUTE_SET.tm</span>
+<span class="filename">DECODE_EXECUTE_SET.mc</span>
 <span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
 <span class="line"></span>
@@ -2591,10 +2591,10 @@
 
 <p>This <a href="https://en.wikipedia.org/wiki/Link_register" target="_blank">link register</a> scheme enables subroutine calls one level deep (all subroutines are <a href="https://en.wikipedia.org/wiki/Leaf_subroutine" target="_blank">leaf subroutines</a>). The computer does not provide a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a>.</p>
 
-<p>Here is the <span class="nowrap">TMS program</span> for the branch instructions:</p>
+<p>Here is the <span class="nowrap">MC program</span> for the branch instructions:</p>
 
 <pre class="code">
-<span class="filename">DECODE_EXECUTE_BRANCH.tm</span>
+<span class="filename">DECODE_EXECUTE_BRANCH.mc</span>
 <span class="line"><span class="comment">; Jump:</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">JMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (i is JMP);</span></span>
@@ -2658,10 +2658,10 @@
 
 <p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is neither a <span class="term">carry flag</span> nor an <span class="term">overflow flag</span>.</p>
 
-<p>The following <span class="nowrap">TMS program</span> decodes load and store instructions. As explained, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
+<p>The following <span class="nowrap">MC program</span> decodes load and store instructions. As explained, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
 
 <pre class="code">
-<span class="filename">DECODE_LOAD_STORE.tm</span>
+<span class="filename">DECODE_LOAD_STORE.mc</span>
 <span class="line"><span class="normal">STB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is STB);</span></span>
 <span class="line"><span class="normal">C_COPY_B_A </span><span class="number">12           </span><span class="comment">; if (s1) m = B;</span></span>
 <span class="line"></span>
@@ -2675,10 +2675,10 @@
 
 <p>Since load and store instructions are single-byte instructions, the program ignores <span class="mono">j</span> and <span class="mono">k</span>.</p>
 
-<p>The <span class="nowrap">TMS program</span> below executes load and store instructions. As the computer slides the state register across RAM, the program compares <span class="mono">MN</span> and <span class="mono">a</span>. When they match, the program copies <span class="mono">I</span> to <span class="mono">m</span> if <span class="mono">r</span> indicates read, or it copies <span class="mono">m</span> to <span class="mono">I</span> if <span class="mono">w</span> indicates write.</p>
+<p>The <span class="nowrap">MC program</span> below executes load and store instructions. As the computer slides the state register across RAM, the program compares <span class="mono">MN</span> and <span class="mono">a</span>. When they match, the program copies <span class="mono">I</span> to <span class="mono">m</span> if <span class="mono">r</span> indicates read, or it copies <span class="mono">m</span> to <span class="mono">I</span> if <span class="mono">w</span> indicates write.</p>
 
 <pre class="code">
-<span class="filename">EXECUTE_LOAD_STORE.tm</span>
+<span class="filename">EXECUTE_LOAD_STORE.mc</span>
 <span class="line"><span class="normal">CMP_C </span><span class="number">12                </span><span class="comment">; s0 = (M == a1);</span></span>
 <span class="line"><span class="normal">CMP_AND_C </span><span class="number">14            </span><span class="comment">; s0 &= (N == a0);</span></span>
 <span class="line"></span>
@@ -2691,10 +2691,10 @@
 <span class="line"><span class="normal">COPY_B_A_C </span><span class="number">5            </span><span class="comment">; if (s1) I = m;</span></span>
 </pre>
 
-<p>The following <span class="nowrap">TMS program</span> completes the execution of load instructions. If <span class="mono">r</span> indicates read, then the program assigns <span class="mono">n</span> and <span class="mono">z</span> based on <span class="mono">m</span>, and the program copies <span class="mono">m</span> to <span class="mono">A</span> or <span class="mono">B</span> based on <span class="mono">d</span>.</p>
+<p>The following <span class="nowrap">MC program</span> completes the execution of load instructions. If <span class="mono">r</span> indicates read, then the program assigns <span class="mono">n</span> and <span class="mono">z</span> based on <span class="mono">m</span>, and the program copies <span class="mono">m</span> to <span class="mono">A</span> or <span class="mono">B</span> based on <span class="mono">d</span>.</p>
 
 <pre class="code">
-<span class="filename">ASSIGN_LOADED.tm</span>
+<span class="filename">ASSIGN_LOADED.mc</span>
 <span class="line"><span class="normal">MINUS_C </span><span class="number">11              </span><span class="comment">; s0 = (m < 0);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">16           </span><span class="comment">; if (r) n = s0;</span></span>
 <span class="line"></span>
@@ -2708,10 +2708,10 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
 </pre>
 
-<p>Putting it all together, the <span class="nowrap">TMS program</span> below slides the state register leftward across RAM. Along the way (lines 1&ndash;24), it fetches an instruction, and it potentially loads or stores a byte. Afterward (lines 26&ndash;32), the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions, deferring their execution to the rightward slide.</p>
+<p>Putting it all together, the <span class="nowrap">MC program</span> below slides the state register leftward across RAM. Along the way (lines 1&ndash;24), it fetches an instruction, and it potentially loads or stores a byte. Afterward (lines 26&ndash;32), the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions, deferring their execution to the rightward slide.</p>
 
 <pre class="code">
-<span class="filename">CYCLE_LEFT.tm</span>
+<span class="filename">CYCLE_LEFT.mc</span>
 <span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
 <span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-1</span></span>
@@ -2749,7 +2749,7 @@
 <p>The rightward slide follows.</p>
 
 <pre class="code">
-<span class="filename">CYCLE_RIGHT.tm</span>
+<span class="filename">CYCLE_RIGHT.mc</span>
 <span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
 <span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
 <span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">0</span></span>
@@ -2784,7 +2784,7 @@
 <span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">L-1</span></span>
 </pre>
 
-<p>Unlike all the other <span class="nowrap">TMS programs</span>, which were coded by hand, a process generated <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> due to their dependency on the machine code program length. In the real code, the placeholders, <span class="mono">L-x</span>, are actual array index values.</p>
+<p>Unlike all the other <span class="nowrap">MC programs</span>, which were coded by hand, a process generated <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> due to their dependency on the machine code program length. In the real code, the placeholders, <span class="mono">L-x</span>, are actual array index values.</p>
 
 <p>The Tetris machine alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
 
@@ -3070,7 +3070,7 @@
 
 <h2 id="tetris-program">Tetris Program</h2>
 
-<p>The Tetris program is a bare-bones implementation of the game. As randomly-selected Tetriminos fall, the player shifts, rotates, and soft drops them into place, and the game clears lines. There is <span class="nowrap">no score</span>, <span class="nowrap">no statistics</span>, <span class="nowrap">no hard drop</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span></span>, <span class="nowrap">no music</span>, <span class="nowrap">no sound effects</span>, <span class="nowrap">no multiplayer</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span></span>, <span class="nowrap">no title screen</span>, <span class="nowrap">no menus</span>, <span class="nowrap">no demo</span>, <span class="nowrap">no endings</span>, etc. The game does not keep track of the number of lines cleared. Consequentially, the level never increases and the drop speed remains constant.</p>
+<p>The Tetris program is a bare-bones implementation of the game. As randomly-selected tetrominoes fall, the player shifts, rotates, and soft drops them into place, and the game clears lines. There is <span class="nowrap">no score</span>, <span class="nowrap">no statistics</span>, <span class="nowrap">no hard drop</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span></span>, <span class="nowrap">no music</span>, <span class="nowrap">no sound effects</span>, <span class="nowrap">no multiplayer</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span></span>, <span class="nowrap">no title screen</span>, <span class="nowrap">no menus</span>, <span class="nowrap">no demo</span>, <span class="nowrap">no endings</span>, etc. The game does not keep track of the number of lines cleared. Consequentially, the level never increases and the drop speed remains constant.</p>
 
 <p>The program is written in the assembly language detailed in the <a href="#tetris-machine-assembly-language">previous section</a>. It begins by defining constants:</p>
 
@@ -3098,9 +3098,9 @@
 
 <p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which causes the program to clear the playfield and to transition to <span class="mono">MODE_PLAY</span>. As its name suggests, <span class="mono">MODE_PLAY</span> is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
 
-<p>The program declares a single subroutine called <span class="mono">drawOrTestTetrimino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetrimino</span> to paint four playfield cells corresponding to the blocks of a named Tetrimino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetrimino</span> to verify that four playfield cells corresponding to the blocks of a named Tetrimino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
+<p>The program declares a single subroutine called <span class="mono">drawOrTestTetromino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetromino</span> to paint four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetromino</span> to verify that four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetrimino</span> receives the Tetrimino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
+<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with <span class="nowrap">23 rows</span> and <span class="nowrap">11 columns</span> (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -3133,13 +3133,13 @@
 <span class="line">  <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">00</span>  <span class="comment">; 22</span></span>
 </pre>
 
-<p>The green rectangular region is the visible playfield. It spans <span class="nowrap">rows 2&ndash;21</span> and <span class="nowrap">columns 0&ndash;9</span>. Tetriminos spawn in the middle of its ceiling, centered at <span class="nowrap">row 2</span> (<span class="mono">SPAWN_Y</span>) and <span class="nowrap">column 5</span> (<span class="mono">SPAWN_X</span>).</p>
+<p>The green rectangular region is the visible playfield. It spans <span class="nowrap">rows 2&ndash;21</span> and <span class="nowrap">columns 0&ndash;9</span>. tetrominoes spawn in the middle of its ceiling, centered at <span class="nowrap">row 2</span> (<span class="mono">SPAWN_Y</span>) and <span class="nowrap">column 5</span> (<span class="mono">SPAWN_X</span>).</p>
 
-<p><span class="nowrap">Rows 0&ndash;1</span> constitute the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling Tetriminos can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned Tetriminos start out in the vanish zone.</p>
+<p><span class="nowrap">Rows 0&ndash;1</span> constitute the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling tetrominoes can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned tetrominoes start out in the vanish zone.</p>
 
 <p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. <span class="nowrap">Row 22</span> acts as the floor. <span class="nowrap">Column 10</span> serves as both the left wall and the right wall since the matrix, like all data regions, is a one-dimensional array, and each of its row wraps into the next.</p>
 
-<p>When a Tetrimino locks into the pile, the program scans four rows about the Tetrimino's center for lines. The scan ignores the visible playfield boundaries for performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
+<p>When a tetromino locks into the pile, the program scans four rows about the tetromino's center for lines. The scan ignores the visible playfield boundaries for performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
 
 <p>To clear a line, the program shifts all rows above the line downward. To achieve that, the program overwrites each row with a copy of the preceding row. Since <span class="nowrap">row 0</span> has no preceding row, the program fills it with ten empty cells followed by a solid cell.</p> 
 
@@ -3162,7 +3162,7 @@ N = 11 * row + col;  // offset within page zero
 <p>The lower-three bits of each visible playfield byte determine the color of each cell per the following mapping.</p>
 
 <table class="borderless">
-<tr><th class="borderless">Value</th><th class="borderless">Tetrimino</th><th class="borderless">Color</th></tr>
+<tr><th class="borderless">Value</th><th class="borderless">tetromino</th><th class="borderless">Color</th></tr>
 <tr><td class="mono">000</td><td class="roboto centered">(empty)</td><td class="borderless">Black</td></tr>
 <tr><td class="mono">001</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
 <tr><td class="mono">010</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
@@ -3184,11 +3184,11 @@ N = 11 * row + col;  // offset within page zero
 
 <p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each keyboard key that controls the game, the window writes the key's status&mdash;either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed&mdash;to a key-specific address. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
 
-<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in <span class="mono">leftButton</span> and <span class="mono">rightButton</span>, respectively, the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetriminos</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
+<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in <span class="mono">leftButton</span> and <span class="mono">rightButton</span>, respectively, the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetrominoes</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
 
 <pre class="code" style="counter-increment: step 50;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
-<span class="line"><span class="label">tetriminos:</span></span>
+<span class="line"><span class="label">tetrominoes:</span></span>
 <span class="line"><span class="comment">;  0  1  2  3</span></span>
 <span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  0 td {  -1,   0,   1,  11 }</span></span>
 <span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">;  1 tl { -11,  -1,   0,  11 }</span></span>
@@ -3226,19 +3226,19 @@ N = 11 * row + col;  // offset within page zero
 <span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
-<p>Each row of the <span class="mono">tetriminos</span> table contains the coordinates of four blocks of a rotated Tetrimino encoded as signed offsets relative to the Tetrimino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
+<p>Each row of the <span class="mono">tetrominoes</span> table contains the coordinates of four blocks of a rotated tetromino encoded as signed offsets relative to the tetromino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
 
-<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> Tetrimino orientations. But the <span class="mono">tetriminos</span> table contains <span class="nowrap">four rows</span> for every Tetrimino type. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times. This simplifies access. The program addresses each element with code equivalent to:</p>
+<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> tetromino orientations. But the <span class="mono">tetrominoes</span> table contains <span class="nowrap">four rows</span> for every tetromino type. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times. This simplifies access. The program addresses each element with code equivalent to:</p>
 
 <pre class="pseudocode">
 M = 1;  // page one
 
-N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within page one
+N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within page one
 </pre>
 
-<p>The orientation of the falling Tetrimino, <span class="mono">tetriminoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the Tetrimino type.</p>
+<p>The orientation of the falling tetromino, <span class="mono">tetrominoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the tetromino type.</p>
 
-<p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetriminos</span> table.</p>
+<p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetrominoes</span> table.</p>
 
 <pre class="code" style="counter-increment: step 88;">
 <span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>
@@ -3265,10 +3265,10 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <p>Next, the program declares the game state variables:</p>
 
 <pre class="code" style="counter-increment: step 94;">
-<span class="line"><span class="label">tetriminoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
-<span class="line"><span class="label">tetriminoRotation:</span>   <span class="number">00</span> <span class="comment">; 00--03</span></span>
-<span class="line"><span class="label">tetriminoX:</span>          <span class="number">00</span> <span class="comment">; 00--09</span></span>
-<span class="line"><span class="label">tetriminoY:</span>          <span class="number">00</span> <span class="comment">; 02--15</span></span>
+<span class="line"><span class="label">tetrominoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
+<span class="line"><span class="label">tetrominoRotation:</span>   <span class="number">00</span> <span class="comment">; 00--03</span></span>
+<span class="line"><span class="label">tetrominoX:</span>          <span class="number">00</span> <span class="comment">; 00--09</span></span>
+<span class="line"><span class="label">tetrominoY:</span>          <span class="number">00</span> <span class="comment">; 02--15</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">lastRotation:</span>        <span class="number">00</span> <span class="comment">; 00--03</span></span>
 <span class="line"><span class="label">lastX:</span>               <span class="number">00</span> <span class="comment">; 00--09</span></span>
@@ -3280,19 +3280,19 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">nextBit:</span>             <span class="number">00</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">i:</span>                   <span class="number">00</span> <span class="comment">; loops index</span></span>
-<span class="line"><span class="label">origin:</span>              <span class="number">00</span> <span class="comment">; playfield index corresponding to Tetrimino center</span></span>
-<span class="line"><span class="label">tetriminosIndex:</span>     <span class="number">00</span> <span class="comment">; tetriminos table index corresponding to a Tetrimino block</span></span>
+<span class="line"><span class="label">origin:</span>              <span class="number">00</span> <span class="comment">; playfield index corresponding to tetromino center</span></span>
+<span class="line"><span class="label">tetrominoesIndex:</span>    <span class="number">00</span> <span class="comment">; tetrominoes table index corresponding to a tetromino block</span></span>
 <span class="line"></span>
-<span class="line"><span class="label">fallTimer:</span>           <span class="number">00</span> <span class="comment">; 00 = drop Tetrimino</span></span>
+<span class="line"><span class="label">fallTimer:</span>           <span class="number">00</span> <span class="comment">; 00 = drop tetromino</span></span>
 <span class="line"><span class="label">mode:</span>                <span class="number">00</span> <span class="comment">; 00 = attract, 01 = play, 02 = clear lines</span></span>
-<span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked Tetrimino Y (00--16)</span></span>
+<span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked tetromino Y (00--16)</span></span>
 </pre>
 
-<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling Tetrimino. Prior to servicing a move request, the program backs up the Tetrimino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
+<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling tetromino. Prior to servicing a move request, the program backs up the tetromino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
 
-<p>When a Tetrimino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;influences the randomization function. It provides a source of entropy based on the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
+<p>When a tetromino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;influences the randomization function. It provides a source of entropy based on the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
 
-<p>The code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest Tetrimino on the pile. The program uses it to improved the performance of clearing lines. Specifically, the program does not shift the empty rows above the highest Tetrimino because empty space looks the same shifted or not.</p>
+<p>The code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest tetromino on the pile. The program uses it to improved the performance of clearing lines. Specifically, the program does not shift the empty rows above the highest tetromino because empty space looks the same shifted or not.</p>
 
 <p>That completes the data region. The rest of the program consists of instructions, beginning with its entry point:</p>
 
@@ -3360,22 +3360,22 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The program resets <span class="mono">minY</span> to the floor index, it clears <span class="nowrap">rows 0&ndash;21</span>, and it resolidifies <span class="nowrap">column 10</span>. Then the program spawns the first Tetrimino of the game:</p>
+<p>The program resets <span class="mono">minY</span> to the floor index, it clears <span class="nowrap">rows 0&ndash;21</span>, and it resolidifies <span class="nowrap">column 10</span>. Then the program spawns the first tetromino of the game:</p>
 
 <pre class="code" style="counter-increment: step 169;">
 <span class="line"><span class="label">spawn:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_PLAY</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_PLAY;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_ROTATION</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = SPAWN_ROTATION;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = SPAWN_ROTATION;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_X</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = SPAWN_X;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoX = SPAWN_X;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_Y</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoY = SPAWN_Y;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoY = SPAWN_Y;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">FALL_SPEED</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
@@ -3383,9 +3383,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The program finally changes to play mode. It happens here, rather than earlier, because this spawn code also executes at the end of clear lines mode to resume play mode.</p>
 
-<p>The program positions and orients the Tetrimino at the spawn point, and it resets the <span class="mono">fallTimer</span> to the maximum value to prevent the Tetrimino from gravity dropping immediately after spawning.</p>
+<p>The program positions and orients the tetromino at the spawn point, and it resets the <span class="mono">fallTimer</span> to the maximum value to prevent the tetromino from gravity dropping immediately after spawning.</p>
 
-<p>Next, the program randomly chooses the Tetrimino type:</p> 
+<p>Next, the program randomly chooses the tetromino type:</p> 
 
 <pre class="code" style="counter-increment: step 186;">
 <span class="line"><span class="label">randomlyChoose:</span></span>
@@ -3437,15 +3437,15 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SUB</span></span>
 <span class="line"><span class="normal">RS5</span></span>
 <span class="line"><span class="normal">TAB</span>                     <span class="comment">; B = ((seedHigh ^ frameCounter) & 0x1F) * 7 / 32;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
 <span class="line"><span class="normal">LDA</span></span>
-<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (B == tetriminoType) {</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (B == tetrominoType) {</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">randomlyChoose</span>      <span class="comment">;   goto randomlyChoose;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
-<span class="line"><span class="normal">STB</span>                     <span class="comment">; tetriminoType = B;</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; tetrominoType = B;</span></span>
 </pre>
 
-<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_Tetriminos" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
+<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_tetrominoes" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
 
 <object data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 
@@ -3453,9 +3453,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>The program initializes <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> to <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
 
-<p>The LFSR generates a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant Tetrimino order, the program bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. Since the program increments the <span class="mono">frameCounter</span> at the beginning of every frame, even during attract mode, the XOR makes the Tetrimino order dependent on when the player hits the Start button. The number of frames between spawns also affects the order. And the player’s inputs influence that number.</p>
+<p>The LFSR generates a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant tetromino order, the program bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. Since the program increments the <span class="mono">frameCounter</span> at the beginning of every frame, even during attract mode, the XOR makes the tetromino order dependent on when the player hits the Start button. The number of frames between spawns also affects the order. And the player’s inputs influence that number.</p>
 
-<p>The program reduces the XORed value to the range <span class="nowrap">[ 0, 6 ]</span> because there are seven Tetriminos. Since the computer does not provide a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo</a> instruction, the program performs the reduction with the following formula, where <span class="mono">v</span> is the <span class="nowrap">lower-five</span> bits of the XORed value.</p>
+<p>The program reduces the XORed value to the range <span class="nowrap">[ 0, 6 ]</span> because there are seven tetrominoes. Since the computer does not provide a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo</a> instruction, the program performs the reduction with the following formula, where <span class="mono">v</span> is the <span class="nowrap">lower-five</span> bits of the XORed value.</p>
 
 <p><span class="mono">7 * v / 32</span></p>
 
@@ -3471,28 +3471,28 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 = ((v << 3) - v) >>> 5
 </pre>
 
-<p>If the randomly chosen Tetrimino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
+<p>If the randomly chosen tetromino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
 
-<p>Next, the program verifies the Tetrimino spawned into empty space by invoking <span class="mono">drawOrTestTetrimino</span>:</p>
+<p>Next, the program verifies the tetromino spawned into empty space by invoking <span class="mono">drawOrTestTetromino</span>:</p>
 
 <pre class="code" style="counter-increment: step 242;">
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino spawned into empty space</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino spawned into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto playing;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span>               <span class="comment"> ; // Bad Tetrimino position. It's game over.</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span>               <span class="comment"> ; // Bad tetromino position. It's game over.</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_ATTRACT</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_ATTRACT;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the Tetrimino that failed to spawn</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the tetromino that failed to spawn</span></span>
 </pre>
 
-<p>Based on the action constant stored to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetrimino</span> either paints or examine the four playfield cells corresponding to the blocks of the falling Tetrimino. But unlike the inputs that describe the falling Tetrimino&mdash;<span class="mono">tetriminoType</span>, <span class="mono">tetriminoRotation</span>, <span class="mono">tetriminoX</span>, and <span class="mono">tetriminoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. It is a label that resolves to the address an instruction inside of <span class="mono">drawOrTestTetrimino</span>. When the program &ldquo;assigns&rdquo; <span class="mono">drawOrTest</span>, it modifies its own code. </p>
+<p>Based on the action constant stored to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetromino</span> either paints or examine the four playfield cells corresponding to the blocks of the falling tetromino. But unlike the inputs that describe the falling tetromino&mdash;<span class="mono">tetrominoType</span>, <span class="mono">tetrominoRotation</span>, <span class="mono">tetrominoX</span>, and <span class="mono">tetrominoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. It is a label that resolves to the address an instruction inside of <span class="mono">drawOrTestTetromino</span>. When the program &ldquo;assigns&rdquo; <span class="mono">drawOrTest</span>, it modifies its own code. </p>
 
-<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetrimino</span> to set the zero flag iff all four examined cells are empty. If they are, the program jumps to the play handler below. Otherwise, a top out occurred. In that case, the program switches to attract mode, and it jumps to <span class="mono">endFall</span>. There, the program draws the Tetrimino at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then the program loops back to the beginning, where it waits for player to press the Start button once again.</p>
+<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetromino</span> to set the zero flag iff all four examined cells are empty. If they are, the program jumps to the play handler below. Otherwise, a top out occurred. In that case, the program switches to attract mode, and it jumps to <span class="mono">endFall</span>. There, the program draws the tetromino at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then the program loops back to the beginning, where it waits for player to press the Start button once again.</p>
 
 <pre class="code" style="counter-increment: step 256;">
 <span class="line"><span class="label">playing:</span>                <span class="comment">; // Play handler</span></span>
@@ -3502,26 +3502,26 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">CELL_EMPTY</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = CELL_EMPTY;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; drawOrTestTetrimino(); // erase Tetrimino</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; drawOrTestTetromino(); // erase tetromino</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastRotation = tetriminoRotation;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastRotation = tetrominoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastX = tetriminoX;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastX = tetrominoX;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">leftButton</span></span>
 <span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (leftButton == 0) {</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">testRightButton</span>     <span class="comment">;   goto testRightButton;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span>          <span class="comment">; // Left button pressed</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span>          <span class="comment">; // Left button pressed</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetriminoX;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetrominoX;</span></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">; goto testCcwRotateButton;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">testRightButton:</span></span>
@@ -3530,10 +3530,10 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">;   goto testCcwRotateButton;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span>          <span class="comment">; // Right button pressed</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span>          <span class="comment">; // Right button pressed</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetriminoX;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetrominoX;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">testCcwRotateButton:</span></span>
 <span class="line"><span class="normal">SEB</span> <span class="number">03</span>                  <span class="comment">; B = 3;</span></span>
@@ -3542,11 +3542,11 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">testCwRotateButton</span>  <span class="comment">;   goto testCwRotateButton;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span>   <span class="comment">; // CCW button pressed</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span>   <span class="comment">; // CCW button pressed</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
 <span class="line"><span class="normal">AND</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = (tetriminoRotation - 1) & 3;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = (tetrominoRotation - 1) & 3;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">validatePosition</span>    <span class="comment">; goto validatePosition;</span></span>
 <span class="line"></span>
@@ -3556,39 +3556,39 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">validatePosition</span>    <span class="comment">;   goto validatePosition;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span>   <span class="comment">; // CW button pressed</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span>   <span class="comment">; // CW button pressed</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
 <span class="line"><span class="normal">AND</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = (tetriminoRotation + 1) & 3;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = (tetrominoRotation + 1) & 3;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">validatePosition:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino shifted/rotated into empty space</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino shifted/rotated into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto keepPosition;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span>        <span class="comment">; // Bad Tetrimino position. Undo shift or rotation.</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span>        <span class="comment">; // Bad tetromino position. Undo shift or rotation.</span></span>
 <span class="line"><span class="normal">LDA</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoRotation = lastRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = lastRotation;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
 <span class="line"><span class="normal">LDA</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminoX = lastX;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoX = lastX;</span></span>
 </pre>
 
-<p>The play handler calls <span class="mono">drawOrTestTetrimino</span> to paint the falling Tetrimino with empty cells, erasing it from the playfield. In another example of self-modifying code, the handler stores the paint value, <span class="mono">CELL_EMPTY</span>, to <span class="mono">drawCell+1</span>, the address of an instruction operand in <span class="mono">drawOrTestTetrimino</span>.</p>
+<p>The play handler calls <span class="mono">drawOrTestTetromino</span> to paint the falling tetromino with empty cells, erasing it from the playfield. In another example of self-modifying code, the handler stores the paint value, <span class="mono">CELL_EMPTY</span>, to <span class="mono">drawCell+1</span>, the address of an instruction operand in <span class="mono">drawOrTestTetromino</span>.</p>
 
-<p>The handler backs up the orientation and the <span class="nowrap">x-coordinate</span> of the falling Tetrimino.</p>
+<p>The handler backs up the orientation and the <span class="nowrap">x-coordinate</span> of the falling tetromino.</p>
 
 <p>If the Left button is pressed, the handler decrements the <span class="nowrap">x-coordinate</span> by one. Otherwise, if the Right button is pressed, the handler increments the <span class="nowrap">x-coordinate</span> by one.</p>
 
 <p>If the Counterclockwise Rotation button is pressed, the handler decrements the orientation by one, such that zero wraps to three. Otherwise, if the Clockwise Rotation button is pressed, the handler increments the orientation by one, such that three wraps to zero.</p>
 
-<p>The handler verifies the manipulated Tetrimino is fully within empty space by calling <span class="mono">drawOrTestTetrimino</span>. If it is not, the handler restores the original orientation and <span class="nowrap">x-coordinate</span> from the backups.</p>
+<p>The handler verifies the manipulated tetromino is fully within empty space by calling <span class="mono">drawOrTestTetromino</span>. If it is not, the handler restores the original orientation and <span class="nowrap">x-coordinate</span> from the backups.</p>
 
 <p>Next, the handler deals with drops:</p>
 
@@ -3609,25 +3609,25 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SEA</span> <span class="identifier">FALL_SPEED</span>          <span class="comment">; } </span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span>          <span class="comment">; // Drop Tetrimino</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span>          <span class="comment">; // Drop tetromino</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetriminoY;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; if (drawOrTestTetrimino()) { // verify Tetrimino dropped into empty space</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetrominoY;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino dropped into empty space</span></span>
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">endFall</span>             <span class="comment">;   goto endFall;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span>          <span class="comment">; // Bad Tetrimino position. Undo drop and lock Tetrimino in place.</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span>          <span class="comment">; // Bad tetromino position. Undo drop and lock tetromino in place.</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetriminoY;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetrominoY;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">TAB</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">SUB</span></span>
 <span class="line"><span class="normal">BMI</span> <span class="identifier">keepMinY</span></span>
-<span class="line"><span class="normal">STB</span>                     <span class="comment">; minY = min(minY, tetriminoY);</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; minY = min(minY, tetrominoY);</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">keepMinY:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
@@ -3644,23 +3644,23 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_DRAW</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_DRAW;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = tetriminoType + 1;</span></span>
-<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetrimino</span> <span class="comment">; drawOrTestTetrimino(); // draw Tetrimino</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = tetrominoType + 1;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; drawOrTestTetromino(); // draw tetromino</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">main</span>                <span class="comment">; goto main;</span></span>
 </pre>
 
 <p>If the Down button is pressed, the handler assigns <span class="mono">fallTimer</span> zero.</p>  
 
-<p>If <span class="mono">fallTimer</span> is zero, the handler resets <span class="mono">fallTimer</span> to <span class="mono">FALL_SPEED</span>, and it increments the Tetrimino's <span class="nowrap">y-coordinate</span> by one. If the dropped Tetrimino is not fully within empty space per a check by <span class="mono">drawOrTestTetrimino</span>, the handler decrements the Tetrimino's <span class="nowrap">y-coordinate</span> by one, restoring its position to where it now locks into the pile. Afterwards, the handler updates <span class="mono">minY</span> based off the new pile height, and it switches to clear lines mode.</p> 
+<p>If <span class="mono">fallTimer</span> is zero, the handler resets <span class="mono">fallTimer</span> to <span class="mono">FALL_SPEED</span>, and it increments the tetromino's <span class="nowrap">y-coordinate</span> by one. If the dropped tetromino is not fully within empty space per a check by <span class="mono">drawOrTestTetromino</span>, the handler decrements the tetromino's <span class="nowrap">y-coordinate</span> by one, restoring its position to where it now locks into the pile. Afterwards, the handler updates <span class="mono">minY</span> based off the new pile height, and it switches to clear lines mode.</p> 
 
-<p>Then the handler flows into the code that normally runs when <span class="mono">fallTimer</span> is nonzero. It decrements <span class="mono">fallTimer</span> by one, and it calls <span class="mono">drawOrTestTetrimino</span> to draw the Tetrimino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetriminoType + 1</span> because zero represents an empty cell.</p>  
+<p>Then the handler flows into the code that normally runs when <span class="mono">fallTimer</span> is nonzero. It decrements <span class="mono">fallTimer</span> by one, and it calls <span class="mono">drawOrTestTetromino</span> to draw the tetromino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetrominoType + 1</span> because zero represents an empty cell.</p>  
 
-<p>Finally, the handler jumps back to the beginning of the program. If the Tetrimino locked into the pile, the program will jump from there to the clear lines handler below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
+<p>Finally, the handler jumps back to the beginning of the program. If the tetromino locked into the pile, the program will jump from there to the clear lines handler below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
 
 <pre class="code" style="counter-increment: step 401;">
 <span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
@@ -3670,13 +3670,13 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
 <span class="line"><span class="normal">LDA</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
 <span class="line"><span class="normal">LDB</span></span>
 <span class="line"><span class="normal">SUB</span></span>
 <span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
 <span class="line"><span class="normal">ADD</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetriminoY + 1); // row below Tetrimino center</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetrominoY + 1); // row below tetromino center</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">clearLinesLoop:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
@@ -3723,9 +3723,9 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The NRS centers the seven Tetriminos at nineteen different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetriminoY&minus;2</span>, <span class="mono">tetriminoY+1</span><span class="serif"> ]</span></span> for lines. To that end, the handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
+<p>The NRS centers the seven tetrominoes at nineteen different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetrominoY&minus;2</span>, <span class="mono">tetrominoY+1</span><span class="serif"> ]</span></span> for lines. To that end, the handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
 
-<p><span class="mono">origin</span> is a pointer to the row to be checked. The handler initializes it to the index of row <span class="mono">tetriminoY+1</span>'s first element. At the end of each iteration, if handler did not find a line, it moves <span class="mono">origin</span> to the next row by decrementing it by <span class="mono">PLAYFIELD_WIDTH</span>. However, if the handler found a line, it shifts all the rows above the line downward. In that case, the handler does not decrement <span class="mono">origin</span> because the row that shifted into the cleared line is the next row to be checked.</p> 
+<p><span class="mono">origin</span> is a pointer to the row to be checked. The handler initializes it to the index of row <span class="mono">tetrominoY+1</span>'s first element. At the end of each iteration, if handler did not find a line, it moves <span class="mono">origin</span> to the next row by decrementing it by <span class="mono">PLAYFIELD_WIDTH</span>. However, if the handler found a line, it shifts all the rows above the line downward. In that case, the handler does not decrement <span class="mono">origin</span> because the row that shifted into the cleared line is the next row to be checked.</p> 
 
 <p>As previously mentioned, the handler does not shift the empty rows above the pile because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is either <span class="nowrap">row <span class="mono">minY&minus;3</span></span> or <span class="mono">0</span>, whichever is larger. In yet another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the last element of that row.</p>
 
@@ -3802,60 +3802,60 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line">} while (--N != *(minN+1));</span>
 </pre>
 
-<p>In the inner loop on <span class="nowrap">lines 484&ndash;494</span>, the handler fills <span class="nowrap">row 0</span> with empty cells, except for <span class="nowrap">column 10</span>. The loop is necessary for the rare case that a Tetrimino locks into the vanish zone.</p>
+<p>In the inner loop on <span class="nowrap">lines 484&ndash;494</span>, the handler fills <span class="nowrap">row 0</span> with empty cells, except for <span class="nowrap">column 10</span>. The loop is necessary for the rare case that a tetromino locks into the vanish zone.</p>
 
 <p>The handler increments <span class="mono">minY</span> by one because clearing a line reduces the height of the pile by that amount.</p> 
 
 <p>At the end of the outer loop, the handler decrements <span class="mono">i</span> by one, and if it did not find a line, it decrements <span class="mono">origin</span> by <span class="mono">PLAYFIELD_WIDTH</span>.</p>
 
-<p>The only remaining code is the definition of the <span class="mono">drawOrTestTetrimino</span> subroutine:</p>
+<p>The only remaining code is the definition of the <span class="mono">drawOrTestTetromino</span> subroutine:</p>
 
 <pre class="code" style="counter-increment: step 518;">
-<span class="line"><span class="label">drawOrTestTetrimino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
+<span class="line"><span class="label">drawOrTestTetromino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
 <span class="line"><span class="comment">; drawOrTest        - 22 = draw, 23 = test</span></span>
 <span class="line"><span class="comment">; drawCell+1        - cell to draw</span></span>
 <span class="line"><span class="comment">;</span></span>
-<span class="line"><span class="comment">; tetriminoType     - type</span></span>
-<span class="line"><span class="comment">; tetriminoRotation - rotation</span></span>
-<span class="line"><span class="comment">; tetriminoX        - x</span></span>
-<span class="line"><span class="comment">; tetriminoY        - y</span></span>
+<span class="line"><span class="comment">; tetrominoType     - type</span></span>
+<span class="line"><span class="comment">; tetrominoRotation - rotation</span></span>
+<span class="line"><span class="comment">; tetrominoX        - x</span></span>
+<span class="line"><span class="comment">; tetrominoY        - y</span></span>
 <span class="line"><span class="comment">;</span></span>
 <span class="line"><span class="comment">; z: 0 = some solid, 1 = all empty</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // Loop 4 times, once for each Tetrimino block</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // Loop 4 times, once for each tetromino block</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoY</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">LS3</span></span>
 <span class="line"><span class="normal">LDB</span></span>
 <span class="line"><span class="normal">ADD</span></span>
 <span class="line"><span class="normal">ADD</span></span>
 <span class="line"><span class="normal">ADD</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoX</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
 <span class="line"><span class="normal">LDB</span></span>
 <span class="line"><span class="normal">ADD</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * tetriminoY + tetriminoX;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * tetrominoY + tetrominoX;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoType</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">LS4</span></span>
 <span class="line"><span class="normal">TAB</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminoRotation</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">LS2</span></span>
-<span class="line"><span class="normal">ADD</span>                     <span class="comment">; A = 16 * tetriminoType + 4 * tetriminoRotation;</span></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminosIndex</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetriminosIndex = A;</span></span>
+<span class="line"><span class="normal">ADD</span>                     <span class="comment">; A = 16 * tetrominoType + 4 * tetrominoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoesIndex</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoesIndex = A;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
 <span class="line"><span class="normal">LDB</span>                     <span class="comment">; B = origin;</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">drawLoop:</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminos</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoes</span></span>
 <span class="line"><span class="normal">TAN</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">ADD</span></span>
@@ -3865,7 +3865,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="label">drawOrTest:</span></span>
 <span class="line"><span class="normal">BNE</span> <span class="identifier">drawCell</span>            <span class="comment">; *** self-modifying code [BNE = draw, BEQ = test] ***</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (playfield[tetriminos[tetriminosIndex] + origin] != 0) {</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (playfield[tetrominoes[tetrominoesIndex] + origin] != 0) {</span></span>
 <span class="line"><span class="normal">BNE</span> <span class="identifier">endDrawLoop</span>         <span class="comment">;   goto endDrawLoop;</span></span>
 <span class="line">                        <span class="comment">; } else {</span></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">incDrawLoop</span>         <span class="comment">;   goto incDrawLoop;</span></span>
@@ -3873,7 +3873,7 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"></span>
 <span class="line"><span class="label">drawCell:</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [ 00 = empty; otherwise solid ] ***</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetriminos[tetriminosIndex] + origin] = *(drawCell+1);</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetrominoes[tetrominoesIndex] + origin] = *(drawCell+1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="label">incDrawLoop:</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
@@ -3883,10 +3883,10 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">DEC</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; --i;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">tetriminosIndex</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoesIndex</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">INC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; A = ++tetriminosIndex;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; A = ++tetrominoesIndex;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">drawLoop</span>            <span class="comment">; goto drawLoop;</span></span>
 <span class="line"></span>
@@ -3895,27 +3895,27 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
 </pre>
 
-<p>The program prepares three variables on <span class="nowrap">lines 530&ndash;559</span>. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling Tetrimino. It assigns <span class="mono">tetriminosIndex</span> to the index of the first element of the <span class="mono">tetriminos</span> table row associated with the type and orientation of the falling Tetrimino. And it assigns <span class="mono">i</span> to three to make the loop on <span class="nowrap">lines 561&ndash;598</span> iterate over the four Tetrimino blocks.</p> 
+<p>The program prepares three variables on <span class="nowrap">lines 530&ndash;559</span>. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling tetromino. It assigns <span class="mono">tetrominoesIndex</span> to the index of the first element of the <span class="mono">tetrominoes</span> table row associated with the type and orientation of the falling tetromino. And it assigns <span class="mono">i</span> to three to make the loop on <span class="nowrap">lines 561&ndash;598</span> iterate over the four tetromino blocks.</p> 
 
-<p>When the program stores <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span>, it changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. When the program arrives at that line, the zero flag is reset due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>. That <span class="mono">ADD</span> cannot set the zero flag because the player cannot to move the falling Tetrimino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> directs the program to <span class="nowrap">lines 573&ndash;577</span>, and <span class="mono">ACTION_DRAW</span> directs the program to <span class="nowrap">lines 580&ndash;581</span>.</p> 
+<p>When the program stores <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span>, it changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. When the program arrives at that line, the zero flag is reset due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>. That <span class="mono">ADD</span> cannot set the zero flag because the player cannot to move the falling tetromino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> directs the program to <span class="nowrap">lines 573&ndash;577</span>, and <span class="mono">ACTION_DRAW</span> directs the program to <span class="nowrap">lines 580&ndash;581</span>.</p> 
 
-<p>In both pathways, the program accesses the playfield byte at <span class="nowrap mono">tetriminos[tetriminosIndex] + origin</span>, the center of the falling Tetrimino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> pathway, the program reads from that location. If a read byte is a solid cell (nonzero), the program returns from the subroutine with the zero flag reset. Otherwise, if all read bytes are empty cells (all zeros), the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>. In the <span class="mono">ACTION_DRAW</span> pathway, the program writes the value at <span class="mono">drawCell+1</span> to that location.</p>
+<p>In both pathways, the program accesses the playfield byte at <span class="nowrap mono">tetrominoes[tetrominoesIndex] + origin</span>, the center of the falling tetromino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> pathway, the program reads from that location. If a read byte is a solid cell (nonzero), the program returns from the subroutine with the zero flag reset. Otherwise, if all read bytes are empty cells (all zeros), the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>. In the <span class="mono">ACTION_DRAW</span> pathway, the program writes the value at <span class="mono">drawCell+1</span> to that location.</p>
 
 <p>The subroutine employs self-modifying code twice because the alternative&mdash;moving values in and out of memory&mdash;imposes complexity and a performance cost.</p>
 
-<p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetriminosIndex</span> by one.</p>
+<p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetrominoesIndex</span> by one.</p>
 
 <h2 id="tetris-machine-simulation">Simulator</h2>
 
-<p>An assembler converts the Tetris program to machine code. In this case, it produces a binary of length <span class="nowrap">1,019 bytes</span>. Then a process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">TMS programs</span> containing memory addresses up to that length.</p> 
+<p>An assembler converts the Tetris program to machine code. In this case, it produces a binary of length <span class="nowrap">1,019 bytes</span>. Then a process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> containing memory addresses up to that length.</p> 
 
-<p>A simulator loads the machine code binary (the computer's starting memory state), the generated and hand coded <span class="nowrap">TMS programs</span> (the computer's microcode), and the <span class="nowrap">TS programs</span> (the computer's logic circuits). It encodes the binary onto the floor of an empty playfield, spanning:</p> 
+<p>A simulator loads the machine code binary (the computer's starting memory state), the generated and hand coded <span class="nowrap">MC programs</span> (the computer's microcode), and the <span class="nowrap">TS programs</span> (the computer's logic circuits). It encodes the binary onto the floor of an empty playfield, spanning:</p> 
 
 <p><span class="nowrap">1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</span></p>
 
 <p>The simulator pops open a window to display the game’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizing <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 
-<p>Instead of executing every <span class="nowrap">TIL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables enable the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
+<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables enable the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
 
 <object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
@@ -3927,27 +3927,27 @@ N = 16 * tetriminoType + 4 * tetriminoRotation + blockIndex;  // offset within p
 
 <p>To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. With that ordering, when a <span class="nowrap">TS program</span> invokes a dependency, the algorithm performs a lookup in a table it just computed, and it applies the same technique it uses at runtime. To finish even faster, the algorithm parallelizes the process. </p>
 
-<p>The algorithm does not compute lookup tables for intermediate gates because the side effects of leaking Tetriminos cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked Tetriminos.</p>
+<p>The algorithm does not compute lookup tables for intermediate gates because the side effects of leaking tetrominoes cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked tetrominoes.</p>
 
-<p>Rather than accommodating an ever-taller rectangular pile, the algorithm only keeps track of the pile's surface. For each <span class="nowrap">TMS instruction</span>, the algorithm reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is same as if the algorithm grew the pile, and it truncated everything below the surface.</p>
+<p>Rather than accommodating an ever-taller rectangular pile, the algorithm only keeps track of the pile's surface. For each <span class="nowrap">MC instruction</span>, the algorithm reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is same as if the algorithm grew the pile, and it truncated everything below the surface.</p>
 
-<p>The algorithm implements the surface as a one-dimensional byte array, <span class="mono">s</span>, where each byte contains the data normally spaced across eighty columns of the <span class="nowrap">top-two</span> rows of the pile. For each <span class="nowrap">TMS instruction</span>, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="mono">n</span>-byte</span> function, the algorithm applies <span class="mono">f</span>'s lookup table, <span class="mono">LUT<span class="sub3">f</span></span>, to <span class="nowrap"><span class="mono">n</span> consecutive</span> bytes of the surface, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
+<p>The algorithm implements the surface as a one-dimensional byte array, <span class="mono">s</span>, where each byte contains the data normally spaced across eighty columns of the <span class="nowrap">top-two</span> rows of the pile. For each <span class="nowrap">MC instruction</span>, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="mono">n</span>-byte</span> function, the algorithm applies <span class="mono">f</span>'s lookup table, <span class="mono">LUT<span class="sub3">f</span></span>, to <span class="nowrap"><span class="mono">n</span> consecutive</span> bytes of the surface, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
 
 <p><span class="nowrap mono">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; LUT<span class="sub3">f</span>(s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></p>
 
 <p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="mono">n</span>-byte</span> function requires a lookup table of size <span class="nowrap"><span class="mono">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache them in <span class="nowrap">128 KiB</span> tables.</p>
 
-<p>The simulator’s speed&mdash;the number of machines cycles it simulates per unit time&mdash;is proportional to the total operations the machine carries out per cycle, or more specifically, to the lengths of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. Since a process generates those <span class="nowrap">TMS programs</span> based on the machine code size, the Tetris program will run faster if it can be made smaller.</p>
+<p>The simulator’s speed&mdash;the number of machines cycles it simulates per unit time&mdash;is proportional to the total operations the machine carries out per cycle, or more specifically, to the lengths of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. Since a process generates those <span class="nowrap">MC programs</span> based on the machine code size, the Tetris program will run faster if it can be made smaller.</p>
 
 <p>The Tetris program’s playfield data region consumes nearly a quarter of the program's size at <span class="nowrap">253 bytes</span>. If the program adopts boundary checks, it eliminates the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls, respectively), as well as <span class="nowrap">rows 0&ndash;1</span> (the vanish zone). That brings the size down to <span class="nowrap">200 bytes</span>. If the program packs each playfield cell into a nibble rather than a full byte, then it halves the region size. If the program reduces the palette to two colors, then each cell fits in a single bit, and the region drops to a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size. </p>
 
-<p>However, due to the computer's minimal instruction set, the additional code required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller data region. Worse, such a change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetrimino</span> loop. At five subroutine calls per frame and four blocks per Tetrimino, the program amplifies the computational cost of anything in the loop twenty-fold.</p>
+<p>However, due to the computer's minimal instruction set, the additional code required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller data region. Worse, such a change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetromino</span> loop. At five subroutine calls per frame and four blocks per tetromino, the program amplifies the computational cost of anything in the loop twenty-fold.</p>
 
 <p>On the other hand, if the program employed a smaller playfield data region, it would likely speed up line clears. As revealed in the video below, there is a noticeable delay when clearing lines due to the amount of data copied. But if the program packed multiple cells into each byte, then it would copy cells in parallel, significantly hastening the process.</p>
 
 <p>[ TODO VIDEO OF LINE CLEARS ]</p>
 
-<p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetriminos</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows demands <span class="nowrap">28 bytes</span>. And indirection increases access time.</p>
+<p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetrominoes</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows demands <span class="nowrap">28 bytes</span>. And indirection increases access time.</p>
 
 <p>The Tetris program prioritizes code simplicity at the expensive of larger data representations. This text leaves the optimal balance between data, instruction path lengths, and program size that maximizes the game’s frame rate to future researchers.</p>
 

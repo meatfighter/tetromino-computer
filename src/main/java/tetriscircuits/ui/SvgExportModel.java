@@ -13,7 +13,7 @@ public class SvgExportModel {
     private int cellSize;
     private int cellDepth;
     private double margin;
-    private boolean tetriminos;
+    private boolean tetrominoes;
     private boolean structures;
     private boolean inputNodes;
     private boolean outputNodes;
@@ -104,12 +104,12 @@ public class SvgExportModel {
         this.margin = margin;
     }
 
-    public boolean isTetriminos() {
-        return tetriminos;
+    public boolean isTetrominoes() {
+        return tetrominoes;
     }
 
-    public void setTetriminos(final boolean tetriminos) {
-        this.tetriminos = tetriminos;
+    public void setTetrominoes(final boolean tetrominoes) {
+        this.tetrominoes = tetrominoes;
     }
 
     public boolean isStructures() {
