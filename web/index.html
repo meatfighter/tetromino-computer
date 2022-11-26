@@ -37,19 +37,15 @@
 
 <p>Each playfield cell is in one of two states: empty or solid.</p>
 
-<p><span class="term">tetrominoes</span>&mdash;the falling pieces&mdash;are composed of four solid cells, painted any color. Each has a single-character, shape-based name:</p>
+<p><span class="term">Tetrominoes</span>&mdash;the falling pieces&mdash;are composed of four adjacent solid cells, painted any color. Each has a single-character, shape-based name:</p>
 
 <object data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
 
-<p>A <span class="term">rotation system</span> describes how tetrominoes rotate in relation to the surrounding cells and the playfield boundaries. This project uses the right-handed <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">Nintendo Rotation System</a> (NRS), due to its simplicity. But <a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">various rotation systems</a> exist and any of them will work just as well.</p>
-
-<p>NRS centers each tetromino in a 5&times;5 matrix and it quarter turns them. Of the 28 possible orientations, it uses only 19:</p>
+<p>The following table depicts the nineteen distinct tetromino orientations centered in <span class="nowrap">5&times;5 matrices</span>. The leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right across each row. And the mnemonic over each orientation consists of tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
 
 <object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
 
-<p>In the table above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right. And the mnemonic over each orientation consists of tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
-
-<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
+<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The terms below apply to translation.</p>
 
 <ul>
     <li>A <span class="term">shift</span> is a horizontal translation.</li>
@@ -62,7 +58,7 @@
     </li>
 </ul>
 
-<p>A move is preceded by a <span class="term">request to move</span>. Per NRS, the request is granted iff all four cells of the transformed tetromino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
+<p>A move is preceded by a <span class="term">request to move</span>. Per classic Tetris rules, the request is granted iff all four cells of the transformed tetromino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
 
 <p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all tetrominoes types in some order from any point in the sequence will work with the method described in this article.</p>
 
@@ -746,7 +742,7 @@
 
 <h1 id="functions">Functions</h1>
 
-<p>This section describes the arithmetic and logic functions created for the machine that runs Tetris.</p>
+<p>This section describes the arithmetic and logic functions implemented for a general-purpose computer.</p>
 
 <h2 id="functions-overview">Overview</h2>
 
@@ -2271,17 +2267,17 @@
 
 <p>If <span class="mono">T<span class="sub3">m</span></span> along with data on the tape emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input based on the pseudocode above&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if the information encoded on the pile's surface evolves into a particular state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
-<h1>Tetris Machine</h1>
+<h1 id="general-purpose-computer">General-purpose Computer</h1>
 
-<p>This section provides a deep dive into the machine that runs Tetris.</p>
+<p>This section provides a deep dive into a general-purpose computer.</p>
 
 <h2 id="tetris-machine-overview">Overview</h2>
 
-<p>The machine that runs Tetris is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> computer, supporting up to <span class="nowrap">64 KiB</span> of RAM. Like all the computing devices presented thus far, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
+<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
 <object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code program is a sequence of bytes representing instructions and data. At execution time, it is limited to accessing its own bytes, as opposed to the entire array. This means, the program’s bytes are the computer’s RAM. The program length, <span class="mono">L</span>, establishes the <span class="nowrap">RAM size</span> and the RAM address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
+<p>The machine code program is a sequence of bytes representing instructions and data. At execution time, the computer restricts the program to accessing its own bytes, as opposed to the entire array. This means, the loaded program is the initial state of the computer’s RAM. The program length, <span class="mono">L</span>, establishes the fixed address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
 
 <p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
 
