@@ -49,14 +49,15 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="Generate Classifier Register to Data" profiles=""/>
             <configuration id="Generate Instruction Detectors" profiles=""/>
             <configuration id="Generate Orientation Table" profiles=""/>
+            <configuration id="Generate Transducer" profiles=""/>
             <configuration id="GenerateColors" profiles=""/>
-            <configuration id="GenerateMovingRegister" profiles=""/>
             <configuration id="GenerateExecutable" profiles=""/>
             <configuration id="GenerateMemoryCode" profiles=""/>
+            <configuration id="GenerateMovingRegister" profiles=""/>
             <configuration id="MapMaker" profiles=""/>
             <configuration id="MirrorTetrominoScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
-            <configuration id="Generate Transducer" profiles=""/>
+            <configuration id="Generate Orientation Table 2" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

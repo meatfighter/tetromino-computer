@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-26" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-11-27" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-26"/>
+<meta name="date" content="2022-11-27"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -33,13 +33,13 @@
 
 <p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, shown below, consists of twenty visible rows and ten columns, but the dimensions are arbitrary.</p>
 
-<object data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
+<object id="standard-playfield.svg" data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
 
 <p>Each playfield cell is in one of two states: empty or solid.</p>
 
 <p><span class="term">Tetrominoes</span>&mdash;the falling pieces&mdash;are composed of four adjacent solid cells, painted any color. Each has a single-character, shape-based name:</p>
 
-<object data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
+<object id="seven-tetrominoes.svg" data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
 
 <p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
 
@@ -64,11 +64,11 @@
 
 <p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield that is infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops tetrominoes onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
 
-<object data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
+<object id="boolean-circuit.svg" data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
 
 <p>The agent builds a second structure above the first, such that the output rows of the first structure serve as the input rows of the second structure. By repeating this procedure, the agent effectuates a state machine, where the data rows are states and the structures are transition functions:</p>
 
-<object data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
+<object id="state-machine.svg" data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
 
 <p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on given input.</p>
 
@@ -76,7 +76,7 @@
 
 <p>A pair of vertically-adjacent playfield cells stores a Boolean value via the following scheme.</p>
 
-<object data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
+<object id="boolean-circuit-nodes.svg" data="boolean-circuit-nodes.svg" type="image/svg+xml" class="diagram">Boolean Circuit Nodes</object>
 
 <ul>
     <li><span class="mono">0</span> (false) &mdash; lower-cell solid, upper-cell empty</li> 
@@ -86,7 +86,7 @@
 
 <p>The input, intermediate, and output nodes of combinational logic structures are composed of one or more pairs, all in the same state. Typically, a node is a contiguous, horizontal line of pairs, but not necessarily. The pairs of a node can be separated in space, even vertically separated. For instance, the image below shows one possible encoding of <span class="mono">01010</span>, where a noncontiguous node stores the rightmost bit.</p>
 
-<object data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
+<object id="encoding-01010.svg" data="encoding-01010.svg" type="image/svg+xml" class="diagram">01010</object>
 
 <h2 id="infinite-playfield">Infinite Playfield</h2>
 
@@ -122,7 +122,7 @@
 
 <p>When a tetromino spawns, the agent compares the tetromino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">m</span>, and it advances to the next instruction. Otherwise, the agent hard drops the tetromino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
 
-<object data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
+<object id="discards-pile.svg" data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
 
 <p>IL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
@@ -130,11 +130,11 @@
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-tetromino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
-<object data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
+<object id="shift-interruption.svg" data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
 
 <p>In the following example, the agent attempts to drop the <span class="nowrap">O-tetromino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
-<object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
+<object id="drop-interruption.svg" data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
 <p>An <span class="nowrap">IL program</span> resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
 
@@ -144,7 +144,7 @@
 
 <p>TS refers to each of the nineteen distinct tetromino orientations with a mnemonic consisting of the tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for the <span class="nowrap">O-tetromino</span>:</p>
 
-<object data="mnemonic-table.svg" type="image/svg+xml" class="diagram">Mnemonic Table</object>
+<object id="mnemonic-table.svg" data="mnemonic-table.svg" type="image/svg+xml" class="diagram">Mnemonic Table</object>
 
 <p>TS specifies locations relative to the center block of each tetromino.</p>
 
@@ -176,7 +176,7 @@
 
 <p>The program instructs the agent to produce the following.</p>
 
-<object data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
+<object id="example1.svg" data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
 
 <p>The second instruction type directs the agent to perform a semihard drop followed by a hard drop in a different column. It consists of the tetromino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
@@ -210,7 +210,7 @@
 
 <p>Those are the instructions for the structure below.</p>
 
-<object data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
+<object id="example2.svg" data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
 
 <p>The third instruction directs the agent to build a previously defined structure. It consists of the structure's name, <span class="mono">s</span>, and the coordinates of where to build it, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
 
@@ -253,7 +253,7 @@
 
 <p>The code above instructs the agent to create the structure below.</p>
 
-<object data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
+<object id="example3.svg" data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
 <p>To make testing easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
 
@@ -278,7 +278,7 @@
 
 <p>Node <span class="mono">a</span> is a single pair. Node <span class="mono">b</span> is a horizontal line consisting of three pairs. Nodes <span class="mono">c</span> and <span class="mono">d</span> are adjoining, single pairs. Node <span class="mono">e</span> is disjoint. They are illustrated below, where nodes <span class="mono">a</span>, <span class="mono">b</span>, <span class="mono">c</span>, <span class="mono">d</span>, and <span class="mono">e</span> are set to <span class="mono">0</span>, <span class="mono">1</span>, <span class="mono">0</span>, <span class="mono">1</span>, and <span class="mono">0</span>, respectively.</p>
 
-<object data="nodes.svg" type="image/svg+xml" class="diagram">Nodes</object>
+<object id="nodes.svg" data="nodes.svg" type="image/svg+xml" class="diagram">Nodes</object>
 
 <h1 id="logic-gates">Logic Gates</h1>
 
@@ -300,7 +300,7 @@
 
 <p>The result for both input values follows.</p>
 
-<object data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
+<object id="animated-buffer.svg" data="animated-buffer.svg" type="image/svg+xml" class="diagram">Animated Buffer</object>
 
 <p>The cells of the output node mirror the cells of the input node. Any tetromino or any stack of tetrominoes can be used to copy data in this way.</p>
 
@@ -324,7 +324,7 @@
 
 <p>The following animation shows what happens for both input values.</p>
 
-<object data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
+<object id="animated-not.svg" data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
 
 <p>When the input is <span class="mono">0</span>, the <span class="nowrap">L-tetromino</span> lands low. That enables the <span class="nowrap">O-tetromino</span> to shift upon the <span class="nowrap">L-tetromino's</span> protuberance. The <span class="nowrap">J-tetromino</span>, in turn, lands high, producing an output of <span class="mono">1</span>.</p>
 
@@ -334,7 +334,7 @@
 
 <p>A horizontally reflected version exists purely for aesthetics reasons. The image below shows <span class="mono">notLeft</span> (an alias for <span class="mono">not</span>) and its reflection, <span class="mono">notRight</span>.</p>
 
-<object data="nots.svg" type="image/svg+xml" class="diagram">notLeft and notRight</object>
+<object id="nots.svg" data="nots.svg" type="image/svg+xml" class="diagram">notLeft and notRight</object>
 
 <h2 id="or">OR</h2>
 
@@ -353,7 +353,7 @@
 
 <p>Here are the results for all input combinations:</p>
 
-<object data="or.svg" type="image/svg+xml" class="diagram">OR</object>
+<object id="or.svg" data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
 <p>The <span class="nowrap">O-tetromino</span> lands low unless one or both inputs is <span class="mono">1</span>.</p>
 
@@ -376,7 +376,7 @@
 
 <p>The following image presents the outputs for all possible inputs.</p>
 
-<object data="nor.svg" type="image/svg+xml" class="diagram">NOR</object>
+<object id="nor.svg" data="nor.svg" type="image/svg+xml" class="diagram">NOR</object>
 
 <p>The <span class="nowrap">L-tetromino</span> operates as an OR gate, resulting in output opposite of OR.</p>
 
@@ -401,7 +401,7 @@
 
 <p>The follow image reveals the output for all possible inputs.</p>
 
-<object data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
+<object id="nand.svg" data="nand.svg" type="image/svg+xml" class="diagram">NAND</object>
 
 <p>The horizontal <span class="nowrap">I-tetromino</span> functions as an OR gate.</p>
 
@@ -424,7 +424,7 @@
 
 <p>The following image shows the outputs for all possible inputs.</p>
 
-<object data="and.svg" type="image/svg+xml" class="diagram">AND</object>
+<object id="and.svg" data="and.svg" type="image/svg+xml" class="diagram">AND</object>
 
 <p>The <span class="nowrap">J-tetromino</span> of the upper inverter functions as an OR gate.</p>
 
@@ -450,7 +450,7 @@
 
 <p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
 
-<object data="xor-schematic.svg" type="image/svg+xml" class="diagram">XOR Schematic</object>
+<object id="xor-schematic.svg" data="xor-schematic.svg" type="image/svg+xml" class="diagram">XOR Schematic</object>
 
 <p>The code below is based on that schematic.</p>
 
@@ -476,7 +476,7 @@
 
 <p>Here are the results for all input combinations:</p>
 
-<object data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
+<object id="xor.svg" data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
 
 <p>The L- and J-tetrominoes resting on the <span class="nowrap">O-tetrominoes</span> and the vertical <span class="nowrap">I-tetrominoes</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. And the horizontal <span class="nowrap">I-tetromino</span> at the top operates as an OR gate.</p>
 
@@ -498,7 +498,7 @@
 
 <p>The following image shows the outputs for all possible inputs.</p>
 
-<object data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
+<object id="xnor.svg" data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
@@ -514,7 +514,7 @@
 
 <p>As shown in the animated constructions below, the input and output nodes overlap. When the input is <span class="mono">1</span>, the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-tetromino</span> drops. Though, when the input is <span class="mono">0</span>, the output node is initially unassigned.</p>
 
-<object data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
+<object id="animated-intermediate-not.svg" data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
 <p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-tetromino</span>. If that <span class="nowrap">O-tetromino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in <a href="#simulation">a later section</a>, which depends on consistent circuit operation.</p>
 
@@ -532,7 +532,7 @@
 
 <p><span class="mono">_notLeft2</span> nudges the <span class="nowrap">O-tetromino</span> right twice:</p>
 
-<object data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
+<object id="animated-intermediate-not-2.svg" data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
 
 <p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-tetromino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
 
@@ -550,7 +550,7 @@
 
 <p>Its response to all possible inputs appears below.</p>
 
-<object data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
+<object id="intermediate-nor.svg" data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
 
 <p>On <span class="nowrap">line 2</span> of the code, if <span class="mono">_notLeft2</span> is replaced with <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-tetrominoes</span> becomes lopsided, an aesthetically displeasing configuration.</p>
 
@@ -573,7 +573,7 @@
 
 <p>Intermediate NAND leaks up to two <span class="nowrap">O-tetrominoes</span>:</p>
 
-<object data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
+<object id="intermediate-nand.svg" data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
 
 <p>The intermediate AND gate, <span class="mono">_andLeft</span>, consists of an intermediate NAND in series with an intermediate inverter:</p>
 
@@ -589,7 +589,7 @@
 
 <p>Here is its responses to all inputs:</p>
 
-<object data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
+<object id="intermediate-and.svg" data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
 
 <p>Its horizontally-reflected version goes by the name <span class="mono">_andRight</span>.</p>
 
@@ -617,7 +617,7 @@
 
 <p>Like the intermediate NAND and AND gates, intermediate XOR emits up to two <span class="nowrap">O-tetrominoes</span>:</p>
 
-<object data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
+<object id="intermediate-xor.svg" data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
 
 <p>Other intermediate gates are possible. But aside from the intermediate NOR gate and the intermediate inverter it is based on, the rest are not used. Their petiteness and visual appeal are not compelling enough to use them over ordinary gates, which operate safely in all circumstances.</p>
 
@@ -629,7 +629,7 @@
 
 <p><span class="term">Fan-out</span> is the number of connections radiating from an output node. As illustrated in the animation below, lines of S- and Z-tetrominoes enable unlimited fan-out.</p>
 
-<object data="fan-out.svg" type="image/svg+xml" class="diagram">Fan-out</object>
+<object id="fan-out.svg" data="fan-out.svg" type="image/svg+xml" class="diagram">Fan-out</object>
 
 <p>Rising staircases of horizontal I-tetrominoes can achieve the same.</p>
 
@@ -637,7 +637,7 @@
 
 <p>Wires that converge on a common node require a device to combine their signals, such as a multi-input OR gate. <span class="term">Fan-in</span> is the number of inputs of such a device. As demonstrated in the following animation, a line of Z- or S-tetrominoes can provide unlimited fan-in. </p>
 
-<object data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
+<object id="fan-in.svg" data="fan-in.svg" type="image/svg+xml" class="diagram">Fan-in</object>
 
 <p>Alternatively, a tree of gates can merge a boundless number of inputs.</p>
 
@@ -655,7 +655,7 @@
 
 <p>Those steps suggests this circuit:</p>
 
-<object data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
+<object id="swap-schematic.svg" data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
 
 <p>Since two-dimensional XOR gates exist and the circuit does not contain any cross-overs, it achieves a planar swap.</p>
 
@@ -692,11 +692,11 @@
 
 <p>As demonstrated below, the outputs are the inputs, but positionally exchanged.</p>
 
-<object data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
+<object id="swap.svg" data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
 
 <p>The following animation shows a diagonal wire crossing over multiple vertical wires via repeated application of the swap circuit.</p>
 
-<object data="cross-seven.svg" type="image/svg+xml" class="diagram">Cross Seven</object>
+<object id="cross-seven.svg" data="cross-seven.svg" type="image/svg+xml" class="diagram">Cross Seven</object>
 
 <h2 id="multiplexing">Multiplexing</h2>
 
@@ -712,7 +712,7 @@
 
 <p>That suggests two NAND gates, an OR gate, and an inverter arranged as follows.</p>
 
-<object data="mux-schematic.svg" type="image/svg+xml" class="diagram">Multiplexer Schematic</object>
+<object id="mux-schematic.svg" data="mux-schematic.svg" type="image/svg+xml" class="diagram">Multiplexer Schematic</object>
 
 <p>The code below is based on that schematic.</p>
 
@@ -738,7 +738,7 @@
 
 <p>Here are the results for all input combinations:</p>
 
-<object data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
+<object id="mux.svg" data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
 
 <p>The selector (the center input) is <span class="mono">0</span> in the upper-row and <span class="mono">1</span> in the lower-row.</p>
 
@@ -752,11 +752,11 @@
 
 <p>A function, <span class="math">f</span>, is a structure with a rectangular footprint whose bottom edge consists a row of input nodes that stores an input value, <span class="math">V</span>, and whose top edge consists of a row of output nodes that stores an output value, <span class="math">f(V)</span>:</p>
 
-<object data="function-f.svg" type="image/svg+xml" class="diagram">Function f</object>
+<object id="function-f.svg" data="function-f.svg" type="image/svg+xml" class="diagram">Function f</object>
 
 <p>The composition of two functions, <span class="math">f(g(V))</span>, comprises <span class="math">f</span> on top of <span class="math">g</span> on top of <span class="math">V</span>, where <span class="math">g</span>’s output nodes serve as <span class="math">f</span>’s input nodes:</p>
 
-<object data="function-f-of-g.svg" type="image/svg+xml" class="diagram">Function f of g</object>
+<object id="function-f-of-g.svg" data="function-f-of-g.svg" type="image/svg+xml" class="diagram">Function f of g</object>
 
 <p>Functions employ a standard interface: a row of nodes, evenly spaced, ten columns apart. That interval provides sufficient room for bits to cross or to combine. And a round, <span class="nowrap">base-10</span> number simplifies measurements during design.</p> 
 
@@ -793,11 +793,11 @@
 
 <p>The image below depicts an <span class="nowrap">8-bit</span> identity function of an arbitrary height.</p>
 
-<object data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
+<object id="identity.svg" data="identity.svg" type="image/svg+xml" class="diagram">Identity</object>
 
 <p>As described in a <a href="#memory">later section</a>, memory circuits involve functions horizontally sandwiched between identity functions: </p>
 
-<object data="identity-sandwich.svg" type="image/svg+xml" class="diagram">Identity Sandwich</object>
+<object id="identity-sandwich.svg" data="identity-sandwich.svg" type="image/svg+xml" class="diagram">Identity Sandwich</object>
 
 <p>Those circuits introduce a constraint on the dimensions of a function’s rectangular footprint: its base cannot extend more than nine columns beyond its outermost nodes.</p>
 
@@ -824,7 +824,7 @@
 
 <p>The tests in the following image affirm the circuit consistently outputs <span class="mono">0</span>.</p>
 
-<object data="false.svg" type="image/svg+xml" class="diagram">False</object>
+<object id="false.svg" data="false.svg" type="image/svg+xml" class="diagram">False</object>
 
 <p>A <span class="nowrap">1-bit</span> function that always returns <span class="mono">1</span> is realized by XNORing the input with itself:</p>
 
@@ -843,21 +843,21 @@
 
 <p>The following image reveals the circuit invariably yields <span class="mono">1</span>.</p>
 
-<object data="true.svg" type="image/svg+xml" class="diagram">True</object>
+<object id="true.svg" data="true.svg" type="image/svg+xml" class="diagram">True</object>
 
 <p>A constant byte function is an assemblage of eight <span class="nowrap">1-bit</span> constant functions. The image below depicts the constant byte function <span class="nowrap"><span class="math">f(x) = </span><span class="serif">0</span></span> for an arbitrary input value.</p>
 
-<object data="clear.svg" type="image/svg+xml" class="diagram">Clear</object>
+<object id="clear.svg" data="clear.svg" type="image/svg+xml" class="diagram">Clear</object>
 
 <p>And here is the requisite <span class="math">f(x) = </span><span class="serif">42</span> function:</p>
 
-<object data="constant-42.svg" type="image/svg+xml" class="diagram">42</object>
+<object id="constant-42.svg" data="constant-42.svg" type="image/svg+xml" class="diagram">42</object>
 
 <h2 id="logical-left-shift">Logical Left Shift</h2>
 
 <p>Logical left shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost:</p>
 
-<object data="logical-left-shift.svg" type="image/svg+xml" class="diagram">Logical Left Shift</object>
+<object id="logical-left-shift.svg" data="logical-left-shift.svg" type="image/svg+xml" class="diagram">Logical Left Shift</object>
 
 <p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting a signed or unsigned value left by <span class="math">n</span> bits is equivalent to multiplying by <span class="serif">2</span><span class="math pow">n</span>: 
 
@@ -867,7 +867,7 @@
 
 <p>Logical right shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the right. The leftmost bit is set to <span class="mono">0</span> and the right most bit is lost:</p>
 
-<object data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
+<object id="logical-right-shift.svg" data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
 
 <p>The circuit can be stacked to shift by an arbitrary number of bit positions. Shifting an unsigned value right by <span class="math">n</span> bits is equivalent to dividing by <span class="serif">2</span><span class="math pow">n</span>, rounding toward <span class="serif">0</span>:</p>
 
@@ -885,11 +885,11 @@
 
 <p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are ANDed together:</p>
 
-<object data="and-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Logical AND Schematic</object>
+<object id="and-a-b-c-schematic.svg" data="and-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Logical AND Schematic</object>
 
 <p>In the Tetris realization below, the AND gate is miniscule in comparison to the swap circuits required for <span class="math">A<span class="sub">0</span></span> to traverse the <span class="math">B</span> lines.</p>
 
-<object data="and-a-b-c.svg" type="image/svg+xml" class="diagram">Logical AND</object>
+<object id="and-a-b-c.svg" data="and-a-b-c.svg" type="image/svg+xml" class="diagram">Logical AND</object>
 
 <h2 id="logical-and-not">Logical AND-NOT</h2>
 
@@ -903,11 +903,11 @@
 
 <p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">Q</span>:</p>
 
-<object data="and-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+<object id="and-a-not-b-schematic.svg" data="and-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
 <p>The wire leading to the inverter&mdash;the horizontal line in the schematic above&mdash;appears diagonal in the Tetris realization because it consists of swap circuits stacked right-to-left, the arrangement required to propagate the signal across the <span class="math">B</span> lines:</p>
 
-<object data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+<object id="and-a-not-b.svg" data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
 <p>There is a variation that operates on a 3-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
 
@@ -919,11 +919,11 @@
 
 <p>As above, only the lowest bits of <span class="math">A</span> and <span class="math">B</span> are used to generate the result:</p>
 
-<object data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+<object id="and-c-a-not-b-schematic.svg" data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
 
 <p>The Tetris version follows.</p>
 
-<object data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
+<object id="and-c-a-not-b.svg" data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
 
 <h2 id="bitwise-and">Bitwise AND</h2>
 
@@ -935,11 +935,11 @@
 
 <p>As revealed in the following schematic, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of an AND gate that combines each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, with each bit of <span class="math">B</span>, <span class="math">B<span class="sub">i</span></span>.</p>
 
-<object data="bitwise-and-fb-schematic.svg" type="image/svg+xml" class="diagram">Bitwise AND Schematic</object>
+<object id="bitwise-and-fb-schematic.svg" data="bitwise-and-fb-schematic.svg" type="image/svg+xml" class="diagram">Bitwise AND Schematic</object>
 
 <p>In the Tetris version below, the AND gates are arranged in a line in the top-left. The space-dominating parallelogram is composed of parallel chains of swap circuits that propagate the bits of <span class="math">B</span> from right-to-left. Each chain is equivalent to one of the horizontal wires in the schematic. Since the swap circuits must be stacked to form a chain, the signals advance diagonally-upward.</p>
 
-<object data="bitwise-and-fb.svg" type="image/svg+xml" class="diagram">Bitwise AND</object>
+<object id="bitwise-and-fb.svg" data="bitwise-and-fb.svg" type="image/svg+xml" class="diagram">Bitwise AND</object>
 
 <p>There is a variation that sets the second byte to the bitwise AND of both bytes:</p>
 
@@ -949,11 +949,11 @@
 
 <p>Its circuit is the horizontal reflection of the one above:</p>
 
-<object data="bitwise-and-af-schematic.svg" type="image/svg+xml" class="diagram">Bitwise AND Schematic</object>
+<object id="bitwise-and-af-schematic.svg" data="bitwise-and-af-schematic.svg" type="image/svg+xml" class="diagram">Bitwise AND Schematic</object>
 
 <p>The Tetris realization follows.</p>
 
-<object data="bitwise-and-af.svg" type="image/svg+xml" class="diagram">Bitwise AND</object>
+<object id="bitwise-and-af.svg" data="bitwise-and-af.svg" type="image/svg+xml" class="diagram">Bitwise AND</object>
 
 <h2 id="bitwise-or">Bitwise OR</h2>
 
@@ -965,11 +965,11 @@
 
 <p>As revealed in the following schematic, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of an OR gate that combines each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, with each bit of <span class="math">B</span>, <span class="math">B<span class="sub">i</span></span>.</p>
 
-<object data="bitwise-or-schematic.svg" type="image/svg+xml" class="diagram">Bitwise OR Schematic</object>
+<object id="bitwise-or-schematic.svg" data="bitwise-or-schematic.svg" type="image/svg+xml" class="diagram">Bitwise OR Schematic</object>
 
 <p>In the Tetris version below, the line of yellow <span class="nowrap">O-tetrominoes</span> in the top-left are the OR gates. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
 
-<object data="bitwise-or.svg" type="image/svg+xml" class="diagram">Bitwise OR</object>
+<object id="bitwise-or.svg" data="bitwise-or.svg" type="image/svg+xml" class="diagram">Bitwise OR</object>
 
 <p>A horizontally reflected version was not implemented.</p>
 
@@ -983,11 +983,11 @@
 
 <p>As revealed in the following schematic, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of an XOR gate that combines each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, with each bit of <span class="math">B</span>, <span class="math">B<span class="sub">i</span></span>.</p>
 
-<object data="bitwise-xor-schematic.svg" type="image/svg+xml" class="diagram">Bitwise XOR Schematic</object>
+<object id="bitwise-xor-schematic.svg" data="bitwise-xor-schematic.svg" type="image/svg+xml" class="diagram">Bitwise XOR Schematic</object>
 
 <p>In the Tetris version below, the XOR gates are arranged in a line in the top-left. The explanation for the parallelogram is the same as the one described for bitwise AND.</p>
 
-<object data="bitwise-xor.svg" type="image/svg+xml" class="diagram">Bitwise XOR</object>
+<object id="bitwise-xor.svg" data="bitwise-xor.svg" type="image/svg+xml" class="diagram">Bitwise XOR</object>
 
 <p>A horizontally reflected version was not implemented.</p>
 
@@ -999,11 +999,11 @@
 
 <p>It is realized with the following wiring, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
-<object data="swap-8-schematic.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap Schematic</object>
+<object id="swap-8-schematic.svg" data="swap-8-schematic.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap Schematic</object>
 
 <p>The diamond pattern in the schematic appears in the Tetris version below due to extensive use of the swap circuit.</p>
 
-<object data="swap-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap</object>
+<object id="swap-8.svg" data="swap-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Swap</object>
 
 <h2 id="byte-match">Byte Match</h2>
 
@@ -1019,7 +1019,7 @@
 
 <p>That suggests the following circuit.</p>
 
-<object data="match-ff-right-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Right</object>
+<object id="match-ff-right-schematic.svg" data="match-ff-right-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Right</object>
 
 <p>Each <span class="math">A<span class="sub">i</span></span> column contains an inverter pair, which enables <span class="math">A</span> to traverse unmodified. For an arbitrary constant, <span class="math">K</span>, inverter pairs only exist in the columns where <span class="math">K<span class="sub">i</span></span> is <span class="mono">1</span>. For instance, the expression below checks if <span class="math">A</span> is <span class="mono">0</span>:</p>
 
@@ -1027,7 +1027,7 @@
 
 <p>It requires no inverter pairs, as illustrated by the Tetris realization:</p>
 
-<object data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
+<object id="match-zero-right.svg" data="match-zero-right.svg" type="image/svg+xml" class="diagram">Match Zero Right</object>
 
 <p>Horizontal <span class="nowrap">J-tetrominoes</span> operate as OR gates. Each feeds an input bit to both terminals of a swap circuit.</p>
 
@@ -1037,7 +1037,7 @@
 
 <p>It is actualized by introducing inverter pairs corresponding to the <span class="mono">1</span> bits:</p>
 
-<object data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
+<object id="match-smn-right.svg" data="match-smn-right.svg" type="image/svg+xml" class="diagram">Match SMN Right</object>
 
 <p>Don’t-care bits are omitted from the OR chain. For instance, the following expression tests if A is <span class="mono">000000**</span>.</p>
 
@@ -1045,7 +1045,7 @@
 
 <p>In the Tetris realization below, two of the horizontal <span class="nowrap">J-tetrominoes</span> are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
 
-<object data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
+<object id="match-tax-right.svg" data="match-tax-right.svg" type="image/svg+xml" class="diagram">Match TAX Right</object>
 
 <p>There is a variation of the byte match function where the parameters are swapped:</p>
 
@@ -1053,11 +1053,11 @@
 
 <p>Its circuit is nearly the horizontal-reflection of the one above:  </p>
 
-<object data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
+<object id="match-ff-left-schematic.svg" data="match-ff-left-schematic.svg" type="image/svg+xml" class="diagram">Match $FF Left</object>
 
 <p>In the Tetris version below, the inverter pairs are omitted, resulting in a zero detector. </p>
 
-<object data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
+<object id="match-zero-left.svg" data="match-zero-left.svg" type="image/svg+xml" class="diagram">Match Zero Left</object>
 
 <h2 id="equals">Equals</h2>
 
@@ -1075,11 +1075,11 @@
 
 <p>That suggests the following circuit.</p>
 
-<object data="equals-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+<object id="equals-a-b-e-schematic.svg" data="equals-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 <p>In the Tetris version below, a constant bit function seeds the AND chain with <span class="mono">1</span> (see lower-right).</p>
 
-<object data="equals-a-b-e.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+<object id="equals-a-b-e.svg" data="equals-a-b-e.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 <p>Since the evaluation order is established by the sequence in which components are built, each input propagates upward as it advances from left-to-right. The diamond arrangement of swap circuits is a consequence of nearly-parallel, diagonally-upward lines that terminate on the vertical AND chain.</p>
 
@@ -1089,11 +1089,11 @@
 
 <p>Its circuit is roughly the horizontal-reflection of the one above:</p>
 
-<object data="equals-e-a-b-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+<object id="equals-e-a-b-schematic.svg" data="equals-e-a-b-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 <p>Here is the Tetris realization:</p>
 
-<object data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+<object id="equals-e-a-b.svg" data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
 
 <p>There is a another variation that uses all three input bytes:</p>
 
@@ -1119,11 +1119,11 @@
 
 <p>The variation can be realized by using the lowest bit of <span class="math">V</span> as the seed of the AND chain. Instead, in an effort to reuse wherever possible, an AND gate was added to the top of the existing circuit:</p>
 
-<object data="equals-a-b-and-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+<object id="equals-a-b-and-e-schematic.svg" data="equals-a-b-and-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
 
 <p>The Tetris implementation follows.</p>
 
-<object data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+<object id="equals-a-b-and-e.svg" data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
 
 <p>The horizontal-reflection of this variation was not implemented. </p>
 
@@ -1135,11 +1135,11 @@
 
 <p>This is accomplished with the following wiring, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
-<object data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
+<object id="copy-a-b-schematic.svg" data="copy-a-b-schematic.svg" type="image/svg+xml" class="diagram">Copy A to B Schematic</object>
 
 <p>The Tetris version appears below.</p>
 
-<object data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
+<object id="copy-a-b.svg" data="copy-a-b.svg" type="image/svg+xml" class="diagram">Copy A to B</object>
 
 <p>The space-dominating triangle consists of diagonally-upward chains of swap circuit. After they cross the center wire, horizontal lines of <span class="nowrap">Z-tetrominoes</span> carry the signals the rest of the way.</p>
 
@@ -1149,11 +1149,11 @@
 
 <p>It is the horizontal-reflection of the previous circuit:</p>
 
-<object data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
+<object id="copy-b-a-schematic.svg" data="copy-b-a-schematic.svg" type="image/svg+xml" class="diagram">Copy B to A Schematic</object>
 
 <p>The Tetris version follows.</p>
 
-<object data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
+<object id="copy-b-a.svg" data="copy-b-a.svg" type="image/svg+xml" class="diagram">Copy B to A</object>
 
 <h2 id="conditional-byte-copy">Conditional Byte Copy</h2>
 
@@ -1165,11 +1165,11 @@
 
 <p>In its circuit, shown below, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of a <span class="nowrap">2-to-1</span> multiplexer that selects between <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> based on <span class="math">C<span class="sub">0</span></span>.</p>
 
-<object data="copy-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+<object id="copy-a-b-c-schematic.svg" data="copy-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
 
 <p>Here is the Tetris version:</p>
 
-<object data="copy-a-b-c.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+<object id="copy-a-b-c.svg" data="copy-a-b-c.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
 
 <p>Flipping the circuit horizontally creates a variation that either copies the third byte to the second byte, or does nothing, per the value of the first byte:</p>
 
@@ -1179,11 +1179,11 @@
 
 <p>The flipped circuit appears below.</p>
 
-<object data="copy-c-b-a-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+<object id="copy-c-b-a-schematic.svg" data="copy-c-b-a-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
 
 <p>The Tetris version follows.</p>
 
-<object data="copy-c-b-a.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+<object id="copy-c-b-a.svg" data="copy-c-b-a.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
 
 <p>Repositioning the multiplexers from the <span class="math">A</span> lines to the <span class="math">B</span> lines reverses the roles of the second and third bytes:</p>
 
@@ -1193,11 +1193,11 @@
 
 <p>Here is the schematic:</p>
 
-<object data="copy-c-a-b-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+<object id="copy-c-a-b-schematic.svg" data="copy-c-a-b-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
 
 <p>Below is the Tetris version.</p>
 
-<object data="copy-c-a-b.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+<object id="copy-c-a-b.svg" data="copy-c-a-b.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
 
 <p>Finally, flipping that circuit horizontally yields a variation that either copies the second byte to the first byte, or does nothing, per the value of the third byte:</p>
 
@@ -1207,11 +1207,11 @@
 
 <p>The flipped circuit follows.</p>
 
-<object data="copy-b-a-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+<object id="copy-b-a-c-schematic.svg" data="copy-b-a-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
 
 <p>Here is the Tetris realization:</p>
 
-<object data="copy-b-a-c.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+<object id="copy-b-a-c.svg" data="copy-b-a-c.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
 
 <h2 id="decrement">Decrement</h2>
 
@@ -1251,7 +1251,7 @@
 
 <p>That implies the following circuit.</p>
 
-<object data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
+<object id="half-subtractor-schematic.svg" data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
 
 <p>In the code below, which is based on that schematic, a horizontal I-tetromino functions as the upper OR.</p>
 
@@ -1279,21 +1279,21 @@
 
 <p>Here is its response to all input combinations:</p>
 
-<object data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
+<object id="half-subtractor.svg" data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
 
 <p>In the full circuit, half subtractors are chained in the following configuration, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
-<object data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
+<object id="decrementer-schematic.svg" data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
 
 <p>The circuit is a binary odometer that counts down. When a digit rolls back&mdash;when it transitions from <span class="mono">0</span> to <span class="mono">1</span>&mdash;the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term nowrap">borrow-in</span> is <span class="mono">1</span> (far right). Its effect ripples right-to-left. For each half subtractor, if the input digit is <span class="mono">0</span> and the <span class="nowrap">borrow-in</span> is <span class="mono">1</span>, then both the output digit and the <span class="term nowrap">borrow-out</span> are <span class="mono">1</span>. Otherwise, the <span class="nowrap">borrow-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
 
 <p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> decrement function that calculated <span class="nowrap serif">42 &minus; 1</span>. The sequence in which components were built determined the evaluation order. It started with a <span class="nowrap">1-bit</span> constant function in the bottom-right, which supplied the initial <span class="nowrap">borrow-in</span>. From there, digits were evaluated right-to-left and bottom-up. The final <span class="nowrap">borrow-out</span> was discarded.</p>
 
-<object data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
+<object id="decrementer-8.svg" data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
 
 <p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> decrement function that calculated <span class="nowrap serif">0 &minus; 1</span>. It rolled back to all ones, the <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two's complement</a> representation of &minus;1 or the maximum unsigned integer value.</p>
 
-<object data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
+<object id="decrementer-16.svg" data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
 
 <h2 id="increment">Increment</h2>
 
@@ -1319,7 +1319,7 @@
 
 <p>That implies the following circuit.</p>
 
-<object data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
+<object id="half-adder-schematic.svg" data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
 
 <p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line 14) enables the output of the bottom NOR (line 13) to hop over the input of the <span class="math">Y</span> inverter (line 17). The <span class="math">X</span> inverter (line 16) feeds into the middle NOR (line 18), which, in turn, feeds into the top NOR (line 25).</p>
 
@@ -1362,21 +1362,21 @@
 
 <p>As revealed in the following image, which shows the responses to all input combinations, the Tetris realization of a half adder is significantly larger than a half subtractor due to the swap circuit.</p>
 
-<object data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
+<object id="half-adder.svg" data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
 
 <p>In the full circuit, half adders are chained in the configuration below, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
 
-<object data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
+<object id="incrementor-schematic.svg" data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
 
 <p>The circuit is a binary odometer that counts up. When a digit rolls over&mdash;when it transitions from <span class="mono">1</span> to <span class="mono">0</span>&mdash;the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term"><span class="nowrap">carry-in</span></span> is <span class="mono">0</span> (far right). Its effect ripples right-to-left. For each half adder, if both the input digit and the <span class="nowrap">carry-in</span> is <span class="mono">1</span>, then the output digit is <span class="mono">0</span> and the <span class="term nowrap">carry-out</span> is <span class="mono">1</span>. Otherwise, the <span class="nowrap">carry-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
 
 <p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> increment function that calculated <span class="nowrap serif">42 + 1</span>. A <span class="nowrap">1-bit</span> constant function at the bottom-right supplied the initial <span class="nowrap">carry-in</span>. The final <span class="nowrap">carry-out</span> was discarded.</p>
 
-<object data="incrementor-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Incrementor</object>
+<object id="incrementor-8.svg" data="incrementor-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Incrementor</object>
 
 <p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> increment function. The input is all ones, the two's complement representation of &minus;1 or the maximum unsigned integer value. The function rolled over to all zeros, in agreement with <span class="nowrap serif">&minus;1 + 1.</span></p>
 
-<object data="incrementor-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Incrementor</object>
+<object id="incrementor-16.svg" data="incrementor-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Incrementor</object>
 
 <h2 id="conditional-increment">Conditional Increment</h2>
 
@@ -1388,11 +1388,11 @@
 
 <p>As shown below, its circuit consists of a <span class="nowrap">16-bit</span> incrementer, where the <span class="nowrap">carry-in</span> is <span class="math">C<span class="sub">0</span></span> and the <span class="nowrap">carry-out</span> is discarded.</p>
 
-<object data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
+<object id="conditional-increment-schematic.svg" data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
 
 <p>Here is the Tetris version:</p>
 
-<object data="conditional-increment.svg" type="image/svg+xml" class="diagram">Conditional Increment</object>
+<object id="conditional-increment.svg" data="conditional-increment.svg" type="image/svg+xml" class="diagram">Conditional Increment</object>
 
 <h2 id="add">Add</h2>
 
@@ -1472,33 +1472,33 @@
 
 <p>The resultant expressions suggest the following circuit, where the XNORs (the gray rectangles) are composed from four NORs.</p>
 
-<object data="full-adder-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic</object>
+<object id="full-adder-schematic.svg" data="full-adder-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic</object>
 
 <p>The Tetris realization is based on a slight modification that forwards input <span class="math">X</span> through and out between <span class="math">C</span> and <span class="math">S</span>. It consists of nine NORs and three crosses, as shown below.</p>
 
-<object data="full-adder-x-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic, Outputs X</object>
+<object id="full-adder-x-schematic.svg" data="full-adder-x-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic, Outputs X</object>
 
 <p>Here are the results for <span class="math">X = </span><span class="mono">0</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
 
-<object data="full-adder-x-0.svg" type="image/svg+xml" class="diagram">Full Adder, X = 0</object>
+<object id="full-adder-x-0.svg" data="full-adder-x-0.svg" type="image/svg+xml" class="diagram">Full Adder, X = 0</object>
 
 <p>Here are the results for <span class="math">X = </span><span class="mono">1</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
 
-<object data="full-adder-x-1.svg" type="image/svg+xml" class="diagram">Full Adder, X = 1</object>
+<object id="full-adder-x-1.svg" data="full-adder-x-1.svg" type="image/svg+xml" class="diagram">Full Adder, X = 1</object>
 
 <p>The complete circuit consists of full adders chained in the arrangement below. Each full adder accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and it outputs their sum digit, <span class="math">Q<span class="sub">i</span></span>, along with one of the input digits, <span class="math">B<span class="sub">i</span></span>, unmodified.</p>
 
-<object data="adder-schematic.svg" type="image/svg+xml" class="diagram">4-bit Adder Schematic</object>
+<object id="adder-schematic.svg" data="adder-schematic.svg" type="image/svg+xml" class="diagram">4-bit Adder Schematic</object>
 
 <p>The circuit evaluates right-to-left. For each full adder, if the sum of the <span class="nowrap">carry-in</span>, <span class="math">Z</span>, and the addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, is not a single-digit number, then the high digit, <span class="math">C</span>, is carried out to the full adder on its left. The initial <span class="nowrap">carry-in</span> is <span class="mono">0</span> (far right) and the final <span class="nowrap">carry-out</span> is lost.</p>
 
 <p>Crisscrossing wires are required to interlace the inputs and to disentangle the outputs:</p>
 
-<object data="add-schematic.svg" type="image/svg+xml" class="diagram">8-bit Adder Schematic</object>
+<object id="add-schematic.svg" data="add-schematic.svg" type="image/svg+xml" class="diagram">8-bit Adder Schematic</object>
 
 <p>The Tetris realization retains the triangular patterns from all the cross overs:</p>
 
-<object data="add.svg" type="image/svg+xml" class="diagram">8-bit Adder</object>
+<object id="add.svg" data="add.svg" type="image/svg+xml" class="diagram">8-bit Adder</object>
 
 <p>The full adders are stacked diagonally to enable the carries to ripple in the expected order.</p>
 
@@ -1518,7 +1518,7 @@
 
 <p>Its circuit is a modification of the add circuit:</p>
 
-<object data="subtract-schematic.svg" type="image/svg+xml" class="diagram">8-bit Subtractor Schematic</object>
+<object id="subtract-schematic.svg" data="subtract-schematic.svg" type="image/svg+xml" class="diagram">8-bit Subtractor Schematic</object>
 
 <p>The initial <span class="nowrap">carry-in</span> (far right) serves as the <span class="serif">+ 1</span> term of the sum.</p>  
 
@@ -1526,7 +1526,7 @@
 
 <p>The Tetris realization follows.</p>
 
-<object data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
+<object id="subtract.svg" data="subtract.svg" type="image/svg+xml" class="diagram">8-bit Subtractor</object>
 
 <h2 id="function-catalog">Function Catalog</h2>
 
@@ -1719,7 +1719,7 @@
 
 <p>Memory capacity is always finite, but the agent can expand it endlessly. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-tetrominoes</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
-<object data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
+<object id="zeros.svg" data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
 <p>Then the agent repeatedly builds identity functions above the new nodes until the output of one of them reaches the height of the rest of the pile.</p>
 
@@ -1762,7 +1762,7 @@
 
 <p>The agent loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-tetrominoes</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-tetrominoes</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
 
-<object data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
+<object id="forty-two.svg" data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
 
 <p>Since the agent clears newly allocated bytes, all memory locations after the final byte of the initial state effectively contain zero.</p>
 
@@ -2109,7 +2109,7 @@
 
 <p>In doing so, it reverses the input string, as shown in the animation below, which depicts a classifier with a <span class="nowrap">3-byte</span> register.</p>
 
-<object data="classifier-data-to-reg.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register</object>
+<object id="classifier-data-to-reg.svg" data="classifier-data-to-reg.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register</object>
 
 <p>To maintain the order, the following version swaps each character back to its original location after applying the transition function.</p>
 
@@ -2124,7 +2124,7 @@
 
 <p>It performs <span class="nowrap mono">L(L&minus;1)</span> swaps:</p>
 
-<object data="classifier-data-to-reg-and-back.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register and Back</object>
+<object id="classifier-data-to-reg-and-back.svg" data="classifier-data-to-reg-and-back.svg" type="image/svg+xml" class="diagram">Classifier Animation: Move Data to Register and Back</object>
 
 <p>The second strategy moves the register to the characters:</p>
 
@@ -2139,7 +2139,7 @@
 
 <p>It takes <span class="mono">LN</span> swaps. For strings significantly larger than the width of the register, the second strategy has order <span class="mono nowrap">&Oscr;(L)</span>, far more efficient than the first strategy, which has order <span class="mono nowrap">&Oscr;(L<span class="sup3">2</span>)</span>. The animation below demonstrates the improved performance.</p>
 
-<object data="classifier-reg-to-data.svg" type="image/svg+xml" class="diagram">Classifier Animation: Register to Data</object>
+<object id="classifier-reg-to-data.svg" data="classifier-reg-to-data.svg" type="image/svg+xml" class="diagram">Classifier Animation: Register to Data</object>
 
 <p>Regarding reusability, the program contains the number of cycles required to run the classifier to completion. In other words, while the string is no longer hard-coded, the string length is. However, if <span class="mono">T<span class="sub3">c</span></span> ignores zeros&mdash;all characters right of the input string&mdash;then the program is applicable to strings with length &le; <span class="mono">L</span>.</p>
 
@@ -2158,7 +2158,7 @@
 
 <p>As the program slides the register over the string, it transforms each input character into an output character:</p>
 
-<object data="transducer.svg" type="image/svg+xml" class="diagram">Transducer Animation</object>
+<object id="transducer.svg" data="transducer.svg" type="image/svg+xml" class="diagram">Transducer Animation</object>
 
 <h2 id="turing-machine">Turing Machine</h2>
 
@@ -2279,7 +2279,7 @@
 
 <p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
-<object data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
+<object id="machine-code-padding-and-register.svg" data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
 <p>The machine code program is a sequence of bytes representing instructions and data. At execution time, the computer restricts the program to accessing its own bytes, as opposed to the entire array. This means, the loaded program is the initial state of the computer’s RAM. The program length, <span class="mono">L</span>, establishes the fixed address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
 
@@ -2315,17 +2315,17 @@
 
 <p>As revealed in the image below, the state register consists of twenty-one <span class="nowrap">8-bit</span> registers. Most of them are internal registers, but a few are exposed to machine code instructions.</p>
 
-<object data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
+<object id="register-all-bytes.svg" data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
 
 <p>The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location. The <span class="nowrap">MC programs</span> execute relative to <span class="nowrap">byte <span class="mono">I</span></span>.</p>
 
 <p>Several <span class="nowrap">8-bit</span> registers jointly function as <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> registers:</p>
 
-<object data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
+<object id="register-all.svg" data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
 
 <p>The <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, stores <span class="mono">I</span>’s address:</p>
 
-<object data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
+<object id="register-a.svg" data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
 
 <p>Since the state register starts out two bytes right of the machine code program, a process initializes <span class="mono">a</span> to <span class="mono">L&minus;1</span>.</p>
 
@@ -2387,7 +2387,7 @@
 
 <p>The <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, stores the address of the instruction to be fetched. As the computer slides the state register across RAM, when <span class="mono">P</span> equals <span class="mono">a</span>, it copies <span class="mono">IJK</span> into the <span class="term">instruction register</span>, <span class="mono">ijk</span>:</p>
 
-<object data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
+<object id="register-p.svg" data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
 
 <p>Machine code instructions vary in length from one to three bytes. The first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At twenty-four bits wide, <span class="mono">ijk</span> can store any instruction. And at decode time, if the instruction does not take up the full width of <span class="mono">ijk</span>, the computer discards the remainder.</p>
 
@@ -2428,7 +2428,7 @@
 
 <p>There are twelve ways to transfer data between those registers:</p>
 
-<object data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
+<object id="register-copy-all.svg" data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
 
 <p>The following <span class="nowrap">MC program</span> decodes and executes the transfer instructions.</p>
 
@@ -2546,11 +2546,11 @@
 
 <p>Next, the computer handles the <span class="term">set instructions</span>. There are three of them and they vary in length. The first is a <span class="nowrap">2-byte</span> instruction that assigns <span class="mono">A</span> to an <span class="nowrap">8-bit</span> immediate, a constant operand in <span class="mono">j</span>. The second is the same except <span class="mono">B</span> is the target:</p>
 
-<object data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
+<object id="register-copy-j-to-ab.svg" data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
 
 <p>The third is a <span class="nowrap">3-byte</span> instruction that assigns <span class="mono">MN</span> to a <span class="nowrap">16-bit</span> immediate contained in <span class="mono">jk</span>: </p>
 
-<object data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+<object id="register-copy-jk-to-mn.svg" data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
 
 <p>The following <span class="nowrap">MC program</span> decodes and executes the set instructions.</p>
 
@@ -2569,25 +2569,25 @@
 
 <p>Next, the computer handles the <span class="term">branch instructions</span>. There are six of them. Each consists of an opcode in <span class="mono">i</span> followed by a <span class="nowrap">16-bit</span> target address in <span class="mono">jk</span>. The first unconditionally jumps to the target simply by copying <span class="mono">jk</span> to <span class="mono">P</span>:</p>
 
-<object data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
+<object id="register-copy-jk-to-p.svg" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
 
 <p>The next four conditionally jump to the target iff a specified flag, <span class="mono">n</span> or <span class="mono">z</span>, equals a given value, <span class="mono">0</span> or <span class="mono">1</span>:</p>
 
-<object data="register-copy-jk-to-p-with-nz.svg" type="image/svg+xml" class="diagram">Copy jk to P with n and z</object>
+<object id="register-copy-jk-to-p-with-nz.svg" data="register-copy-jk-to-p-with-nz.svg" type="image/svg+xml" class="diagram">Copy jk to P with n and z</object>
 
 <p>The last is the <span class="term">jump-to-subroutine instruction</span>. It copies <span class="mono">P</span> to the <span class="nowrap">16-bit</span> <span class="term">return register</span>, <span class="mono">R</span>:</p>
 
-<object data="register-copy-p-to-r.svg" type="image/svg+xml" class="diagram">Copy P to R</object>
+<object id="register-copy-p-to-r.svg" data="register-copy-p-to-r.svg" type="image/svg+xml" class="diagram">Copy P to R</object>
     
 <p>Since the copy occurs after <span class="mono">P</span> is incremented, <span class="mono">R</span> points to the instruction immediately following the jump-to-subroutine instruction. That is, <span class="mono">R</span> contains the return address, hence its name.</p>
     
 <p>Following the copy, it jumps:</p>
     
-<object data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
+<object id="register-copy-jk-to-p.svg" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
     
 <p>Afterwards, a <span class="term">return-from-subroutine instruction</span> restores <span class="mono">P</span> from <span class="mono">R</span>:</p>
 
-<object data="register-copy-r-to-p.svg" type="image/svg+xml" class="diagram">Copy R to P</object>
+<object id="register-copy-r-to-p.svg" data="register-copy-r-to-p.svg" type="image/svg+xml" class="diagram">Copy R to P</object>
 
 <p>This <a href="https://en.wikipedia.org/wiki/Link_register" target="_blank">link register</a> scheme enables subroutine calls one level deep (all subroutines are <a href="https://en.wikipedia.org/wiki/Leaf_subroutine" target="_blank">leaf subroutines</a>). The computer does not provide a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a>.</p>
 
@@ -2640,21 +2640,21 @@
 
 <p>Last, the computer handles the store and load instructions. A store instruction writes a source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. While decoding, if the instruction is not a store instruction, the computer resets the <span class="term">write flag</span>, <span class="mono">w</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">w</span> to <span class="mono">1</span>, and it copies the source register to the <span class="nowrap">8-bit</span> <span class="term">memory value register</span>, m:</p>
 
-<object data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
+<object id="register-copy-ab-to-m.svg" data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
 
 <p>The computer executes a store instruction as it slides the state register slides across RAM. For each address, if <span class="mono">w</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then the computer copies <span class="mono">m</span> to <span class="mono">I</span>:</p>
 
-<object data="register-copy-m-to-i.svg" type="image/svg+xml" class="diagram">Copy m to I</object>
+<object id="register-copy-m-to-i.svg" data="register-copy-m-to-i.svg" type="image/svg+xml" class="diagram">Copy m to I</object>
 
 <p>A load instruction reads a byte from memory at the address in <span class="mono">MN</span>, and it puts the byte in a destination register, <span class="mono">A</span> or <span class="mono">B</span>. While decoding, if the instruction is not a load instruction, the computer resets the <span class="term">read flag</span>, <span class="mono">r</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">r</span> to <span class="mono">1</span>, and it assigns the aforementioned destination flag, <span class="mono">d</span>, to <span class="mono">0</span> for <span class="mono">A</span> or <span class="mono">1</span> for <span class="mono">B</span>.</p>
 
 <p>The computer executes a load instruction as it slides the state register slides across RAM. For each address, if <span class="mono">r</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then the computer copies <span class="mono">I</span> to <span class="mono">m</span>:</p>
 
-<object data="register-copy-i-to-m.svg" type="image/svg+xml" class="diagram">Copy I to m</object>
+<object id="register-copy-i-to-m.svg" data="register-copy-i-to-m.svg" type="image/svg+xml" class="diagram">Copy I to m</object>
 
 <p>After the computer slides the state register across RAM and before it decodes the fetched instruction, if <span class="mono">r</span> is <span class="mono">1</span>, then the computer copies the read byte in <span class="mono">m</span> to <span class="mono">A</span> or <span class="mono">B</span> based on the value in <span class="mono">d</span>, and it assigns <span class="mono">n</span> and <span class="mono">z</span> as if the read byte were the result of an arithmetic or logic instruction:</p>
 
-<object data="register-copy-m-to-ab.svg" type="image/svg+xml" class="diagram">Copy m to A/B</object>
+<object id="register-copy-m-to-ab.svg" data="register-copy-m-to-ab.svg" type="image/svg+xml" class="diagram">Copy m to A/B</object>
 
 <p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is neither a <span class="term">carry flag</span> nor an <span class="term">overflow flag</span>.</p>
 
@@ -3190,45 +3190,45 @@ N = 11 * row + col;  // offset within page zero
 <span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
 <span class="line"><span class="label">tetrominoes:</span></span>
 <span class="line"><span class="comment">;  0  1  2  3</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  0 td {  -1,   0,   1,  11 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">;  1 tl { -11,  -1,   0,  11 }</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">F5</span> <span class="comment">;  2 tu {  -1,   0,   1, -11 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  3 tr { -11,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 0 0 td {  -1,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 0 1 tl { -11,  -1,   0,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">F5</span> <span class="comment">; 0 2 tu {  -1,   0,   1, -11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 0 3 tr { -11,   0,   1,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">;  4 jd {  -1,   0,   1,  12 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">;  5 jl { -11,   0,  10,  11 }</span></span>
-<span class="line">  <span class="number">F4</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">;  6 ju { -12,  -1,   0,   1 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">F6</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">;  7 jr { -11, -10,   0,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 1 0 jd {  -1,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 1 1 jl { -11,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 1 2 ju { -12,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">F6</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 1 3 jr { -11, -10,   0,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">;  8 zh {  -1,   0,  11,  12 }</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">;  9 zv { -10,   0,   1,  11 }</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 10 zh {  -1,   0,  11,  12 }</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 11 zv { -10,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 2 0 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 2 1 zv { -10,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 2 2 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 2 3 zv { -10,   0,   1,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 12 o  {  -1,   0,  10,  11 }</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 13 o  {  -1,   0,  10,  11 }</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 14 o  {  -1,   0,  10,  11 }</span></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 15 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 0 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 1 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 2 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 3 o  {  -1,   0,  10,  11 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 16 sh {   0,   1,  10,  11 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 17 sv { -11,   0,   1,  12 }</span></span>
-<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 18 sh {   0,   1,  10,  11 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 19 sv { -11,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 4 0 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 4 1 sv { -11,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 4 2 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 4 3 sv { -11,   0,   1,  12 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="comment">; 20 ld {  -1,   0,   1,  10 }</span></span>
-<span class="line">  <span class="number">F4</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 21 ll { -12, -11,   0,  11 }</span></span>
-<span class="line">  <span class="number">F6</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 22 lu { -10,  -1,   0,   1 }</span></span>
-<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 23 lr { -11,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="comment">; 5 0 ld {  -1,   0,   1,  10 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 5 1 ll { -12, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 5 2 lu { -10,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 5 3 lr { -11,   0,  11,  12 }</span></span>
 <span class="line"></span>
-<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 24 ih {  -2,  -1,   0,   1 }</span></span>
-<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 25 iv { -22, -11,   0,  11 }</span></span>
-<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 26 ih {  -2,  -1,   0,   1 }</span></span>
-<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 27 iv { -22, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 6 0 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 6 1 iv { -22, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 6 2 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 6 3 iv { -22, -11,   0,  11 }</span></span>
 </pre>
 
 <p>Each row of the <span class="mono">tetrominoes</span> table contains the coordinates of four blocks of a rotated tetromino encoded as signed offsets relative to the tetromino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
 
-<p>The program employs the NRS, the aforementioned rotation system that uses only 19 of the <span class="nowrap">28 possible</span> tetromino orientations. But the <span class="mono">tetrominoes</span> table contains <span class="nowrap">four rows</span> for every tetromino type. The orientations of <span class="roboto">Z</span>, <span class="roboto">S</span>, and <span class="roboto">I</span> appear twice, and the orientation of <span class="roboto">O</span> appears four times. This simplifies access. The program addresses each element with code equivalent to:</p>
+<p>The program addresses each table element with code equivalent to:</p>
 
 <pre class="pseudocode">
 M = 1;  // page one
@@ -3236,7 +3236,11 @@ M = 1;  // page one
 N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within page one
 </pre>
 
-<p>The orientation of the falling tetromino, <span class="mono">tetrominoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the tetromino type.</p>
+<p>The orientation of the falling tetromino, <span class="mono">tetrominoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the tetromino type, <span class="mono">tetrominoType</span>, because the orientations of the Z-, S-, and <span class="nowrap">I-tetrominoes</span> appear twice, and the orientation of the <span class="nowrap">O-tetromino</span> appears four times:</p>
+
+<object id="tetrominoes-table.svg" data="tetrominoes-table.svg" type="image/svg+xml" class="diagram">Tetrominoes Table</object>
+
+<p>Above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. And the steps of clockwise rotation span left-to-right across each row. This is the same <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">way pieces rotate</a> in <span class="nowrap">NES Tetris</span>.</p>
 
 <p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetrominoes</span> table.</p>
 
@@ -3447,7 +3451,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_tetrominoes" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
 
-<object data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
+<object id="lfsr-schematic.svg" data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 
 <p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> collectively operate as a <span class="nowrap">16-bit</span> register. The program logical right shifts it, discarding the lowest bit, and <span class="nowrap">shifting-in</span> <span class="mono">nextBit</span>.</p>
 
@@ -3723,7 +3727,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
 
-<p>The NRS centers the seven tetrominoes at nineteen different orientations in 5&times;5 matrices. But none of the matrices contain solid cells in the bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetrominoY&minus;2</span>, <span class="mono">tetrominoY+1</span><span class="serif"> ]</span></span> for lines. To that end, the handler loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
+<p>As <a href="#tetrominoes-table.svg">visualized above</a>, the <span class="mono">tetrominoes</span> table centers pieces in 5&times;5 matrices, none of which contain solid cells in its bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetrominoY&minus;2</span>, <span class="mono">tetrominoY+1</span><span class="serif"> ]</span></span> for lines. To do so, it loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
 
 <p><span class="mono">origin</span> is a pointer to the row to be checked. The handler initializes it to the index of row <span class="mono">tetrominoY+1</span>'s first element. At the end of each iteration, if handler did not find a line, it moves <span class="mono">origin</span> to the next row by decrementing it by <span class="mono">PLAYFIELD_WIDTH</span>. However, if the handler found a line, it shifts all the rows above the line downward. In that case, the handler does not decrement <span class="mono">origin</span> because the row that shifted into the cleared line is the next row to be checked.</p> 
 
@@ -3917,11 +3921,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables enable the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
 
-<object data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
+<object id="swap.svg-2" data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
 <p>Rather than manipulating all those pieces, the algorithm inspects the input cells, it performs a table lookup, and it assigns the output cells, omitting everything in between:</p>
 
-<object data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
+<object id="swap-memoized.svg" data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
 
 <p>Despite their seeming levitation, the output cells support structures built on top of them as if the swap circuit was really there.</p>
 
