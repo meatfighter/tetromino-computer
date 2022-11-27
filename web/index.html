@@ -41,11 +41,7 @@
 
 <object data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
 
-<p>The following table depicts the nineteen distinct tetromino orientations centered in <span class="nowrap">5&times;5 matrices</span>. The leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. The steps of clockwise rotation span left-to-right across each row. And the mnemonic over each orientation consists of tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for O.</p>
-
-<object data="orientation-table.svg" type="image/svg+xml" class="diagram">Orientation Table</object>
-
-<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The terms below apply to translation.</p>
+<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
 
 <ul>
     <li>A <span class="term">shift</span> is a horizontal translation.</li>
@@ -58,9 +54,11 @@
     </li>
 </ul>
 
-<p>A move is preceded by a <span class="term">request to move</span>. Per classic Tetris rules, the request is granted iff all four cells of the transformed tetromino are empty and they are within the bounds of the playfield. If the fall timer’s request for a gravity drop is denied, the piece locks and the next piece spawns.</p>
+<p>A move is preceded by a <span class="term">request to move</span>. The game will deny a request to translate a piece into solid cells or into out of bounds cells. If the game denies the fall timer’s request for a gravity drop, then the piece locks and the next piece spawns.</p>
 
-<p>Spawning involves a <span class="term">randomizer</span>, the mechanism that determines the sequence of pieces presented to the player. Any randomizer guaranteed to eventually produce all tetrominoes types in some order from any point in the sequence will work with the method described in this article.</p>
+<p>The <span class="term"><a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">rotation system</a></span> determines if and how the game responds to a request to rotate. Modern versions of Tetris employ complicated rotation systems that take into account the states of the surrounding cells, the playfield boundaries, and other factors.</p>
+
+<p>The <span class="term">randomizer</span> is the mechanism that determines the sequence of pieces presented to the player.</p>
 
 <h2 id="method-overview">Method Overview</h2>
 
@@ -100,11 +98,11 @@
 
 <p>The agent is limited to actions that take finite time. For instance, it cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. Consequentially, the game never advances to the second level. It permanently runs at the lowest drop speed.</p>
 
-<p>Since the agent constructs a pile near the origin that progressively grows taller and wider, it can work with <span class="nowrap">&ldquo;row infinity&rdquo;</span> defined as a row with a finite index that increases as a function of the pile’s size or of the number of spawns. For example, the game can increment the index by a constant after each spawn. Such a definition permits the agent to effect a semihard drop by executing a finite sequence of soft drops.</p>
+<p>Since the agent constructs a pile near the origin that progressively grows taller and wider, it can work with <span class="nowrap">&ldquo;row infinity&rdquo;</span> defined as a <span class="nowrap">finite row</span> whose index increases as a function of the <span class="nowrap">pile's size</span> or of the number of spawns. Such a definition permits the agent to emulate a semihard drop by executing a finite sequence of soft drops.</p>
 
 <h2 id="input-language">Input Language</h2>
 
-<p>The agent is a device that enters precisely timed sequences of game input by following the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
+<p>The agent is a device that enters precisely timed sequences of game inputs by following the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
 
 <p class="definition">t m<span class="sub3">0</span> m<span class="sub3">1</span> m<span class="sub3">2</span> &mldr; m<span class="sub3">N&minus;1</span></p> 
 
@@ -138,11 +136,15 @@
 
 <object data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
 
-<p>An <span class="nowrap">IL program</span> resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employed a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
+<p>An <span class="nowrap">IL program</span> resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
 
 <h2 id="tetrominoscript">TetrominoScript</h2>
 
 <p><span class="nowrap"><span class="term">TetrominoScript</span> (TS)</span> is a language that provides a concise way to express where to put the pieces. It compiles to IL.</p>
+
+<p>TS refers to each of the nineteen distinct tetromino orientations with a mnemonic consisting of the tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for the <span class="nowrap">O-tetromino</span>. And it refers to locations relative to a central block of each tetromino.</p>
+
+<object data="mnemonic-table.svg" type="image/svg+xml" class="diagram">Mnemonic Table</object>
 
 <p>TS has three instruction types. The first directs the agent to hard drop a tetromino. It consists of the tetromino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
