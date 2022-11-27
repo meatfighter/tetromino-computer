@@ -746,7 +746,7 @@
 
 <h1 id="functions">Functions</h1>
 
-<p>This section describes the arithmetic and logic functions implemented for a general-purpose computer.</p>
+<p>This section describes the arithmetic and logic functions implemented for use in a general-purpose computer.</p>
 
 <h2 id="functions-overview">Overview</h2>
 
@@ -762,14 +762,14 @@
 
 <p>A function’s input and output values have the same <span class="nowrap">bit width</span> and their bits line up. That is, the <span class="math">i<span class="sup">th</span></span> input node shares a common column with the <span class="math">i<span class="sup">th</span></span> output node.</p>  
 
-<p>The machine that runs Tetris utilizes 8-, 16-, and <span class="nowrap">24-bit</span> functions. Some <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
+<p>The general-purpose computer contains 8-, 16-, and <span class="nowrap">24-bit</span> functions. Some of its <span class="nowrap">16-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">2-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the high and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 652px">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top right green">B<span class="sub">0</span></td></tr>
 <tr><td class="bottom blue">V<span class="sub">15</span></td><td class="bottom blue">V<span class="sub">14</span></td><td class="bottom blue">V<span class="sub">13</span></td><td class="bottom blue">V<span class="sub">12</span></td><td class="bottom blue">V<span class="sub">11</span></td><td class="bottom blue">V<span class="sub">10</span></td><td class="bottom blue">V<span class="sub">9</span></td><td class="bottom blue">V<span class="sub">8</span></td><td class="bottom blue">V<span class="sub">7</span></td><td class="bottom blue">V<span class="sub">6</span></td><td class="bottom blue">V<span class="sub">5</span></td><td class="bottom blue">V<span class="sub">4</span></td><td class="bottom blue">V<span class="sub">3</span></td><td class="bottom blue">V<span class="sub">2</span></td><td class="bottom blue">V<span class="sub">1</span></td><td class="bottom right blue">V<span class="sub">0</span></td></tr>
 </table>
 
-<p>Similarly, some <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">3-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span></span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
+<p>Similarly, some of its <span class="nowrap">24-bit</span> functions interpret the input value, <span class="math">V</span>, as a <span class="nowrap">3-byte</span> array, <span class="nowrap"><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span></span>, where <span class="math">A</span>, <span class="math">B</span>, and <span class="math">C</span> are the high, middle, and low bytes of <span class="math">V</span>, respectively:</p>
 
 <table class="bits" style="width: 978px;">
 <tr><td class="top red">A<span class="sub">7</span></td><td class="top red">A<span class="sub">6</span></td><td class="top red">A<span class="sub">5</span></td><td class="top red">A<span class="sub">4</span></td><td class="top red">A<span class="sub">3</span></td><td class="top red">A<span class="sub">2</span></td><td class="top red">A<span class="sub">1</span></td><td class="top red">A<span class="sub">0</span></td><td class="top green">B<span class="sub">7</span></td><td class="top green">B<span class="sub">6</span></td><td class="top green">B<span class="sub">5</span></td><td class="top green">B<span class="sub">4</span></td><td class="top green">B<span class="sub">3</span></td><td class="top green">B<span class="sub">2</span></td><td class="top green">B<span class="sub">1</span></td><td class="top green">B<span class="sub">0</span></td><td class="top yellow">C<span class="sub">7</span></td><td class="top yellow">C<span class="sub">6</span></td><td class="top yellow">C<span class="sub">5</span></td><td class="top yellow">C<span class="sub">4</span></td><td class="top yellow">C<span class="sub">3</span></td><td class="top yellow">C<span class="sub">2</span></td><td class="top yellow">C<span class="sub">1</span></td><td class="top right yellow">C<span class="sub">0</span></td></tr>
@@ -1530,7 +1530,7 @@
 
 <h2 id="function-catalog">Function Catalog</h2>
 
-<p>The table below provides the names and definitions of the functions created for the machine that runs Tetris. The missing byte match functions are covered separately.</p>
+<p>The table below provides the names and definitions of the functions created for the general-purpose computer. The missing byte match functions are covered separately.</p>
 
 <p>Parameters <span class="mono">A</span> and <span class="mono">B</span> are bytes, <span class="mono">W</span> is a <span class="nowrap">16-bit</span> word, and <span class="mono">C</span>, <span class="mono">D</span>, and <span class="mono">E</span> are Booleans (bytes restricted to <span class="mono">0</span> and <span class="mono">1</span>).</p>
 
@@ -1573,7 +1573,7 @@
   <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, A, C ? A : B ]</td></tr>
 </table>
 
-<p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The order of the parameters is declared in the function name:</p>
+<p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The function names declare the parameter orders:</p>
 
 <table class="matchers">
   <tr><td style="text-align: right; padding-right: 15px;">Ends with <span class="mono">_C</span>:</td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
@@ -2281,7 +2281,7 @@
 
 <object id="machine-code-padding-and-register.svg" data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
-<p>The machine code program is a sequence of bytes representing instructions and data. At execution time, the computer restricts the program to accessing its own bytes, as opposed to the entire array. This means, the loaded program is the initial state of the computer’s RAM. The program length, <span class="mono">L</span>, establishes the fixed address space: <span class="nowrap mono">0&nldr;L&minus;1</span>. The length cannot exceed <span class="nowrap">65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
+<p>The machine code program is a sequence of bytes representing instructions and data. At execution time, the computer restricts the program to accessing its own bytes, as opposed to the entire array. This means, the loaded program is the initial state of the computer’s RAM. Its length, <span class="mono">L</span>, establishes the RAM size and a fixed address space, <span class="nowrap mono">0&nldr;L&minus;1</span>, where <span class="nowrap"><span class="mono">L</span> &le; 65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
 
 <p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
 
@@ -2786,11 +2786,11 @@
 
 <p>Unlike all the other <span class="nowrap">MC programs</span>, which were coded by hand, a process generated <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> due to their dependency on the machine code program length. In the real code, the placeholders, <span class="mono">L-x</span>, are actual array index values.</p>
 
-<p>The Tetris machine alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
+<p>The computer alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
 
 <h2 id="tetris-machine-assembly-language">Assembly Language</h2>
 
-<p>This section details an <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> for the Tetris machine. The language is case-insensitive. However, in this text, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">mnemonics</a> appear uppercase while everything else appears <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>.</p>
+<p>This section details an <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> for the general-purpose computer. The language is case-insensitive. However, in this text, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">mnemonics</a> appear uppercase while everything else appears <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>.</p>
 
 <h3 id="registers">Registers</h3>
 
