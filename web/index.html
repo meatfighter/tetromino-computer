@@ -2060,7 +2060,7 @@
 
 <h3 id="sequencer">Sequencer</h3>
 
-<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a>, such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> in the Tetris program described in a <a href="#tetris-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a>, such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> in a Tetris implementation described in a <a href="#example-program">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
 
 <p>The <a href="#infinite-array-abstraction">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs an <span class="nowrap">MC program</span> equivalent to the single line of pseudocode below.</p>
 
@@ -2275,7 +2275,7 @@
 
 <p>This section provides a deep dive into a general-purpose computer.</p>
 
-<h2 id="tetris-machine-overview">Overview</h2>
+<h2 id="computer-overview">Overview</h2>
 
 <p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
@@ -2309,7 +2309,7 @@
 
 <p><span class="mono">decodeExecute</span> operates exclusively on the state register. It defers execution of load and store instructions to <span class="mono">fetchLoadStore</span> since it does not engage RAM.</p>
 
-<h2 id="tetris-machine-microcode">Microcode</h2>
+<h2 id="microcode">Microcode</h2>
 
 <p>This section presents the <span class="nowrap">MC programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
 
@@ -2788,7 +2788,7 @@
 
 <p>The computer alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
 
-<h2 id="tetris-machine-assembly-language">Assembly Language</h2>
+<h2 id="assembly-language">Assembly Language</h2>
 
 <p>This section details an <a href="https://en.wikipedia.org/wiki/Assembly_language" target="_blank">assembly language</a> for the general-purpose computer. The language is case-insensitive. However, in this text, <a href="https://en.wikipedia.org/wiki/Assembly_language#Opcode_mnemonics_and_extended_mnemonics" target="_blank">mnemonics</a> appear uppercase while everything else appears <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank">camel case</a>.</p>
 
@@ -3068,11 +3068,11 @@
 
 <p>The same applies to the branch instructions. They can use any of the above as the target. But it is rarely worthwhile to jump to a <span class="nowrap">hex address</span> or to a label offset by a constant.</p>
 
-<h2 id="tetris-program">Tetris Program</h2>
+<h2 id="example-program">Example Program</h2>
 
-<p>The Tetris program is a bare-bones implementation of the game. As randomly-selected tetrominoes fall, the player shifts, rotates, and soft drops them into place, and the game clears lines. There is <span class="nowrap">no score</span>, <span class="nowrap">no statistics</span>, <span class="nowrap">no hard drop</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Piece_preview" target="_blank">piece preview</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Ghost_piece" target="_blank">ghost piece</a></span></span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Hold_piece" target="_blank">hold piece</a></span></span>, <span class="nowrap">no music</span>, <span class="nowrap">no sound effects</span>, <span class="nowrap">no multiplayer</span>, <span class="nowrap">no <span class="term"><a href="https://tetris.wiki/Garbage" target="_blank">garbage</a></span></span>, <span class="nowrap">no title screen</span>, <span class="nowrap">no menus</span>, <span class="nowrap">no demo</span>, <span class="nowrap">no endings</span>, etc. The game does not keep track of the number of lines cleared. Consequentially, the level never increases and the drop speed remains constant.</p>
+<p>The following program is designed to demonstrate the capabilities of the general-purpose computer. It is a bare-bones implementation of Tetris written in the assembly language detailed in the <a href="#assembly-language">previous section</a>.</p>
 
-<p>The program is written in the assembly language detailed in the <a href="#tetris-machine-assembly-language">previous section</a>. It begins by defining constants:</p>
+<p>The program begins by defining constants:</p>
 
 <pre class="code">
 <span class="line"><span class="keyword">define</span> <span class="identifier">FALL_SPEED</span> <span class="number">01</span></span>
@@ -3909,15 +3909,17 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetrominoesIndex</span> by one.</p>
 
-<h2 id="tetris-machine-simulation">Simulator</h2>
+<h2 id="simulator">Simulator</h2>
 
-<p>An assembler converts the Tetris program to machine code. In this case, it produces a binary of length <span class="nowrap">1,019 bytes</span>. Then a process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> containing memory addresses up to that length.</p> 
+<p>An assembler converts the example program to machine code, producing a binary of length <span class="nowrap">1,021 bytes</span>, where the last two bytes are the program's entry point address as opposed to instructions or data. Then a process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary's size.</p> 
 
 <p>A simulator loads the machine code binary (the computer's starting memory state), the generated and hand coded <span class="nowrap">MC programs</span> (the computer's microcode), and the <span class="nowrap">TS programs</span> (the computer's logic circuits). It encodes the binary onto the floor of an empty playfield, spanning:</p> 
 
-<p><span class="nowrap">1,019 bytes &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</span></p>
+<p><span class="nowrap">(1,021 bytes &minus; 2 bytes) &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</span></p>
 
-<p>The simulator pops open a window to display the game’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizing <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
+<p>[ TODO FORGOT TO MENTION THE PADDING AND REGISTER BYTES. ALSO THAT THE REGISTER IS INITIALIZED WITH THE ENTRY ADDRESS. ]</p>
+
+<p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizing <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 
 <p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables enable the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
 
@@ -3941,9 +3943,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="mono">n</span>-byte</span> function requires a lookup table of size <span class="nowrap"><span class="mono">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache them in <span class="nowrap">128 KiB</span> tables.</p>
 
-<p>The simulator’s speed&mdash;the number of machines cycles it simulates per unit time&mdash;is proportional to the total operations the machine carries out per cycle, or more specifically, to the lengths of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. Since a process generates those <span class="nowrap">MC programs</span> based on the machine code size, the Tetris program will run faster if it can be made smaller.</p>
+<p>The simulator’s speed&mdash;the number of machines cycles it simulates per unit time&mdash;is proportional to the total operations the machine carries out per cycle, or more specifically, to the lengths of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. Since a process generates those <span class="nowrap">MC programs</span> based on the machine code size, the program will run faster if it can be made smaller.</p>
 
-<p>The Tetris program’s playfield data region consumes nearly a quarter of the program's size at <span class="nowrap">253 bytes</span>. If the program adopts boundary checks, it eliminates the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls, respectively), as well as <span class="nowrap">rows 0&ndash;1</span> (the vanish zone). That brings the size down to <span class="nowrap">200 bytes</span>. If the program packs each playfield cell into a nibble rather than a full byte, then it halves the region size. If the program reduces the palette to two colors, then each cell fits in a single bit, and the region drops to a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size. </p>
+<p>The program’s playfield data region consumes nearly a quarter of the program's size at <span class="nowrap">253 bytes</span>. If the program adopts boundary checks, it eliminates the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls, respectively), as well as <span class="nowrap">rows 0&ndash;1</span> (the vanish zone). That brings the size down to <span class="nowrap">200 bytes</span>. If the program packs each playfield cell into a nibble rather than a full byte, then it halves the region size. If the program reduces the palette to two colors, then each cell fits in a single bit, and the region drops to a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size. </p>
 
 <p>However, due to the computer's minimal instruction set, the additional code required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller data region. Worse, such a change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetromino</span> loop. At five subroutine calls per frame and four blocks per tetromino, the program amplifies the computational cost of anything in the loop twenty-fold.</p>
 
@@ -3953,7 +3955,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetrominoes</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows demands <span class="nowrap">28 bytes</span>. And indirection increases access time.</p>
 
-<p>The Tetris program prioritizes code simplicity at the expensive of larger data representations. This text leaves the optimal balance between data, instruction path lengths, and program size that maximizes the game’s frame rate to future researchers.</p>
+<p>The program prioritizes simplicity over space. This text leaves the optimal balance between data, instruction path lengths, and program size that maximizes the frame rate to future researchers.</p>
 
 </body>
 
