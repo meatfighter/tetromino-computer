@@ -142,9 +142,11 @@
 
 <p><span class="nowrap"><span class="term">TetrominoScript</span> (TS)</span> is a language that provides a concise way to express where to put the pieces. It compiles to IL.</p>
 
-<p>TS refers to each of the nineteen distinct tetromino orientations with a mnemonic consisting of the tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for the <span class="nowrap">O-tetromino</span>. And it refers to locations relative to a central block of each tetromino.</p>
+<p>TS refers to each of the nineteen distinct tetromino orientations with a mnemonic consisting of the tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for the <span class="nowrap">O-tetromino</span>:</p>
 
 <object data="mnemonic-table.svg" type="image/svg+xml" class="diagram">Mnemonic Table</object>
+
+<p>TS specifies locations relative to the center block of each tetromino.</p>
 
 <p>TS has three instruction types. The first directs the agent to hard drop a tetromino. It consists of the tetromino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
 
