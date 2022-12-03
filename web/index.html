@@ -4,7 +4,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-11-27" type="text/css"/>
+<link rel="stylesheet" href="style.css?v=2022-12-03" type="text/css"/>
 <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
 <meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-11-27"/>
+<meta name="date" content="2022-12-03"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
@@ -23,7 +23,7 @@
 
 <p class="title">Tetris is Capable of <span class="nowrap">Universal Computation</span></p>
 
-<p>This article presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
+<p>This text presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
 <h1 id="introduction">Introduction</h1>
 
@@ -3911,17 +3911,19 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="simulator">Simulator</h2>
 
-<p>An assembler converts the example program to machine code, producing a binary of length <span class="nowrap">1,021 bytes</span>, where the last two bytes are the program's entry point address as opposed to instructions or data. Then a process generates the <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary's size.</p> 
+<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
 
-<p>A simulator loads the machine code binary (the computer's starting memory state), the generated and hand coded <span class="nowrap">MC programs</span> (the computer's microcode), and the <span class="nowrap">TS programs</span> (the computer's logic circuits). It encodes the binary onto the floor of an empty playfield, spanning:</p> 
+<p>A separate process generates <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary file’s size.</p>
 
-<p><span class="nowrap">(1,021 bytes &minus; 2 bytes) &times; 8 bits/byte &times; 10 columns/bit = 81,520 columns.</span></p>
+<p>The simulator for the general-purpose computer loads the binary file (the starting memory state), the generated and hand coded <span class="nowrap">MC programs</span> (the microcode), and the <span class="nowrap">TS programs</span> (the logic circuits). It writes the machine code bytes onto the floor of an empty playfield, followed by two padding zeros, and the <span class="nowrap">21-byte</span> state register. It initializes the state register to all zeros, except for <span class="mono">a</span> and <span class="mono">P</span>, to which it assigns the maximum address and the <span class="nowrap">entry point</span> address, respectively.</p>
 
-<p>[ TODO FORGOT TO MENTION THE PADDING AND REGISTER BYTES. ALSO THAT THE REGISTER IS INITIALIZED WITH THE ENTRY ADDRESS. ]</p>
+<p>For the example program, the assembler produces a binary file containing <span class="nowrap">1,021 bytes</span>. The simulator loads the file, and it allocates a playfield with:</p>
 
-<p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizing <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
+<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes) &times; 8 bits/byte &times; 10 columns/bit = 83,360 columns.</span></p>
 
-<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables enable the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
+<p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
+
+<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
 
 <object id="swap.svg-2" data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
@@ -3931,9 +3933,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Despite their seeming levitation, the output cells support structures built on top of them as if the swap circuit was really there.</p>
 
-<p>To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. With that ordering, when a <span class="nowrap">TS program</span> invokes a dependency, the algorithm performs a lookup in a table it just computed, and it applies the same technique it uses at runtime. To finish even faster, the algorithm parallelizes the process. </p>
+<p>To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. That order enables the algorithm to response to a dependency with a lookup in a table it just computed. And it uses the looked up value to skip the build via the technique above. To finish even faster, the algorithm parallelizes the process.</p>
 
-<p>The algorithm does not compute lookup tables for intermediate gates because the side effects of leaking tetrominoes cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked tetrominoes.</p>
+<p>The algorithm does not compute lookup tables for <a href="#intermediate-gates">intermediate gates</a> because the side effects of leaking tetrominoes cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked tetrominoes.</p>
 
 <p>Rather than accommodating an ever-taller rectangular pile, the algorithm only keeps track of the pile's surface. For each <span class="nowrap">MC instruction</span>, the algorithm reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is same as if the algorithm grew the pile, and it truncated everything below the surface.</p>
 
