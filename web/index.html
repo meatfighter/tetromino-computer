@@ -98,8 +98,6 @@
 
 <p>The agent is limited to actions that take finite time. For instance, it cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. Consequentially, the game never advances to the second level. It permanently runs at the lowest drop speed.</p>
 
-<p>Since the agent constructs a pile near the origin that progressively grows taller and wider, it can work with <span class="nowrap">&ldquo;row infinity&rdquo;</span> defined as a <span class="nowrap">finite row</span> whose index increases as a function of the <span class="nowrap">pile's size</span> or of the number of spawns. Such a definition permits the agent to emulate a semihard drop by executing a finite sequence of soft drops.</p>
-
 <h2 id="input-language">Input Language</h2>
 
 <p>The agent is a device that enters precisely timed sequences of game inputs by following the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
@@ -109,8 +107,8 @@
 <p>Each element of the sequence, <span class="mono">m<span class="sub3">i</span></span>, is one of the following.</p>
 
 <ul>
-    <li><span class="mono nowrap">QUARTER_TURN_COUNTERCLOCKWISE</span></li>
-    <li><span class="mono nowrap">QUARTER_TURN_CLOCKWISE</span></li>
+    <li><span class="mono nowrap">ROTATE_NINETY_DEGREES_COUNTERCLOCKWISE</span></li>
+    <li><span class="mono nowrap">ROTATE_NINETY_DEGREES_CLOCKWISE</span></li>
     <li><span class="mono nowrap">SHIFT_LEFT_ONE_COLUMN</span></li>
     <li><span class="mono nowrap">SHIFT_RIGHT_ONE_COLUMN</span></li>
     <li><span class="mono nowrap">SOFT_DROP_ONE_ROW</span></li>
@@ -126,7 +124,11 @@
 
 <p>IL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
-<p>The agents enters one <span class="mono">m<span class="sub3">i</span></span> per frame, the fastest rate the game can accept input. To ensure proper timing, the agent receives a signal at the start of each frame. At the end of the sequence, the agent waits for the next piece to spawn.</p>
+<p>The way the agent enters inputs depends on the mechanics of the Tetris implementation. For instance, to shift left by two columns, the agent may need to press the left button, release the left button, and press the left button again with a particular timing.</p>
+
+<p>In practice, <span class="nowrap">IL programs</span> direct the agent to construct a pile near the origin that progressively grows taller and wider. That being the case, it can work with a Tetris implementation that defines <span class="nowrap">&ldquo;row infinity&rdquo;</span> as a finite row whose index increases as a function of the pile's size or a function of the number of spawns. In such an implementation, the agent can emulate a <span class="nowrap">semihard drop</span> with a finite number of <span class="nowrap">soft drops</span>.</p>
+
+<p>An <span class="nowrap">IL program</span> program resembles a <span class="nowrap"><a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS)</span> recording. Both rely on deterministic responses to precisely timed inputs. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. And the agent converts moves into inputs understood by a specific Tetris implementation. Nonetheless, if a given implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then the inputs entered by the agent could be recorded and played back to reproduce the same result.</p>
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-tetromino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -135,8 +137,6 @@
 <p>In the following example, the agent attempts to drop the <span class="nowrap">O-tetromino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object id="drop-interruption.svg" data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
-
-<p>An <span class="nowrap">IL program</span> resembles a <a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS) recording. Both rely on deterministic responses to precisely timed input. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. However, if the game employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then a TAS recording will do the job.</p>
 
 <h2 id="tetrominoscript">TetrominoScript</h2>
 
@@ -193,7 +193,7 @@
     <li>Hard drop the tetromino.</li> 
 </ol>
 
-<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the <span class="nowrap">TS compiler</span> takes advantage of the cyclic and fully predicable nature of the fall timer. It generates a button sequence that semihard drops immediately after a gravity drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">s</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the agent times a semihard drop to coincide with a gravity drop. How it does that depends on the Tetris implementation. For instance, if the agent emulates a semihard drop with a finite number of soft drops, then it will let a gravity drop serve as the final soft drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">s</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
 
 <p>The following code demonstrates the second instruction type.</p>
 
@@ -746,7 +746,7 @@
 
 <h1 id="functions">Functions</h1>
 
-<p>This section describes the arithmetic and logic functions implemented for use in a general-purpose computer.</p>
+<p>This section describes the arithmetic and logic functions implemented for a general-purpose computer.</p>
 
 <h2 id="functions-overview">Overview</h2>
 
