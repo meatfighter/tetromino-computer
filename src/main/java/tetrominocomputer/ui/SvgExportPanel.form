@@ -28,10 +28,10 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="gridPanel" alignment="0" pref="529" max="32767" attributes="0"/>
-                  <Component id="renderPanel" alignment="0" pref="529" max="32767" attributes="0"/>
-                  <Component id="inputPanel" alignment="0" pref="529" max="32767" attributes="0"/>
-                  <Component id="outputPanel" alignment="1" pref="529" max="32767" attributes="0"/>
+                  <Component id="gridPanel" alignment="0" pref="404" max="32767" attributes="0"/>
+                  <Component id="renderPanel" alignment="0" pref="404" max="32767" attributes="0"/>
+                  <Component id="inputPanel" alignment="0" pref="404" max="32767" attributes="0"/>
+                  <Component id="outputPanel" alignment="1" pref="404" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="exportButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -86,11 +86,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="fileLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="fileTextField" pref="320" max="32767" attributes="0"/>
+                          <Component id="fileTextField" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="browseFileButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="defaultFileButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -120,6 +121,9 @@
               <Connection code="null" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stdOutCheckBoxActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="fileLabel">
           <Properties>
@@ -254,6 +258,9 @@
               <Connection code="null" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gridVisibleCheckBoxActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="nonscalingStrokeCheckBox">
           <Properties>
@@ -515,6 +522,9 @@
               <Connection code="null" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="absoluteWidthCheckBoxActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="displayWidthLabel">
           <Properties>
@@ -631,6 +641,9 @@
               <Connection code="null" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="allPossibleValuesCheckBoxActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="valueLabel">
           <Properties>

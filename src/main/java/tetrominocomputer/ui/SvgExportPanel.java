@@ -47,10 +47,21 @@ public class SvgExportPanel extends javax.swing.JPanel {
     public SvgExportPanel() {
         initComponents();
         UiUtil.setTextFieldColumns(fileTextField, 50);
+        initComponentValues();
     }
     
     public SvgExportModel getModel() {
         return model;
+    }
+    
+    private void initComponentValues() {
+        stdOutCheckBox.setSelected(model.isStdout());
+        fileTextField.setText(model.getFilename());  
+        
+        stdOutCheckBoxActionPerformed(null);
+        allPossibleValuesCheckBoxActionPerformed(null);
+        absoluteWidthCheckBoxActionPerformed(null);
+        gridVisibleCheckBoxActionPerformed(null);
     }
     
     /**
@@ -112,6 +123,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
 
         stdOutCheckBox.setText("Stdout");
         stdOutCheckBox.setPreferredSize(null);
+        stdOutCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stdOutCheckBoxActionPerformed(evt);
+            }
+        });
 
         fileLabel.setText("File:");
 
@@ -144,11 +160,12 @@ public class SvgExportPanel extends javax.swing.JPanel {
                     .addGroup(outputPanelLayout.createSequentialGroup()
                         .addComponent(fileLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                        .addComponent(fileTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(defaultFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(defaultFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         outputPanelLayout.setVerticalGroup(
             outputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,6 +185,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
 
         gridVisibleCheckBox.setText("Visible");
         gridVisibleCheckBox.setPreferredSize(null);
+        gridVisibleCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gridVisibleCheckBoxActionPerformed(evt);
+            }
+        });
 
         nonscalingStrokeCheckBox.setText("Nonscaling stroke");
         nonscalingStrokeCheckBox.setPreferredSize(null);
@@ -306,6 +328,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
 
         absoluteWidthCheckBox.setText("Absolute width");
         absoluteWidthCheckBox.setPreferredSize(null);
+        absoluteWidthCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                absoluteWidthCheckBoxActionPerformed(evt);
+            }
+        });
 
         displayWidthLabel.setText("Display width:");
         displayWidthLabel.setPreferredSize(null);
@@ -400,6 +427,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
 
         allPossibleValuesCheckBox.setText("All possible values");
         allPossibleValuesCheckBox.setPreferredSize(null);
+        allPossibleValuesCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allPossibleValuesCheckBoxActionPerformed(evt);
+            }
+        });
 
         valueLabel.setText("Value:");
         valueLabel.setPreferredSize(null);
@@ -436,10 +468,10 @@ public class SvgExportPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
-                    .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
-                    .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
-                    .addComponent(outputPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                    .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(outputPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -480,6 +512,33 @@ public class SvgExportPanel extends javax.swing.JPanel {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void stdOutCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdOutCheckBoxActionPerformed
+        final boolean enabled = !stdOutCheckBox.isSelected();
+        fileLabel.setEnabled(enabled);
+        fileTextField.setEnabled(enabled);
+        browseFileButton.setEnabled(enabled);
+        defaultFileButton.setEnabled(enabled);
+    }//GEN-LAST:event_stdOutCheckBoxActionPerformed
+
+    private void allPossibleValuesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allPossibleValuesCheckBoxActionPerformed
+        final boolean enabled = !allPossibleValuesCheckBox.isSelected();
+        valueLabel.setEnabled(enabled);
+        inputValueTextField.setEnabled(enabled);
+    }//GEN-LAST:event_allPossibleValuesCheckBoxActionPerformed
+
+    private void absoluteWidthCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absoluteWidthCheckBoxActionPerformed
+        final boolean enabled = !absoluteWidthCheckBox.isSelected();
+        displayWidthLabel.setEnabled(enabled);
+        displayWidthTextField.setEnabled(enabled);
+    }//GEN-LAST:event_absoluteWidthCheckBoxActionPerformed
+
+    private void gridVisibleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gridVisibleCheckBoxActionPerformed
+        final boolean enabled = !gridVisibleCheckBox.isSelected();
+        nonscalingStrokeCheckBox.setEnabled(enabled);
+        yAxisCheckBox.setEnabled(enabled);
+        axesNumbersCheckBox.setEnabled(enabled);
+    }//GEN-LAST:event_gridVisibleCheckBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

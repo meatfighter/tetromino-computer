@@ -326,7 +326,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(addComponentButton);
 
-        tdButton.setIcon(TetrominoRenderer.TD);
+        tdButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.TD);
         tdButton.setToolTipText("td");
         tdButton.setContentAreaFilled(false);
         tdButton.setFocusable(false);
@@ -342,7 +342,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tdButton);
 
-        tlButton.setIcon(TetrominoRenderer.TL);
+        tlButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.TL);
         tlButton.setToolTipText("tl");
         tlButton.setContentAreaFilled(false);
         tlButton.setFocusable(false);
@@ -356,7 +356,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tlButton);
 
-        tuButton.setIcon(TetrominoRenderer.TU);
+        tuButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.TU);
         tuButton.setToolTipText("tu");
         tuButton.setContentAreaFilled(false);
         tuButton.setFocusable(false);
@@ -370,7 +370,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(tuButton);
 
-        trButton.setIcon(TetrominoRenderer.TR);
+        trButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.TR);
         trButton.setToolTipText("tr");
         trButton.setContentAreaFilled(false);
         trButton.setFocusable(false);
@@ -384,7 +384,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(trButton);
 
-        jdButton.setIcon(TetrominoRenderer.JD);
+        jdButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.JD);
         jdButton.setToolTipText("jd");
         jdButton.setContentAreaFilled(false);
         jdButton.setFocusable(false);
@@ -398,7 +398,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jdButton);
         toolBar.add(separator4);
 
-        jlButton.setIcon(TetrominoRenderer.JL);
+        jlButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.JL);
         jlButton.setToolTipText("jl");
         jlButton.setContentAreaFilled(false);
         jlButton.setFocusable(false);
@@ -411,7 +411,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(jlButton);
 
-        juButton.setIcon(TetrominoRenderer.JU);
+        juButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.JU);
         juButton.setToolTipText("ju");
         juButton.setContentAreaFilled(false);
         juButton.setFocusable(false);
@@ -424,7 +424,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(juButton);
 
-        jrButton.setIcon(TetrominoRenderer.JR);
+        jrButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.JR);
         jrButton.setToolTipText("jr");
         jrButton.setContentAreaFilled(false);
         jrButton.setFocusable(false);
@@ -438,7 +438,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(jrButton);
         toolBar.add(separator5);
 
-        zhButton.setIcon(TetrominoRenderer.ZH);
+        zhButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.ZH);
         zhButton.setToolTipText("zh");
         zhButton.setContentAreaFilled(false);
         zhButton.setFocusable(false);
@@ -453,7 +453,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(zhButton);
 
-        zvButton.setIcon(TetrominoRenderer.ZV);
+        zvButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.ZV);
         zvButton.setToolTipText("zv");
         zvButton.setContentAreaFilled(false);
         zvButton.setFocusable(false);
@@ -468,7 +468,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(zvButton);
         toolBar.add(separator6);
 
-        oButton.setIcon(TetrominoRenderer.OS);
+        oButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.OS);
         oButton.setToolTipText("o");
         oButton.setContentAreaFilled(false);
         oButton.setFocusable(false);
@@ -483,7 +483,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(oButton);
         toolBar.add(separator7);
 
-        shButton.setIcon(TetrominoRenderer.SH);
+        shButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.SH);
         shButton.setToolTipText("sh");
         shButton.setContentAreaFilled(false);
         shButton.setFocusable(false);
@@ -497,7 +497,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(shButton);
 
-        svButton.setIcon(TetrominoRenderer.SV);
+        svButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.SV);
         svButton.setToolTipText("sv");
         svButton.setContentAreaFilled(false);
         svButton.setFocusable(false);
@@ -512,7 +512,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(svButton);
         toolBar.add(separator8);
 
-        ldButton.setIcon(TetrominoRenderer.LD);
+        ldButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.LD);
         ldButton.setToolTipText("ld");
         ldButton.setContentAreaFilled(false);
         ldButton.setFocusable(false);
@@ -526,7 +526,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(ldButton);
 
-        llButton.setIcon(TetrominoRenderer.LL);
+        llButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.LL);
         llButton.setToolTipText("ll");
         llButton.setContentAreaFilled(false);
         llButton.setFocusable(false);
@@ -540,7 +540,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(llButton);
 
-        luButton.setIcon(TetrominoRenderer.LU);
+        luButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.LU);
         luButton.setToolTipText("lu");
         luButton.setContentAreaFilled(false);
         luButton.setFocusable(false);
@@ -554,7 +554,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(luButton);
 
-        lrButton.setIcon(TetrominoRenderer.LR);
+        lrButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.LR);
         lrButton.setToolTipText("lr");
         lrButton.setContentAreaFilled(false);
         lrButton.setFocusable(false);
@@ -569,7 +569,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(lrButton);
         toolBar.add(jSeparator9);
 
-        ivButton.setIcon(TetrominoRenderer.IV);
+        ivButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.IV);
         ivButton.setToolTipText("iv");
         ivButton.setContentAreaFilled(false);
         ivButton.setFocusable(false);
@@ -583,7 +583,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(ivButton);
 
-        ihButton.setIcon(TetrominoRenderer.IH);
+        ihButton.setIcon(tetrominocomputer.ui.TetrominoRenderer.IH);
         ihButton.setToolTipText("ih");
         ihButton.setContentAreaFilled(false);
         ihButton.setFocusable(false);
