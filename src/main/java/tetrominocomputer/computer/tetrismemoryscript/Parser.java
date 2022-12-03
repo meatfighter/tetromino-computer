@@ -72,7 +72,7 @@ public class Parser {
             }            
         } else if (file.isFile()) {
             final String name = file.getName();
-            if (name.endsWith(".tm")) {
+            if (name.endsWith(".mc")) {
                 ss.put(name.substring(0, name.length() - 3), parse(file));                
             }
         }

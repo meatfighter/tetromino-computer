@@ -1,33 +1,38 @@
 package tetrominocomputer.ui;
 
+import java.io.File;
+
 public class SvgExportModel {
+    
+    public static String DEFAULT_FILENAME = System.getProperty("user.dir") + File.separator + "web" + File.separator 
+            + "test.svg";
 
     private boolean stdout;
-    private String filename;
+    private String filename = DEFAULT_FILENAME;
     
     private boolean allPossibleValues;
-    private String inputValue;
+    private String inputValue = "";
     
-    private boolean absoluteWidth;
+    private boolean absoluteWidth = true;
     private double displayWidth;
-    private int cellSize;
-    private int cellDepth;
-    private double margin;
-    private boolean tetrominoes;
+    private int cellSize = 20;
+    private int cellDepth = 16;
+    private double margin = 15.5;
+    private boolean tetrominoes = true;
     private boolean structures;
-    private boolean inputNodes;
-    private boolean outputNodes;
-    private boolean nodeValues;
+    private boolean inputNodes = true;
+    private boolean outputNodes = true;
+    private boolean nodeValues = true;
     
-    private boolean gridVisible;
-    private boolean nonscalingStroke;
+    private boolean gridVisible = true;
+    private boolean nonscalingStroke = true;
     private boolean yAxis;
     private boolean axesNumbers;
     private boolean openLeft;
     private boolean openRight;
     private boolean openTop;
-    private int padLeft;
-    private int padRight;
+    private int padLeft = 1;
+    private int padRight = 1;
     private int padTop;
     
     private boolean cancelled;

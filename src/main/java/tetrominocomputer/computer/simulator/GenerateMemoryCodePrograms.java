@@ -12,8 +12,8 @@ import java.io.PrintStream;
 
 public final class GenerateMemoryCodePrograms {
     
-    private static final String CYCLE_LEFT_FILENAME = "MemoryCodes/CYCLE_LEFT.tm";
-    private static final String CYCLE_RIGHT_FILENAME = "MemoryCodes/CYCLE_RIGHT.tm";
+    private static final String CYCLE_LEFT_FILENAME = "mc/CYCLE_LEFT.mc";
+    private static final String CYCLE_RIGHT_FILENAME = "mc/CYCLE_RIGHT.mc";
               
     private int[] bytes;
     private int maxAddress;

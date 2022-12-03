@@ -5,7 +5,11 @@ import javax.swing.JDialog;
 
 import static java.awt.Dialog.ModalityType.MODELESS;
 import java.awt.EventQueue;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SvgExportPanel extends javax.swing.JPanel {
     
@@ -54,9 +58,31 @@ public class SvgExportPanel extends javax.swing.JPanel {
         return model;
     }
     
-    private void initComponentValues() {
+    public void initComponentValues() {
         stdOutCheckBox.setSelected(model.isStdout());
-        fileTextField.setText(model.getFilename());  
+        fileTextField.setText(model.getFilename()); 
+        allPossibleValuesCheckBox.setSelected(model.isAllPossibleValues());
+        inputValueTextField.setText(model.getInputValue());
+        absoluteWidthCheckBox.setSelected(model.isAbsoluteWidth());
+        displayWidthTextField.setText(String.format("%s", model.getDisplayWidth()));
+        cellSizeSpinner.setValue(model.getCellSize());
+        depthSpinner.setValue(model.getCellDepth());
+        marginTextField.setText(String.format("%s", model.getMargin()));
+        tetrominoesCheckBox.setSelected(model.isTetrominoes());
+        structuresCheckBox.setSelected(model.isStructures());
+        inputNodesCheckBox.setSelected(model.isInputNodes());
+        outputNodesCheckBox.setSelected(model.isOutputNodes());
+        nodeValuesCheckBox.setSelected(model.isNodeValues());
+        gridVisibleCheckBox.setSelected(model.isGridVisible());
+        nonscalingStrokeCheckBox.setSelected(model.isNonscalingStroke());
+        yAxisCheckBox.setSelected(model.isyAxis());
+        axesNumbersCheckBox.setSelected(model.isAxesNumbers());
+        openLeftCheckBox.setSelected(model.isOpenLeft());
+        openRightCheckBox.setSelected(model.isOpenRight());
+        openTopCheckBox.setSelected(model.isOpenTop());
+        padLeftSpinner.setValue(model.getPadLeft());
+        padRightSpinner.setValue(model.getPadRight());
+        padTopSpinner.setValue(model.getPadTop());
         
         stdOutCheckBoxActionPerformed(null);
         allPossibleValuesCheckBoxActionPerformed(null);
@@ -72,8 +98,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        jSpinner3 = new javax.swing.JSpinner();
         outputPanel = new javax.swing.JPanel();
         stdOutCheckBox = new javax.swing.JCheckBox();
         fileLabel = new javax.swing.JLabel();
@@ -115,8 +139,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
         allPossibleValuesCheckBox = new javax.swing.JCheckBox();
         valueLabel = new javax.swing.JLabel();
         inputValueTextField = new javax.swing.JTextField();
-
-        jLabel3.setText("Pad Left:");
 
         outputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
         outputPanel.setPreferredSize(null);
@@ -209,6 +231,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
         openTopCheckBox.setText("Open top");
         openTopCheckBox.setPreferredSize(null);
 
+        padLeftSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         padLeftSpinner.setPreferredSize(null);
 
         padLeftLabel.setText("Pad left:");
@@ -217,11 +240,13 @@ public class SvgExportPanel extends javax.swing.JPanel {
         padRightLabel.setText("Pad right:");
         padRightLabel.setPreferredSize(null);
 
+        padRightSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         padRightSpinner.setPreferredSize(null);
 
         padTopLabel.setText("Pad top:");
         padTopLabel.setPreferredSize(null);
 
+        padTopSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 99, 1));
         padTopSpinner.setPreferredSize(null);
 
         javax.swing.GroupLayout gridPanelLayout = new javax.swing.GroupLayout(gridPanel);
@@ -346,8 +371,10 @@ public class SvgExportPanel extends javax.swing.JPanel {
         marginTextField.setColumns(5);
         marginTextField.setPreferredSize(null);
 
+        cellSizeSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
         cellSizeSpinner.setPreferredSize(null);
 
+        depthSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
         depthSpinner.setPreferredSize(null);
 
         cellSizeLabel.setText("Cell size:");
@@ -498,19 +525,95 @@ public class SvgExportPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseFileButtonActionPerformed
-        // TODO add your handling code here:
+        final File file = new File(fileTextField.getText());
+        
+        final JFileChooser fileChooser = new JFileChooser();                
+        fileChooser.setCurrentDirectory(file.getParentFile());
+        fileChooser.setSelectedFile(file);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);       
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        final FileNameExtensionFilter svgFilter 
+                = new FileNameExtensionFilter("Scalable Vector Graphics (*.svg)", "svg");
+        fileChooser.addChoosableFileFilter(svgFilter);        
+        fileChooser.setFileFilter(svgFilter);
+        if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        
+        fileTextField.setText(fileChooser.getSelectedFile().toString());
     }//GEN-LAST:event_browseFileButtonActionPerformed
 
     private void defaultFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defaultFileButtonActionPerformed
-        // TODO add your handling code here:
+        fileTextField.setText(SvgExportModel.DEFAULT_FILENAME);
     }//GEN-LAST:event_defaultFileButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        // TODO add your handling code here:
+        
+        if (!stdOutCheckBox.isSelected()) {
+            final File file = new File(fileTextField.getText());
+            if (file.isDirectory()) {
+                JOptionPane.showMessageDialog(this, "Path refers to a directory.", "Invalid File",
+                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                return;
+            }
+            if (file.exists() && JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?",
+                    file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, CircuitsFrame.QUESTION_ICON) != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+        
+        if (!absoluteWidthCheckBox.isSelected()) {
+            String errorMessage = null;
+            try {
+                if (Double.parseDouble(displayWidthTextField.getText()) <= 0.0) {
+                    errorMessage = "Not a positive number.";
+                }
+            } catch (final NumberFormatException e) {
+                errorMessage = "Not a number.";
+            }            
+            if (errorMessage != null) {
+                JOptionPane.showMessageDialog(this, errorMessage, "Invalid Display Width",
+                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                return;
+            }
+        }
+        
+        model.setStdout(stdOutCheckBox.isSelected());
+        model.setFilename(fileTextField.getText());
+        model.setAllPossibleValues(allPossibleValuesCheckBox.isSelected());
+        model.setInputValue(inputValueTextField.getText());
+        model.setAbsoluteWidth(absoluteWidthCheckBox.isSelected());
+        try {
+            model.setDisplayWidth(Double.parseDouble(displayWidthTextField.getText()));
+        } catch (final NumberFormatException e) {            
+        }
+         
+
+//        cellSizeSpinner.setValue(model.getCellSize());
+//        depthSpinner.setValue(model.getCellDepth());
+//        marginTextField.setText(String.format("%s", model.getMargin()));
+//        tetrominoesCheckBox.setSelected(model.isTetrominoes());
+//        structuresCheckBox.setSelected(model.isStructures());
+//        inputNodesCheckBox.setSelected(model.isInputNodes());
+//        outputNodesCheckBox.setSelected(model.isOutputNodes());
+//        nodeValuesCheckBox.setSelected(model.isNodeValues());
+//        gridVisibleCheckBox.setSelected(model.isGridVisible());
+//        nonscalingStrokeCheckBox.setSelected(model.isNonscalingStroke());
+//        yAxisCheckBox.setSelected(model.isyAxis());
+//        axesNumbersCheckBox.setSelected(model.isAxesNumbers());
+//        openLeftCheckBox.setSelected(model.isOpenLeft());
+//        openRightCheckBox.setSelected(model.isOpenRight());
+//        openTopCheckBox.setSelected(model.isOpenTop());
+//        padLeftSpinner.setValue(model.getPadLeft());
+//        padRightSpinner.setValue(model.getPadRight());
+//        padTopSpinner.setValue(model.getPadTop());
+        
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void stdOutCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdOutCheckBoxActionPerformed
@@ -562,8 +665,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox inputNodesCheckBox;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JTextField inputValueTextField;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JSpinner jSpinner3;
     private javax.swing.JLabel marginLabel;
     private javax.swing.JTextField marginTextField;
     private javax.swing.JCheckBox nodeValuesCheckBox;
