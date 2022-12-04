@@ -100,7 +100,7 @@
 
 <h2 id="input-language">Input Language</h2>
 
-<p>The agent is a device that enters precisely timed sequences of game inputs by following the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
+<p>The agent is a device that enters precisely timed input sequences per the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
 
 <p class="definition">t m<span class="sub3">0</span> m<span class="sub3">1</span> m<span class="sub3">2</span> &mldr; m<span class="sub3">N&minus;1</span></p> 
 
@@ -124,11 +124,9 @@
 
 <p>IL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
 
-<p>The way the agent enters inputs depends on the mechanics of the Tetris implementation. For instance, to shift left by two columns, the agent may need to press the left button, release the left button, and press the left button again with a particular timing.</p>
+<p>The way the agent enters moves depends on the mechanics of the Tetris implementation. For instance, to shift left by two columns, the agent may need to press the left button, release the left button, and press the left button again with a particular timing.</p>
 
-<p>In practice, <span class="nowrap">IL programs</span> direct the agent to construct a pile near the origin that progressively grows taller and wider. That being the case, it can work with a Tetris implementation that defines <span class="nowrap">&ldquo;row infinity&rdquo;</span> as a finite row whose index increases as a function of the pile's size or a function of the number of spawns. In such an implementation, the agent can emulate a <span class="nowrap">semihard drop</span> with a finite number of <span class="nowrap">soft drops</span>.</p>
-
-<p>An <span class="nowrap">IL program</span> program resembles a <span class="nowrap"><a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS)</span> recording. Both rely on deterministic responses to precisely timed inputs. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. And the agent converts moves into inputs understood by a specific Tetris implementation. Nonetheless, if a given implementation employs a <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> that can be seeded to a known value by direct assignment or by loading a <a href="https://en.wikipedia.org/wiki/Saved_game#Save_states" target="_blank">save state</a>, then the inputs entered by the agent could be recorded and played back to reproduce the same result.</p>
+<p>In practice, <span class="nowrap">IL programs</span> direct the agent to construct a pile near the origin that progressively grows taller and wider. That being the case, it can work with a Tetris implementation that defines <span class="nowrap">&ldquo;row infinity&rdquo;</span> as a finite row whose index increases as a function of the number of spawns. In such an implementation, the agent emulates a <span class="nowrap">semihard drop</span> with a finite number of <span class="nowrap">soft drops</span>.</p>
 
 <p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-tetromino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
@@ -137,6 +135,8 @@
 <p>In the following example, the agent attempts to drop the <span class="nowrap">O-tetromino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
 
 <object id="drop-interruption.svg" data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
+
+<p>An <span class="nowrap">IL program</span> program resembles a <span class="nowrap"><a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS)</span> recording. Both rely on deterministic responses to precisely timed inputs. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. And the agent acts as an interpreter between a move sequence and the input requirements of a specific Tetris implementation. Nonetheless, if an implementation employs a seedable <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then a <span class="nowrap">TAS recording</span> along with the seed will work just as well.</p>
 
 <h2 id="tetrominoscript">TetrominoScript</h2>
 
