@@ -1,6 +1,5 @@
 run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
-remove playfield size spinner
 remove annoying tooltips
 no warning about saving when opening
 
@@ -30,8 +29,6 @@ remaining sections:
 - index
 - splitting up in smaller pages
 
-- save SVG
-- save HTML
 - test
 - test all
 - faster than 5 fps?

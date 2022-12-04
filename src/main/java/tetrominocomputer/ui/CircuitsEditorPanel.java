@@ -576,7 +576,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel = new tetrominocomputer.ui.PlayfieldPanel();
 
         setMaximumSize(null);
-        setPreferredSize(null);
 
         horizontalSplitPane.setMaximumSize(null);
         horizontalSplitPane.setPreferredSize(null);
@@ -587,7 +586,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
 
         tetrominoScriptScrollPane.setMaximumSize(null);
         tetrominoScriptScrollPane.setMinimumSize(null);
-        tetrominoScriptScrollPane.setPreferredSize(null);
 
         tetrominoScriptTextPane.setBackground(new java.awt.Color(43, 43, 43));
         tetrominoScriptTextPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 8, 2, 2));
@@ -643,7 +641,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         outputScrollPane.setMaximumSize(null);
         outputScrollPane.setMinimumSize(null);
-        outputScrollPane.setPreferredSize(null);
 
         outputTextArea.setEditable(false);
         outputTextArea.setBackground(new java.awt.Color(43, 43, 43));
@@ -677,11 +674,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         playfieldPanel.setLayout(playfieldPanelLayout);
         playfieldPanelLayout.setHorizontalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 929, Short.MAX_VALUE)
+            .addGap(0, 131072, 131072)
         );
         playfieldPanelLayout.setVerticalGroup(
             playfieldPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGap(0, 65536, 65536)
         );
 
         playfieldScrollPane.setViewportView(playfieldPanel);
@@ -692,11 +689,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
