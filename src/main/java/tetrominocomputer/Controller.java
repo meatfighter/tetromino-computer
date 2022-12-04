@@ -8,8 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -31,6 +29,7 @@ import javax.script.ScriptException;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetrominocomputer.parser.ParseException;
 import tetrominocomputer.parser.Parser;
+import tetrominocomputer.ui.HtmlExportModel;
 import tetrominocomputer.ui.HtmlGenerator;
 import tetrominocomputer.ui.SvgExportModel;
 import tetrominocomputer.ui.SvgGenerator;
@@ -633,12 +632,22 @@ public class Controller {
         }
     }
     
-    public void exportHtmlAsync(final String componentName, final String tetrominoScript) {
-        execute(() -> exportHtml(componentName, tetrominoScript));
+    public void exportHtmlAsync(final String componentName, final String tetrominoScript, 
+            final HtmlExportModel htmlExportModel) {
+        execute(() -> exportHtml(componentName, tetrominoScript, htmlExportModel));
     }
     
-    private void exportHtml(final String componentName, final String tetrominoScript) {
-        new HtmlGenerator().generate(System.out, componentName, tetrominoScript);
+    private void exportHtml(final String componentName, final String tetrominoScript, 
+            final HtmlExportModel htmlExportModel) {
+        
+        try {
+            new HtmlGenerator().generate(componentName, tetrominoScript, htmlExportModel);
+        } catch (final Exception e) {
+            final OutputListener outListener = outputListener;
+            if (outListener != null) {
+                outListener.append(e.getMessage());
+            }
+        }            
     }
     
     public void exportSvgAsync(final String componentName, final String tetrominoScript, final String javaScript, 

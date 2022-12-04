@@ -1,6 +1,6 @@
 package tetrominocomputer.ui;
 
-import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -33,15 +33,20 @@ public class HtmlGenerator {
     
     private static final Pattern KEYWORD_PATTERN = Pattern.compile("(in|out)($|\\s)");
     private static final Pattern NUMBER_PATTERN 
-            = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)");    
-
-    public void generate(final OutputStream out, final String componentName, final String tetrominoScript) {
-        try (final PrintStream o = new PrintStream(out)) {
-            generate(o, componentName, tetrominoScript);
+            = Pattern.compile("((-?[0-9]+)|(-?[0-9]+\\.\\.-?[0-9]+))($|\\s)"); 
+    
+    public void generate(final String componentName, final String tetrominoScript, 
+            final HtmlExportModel htmlExportModel) throws FileNotFoundException {
+        if (htmlExportModel.isStdout()) {
+            generate(componentName, tetrominoScript, System.out);
+        } else {
+            try (final PrintStream out = new PrintStream(htmlExportModel.getFilename())) {
+                generate(componentName, tetrominoScript, out);
+            }
         }
     }
-    
-    public void generate(final PrintStream out, final String componentName, final String tetrominoScript) {
+       
+    public void generate(final String componentName, final String tetrominoScript, final PrintStream out) {
         out.format("<pre class=\"code\">%n");
         out.format("<span class=\"filename\">%s.t</span>%n", componentName);        
         try (final Scanner scanner = new Scanner(tetrominoScript)) {

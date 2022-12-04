@@ -43,6 +43,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private JDialog goToDialog;
     private JDialog findReplaceDialog;
     private JDialog svgExportDialog;
+    private JDialog htmlExportDialog;
     
     private String lastFindWhat;
     private boolean lastBackwards; 
@@ -1467,6 +1468,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 if (SvgExportPanel.COMMAND_EXPORT.equals(e.getActionCommand())) {
                     circuitsEditorPanel.exportSvg(componentName, 
                             ((SvgExportPanel) svgExportDialog.getContentPane()).getModel());
+                } else {
+                    svgExportDialog.setVisible(false);
                 }
             });
             
@@ -1490,7 +1493,29 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exportSvgMenuItemActionPerformed
 
     private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed
-        circuitsEditorPanel.exportHtml(componentName);
+        if (htmlExportDialog == null) {
+            final HtmlExportPanel htmlExportPanel = new HtmlExportPanel();
+            htmlExportPanel.setActionListener(e -> {
+                if (HtmlExportPanel.COMMAND_EXPORT.equals(e.getActionCommand())) {
+                    circuitsEditorPanel.exportHtml(componentName, 
+                            ((HtmlExportPanel) htmlExportDialog.getContentPane()).getModel());
+                } else {
+                    htmlExportDialog.setVisible(false);
+                }
+            });
+            
+            htmlExportDialog = new JDialog(this, "Export HTML", JDialog.ModalityType.MODELESS);            
+            UiUtil.setIcons(htmlExportDialog);
+            htmlExportDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+            htmlExportDialog.setContentPane(htmlExportPanel);
+            htmlExportDialog.setPreferredSize(null);
+            htmlExportDialog.pack();            
+            htmlExportDialog.setLocationRelativeTo(this);
+        }
+        if (htmlExportDialog.isVisible()) {
+            htmlExportDialog.setLocationRelativeTo(this);            
+        } 
+        htmlExportDialog.setVisible(true);
     }//GEN-LAST:event_exportHtmlMenuItemActionPerformed
 
     public void goToLine(final int lineNumber) {

@@ -70,8 +70,10 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         createUndoRedoUnIndentHandlers(javaScriptScrollPane, javaScriptTextArea, javaScriptDocumentFilter);
         
         tetrominoScriptUndoManager = ((CustomTextPane)tetrominoScriptTextPane).createUndoManager();
-        tetrominoScriptTextPane.getDocument().addUndoableEditListener(e -> tetrominoScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(tetrominoScriptScrollPane, tetrominoScriptTextPane, tetrominoScriptDocumentFilter);
+        tetrominoScriptTextPane.getDocument().addUndoableEditListener(
+                e -> tetrominoScriptUndoManager.addEdit(e.getEdit()));
+        createUndoRedoUnIndentHandlers(tetrominoScriptScrollPane, tetrominoScriptTextPane, 
+                tetrominoScriptDocumentFilter);
         tetrominoScriptTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(COMMENT_KEYSTROKE, "commentKeyStroke");
         tetrominoScriptTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
@@ -486,12 +488,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     }
     
     public void buildAndRun(final String componentName, final String testBitsStr, final int depth) {
-        controller.buildAndRun(componentName, tetrominoScriptTextPane.getText(), javaScriptTextArea.getText(), testBitsStr,
-                depth);
+        controller.buildAndRun(componentName, tetrominoScriptTextPane.getText(), javaScriptTextArea.getText(), 
+                testBitsStr, depth);
     }
     
-    public void exportHtml(final String componentName) {
-        controller.exportHtmlAsync(componentName, tetrominoScriptTextPane.getText());
+    public void exportHtml(final String componentName, final HtmlExportModel htmlExportModel) {
+        controller.exportHtmlAsync(componentName, tetrominoScriptTextPane.getText(), htmlExportModel);
     }
     
     public void exportSvg(final String componentName, final SvgExportModel svgExportModel) {
@@ -739,7 +741,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         if (javaScriptHasFocus) {
             findNext(javaScriptTextArea, javaScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
         } else {
-            findNext(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, backwards, matchCase, regex, wrapAround);
+            findNext(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, backwards, matchCase, regex, 
+                    wrapAround);
         }
     }
     
@@ -763,8 +766,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             replace(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
         } else {
-            replace(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
-                    wrapAround);
+            replace(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, replaceWith, backwards, matchCase, 
+                    regex, wrapAround);
             TetrominoScriptDocumentFilter.applySyntaxHighlighting(tetrominoScriptTextPane.getStyledDocument());
         }
     }
@@ -794,8 +797,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
             replaceAll(javaScriptTextArea, javaScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
                     wrapAround);
         } else {
-            replaceAll(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, replaceWith, backwards, matchCase, regex, 
-                    wrapAround);
+            replaceAll(tetrominoScriptTextPane, tetrominoScriptScrollPane, findWhat, replaceWith, backwards, matchCase, 
+                    regex, wrapAround);
         }
     } 
     

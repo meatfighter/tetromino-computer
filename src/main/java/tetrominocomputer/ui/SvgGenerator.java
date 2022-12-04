@@ -27,17 +27,16 @@ public class SvgGenerator {
     }
     
     public void generate(final Structure[] structs, final SvgExportModel svgExportModel, final PrintStream out) {
-        generate(out, structs, svgExportModel.isAbsoluteWidth() ? -1.0 : svgExportModel.getDisplayWidth(),
+        generate(structs, svgExportModel.isAbsoluteWidth() ? -1.0 : svgExportModel.getDisplayWidth(),
                 svgExportModel.getMargin(), svgExportModel.getCellSize(), svgExportModel.isGridVisible(),
                 svgExportModel.isInputNodes(), svgExportModel.isOutputNodes(), svgExportModel.isTetrominoes(),
                 svgExportModel.isyAxis(), svgExportModel.isStructures(), svgExportModel.isAxesNumbers(),
                 svgExportModel.isNodeValues(), svgExportModel.getPadLeft(), svgExportModel.getPadRight(),
                 svgExportModel.getPadTop(), svgExportModel.isOpenLeft(), svgExportModel.isOpenRight(),
-                svgExportModel.isOpenTop(), svgExportModel.isNonscalingStroke());
+                svgExportModel.isOpenTop(), svgExportModel.isNonscalingStroke(), out);
     }
        
-    public void generate(
-            final PrintStream out, 
+    public void generate(             
             final Structure[] structs,
             final double displayWidth,
             final double margin, 
@@ -56,7 +55,8 @@ public class SvgGenerator {
             final boolean renderOpenLeft,
             final boolean renderOpenRight,
             final boolean renderOpenTop,
-            final boolean renderGridWithNonscalingStroke) {
+            final boolean renderGridWithNonscalingStroke,
+            final PrintStream out) {
         
         double viewBoxWidth = 2.0 * margin;
         double viewBoxHeight = 0;
