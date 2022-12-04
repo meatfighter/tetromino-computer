@@ -1,48 +1,13 @@
 package tetrominocomputer.ui;
 
-import java.awt.Window;
-import javax.swing.JDialog;
-
-import static java.awt.Dialog.ModalityType.MODELESS;
-import java.awt.EventQueue;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class SvgExportPanel extends javax.swing.JPanel {
-    
-    private static JDialog dialog;
-
-    public static JDialog showDialog(final Window owner) {
-        
-        if (dialog != null) {
-            dialog.setVisible(true);
-            return dialog;
-        }
-        
-        dialog = new JDialog(owner, "Export SVG", MODELESS);
-        dialog.setContentPane(new SvgExportPanel());
-        UiUtil.setIcons(dialog);  
-        dialog.setPreferredSize(null);
-        dialog.pack();
-        dialog.setLocationRelativeTo(owner);
-        dialog.setVisible(true);
-        return dialog;
-    }    
-    
-    public static void main(final String... args) {
-        EventQueue.invokeLater(() -> {
-            UiUtil.setLookAndFeel();
-            final JFrame frame = new JFrame("test");
-            UiUtil.setIcons(frame);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setVisible(true);
-            showDialog(frame);
-        });        
-    }
-    
+       
     private final SvgExportModel model = new SvgExportModel();
     
     /**
@@ -53,12 +18,12 @@ public class SvgExportPanel extends javax.swing.JPanel {
         UiUtil.setTextFieldColumns(fileTextField, 50);
         initComponentValues();
     }
-    
+   
     public SvgExportModel getModel() {
         return model;
     }
     
-    public void initComponentValues() {
+    public final void initComponentValues() {
         stdOutCheckBox.setSelected(model.isStdout());
         fileTextField.setText(model.getFilename()); 
         allPossibleValuesCheckBox.setSelected(model.isAllPossibleValues());
@@ -564,56 +529,79 @@ public class SvgExportPanel extends javax.swing.JPanel {
             }
         }
         
-        if (!absoluteWidthCheckBox.isSelected()) {
+        double displayWidth = 0.0;
+        if (isNotBlank(displayWidthTextField.getText())) {
             String errorMessage = null;
             try {
-                if (Double.parseDouble(displayWidthTextField.getText()) <= 0.0) {
+                displayWidth = Double.parseDouble(displayWidthTextField.getText());
+                if (displayWidth <= 0.0) {
                     errorMessage = "Not a positive number.";
                 }
             } catch (final NumberFormatException e) {
                 errorMessage = "Not a number.";
             }            
-            if (errorMessage != null) {
+            if (!absoluteWidthCheckBox.isSelected() && errorMessage != null) {
                 JOptionPane.showMessageDialog(this, errorMessage, "Invalid Display Width",
                         JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
                 return;
             }
         }
         
+        double margin = 0.0;
+        if (isNotBlank(marginTextField.getText())) {
+            String errorMessage = null;
+            try {
+                margin = Double.parseDouble(marginTextField.getText());
+                if (margin <= 0.0) {
+                    errorMessage = "Not a positive number.";
+                }
+            } catch (final NumberFormatException e) {
+                errorMessage = "Not a number.";
+            }            
+            if (errorMessage != null) {
+                JOptionPane.showMessageDialog(this, errorMessage, "Invalid Margin",
+                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Margin not specified.", "Missing Value",
+                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+        }        
+        
         model.setStdout(stdOutCheckBox.isSelected());
         model.setFilename(fileTextField.getText());
         model.setAllPossibleValues(allPossibleValuesCheckBox.isSelected());
         model.setInputValue(inputValueTextField.getText());
         model.setAbsoluteWidth(absoluteWidthCheckBox.isSelected());
-        try {
-            model.setDisplayWidth(Double.parseDouble(displayWidthTextField.getText()));
-        } catch (final NumberFormatException e) {            
-        }
-         
-
-//        cellSizeSpinner.setValue(model.getCellSize());
-//        depthSpinner.setValue(model.getCellDepth());
-//        marginTextField.setText(String.format("%s", model.getMargin()));
-//        tetrominoesCheckBox.setSelected(model.isTetrominoes());
-//        structuresCheckBox.setSelected(model.isStructures());
-//        inputNodesCheckBox.setSelected(model.isInputNodes());
-//        outputNodesCheckBox.setSelected(model.isOutputNodes());
-//        nodeValuesCheckBox.setSelected(model.isNodeValues());
-//        gridVisibleCheckBox.setSelected(model.isGridVisible());
-//        nonscalingStrokeCheckBox.setSelected(model.isNonscalingStroke());
-//        yAxisCheckBox.setSelected(model.isyAxis());
-//        axesNumbersCheckBox.setSelected(model.isAxesNumbers());
-//        openLeftCheckBox.setSelected(model.isOpenLeft());
-//        openRightCheckBox.setSelected(model.isOpenRight());
-//        openTopCheckBox.setSelected(model.isOpenTop());
-//        padLeftSpinner.setValue(model.getPadLeft());
-//        padRightSpinner.setValue(model.getPadRight());
-//        padTopSpinner.setValue(model.getPadTop());
+        model.setDisplayWidth(displayWidth);
+        model.setCellSize((int) cellSizeSpinner.getValue());
+        model.setCellDepth((int) depthSpinner.getValue());
+        model.setMargin(margin);
+        model.setTetrominoes(tetrominoesCheckBox.isSelected());
+        model.setStructures(structuresCheckBox.isSelected());
+        model.setInputNodes(inputNodesCheckBox.isSelected());
+        model.setOutputNodes(outputNodesCheckBox.isSelected());
+        model.setNodeValues(nodeValuesCheckBox.isSelected());
+        model.setGridVisible(gridVisibleCheckBox.isSelected());
+        model.setNonscalingStroke(nonscalingStrokeCheckBox.isSelected());
+        model.setyAxis(yAxisCheckBox.isSelected());
+        model.setAxesNumbers(axesNumbersCheckBox.isSelected());
+        model.setOpenLeft(openLeftCheckBox.isSelected());
+        model.setOpenRight(openRightCheckBox.isSelected());
+        model.setOpenTop(openTopCheckBox.isSelected());
+        model.setPadLeft((int) padLeftSpinner.getValue());
+        model.setPadRight((int) padRightSpinner.getValue());
+        model.setPadTop((int) padTopSpinner.getValue());
         
+        dialog.setVisible(false);
+        
+        if (circuitsEditorPanel != null) {
+            circuitsEditorPanel.exportSvg(model);
+        }
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        
+        dialog.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void stdOutCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdOutCheckBoxActionPerformed

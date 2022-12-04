@@ -35,7 +35,39 @@ public class SvgExportModel {
     private int padRight = 1;
     private int padTop;
     
-    private boolean cancelled;
+    public SvgExportModel() {        
+    }
+    
+    public SvgExportModel(final SvgExportModel model) {
+        stdout = model.isStdout();
+        filename = model.getFilename();
+        allPossibleValues = model.isAllPossibleValues();
+        inputValue = model.getInputValue();
+        absoluteWidth = model.isAbsoluteWidth();
+        displayWidth = model.getDisplayWidth();
+        cellSize = model.getCellSize();
+        cellDepth = model.getCellDepth();
+        margin = model.getMargin();
+        tetrominoes = model.isTetrominoes();
+        structures = model.isStructures();
+        inputNodes = model.isInputNodes();
+        outputNodes = model.isOutputNodes();
+        nodeValues = model.isNodeValues();
+        gridVisible = model.isGridVisible();
+        nonscalingStroke = model.isNonscalingStroke();
+        yAxis = model.isyAxis();
+        axesNumbers = model.isAxesNumbers();
+        openLeft = model.isOpenLeft();
+        openRight = model.isOpenRight();
+        openTop = model.isOpenTop();
+        padLeft = model.getPadLeft();
+        padRight = model.getPadRight();
+        padTop = model.getPadTop();        
+    }
+    
+    public SvgExportModel copy() {
+        return new SvgExportModel(this);
+    }
 
     public boolean isStdout() {
         return stdout;
@@ -229,11 +261,15 @@ public class SvgExportModel {
         this.padTop = padTop;
     }
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(final boolean cancelled) {
-        this.cancelled = cancelled;
+    @Override
+    public String toString() {
+        return "SvgExportModel{" + "stdout=" + stdout + ", filename=" + filename + ", allPossibleValues=" 
+                + allPossibleValues + ", inputValue=" + inputValue + ", absoluteWidth=" + absoluteWidth 
+                + ", displayWidth=" + displayWidth + ", cellSize=" + cellSize + ", cellDepth=" + cellDepth 
+                + ", margin=" + margin + ", tetrominoes=" + tetrominoes + ", structures=" + structures 
+                + ", inputNodes=" + inputNodes + ", outputNodes=" + outputNodes + ", nodeValues=" + nodeValues 
+                + ", gridVisible=" + gridVisible + ", nonscalingStroke=" + nonscalingStroke + ", yAxis=" + yAxis 
+                + ", axesNumbers=" + axesNumbers + ", openLeft=" + openLeft + ", openRight=" + openRight + ", openTop=" 
+                + openTop + ", padLeft=" + padLeft + ", padRight=" + padRight + ", padTop=" + padTop + '}';
     }
 }

@@ -42,6 +42,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     private JDialog goToDialog;
     private JDialog findReplaceDialog;
+    private JDialog svgExportDialog;
     
     private String lastFindWhat;
     private boolean lastBackwards; 
@@ -1460,7 +1461,22 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void exportSvgMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSvgMenuItemActionPerformed
-        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue(), 20);
+        if (svgExportDialog == null) {
+            final SvgExportPanel svgExportPanel = new SvgExportPanel();
+            
+            svgExportDialog = new JDialog(this, "Export SVG", JDialog.ModalityType.MODELESS);            
+            UiUtil.setIcons(svgExportDialog);
+            svgExportDialog.setContentPane(svgExportPanel);
+            svgExportDialog.setPreferredSize(null);
+            svgExportDialog.pack();            
+            svgExportDialog.setLocationRelativeTo(this);
+        }        
+        svgExportDialog.setVisible(true);
+
+//        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue(), 20);
+        
+        
+        
     }//GEN-LAST:event_exportSvgMenuItemActionPerformed
 
     private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed
