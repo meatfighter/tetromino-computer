@@ -538,13 +538,13 @@ public class SvgExportPanel extends javax.swing.JPanel {
         if (!stdOutCheckBox.isSelected()) {
             final File file = new File(fileTextField.getText());
             if (file.isDirectory()) {
-                JOptionPane.showMessageDialog(this, "Path refers to a directory.", "Invalid File",
-                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                UiUtil.showMessageDialog(this, "Path refers to a directory.", "Invalid File", JOptionPane.ERROR_MESSAGE, 
+                        CircuitsFrame.EXCLAMATION_ICON);
                 return;
             }
-            if (file.exists() && JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?",
-                    file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, CircuitsFrame.QUESTION_ICON) != JOptionPane.YES_OPTION) {
+            if (file.exists() && UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?",
+                    file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+                    CircuitsFrame.QUESTION_ICON) != JOptionPane.YES_OPTION) {
                 return;
             }
         }
@@ -561,8 +561,8 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 errorMessage = "Not a number.";
             }            
             if (!absoluteWidthCheckBox.isSelected() && errorMessage != null) {
-                JOptionPane.showMessageDialog(this, errorMessage, "Invalid Display Width",
-                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                UiUtil.showMessageDialog(this, errorMessage, "Invalid Display Width", JOptionPane.ERROR_MESSAGE, 
+                        CircuitsFrame.EXCLAMATION_ICON);
                 return;
             }
         }
@@ -579,13 +579,13 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 errorMessage = "Not a number.";
             }            
             if (errorMessage != null) {
-                JOptionPane.showMessageDialog(this, errorMessage, "Invalid Margin",
-                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+                UiUtil.showMessageDialog(this, errorMessage, "Invalid Margin", JOptionPane.ERROR_MESSAGE, 
+                        CircuitsFrame.EXCLAMATION_ICON);
                 return;
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Margin not specified.", "Missing Value",
-                        JOptionPane.ERROR_MESSAGE, CircuitsFrame.EXCLAMATION_ICON);
+            UiUtil.showMessageDialog(this, "Margin not specified.", "Missing Value", JOptionPane.ERROR_MESSAGE, 
+                    CircuitsFrame.EXCLAMATION_ICON);
         }        
         
         model.setStdout(stdOutCheckBox.isSelected());

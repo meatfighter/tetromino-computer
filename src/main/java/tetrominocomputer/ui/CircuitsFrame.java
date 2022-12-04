@@ -995,8 +995,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void promptSaveChanges(final Runnable runnable, final String question) {
         if (tetrominoScriptChangeCount != circuitsEditorPanel.getTetrominoScriptChangeCount()
                 || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
-            switch (JOptionPane.showConfirmDialog(this, question, "Unsaved Changes", 
-                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
+            switch (UiUtil.showConfirmDialog(this, question, "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
                 case JOptionPane.YES_OPTION:
                     save(runnable);
                     break;
@@ -1264,7 +1264,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
             
             File selectedFile = fileChooser.getSelectedFile();            
             if (selectedFile == null) {
-                JOptionPane.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
+                UiUtil.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE, 
+                        EXCLAMATION_ICON);
                 continue;
             }
             
@@ -1302,7 +1303,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 break;
             }
             
-            switch(JOptionPane.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
+            switch(UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
                     existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
                     JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
                 case JOptionPane.YES_OPTION:
