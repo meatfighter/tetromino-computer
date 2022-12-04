@@ -16,7 +16,7 @@ public class SvgExportModel {
     private boolean absoluteWidth = true;
     private double displayWidth;
     private int cellSize = 20;
-    private int cellDepth = 16;
+    private int depth = 16;
     private double margin = 15.5;
     private boolean tetrominoes = true;
     private boolean structures;
@@ -39,6 +39,10 @@ public class SvgExportModel {
     }
     
     public SvgExportModel(final SvgExportModel model) {
+        set(model);     
+    }
+    
+    public final void set(final SvgExportModel model) {
         stdout = model.isStdout();
         filename = model.getFilename();
         allPossibleValues = model.isAllPossibleValues();
@@ -46,7 +50,7 @@ public class SvgExportModel {
         absoluteWidth = model.isAbsoluteWidth();
         displayWidth = model.getDisplayWidth();
         cellSize = model.getCellSize();
-        cellDepth = model.getCellDepth();
+        depth = model.getDepth();
         margin = model.getMargin();
         tetrominoes = model.isTetrominoes();
         structures = model.isStructures();
@@ -62,7 +66,7 @@ public class SvgExportModel {
         openTop = model.isOpenTop();
         padLeft = model.getPadLeft();
         padRight = model.getPadRight();
-        padTop = model.getPadTop();        
+        padTop = model.getPadTop();
     }
     
     public SvgExportModel copy() {
@@ -125,12 +129,12 @@ public class SvgExportModel {
         this.cellSize = cellSize;
     }
 
-    public int getCellDepth() {
-        return cellDepth;
+    public int getDepth() {
+        return depth;
     }
 
-    public void setCellDepth(final int cellDepth) {
-        this.cellDepth = cellDepth;
+    public void setDepth(final int depth) {
+        this.depth = depth;
     }
 
     public double getMargin() {
@@ -265,7 +269,7 @@ public class SvgExportModel {
     public String toString() {
         return "SvgExportModel{" + "stdout=" + stdout + ", filename=" + filename + ", allPossibleValues=" 
                 + allPossibleValues + ", inputValue=" + inputValue + ", absoluteWidth=" + absoluteWidth 
-                + ", displayWidth=" + displayWidth + ", cellSize=" + cellSize + ", cellDepth=" + cellDepth 
+                + ", displayWidth=" + displayWidth + ", cellSize=" + cellSize + ", depth=" + depth 
                 + ", margin=" + margin + ", tetrominoes=" + tetrominoes + ", structures=" + structures 
                 + ", inputNodes=" + inputNodes + ", outputNodes=" + outputNodes + ", nodeValues=" + nodeValues 
                 + ", gridVisible=" + gridVisible + ", nonscalingStroke=" + nonscalingStroke + ", yAxis=" + yAxis 

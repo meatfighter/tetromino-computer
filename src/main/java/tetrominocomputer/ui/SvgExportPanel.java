@@ -1,5 +1,7 @@
 package tetrominocomputer.ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -7,9 +9,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class SvgExportPanel extends javax.swing.JPanel {
+    
+    public static final String COMMAND_EXPORT = "export";
+    public static final String COMMAND_CANCEL = "cancel";
        
     private final SvgExportModel model = new SvgExportModel();
     
+    private ActionListener actionListener;
+       
     /**
      * Creates new form SvgExportPanel
      */
@@ -18,9 +25,22 @@ public class SvgExportPanel extends javax.swing.JPanel {
         UiUtil.setTextFieldColumns(fileTextField, 50);
         initComponentValues();
     }
+    
+    public void setModel(final SvgExportModel model) {
+        this.model.set(model);
+        initComponentValues();
+    }
    
     public SvgExportModel getModel() {
-        return model;
+        return model.copy();
+    }
+
+    public ActionListener getActionListener() {
+        return actionListener;
+    }
+
+    public void setActionListener(final ActionListener actionListener) {
+        this.actionListener = actionListener;
     }
     
     public final void initComponentValues() {
@@ -31,7 +51,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
         absoluteWidthCheckBox.setSelected(model.isAbsoluteWidth());
         displayWidthTextField.setText(String.format("%s", model.getDisplayWidth()));
         cellSizeSpinner.setValue(model.getCellSize());
-        depthSpinner.setValue(model.getCellDepth());
+        depthSpinner.setValue(model.getDepth());
         marginTextField.setText(String.format("%s", model.getMargin()));
         tetrominoesCheckBox.setSelected(model.isTetrominoes());
         structuresCheckBox.setSelected(model.isStructures());
@@ -575,7 +595,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
         model.setAbsoluteWidth(absoluteWidthCheckBox.isSelected());
         model.setDisplayWidth(displayWidth);
         model.setCellSize((int) cellSizeSpinner.getValue());
-        model.setCellDepth((int) depthSpinner.getValue());
+        model.setDepth((int) depthSpinner.getValue());
         model.setMargin(margin);
         model.setTetrominoes(tetrominoesCheckBox.isSelected());
         model.setStructures(structuresCheckBox.isSelected());
@@ -593,15 +613,15 @@ public class SvgExportPanel extends javax.swing.JPanel {
         model.setPadRight((int) padRightSpinner.getValue());
         model.setPadTop((int) padTopSpinner.getValue());
         
-        dialog.setVisible(false);
-        
-        if (circuitsEditorPanel != null) {
-            circuitsEditorPanel.exportSvg(model);
+        if (actionListener != null) {
+            actionListener.actionPerformed(new ActionEvent(this, 0, COMMAND_EXPORT));
         }
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        dialog.setVisible(false);
+        if (actionListener != null) {
+            actionListener.actionPerformed(new ActionEvent(this, 0, COMMAND_CANCEL));
+        }
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void stdOutCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdOutCheckBoxActionPerformed
@@ -625,7 +645,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_absoluteWidthCheckBoxActionPerformed
 
     private void gridVisibleCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gridVisibleCheckBoxActionPerformed
-        final boolean enabled = !gridVisibleCheckBox.isSelected();
+        final boolean enabled = gridVisibleCheckBox.isSelected();
         nonscalingStrokeCheckBox.setEnabled(enabled);
         yAxisCheckBox.setEnabled(enabled);
         axesNumbersCheckBox.setEnabled(enabled);

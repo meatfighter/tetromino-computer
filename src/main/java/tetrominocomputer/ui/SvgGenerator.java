@@ -5,7 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -15,36 +15,27 @@ import tetrominocomputer.TerminalState;
 import tetrominocomputer.Tetromino;
 
 public class SvgGenerator {
-
-    public void generate(
-            final OutputStream out, 
-            final Structure[] structs,
-            final double displayWidth,
-            final double margin, 
-            final double cellSize,
-            final boolean renderGrid,
-            final boolean renderInputTerminals,
-            final boolean renderOutputTerminals,
-            final boolean renderTetrominoes,
-            final boolean renderYAxis,
-            final boolean renderStructures,
-            final boolean renderAxesNumbers,
-            final boolean renderTerminalValues,
-            final int leftPaddingCells,
-            final int rightPaddingCells,
-            final int topPaddingCells,
-            final boolean renderOpenLeft,
-            final boolean renderOpenRight,
-            final boolean renderOpenTop,
-            final boolean renderGridWithNonscalingStroke) {
-        try (final PrintStream o = new PrintStream(out)) {
-            generate(o, structs, displayWidth, margin, cellSize, renderGrid, renderInputTerminals, 
-                    renderOutputTerminals, renderTetrominoes, renderYAxis, renderStructures, renderAxesNumbers, 
-                    renderTerminalValues, leftPaddingCells, rightPaddingCells, topPaddingCells, renderOpenLeft, 
-                    renderOpenRight, renderOpenTop, renderGridWithNonscalingStroke);
+    
+    public void generate(final Structure[] structs, final SvgExportModel svgExportModel) throws FileNotFoundException {
+        if (svgExportModel.isStdout()) {
+            generate(structs, svgExportModel, System.out);
+        } else {
+            try (final PrintStream out = new PrintStream(svgExportModel.getFilename())) {
+                generate(structs, svgExportModel, out);
+            }
         }
     }
     
+    public void generate(final Structure[] structs, final SvgExportModel svgExportModel, final PrintStream out) {
+        generate(out, structs, svgExportModel.isAbsoluteWidth() ? -1.0 : svgExportModel.getDisplayWidth(),
+                svgExportModel.getMargin(), svgExportModel.getCellSize(), svgExportModel.isGridVisible(),
+                svgExportModel.isInputNodes(), svgExportModel.isOutputNodes(), svgExportModel.isTetrominoes(),
+                svgExportModel.isyAxis(), svgExportModel.isStructures(), svgExportModel.isAxesNumbers(),
+                svgExportModel.isNodeValues(), svgExportModel.getPadLeft(), svgExportModel.getPadRight(),
+                svgExportModel.getPadTop(), svgExportModel.isOpenLeft(), svgExportModel.isOpenRight(),
+                svgExportModel.isOpenTop(), svgExportModel.isNonscalingStroke());
+    }
+       
     public void generate(
             final PrintStream out, 
             final Structure[] structs,
@@ -52,13 +43,13 @@ public class SvgGenerator {
             final double margin, 
             final double cellSize,
             final boolean renderGrid,
-            final boolean renderInputTerminals,
-            final boolean renderOutputTerminals,
+            final boolean renderInputNodes,
+            final boolean renderOutputNodes,
             final boolean renderTetrominoes,
             final boolean renderYAxis,
             final boolean renderStructures,
             final boolean renderAxesNumbers,
-            final boolean renderTerminalValues,
+            final boolean renderNodeValues,
             final int leftPaddingCells,
             final int rightPaddingCells,
             final int topPaddingCells,
@@ -82,8 +73,8 @@ public class SvgGenerator {
             viewBoxWidth += ((i > 0) ? 1.25 * cellSize : 0) + (renderAxesNumbers 
                     ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0) + gridWidth;
             
-            final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
-            viewBoxHeight = max(viewBoxHeight, gridY + gridHeight + margin + (renderTerminalValues ? cellSize : 0)
+            final double gridY = margin + (topPaddingCells == 0 && renderNodeValues ? cellSize : 0);
+            viewBoxHeight = max(viewBoxHeight, gridY + gridHeight + margin + (renderNodeValues ? cellSize : 0)
                 + (renderAxesNumbers ? (minX < -9 || maxX > 99) 
                 ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) 
                 : (int)(2.0 * cellSize / 3.0) : 0));
@@ -136,7 +127,7 @@ public class SvgGenerator {
             final double gridHeight = cellSize * cellsHeight + (renderOpenTop ? cellSize / 2.0 : 0);
             final double gridX = offsetX 
                     + (renderAxesNumbers ? (int)Math.round(cellSize * 3.0 * Integer.toString(maxY).length() / 8.0) : 0);
-            final double gridY = margin + (topPaddingCells == 0 && renderTerminalValues ? cellSize : 0);
+            final double gridY = margin + (topPaddingCells == 0 && renderNodeValues ? cellSize : 0);
             final double ox = gridX + cellSize * (leftPaddingCells - struct.getMinX() + 1);
             final double oy = gridY + gridHeight;
 
@@ -226,15 +217,15 @@ public class SvgGenerator {
                 g.dispose();
             }
 
-            if (renderInputTerminals || renderOutputTerminals) {
+            if (renderInputNodes || renderOutputNodes) {
                 out.format("    <g style=\"font-size: %dpx;\">%n", (int)cellSize);
-                if (renderInputTerminals) {
+                if (renderInputNodes) {
                     renderTerminals(out, ox, oy, cellSize, struct.getInputs(), struct.getX(), struct.getY(), true, 
-                            renderTerminalValues, true);
+                            renderNodeValues, true);
                 }
-                if (renderOutputTerminals) {
+                if (renderOutputNodes) {
                     renderTerminals(out, ox, oy, cellSize, struct.getOutputs(), struct.getX(), struct.getY(), false, 
-                            renderTerminalValues, false);
+                            renderNodeValues, false);
                 }        
                 out.println("    </g>");
             }

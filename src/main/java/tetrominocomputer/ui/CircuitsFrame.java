@@ -1463,20 +1463,30 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void exportSvgMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSvgMenuItemActionPerformed
         if (svgExportDialog == null) {
             final SvgExportPanel svgExportPanel = new SvgExportPanel();
+            svgExportPanel.setActionListener(e -> {
+                if (SvgExportPanel.COMMAND_EXPORT.equals(e.getActionCommand())) {
+                    circuitsEditorPanel.exportSvg(componentName, 
+                            ((SvgExportPanel) svgExportDialog.getContentPane()).getModel());
+                }
+            });
             
             svgExportDialog = new JDialog(this, "Export SVG", JDialog.ModalityType.MODELESS);            
             UiUtil.setIcons(svgExportDialog);
+            svgExportDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
             svgExportDialog.setContentPane(svgExportPanel);
             svgExportDialog.setPreferredSize(null);
             svgExportDialog.pack();            
             svgExportDialog.setLocationRelativeTo(this);
-        }        
-        svgExportDialog.setVisible(true);
-
-//        circuitsEditorPanel.exportSvg(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue(), 20);
-        
-        
-        
+        }
+        if (svgExportDialog.isVisible()) {
+            svgExportDialog.setLocationRelativeTo(this);            
+        } else {
+            final SvgExportModel model = ((SvgExportPanel) svgExportDialog.getContentPane()).getModel();
+            model.setInputValue(testTextField.getText().trim());
+            model.setDepth((int) depthSpinner.getValue());
+            ((SvgExportPanel) svgExportDialog.getContentPane()).setModel(model);
+        }
+        svgExportDialog.setVisible(true);        
     }//GEN-LAST:event_exportSvgMenuItemActionPerformed
 
     private void exportHtmlMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportHtmlMenuItemActionPerformed

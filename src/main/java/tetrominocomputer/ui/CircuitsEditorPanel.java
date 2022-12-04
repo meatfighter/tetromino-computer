@@ -494,9 +494,9 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         controller.exportHtmlAsync(componentName, tetrominoScriptTextPane.getText());
     }
     
-    public void exportSvg(final String componentName, final String testBitsStr, final int depth, final int cellSize) {
+    public void exportSvg(final String componentName, final SvgExportModel svgExportModel) {
         controller.exportSvgAsync(componentName, tetrominoScriptTextPane.getText(), javaScriptTextArea.getText(), 
-                testBitsStr, false, depth, cellSize);
+                svgExportModel);
     }
     
     public boolean isTetrominoScriptSelected() {

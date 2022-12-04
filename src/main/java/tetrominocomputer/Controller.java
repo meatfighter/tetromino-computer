@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -30,6 +32,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetrominocomputer.parser.ParseException;
 import tetrominocomputer.parser.Parser;
 import tetrominocomputer.ui.HtmlGenerator;
+import tetrominocomputer.ui.SvgExportModel;
 import tetrominocomputer.ui.SvgGenerator;
 
 public class Controller {
@@ -639,35 +642,29 @@ public class Controller {
     }
     
     public void exportSvgAsync(final String componentName, final String tetrominoScript, final String javaScript, 
-            final String testBitStr, final boolean allPossibleInputs, final int depth, final int cellSize) {
-        execute(() -> exportSvg(componentName, tetrominoScript, javaScript, testBitStr, allPossibleInputs, 
-                depth, cellSize));
+            final SvgExportModel svgExportModel) {
+        execute(() -> exportSvg(componentName, tetrominoScript, javaScript, svgExportModel));
     }
     
     private void exportSvg(final String componentName, final String tetrominoScript, final String javaScript, 
-            final String testBitStr, final boolean allPossibleInputs, final int depth, final double cellSize) {
+            final SvgExportModel svgExportModel) {
         final BuildListener listener = buildListener;
         if (listener != null) {
             listener.buildStarted();
         }
-        execute(() -> buildScripts(componentName, tetrominoScript, javaScript, testBitStr, depth, 
-                () -> exportSvg(componentName, testBitStr, allPossibleInputs, depth, false, cellSize)));
+        execute(() -> buildScripts(componentName, tetrominoScript, javaScript, svgExportModel.getInputValue(), 
+                svgExportModel.getDepth(), () -> exportSvg(componentName, svgExportModel)));
     }
     
-    private void exportSvg(final String componentName, final String testBitStr, final boolean allPossibleInputs, 
-            final int depth, final boolean clearOutput, final double cellSize) {
+    private void exportSvg(final String componentName, final SvgExportModel svgExportModel) {
         
-        final OutputListener outListener = outputListener;        
-        if (outListener != null && clearOutput) {
-            outListener.clear();
-        }
-        
-        final List<Structure> structures = new ArrayList<>();
-        if (allPossibleInputs) {
+        final List<Structure> structs = new ArrayList<>();
+        if (svgExportModel.isAllPossibleValues()) {
             final Component component = components.get(componentName);
             final int bits = component.getInputs().length;
             final int combos = 1 << bits;
             if (combos > 16) {
+                final OutputListener outListener = outputListener;
                 if (outListener != null) {
                     outListener.append("Too many input combinations.");
                 }
@@ -680,14 +677,21 @@ public class Controller {
                     sb.append('0');
                 }
                 sb.append(binaryStr);
-                structures.add(exportSvgStructure(componentName, sb.toString(), depth));
+                structs.add(exportSvgStructure(componentName, sb.toString(), svgExportModel.getDepth()));
             }
         } else {
-            structures.add(exportSvgStructure(componentName, testBitStr, depth));
+            structs.add(exportSvgStructure(componentName, svgExportModel.getInputValue(), 
+                    svgExportModel.getDepth()));
         }
-
-        new SvgGenerator().generate(System.out, structures.toArray(new Structure[structures.size()]), -1, 15.5, 
-                cellSize, true, true, true, true, false, true, false, true, 1, 1, 0, false, false, false, true);
+       
+        try {
+            new SvgGenerator().generate(structs.toArray(new Structure[structs.size()]), svgExportModel);
+        } catch (final Exception e) {
+            final OutputListener outListener = outputListener;
+            if (outListener != null) {
+                outListener.append(e.getMessage());
+            }
+        }
     }  
     
     private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) {

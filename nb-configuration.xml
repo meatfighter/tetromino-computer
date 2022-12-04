@@ -58,7 +58,6 @@ Any value defined here will override the pom.xml file value but is only applicab
             <configuration id="MapMaker" profiles=""/>
             <configuration id="MirrorTetrominoScript" profiles=""/>
             <configuration id="Simulator" profiles=""/>
-            <configuration id="SvgExportPanel" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>

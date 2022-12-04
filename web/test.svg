@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/css" href="svg.css"?>
-<svg width="496" height="841" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1506" height="776" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <defs>
         <polygon id="td" points="-30,-10 29,-10 29,9 9,9 9,29 -10,29 -10,9 -30,9" class="t"/>
         <polygon id="tl" points="-10,-30 9,-30 9,29 -10,29 -10,9 -30,9 -30,-10 -10,-10" class="t"/>
@@ -22,411 +22,322 @@
         <polygon id="ih" points="-50,-10 29,-10 29,9 -50,9" class="i"/>
         <polygon id="iv" points="-10,-50 9,-50 9,29 -10,29" class="i"/>
     </defs>
-    <g style="font-size: 16px;">
-        <line x1="33.5" y1="33.5" x2="133.5" y2="33.5" class="grid"/>
-        <line x1="33.5" y1="53.5" x2="133.5" y2="53.5" class="grid"/>
-        <line x1="33.5" y1="73.5" x2="133.5" y2="73.5" class="grid"/>
-        <line x1="33.5" y1="93.5" x2="133.5" y2="93.5" class="grid"/>
-        <line x1="33.5" y1="113.5" x2="133.5" y2="113.5" class="grid"/>
-        <line x1="33.5" y1="133.5" x2="133.5" y2="133.5" class="grid"/>
-        <line x1="33.5" y1="33.5" x2="33.5" y2="133.5" class="grid"/>
-        <line x1="53.5" y1="33.5" x2="53.5" y2="133.5" class="grid"/>
-        <line x1="73.5" y1="33.5" x2="73.5" y2="133.5" class="grid"/>
-        <line x1="93.5" y1="33.5" x2="93.5" y2="133.5" class="grid"/>
-        <line x1="113.5" y1="33.5" x2="113.5" y2="133.5" class="grid"/>
-        <line x1="133.5" y1="33.5" x2="133.5" y2="133.5" class="grid"/>
-        <use href="#td" x="83.5" y="83.5"/>
-        <circle cx="83" cy="83" r="5.0" class="grid-center"/>
-        <text x="83.5" y="21.5" dy="0.25em" class="axes" text-anchor="middle">0</text>
-        <line x1="148.5" y1="33.5" x2="248.5" y2="33.5" class="grid"/>
-        <line x1="148.5" y1="53.5" x2="248.5" y2="53.5" class="grid"/>
-        <line x1="148.5" y1="73.5" x2="248.5" y2="73.5" class="grid"/>
-        <line x1="148.5" y1="93.5" x2="248.5" y2="93.5" class="grid"/>
-        <line x1="148.5" y1="113.5" x2="248.5" y2="113.5" class="grid"/>
-        <line x1="148.5" y1="133.5" x2="248.5" y2="133.5" class="grid"/>
-        <line x1="148.5" y1="33.5" x2="148.5" y2="133.5" class="grid"/>
-        <line x1="168.5" y1="33.5" x2="168.5" y2="133.5" class="grid"/>
-        <line x1="188.5" y1="33.5" x2="188.5" y2="133.5" class="grid"/>
-        <line x1="208.5" y1="33.5" x2="208.5" y2="133.5" class="grid"/>
-        <line x1="228.5" y1="33.5" x2="228.5" y2="133.5" class="grid"/>
-        <line x1="248.5" y1="33.5" x2="248.5" y2="133.5" class="grid"/>
-        <use href="#tl" x="198.5" y="83.5"/>
-        <circle cx="198" cy="83" r="5.0" class="grid-center"/>
-        <text x="198.5" y="21.5" dy="0.25em" class="axes" text-anchor="middle">1</text>
-        <line x1="263.5" y1="33.5" x2="363.5" y2="33.5" class="grid"/>
-        <line x1="263.5" y1="53.5" x2="363.5" y2="53.5" class="grid"/>
-        <line x1="263.5" y1="73.5" x2="363.5" y2="73.5" class="grid"/>
-        <line x1="263.5" y1="93.5" x2="363.5" y2="93.5" class="grid"/>
-        <line x1="263.5" y1="113.5" x2="363.5" y2="113.5" class="grid"/>
-        <line x1="263.5" y1="133.5" x2="363.5" y2="133.5" class="grid"/>
-        <line x1="263.5" y1="33.5" x2="263.5" y2="133.5" class="grid"/>
-        <line x1="283.5" y1="33.5" x2="283.5" y2="133.5" class="grid"/>
-        <line x1="303.5" y1="33.5" x2="303.5" y2="133.5" class="grid"/>
-        <line x1="323.5" y1="33.5" x2="323.5" y2="133.5" class="grid"/>
-        <line x1="343.5" y1="33.5" x2="343.5" y2="133.5" class="grid"/>
-        <line x1="363.5" y1="33.5" x2="363.5" y2="133.5" class="grid"/>
-        <use href="#tu" x="313.5" y="83.5"/>
-        <circle cx="313" cy="83" r="5.0" class="grid-center"/>
-        <text x="313.5" y="21.5" dy="0.25em" class="axes" text-anchor="middle">2</text>
-        <line x1="378.5" y1="33.5" x2="478.5" y2="33.5" class="grid"/>
-        <line x1="378.5" y1="53.5" x2="478.5" y2="53.5" class="grid"/>
-        <line x1="378.5" y1="73.5" x2="478.5" y2="73.5" class="grid"/>
-        <line x1="378.5" y1="93.5" x2="478.5" y2="93.5" class="grid"/>
-        <line x1="378.5" y1="113.5" x2="478.5" y2="113.5" class="grid"/>
-        <line x1="378.5" y1="133.5" x2="478.5" y2="133.5" class="grid"/>
-        <line x1="378.5" y1="33.5" x2="378.5" y2="133.5" class="grid"/>
-        <line x1="398.5" y1="33.5" x2="398.5" y2="133.5" class="grid"/>
-        <line x1="418.5" y1="33.5" x2="418.5" y2="133.5" class="grid"/>
-        <line x1="438.5" y1="33.5" x2="438.5" y2="133.5" class="grid"/>
-        <line x1="458.5" y1="33.5" x2="458.5" y2="133.5" class="grid"/>
-        <line x1="478.5" y1="33.5" x2="478.5" y2="133.5" class="grid"/>
-        <use href="#tr" x="428.5" y="83.5"/>
-        <circle cx="428" cy="83" r="5.0" class="grid-center"/>
-        <text x="428.5" y="21.5" dy="0.25em" class="axes" text-anchor="middle">3</text>
-        <line x1="33.5" y1="148.5" x2="133.5" y2="148.5" class="grid"/>
-        <line x1="33.5" y1="168.5" x2="133.5" y2="168.5" class="grid"/>
-        <line x1="33.5" y1="188.5" x2="133.5" y2="188.5" class="grid"/>
-        <line x1="33.5" y1="208.5" x2="133.5" y2="208.5" class="grid"/>
-        <line x1="33.5" y1="228.5" x2="133.5" y2="228.5" class="grid"/>
-        <line x1="33.5" y1="248.5" x2="133.5" y2="248.5" class="grid"/>
-        <line x1="33.5" y1="148.5" x2="33.5" y2="248.5" class="grid"/>
-        <line x1="53.5" y1="148.5" x2="53.5" y2="248.5" class="grid"/>
-        <line x1="73.5" y1="148.5" x2="73.5" y2="248.5" class="grid"/>
-        <line x1="93.5" y1="148.5" x2="93.5" y2="248.5" class="grid"/>
-        <line x1="113.5" y1="148.5" x2="113.5" y2="248.5" class="grid"/>
-        <line x1="133.5" y1="148.5" x2="133.5" y2="248.5" class="grid"/>
-        <use href="#jd" x="83.5" y="198.5"/>
-        <circle cx="83" cy="198" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="148.5" x2="248.5" y2="148.5" class="grid"/>
-        <line x1="148.5" y1="168.5" x2="248.5" y2="168.5" class="grid"/>
-        <line x1="148.5" y1="188.5" x2="248.5" y2="188.5" class="grid"/>
-        <line x1="148.5" y1="208.5" x2="248.5" y2="208.5" class="grid"/>
-        <line x1="148.5" y1="228.5" x2="248.5" y2="228.5" class="grid"/>
-        <line x1="148.5" y1="248.5" x2="248.5" y2="248.5" class="grid"/>
-        <line x1="148.5" y1="148.5" x2="148.5" y2="248.5" class="grid"/>
-        <line x1="168.5" y1="148.5" x2="168.5" y2="248.5" class="grid"/>
-        <line x1="188.5" y1="148.5" x2="188.5" y2="248.5" class="grid"/>
-        <line x1="208.5" y1="148.5" x2="208.5" y2="248.5" class="grid"/>
-        <line x1="228.5" y1="148.5" x2="228.5" y2="248.5" class="grid"/>
-        <line x1="248.5" y1="148.5" x2="248.5" y2="248.5" class="grid"/>
-        <use href="#jl" x="198.5" y="198.5"/>
-        <circle cx="198" cy="198" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="148.5" x2="363.5" y2="148.5" class="grid"/>
-        <line x1="263.5" y1="168.5" x2="363.5" y2="168.5" class="grid"/>
-        <line x1="263.5" y1="188.5" x2="363.5" y2="188.5" class="grid"/>
-        <line x1="263.5" y1="208.5" x2="363.5" y2="208.5" class="grid"/>
-        <line x1="263.5" y1="228.5" x2="363.5" y2="228.5" class="grid"/>
-        <line x1="263.5" y1="248.5" x2="363.5" y2="248.5" class="grid"/>
-        <line x1="263.5" y1="148.5" x2="263.5" y2="248.5" class="grid"/>
-        <line x1="283.5" y1="148.5" x2="283.5" y2="248.5" class="grid"/>
-        <line x1="303.5" y1="148.5" x2="303.5" y2="248.5" class="grid"/>
-        <line x1="323.5" y1="148.5" x2="323.5" y2="248.5" class="grid"/>
-        <line x1="343.5" y1="148.5" x2="343.5" y2="248.5" class="grid"/>
-        <line x1="363.5" y1="148.5" x2="363.5" y2="248.5" class="grid"/>
-        <use href="#ju" x="313.5" y="198.5"/>
-        <circle cx="313" cy="198" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="148.5" x2="478.5" y2="148.5" class="grid"/>
-        <line x1="378.5" y1="168.5" x2="478.5" y2="168.5" class="grid"/>
-        <line x1="378.5" y1="188.5" x2="478.5" y2="188.5" class="grid"/>
-        <line x1="378.5" y1="208.5" x2="478.5" y2="208.5" class="grid"/>
-        <line x1="378.5" y1="228.5" x2="478.5" y2="228.5" class="grid"/>
-        <line x1="378.5" y1="248.5" x2="478.5" y2="248.5" class="grid"/>
-        <line x1="378.5" y1="148.5" x2="378.5" y2="248.5" class="grid"/>
-        <line x1="398.5" y1="148.5" x2="398.5" y2="248.5" class="grid"/>
-        <line x1="418.5" y1="148.5" x2="418.5" y2="248.5" class="grid"/>
-        <line x1="438.5" y1="148.5" x2="438.5" y2="248.5" class="grid"/>
-        <line x1="458.5" y1="148.5" x2="458.5" y2="248.5" class="grid"/>
-        <line x1="478.5" y1="148.5" x2="478.5" y2="248.5" class="grid"/>
-        <use href="#jr" x="428.5" y="198.5"/>
-        <circle cx="428" cy="198" r="5.0" class="grid-center"/>
-        <line x1="33.5" y1="263.5" x2="133.5" y2="263.5" class="grid"/>
-        <line x1="33.5" y1="283.5" x2="133.5" y2="283.5" class="grid"/>
-        <line x1="33.5" y1="303.5" x2="133.5" y2="303.5" class="grid"/>
-        <line x1="33.5" y1="323.5" x2="133.5" y2="323.5" class="grid"/>
-        <line x1="33.5" y1="343.5" x2="133.5" y2="343.5" class="grid"/>
-        <line x1="33.5" y1="363.5" x2="133.5" y2="363.5" class="grid"/>
-        <line x1="33.5" y1="263.5" x2="33.5" y2="363.5" class="grid"/>
-        <line x1="53.5" y1="263.5" x2="53.5" y2="363.5" class="grid"/>
-        <line x1="73.5" y1="263.5" x2="73.5" y2="363.5" class="grid"/>
-        <line x1="93.5" y1="263.5" x2="93.5" y2="363.5" class="grid"/>
-        <line x1="113.5" y1="263.5" x2="113.5" y2="363.5" class="grid"/>
-        <line x1="133.5" y1="263.5" x2="133.5" y2="363.5" class="grid"/>
-        <use href="#zh" x="83.5" y="313.5"/>
-        <circle cx="83" cy="313" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="263.5" x2="248.5" y2="263.5" class="grid"/>
-        <line x1="148.5" y1="283.5" x2="248.5" y2="283.5" class="grid"/>
-        <line x1="148.5" y1="303.5" x2="248.5" y2="303.5" class="grid"/>
-        <line x1="148.5" y1="323.5" x2="248.5" y2="323.5" class="grid"/>
-        <line x1="148.5" y1="343.5" x2="248.5" y2="343.5" class="grid"/>
-        <line x1="148.5" y1="363.5" x2="248.5" y2="363.5" class="grid"/>
-        <line x1="148.5" y1="263.5" x2="148.5" y2="363.5" class="grid"/>
-        <line x1="168.5" y1="263.5" x2="168.5" y2="363.5" class="grid"/>
-        <line x1="188.5" y1="263.5" x2="188.5" y2="363.5" class="grid"/>
-        <line x1="208.5" y1="263.5" x2="208.5" y2="363.5" class="grid"/>
-        <line x1="228.5" y1="263.5" x2="228.5" y2="363.5" class="grid"/>
-        <line x1="248.5" y1="263.5" x2="248.5" y2="363.5" class="grid"/>
-        <use href="#zv" x="198.5" y="313.5"/>
-        <circle cx="198" cy="313" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="263.5" x2="363.5" y2="263.5" class="grid"/>
-        <line x1="263.5" y1="283.5" x2="363.5" y2="283.5" class="grid"/>
-        <line x1="263.5" y1="303.5" x2="363.5" y2="303.5" class="grid"/>
-        <line x1="263.5" y1="323.5" x2="363.5" y2="323.5" class="grid"/>
-        <line x1="263.5" y1="343.5" x2="363.5" y2="343.5" class="grid"/>
-        <line x1="263.5" y1="363.5" x2="363.5" y2="363.5" class="grid"/>
-        <line x1="263.5" y1="263.5" x2="263.5" y2="363.5" class="grid"/>
-        <line x1="283.5" y1="263.5" x2="283.5" y2="363.5" class="grid"/>
-        <line x1="303.5" y1="263.5" x2="303.5" y2="363.5" class="grid"/>
-        <line x1="323.5" y1="263.5" x2="323.5" y2="363.5" class="grid"/>
-        <line x1="343.5" y1="263.5" x2="343.5" y2="363.5" class="grid"/>
-        <line x1="363.5" y1="263.5" x2="363.5" y2="363.5" class="grid"/>
-        <use href="#zh" x="313.5" y="313.5"/>
-        <circle cx="313" cy="313" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="263.5" x2="478.5" y2="263.5" class="grid"/>
-        <line x1="378.5" y1="283.5" x2="478.5" y2="283.5" class="grid"/>
-        <line x1="378.5" y1="303.5" x2="478.5" y2="303.5" class="grid"/>
-        <line x1="378.5" y1="323.5" x2="478.5" y2="323.5" class="grid"/>
-        <line x1="378.5" y1="343.5" x2="478.5" y2="343.5" class="grid"/>
-        <line x1="378.5" y1="363.5" x2="478.5" y2="363.5" class="grid"/>
-        <line x1="378.5" y1="263.5" x2="378.5" y2="363.5" class="grid"/>
-        <line x1="398.5" y1="263.5" x2="398.5" y2="363.5" class="grid"/>
-        <line x1="418.5" y1="263.5" x2="418.5" y2="363.5" class="grid"/>
-        <line x1="438.5" y1="263.5" x2="438.5" y2="363.5" class="grid"/>
-        <line x1="458.5" y1="263.5" x2="458.5" y2="363.5" class="grid"/>
-        <line x1="478.5" y1="263.5" x2="478.5" y2="363.5" class="grid"/>
-        <use href="#zv" x="428.5" y="313.5"/>
-        <circle cx="428" cy="313" r="5.0" class="grid-center"/>
-        <line x1="33.5" y1="378.5" x2="133.5" y2="378.5" class="grid"/>
-        <line x1="33.5" y1="398.5" x2="133.5" y2="398.5" class="grid"/>
-        <line x1="33.5" y1="418.5" x2="133.5" y2="418.5" class="grid"/>
-        <line x1="33.5" y1="438.5" x2="133.5" y2="438.5" class="grid"/>
-        <line x1="33.5" y1="458.5" x2="133.5" y2="458.5" class="grid"/>
-        <line x1="33.5" y1="478.5" x2="133.5" y2="478.5" class="grid"/>
-        <line x1="33.5" y1="378.5" x2="33.5" y2="478.5" class="grid"/>
-        <line x1="53.5" y1="378.5" x2="53.5" y2="478.5" class="grid"/>
-        <line x1="73.5" y1="378.5" x2="73.5" y2="478.5" class="grid"/>
-        <line x1="93.5" y1="378.5" x2="93.5" y2="478.5" class="grid"/>
-        <line x1="113.5" y1="378.5" x2="113.5" y2="478.5" class="grid"/>
-        <line x1="133.5" y1="378.5" x2="133.5" y2="478.5" class="grid"/>
-        <use href="#o" x="83.5" y="428.5"/>
-        <circle cx="83" cy="428" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="378.5" x2="248.5" y2="378.5" class="grid"/>
-        <line x1="148.5" y1="398.5" x2="248.5" y2="398.5" class="grid"/>
-        <line x1="148.5" y1="418.5" x2="248.5" y2="418.5" class="grid"/>
-        <line x1="148.5" y1="438.5" x2="248.5" y2="438.5" class="grid"/>
-        <line x1="148.5" y1="458.5" x2="248.5" y2="458.5" class="grid"/>
-        <line x1="148.5" y1="478.5" x2="248.5" y2="478.5" class="grid"/>
-        <line x1="148.5" y1="378.5" x2="148.5" y2="478.5" class="grid"/>
-        <line x1="168.5" y1="378.5" x2="168.5" y2="478.5" class="grid"/>
-        <line x1="188.5" y1="378.5" x2="188.5" y2="478.5" class="grid"/>
-        <line x1="208.5" y1="378.5" x2="208.5" y2="478.5" class="grid"/>
-        <line x1="228.5" y1="378.5" x2="228.5" y2="478.5" class="grid"/>
-        <line x1="248.5" y1="378.5" x2="248.5" y2="478.5" class="grid"/>
-        <use href="#o" x="198.5" y="428.5"/>
-        <circle cx="198" cy="428" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="378.5" x2="363.5" y2="378.5" class="grid"/>
-        <line x1="263.5" y1="398.5" x2="363.5" y2="398.5" class="grid"/>
-        <line x1="263.5" y1="418.5" x2="363.5" y2="418.5" class="grid"/>
-        <line x1="263.5" y1="438.5" x2="363.5" y2="438.5" class="grid"/>
-        <line x1="263.5" y1="458.5" x2="363.5" y2="458.5" class="grid"/>
-        <line x1="263.5" y1="478.5" x2="363.5" y2="478.5" class="grid"/>
-        <line x1="263.5" y1="378.5" x2="263.5" y2="478.5" class="grid"/>
-        <line x1="283.5" y1="378.5" x2="283.5" y2="478.5" class="grid"/>
-        <line x1="303.5" y1="378.5" x2="303.5" y2="478.5" class="grid"/>
-        <line x1="323.5" y1="378.5" x2="323.5" y2="478.5" class="grid"/>
-        <line x1="343.5" y1="378.5" x2="343.5" y2="478.5" class="grid"/>
-        <line x1="363.5" y1="378.5" x2="363.5" y2="478.5" class="grid"/>
-        <use href="#o" x="313.5" y="428.5"/>
-        <circle cx="313" cy="428" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="378.5" x2="478.5" y2="378.5" class="grid"/>
-        <line x1="378.5" y1="398.5" x2="478.5" y2="398.5" class="grid"/>
-        <line x1="378.5" y1="418.5" x2="478.5" y2="418.5" class="grid"/>
-        <line x1="378.5" y1="438.5" x2="478.5" y2="438.5" class="grid"/>
-        <line x1="378.5" y1="458.5" x2="478.5" y2="458.5" class="grid"/>
-        <line x1="378.5" y1="478.5" x2="478.5" y2="478.5" class="grid"/>
-        <line x1="378.5" y1="378.5" x2="378.5" y2="478.5" class="grid"/>
-        <line x1="398.5" y1="378.5" x2="398.5" y2="478.5" class="grid"/>
-        <line x1="418.5" y1="378.5" x2="418.5" y2="478.5" class="grid"/>
-        <line x1="438.5" y1="378.5" x2="438.5" y2="478.5" class="grid"/>
-        <line x1="458.5" y1="378.5" x2="458.5" y2="478.5" class="grid"/>
-        <line x1="478.5" y1="378.5" x2="478.5" y2="478.5" class="grid"/>
-        <use href="#o" x="428.5" y="428.5"/>
-        <circle cx="428" cy="428" r="5.0" class="grid-center"/>
-        <line x1="33.5" y1="493.5" x2="133.5" y2="493.5" class="grid"/>
-        <line x1="33.5" y1="513.5" x2="133.5" y2="513.5" class="grid"/>
-        <line x1="33.5" y1="533.5" x2="133.5" y2="533.5" class="grid"/>
-        <line x1="33.5" y1="553.5" x2="133.5" y2="553.5" class="grid"/>
-        <line x1="33.5" y1="573.5" x2="133.5" y2="573.5" class="grid"/>
-        <line x1="33.5" y1="593.5" x2="133.5" y2="593.5" class="grid"/>
-        <line x1="33.5" y1="493.5" x2="33.5" y2="593.5" class="grid"/>
-        <line x1="53.5" y1="493.5" x2="53.5" y2="593.5" class="grid"/>
-        <line x1="73.5" y1="493.5" x2="73.5" y2="593.5" class="grid"/>
-        <line x1="93.5" y1="493.5" x2="93.5" y2="593.5" class="grid"/>
-        <line x1="113.5" y1="493.5" x2="113.5" y2="593.5" class="grid"/>
-        <line x1="133.5" y1="493.5" x2="133.5" y2="593.5" class="grid"/>
-        <use href="#sh" x="83.5" y="543.5"/>
-        <circle cx="83" cy="543" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="493.5" x2="248.5" y2="493.5" class="grid"/>
-        <line x1="148.5" y1="513.5" x2="248.5" y2="513.5" class="grid"/>
-        <line x1="148.5" y1="533.5" x2="248.5" y2="533.5" class="grid"/>
-        <line x1="148.5" y1="553.5" x2="248.5" y2="553.5" class="grid"/>
-        <line x1="148.5" y1="573.5" x2="248.5" y2="573.5" class="grid"/>
-        <line x1="148.5" y1="593.5" x2="248.5" y2="593.5" class="grid"/>
-        <line x1="148.5" y1="493.5" x2="148.5" y2="593.5" class="grid"/>
-        <line x1="168.5" y1="493.5" x2="168.5" y2="593.5" class="grid"/>
-        <line x1="188.5" y1="493.5" x2="188.5" y2="593.5" class="grid"/>
-        <line x1="208.5" y1="493.5" x2="208.5" y2="593.5" class="grid"/>
-        <line x1="228.5" y1="493.5" x2="228.5" y2="593.5" class="grid"/>
-        <line x1="248.5" y1="493.5" x2="248.5" y2="593.5" class="grid"/>
-        <use href="#sv" x="198.5" y="543.5"/>
-        <circle cx="198" cy="543" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="493.5" x2="363.5" y2="493.5" class="grid"/>
-        <line x1="263.5" y1="513.5" x2="363.5" y2="513.5" class="grid"/>
-        <line x1="263.5" y1="533.5" x2="363.5" y2="533.5" class="grid"/>
-        <line x1="263.5" y1="553.5" x2="363.5" y2="553.5" class="grid"/>
-        <line x1="263.5" y1="573.5" x2="363.5" y2="573.5" class="grid"/>
-        <line x1="263.5" y1="593.5" x2="363.5" y2="593.5" class="grid"/>
-        <line x1="263.5" y1="493.5" x2="263.5" y2="593.5" class="grid"/>
-        <line x1="283.5" y1="493.5" x2="283.5" y2="593.5" class="grid"/>
-        <line x1="303.5" y1="493.5" x2="303.5" y2="593.5" class="grid"/>
-        <line x1="323.5" y1="493.5" x2="323.5" y2="593.5" class="grid"/>
-        <line x1="343.5" y1="493.5" x2="343.5" y2="593.5" class="grid"/>
-        <line x1="363.5" y1="493.5" x2="363.5" y2="593.5" class="grid"/>
-        <use href="#sh" x="313.5" y="543.5"/>
-        <circle cx="313" cy="543" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="493.5" x2="478.5" y2="493.5" class="grid"/>
-        <line x1="378.5" y1="513.5" x2="478.5" y2="513.5" class="grid"/>
-        <line x1="378.5" y1="533.5" x2="478.5" y2="533.5" class="grid"/>
-        <line x1="378.5" y1="553.5" x2="478.5" y2="553.5" class="grid"/>
-        <line x1="378.5" y1="573.5" x2="478.5" y2="573.5" class="grid"/>
-        <line x1="378.5" y1="593.5" x2="478.5" y2="593.5" class="grid"/>
-        <line x1="378.5" y1="493.5" x2="378.5" y2="593.5" class="grid"/>
-        <line x1="398.5" y1="493.5" x2="398.5" y2="593.5" class="grid"/>
-        <line x1="418.5" y1="493.5" x2="418.5" y2="593.5" class="grid"/>
-        <line x1="438.5" y1="493.5" x2="438.5" y2="593.5" class="grid"/>
-        <line x1="458.5" y1="493.5" x2="458.5" y2="593.5" class="grid"/>
-        <line x1="478.5" y1="493.5" x2="478.5" y2="593.5" class="grid"/>
-        <use href="#sv" x="428.5" y="543.5"/>
-        <circle cx="428" cy="543" r="5.0" class="grid-center"/>
-        <line x1="33.5" y1="608.5" x2="133.5" y2="608.5" class="grid"/>
-        <line x1="33.5" y1="628.5" x2="133.5" y2="628.5" class="grid"/>
-        <line x1="33.5" y1="648.5" x2="133.5" y2="648.5" class="grid"/>
-        <line x1="33.5" y1="668.5" x2="133.5" y2="668.5" class="grid"/>
-        <line x1="33.5" y1="688.5" x2="133.5" y2="688.5" class="grid"/>
-        <line x1="33.5" y1="708.5" x2="133.5" y2="708.5" class="grid"/>
-        <line x1="33.5" y1="608.5" x2="33.5" y2="708.5" class="grid"/>
-        <line x1="53.5" y1="608.5" x2="53.5" y2="708.5" class="grid"/>
-        <line x1="73.5" y1="608.5" x2="73.5" y2="708.5" class="grid"/>
-        <line x1="93.5" y1="608.5" x2="93.5" y2="708.5" class="grid"/>
-        <line x1="113.5" y1="608.5" x2="113.5" y2="708.5" class="grid"/>
-        <line x1="133.5" y1="608.5" x2="133.5" y2="708.5" class="grid"/>
-        <use href="#ld" x="83.5" y="658.5"/>
-        <circle cx="83" cy="658" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="608.5" x2="248.5" y2="608.5" class="grid"/>
-        <line x1="148.5" y1="628.5" x2="248.5" y2="628.5" class="grid"/>
-        <line x1="148.5" y1="648.5" x2="248.5" y2="648.5" class="grid"/>
-        <line x1="148.5" y1="668.5" x2="248.5" y2="668.5" class="grid"/>
-        <line x1="148.5" y1="688.5" x2="248.5" y2="688.5" class="grid"/>
-        <line x1="148.5" y1="708.5" x2="248.5" y2="708.5" class="grid"/>
-        <line x1="148.5" y1="608.5" x2="148.5" y2="708.5" class="grid"/>
-        <line x1="168.5" y1="608.5" x2="168.5" y2="708.5" class="grid"/>
-        <line x1="188.5" y1="608.5" x2="188.5" y2="708.5" class="grid"/>
-        <line x1="208.5" y1="608.5" x2="208.5" y2="708.5" class="grid"/>
-        <line x1="228.5" y1="608.5" x2="228.5" y2="708.5" class="grid"/>
-        <line x1="248.5" y1="608.5" x2="248.5" y2="708.5" class="grid"/>
-        <use href="#ll" x="198.5" y="658.5"/>
-        <circle cx="198" cy="658" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="608.5" x2="363.5" y2="608.5" class="grid"/>
-        <line x1="263.5" y1="628.5" x2="363.5" y2="628.5" class="grid"/>
-        <line x1="263.5" y1="648.5" x2="363.5" y2="648.5" class="grid"/>
-        <line x1="263.5" y1="668.5" x2="363.5" y2="668.5" class="grid"/>
-        <line x1="263.5" y1="688.5" x2="363.5" y2="688.5" class="grid"/>
-        <line x1="263.5" y1="708.5" x2="363.5" y2="708.5" class="grid"/>
-        <line x1="263.5" y1="608.5" x2="263.5" y2="708.5" class="grid"/>
-        <line x1="283.5" y1="608.5" x2="283.5" y2="708.5" class="grid"/>
-        <line x1="303.5" y1="608.5" x2="303.5" y2="708.5" class="grid"/>
-        <line x1="323.5" y1="608.5" x2="323.5" y2="708.5" class="grid"/>
-        <line x1="343.5" y1="608.5" x2="343.5" y2="708.5" class="grid"/>
-        <line x1="363.5" y1="608.5" x2="363.5" y2="708.5" class="grid"/>
-        <use href="#lu" x="313.5" y="658.5"/>
-        <circle cx="313" cy="658" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="608.5" x2="478.5" y2="608.5" class="grid"/>
-        <line x1="378.5" y1="628.5" x2="478.5" y2="628.5" class="grid"/>
-        <line x1="378.5" y1="648.5" x2="478.5" y2="648.5" class="grid"/>
-        <line x1="378.5" y1="668.5" x2="478.5" y2="668.5" class="grid"/>
-        <line x1="378.5" y1="688.5" x2="478.5" y2="688.5" class="grid"/>
-        <line x1="378.5" y1="708.5" x2="478.5" y2="708.5" class="grid"/>
-        <line x1="378.5" y1="608.5" x2="378.5" y2="708.5" class="grid"/>
-        <line x1="398.5" y1="608.5" x2="398.5" y2="708.5" class="grid"/>
-        <line x1="418.5" y1="608.5" x2="418.5" y2="708.5" class="grid"/>
-        <line x1="438.5" y1="608.5" x2="438.5" y2="708.5" class="grid"/>
-        <line x1="458.5" y1="608.5" x2="458.5" y2="708.5" class="grid"/>
-        <line x1="478.5" y1="608.5" x2="478.5" y2="708.5" class="grid"/>
-        <use href="#lr" x="428.5" y="658.5"/>
-        <circle cx="428" cy="658" r="5.0" class="grid-center"/>
-        <line x1="33.5" y1="723.5" x2="133.5" y2="723.5" class="grid"/>
-        <line x1="33.5" y1="743.5" x2="133.5" y2="743.5" class="grid"/>
-        <line x1="33.5" y1="763.5" x2="133.5" y2="763.5" class="grid"/>
-        <line x1="33.5" y1="783.5" x2="133.5" y2="783.5" class="grid"/>
-        <line x1="33.5" y1="803.5" x2="133.5" y2="803.5" class="grid"/>
-        <line x1="33.5" y1="823.5" x2="133.5" y2="823.5" class="grid"/>
-        <line x1="33.5" y1="723.5" x2="33.5" y2="823.5" class="grid"/>
-        <line x1="53.5" y1="723.5" x2="53.5" y2="823.5" class="grid"/>
-        <line x1="73.5" y1="723.5" x2="73.5" y2="823.5" class="grid"/>
-        <line x1="93.5" y1="723.5" x2="93.5" y2="823.5" class="grid"/>
-        <line x1="113.5" y1="723.5" x2="113.5" y2="823.5" class="grid"/>
-        <line x1="133.5" y1="723.5" x2="133.5" y2="823.5" class="grid"/>
-        <use href="#ih" x="83.5" y="773.5"/>
-        <circle cx="83" cy="773" r="5.0" class="grid-center"/>
-        <line x1="148.5" y1="723.5" x2="248.5" y2="723.5" class="grid"/>
-        <line x1="148.5" y1="743.5" x2="248.5" y2="743.5" class="grid"/>
-        <line x1="148.5" y1="763.5" x2="248.5" y2="763.5" class="grid"/>
-        <line x1="148.5" y1="783.5" x2="248.5" y2="783.5" class="grid"/>
-        <line x1="148.5" y1="803.5" x2="248.5" y2="803.5" class="grid"/>
-        <line x1="148.5" y1="823.5" x2="248.5" y2="823.5" class="grid"/>
-        <line x1="148.5" y1="723.5" x2="148.5" y2="823.5" class="grid"/>
-        <line x1="168.5" y1="723.5" x2="168.5" y2="823.5" class="grid"/>
-        <line x1="188.5" y1="723.5" x2="188.5" y2="823.5" class="grid"/>
-        <line x1="208.5" y1="723.5" x2="208.5" y2="823.5" class="grid"/>
-        <line x1="228.5" y1="723.5" x2="228.5" y2="823.5" class="grid"/>
-        <line x1="248.5" y1="723.5" x2="248.5" y2="823.5" class="grid"/>
-        <use href="#iv" x="198.5" y="773.5"/>
-        <circle cx="198" cy="773" r="5.0" class="grid-center"/>
-        <line x1="263.5" y1="723.5" x2="363.5" y2="723.5" class="grid"/>
-        <line x1="263.5" y1="743.5" x2="363.5" y2="743.5" class="grid"/>
-        <line x1="263.5" y1="763.5" x2="363.5" y2="763.5" class="grid"/>
-        <line x1="263.5" y1="783.5" x2="363.5" y2="783.5" class="grid"/>
-        <line x1="263.5" y1="803.5" x2="363.5" y2="803.5" class="grid"/>
-        <line x1="263.5" y1="823.5" x2="363.5" y2="823.5" class="grid"/>
-        <line x1="263.5" y1="723.5" x2="263.5" y2="823.5" class="grid"/>
-        <line x1="283.5" y1="723.5" x2="283.5" y2="823.5" class="grid"/>
-        <line x1="303.5" y1="723.5" x2="303.5" y2="823.5" class="grid"/>
-        <line x1="323.5" y1="723.5" x2="323.5" y2="823.5" class="grid"/>
-        <line x1="343.5" y1="723.5" x2="343.5" y2="823.5" class="grid"/>
-        <line x1="363.5" y1="723.5" x2="363.5" y2="823.5" class="grid"/>
-        <use href="#ih" x="313.5" y="773.5"/>
-        <circle cx="313" cy="773" r="5.0" class="grid-center"/>
-        <line x1="378.5" y1="723.5" x2="478.5" y2="723.5" class="grid"/>
-        <line x1="378.5" y1="743.5" x2="478.5" y2="743.5" class="grid"/>
-        <line x1="378.5" y1="763.5" x2="478.5" y2="763.5" class="grid"/>
-        <line x1="378.5" y1="783.5" x2="478.5" y2="783.5" class="grid"/>
-        <line x1="378.5" y1="803.5" x2="478.5" y2="803.5" class="grid"/>
-        <line x1="378.5" y1="823.5" x2="478.5" y2="823.5" class="grid"/>
-        <line x1="378.5" y1="723.5" x2="378.5" y2="823.5" class="grid"/>
-        <line x1="398.5" y1="723.5" x2="398.5" y2="823.5" class="grid"/>
-        <line x1="418.5" y1="723.5" x2="418.5" y2="823.5" class="grid"/>
-        <line x1="438.5" y1="723.5" x2="438.5" y2="823.5" class="grid"/>
-        <line x1="458.5" y1="723.5" x2="458.5" y2="823.5" class="grid"/>
-        <line x1="478.5" y1="723.5" x2="478.5" y2="823.5" class="grid"/>
-        <use href="#iv" x="428.5" y="773.5"/>
-        <circle cx="428" cy="773" r="5.0" class="grid-center"/>
+    <line x1="30.5" y1="45.5" x2="1510.5" y2="45.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="65.5" x2="1510.5" y2="65.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="85.5" x2="1510.5" y2="85.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="105.5" x2="1510.5" y2="105.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="125.5" x2="1510.5" y2="125.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="145.5" x2="1510.5" y2="145.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="165.5" x2="1510.5" y2="165.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="185.5" x2="1510.5" y2="185.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="205.5" x2="1510.5" y2="205.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="225.5" x2="1510.5" y2="225.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="245.5" x2="1510.5" y2="245.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="265.5" x2="1510.5" y2="265.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="285.5" x2="1510.5" y2="285.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="305.5" x2="1510.5" y2="305.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="325.5" x2="1510.5" y2="325.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="345.5" x2="1510.5" y2="345.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="365.5" x2="1510.5" y2="365.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="385.5" x2="1510.5" y2="385.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="405.5" x2="1510.5" y2="405.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="425.5" x2="1510.5" y2="425.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="445.5" x2="1510.5" y2="445.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="465.5" x2="1510.5" y2="465.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="485.5" x2="1510.5" y2="485.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="505.5" x2="1510.5" y2="505.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="525.5" x2="1510.5" y2="525.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="545.5" x2="1510.5" y2="545.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="565.5" x2="1510.5" y2="565.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="585.5" x2="1510.5" y2="585.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="605.5" x2="1510.5" y2="605.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="625.5" x2="1510.5" y2="625.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="645.5" x2="1510.5" y2="645.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="665.5" x2="1510.5" y2="665.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="685.5" x2="1510.5" y2="685.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="705.5" x2="1510.5" y2="705.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="30.5" y1="725.5" x2="1510.5" y2="725.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="40.5" y1="36.5" x2="40.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="60.5" y1="36.5" x2="60.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="80.5" y1="36.5" x2="80.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="100.5" y1="36.5" x2="100.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="120.5" y1="36.5" x2="120.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="140.5" y1="36.5" x2="140.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="160.5" y1="36.5" x2="160.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="180.5" y1="36.5" x2="180.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="200.5" y1="36.5" x2="200.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="220.5" y1="36.5" x2="220.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="240.5" y1="36.5" x2="240.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="260.5" y1="36.5" x2="260.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="280.5" y1="36.5" x2="280.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="300.5" y1="36.5" x2="300.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="320.5" y1="36.5" x2="320.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="340.5" y1="36.5" x2="340.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="360.5" y1="36.5" x2="360.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="380.5" y1="36.5" x2="380.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="400.5" y1="36.5" x2="400.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="420.5" y1="36.5" x2="420.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="440.5" y1="36.5" x2="440.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="460.5" y1="36.5" x2="460.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="480.5" y1="36.5" x2="480.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="500.5" y1="36.5" x2="500.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="520.5" y1="36.5" x2="520.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="540.5" y1="36.5" x2="540.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="560.5" y1="36.5" x2="560.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="580.5" y1="36.5" x2="580.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="600.5" y1="36.5" x2="600.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="620.5" y1="36.5" x2="620.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="640.5" y1="36.5" x2="640.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="660.5" y1="36.5" x2="660.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="680.5" y1="36.5" x2="680.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="700.5" y1="36.5" x2="700.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="720.5" y1="36.5" x2="720.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="740.5" y1="36.5" x2="740.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="760.5" y1="36.5" x2="760.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="780.5" y1="36.5" x2="780.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="800.5" y1="36.5" x2="800.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="820.5" y1="36.5" x2="820.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="840.5" y1="36.5" x2="840.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="860.5" y1="36.5" x2="860.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="880.5" y1="36.5" x2="880.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="900.5" y1="36.5" x2="900.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="920.5" y1="36.5" x2="920.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="940.5" y1="36.5" x2="940.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="960.5" y1="36.5" x2="960.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="980.5" y1="36.5" x2="980.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1000.5" y1="36.5" x2="1000.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1020.5" y1="36.5" x2="1020.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1040.5" y1="36.5" x2="1040.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1060.5" y1="36.5" x2="1060.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1080.5" y1="36.5" x2="1080.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1100.5" y1="36.5" x2="1100.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1120.5" y1="36.5" x2="1120.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1140.5" y1="36.5" x2="1140.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1160.5" y1="36.5" x2="1160.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1180.5" y1="36.5" x2="1180.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1200.5" y1="36.5" x2="1200.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1220.5" y1="36.5" x2="1220.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1240.5" y1="36.5" x2="1240.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1260.5" y1="36.5" x2="1260.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1280.5" y1="36.5" x2="1280.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1300.5" y1="36.5" x2="1300.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1320.5" y1="36.5" x2="1320.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1340.5" y1="36.5" x2="1340.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1360.5" y1="36.5" x2="1360.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1380.5" y1="36.5" x2="1380.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1400.5" y1="36.5" x2="1400.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1420.5" y1="36.5" x2="1420.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1440.5" y1="36.5" x2="1440.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1460.5" y1="36.5" x2="1460.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1480.5" y1="36.5" x2="1480.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <line x1="1500.5" y1="36.5" x2="1500.5" y2="724.5" class="grid" vector-effect="non-scaling-stroke"/>
+    <g style="font-size: 13px;">
+        <text x="28" y="55.5" class="axes" dy="0.25em" text-anchor="end">33</text>
+        <text x="28" y="75.5" class="axes" dy="0.25em" text-anchor="end">32</text>
+        <text x="28" y="95.5" class="axes" dy="0.25em" text-anchor="end">31</text>
+        <text x="28" y="115.5" class="axes" dy="0.25em" text-anchor="end">30</text>
+        <text x="28" y="135.5" class="axes" dy="0.25em" text-anchor="end">29</text>
+        <text x="28" y="155.5" class="axes" dy="0.25em" text-anchor="end">28</text>
+        <text x="28" y="175.5" class="axes" dy="0.25em" text-anchor="end">27</text>
+        <text x="28" y="195.5" class="axes" dy="0.25em" text-anchor="end">26</text>
+        <text x="28" y="215.5" class="axes" dy="0.25em" text-anchor="end">25</text>
+        <text x="28" y="235.5" class="axes" dy="0.25em" text-anchor="end">24</text>
+        <text x="28" y="255.5" class="axes" dy="0.25em" text-anchor="end">23</text>
+        <text x="28" y="275.5" class="axes" dy="0.25em" text-anchor="end">22</text>
+        <text x="28" y="295.5" class="axes" dy="0.25em" text-anchor="end">21</text>
+        <text x="28" y="315.5" class="axes" dy="0.25em" text-anchor="end">20</text>
+        <text x="28" y="335.5" class="axes" dy="0.25em" text-anchor="end">19</text>
+        <text x="28" y="355.5" class="axes" dy="0.25em" text-anchor="end">18</text>
+        <text x="28" y="375.5" class="axes" dy="0.25em" text-anchor="end">17</text>
+        <text x="28" y="395.5" class="axes" dy="0.25em" text-anchor="end">16</text>
+        <text x="28" y="415.5" class="axes" dy="0.25em" text-anchor="end">15</text>
+        <text x="28" y="435.5" class="axes" dy="0.25em" text-anchor="end">14</text>
+        <text x="28" y="455.5" class="axes" dy="0.25em" text-anchor="end">13</text>
+        <text x="28" y="475.5" class="axes" dy="0.25em" text-anchor="end">12</text>
+        <text x="28" y="495.5" class="axes" dy="0.25em" text-anchor="end">11</text>
+        <text x="28" y="515.5" class="axes" dy="0.25em" text-anchor="end">10</text>
+        <text x="28" y="535.5" class="axes" dy="0.25em" text-anchor="end">9</text>
+        <text x="28" y="555.5" class="axes" dy="0.25em" text-anchor="end">8</text>
+        <text x="28" y="575.5" class="axes" dy="0.25em" text-anchor="end">7</text>
+        <text x="28" y="595.5" class="axes" dy="0.25em" text-anchor="end">6</text>
+        <text x="28" y="615.5" class="axes" dy="0.25em" text-anchor="end">5</text>
+        <text x="28" y="635.5" class="axes" dy="0.25em" text-anchor="end">4</text>
+        <text x="28" y="655.5" class="axes" dy="0.25em" text-anchor="end">3</text>
+        <text x="28" y="675.5" class="axes" dy="0.25em" text-anchor="end">2</text>
+        <text x="28" y="695.5" class="axes" dy="0.25em" text-anchor="end">1</text>
+        <text x="28" y="715.5" class="axes" dy="0.25em" text-anchor="end">0</text>
+        <text transform="translate(50.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-36</text>
+        <text transform="translate(70.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-35</text>
+        <text transform="translate(90.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-34</text>
+        <text transform="translate(110.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-33</text>
+        <text transform="translate(130.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-32</text>
+        <text transform="translate(150.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-31</text>
+        <text transform="translate(170.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-30</text>
+        <text transform="translate(190.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-29</text>
+        <text transform="translate(210.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-28</text>
+        <text transform="translate(230.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-27</text>
+        <text transform="translate(250.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-26</text>
+        <text transform="translate(270.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-25</text>
+        <text transform="translate(290.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-24</text>
+        <text transform="translate(310.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-23</text>
+        <text transform="translate(330.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-22</text>
+        <text transform="translate(350.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-21</text>
+        <text transform="translate(370.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-20</text>
+        <text transform="translate(390.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-19</text>
+        <text transform="translate(410.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-18</text>
+        <text transform="translate(430.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-17</text>
+        <text transform="translate(450.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-16</text>
+        <text transform="translate(470.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-15</text>
+        <text transform="translate(490.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-14</text>
+        <text transform="translate(510.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-13</text>
+        <text transform="translate(530.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-12</text>
+        <text transform="translate(550.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-11</text>
+        <text transform="translate(570.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-10</text>
+        <text transform="translate(590.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-9</text>
+        <text transform="translate(610.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-8</text>
+        <text transform="translate(630.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-7</text>
+        <text transform="translate(650.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-6</text>
+        <text transform="translate(670.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-5</text>
+        <text transform="translate(690.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-4</text>
+        <text transform="translate(710.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-3</text>
+        <text transform="translate(730.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-2</text>
+        <text transform="translate(750.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">-1</text>
+        <text transform="translate(770.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">0</text>
+        <text transform="translate(790.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">1</text>
+        <text transform="translate(810.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">2</text>
+        <text transform="translate(830.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">3</text>
+        <text transform="translate(850.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">4</text>
+        <text transform="translate(870.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">5</text>
+        <text transform="translate(890.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">6</text>
+        <text transform="translate(910.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">7</text>
+        <text transform="translate(930.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">8</text>
+        <text transform="translate(950.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">9</text>
+        <text transform="translate(970.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">10</text>
+        <text transform="translate(990.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">11</text>
+        <text transform="translate(1010.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">12</text>
+        <text transform="translate(1030.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">13</text>
+        <text transform="translate(1050.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">14</text>
+        <text transform="translate(1070.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">15</text>
+        <text transform="translate(1090.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">16</text>
+        <text transform="translate(1110.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">17</text>
+        <text transform="translate(1130.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">18</text>
+        <text transform="translate(1150.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">19</text>
+        <text transform="translate(1170.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">20</text>
+        <text transform="translate(1190.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">21</text>
+        <text transform="translate(1210.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">22</text>
+        <text transform="translate(1230.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">23</text>
+        <text transform="translate(1250.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">24</text>
+        <text transform="translate(1270.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">25</text>
+        <text transform="translate(1290.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">26</text>
+        <text transform="translate(1310.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">27</text>
+        <text transform="translate(1330.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">28</text>
+        <text transform="translate(1350.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">29</text>
+        <text transform="translate(1370.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">30</text>
+        <text transform="translate(1390.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">31</text>
+        <text transform="translate(1410.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">32</text>
+        <text transform="translate(1430.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">33</text>
+        <text transform="translate(1450.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">34</text>
+        <text transform="translate(1470.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">35</text>
+        <text transform="translate(1490.5 728) rotate(-90)" class="axes" dy="0.25em" text-anchor="end">36</text>
     </g>
-    <g style="font-size: 16px;">
-        <text x="26.5" y="83.5" dy="0.25em" class="axes" text-anchor="end">0</text>
-        <text x="26.5" y="198.5" dy="0.25em" class="axes" text-anchor="end">1</text>
-        <text x="26.5" y="313.5" dy="0.25em" class="axes" text-anchor="end">2</text>
-        <text x="26.5" y="428.5" dy="0.25em" class="axes" text-anchor="end">3</text>
-        <text x="26.5" y="543.5" dy="0.25em" class="axes" text-anchor="end">4</text>
-        <text x="26.5" y="658.5" dy="0.25em" class="axes" text-anchor="end">5</text>
-        <text x="26.5" y="773.5" dy="0.25em" class="axes" text-anchor="end">6</text>
+    <g style="font-size: 13px;">
+        <g>
+            <rect x="1450.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(1460.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="1250.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(1260.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="1050.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(1060.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="850.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(860.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="650.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(660.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="450.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(460.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="250.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(260.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+        <g>
+            <rect x="50.5" y="65.5" width="19" height="639" class="component"/>
+            <text transform="translate(60.5 385.5) rotate(-90)" class="component" dy="0.25em" text-anchor="middle">ir32</text>
+        </g>
+    </g>
+        <rect x="1450.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="1450.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="1450.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="1250.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="1250.5" y="45.5" width="19" height="39" class="terminal-fill"/>
+        <rect x="1250.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="1050.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="1050.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="1050.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="850.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="850.5" y="45.5" width="19" height="39" class="terminal-fill"/>
+        <rect x="850.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="650.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="650.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="650.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="450.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="450.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="450.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="250.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="250.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="250.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="50.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <rect x="50.5" y="65.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="50.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+    <g style="font-size: 20px;">
+        <rect x="1450.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="1450.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1460.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1250.5" y="685.5" width="19" height="39" class="terminal-fill"/>
+        <rect x="1250.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1260.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="1050.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="1050.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1060.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="850.5" y="685.5" width="19" height="39" class="terminal-fill"/>
+        <rect x="850.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="860.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="650.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="650.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="660.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="450.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="450.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="460.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="250.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="250.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="260.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="50.5" y="705.5" width="19" height="19" class="terminal-fill"/>
+        <rect x="50.5" y="685.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="60.5" y="738" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1450.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1460.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="1250.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1260.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="1050.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="1060.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="850.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="860.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">1</text>
+        <rect x="650.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="660.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="450.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="460.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="250.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="260.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
+        <rect x="50.5" y="45.5" width="19" height="39" class="terminal-stroke"/>
+        <text x="60.5" y="35.5" class="terminals" dy="0.25em" text-anchor="middle">0</text>
     </g>
 </svg>
