@@ -16,7 +16,7 @@ import tetrominocomputer.parser.ParseException;
 
 public final class Simulator2 implements Processor {
     
-    private static final String TETRISMEMORYSCRIPTS_DIR = "MemoryCodes";
+    private static final String MEMORYCODES_DIR = "mc";
     
     private Runnable[] cycleLeftRunnables;
     private Runnable[] cycleRightRunnables;
@@ -75,7 +75,7 @@ public final class Simulator2 implements Processor {
             throws IOException, ParseException {
         
         final Parser parser = new Parser();
-        final Map<String, Instruction[]> components = parser.parseAll(TETRISMEMORYSCRIPTS_DIR);
+        final Map<String, Instruction[]> components = parser.parseAll(MEMORYCODES_DIR);
         final List<Instruction> instructions = parser.expand(script, components);
         final Runnable[] runnables = new Runnable[instructions.size()];
         
