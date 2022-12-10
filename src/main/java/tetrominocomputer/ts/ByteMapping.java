@@ -1,12 +1,12 @@
-package tetrominocomputer.computer.mapping;
+package tetrominocomputer.ts;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class ByteMapping2 {
+public class ByteMapping {
     
-    public static ByteMapping2 read(final InputStream in) throws IOException {
+    public static ByteMapping read(final InputStream in) throws IOException {
         
         final int mapTypeValue = in.read();
         if (mapTypeValue < 0) {
@@ -43,13 +43,13 @@ public class ByteMapping2 {
             map[i] = (byte)b;
         }
         
-        return new ByteMapping2(mapType, map);
+        return new ByteMapping(mapType, map);
     }
     
     private final ByteMappingType mappingType;
     private final byte[] map;
     
-    public ByteMapping2(final ComponentMapping componentMapping) {
+    public ByteMapping(final ComponentMapping componentMapping) {
         final int[] map = componentMapping.getMap();
         switch (componentMapping.getMappingType()) {
             case BIT_TWO_BYTES:
@@ -111,16 +111,16 @@ public class ByteMapping2 {
         }
     }
 
-    public ByteMapping2(final ByteMappingType mappingType, final byte[] map) {
+    public ByteMapping(final ByteMappingType mappingType, final byte[] map) {
         this.mappingType = mappingType;
         this.map = map;
     }
     
-    public ByteMapping2(final byte[] map) {
+    public ByteMapping(final byte[] map) {
         this(ByteMappingType.ONE_BYTE, map);
     }
 
-    public ByteMapping2(final byte[][][] map) {
+    public ByteMapping(final byte[][][] map) {
         mappingType = ByteMappingType.TWO_BYTES;
         this.map = new byte[256 * 256 * 2];
         int index = 0;
@@ -135,7 +135,7 @@ public class ByteMapping2 {
         }
     }
 
-    public ByteMapping2(final byte[][][][] map) {        
+    public ByteMapping(final byte[][][][] map) {        
         if (map.length == 2) {
             this.map = new byte[256 * 256 * 2 * 3];
             mappingType = ByteMappingType.BIT_TWO_BYTES;
@@ -195,11 +195,11 @@ public class ByteMapping2 {
     
     @Override
     public boolean equals(final Object obj) {
-        if (!(obj instanceof ByteMapping2)) {
+        if (!(obj instanceof ByteMapping)) {
             return false;
         }
         
-        final ByteMapping2 mapping = (ByteMapping2)obj;
+        final ByteMapping mapping = (ByteMapping)obj;
         
         if (mappingType != mapping.mappingType) {
             return false;

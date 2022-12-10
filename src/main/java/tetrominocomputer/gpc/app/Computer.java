@@ -1,4 +1,4 @@
-package tetrominocomputer.computer;
+package tetrominocomputer.gpc.app;
 
 import com.bulenkov.darcula.DarculaLaf;
 
@@ -6,13 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import tetrominocomputer.computer.ui.PlayfieldFrame;
-
-import tetrominocomputer.computer.simulator.Simulator3;
-import tetrominocomputer.computer.ui.PlayfieldModel;
-
+import tetrominocomputer.gpc.ui.PlayfieldFrame;
+import tetrominocomputer.gpc.ui.PlayfieldModel;
+import tetrominocomputer.util.Dirs;
 
 public class Computer {
+    
+    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
+    private static final String DEFAULT_CYCLE_LEFT_NAME = "CYCLE_LEFT";
+    private static final String DEFAULT_CYCLE_RIGHT_NAME = "CYCLE_RIGHT";
 
     private static final double MAX_FRAMES_PER_SECOND = 10;
     private static final int MAX_FRAMES_LOST = 3;
@@ -24,13 +26,15 @@ public class Computer {
     private static final long MAX_LOST_NANOS = -MAX_FRAMES_LOST * NANOS_PER_FRAME;
     private static final double NANOS_PER_SAMPLE_FPS = SECONDS_PER_SAMPLE_FPS * 1.0E9;
     
-    private final Processor processor = new Simulator3();
+    private final ProcessorAndMemory processor = new ProcessorAndMemoryImpl();
     private final PlayfieldModel playfieldModel = new PlayfieldModel();
     
     private volatile PlayfieldFrame playfieldFrame;
     
-    public void launch() throws Exception {
-        processor.init();
+    public void launch(final String binFilename, final String cycleLeftName, final String cycleRightName) 
+            throws Exception {
+        
+        processor.init(binFilename, cycleLeftName, cycleRightName);
         EventQueue.invokeAndWait(this::createFrame);
         runGameLoop();
     }
@@ -47,37 +51,24 @@ public class Computer {
     }
     
     private void update() {
-        processor.writeMemory(0x00FD, 0);
+        processor.write(0x00FD, 0);
         do {
             processor.runInstruction();
-        } while (processor.readMemory(0x00FD) == 0);
-        
-//        printExtendedPlayfield();
+        } while (processor.read(0x00FD) == 0);
         
         final int[][] cells = playfieldModel.getCells();
         for (int y = 19; y >= 0; --y) {
             for (int x = 9; x >= 0; --x) {
-                cells[y][x] = processor.readMemory(11 * (2 + y) + x);
+                cells[y][x] = processor.read(11 * (2 + y) + x);
             }
         }
         playfieldFrame.update(playfieldModel);        
-        processor.writeMemory(0x00FE, playfieldModel.isLeftPressed() ? 1 : 0);
-        processor.writeMemory(0x00FF, playfieldModel.isRightPressed() ? 1 : 0);
-        processor.writeMemory(0x0170, playfieldModel.isStartPressed() ? 1 : 0);
-        processor.writeMemory(0x0171, playfieldModel.isCcwRotatePressed() ? 1 : 0);
-        processor.writeMemory(0x0172, playfieldModel.isCwRotatePressed() ? 1 : 0);
-        processor.writeMemory(0x0173, playfieldModel.isDownPressed() ? 1 : 0);
-    }
-    
-    private void printExtendedPlayfield() {
-        for (int r = 0; r <= 22; ++r) {
-            final StringBuilder sb = new StringBuilder();
-            for (int c = 0; c <= 10; ++c) {
-                sb.append(String.format("%02X ", processor.readMemory(r * 11 + c)));
-            }
-            System.out.println(sb);
-        }
-        System.out.println();
+        processor.write(0x00FE, playfieldModel.isLeftPressed() ? 1 : 0);
+        processor.write(0x00FF, playfieldModel.isRightPressed() ? 1 : 0);
+        processor.write(0x0170, playfieldModel.isStartPressed() ? 1 : 0);
+        processor.write(0x0171, playfieldModel.isCcwRotatePressed() ? 1 : 0);
+        processor.write(0x0172, playfieldModel.isCwRotatePressed() ? 1 : 0);
+        processor.write(0x0173, playfieldModel.isDownPressed() ? 1 : 0);
     }
     
     private void runGameLoop() {
@@ -101,7 +92,8 @@ public class Computer {
                         Thread.sleep(remainingTime / 1_000_000L);
                     }
                 }
-            } catch (final Exception e) {                
+            } catch (final Exception e) {
+                e.printStackTrace();
             }
             
             ++frames;
@@ -112,9 +104,16 @@ public class Computer {
                 framesStart = System.nanoTime();
             }
         }
-    }    
+    }  
+    
+    private static String defaultArg(final String[] args, final int index, final String defaultValue) {
+        return (args.length > index) ? args[index] : defaultValue;
+    }
 
-    public static void main(final String... args) throws Exception {
-        new Computer().launch();
+    public static void main(final String... args) throws Exception {               
+        new Computer().launch(
+                defaultArg(args, 0, DEFAULT_BIN_FILENAME), 
+                defaultArg(args, 1, DEFAULT_CYCLE_LEFT_NAME),
+                defaultArg(args, 2, DEFAULT_CYCLE_RIGHT_NAME));
     }
 }

@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.ui;
+package tetrominocomputer.gpc.ui;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.EventQueue;

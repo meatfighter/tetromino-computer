@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.mapping;
+package tetrominocomputer.ts;
 
 public class ComponentMapping {
     

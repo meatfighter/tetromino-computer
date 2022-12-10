@@ -1,12 +1,9 @@
-package tetrominocomputer.computer.mapping;
+package tetrominocomputer.ts;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,47 +29,14 @@ import tetrominocomputer.sim.Point;
 import tetrominocomputer.sim.Terminal;
 import tetrominocomputer.sim.TerminalType;
 import tetrominocomputer.sim.Tetromino;
-import tetrominocomputer.ts.LexerParserException;
-import tetrominocomputer.ts.LexerParser;
+import tetrominocomputer.util.Dirs;
 
 public class MapMaker {
-    
-    public static final String TS_DIR = "ts";
     
     public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
     
     public void launch() throws Exception {                  
         saveMaps(computeMappings());
-        compareMaps();
-        findMissingMaps();
-    }
-    
-    private void findMissingMaps() throws Exception {
-        for (final File file : new File("maps").listFiles()) {
-            if (!(file.isFile() && file.getName().endsWith(".map"))) {
-                continue;
-            }
-            if (!new File("maps2/" + file.getName()).exists()) {
-                System.out.format("Missing: %s%n", file.getName());
-            }
-        }
-    }
-    
-    private void compareMaps() throws Exception {
-        for (final File fileA : new File("maps2").listFiles()) {
-            if (!(fileA.isFile() && fileA.getName().endsWith(".map"))) {
-                continue;
-            }
-            final File fileB = new File("maps/" + fileA.getName());
-            if (!fileB.exists()) {
-                continue;
-            }            
-            final ByteMapping mappingA = loadByteMapping(fileA);
-            final ByteMapping mappingB = loadByteMapping(fileB);
-            if (!mappingA.equals(mappingB)) {
-                System.out.format("Mismatch: %s%n", fileA);
-            }
-        }
     }
     
     private void saveMaps(final Map<String, ComponentMapping> mappings) throws Exception {        
@@ -84,15 +48,9 @@ public class MapMaker {
         }
     }
     
-    private ByteMapping loadByteMapping(final File file) throws Exception {
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-            return ByteMapping.read(in);
-        }
-    }
-    
     private void saveMap(final String name, final ComponentMapping componentMapping) throws Exception {
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                String.format("maps2/%s.map", name)))) {
+                String.format("%s%s.map", Dirs.MAPS, name)))) {
             new ByteMapping(componentMapping).write(out);
         }
     }
@@ -102,14 +60,14 @@ public class MapMaker {
         final Map<String, Component> components = new ConcurrentHashMap<>();
         final Map<String, ComponentMapping> mappings = new ConcurrentHashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(TS_DIR), components);
+        loadComponents(new File(Dirs.TS), components);
         final Map<String, Set<String>> dependencies = findDependencies(components);
         final Map<String, Set<String>> reverseDependencies = reverseDependencies(dependencies);
         final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
         final List<String> removeList = new ArrayList<>();
         final ExecutorService executor = Executors.newWorkStealingPool();
         
-        /*outer:*/ while (true) {
+        while (true) {
             
             boolean remaining = false;
             for (final Iterator<Map.Entry<String, Set<String>>> i = dependencies.entrySet().iterator(); i.hasNext(); ) {
@@ -134,10 +92,6 @@ public class MapMaker {
                             removeList.notifyAll();
                         }
                     });
-                    
-//                    if ("C_CMP".equals(name)) {
-//                        break outer; // TODO TESTING
-//                    }
                 }
             }
             
@@ -153,15 +107,12 @@ public class MapMaker {
                     }
                 }
                 
-                for (final String remove : removeList) {
+                removeList.forEach(remove -> {
                     final Set<String> names = reverseDependencies.get(remove);
-                    if (names == null) {
-                        continue;
+                    if (names != null) {
+                        names.forEach(name -> dependencies.get(name).remove(remove));
                     }
-                    for (final String name : names) {
-                        dependencies.get(name).remove(remove);
-                    }
-                }
+                });
                 
                 removeList.clear();
             }
@@ -169,64 +120,6 @@ public class MapMaker {
         
         executor.shutdown();        
         executor.awaitTermination(1, TimeUnit.DAYS);
-        
-//        final ComponentMapping mapping = mappings.get("C_CMP");
-//        System.out.println(mapping.getMappingType());
-//        final int[] map = mapping.getMap();
-//        for (int c = 0; c <= 1; ++c) {
-//            for (int a = 0; a <= 0xFF; ++a) {
-//                for (int b = 0; b <= 0xFF; ++b) {
-//                    final int i = (c << 16) | (a << 8) | b;
-//                    final int v = map[i];
-//                    final int C = 1 & (v >> 16);
-//                    final int A = 0xFF & (v >> 8);
-//                    final int B = 0xFF & v;
-//                    if (C != ((a == b) ? 1 : 0) || a != A || b != B) {
-//                        System.out.format("a = %02X, b = %02X, c = %X, A = %02X, B = %02X, C = %X%n", a, b, c, A, B, C);
-//                    }
-//                }
-//            }
-//        }
-//        for (int i = 0; i < 0x1FF; ++i) {
-//            System.out.format("%02X, %X -> %04X%n", (i >> 1), i & 1, map[i]);
-//        }
-//        System.out.format("00 -> %d%n", map[0]);
-//        System.out.format("01 -> %d%n", map[1]);
-//        System.out.format("10 -> %d%n", map[2]);
-//        System.out.format("11 -> %d%n", map[3]);        
-//        for (int i = 0; i < 0x1FFFF; ++i) {
-//            final int ai = 0xFF & (i >> 9);
-//            final int bi = 0xFF & (i >> 1);
-//            final int ci = 0x01 & i;
-//            final int v = map[i];
-//            final int ao = 0xFF & (v >> 16);
-//            final int bo = 0xFF & (v >> 8);
-//            final int co = 0xFF & v;
-//            System.out.format("ai = %02X, bi = %02X, ci = %X, ao = %02X, bo = %02X, co = %X%n", ai, bi, ci, ao, bo, co);
-//        }
-        
-//        for (int a = 0; a <= 0x01; ++a) {
-//            for (int b = 0; b <= 0x01; ++b) {
-//                for (int c = 0; c <= 0x01; ++c) {
-//                    int inputBits = c;
-//                    for (int i = 7; i >= 0; --i) {
-//                        inputBits |= ((a >> i) & 1) << (2 * i + 2);
-//                        inputBits |= ((b >> i) & 1) << (2 * i + 1);                        
-//                    }
-//                    final int outputBits = map[inputBits];
-//                    int sum = 0;
-//                    int aOut = 0;
-//                    for (int i = 7; i >= 0; --i) {
-//                        aOut |= ((outputBits >> (i * 2 + 1)) & 1) << i;
-//                    }
-//                    for (int i = 8; i >= 0; --i) {
-//                        sum |= ((outputBits >> (i * 2)) & 1) << i;
-//                    }
-//                    System.out.format("inputBits = %02X, outputBits = %02X, a = %02X, b = %02X, c = %X, sum = %02X, aOut = %02X%n", 
-//                            inputBits, outputBits, a, b, c, sum, aOut);
-//                }
-//            }
-//        }
         
         return mappings;
     }

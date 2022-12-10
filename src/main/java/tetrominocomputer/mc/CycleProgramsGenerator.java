@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public final class GenerateCyclePrograms {
+public final class CycleProgramsGenerator {
     
     private void slideStateRegisterRight(final PrintStream out, final int maxAddress) {
         for (int address = 0; address < maxAddress; ++address) {
@@ -68,6 +68,6 @@ public final class GenerateCyclePrograms {
             return;
         }
         
-        new GenerateCyclePrograms().launch(args[0], args[1], args[2]);
+        new CycleProgramsGenerator().launch(args[0], args[1], args[2]);
     }    
 }

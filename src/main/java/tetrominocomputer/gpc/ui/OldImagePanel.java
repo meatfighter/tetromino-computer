@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.ui;
+package tetrominocomputer.gpc.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;

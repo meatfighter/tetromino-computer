@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.ui;
+package tetrominocomputer.gpc.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,8 +13,8 @@ import java.awt.Stroke;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
-import static tetrominocomputer.computer.ui.PlayfieldModel.PLAYFIELD_HEIGHT;
-import static tetrominocomputer.computer.ui.PlayfieldModel.PLAYFIELD_WIDTH;
+import static tetrominocomputer.gpc.ui.PlayfieldModel.PLAYFIELD_HEIGHT;
+import static tetrominocomputer.gpc.ui.PlayfieldModel.PLAYFIELD_WIDTH;
 
 public class PlayfieldPanel extends javax.swing.JPanel {
     

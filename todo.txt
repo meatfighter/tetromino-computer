@@ -15,13 +15,6 @@ negator
 
 test mechanism
 
-refactor packages:
-tetrominoesscript
-computer
-
-
-workspace -> TetrominoScript and MemoryCode
-
 remaining sections:
 
 - TetrominoScript Editor tutorial
@@ -34,3 +27,9 @@ remaining sections:
 - faster than 5 fps?
    - runnable tree? blocks of 1024 runnables
 
+continue refactoring
+remove ComponentMapping
+remove ComponentMappingType
+rename ByteMapping to LookUpTable
+rename ByteMappingType to LookUpTableType
+rename MapMaker to LookUpTableGenerator

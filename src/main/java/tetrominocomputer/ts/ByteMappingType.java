@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.mapping;
+package tetrominocomputer.ts;
 
 import java.util.Collections;
 import java.util.HashMap;

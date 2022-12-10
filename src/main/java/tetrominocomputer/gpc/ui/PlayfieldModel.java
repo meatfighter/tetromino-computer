@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.ui;
+package tetrominocomputer.gpc.ui;
 
 public class PlayfieldModel {
     

@@ -1,4 +1,4 @@
-package tetrominocomputer.computer.ui;
+package tetrominocomputer.gpc.ui;
 
 import static java.awt.EventQueue.invokeAndWait;
 import static java.awt.EventQueue.isDispatchThread;
