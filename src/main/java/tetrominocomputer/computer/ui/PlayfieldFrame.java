@@ -3,7 +3,7 @@ package tetrominocomputer.computer.ui;
 import static java.awt.EventQueue.invokeAndWait;
 import static java.awt.EventQueue.isDispatchThread;
 import java.awt.event.KeyEvent;
-import tetrominocomputer.ui.UiUtil;
+import tetrominocomputer.tse.ui.UiUtil;
 
 public class PlayfieldFrame extends javax.swing.JFrame {
 

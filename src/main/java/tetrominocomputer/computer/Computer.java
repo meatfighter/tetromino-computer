@@ -8,9 +8,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tetrominocomputer.computer.ui.PlayfieldFrame;
 
-import tetrominocomputer.computer.emulator.Emulator;
-import tetrominocomputer.computer.simulator.Simulator;
-import tetrominocomputer.computer.simulator.Simulator2;
 import tetrominocomputer.computer.simulator.Simulator3;
 import tetrominocomputer.computer.ui.PlayfieldModel;
 
@@ -27,7 +24,7 @@ public class Computer {
     private static final long MAX_LOST_NANOS = -MAX_FRAMES_LOST * NANOS_PER_FRAME;
     private static final double NANOS_PER_SAMPLE_FPS = SECONDS_PER_SAMPLE_FPS * 1.0E9;
     
-    private final Processor processor = new Simulator3(); //new Emulator();
+    private final Processor processor = new Simulator3();
     private final PlayfieldModel playfieldModel = new PlayfieldModel();
     
     private volatile PlayfieldFrame playfieldFrame;

@@ -24,16 +24,16 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import tetrominocomputer.Component;
-import tetrominocomputer.HorizontalLine;
-import tetrominocomputer.Instruction;
-import tetrominocomputer.Playfield;
-import tetrominocomputer.Point;
-import tetrominocomputer.Terminal;
-import tetrominocomputer.TerminalType;
-import tetrominocomputer.Tetromino;
-import tetrominocomputer.parser.ParseException;
-import tetrominocomputer.parser.Parser;
+import tetrominocomputer.sim.Component;
+import tetrominocomputer.sim.HorizontalLine;
+import tetrominocomputer.sim.Instruction;
+import tetrominocomputer.sim.Playfield;
+import tetrominocomputer.sim.Point;
+import tetrominocomputer.sim.Terminal;
+import tetrominocomputer.sim.TerminalType;
+import tetrominocomputer.sim.Tetromino;
+import tetrominocomputer.ts.LexerException;
+import tetrominocomputer.ts.Lexer;
 
 public class MapMaker {
     
@@ -774,7 +774,7 @@ public class MapMaker {
     }    
     
     private void loadComponents(final File directory, final Map<String, Component> components) 
-            throws IOException, ParseException {
+            throws IOException, LexerException {
         
         for (final File file : directory.listFiles()) {
             if (file.isDirectory()) {
@@ -784,7 +784,7 @@ public class MapMaker {
             if (!file.getName().endsWith(".t")) {
                 continue;
             }
-            new Parser().parse(components, file);
+            new Lexer().tokenize(components, file);
         }
     }    
     

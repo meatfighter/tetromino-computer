@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import tetrominocomputer.computer.Processor;
 import tetrominocomputer.computer.mapping.ByteMapping2;
-import tetrominocomputer.computer.memorycode.Instruction;
-import tetrominocomputer.computer.memorycode.Parser;
-import tetrominocomputer.parser.ParseException;
+import tetrominocomputer.mc.Instruction;
+import tetrominocomputer.mc.Lexer;
+import tetrominocomputer.ts.LexerException;
 
 public final class Simulator3 implements Processor {
     
@@ -72,10 +72,10 @@ public final class Simulator3 implements Processor {
     } 
     
     private Runnable[] loadExecutable(final Map<String, ByteMapping2> mappings, final String script) 
-            throws IOException, ParseException {
+            throws IOException, LexerException {
         
-        final Parser parser = new Parser();
-        final Map<String, Instruction[]> components = parser.parseAll(MEMORYCODES_DIR);
+        final Lexer parser = new Lexer();
+        final Map<String, Instruction[]> components = parser.tokenizeAll(MEMORYCODES_DIR);
         final List<Instruction> instructions = parser.expand(script, components);
         final Runnable[] runnables = new Runnable[instructions.size()];
         
