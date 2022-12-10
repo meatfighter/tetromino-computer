@@ -11,12 +11,10 @@ import java.util.Map;
 import tetrominocomputer.computer.Processor;
 import tetrominocomputer.computer.mapping.ByteMapping2;
 import tetrominocomputer.mc.Instruction;
-import tetrominocomputer.mc.Lexer;
-import tetrominocomputer.ts.LexerException;
+import tetrominocomputer.mc.LexerParser;
+import tetrominocomputer.ts.LexerParserException;
 
 public final class Simulator3 implements Processor {
-    
-    private static final String MEMORYCODES_DIR = "mc";
     
     private Runnable[] cycleLeftRunnables;
     private Runnable[] cycleRightRunnables;
@@ -71,12 +69,10 @@ public final class Simulator3 implements Processor {
         return mappings;
     } 
     
-    private Runnable[] loadExecutable(final Map<String, ByteMapping2> mappings, final String script) 
-            throws IOException, LexerException {
-        
-        final Lexer parser = new Lexer();
-        final Map<String, Instruction[]> components = parser.tokenizeAll(MEMORYCODES_DIR);
-        final List<Instruction> instructions = parser.expand(script, components);
+    private Runnable[] loadProgram(final String programName, final Map<String, Instruction[]> programs, 
+            final Map<String, ByteMapping2> mappings) throws IOException {
+                
+        final List<Instruction> instructions = LexerParser.expand(programName, programs);
         final Runnable[] runnables = new Runnable[instructions.size()];
         
         for (int r = 0; r < runnables.length; ++r) {
@@ -126,21 +122,39 @@ public final class Simulator3 implements Processor {
         return runnables;
     }
     
-    private void loadInputData() throws IOException {
-        final File file = new File("data/inputData.dat");
-        bytes = new int[(int)file.length()];
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-            for (int i = 0; i < bytes.length; ++i) {
-                bytes[i] = in.read();
+    public void loadBinFile(final String binFilename) throws IOException {
+        final File binFile = new File(binFilename);
+        maxAddress = (int)binFile.length() - 3; 
+        
+        bytes = new int[maxAddress + 24]; // machine code + 2 padding bytes + 21-byte state register
+        
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))){
+            for (int address = 0; address <= maxAddress; ++address) {                
+                final int b = in.read();
+                if (b < 0) {
+                    throw new IOException("Unexpected end of file.");
+                }
+                bytes[address] = b;
+            }
+            bytes[maxAddress + 9] = in.read();         // P = main;
+            bytes[maxAddress + 10] = in.read();
+            if (bytes[maxAddress + 9] < 0 || bytes[maxAddress + 10] < 0) {
+                throw new IOException("Unexpected end of file.");
             }
         }
+        
+        bytes[maxAddress + 13] = maxAddress >> 8;      // a = L-1;
+        bytes[maxAddress + 14] = 0xFF & maxAddress;
     }
     
     @Override
-    public void init() throws Exception {
+    public void init(final String binFilename, final String cycleLeftName, final String cycleRightName) 
+            throws Exception {
+        
+        final Map<String, Instruction[]> programs = new LexerParser().parseAll();
         final Map<String, ByteMapping2> mappings = loadMaps();
-        cycleLeftRunnables = loadExecutable(mappings, "CYCLE_LEFT");
-        cycleRightRunnables = loadExecutable(mappings, "CYCLE_RIGHT");
+        cycleLeftRunnables = loadProgram(cycleLeftName, programs, mappings);
+        cycleRightRunnables = loadProgram(cycleRightName, programs, mappings);
         loadInputData();
     }
 

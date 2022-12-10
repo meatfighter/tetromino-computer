@@ -32,8 +32,8 @@ import tetrominocomputer.sim.Point;
 import tetrominocomputer.sim.Terminal;
 import tetrominocomputer.sim.TerminalType;
 import tetrominocomputer.sim.Tetromino;
-import tetrominocomputer.ts.LexerException;
-import tetrominocomputer.ts.Lexer;
+import tetrominocomputer.ts.LexerParserException;
+import tetrominocomputer.ts.LexerParser;
 
 public class MapMaker {
     
@@ -774,7 +774,7 @@ public class MapMaker {
     }    
     
     private void loadComponents(final File directory, final Map<String, Component> components) 
-            throws IOException, LexerException {
+            throws IOException, LexerParserException {
         
         for (final File file : directory.listFiles()) {
             if (file.isDirectory()) {
@@ -784,7 +784,7 @@ public class MapMaker {
             if (!file.getName().endsWith(".t")) {
                 continue;
             }
-            new Lexer().tokenize(components, file);
+            new LexerParser().parse(components, file);
         }
     }    
     

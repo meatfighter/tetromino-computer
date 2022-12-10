@@ -35,8 +35,8 @@ import javax.script.Compilable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import tetrominocomputer.ts.LexerException;
-import tetrominocomputer.ts.Lexer;
+import tetrominocomputer.ts.LexerParserException;
+import tetrominocomputer.ts.LexerParser;
 import tetrominocomputer.tse.ui.HtmlExportModel;
 import tetrominocomputer.tse.ui.HtmlGenerator;
 import tetrominocomputer.tse.ui.SvgExportModel;
@@ -421,11 +421,11 @@ public class Controller {
         }
         
         final String filename = file.getName();        
-        final Lexer parser = new Lexer();
+        final LexerParser lexerParser = new LexerParser();
         
         try {
-            parser.tokenize(components, filename, new FileInputStream(file));
-        } catch (final LexerException e) {
+            lexerParser.parse(components, filename, new FileInputStream(file));
+        } catch (final LexerParserException e) {
             if (listener != null) {
                 listener.append("Failed to load " + componentName + " defintion file.");
                 listener.append(e.toString());
@@ -919,19 +919,19 @@ public class Controller {
     private void buildScripts(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth, final Runnable runTask) {
         final OutputListener listener = outputListener;        
-        final Lexer parser = new Lexer();
+        final LexerParser lexerParser = new LexerParser();
         if (listener != null) {
             listener.clear();
             listener.append("Building.");
         }
         try {
-            final Component component = parser.tokenize(components, componentName, 
+            final Component component = lexerParser.parse(components, componentName, 
                     new ByteArrayInputStream(tetrominoScript.getBytes()));
             component.setCompiledScript(((Compilable)scriptEngine).compile(javaScript));
             updateComponentExtents();
             createStructure(component, depth, testBitStr, runTask);
             notifyStructuresCreated(componentName);
-        } catch (final LexerException e) {
+        } catch (final LexerParserException e) {
             e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.append("Build failed.");
@@ -958,9 +958,9 @@ public class Controller {
         if (listener != null) {
             listener.clear();
         }
-        final Lexer parser = new Lexer();
+        final LexerParser lexerParser = new LexerParser();
         try {
-            parser.tokenize(components, componentName, new ByteArrayInputStream(tetrominoScript.getBytes()));
+            lexerParser.parse(components, componentName, new ByteArrayInputStream(tetrominoScript.getBytes()));
             updateComponentExtents();
             final Extents extents = componentExtents.get(componentName);
             final int tx = -((extents.getMaxX() + extents.getMinX()) >> 1);
@@ -968,7 +968,7 @@ public class Controller {
                 listener.append("Translated " + tx);
             }
             return translate(componentName, tetrominoScript, tx, 0);            
-        } catch (final LexerException e) {
+        } catch (final LexerParserException e) {
             if (listener != null) {
                 listener.append("Build failed.");
                 listener.append(e.toString());
@@ -1182,8 +1182,8 @@ public class Controller {
     }
     
     public String translate(final String filename, final String tetrominoScript, 
-            final int offsetX, final int offsetY) throws IOException, LexerException {
-        return new Lexer().translate(components, filename, tetrominoScript, offsetX, offsetY);
+            final int offsetX, final int offsetY) throws IOException, LexerParserException {
+        return new LexerParser().translate(components, filename, tetrominoScript, offsetX, offsetY);
     }
     
     private void returnPlayfield(final Playfield playfield) {
