@@ -31,7 +31,7 @@ import tetrominocomputer.sim.TerminalType;
 import tetrominocomputer.sim.Tetromino;
 import tetrominocomputer.util.Dirs;
 
-public class LutGenerator {
+public class LutsGenerator {
     
     public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
     
@@ -84,6 +84,7 @@ public class LutGenerator {
                             generateComponentLut(components, luts, playfield, component);
                         } catch (final Exception e) {
                             e.printStackTrace();
+                            System.exit(0);
                         } finally {
                             returnPlayfield(playfieldPool, playfield);
                         }
@@ -154,7 +155,7 @@ public class LutGenerator {
             return;
         }        
         
-        System.out.println(component.getName()); // TODO REMOVE
+        System.out.println(component.getName());
         
         switch (componentLutType) {
             case BIT_TWO_BYTES:
@@ -246,20 +247,20 @@ public class LutGenerator {
     
     private Map<String, Set<String>> findDependencies(final Map<String, Component> components) {        
         final Map<String, Set<String>> depends = new HashMap<>();
-        for (final Component component : components.values()) {
+        components.values().forEach(component -> {
             findDependencies(components, depends, component.getName());
-        }
+        });
         return depends;
     }
     
     private Map<String, Set<String>> reverseDependencies(final Map<String, Set<String>> depends) {
         final Map<String, Set<String>> dependencies = new HashMap<>();
-        for (Map.Entry<String, Set<String>> entry : depends.entrySet()) {
+        depends.entrySet().forEach(entry -> {
             final String key = entry.getKey();
-            for (final String value : entry.getValue()) {
+            entry.getValue().forEach(value -> {
                 dependencies.computeIfAbsent(value, v -> new HashSet<>()).add(key);
-            }
-        }
+            });
+        });
         return dependencies;
     }
     
@@ -682,6 +683,6 @@ public class LutGenerator {
     }    
     
     public static void main(final String... args) throws Exception {
-        new LutGenerator().launch();
+        new LutsGenerator().launch();
     }
 }

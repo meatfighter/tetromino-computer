@@ -43,30 +43,24 @@ public class Assembler {
     }
     
     public void launch(final String asmFilename, final String binFilename) throws Exception {
-        
-        final Instant start = Instant.now();
-        try {            
-            System.out.format("Assembling %s%n", asmFilename);
-            System.out.println();
-
+               
+        Out.timeTask(String.format("Assembling %s", asmFilename), () -> {
+            
             final File asmFile = new File(asmFilename);
             if (!(asmFile.isFile() && asmFile.exists())) {
-                System.err.println("BUILD FAILURE");
-                System.err.format("File not found: %s%n", asmFilename);
-                return;
+                printFailure("File not found: %s", asmFilename);
+                return null;
             }
             
             final File binFile = new File(binFilename);
             if (binFile.exists()) {
                 if (binFile.isDirectory()) {
-                    System.err.println("BUILD FAILURE");
-                    System.err.format("Binary is existing directory: %s%n", binFilename);
-                    return;
+                    printFailure("Binary is existing directory: %s", binFilename);
+                    return null;
                 }
                 if (binFile.isFile() && !binFile.delete()) {
-                    System.err.println("BUILD FAILURE");
-                    System.err.format("Failed to delete file: %s%n", binFilename);
-                    return;
+                    printFailure("Failed to delete file: %s", binFilename);
+                    return null;
                 }
             }
 
@@ -75,15 +69,20 @@ public class Assembler {
                 assemble(asmFilename, in, out);
                 System.out.println("BUILD SUCCESS");
                 System.out.format("Created %s%n", binFilename);
+                System.out.println();
             } catch (final LexerException e) {
-                System.err.println("BUILD FAILURE");
-                System.err.println(e);
+                printFailure(e.toString());
             }
-        } finally {        
-            System.out.println();
-            System.out.format("Total time: %s%n", Out.since(start));
-            System.out.format("Finished at: %s%n", Out.now());
-        }
+            
+            return null;
+        });
+    }
+    
+    private void printFailure(final String message, final Object... args) {
+        System.err.println("BUILD FAILURE");
+        System.err.format(message, args);
+        System.err.println();
+        System.err.println();
     }
     
     private void assemble(final String asmFilename, final InputStream in, final OutputStream out) 
