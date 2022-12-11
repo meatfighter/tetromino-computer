@@ -27,9 +27,7 @@ remaining sections:
 - faster than 5 fps?
    - runnable tree? blocks of 1024 runnables
 
-continue refactoring
-remove ComponentMapping
-remove ComponentMappingType
-rename ByteMapping to LookUpTable
-rename ByteMappingType to LookUpTableType
-rename MapMaker to LookUpTableGenerator
+figure out why gpc slowed down
+was it because of removal the interface?
+was it bacause there are more luts?
+

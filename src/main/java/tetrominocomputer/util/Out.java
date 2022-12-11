@@ -23,15 +23,15 @@ public class Out {
     
     public static void timeTask(final String startMessage, final Callable<Void> task) throws Exception {
         final Instant start = Instant.now();
-        try {            
-            System.out.println(startMessage);
-            System.out.println();
-            task.call();
-        } finally {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.format("Total time: %s%n", Duration.between(start, Instant.now()).toString().substring(2)
                     .replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase());
             System.out.format("Finished at: %s%n", formatter.format(ZonedDateTime.now()));
             System.out.println();
-        }            
+        }));
+
+        System.out.println(startMessage);
+        System.out.println();
+        task.call();
     }
 }

@@ -89,7 +89,9 @@ public class ByteLut {
                     case 256:
                         lutType = ByteLutType.ONE_BYTE;
                         this.table = new byte[256];
-                        System.arraycopy(table, 0, this.table, 0, 256);
+                        for (int i = table.length - 1; i >= 0; --i) {
+                            this.table[i] = (byte) table[i];
+                        }                        
                         break;
                     case 256 * 256:
                         lutType = ByteLutType.TWO_BYTES;

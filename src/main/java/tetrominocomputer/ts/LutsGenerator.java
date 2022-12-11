@@ -30,22 +30,45 @@ import tetrominocomputer.sim.Terminal;
 import tetrominocomputer.sim.TerminalType;
 import tetrominocomputer.sim.Tetromino;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Out;
 
 public class LutsGenerator {
     
     public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
     
     public void launch() throws Exception {                  
-        saveLuts(computeLuts());
+        Out.timeTask(String.format("Cleaning directory: %s", Dirs.LUTS), () -> {
+            cleanLutsDirectory();
+            saveLuts(generateLuts());
+            return null;
+        });
     }
     
-    private void saveLuts(final Map<String, ComponentLut> luts) throws Exception {        
+    private void cleanLutsDirectory() {
+        for (final File file : new File(Dirs.LUTS).listFiles()) {
+            if (file.isFile() && file.getName().endsWith(".lut") && !file.delete()) {
+                System.err.format("Failed to delete file: %s%n", file);
+                System.err.println();
+                System.exit(0);
+            }
+        }
+    }
+    
+    private void saveLuts(final Map<String, ComponentLut> luts) throws Exception {
+        
+        System.out.println();
+        System.out.println("Saving lookup tables...");
+        System.out.println();
+        
         for (final Map.Entry<String, ComponentLut> entry : luts.entrySet()) {
             final String name = entry.getKey();
             if (UPPERCASE_PATTERN.matcher(name).matches()) {
                 saveLut(name, entry.getValue());
             }
         }
+        
+        System.out.println("Saved lookup tables.");
+        System.out.println();
     }
     
     private void saveLut(final String name, final ComponentLut componentLut) throws Exception {
@@ -55,7 +78,10 @@ public class LutsGenerator {
         }
     }
     
-    private Map<String, ComponentLut> computeLuts() throws Exception {
+    private Map<String, ComponentLut> generateLuts() throws Exception {
+        
+        System.out.println("Generating lookup tables for:");
+        System.out.println();
         
         final Map<String, Component> components = new ConcurrentHashMap<>();
         final Map<String, ComponentLut> luts = new ConcurrentHashMap<>();
@@ -84,6 +110,7 @@ public class LutsGenerator {
                             generateComponentLut(components, luts, playfield, component);
                         } catch (final Exception e) {
                             e.printStackTrace();
+                            System.err.println();
                             System.exit(0);
                         } finally {
                             returnPlayfield(playfieldPool, playfield);

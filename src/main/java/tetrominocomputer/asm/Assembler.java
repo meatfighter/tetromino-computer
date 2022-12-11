@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Math.max;
-import java.time.Instant;
 import tetrominocomputer.util.Dirs;
 import tetrominocomputer.util.Out;
 

@@ -1,7 +1,6 @@
 package tetrominocomputer.tse.ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -207,13 +206,5 @@ public final class TetrominoPath {
 
     public PathPoint[] getPoints() {
         return points;
-    }
-    
-    public static void main(final String... args) {
-        for (final TetrominoPath[] paths : TETROMINO_PATHS) {
-            for (TetrominoPath path : paths) {
-                System.out.format("%s: %s%n", path.getTetromino().getName(), Arrays.asList(path.getPoints()));
-            }
-        }
     }
 }

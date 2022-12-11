@@ -24,8 +24,8 @@ import tetrominocomputer.util.Dirs;
 public final class GeneralPurposeComputer {
     
     private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
-    private static final String DEFAULT_CYCLE_LEFT_COMPONENT_NAME = "CYCLE_LEFT";
-    private static final String DEFAULT_CYCLE_RIGHT_COMPONENT_NAME = "CYCLE_RIGHT";
+    private static final String DEFAULT_CYCLE_LEFT_PROGRAM_NAME = "CYCLE_LEFT";
+    private static final String DEFAULT_CYCLE_RIGHT_PROGRAM_NAME = "CYCLE_RIGHT";
 
     private static final double MAX_FRAMES_PER_SECOND = 10;
     private static final int MAX_FRAMES_LOST = 3;
@@ -47,8 +47,8 @@ public final class GeneralPurposeComputer {
     
     private boolean cycleLeft = true;    
     
-    private GeneralPurposeComputer(final String binFilename, final String cycleLeftComponentName, final String cycleRightComponentName) 
-            throws Exception {
+    private GeneralPurposeComputer(final String binFilename, final String cycleLeftProgramName, 
+            final String cycleRightProgramName) throws Exception {
         
         final File binFile = new File(binFilename);
         final int maxAddress = ((int) binFile.length()) - 3; 
@@ -75,8 +75,8 @@ public final class GeneralPurposeComputer {
         
         final Map<String, Instruction[]> programs = new LexerParser().parseAll();
         final Map<String, ByteLut> luts = loadLuts();
-        cycleLeftRunnables = convertProgramToRunnables(cycleLeftComponentName, programs, luts);
-        cycleRightRunnables = convertProgramToRunnables(cycleRightComponentName, programs, luts);                
+        cycleLeftRunnables = convertProgramToRunnables(cycleLeftProgramName, programs, luts);
+        cycleRightRunnables = convertProgramToRunnables(cycleRightProgramName, programs, luts);                
 
         EventQueue.invokeAndWait(this::createFrame);
     }
@@ -233,23 +233,23 @@ public final class GeneralPurposeComputer {
     public static void main(final String... args) throws Exception {               
         
         if (args.length == 2 || args.length > 3) {
-            System.out.println("args: [[ bin filename ]] [[ cycle left component name ]] "
-                    + "[[ cycle right component name ]]");
+            System.out.println("args: [[ bin filename ]] [[ cycle left program name ]] "
+                    + "[[ cycle right program name ]]");
             return;
         } 
         
         final String binFilename = (args.length == 0) ? DEFAULT_BIN_FILENAME : args[0];
         
-        final String cycleLeftComponentName;
-        final String cycleRightComponentName;                
+        final String cycleLeftProgramName;
+        final String cycleRightProgramName;                
         if (args.length != 3) {            
-            cycleLeftComponentName = DEFAULT_CYCLE_LEFT_COMPONENT_NAME;
-            cycleRightComponentName = DEFAULT_CYCLE_RIGHT_COMPONENT_NAME;
+            cycleLeftProgramName = DEFAULT_CYCLE_LEFT_PROGRAM_NAME;
+            cycleRightProgramName = DEFAULT_CYCLE_RIGHT_PROGRAM_NAME;
         } else {
-            cycleLeftComponentName = args[1];
-            cycleRightComponentName = args[2];
+            cycleLeftProgramName = args[1];
+            cycleRightProgramName = args[2];
         } 
         
-        new GeneralPurposeComputer(binFilename, cycleLeftComponentName, cycleRightComponentName).launch();
+        new GeneralPurposeComputer(binFilename, cycleLeftProgramName, cycleRightProgramName).launch();
     }
 }
