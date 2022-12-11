@@ -31,34 +31,34 @@ import tetrominocomputer.sim.TerminalType;
 import tetrominocomputer.sim.Tetromino;
 import tetrominocomputer.util.Dirs;
 
-public class MapMaker {
+public class LutGenerator {
     
     public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
     
     public void launch() throws Exception {                  
-        saveMaps(computeMappings());
+        saveLuts(computeLuts());
     }
     
-    private void saveMaps(final Map<String, ComponentMapping> mappings) throws Exception {        
-        for (final Map.Entry<String, ComponentMapping> entry : mappings.entrySet()) {
+    private void saveLuts(final Map<String, ComponentLut> luts) throws Exception {        
+        for (final Map.Entry<String, ComponentLut> entry : luts.entrySet()) {
             final String name = entry.getKey();
             if (UPPERCASE_PATTERN.matcher(name).matches()) {
-                saveMap(name, entry.getValue());
+                saveLut(name, entry.getValue());
             }
         }
     }
     
-    private void saveMap(final String name, final ComponentMapping componentMapping) throws Exception {
+    private void saveLut(final String name, final ComponentLut componentLut) throws Exception {
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                String.format("%s%s.map", Dirs.MAPS, name)))) {
-            new ByteMapping(componentMapping).write(out);
+                String.format("%s%s.lut", Dirs.LUTS, name)))) {
+            new ByteLut(componentLut).write(out);
         }
     }
     
-    private Map<String, ComponentMapping> computeMappings() throws Exception {
+    private Map<String, ComponentLut> computeLuts() throws Exception {
         
         final Map<String, Component> components = new ConcurrentHashMap<>();
-        final Map<String, ComponentMapping> mappings = new ConcurrentHashMap<>();
+        final Map<String, ComponentLut> luts = new ConcurrentHashMap<>();
         createIsSsAndZs(components);
         loadComponents(new File(Dirs.TS), components);
         final Map<String, Set<String>> dependencies = findDependencies(components);
@@ -81,7 +81,7 @@ public class MapMaker {
                         Playfield playfield = null;
                         try {
                             playfield = borrowPlayfield(playfieldPool);
-                            generateComponentMapping(components, mappings, playfield, component);
+                            generateComponentLut(components, luts, playfield, component);
                         } catch (final Exception e) {
                             e.printStackTrace();
                         } finally {
@@ -121,7 +121,7 @@ public class MapMaker {
         executor.shutdown();        
         executor.awaitTermination(1, TimeUnit.DAYS);
         
-        return mappings;
+        return luts;
     }
     
     private void returnPlayfield(final List<Playfield> playfieldPool, final Playfield playfield) {
@@ -145,78 +145,78 @@ public class MapMaker {
         return playfield;
     }    
     
-    private void generateComponentMapping(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+    private void generateComponentLut(final Map<String, Component> components, 
+            final Map<String, ComponentLut> luts, final Playfield playfield, final Component component) {
         
-        final ComponentMappingType componentMappingType = solveComponentMappingType(components, mappings, playfield, 
+        final ComponentLutType componentLutType = solveComponentLutType(components, luts, playfield, 
                 component);
-        if (componentMappingType == null) {
+        if (componentLutType == null) {
             return;
         }        
         
         System.out.println(component.getName()); // TODO REMOVE
         
-        switch (componentMappingType) {
+        switch (componentLutType) {
             case BIT_TWO_BYTES:
-                generateComponentMappingBitTwoBytes(components, mappings, playfield, component);
+                generateComponentLutBitTwoBytes(components, luts, playfield, component);
                 break;
             case TWO_BYTES_BIT:
-                generateComponentMappingTwoBytesBit(components, mappings, playfield, component);                
+                generateComponentLutTwoBytesBit(components, luts, playfield, component);                
                 break;
             default:
-                generateComponentMappingAny(components, mappings, playfield, component);
+                generateComponentLutAny(components, luts, playfield, component);
                 break;
         }
     }
     
-    private void generateComponentMappingAny(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+    private void generateComponentLutAny(final Map<String, Component> components, 
+            final Map<String, ComponentLut> luts, final Playfield playfield, final Component component) {
         
-        final ComponentMapping componentMapping = new ComponentMapping(component.getInputs().length);
-        final int[] map = componentMapping.getMap();
-        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+        final ComponentLut componentLut = new ComponentLut(component.getInputs().length);
+        final int[] table = componentLut.getTable();
+        for (int inputBits = table.length - 1; inputBits >= 0; --inputBits) {
             playfield.clear();
             setInputs(playfield, component, inputBits);
-            simulate(components, mappings, playfield, component);
-            map[inputBits] = getOutputs(playfield, component);
+            simulate(components, luts, playfield, component);
+            table[inputBits] = getOutputs(playfield, component);
         }
-        mappings.put(component.getName(), componentMapping);
+        luts.put(component.getName(), componentLut);
     }
     
-    private void generateComponentMappingBitTwoBytes(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+    private void generateComponentLutBitTwoBytes(final Map<String, Component> components, 
+            final Map<String, ComponentLut> luts, final Playfield playfield, final Component component) {
         
-        final ComponentMapping componentMapping = new ComponentMapping(ComponentMappingType.BIT_TWO_BYTES);
-        final int[] map = componentMapping.getMap();
-        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+        final ComponentLut componentLut = new ComponentLut(ComponentLutType.BIT_TWO_BYTES);
+        final int[] table = componentLut.getTable();
+        for (int inputBits = table.length - 1; inputBits >= 0; --inputBits) {
             playfield.clear();
             setInputs(playfield, component, inputBits);
-            simulate(components, mappings, playfield, component);
-            map[inputBits] = getOutputs(playfield, component);
+            simulate(components, luts, playfield, component);
+            table[inputBits] = getOutputs(playfield, component);
         }
-        mappings.put(component.getName(), componentMapping);
+        luts.put(component.getName(), componentLut);
     }
 
-    private void generateComponentMappingTwoBytesBit(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+    private void generateComponentLutTwoBytesBit(final Map<String, Component> components, 
+            final Map<String, ComponentLut> luts, final Playfield playfield, final Component component) {
         
-        final ComponentMapping componentMapping = new ComponentMapping(ComponentMappingType.TWO_BYTES_BIT);
-        final int[] map = componentMapping.getMap();
-        for (int inputBits = map.length - 1; inputBits >= 0; --inputBits) {
+        final ComponentLut lut = new ComponentLut(ComponentLutType.TWO_BYTES_BIT);
+        final int[] table = lut.getTable();
+        for (int inputBits = table.length - 1; inputBits >= 0; --inputBits) {
             playfield.clear();
             setInputs(playfield, component, ((inputBits & 0x1FFFE) << 7) | (inputBits & 1));
-            simulate(components, mappings, playfield, component);
-            map[inputBits] = getOutputs(playfield, component);
+            simulate(components, luts, playfield, component);
+            table[inputBits] = getOutputs(playfield, component);
         }
-        mappings.put(component.getName(), componentMapping);
+        luts.put(component.getName(), lut);
     }    
     
-    private ComponentMappingType solveComponentMappingType(final Map<String, Component> components, 
-            final Map<String, ComponentMapping> mappings, final Playfield playfield, final Component component) {
+    private ComponentLutType solveComponentLutType(final Map<String, Component> components, 
+            final Map<String, ComponentLut> luts, final Playfield playfield, final Component component) {
         
         final int inputsCount = component.getInputs().length;
         if (inputsCount <= 20) {
-            return ComponentMappingType.ANY;
+            return ComponentLutType.ANY;
         }
         if (inputsCount != 24) {
             return null;
@@ -227,7 +227,7 @@ public class MapMaker {
             playfield.clear();
             final int inputs = random.nextInt() & 0xFFFFFF;
             setInputs(playfield, component, inputs);
-            simulate(components, mappings, playfield, component);
+            simulate(components, luts, playfield, component);
             final int outputs = getOutputs(playfield, component);
             final int high = 0xFF & (outputs >> 16);
             final int low = 0xFF & outputs;
@@ -236,10 +236,10 @@ public class MapMaker {
                         component.getName(), inputs, outputs));
             }
             if (low > 1) {
-                return ComponentMappingType.BIT_TWO_BYTES;
+                return ComponentLutType.BIT_TWO_BYTES;
             }
             if (high > 1) {
-                return ComponentMappingType.TWO_BYTES_BIT;
+                return ComponentLutType.TWO_BYTES_BIT;
             }
         }
     }
@@ -359,16 +359,16 @@ public class MapMaker {
         return out;
     }
        
-    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentLut> luts, 
             final Playfield playfield, final Component component) {
-        simulate(components, mappings, playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
+        simulate(components, luts, playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
     }
 
-    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentLut> luts, 
             final Playfield playfield, final Component component, final int originX, final int originY) {
         
-        if (!component.getName().startsWith("_") && mappings.containsKey(component.getName())) {
-            emulate(mappings, playfield, component, originX, originY);
+        if (!component.getName().startsWith("_") && luts.containsKey(component.getName())) {
+            emulate(luts, playfield, component, originX, originY);
             return;
         } 
         
@@ -378,11 +378,11 @@ public class MapMaker {
         }
         
         for (int i = 0; i < instructions.length; ++i) {
-            simulate(components, mappings, playfield, instructions[i], originX, originY);
+            simulate(components, luts, playfield, instructions[i], originX, originY);
         }
     } 
     
-    private void simulate(final Map<String, Component> components, final Map<String, ComponentMapping> mappings, 
+    private void simulate(final Map<String, Component> components, final Map<String, ComponentLut> luts, 
             final Playfield playfield, final Instruction instruction, final int originX, final int originY) {
 
         final int[] moves = instruction.getMoves();
@@ -391,7 +391,7 @@ public class MapMaker {
         if (componentName != null) {
             final Component component = components.getOrDefault(componentName, null);
             if (component != null) {          
-                simulate(components, mappings, playfield, component, originX + moves[0], originY - moves[1]);                
+                simulate(components, luts, playfield, component, originX + moves[0], originY - moves[1]);                
             }
             return;
         }
@@ -412,11 +412,11 @@ public class MapMaker {
         lock(playfield, tetromino, x, y);
     }    
     
-    private void emulate(final Map<String, ComponentMapping> mappings, final Playfield playfield, 
+    private void emulate(final Map<String, ComponentLut> luts, final Playfield playfield, 
             final Component component, final int originX, final int originY) {
 
-        final ComponentMapping mapping = mappings.get(component.getName());
-        if (mapping == null) {
+        final ComponentLut lut = luts.get(component.getName());
+        if (lut == null) {
             return;
         }
         
@@ -434,14 +434,14 @@ public class MapMaker {
                 int y = originY - horizontalLine.getY() - 1;                
                 for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
                     if (playfield.isSolid(originX + x, y)) {
-                        input = mapping.setInputBit(input, inputs.length - 1 - i);
+                        input = lut.setInputBit(input, inputs.length - 1 - i);
                         continue outer;
                     }
                 }
             }
         }
         
-        final int output = mapping.getMap()[input];
+        final int output = lut.getTable()[input];
         
         final Terminal[] outputs = component.getOutputs();
         if (outputs == null) {
@@ -682,6 +682,6 @@ public class MapMaker {
     }    
     
     public static void main(final String... args) throws Exception {
-        new MapMaker().launch();
+        new LutGenerator().launch();
     }
 }

@@ -6,7 +6,7 @@ public interface Dirs {
     
     String ASM = CODE + "asm/";
     String BIN = CODE + "bin/";
-    String MAPS = CODE + "maps/";
+    String LUTS = CODE + "luts/";
     String MC = CODE + "mc/";
     String TS = CODE + "ts/";
 }

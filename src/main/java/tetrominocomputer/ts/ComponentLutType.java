@@ -1,6 +1,6 @@
 package tetrominocomputer.ts;
 
-public enum ComponentMappingType {
+public enum ComponentLutType {
     ANY,
     BIT_TWO_BYTES,
     TWO_BYTES_BIT,
