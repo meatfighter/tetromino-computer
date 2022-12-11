@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import tetrominocomputer.tse.ui.CircuitsFrame;
 import tetrominocomputer.tse.ui.UiUtil;
 
-public class Main {
+public class TetrominoScriptEditor {
     
     private final Controller controller = new Controller();
 
@@ -30,6 +30,6 @@ public class Main {
     }
     
     public static void main(final String... args) throws Exception {
-        new Main().launch();
+        new TetrominoScriptEditor().launch();
     }
 }

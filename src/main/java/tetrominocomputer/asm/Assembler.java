@@ -2,6 +2,7 @@ package tetrominocomputer.asm;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,8 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.Math.max;
+import java.time.Instant;
+import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Out;
 
 public class Assembler {
+    
+    private static final String DEFAULT_ASM_FILENAME = Dirs.ASM + "example.asm";
+    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
     
     private static class ConstantUsage {
         
@@ -36,13 +43,46 @@ public class Assembler {
     }
     
     public void launch(final String asmFilename, final String binFilename) throws Exception {
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFilename));
-                final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFilename))) {
-             assemble(asmFilename, in, out);
-        } catch (final LexerException e) {
-            System.out.println(e);
-        } catch (final Exception e) {
-            e.printStackTrace();
+        
+        final Instant start = Instant.now();
+        try {            
+            System.out.format("Assembling %s%n", asmFilename);
+            System.out.println();
+
+            final File asmFile = new File(asmFilename);
+            if (!(asmFile.isFile() && asmFile.exists())) {
+                System.err.println("BUILD FAILURE");
+                System.err.format("File not found: %s%n", asmFilename);
+                return;
+            }
+            
+            final File binFile = new File(binFilename);
+            if (binFile.exists()) {
+                if (binFile.isDirectory()) {
+                    System.err.println("BUILD FAILURE");
+                    System.err.format("Binary is existing directory: %s%n", binFilename);
+                    return;
+                }
+                if (binFile.isFile() && !binFile.delete()) {
+                    System.err.println("BUILD FAILURE");
+                    System.err.format("Failed to delete file: %s%n", binFilename);
+                    return;
+                }
+            }
+
+            try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFile));
+                    final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFile))) {
+                assemble(asmFilename, in, out);
+                System.out.println("BUILD SUCCESS");
+                System.out.format("Created %s%n", binFilename);
+            } catch (final LexerException e) {
+                System.err.println("BUILD FAILURE");
+                System.err.println(e);
+            }
+        } finally {        
+            System.out.println();
+            System.out.format("Total time: %s%n", Out.since(start));
+            System.out.format("Finished at: %s%n", Out.now());
         }
     }
     
@@ -60,7 +100,6 @@ public class Assembler {
         int maxAddress = 0;
         outer: while (true) {
             final Token token = tokens.get(tokenIndex);
-            System.out.println(token.getType());
             switch (token.getType()) {
                 case BYTE:
                     bytes[address++ & 0xFFFF] = 0xFF & token.getNum();                    
@@ -97,10 +136,10 @@ public class Assembler {
             maxAddress = max(maxAddress, address);
         }
         
-        for (Map.Entry<String, List<ConstantUsage>> entry : constantUsages.entrySet()) {
+        constantUsages.entrySet().forEach(entry -> {
             final Integer wordValue = constantWordValues.get(entry.getKey());
             if (wordValue != null) {
-                for (final ConstantUsage usage : entry.getValue()) {
+                entry.getValue().forEach(usage -> {
                     final int addr = usage.getAddress();
                     int value = wordValue;
                     if (usage.getOffset() != null) {
@@ -108,22 +147,22 @@ public class Assembler {
                     }
                     bytes[addr] = 0xFF & (value >> 8);
                     bytes[addr + 1] = 0xFF & value;
-                }
+                });
             } else {
                 final Integer byteValue = constantByteValues.get(entry.getKey());
                 if (byteValue != null) {
-                    for (final ConstantUsage usage : entry.getValue()) {
+                    entry.getValue().forEach(usage -> {
                         int value = byteValue;
                         if (usage.getOffset() != null) {
                             value += usage.getOffset();
                         }
                         bytes[usage.getAddress()] = 0xFF & value;
-                    }
+                    });
                 } else {
                     throw new LexerException(asmFilename, 0, 0, "Undefined constant or label: " + entry.getKey());
                 }
             }
-        }
+        });
         
         for (int i = 0; i < maxAddress; ++i) {
             out.write(bytes[i]);
@@ -225,11 +264,13 @@ public class Assembler {
 
     public static void main(final String... args) throws Exception {
         
-        if (args.length != 2) {
-            System.out.println("args: [ asm filename ] [ bin filename ]");
+        if (args.length > 2) {
+            System.out.println("args: [[ asm filename ]] [[ bin filename ]]");
             return;
         }
-        
-        new Assembler().launch(args[0], args[1]);
+               
+        new Assembler().launch(
+                (args.length > 0) ? args[0] : DEFAULT_ASM_FILENAME, 
+                (args.length > 1) ? args[1] : DEFAULT_BIN_FILENAME);
     }
 }

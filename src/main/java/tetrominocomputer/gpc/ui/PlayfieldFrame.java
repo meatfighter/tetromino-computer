@@ -53,7 +53,6 @@ public class PlayfieldFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Tetris running on Tetris");
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -216,6 +215,6 @@ public class PlayfieldFrame extends javax.swing.JFrame {
             return;
         }
         
-        setTitle(String.format("Tetris running on Tetris [%.2f]", framesPerSecond));
+        setTitle(String.format("Frames/sec: %.2f", framesPerSecond));
     }
 }

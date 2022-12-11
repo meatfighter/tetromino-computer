@@ -77,7 +77,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     private String getComponentDirectory() {
         if (circuitsDirectory == null) {
-            circuitsDirectory = System.getProperty("user.dir") + File.separator + Controller.TS_DIR;
+            circuitsDirectory = Controller.TS_DIR;
             final File componentsDir = new File(circuitsDirectory);
             if (!(componentsDir.exists() && componentsDir.isDirectory())) {
                 circuitsDirectory = System.getProperty("user.dir");

@@ -21,7 +21,7 @@ import tetrominocomputer.mc.LexerParser;
 import tetrominocomputer.ts.ByteLut;
 import tetrominocomputer.util.Dirs;
 
-public final class Main {
+public final class GeneralPurposeComputer {
     
     private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
     private static final String DEFAULT_CYCLE_LEFT_COMPONENT_NAME = "CYCLE_LEFT";
@@ -47,7 +47,7 @@ public final class Main {
     
     private boolean cycleLeft = true;    
     
-    private Main(final String binFilename, final String cycleLeftComponentName, final String cycleRightComponentName) 
+    private GeneralPurposeComputer(final String binFilename, final String cycleLeftComponentName, final String cycleRightComponentName) 
             throws Exception {
         
         final File binFile = new File(binFilename);
@@ -250,6 +250,6 @@ public final class Main {
             cycleRightComponentName = args[2];
         } 
         
-        new Main(binFilename, cycleLeftComponentName, cycleRightComponentName).launch();
+        new GeneralPurposeComputer(binFilename, cycleLeftComponentName, cycleRightComponentName).launch();
     }
 }
