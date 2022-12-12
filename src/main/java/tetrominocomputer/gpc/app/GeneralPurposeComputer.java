@@ -3,29 +3,16 @@ package tetrominocomputer.gpc.app;
 import com.bulenkov.darcula.DarculaLaf;
 
 import java.awt.EventQueue;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import tetrominocomputer.gpc.ui.PlayfieldFrame;
 import tetrominocomputer.gpc.ui.PlayfieldModel;
-import tetrominocomputer.mc.Instruction;
-import tetrominocomputer.mc.LexerParser;
-import tetrominocomputer.ts.ByteLut;
-import tetrominocomputer.util.Dirs;
 
 public final class GeneralPurposeComputer {
     
-    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
-    private static final String DEFAULT_CYCLE_LEFT_PROGRAM_NAME = "CYCLE_LEFT";
-    private static final String DEFAULT_CYCLE_RIGHT_PROGRAM_NAME = "CYCLE_RIGHT";
+    private static final String DEFAULT_PROCESSOR_AND_MEMORY_CLASS_NAME 
+            = "tetrominocomputer.gpc.app.MCProcessorAndMemory";
 
     private static final double MAX_FRAMES_PER_SECOND = 10;
     private static final int MAX_FRAMES_LOST = 3;
@@ -38,115 +25,33 @@ public final class GeneralPurposeComputer {
     private static final double NANOS_PER_SAMPLE_FPS = SECONDS_PER_SAMPLE_FPS * 1.0E9;
     
     private final PlayfieldModel playfieldModel = new PlayfieldModel();
-    
-    private final Runnable[] cycleLeftRunnables;
-    private final Runnable[] cycleRightRunnables;
-    private final int[] memory;
 
     private volatile PlayfieldFrame playfieldFrame;
     
-    private boolean cycleLeft = true;    
+    private ProcessorAndMemory processorAndMemory;
     
-    private GeneralPurposeComputer(final String binFilename, final String cycleLeftProgramName, 
-            final String cycleRightProgramName) throws Exception {
-        
-        final File binFile = new File(binFilename);
-        final int maxAddress = ((int) binFile.length()) - 3; 
-        
-        memory = new int[maxAddress + 24]; // machine code + 2 padding bytes + 21-byte state register
-        
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))) {
-            for (int address = 0; address <= maxAddress; ++address) {                
-                final int b = in.read();
-                if (b < 0) {
-                    throw new IOException("Unexpected end of file.");
-                }
-                memory[address] = b;
-            }
-            memory[maxAddress + 9] = in.read();         // P = main;
-            memory[maxAddress + 10] = in.read();
-            if (memory[maxAddress + 9] < 0 || memory[maxAddress + 10] < 0) {
-                throw new IOException("Unexpected end of file.");
-            }
-        }
-        
-        memory[maxAddress + 13] = maxAddress >> 8;      // a = L-1;
-        memory[maxAddress + 14] = 0xFF & maxAddress;
-        
-        final Map<String, Instruction[]> programs = new LexerParser().parseAll();
-        final Map<String, ByteLut> luts = loadLuts();
-        cycleLeftRunnables = convertProgramToRunnables(cycleLeftProgramName, programs, luts);
-        cycleRightRunnables = convertProgramToRunnables(cycleRightProgramName, programs, luts);                
-
+    private void launch(final String[] args) throws Exception {
+        initProcessorAndMemory(args);
         EventQueue.invokeAndWait(this::createFrame);
-    }
+        loop();
+    }  
     
-    private Map<String, ByteLut> loadLuts() throws IOException {
-        final Map<String, ByteLut> luts = new HashMap<>();
-        for (final File file : new File(Dirs.LUTS).listFiles((dir, name) -> name.endsWith(".lut"))) {
-            final String filename = file.getName();
-            try (final InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-                luts.put(filename.substring(0, filename.length() - 4), ByteLut.read(in));
-            } catch (final IOException e) {
-                throw new IOException("Failed to load " + filename, e);
-            }
-        }
-        return luts;
-    } 
-    
-    private Runnable[] convertProgramToRunnables(final String programName, final Map<String, Instruction[]> programs, 
-            final Map<String, ByteLut> luts) throws IOException {
-                
-        final List<Instruction> instructions = LexerParser.expand(programName, programs);
-        final Runnable[] runnables = new Runnable[instructions.size()];
+    private void initProcessorAndMemory(final String[] args) throws Exception {
         
-        for (int r = 0; r < runnables.length; ++r) {
-            final Instruction instruction = instructions.get(r);
-            final ByteLut lut = luts.get(instruction.getComponent());
-            if (lut == null) {
-                throw new IOException("Unknown component: " + instruction.getComponent());
+        String processorAndMemoryClassName = DEFAULT_PROCESSOR_AND_MEMORY_CLASS_NAME;
+        for (int i = 0; i < args.length; i += 2) {
+            if (i == args.length - 1) {
+                break;
             }
-            final byte[] table = lut.getTable();
-            final int index = instruction.getIndex();
-            switch (lut.getLutType()) {
-                case ONE_BYTE: {
-                    runnables[r] = () -> {
-                        memory[index] = 0xFF & table[memory[index]];
-                    };
-                    break;
-                }
-                case TWO_BYTES: {
-                    runnables[r] = () -> {
-                        final int i = 512 * memory[index] + 2 * memory[index + 1];
-                        memory[index] = 0xFF & table[i];
-                        memory[index + 1] = 0xFF & table[i + 1];
-                    };
-                    break;
-                }
-                case TWO_BYTES_BIT: {
-                    runnables[r] = () -> {
-                        final int i = 1536 * memory[index] + 6 * memory[index + 1] + 3 * memory[index + 2];
-                        memory[index] = 0xFF & table[i];
-                        memory[index + 1] = 0xFF & table[i + 1];
-                        memory[index + 2] = 0xFF & table[i + 2];
-                    };
-                    break;
-                }
-                default: {
-                    runnables[r] = () -> {
-                        final int i = 196608 * memory[index] + 768 * memory[index + 1] + 3 * memory[index + 2];
-                        memory[index] = 0xFF & table[i];
-                        memory[index + 1] = 0xFF & table[i + 1];
-                        memory[index + 2] = 0xFF & table[i + 2];
-                    };
-                    break;
-                }
-            }
+            if ("-c".equals(args[i])) {
+                processorAndMemoryClassName = args[i + 1];
+            }            
         }
         
-        return runnables;
+        processorAndMemory = (ProcessorAndMemory) Class.forName(processorAndMemoryClassName).newInstance();
+        processorAndMemory.init(args);
     }
-    
+            
     private void createFrame() {
         try {
             UIManager.setLookAndFeel(new DarculaLaf()); 
@@ -156,50 +61,9 @@ public final class GeneralPurposeComputer {
         playfieldFrame.pack();
         playfieldFrame.setLocationRelativeTo(null);
         playfieldFrame.setVisible(true);        
-    }    
+    } 
     
-    private int read(final int address) {
-        return memory[(cycleLeft || address < 3) ? address : (address + 21)];            
-    }
-
-    private void write(final int address, final int value) {
-        memory[(cycleLeft || address < 3) ? address : (address + 21)] = value;
-    }
-    
-    private void update() {
-        write(0x00FD, 0);
-        do {
-            if (cycleLeft) {
-                cycleLeft = false;
-                final int length = cycleLeftRunnables.length;
-                for (int i = 0; i < length; ++i) {
-                    cycleLeftRunnables[i].run();
-                }
-            } else {
-                cycleLeft = true;
-                final int length = cycleRightRunnables.length;
-                for (int i = 0; i < length; ++i) {
-                    cycleRightRunnables[i].run();
-                }           
-            }
-        } while (read(0x00FD) == 0);
-        
-        final int[][] cells = playfieldModel.getCells();
-        for (int y = 19; y >= 0; --y) {
-            for (int x = 9; x >= 0; --x) {
-                cells[y][x] = read(11 * (2 + y) + x);
-            }
-        }
-        playfieldFrame.update(playfieldModel);        
-        write(0x00FE, playfieldModel.isLeftPressed() ? 1 : 0);
-        write(0x00FF, playfieldModel.isRightPressed() ? 1 : 0);
-        write(0x0170, playfieldModel.isStartPressed() ? 1 : 0);
-        write(0x0171, playfieldModel.isCcwRotatePressed() ? 1 : 0);
-        write(0x0172, playfieldModel.isCwRotatePressed() ? 1 : 0);
-        write(0x0173, playfieldModel.isDownPressed() ? 1 : 0);
-    }
-    
-    private void launch() throws Exception {
+    private void loop() throws Exception {
         int frames = 0;
         long clock = System.nanoTime();
         long framesStart = System.nanoTime();        
@@ -228,28 +92,30 @@ public final class GeneralPurposeComputer {
                 framesStart = System.nanoTime();
             }
         }
-    }    
+    }
+       
+    private void update() {
+        processorAndMemory.write(0x00FD, 0);
+        do {
+            processorAndMemory.executeInstruction();
+        } while (processorAndMemory.read(0x00FD) == 0);
+        
+        final int[][] cells = playfieldModel.getCells();
+        for (int y = 19; y >= 0; --y) {
+            for (int x = 9; x >= 0; --x) {
+                cells[y][x] = processorAndMemory.read(11 * (2 + y) + x);
+            }
+        }
+        playfieldFrame.update(playfieldModel);        
+        processorAndMemory.write(0x00FE, playfieldModel.isLeftPressed() ? 1 : 0);
+        processorAndMemory.write(0x00FF, playfieldModel.isRightPressed() ? 1 : 0);
+        processorAndMemory.write(0x0170, playfieldModel.isStartPressed() ? 1 : 0);
+        processorAndMemory.write(0x0171, playfieldModel.isCcwRotatePressed() ? 1 : 0);
+        processorAndMemory.write(0x0172, playfieldModel.isCwRotatePressed() ? 1 : 0);
+        processorAndMemory.write(0x0173, playfieldModel.isDownPressed() ? 1 : 0);
+    }
     
     public static void main(final String... args) throws Exception {               
-        
-        if (args.length == 2 || args.length > 3) {
-            System.out.println("args: [[ bin filename ]] [[ cycle left program name ]] "
-                    + "[[ cycle right program name ]]");
-            return;
-        } 
-        
-        final String binFilename = (args.length == 0) ? DEFAULT_BIN_FILENAME : args[0];
-        
-        final String cycleLeftProgramName;
-        final String cycleRightProgramName;                
-        if (args.length != 3) {            
-            cycleLeftProgramName = DEFAULT_CYCLE_LEFT_PROGRAM_NAME;
-            cycleRightProgramName = DEFAULT_CYCLE_RIGHT_PROGRAM_NAME;
-        } else {
-            cycleLeftProgramName = args[1];
-            cycleRightProgramName = args[2];
-        } 
-        
-        new GeneralPurposeComputer(binFilename, cycleLeftProgramName, cycleRightProgramName).launch();
+        new GeneralPurposeComputer().launch(args);
     }
 }
