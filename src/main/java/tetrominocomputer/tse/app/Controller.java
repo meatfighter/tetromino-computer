@@ -50,9 +50,8 @@ import tetrominocomputer.util.Dirs;
 public class Controller {
     
     public static final String DEFAULT_COMPONENT_NAME = "unnamed";
-    
-    private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
-    private final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("nashorn");      
+           
+    private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
        
     private final Map<String, Component> components = new ConcurrentHashMap<>();
     private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();

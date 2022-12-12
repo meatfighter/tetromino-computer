@@ -37,17 +37,15 @@ public class LexerParser {
         createComponent(filename, tokens, components);
         
         final Map<Integer, List<Token>> toks = new HashMap<>();
-        for (final Token token : tokens) {
-            if (token.getValueType() != TokenValueType.UNKNOWN) {
-                toks.computeIfAbsent(token.getLineNumber(), lineNumber -> new ArrayList<>()).add(token);
-            }            
-        }
+        tokens.stream().filter(token -> token.getValueType() != TokenValueType.UNKNOWN).forEachOrdered(
+                token ->  toks.computeIfAbsent(token.getLineNumber(), lineNumber -> new ArrayList<>()).add(token)
+        );
                 
         final StringBuilder text = new StringBuilder();
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(
                 new ByteArrayInputStream(tetrominoScript.getBytes())))) {            
             int lineNumber = 1;
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 final StringBuilder sb = new StringBuilder(line);
                 final List<Token> ts = toks.get(lineNumber);
@@ -103,7 +101,7 @@ public class LexerParser {
         
         int lineNumber = 1;
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(in))) {            
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 tokenizeLine(tokens, filename, lineNumber++, removeComment(line));
             }

@@ -1287,7 +1287,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 jsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName + ".js");
             }           
 
-            String existingFileName = null;
+            String existingFileName;
             if (tsFile.exists()) {
                 existingFileName = tsFile.getName();
             } else if (jsFile.exists()) {
