@@ -12,7 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import javax.script.Bindings;
 import javax.script.Compilable;
+import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -20,6 +22,7 @@ import javax.script.ScriptException;
 import tetrominocomputer.sim.Component;
 import tetrominocomputer.sim.Instruction;
 import tetrominocomputer.sim.Playfield;
+import tetrominocomputer.sim.Terminal;
 import tetrominocomputer.sim.Tetromino;
 import tetrominocomputer.util.Dirs;
 import tetrominocomputer.util.Out;
@@ -27,6 +30,7 @@ import tetrominocomputer.util.Out;
 public class Tester extends AbstractSimulator {
     
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+    private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
     public void launch() throws Exception {                  
         Out.timeTask("Loading components...", () -> {
@@ -68,6 +72,34 @@ public class Tester extends AbstractSimulator {
     private void testComponent(final Map<String, Component> components, final Component component, 
             final Playfield playfield) {
         
+    }
+    
+    private void testComponent(final Map<String, Component> components, final Component component, 
+            final Playfield playfield, final int inputBits) throws ScriptException {
+        
+        playfield.clear();
+        setInputs(playfield, component, inputBits);
+        simulate(components, playfield, component);
+        final int outputBits = getOutputs(playfield, component);
+                
+        final Terminal[] inputs = component.getInputs();
+        final Terminal[] outputs = component.getOutputs();
+        final CompiledScript compiledScript = component.getCompiledScript();
+        final Bindings bindings = borrowBindings();
+        try {
+            for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
+                bindings.put(inputs[i].getName(), (inBits & 1) != 0);
+            }
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                bindings.put(outputs[i].getName(), false);
+            }
+            compiledScript.eval(bindings);
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                outputValues[i] = (Boolean)bindings.get(outputs[i].getName());
+            }
+        } finally {
+            returnBindings(bindings);
+        }
     }
     
     private void simulate(final Map<String, Component> components, final Playfield playfield, 
@@ -148,6 +180,24 @@ public class Tester extends AbstractSimulator {
             component.setCompiledScript(((Compilable) scriptEngine).compile(br));
         }
     }
+    
+    private void returnBindings(final Bindings bindings) {
+        bindings.clear();
+        bindingsPool.add(bindings);
+    }
+    
+    private Bindings borrowBindings() {
+        Bindings bindings = null;
+        synchronized(bindingsPool) {
+            if (!bindingsPool.isEmpty()) {
+                bindings = bindingsPool.remove(bindingsPool.size() - 1);
+            }
+        }
+        if (bindings == null) {
+            bindings = scriptEngine.createBindings();          
+        }
+        return bindings;
+    }    
     
     public static void main(final String... args) throws Exception {
         new Tester().launch();

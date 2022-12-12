@@ -23,3 +23,5 @@ remaining sections:
 
 - test
 - test all
+
+mention that input and output nodes must be written left-to-right
