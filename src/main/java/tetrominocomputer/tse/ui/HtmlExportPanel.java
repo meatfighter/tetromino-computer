@@ -217,13 +217,12 @@ public class HtmlExportPanel extends javax.swing.JPanel {
         if (!stdOutCheckBox.isSelected()) {
             final File file = new File(fileTextField.getText());
             if (file.isDirectory()) {
-                UiUtil.showMessageDialog(this, "Path refers to a directory.", "Invalid File", JOptionPane.ERROR_MESSAGE, 
-                        CircuitsFrame.EXCLAMATION_ICON);
+                UiUtil.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (file.exists() && UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?",
-                    file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, CircuitsFrame.QUESTION_ICON) != JOptionPane.YES_OPTION) {
+                    file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
                 return;
             }
         }

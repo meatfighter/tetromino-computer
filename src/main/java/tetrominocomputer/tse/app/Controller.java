@@ -45,10 +45,10 @@ import tetrominocomputer.tse.ui.SvgGenerator;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import tetrominocomputer.util.Dirs;
 
 public class Controller {
     
-    public static final String TS_DIR = "ts";
     public static final String DEFAULT_COMPONENT_NAME = "unnamed";
     
     private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();        
@@ -303,7 +303,7 @@ public class Controller {
         }
         final StringBuilder sb = new StringBuilder();
         try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 if (sb.length() > 0) {
                     sb.append('\n');
@@ -353,7 +353,7 @@ public class Controller {
             createIsSsAndZs();
             final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
-            findSourceFiles(new File(TS_DIR), files);
+            findSourceFiles(new File(Dirs.TS), files);
             synchronized(loadMonitor) {
                 loadCount = files.size();
                 for (Map.Entry<String, Files> entry : files.entrySet()) {

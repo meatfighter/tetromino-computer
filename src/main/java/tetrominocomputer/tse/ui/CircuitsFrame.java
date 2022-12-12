@@ -9,8 +9,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -23,15 +21,12 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import tetrominocomputer.tse.app.BuildListener;
 import tetrominocomputer.tse.app.Controller;
 import tetrominocomputer.sim.Structure;
+import tetrominocomputer.util.Dirs;
 
 public class CircuitsFrame extends javax.swing.JFrame {
     
     private static final int COORDINATES_SPACES = 15;
     
-    public static final Icon QUESTION_ICON = new ImageIcon(CircuitsFrame.class.getResource("/icons/question.png"));
-    public static final Icon EXCLAMATION_ICON = new ImageIcon(CircuitsFrame.class
-            .getResource("/icons/exclamation.png"));
-
     private Controller controller;
     private Map<String, Structure> structures;
     
@@ -77,7 +72,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     
     private String getComponentDirectory() {
         if (circuitsDirectory == null) {
-            circuitsDirectory = Controller.TS_DIR;
+            circuitsDirectory = Dirs.TS;
             final File componentsDir = new File(circuitsDirectory);
             if (!(componentsDir.exists() && componentsDir.isDirectory())) {
                 circuitsDirectory = System.getProperty("user.dir");
@@ -995,8 +990,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void promptSaveChanges(final Runnable runnable, final String question) {
         if (tetrominoScriptChangeCount != circuitsEditorPanel.getTetrominoScriptChangeCount()
                 || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
-            switch (UiUtil.showConfirmDialog(this, question, "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION, 
-                    JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
+            switch (UiUtil.showConfirmDialog(this, question, "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION)) {
                 case JOptionPane.YES_OPTION:
                     save(runnable);
                     break;
@@ -1264,8 +1258,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             
             File selectedFile = fileChooser.getSelectedFile();            
             if (selectedFile == null) {
-                UiUtil.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE, 
-                        EXCLAMATION_ICON);
+                UiUtil.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
                 continue;
             }
             
@@ -1304,8 +1297,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
             
             switch(UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
-                    existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION, 
-                    JOptionPane.QUESTION_MESSAGE, QUESTION_ICON)) {
+                    existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION)) {
                 case JOptionPane.YES_OPTION:
                     break outer;
                 case JOptionPane.NO_OPTION:

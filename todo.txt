@@ -1,4 +1,3 @@
-run spinner and cancel button
 compnents with no inputs/outputs are undefined dimensions
 remove annoying tooltips
 no warning about saving when opening
@@ -24,15 +23,3 @@ remaining sections:
 
 - test
 - test all
-- faster than 5 fps?
-   - runnable tree? blocks of 1024 runnables
-
-Exception in thread "ForkJoinPool-1-worker-9" java.lang.NullPointerException
-	at tetrominocomputer.tse.app.Controller.findSourceFiles(Controller.java:324)
-	at tetrominocomputer.tse.app.Controller.lambda$loadComponents$2(Controller.java:356)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1159)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
