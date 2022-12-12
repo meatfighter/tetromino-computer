@@ -39,8 +39,9 @@ Any value defined here will override the pom.xml file value but is only applicab
         <configurations>
             <configuration id="Assembler" profiles=""/>
             <configuration id="Cycle Programs Generator" profiles=""/>
-            <configuration id="LUTs Generator" profiles=""/>
             <configuration id="General-purpose Computer" profiles=""/>
+            <configuration id="LUTs Generator" profiles=""/>
+            <configuration id="TetrominoScript Editor" profiles=""/>
         </configurations>
     </config-data>
 </project-shared-configuration>
