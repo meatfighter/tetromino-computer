@@ -48,7 +48,11 @@ public final class CycleProgramsGenerator {
     }
        
     public int readMaxAddress(final String binFilename) throws IOException {
-        return ((int) new File(binFilename).length()) - 3; 
+        final File binFile = new File(binFilename);
+        if (!(binFile.exists() && binFile.isFile() && binFile.length() >= 3)) {
+            throw new IOException("Invalid binary file.");
+        }
+        return ((int) binFile.length()) - 3;
     }    
        
     public void launch(final String binFilename, final String cycleLeftFilename, final String cycleRightfilename) 
@@ -76,24 +80,27 @@ public final class CycleProgramsGenerator {
     }
     
     public static void main(final String... args) throws Exception {
-        
-        if (args.length == 2 || args.length > 3) {
-            System.out.println("args: [[ bin filename ]] [[ cycle left program filename ]] "
-                    + "[[ cycle right program filename ]]");
-            return;
-        } 
-        
-        final String binFilename = (args.length == 0) ? DEFAULT_BIN_FILENAME : args[0];
-        
-        final String cycleLeftProgramFilename;
-        final String cycleRightProgramFilename;                
-        if (args.length != 3) {            
-            cycleLeftProgramFilename = DEFAULT_CYCLE_LEFT_PROGRAM_FILENAME;
-            cycleRightProgramFilename = DEFAULT_CYCLE_RIGHT_PROGRAM_FILENAME;
-        } else {
-            cycleLeftProgramFilename = args[1];
-            cycleRightProgramFilename = args[2];
-        }        
+                
+        String binFilename = DEFAULT_BIN_FILENAME;
+        String cycleLeftProgramFilename = DEFAULT_CYCLE_LEFT_PROGRAM_FILENAME;
+        String cycleRightProgramFilename = DEFAULT_CYCLE_RIGHT_PROGRAM_FILENAME;
+
+        for (int i = 0; i < args.length; i += 2) {
+            if (i == args.length - 1) {
+                break;
+            }
+            switch (args[i]) {
+                case "-b":
+                    binFilename = args[i + 1];
+                    break;
+                case "-l":
+                    cycleLeftProgramFilename = args[i + 1];
+                    break;
+                case "-r":
+                    cycleRightProgramFilename = args[i + 1];
+                    break;
+            }            
+        }
         
         new CycleProgramsGenerator().launch(binFilename, cycleLeftProgramFilename, cycleRightProgramFilename);
     }    

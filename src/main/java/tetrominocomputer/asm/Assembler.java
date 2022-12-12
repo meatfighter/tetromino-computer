@@ -262,13 +262,16 @@ public class Assembler {
 
     public static void main(final String... args) throws Exception {
         
-        if (args.length > 2) {
-            System.out.println("args: [[ asm filename ]] [[ bin filename ]]");
-            return;
+        String asmFilename = DEFAULT_ASM_FILENAME;
+        String binFilename = DEFAULT_BIN_FILENAME;
+        for (int i = 0; i < args.length; i++) {
+            if ("-o".equals(args[i]) && i != args.length - 1) {
+                binFilename = args[++i];
+            } else {
+                asmFilename = args[i];
+            }
         }
                
-        new Assembler().launch(
-                (args.length > 0) ? args[0] : DEFAULT_ASM_FILENAME, 
-                (args.length > 1) ? args[1] : DEFAULT_BIN_FILENAME);
+        new Assembler().launch(asmFilename, binFilename);
     }
 }
