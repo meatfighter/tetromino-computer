@@ -34,4 +34,17 @@ public class Out {
         System.out.println();
         task.call();
     }
+    
+    public static String toBinaryString(final int value, final int digits) {
+        final String binStr = Integer.toBinaryString(value);
+        if (binStr.length() >= digits) {
+            return binStr;
+        }
+        final StringBuilder sb = new StringBuilder();
+        do {
+            sb.append('0');
+        } while (sb.length() + binStr.length() < digits);
+        sb.append(binStr);
+        return sb.toString();
+    }
 }

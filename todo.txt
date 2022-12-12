@@ -25,3 +25,32 @@ remaining sections:
 - test all
 
 mention that input and output nodes must be written left-to-right
+
+
+
+
+java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Boolean
+	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:307)
+	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:209)
+	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:201)
+	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)
+	at tetrominocomputer.tse.app.Controller.buildScripts(Controller.java:931)
+	at tetrominocomputer.tse.app.Controller.lambda$buildAndRun$11(Controller.java:801)
+	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
+java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Boolean
+	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:307)
+	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:209)
+	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:201)
+	at tetrominocomputer.tse.app.Controller.runComponent(Controller.java:836)
+	at tetrominocomputer.tse.app.Controller.lambda$createStructure$14(Controller.java:1064)
+	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
+	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
+	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
+	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
+	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
+	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)

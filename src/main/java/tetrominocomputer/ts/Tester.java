@@ -38,6 +38,7 @@ public class Tester extends AbstractSimulator {
             createIsSsAndZs(components);
             loadComponents(new File(Dirs.TS), components);
             
+            System.out.println();
             System.out.println("Loaded components.");
             System.out.println();
             
@@ -59,6 +60,8 @@ public class Tester extends AbstractSimulator {
                 final Playfield playfield = borrowPlayfield(playfieldPool);
                 try {
                     testComponent(components, component, playfield);
+                } catch (final Exception e) {
+                    e.printStackTrace();
                 } finally {
                     returnPlayfield(playfieldPool, playfield);
                 }
@@ -70,8 +73,23 @@ public class Tester extends AbstractSimulator {
     }
     
     private void testComponent(final Map<String, Component> components, final Component component, 
-            final Playfield playfield) {
+            final Playfield playfield) throws ScriptException {
         
+//        System.out.println(component.getName());
+        if (component.getCompiledScript() == null) {
+//            System.out.format("Skipping %s.%n", component.getName());
+            return;
+        }
+        
+        if (!"COPY_A_B_C".equals(component.getName())) { // TODO TESTING
+            return;
+        }
+        
+        System.out.format("testing: %s%n", component.getName());
+        for (int inputBits = (1 << component.getInputs().length) - 1; inputBits >= 0; --inputBits) {
+            testComponent(components, component, playfield, inputBits);
+        }        
+        System.out.format("PASSED: %s%n", component.getName());
     }
     
     private void testComponent(final Map<String, Component> components, final Component component, 
@@ -82,9 +100,11 @@ public class Tester extends AbstractSimulator {
         simulate(components, playfield, component);
         final int outputBits = getOutputs(playfield, component);
                 
+        int outBits = 0;
+        
         final Terminal[] inputs = component.getInputs();
         final Terminal[] outputs = component.getOutputs();
-        final CompiledScript compiledScript = component.getCompiledScript();
+        final CompiledScript compiledScript = component.getCompiledScript();        
         final Bindings bindings = borrowBindings();
         try {
             for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
@@ -94,11 +114,20 @@ public class Tester extends AbstractSimulator {
                 bindings.put(outputs[i].getName(), false);
             }
             compiledScript.eval(bindings);
-            for (int i = outputs.length - 1; i >= 0; --i) {
-                outputValues[i] = (Boolean)bindings.get(outputs[i].getName());
+            
+            for (int i = 0; i < outputs.length; ++i) {
+                outBits = (outBits << 1) | ((Boolean) bindings.get(outputs[i].getName()) ? 1 : 0);
             }
         } finally {
             returnBindings(bindings);
+        }
+        
+        if (outputBits != outBits) {
+            System.err.format("FAILED: %s -- input = %s, output = %s, expected output = %s%n", component.getName(),
+                    Out.toBinaryString(inputBits, inputs.length),
+                    Out.toBinaryString(outputBits, outputs.length),
+                    Out.toBinaryString(outBits, outputs.length));
+            System.exit(0);
         }
     }
     
