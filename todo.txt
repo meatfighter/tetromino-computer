@@ -11,8 +11,6 @@ subtractor
 inverter
 negator
 
-test mechanism
-
 remaining sections:
 
 - TetrominoScript Editor tutorial
@@ -21,5 +19,3 @@ remaining sections:
 - splitting up in smaller pages
 
 - tester window
-
-when loading components into Tester and LutGenerator, order nodes from left-to-right
