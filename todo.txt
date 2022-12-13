@@ -26,66 +26,8 @@ remaining sections:
 when loading components into Tester and LutGenerator, order nodes from left-to-right
 
 
-
-
-java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Boolean
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:307)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:209)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:201)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)
-	at tetrominocomputer.tse.app.Controller.buildScripts(Controller.java:931)
-	at tetrominocomputer.tse.app.Controller.lambda$buildAndRun$11(Controller.java:801)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
-java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Boolean
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:307)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:209)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:201)
-	at tetrominocomputer.tse.app.Controller.runComponent(Controller.java:836)
-	at tetrominocomputer.tse.app.Controller.lambda$createStructure$14(Controller.java:1064)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
-
-
-
-Exception in thread "ForkJoinPool-1-worker-6" tetrominocomputer.sim.SimulatorException: Output o is not a boolean.
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:313)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:211)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:203)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:994)
-	at tetrominocomputer.tse.app.Controller.createStructures(Controller.java:989)
-	at tetrominocomputer.tse.app.Controller.lambda$null$1(Controller.java:366)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
-Exception in thread "ForkJoinPool-1-worker-15" tetrominocomputer.sim.SimulatorException: Output o is not a boolean.
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:313)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:211)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:203)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:994)
-	at tetrominocomputer.tse.app.Controller.createStructures(Controller.java:989)
-	at tetrominocomputer.tse.app.Controller.lambda$null$1(Controller.java:366)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)
-Exception in thread "ForkJoinPool-1-worker-0" tetrominocomputer.sim.SimulatorException: Output o is not a boolean.
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:313)
+Exception in thread "ForkJoinPool-1-worker-12" tetrominocomputer.sim.SimulatorException: Output node o in il466 is not assigned a value.
+	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:311)
 	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:211)
 	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:203)
 	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)

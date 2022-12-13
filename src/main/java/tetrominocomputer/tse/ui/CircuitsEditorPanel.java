@@ -216,12 +216,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 clearOutput();
             }
             @Override
-            public void append(final String text) {
+            public void format(final String text, final Object... args) {
                 if (!EventQueue.isDispatchThread()) {
-                    EventQueue.invokeLater(() -> append(text));
+                    EventQueue.invokeLater(() -> format(text, args));
                     return;
                 }
-                appendOutput(text);
+                appendOutput(text, args);
             }            
         });
         controller.setRunListener(new RunListener() {
@@ -240,8 +240,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         outputTextArea.setText("");
     }
     
-    public void appendOutput(final String text) {
-        outputTextArea.append(text + "\n");
+    public void appendOutput(final String text, final Object... args) {
+        outputTextArea.append(String.format(text, args) + "\n");
     }
 
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {

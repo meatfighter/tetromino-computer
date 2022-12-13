@@ -307,11 +307,14 @@ public class Simulator {
                 compiledScript.eval(bindings);
                 for (int i = outputs.length - 1; i >= 0; --i) {
                     final Object value = bindings.get(outputs[i].getName());
-                    if (value instanceof Boolean) {
-                        outputValues[i] = (Boolean) value;
-                    } else {
-                        throw new SimulatorException(String.format("Output %s is not a boolean.", 
-                                outputs[i].getName()));
+                    if (value != null) {
+                        if (value instanceof Boolean) {
+                            outputValues[i] = (Boolean) value;
+                        } else {
+                            throw new SimulatorException(String.format(
+                                    "Output node %s in %s is %s rather than Boolean.", outputs[i].getName(), 
+                                    component.getName(), value.getClass().getName()));
+                        }
                     }
                 }
             } catch(final ScriptException e) {

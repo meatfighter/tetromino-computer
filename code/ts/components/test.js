@@ -1,1 +1,1 @@
-o = false;
+o = cow;

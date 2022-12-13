@@ -2,5 +2,5 @@ package tetrominocomputer.tse.app;
 
 public interface OutputListener {
     void clear();
-    void append(String text);
+    void format(String text, Object... args);
 }

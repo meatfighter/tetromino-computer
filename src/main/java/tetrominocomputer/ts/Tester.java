@@ -139,14 +139,18 @@ public class Tester extends AbstractSimulator {
             compiledScript.eval(bindings);
             
             for (int i = 0; i < outputs.length; ++i) {
-                final Object value = bindings.get(outputs[i].getName());
-                if (value instanceof Boolean) {
-                    outBits = (outBits << 1) | ((Boolean) value ? 1 : 0);
-                } else {
-                    System.err.format("FAILED: %s -- Output %s is not a boolean.%n", component.getName(), 
+                final Object value = bindings.get(outputs[i].getName());                
+                if (value == null) {
+                    System.err.format("FAILED: %s -- Output node %s is not assigned a value.", component.getName(), 
                             outputs[i].getName());
                     return false;
-                }
+                } else if (value instanceof Boolean) {
+                    outBits = (outBits << 1) | ((Boolean) value ? 1 : 0);
+                } else {
+                    System.err.format("FAILED: %s -- Output node %s is %s rather than Boolean.",
+                            component.getName(), outputs[i].getName(), value.getClass().getName());
+                    return false;
+                }                
             }
         } finally {
             returnBindings(bindings);

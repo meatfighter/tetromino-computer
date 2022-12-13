@@ -153,7 +153,7 @@ public class Controller {
         for (int i = ((length - 1) >> 1) - 1, x = 1; i >= 0; --i, x += 2) {
             instructions.add(new Instruction(Tetromino.ZH, null, null, new int[] { x }));
         }
-        zs.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        zs.setInstructions(instructions.toArray(new Instruction[0]));
         zs.setInputs(new Terminal[] { new Terminal(TerminalType.INPUT, "i", 
                 new HorizontalLine[] { new HorizontalLine(0, 1), new HorizontalLine(1, 2, 0) })});
         zs.setOutputs(new Terminal[] { new Terminal(TerminalType.OUTPUT, "o", 
@@ -213,7 +213,7 @@ public class Controller {
         for (int i = length >> 2; i > 0; --i) {
             addInstruction(instructions, Tetromino.IV, 0);
         }
-        is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        is.setInstructions(instructions.toArray(new Instruction[0]));
         setOutputs(is, 0, length); 
         try {
             is.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
@@ -245,7 +245,7 @@ public class Controller {
         for (int i = length >> 2; i > 0; --i) {
             addInstruction(instructions, Tetromino.IV, 0);
         }
-        is.setInstructions(instructions.toArray(new Instruction[instructions.size()]));
+        is.setInstructions(instructions.toArray(new Instruction[0]));
         setOutputs(is, 0, length); 
         try {
             is.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
@@ -296,7 +296,7 @@ public class Controller {
         if (file == null || !file.exists() || !file.isFile()) {
             final OutputListener listener = outputListener;
             if (listener != null) {
-                listener.append("Failed to find " + file);
+                listener.format("Failed to find %s", file);
             }
             return "";
         }
@@ -312,7 +312,7 @@ public class Controller {
         } catch (final IOException e) {
             final OutputListener listener = outputListener;
             if (listener != null) {
-                listener.append("Failed to read " + file + ": " + e.getMessage());
+                listener.format("Failed to read %s: %s", file, e.getMessage());
             }
             return "";
         }
@@ -355,7 +355,7 @@ public class Controller {
             findSourceFiles(new File(Dirs.TS), files);
             synchronized(loadMonitor) {
                 loadCount = files.size();
-                for (Map.Entry<String, Files> entry : files.entrySet()) {
+                files.entrySet().forEach(entry -> {
                     final Files fs = entry.getValue();
                     execute(() -> {
                         loadComponentJavaScript(entry.getKey(), fs.getJsFile());
@@ -368,7 +368,7 @@ public class Controller {
                             }
                         }
                     });
-                }
+                });
             }
         });
     }
@@ -378,10 +378,10 @@ public class Controller {
         final OutputListener listener = outputListener;
         if (listener != null) {
             if (file == null || !file.exists()) {
-                listener.append("Error: " + componentName + " missing JavaScript file.");
+                listener.format("Error: %s missing JavaScript file.", componentName);
                 return;
             } else {
-                listener.append("Loading " + componentName + " JavaScript file...");
+                listener.format("Loading %s JavaScript file...", componentName);
             }
         }
         
@@ -389,14 +389,14 @@ public class Controller {
             loadComponentJavaScript(componentName, file, br);
         } catch (final Exception e) {
             if (listener != null) {
-                listener.append("Failed to load " + componentName + " Javascript.");
-                listener.append(e.getMessage());
+                listener.format("Failed to load %s Javascript.", componentName);
+                listener.format(e.getMessage());
             }
             return;
         }
         
         if (listener != null) {
-            listener.append("Loaded " + componentName + " Javascript.");
+            listener.format("Loaded %s Javascript.", componentName);
         } 
     }
     
@@ -412,10 +412,10 @@ public class Controller {
         final OutputListener listener = outputListener;
         if (listener != null) {
             if (file == null || !file.exists()) {
-                listener.append("Error: " + componentName + " missing TetrominoScript file.");
+                listener.format("Error: %s missing TetrominoScript file.", componentName);
                 return;
             } else {
-                listener.append("Loading " + componentName + " TetrominoScript file...");
+                listener.format("Loading %s TetrominoScript file...", componentName);
             }
         }
         
@@ -426,19 +426,19 @@ public class Controller {
             lexerParser.parse(components, filename, new FileInputStream(file));
         } catch (final LexerParserException e) {
             if (listener != null) {
-                listener.append("Failed to load " + componentName + " defintion file.");
-                listener.append(e.toString());
+                listener.format("Failed to load %s defintion file.", componentName);
+                listener.format(e.toString());
             }
             return;
         } catch (final Exception e) {
             if (listener != null) {
-                listener.append("Failed to load " + componentName + " defintion file.");
-                listener.append(e.getMessage());
+                listener.format("Failed to load %s defintion file.", componentName);
+                listener.format(e.getMessage());
             }
             return;
         }
         if (listener != null) {
-            listener.append("Loaded " + componentName + " TetrominoScript file.");
+            listener.format("Loaded %s TetrominoScript file.", componentName);
         }        
     }
     
@@ -634,12 +634,12 @@ public class Controller {
             bw.write(script);
         } catch (final IOException e) {
             if (outListener != null) {
-                outListener.append(String.format("Failed to write to %s: %s", file, e.getMessage()));
+                outListener.format("Failed to write to %s: %s", file, e.getMessage());
             }
             return;
         }
         if (outListener != null) {
-            outListener.append("Saved to " + file);
+            outListener.format("Saved to %s", file);
         }
     }
     
@@ -656,7 +656,7 @@ public class Controller {
         } catch (final Exception e) {
             final OutputListener outListener = outputListener;
             if (outListener != null) {
-                outListener.append(e.getMessage());
+                outListener.format(e.getMessage());
             }
         }            
     }
@@ -678,43 +678,43 @@ public class Controller {
     
     private void exportSvg(final String componentName, final SvgExportModel svgExportModel) {
         
-        final List<Structure> structs = new ArrayList<>();
-        if (svgExportModel.isAllPossibleValues()) {
-            final Component component = components.get(componentName);
-            final int bits = component.getInputs().length;
-            final int combos = 1 << bits;
-            if (combos > 16) {
-                final OutputListener outListener = outputListener;
-                if (outListener != null) {
-                    outListener.append("Too many input combinations.");
-                }
-                return;
-            }
-            for (int i = 0; i < combos; ++i) {
-                final String binaryStr = Integer.toBinaryString(i);
-                final StringBuilder sb = new StringBuilder();
-                for (int j = bits - binaryStr.length(); j > 0; --j) {
-                    sb.append('0');
-                }
-                sb.append(binaryStr);
-                structs.add(exportSvgStructure(componentName, sb.toString(), svgExportModel.getDepth()));
-            }
-        } else {
-            structs.add(exportSvgStructure(componentName, svgExportModel.getInputValue(), 
-                    svgExportModel.getDepth()));
-        }
-       
         try {
-            new SvgGenerator().generate(structs.toArray(new Structure[structs.size()]), svgExportModel);
+            final List<Structure> structs = new ArrayList<>();
+            if (svgExportModel.isAllPossibleValues()) {
+                final Component component = components.get(componentName);
+                final int bits = component.getInputs().length;
+                final int combos = 1 << bits;
+                if (combos > 16) {
+                    final OutputListener outListener = outputListener;
+                    if (outListener != null) {
+                        outListener.format("Too many input combinations.");
+                    }
+                    return;
+                }
+                for (int i = 0; i < combos; ++i) {
+                    final String binaryStr = Integer.toBinaryString(i);
+                    final StringBuilder sb = new StringBuilder();
+                    for (int j = bits - binaryStr.length(); j > 0; --j) {
+                        sb.append('0');
+                    }
+                    sb.append(binaryStr);
+                    structs.add(exportSvgStructure(componentName, sb.toString(), svgExportModel.getDepth()));
+                }
+            } else {
+                structs.add(exportSvgStructure(componentName, svgExportModel.getInputValue(), 
+                        svgExportModel.getDepth()));
+            }               
+            new SvgGenerator().generate(structs.toArray(new Structure[0]), svgExportModel);
         } catch (final Exception e) {
             final OutputListener outListener = outputListener;
             if (outListener != null) {
-                outListener.append(e.getMessage());
+                outListener.format(e.getMessage());
             }
         }
     }  
     
-    private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) {
+    private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) 
+            throws Exception {
         
         final OutputListener outListener = outputListener;
         final List<Structure> structs = new ArrayList<>();                 
@@ -726,9 +726,9 @@ public class Controller {
         TerminalRectangle[][] outputs = new TerminalRectangle[0][];        
         if (component == null) {
             if (outListener != null) {
-                outListener.append("Error: Unknown component: " + componentName);
+                outListener.format("Error: Unknown component: %s", componentName);
             }
-        } else {                
+        } else {        
             final Playfield playfield = borrowPlayfield();
             try {
                 simulator.init(playfield, component, testBitStr);
@@ -747,9 +747,9 @@ public class Controller {
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
                 if (outListener != null) {
                     if (isBlank(testBitStr)) {
-                        outListener.append("Ran " + componentName + " with no inputs.");
+                        outListener.format("Ran %s with no inputs.", componentName);
                     } else {
-                        outListener.append("Ran " + componentName + " with " + testBitStr + ".");
+                        outListener.format("Ran %s with %s.", componentName, testBitStr);
                     }
                 }
                 inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
@@ -789,7 +789,7 @@ public class Controller {
         }
 
         return new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY, 
-                structs.toArray(new Structure[structs.size()]));
+                structs.toArray(new Structure[0]));
     }
     
     public void buildAndRun(final String componentName, final String tetrominoScript, final String javaScript, 
@@ -827,7 +827,7 @@ public class Controller {
         int maxY = 0;
         if (component == null) {
             if (outListener != null) {
-                outListener.append("Error: Unknown component: " + componentName);
+                outListener.format("Error: Unknown component %s", componentName);
             }
         } else {                
             final Playfield playfield = borrowPlayfield();
@@ -848,10 +848,14 @@ public class Controller {
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
                 if (outListener != null) {
                     if (isBlank(testBitStr)) {
-                        outListener.append("Ran " + componentName + " with no inputs.");
+                        outListener.format("Ran %s with no inputs.", componentName);
                     } else {
-                        outListener.append("Ran " + componentName + " with " + testBitStr + ".");
+                        outListener.format("Ran %s with %s.", componentName, testBitStr);
                     }
+                }
+            } catch (final Exception e) {
+                if (outListener != null) {
+                    outListener.format("Error: %s", e.getMessage());
                 }
             } finally {
                 returnPlayfield(playfield);
@@ -898,7 +902,7 @@ public class Controller {
             }
             
             listener.runCompleted(new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
-                    structs.toArray(new Structure[structs.size()])));
+                    structs.toArray(new Structure[0])));
         }        
     }
     
@@ -921,7 +925,7 @@ public class Controller {
         final LexerParser lexerParser = new LexerParser();
         if (listener != null) {
             listener.clear();
-            listener.append("Building.");
+            listener.format("Building.");
         }
         try {
             final Component component = lexerParser.parse(components, componentName, 
@@ -933,22 +937,22 @@ public class Controller {
         } catch (final LexerParserException e) {
             e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
-                listener.append("Build failed.");
-                listener.append(e.toString());
+                listener.format("Build failed.");
+                listener.format(e.toString());
             }
             notifyStructuresCreated(componentName);
             return;
         } catch (final Exception e) {
             e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
-                listener.append("Build failed.");
-                listener.append(e.getMessage());
+                listener.format("Build failed.");
+                listener.format(e.getMessage());
             }
             notifyStructuresCreated(componentName);
             return;
         }
         if (listener != null) {
-            listener.append("Build success.");
+            listener.format("Build success.");
         }
     }
     
@@ -964,19 +968,19 @@ public class Controller {
             final Extents extents = componentExtents.get(componentName);
             final int tx = -((extents.getMaxX() + extents.getMinX()) >> 1);
             if (listener != null) {
-                listener.append("Translated " + tx);
+                listener.format("Translated %s", tx);
             }
             return translate(componentName, tetrominoScript, tx, 0);            
         } catch (final LexerParserException e) {
             if (listener != null) {
-                listener.append("Build failed.");
-                listener.append(e.toString());
+                listener.format("Build failed.");
+                listener.format(e.toString());
             }
             notifyStructuresCreated(componentName);            
         } catch (final IOException e) {
             if (listener != null) {
-                listener.append("Build failed.");
-                listener.append(e.getMessage());
+                listener.format("Build failed.");
+                listener.format(e.getMessage());
             }
             notifyStructuresCreated(componentName);
         }
@@ -1049,10 +1053,14 @@ public class Controller {
                 }
             }
             structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
-                    maxY, structs.toArray(new Structure[structs.size()])));
-        } catch(final StackOverflowError e) {                    
+                    maxY, structs.toArray(new Structure[0])));
+        } catch (final StackOverflowError e) {                    
             if (listener != null) {
-                listener.append("Error: Definition of " + component.getName() + " contains itself.");
+                listener.format("Error: Definition of %s contains itself.", component.getName());
+            }
+        } catch (final Exception e) {
+            if (listener != null) {
+                listener.format("Error: %s", e.getMessage());
             }
         } finally {
             returnPlayfield(playfield);
@@ -1111,7 +1119,7 @@ public class Controller {
             }
         }
         final List<String> ns = new ArrayList<>(names);
-        final String[] componentNames = ns.toArray(new String[ns.size()]);
+        final String[] componentNames = ns.toArray(new String[0]);
         Arrays.sort(componentNames, (a, b) -> {
             final int groupA = findComponentNameSortGroup(a);
             final int groupB = findComponentNameSortGroup(b);
