@@ -1,5 +1,4 @@
 compnents with no inputs/outputs are undefined dimensions
-remove annoying tooltips
 no warning about saving when opening
 
 new seems to save twice?!
@@ -24,19 +23,3 @@ remaining sections:
 - tester window
 
 when loading components into Tester and LutGenerator, order nodes from left-to-right
-
-
-Exception in thread "ForkJoinPool-1-worker-12" tetrominocomputer.sim.SimulatorException: Output node o in il466 is not assigned a value.
-	at tetrominocomputer.sim.Simulator.emulate(Simulator.java:311)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:211)
-	at tetrominocomputer.sim.Simulator.simulate(Simulator.java:203)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:1005)
-	at tetrominocomputer.tse.app.Controller.createStructure(Controller.java:994)
-	at tetrominocomputer.tse.app.Controller.createStructures(Controller.java:989)
-	at tetrominocomputer.tse.app.Controller.lambda$null$1(Controller.java:366)
-	at tetrominocomputer.tse.app.Controller.lambda$execute$16(Controller.java:1158)
-	at java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)
-	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)
-	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)
-	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)
-	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)

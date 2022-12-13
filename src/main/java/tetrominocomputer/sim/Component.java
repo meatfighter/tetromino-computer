@@ -1,5 +1,6 @@
 package tetrominocomputer.sim;
 
+import java.util.Arrays;
 import javax.script.CompiledScript;
 
 public class Component implements Cloneable {
@@ -33,6 +34,7 @@ public class Component implements Cloneable {
 
     public void setInputs(final Terminal[] inputs) {
         this.inputs = inputs;
+        Arrays.sort(inputs);
     }
 
     public Terminal[] getOutputs() {
@@ -41,6 +43,7 @@ public class Component implements Cloneable {
 
     public void setOutputs(final Terminal[] outputs) {
         this.outputs = outputs;
+        Arrays.sort(outputs);
     }
 
     public CompiledScript getCompiledScript() {

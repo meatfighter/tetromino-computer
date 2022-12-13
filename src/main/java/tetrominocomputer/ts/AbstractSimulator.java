@@ -65,7 +65,8 @@ public abstract class AbstractSimulator {
         return getOutputs(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1);
     }
     
-    protected int getOutputs(final Playfield playfield, final Component component, final int originX, final int originY) {
+    protected int getOutputs(final Playfield playfield, final Component component, final int originX, 
+            final int originY) {
         
         int out = 0;
         

@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -36,18 +37,26 @@ public class Tester extends AbstractSimulator {
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
-    public void launch(final double frac) throws Exception {                  
+    public void launch(final double frac, final String componentName) throws Exception {                  
+        
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
             loadComponents(new File(Dirs.TS), components);
             
-            System.out.println("Loaded components.");
-            System.out.println();
+            Out.format("Loaded components.%n%n");
             
-            testComponents(components, frac); 
+            if (componentName != null) {
+                if (!components.containsKey(componentName)) {
+                    Out.formatError("Component not found: %s%n%n", componentName);
+                    return null;
+                }
+                testComponent(components, componentName, frac);
+            } else {            
+                testComponents(components, frac); 
+            }
             
-            System.out.println();
+            Out.println();
             
             return null;
         });
@@ -55,8 +64,7 @@ public class Tester extends AbstractSimulator {
         
     private void testComponents(final Map<String, Component> components, final double frac) throws Exception {
         
-        System.out.println("Testing components...");
-        System.out.println();        
+        Out.format("Testing components...%n%n");
                 
         final ExecutorService executor = Executors.newWorkStealingPool();
         final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
@@ -65,9 +73,9 @@ public class Tester extends AbstractSimulator {
             executor.execute(() -> {
                 final Playfield playfield = borrowPlayfield(playfieldPool);
                 try {
-                    testComponent(components, component, playfield, frac);
+                    testComponent(components, component, playfield, frac, new AtomicBoolean());
                 } catch (final Exception e) {
-                    e.printStackTrace();
+                    Out.printStackTrace(e);
                 } finally {
                     returnPlayfield(playfieldPool, playfield);
                 }
@@ -78,45 +86,91 @@ public class Tester extends AbstractSimulator {
         executor.awaitTermination(1, TimeUnit.DAYS);
     }
     
-    private void testComponent(final Map<String, Component> components, final Component component, 
-            final Playfield playfield, final double frac) throws ScriptException {
+    private void testComponent(final Map<String, Component> components, final String componentName, 
+            final double frac) throws Exception {
+        
+        Out.format("Testing %s...%n%n", componentName);
+                
+        final Component component = components.get(componentName);
+        final ExecutorService executor = Executors.newWorkStealingPool();
+        final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
+        
+        final boolean twoBytesBit;
+        {
+            final Playfield playfield = borrowPlayfield(playfieldPool);
+            try {
+                twoBytesBit = isTwoBytesBit(components, playfield, component);
+            } finally {
+                returnPlayfield(playfieldPool, playfield);
+            }
+        }
+                
+        final AtomicBoolean cancelled = new AtomicBoolean();
+        final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
+        final int range = 1 + (max / Runtime.getRuntime().availableProcessors());
+        for (int high = max; high >= 0 && !cancelled.get(); high -= range) {
+            final int h = high;
+            final int low = Math.max(0, high - range);
+            executor.execute(() -> {
+                final Playfield playfield = borrowPlayfield(playfieldPool);
+                try {
+                    if (!testComponent(components, component, playfield, h, low, (range > 0x7FFF) ? frac : 1.0, 
+                            twoBytesBit, cancelled)) {
+                        cancelled.set(true);
+                    }                    
+                } catch (final Exception e) {
+                    Out.printStackTrace(e);    
+                } finally {
+                    returnPlayfield(playfieldPool, playfield);
+                }
+            });
+        }        
+      
+        executor.shutdown();        
+        executor.awaitTermination(1, TimeUnit.DAYS);
+        
+        if (!cancelled.get()) {
+            Out.format("PASSED: %s%n", component.getName());
+        }
+    }    
+    
+    private boolean testComponent(final Map<String, Component> components, final Component component, 
+            final Playfield playfield, final double frac, final AtomicBoolean cancelled) {
         
         if (component.getCompiledScript() == null) {
-            return;
+            return false;
         }
         
-        final double expect = 1.0 / frac;
-        final Random random = ThreadLocalRandom.current();
-        if (isTwoBytesBit(components, playfield, component)) {
-            for (double i = 0x1FFFF; i >= 0; i -= expect) {
-                final int inputBits = Math.max(0, (int) (i - expect * random.nextDouble()));
-                if (!testComponent(components, component, playfield, ((inputBits & 0x1FFFE) << 7) | (inputBits & 1))) {
-                    return;
-                }
-            }
-        } else {
-            final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
-            if (max > 0x7FFF) {
-                for (double i = max; i >= 0; i -= expect) {
-                    if (!testComponent(components, component, playfield, 
-                            Math.max(0, (int) (i - expect * random.nextDouble())))) {
-                        return;
-                    }
-                }
-            } else {
-                for (int i = max; i >= 0; --i) {
-                    if (!testComponent(components, component, playfield, i)) {
-                        return;
-                    }
-                }
-            }
+        final boolean twoBytesBit = isTwoBytesBit(components, playfield, component);
+        final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
+        if (testComponent(components, component, playfield, max, 0, (max > 0x7FFF) ? frac : 1.0, twoBytesBit, 
+                cancelled)) {
+            Out.format("PASSED: %s%n", component.getName());
+            return true;
         }
         
-        System.out.format("PASSED: %s%n", component.getName());
+        return false;
     }
     
     private boolean testComponent(final Map<String, Component> components, final Component component, 
-            final Playfield playfield, final int inputBits) throws ScriptException {
+            final Playfield playfield, final double max, final double min, final double frac, 
+            final boolean twoBytesBit, final AtomicBoolean cancelled) {
+        
+        final double expect = 1.0 / frac;
+        final Random random = ThreadLocalRandom.current();
+        for (double i = max; i >= min && !cancelled.get(); i -= expect) {
+            final int inputBits = Math.max(0, (int) (i - ((frac < 1.0) ? expect * random.nextDouble() : 0)));
+            if (!testComponent(components, component, playfield, 
+                    twoBytesBit ? ((inputBits & 0x1FFFE) << 7) | (inputBits & 1) : inputBits)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    private boolean testComponent(final Map<String, Component> components, final Component component, 
+            final Playfield playfield, final int inputBits) {
         
         playfield.clear();
         setInputs(playfield, component, inputBits);
@@ -141,23 +195,25 @@ public class Tester extends AbstractSimulator {
             for (int i = 0; i < outputs.length; ++i) {
                 final Object value = bindings.get(outputs[i].getName());                
                 if (value == null) {
-                    System.err.format("FAILED: %s -- Output node %s is not assigned a value.", component.getName(), 
+                    Out.formatError("FAILED: %s -- Output node %s is not assigned a value.", component.getName(), 
                             outputs[i].getName());
                     return false;
                 } else if (value instanceof Boolean) {
                     outBits = (outBits << 1) | ((Boolean) value ? 1 : 0);
                 } else {
-                    System.err.format("FAILED: %s -- Output node %s is %s rather than Boolean.",
+                    Out.formatError("FAILED: %s -- Output node %s is %s rather than Boolean.",
                             component.getName(), outputs[i].getName(), value.getClass().getName());
                     return false;
                 }                
             }
+        } catch (final ScriptException e) {
+            Out.formatError("FAILED: %s -- JavaScript error: %s", component.getName(), e.getMessage());
         } finally {
             returnBindings(bindings);
         }
         
         if (outputBits != outBits) {
-            System.err.format("FAILED: %s -- input = %s, output = %s, expected output = %s%n", component.getName(),
+            Out.formatError("FAILED: %s -- input = %s, output = %s, expected output = %s%n", component.getName(),
                     Out.toBinaryString(inputBits, inputs.length),
                     Out.toBinaryString(outputBits, outputs.length),
                     Out.toBinaryString(outBits, outputs.length));
@@ -262,7 +318,7 @@ public class Tester extends AbstractSimulator {
             final Component component = components.get(componentName);
             final File jsFile = new File(file.getParent() + File.separator + componentName + ".js");
             if (!(jsFile.isFile() && jsFile.exists())) {
-                System.out.format("WARNING: %s missing JavaScript file.%n", componentName);
+                Out.format("WARNING: %s missing JavaScript file.%n", componentName);
                 continue;
             }
             loadJavaScript(component, jsFile);
@@ -296,18 +352,23 @@ public class Tester extends AbstractSimulator {
     public static void main(final String... args) throws Exception {
         
         double frac = DEFAULT_FRACTION;
-        for (int i = 0; i < args.length; ++i) {
-            if ("-f".equals(args[i]) && i != args.length - 1) {
-                try {
-                    frac = Double.parseDouble(args[i + 1]);
-                } catch (final NumberFormatException e) {
-                    System.err.println("Invalid fraction.");
-                    System.err.println();
-                    return;
-                }
+        String componentName = null;
+        for (int i = 0; i < args.length - 1; ++i) {   
+            switch (args[i]) {
+                case "-f":
+                    try {
+                        frac = Double.parseDouble(args[++i]);
+                    } catch (final NumberFormatException e) {
+                        Out.formatError("Invalid fraction.%n%n");
+                        return;
+                    }
+                    break;
+                case "-c":
+                    componentName = args[++i];
+                    break;
             }
         }
         
-        new Tester().launch(frac);
+        new Tester().launch(frac, componentName);
     }
 }

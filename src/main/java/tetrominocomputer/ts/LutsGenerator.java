@@ -45,8 +45,7 @@ public class LutsGenerator extends AbstractSimulator {
     private void cleanLutsDirectory() {
         for (final File file : new File(Dirs.LUTS).listFiles()) {
             if (file.isFile() && file.getName().endsWith(".lut") && !file.delete()) {
-                System.err.format("Failed to delete file: %s%n", file);
-                System.err.println();
+                System.err.format("Failed to delete file: %s%n%n", file);
                 System.exit(0);
             }
         }
@@ -54,9 +53,7 @@ public class LutsGenerator extends AbstractSimulator {
     
     private void saveLuts(final Map<String, ComponentLut> luts) throws Exception {
         
-        System.out.println();
-        System.out.println("Saving lookup tables...");
-        System.out.println();
+        System.out.format("%nSaving lookup tables...%n%n");
         
         for (final Map.Entry<String, ComponentLut> entry : luts.entrySet()) {
             final String name = entry.getKey();
@@ -65,8 +62,7 @@ public class LutsGenerator extends AbstractSimulator {
             }
         }
         
-        System.out.println("Saved lookup tables.");
-        System.out.println();
+        System.out.format("Saved lookup tables.%n%n");
     }
     
     private void saveLut(final String name, final ComponentLut componentLut) throws Exception {
@@ -78,8 +74,7 @@ public class LutsGenerator extends AbstractSimulator {
     
     private Map<String, ComponentLut> generateLuts() throws Exception {
         
-        System.out.println("Generating lookup tables for:");
-        System.out.println();
+        System.out.format("Generating lookup tables for:%n%n");
         
         final Map<String, Component> components = new ConcurrentHashMap<>();
         final Map<String, ComponentLut> luts = new ConcurrentHashMap<>();

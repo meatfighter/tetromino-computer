@@ -42,7 +42,7 @@ public class AboutPanel extends javax.swing.JPanel {
         versionLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         copyrightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        copyrightLabel.setText("<html>Copyright &copy; XXXX meatfighter.com<br> This is free software; you can redistribute it<br> and/or modify it under the terms of LGPL v2.1.</html>");
+        copyrightLabel.setText("<html>Copyright &copy; MMMM meatfighter.com<br> This is free software; you can redistribute it<br> and/or modify it under the terms of LGPL v2.1.</html>");
         copyrightLabel.setToolTipText("");
         copyrightLabel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 

@@ -283,12 +283,12 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         testTextField.setColumns(15);
         testTextField.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
-        testTextField.setToolTipText("Test Bit String");
+        testTextField.setToolTipText("");
         testTextField.setPreferredSize(null);
         toolBar.add(testTextField);
 
         runButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.png"))); // NOI18N
-        runButton.setToolTipText("Run");
+        runButton.setToolTipText("");
         runButton.setContentAreaFilled(false);
         runButton.setFocusable(false);
         runButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -311,7 +311,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         toolBar.add(compEditComboBox);
 
         addComponentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
-        addComponentButton.setToolTipText("Add Component");
+        addComponentButton.setToolTipText("");
         addComponentButton.setContentAreaFilled(false);
         addComponentButton.setFocusable(false);
         addComponentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -597,7 +597,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         bottomPanel.setPreferredSize(null);
 
         cellSizeSpinner.setModel(new javax.swing.SpinnerNumberModel(16, 1, 32, 1));
-        cellSizeSpinner.setToolTipText("Cell Size");
+        cellSizeSpinner.setToolTipText("");
         cellSizeSpinner.setMaximumSize(null);
         cellSizeSpinner.setPreferredSize(null);
         cellSizeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -618,7 +618,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         playfieldHeightSpinner.setModel(new javax.swing.SpinnerNumberModel(4096, 4, 4096, 1));
-        playfieldHeightSpinner.setToolTipText("Playfield Height");
+        playfieldHeightSpinner.setToolTipText("");
         playfieldHeightSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 playfieldHeightSpinnerStateChanged(evt);
@@ -626,7 +626,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
 
         playfieldWidthSpinner.setModel(new javax.swing.SpinnerNumberModel(8192, 4, 8192, 1));
-        playfieldWidthSpinner.setToolTipText("Playfield Width");
+        playfieldWidthSpinner.setToolTipText("");
         playfieldWidthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 playfieldWidthSpinnerStateChanged(evt);
@@ -636,7 +636,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         depthSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 0, 256, 1));
-        depthSpinner.setToolTipText("Rendering Recursive Depth");
+        depthSpinner.setToolTipText("");
         depthSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 depthSpinnerStateChanged(evt);
@@ -652,7 +652,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         cursorLabel.setPreferredSize(null);
 
         centerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/center.png"))); // NOI18N
-        centerButton.setToolTipText("Center Playfield");
+        centerButton.setToolTipText("");
         centerButton.setBorder(null);
         centerButton.setBorderPainted(false);
         centerButton.setContentAreaFilled(false);
@@ -969,9 +969,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 807, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())

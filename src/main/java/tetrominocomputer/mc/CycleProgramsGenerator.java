@@ -72,8 +72,7 @@ public final class CycleProgramsGenerator {
                 executeInstruction(out, maxAddress);    
             }
             
-            System.out.println("Generated cycle programs.");
-            System.out.println();
+            System.out.format("Generated cycle programs.%n%n");
             
             return null;
         });

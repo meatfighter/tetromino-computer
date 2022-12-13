@@ -26,8 +26,7 @@ public class Out {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.format("Total time: %s%n", Duration.between(start, Instant.now()).toString().substring(2)
                     .replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase());
-            System.out.format("Finished at: %s%n", formatter.format(ZonedDateTime.now()));
-            System.out.println();
+            System.out.format("Finished at: %s%n%n", formatter.format(ZonedDateTime.now()));
         }));
 
         System.out.println(startMessage);
@@ -46,5 +45,33 @@ public class Out {
         } while (sb.length() + binStr.length() < digits);
         sb.append(binStr);
         return sb.toString();
+    }
+    
+    public static synchronized void println() {
+        System.out.println();
+    }
+    
+    public static synchronized void println(final String message) {
+        System.out.println(message);
+    }
+    
+    public static synchronized void format(final String message, final Object... args) {
+        System.out.format(message, args);
+    } 
+    
+    public static synchronized void printlnError() {
+        System.err.println();
+    }    
+    
+    public static synchronized void printlnError(final String message) {
+        System.err.println(message);
+    }
+    
+    public static synchronized void formatError(final String message, final Object... args) {
+        System.err.format(message, args);
+    } 
+    
+    public static synchronized void printStackTrace(final Throwable e) {
+        e.printStackTrace();
     }
 }

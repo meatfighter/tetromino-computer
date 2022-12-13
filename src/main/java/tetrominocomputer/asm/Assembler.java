@@ -67,8 +67,7 @@ public class Assembler {
                     final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFile))) {
                 assemble(asmFilename, in, out);
                 System.out.println("BUILD SUCCESS");
-                System.out.format("Created %s%n", binFilename);
-                System.out.println();
+                System.out.format("Created %s%n%n", binFilename);
             } catch (final LexerException e) {
                 printFailure(e.toString());
             }
@@ -80,8 +79,7 @@ public class Assembler {
     private void printFailure(final String message, final Object... args) {
         System.err.println("BUILD FAILURE");
         System.err.format(message, args);
-        System.err.println();
-        System.err.println();
+        System.err.format("%n%n");
     }
     
     private void assemble(final String asmFilename, final InputStream in, final OutputStream out) 

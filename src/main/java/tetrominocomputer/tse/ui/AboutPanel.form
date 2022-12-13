@@ -119,7 +119,7 @@
             <Component class="javax.swing.JLabel" name="copyrightLabel">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Copyright &amp;copy; XXXX meatfighter.com&lt;br&gt; This is free software; you can redistribute it&lt;br&gt; and/or modify it under the terms of LGPL v2.1.&lt;/html&gt;"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;Copyright &amp;copy; MMMM meatfighter.com&lt;br&gt; This is free software; you can redistribute it&lt;br&gt; and/or modify it under the terms of LGPL v2.1.&lt;/html&gt;"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="horizontalTextPosition" type="int" value="4"/>
               </Properties>
