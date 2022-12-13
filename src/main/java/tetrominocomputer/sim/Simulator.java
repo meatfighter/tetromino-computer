@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.script.Bindings;
 import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 import tetrominocomputer.tse.app.StructureListener;
 
 public class Simulator {
@@ -186,24 +187,25 @@ public class Simulator {
         return rectangles;
     }
     
-    public void simulate(final Playfield playfield, final Component component, final int depth) {
+    public void simulate(final Playfield playfield, final Component component, final int depth)
+            throws SimulatorException {
         simulate(playfield, component, playfield.getWidth() >> 1, playfield.getHeight() - 1, depth);
     }
     
     public void simulate(final Playfield playfield, final Component component, final int originX, final int originY, 
-            final int depth) {
+            final int depth) throws SimulatorException {
         simulate(playfield, component, component.getName(), originX, originY, depth, null);
     }
     
     // Used by buildAndRun
     public void simulate(final Playfield playfield, final Component component, final int depth, 
-            final StructureListener listener) {
+            final StructureListener listener) throws SimulatorException {
         simulate(playfield, component, component.getName(), playfield.getWidth() >> 1, playfield.getHeight() - 1, depth, 
                 listener);
     }
 
     public void simulate(final Playfield playfield, final Component component, final String alias, final int originX, 
-            final int originY, final int depth, final StructureListener listener) {
+            final int originY, final int depth, final StructureListener listener) throws SimulatorException {
         
         if (depth <= 0 && !component.getName().startsWith("_")) {
             emulate(playfield, component, alias, originX, originY, listener);
@@ -219,7 +221,7 @@ public class Simulator {
     }
     
     private void simulate(final Playfield playfield, final Instruction instruction, final int originX, 
-            final int originY, final int depth, final StructureListener listener) {
+            final int originY, final int depth, final StructureListener listener) throws SimulatorException {
 
         final int[] moves = instruction.getMoves();
         
@@ -255,7 +257,7 @@ public class Simulator {
     }
     
     public void emulate(final Playfield playfield, final Component component, final String alias, final int originX, 
-            final int originY, final StructureListener listener) {
+            final int originY, final StructureListener listener) throws SimulatorException {
 
         final Terminal[] inputs = component.getInputs();        
         if (inputs == null) {
@@ -304,10 +306,16 @@ public class Simulator {
                 }
                 compiledScript.eval(bindings);
                 for (int i = outputs.length - 1; i >= 0; --i) {
-                    outputValues[i] = (Boolean)bindings.get(outputs[i].getName());
+                    final Object value = bindings.get(outputs[i].getName());
+                    if (value instanceof Boolean) {
+                        outputValues[i] = (Boolean) value;
+                    } else {
+                        throw new SimulatorException(String.format("Output %s is not a boolean.", 
+                                outputs[i].getName()));
+                    }
                 }
-            } catch(final Exception e) {
-                e.printStackTrace(); // TODO OUTPUT LISTENER
+            } catch(final ScriptException e) {
+                throw new SimulatorException(e);
             } finally {
                 returnBindings(bindings);
             }

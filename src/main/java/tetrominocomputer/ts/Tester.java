@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import javax.script.Bindings;
 import javax.script.Compilable;
@@ -29,25 +31,29 @@ import tetrominocomputer.util.Out;
 
 public class Tester extends AbstractSimulator {
     
+    private static final double DEFAULT_FRACTION = 0.05;
+    
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
-    public void launch() throws Exception {                  
+    public void launch(final double frac) throws Exception {                  
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
             loadComponents(new File(Dirs.TS), components);
             
-            System.out.println();
             System.out.println("Loaded components.");
             System.out.println();
             
-            testComponents(components);            
+            testComponents(components, frac); 
+            
+            System.out.println();
+            
             return null;
         });
     }
         
-    private void testComponents(final Map<String, Component> components) throws Exception {
+    private void testComponents(final Map<String, Component> components, final double frac) throws Exception {
         
         System.out.println("Testing components...");
         System.out.println();        
@@ -59,7 +65,7 @@ public class Tester extends AbstractSimulator {
             executor.execute(() -> {
                 final Playfield playfield = borrowPlayfield(playfieldPool);
                 try {
-                    testComponent(components, component, playfield);
+                    testComponent(components, component, playfield, frac);
                 } catch (final Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -73,26 +79,43 @@ public class Tester extends AbstractSimulator {
     }
     
     private void testComponent(final Map<String, Component> components, final Component component, 
-            final Playfield playfield) throws ScriptException {
+            final Playfield playfield, final double frac) throws ScriptException {
         
-//        System.out.println(component.getName());
         if (component.getCompiledScript() == null) {
-//            System.out.format("Skipping %s.%n", component.getName());
             return;
         }
         
-        if (!"COPY_A_B_C".equals(component.getName())) { // TODO TESTING
-            return;
+        final double expect = 1.0 / frac;
+        final Random random = ThreadLocalRandom.current();
+        if (isTwoBytesBit(components, playfield, component)) {
+            for (double i = 0x1FFFF; i >= 0; i -= expect) {
+                final int inputBits = Math.max(0, (int) (i - expect * random.nextDouble()));
+                if (!testComponent(components, component, playfield, ((inputBits & 0x1FFFE) << 7) | (inputBits & 1))) {
+                    return;
+                }
+            }
+        } else {
+            final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
+            if (max > 0x7FFF) {
+                for (double i = max; i >= 0; i -= expect) {
+                    if (!testComponent(components, component, playfield, 
+                            Math.max(0, (int) (i - expect * random.nextDouble())))) {
+                        return;
+                    }
+                }
+            } else {
+                for (int i = max; i >= 0; --i) {
+                    if (!testComponent(components, component, playfield, i)) {
+                        return;
+                    }
+                }
+            }
         }
         
-        System.out.format("testing: %s%n", component.getName());
-        for (int inputBits = (1 << component.getInputs().length) - 1; inputBits >= 0; --inputBits) {
-            testComponent(components, component, playfield, inputBits);
-        }        
         System.out.format("PASSED: %s%n", component.getName());
     }
     
-    private void testComponent(final Map<String, Component> components, final Component component, 
+    private boolean testComponent(final Map<String, Component> components, final Component component, 
             final Playfield playfield, final int inputBits) throws ScriptException {
         
         playfield.clear();
@@ -116,7 +139,14 @@ public class Tester extends AbstractSimulator {
             compiledScript.eval(bindings);
             
             for (int i = 0; i < outputs.length; ++i) {
-                outBits = (outBits << 1) | ((Boolean) bindings.get(outputs[i].getName()) ? 1 : 0);
+                final Object value = bindings.get(outputs[i].getName());
+                if (value instanceof Boolean) {
+                    outBits = (outBits << 1) | ((Boolean) value ? 1 : 0);
+                } else {
+                    System.err.format("FAILED: %s -- Output %s is not a boolean.%n", component.getName(), 
+                            outputs[i].getName());
+                    return false;
+                }
             }
         } finally {
             returnBindings(bindings);
@@ -127,8 +157,10 @@ public class Tester extends AbstractSimulator {
                     Out.toBinaryString(inputBits, inputs.length),
                     Out.toBinaryString(outputBits, outputs.length),
                     Out.toBinaryString(outBits, outputs.length));
-            System.exit(0);
+            return false;
         }
+        
+        return true;
     }
     
     private void simulate(final Map<String, Component> components, final Playfield playfield, 
@@ -177,6 +209,36 @@ public class Tester extends AbstractSimulator {
         
         y = hardDrop(playfield, tetromino, x, y);
         lock(playfield, tetromino, x, y);
+    } 
+    
+    private boolean isTwoBytesBit(final Map<String, Component> components, 
+            final Playfield playfield, final Component component) {
+        
+        final int inputsCount = component.getInputs().length;
+        if (inputsCount != 24) {
+            return false;
+        }
+        
+        final Random random = ThreadLocalRandom.current();
+        while (true) {
+            playfield.clear();
+            final int inputs = random.nextInt() & 0xFFFFFF;
+            setInputs(playfield, component, inputs);
+            simulate(components, playfield, component);
+            final int outputs = getOutputs(playfield, component);
+            final int high = 0xFF & (outputs >> 16);
+            final int low = 0xFF & outputs;
+            if (high > 1 && low > 1) {
+                throw new RuntimeException(String.format("Invalid output: name=%s, inputs=%X, outputs=%X%n", 
+                        component.getName(), inputs, outputs));
+            }
+            if (low > 1) {
+                return false;
+            }
+            if (high > 1) {
+                return true;
+            }
+        }
     }    
     
     private void loadComponents(final File directory, final Map<String, Component> components) 
@@ -191,13 +253,12 @@ public class Tester extends AbstractSimulator {
             if (!tsFilename.endsWith(".t")) {
                 continue;
             }            
-            System.out.println(tsFilename);
             new LexerParser().parse(components, file);
             final String componentName = tsFilename.substring(0, tsFilename.length() - 2);
             final Component component = components.get(componentName);
             final File jsFile = new File(file.getParent() + File.separator + componentName + ".js");
             if (!(jsFile.isFile() && jsFile.exists())) {
-                System.out.format("WARNING: %s missing JavaScript file.", componentName);
+                System.out.format("WARNING: %s missing JavaScript file.%n", componentName);
                 continue;
             }
             loadJavaScript(component, jsFile);
@@ -229,6 +290,20 @@ public class Tester extends AbstractSimulator {
     }    
     
     public static void main(final String... args) throws Exception {
-        new Tester().launch();
+        
+        double frac = DEFAULT_FRACTION;
+        for (int i = 0; i < args.length; ++i) {
+            if ("-f".equals(args[i]) && i != args.length - 1) {
+                try {
+                    frac = Double.parseDouble(args[i + 1]);
+                } catch (final NumberFormatException e) {
+                    System.err.println("Invalid fraction.");
+                    System.err.println();
+                    return;
+                }
+            }
+        }
+        
+        new Tester().launch(frac);
     }
 }
