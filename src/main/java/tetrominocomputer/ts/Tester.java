@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -38,12 +39,13 @@ public class Tester extends AbstractSimulator {
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
-    public void launch(final double frac, final String componentName) throws Exception {                  
+    public void launch(final double frac, final String componentName) throws Exception {
         
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
-            if (loadComponents(new File(Dirs.TS), components)) {
+            final int skipped = loadComponents(new File(Dirs.TS), components);
+            if (skipped > 0) {
                 Out.println();
             }            
             Out.format("Loaded components.%n%n");
@@ -55,7 +57,7 @@ public class Tester extends AbstractSimulator {
                 }
                 testComponent(components, componentName, frac);
             } else {            
-                testComponents(components, frac); 
+                testComponents(components, frac, skipped); 
             }
             
             Out.println();
@@ -64,18 +66,27 @@ public class Tester extends AbstractSimulator {
         });
     }
         
-    private void testComponents(final Map<String, Component> components, final double frac) throws Exception {
+    private void testComponents(final Map<String, Component> components, final double frac, final int skipped) {
         
         Out.format("Testing components...%n%n");
                 
         final ExecutorService executor = Executors.newWorkStealingPool();
         final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
 
-        components.forEach((componentName, component) -> {
+        final AtomicInteger passed = new AtomicInteger();
+        final AtomicInteger failed = new AtomicInteger();
+        components.values().forEach(component -> {
             executor.execute(() -> {
                 final Playfield playfield = borrowPlayfield(playfieldPool);
                 try {
-                    testComponent(components, component, playfield, frac, new AtomicBoolean());
+                    final Boolean result = testComponent(components, component, playfield, frac, new AtomicBoolean());
+                    if (result != null) {
+                        if (result) {
+                            passed.incrementAndGet();
+                        } else {
+                            failed.incrementAndGet();
+                        }
+                    }
                 } catch (final Exception e) {
                     Out.printStackTrace(e);
                 } finally {
@@ -84,12 +95,17 @@ public class Tester extends AbstractSimulator {
             });
         });
      
-        executor.shutdown();        
-        executor.awaitTermination(1, TimeUnit.DAYS);
+        executor.shutdown();
+        try {
+            executor.awaitTermination(1, TimeUnit.DAYS);
+        } catch (final InterruptedException ignored) {            
+        }
+        
+        Out.format("%nTests: %d, Passed: %d, Failed: %d, Skipped: %d%n", passed.get() + failed.get(), passed.get(), 
+                failed.get(), skipped);
     }
     
-    private void testComponent(final Map<String, Component> components, final String componentName, 
-            final double frac) throws Exception {
+    private void testComponent(final Map<String, Component> components, final String componentName, final double frac) {
         
         Out.format("Testing %s...%n%n", componentName);
                 
@@ -129,18 +145,24 @@ public class Tester extends AbstractSimulator {
         }        
       
         executor.shutdown();        
-        executor.awaitTermination(1, TimeUnit.DAYS);
+        try {
+            executor.awaitTermination(1, TimeUnit.DAYS);
+        } catch (final InterruptedException ignored) {
+        }
         
         if (!cancelled.get()) {
-            Out.format("PASSED: %s%n", component.getName());
+            Out.format("PASSED: %s%n%n", component.getName());
+            Out.format("Tests: 1, Passed: 1, Failed: 0, Skipped: 0%n");
+        } else {
+            Out.format("%nTests: 1, Passed: 0, Failed: 1, Skipped: 0%n");
         }
     }    
     
-    private boolean testComponent(final Map<String, Component> components, final Component component, 
+    private Boolean testComponent(final Map<String, Component> components, final Component component, 
             final Playfield playfield, final double frac, final AtomicBoolean cancelled) {
         
         if (component.getCompiledScript() == null) {
-            return false;
+            return null;
         }
         
         final boolean twoBytesBit = isTwoBytesBit(components, playfield, component);
@@ -148,10 +170,10 @@ public class Tester extends AbstractSimulator {
         if (testComponent(components, component, playfield, max, 0, (max > 0x7FFF) ? frac : 1.0, twoBytesBit, 
                 cancelled)) {
             Out.format("PASSED: %s%n", component.getName());
-            return true;
+            return Boolean.TRUE;
         }
         
-        return false;
+        return Boolean.FALSE;
     }
     
     private boolean testComponent(final Map<String, Component> components, final Component component, 
@@ -174,16 +196,21 @@ public class Tester extends AbstractSimulator {
     private boolean testComponent(final Map<String, Component> components, final Component component, 
             final Playfield playfield, final int inputBits) {
         
+        final CompiledScript compiledScript = component.getCompiledScript();
+        if (compiledScript == null) {
+            Out.formatError("FAILED: %s -- No JavaScript.%n", component.getName());
+            return false;
+        }
+
         playfield.clear();
         setInputs(playfield, component, inputBits);
         simulate(components, playfield, component);
         final int outputBits = getOutputs(playfield, component);
                 
         int outBits = 0;
-        
+
         final Terminal[] inputs = component.getInputs();
         final Terminal[] outputs = component.getOutputs();
-        final CompiledScript compiledScript = component.getCompiledScript();        
         final Bindings bindings = borrowBindings();
         try {
             for (int i = inputs.length - 1, inBits = inputBits; i >= 0; --i, inBits >>= 1) {
@@ -210,6 +237,7 @@ public class Tester extends AbstractSimulator {
             }
         } catch (final ScriptException e) {
             Out.formatError("FAILED: %s -- JavaScript error: %s", component.getName(), e.getMessage());
+            return false;
         } finally {
             returnBindings(bindings);
         }
@@ -303,13 +331,13 @@ public class Tester extends AbstractSimulator {
         }
     }    
     
-    private boolean loadComponents(final File directory, final Map<String, Component> components) 
+    private int loadComponents(final File directory, final Map<String, Component> components) 
             throws IOException, LexerParserException, ScriptException {
         
-        boolean warnings = false;
+        int skipped = 0;
         for (final File file : directory.listFiles()) {
             if (file.isDirectory()) {
-                warnings |= loadComponents(file, components);
+                skipped += loadComponents(file, components);
                 continue;
             }
             final String tsFilename = file.getName();
@@ -321,14 +349,14 @@ public class Tester extends AbstractSimulator {
             final Component component = components.get(componentName);
             final File jsFile = new File(file.getParent() + File.separator + componentName + ".js");
             if (!(jsFile.isFile() && jsFile.exists() && jsFile.length() > 0)) {
-                warnings = true;
+                ++skipped;
                 Out.format("WARNING: %s missing JavaScript file.%n", componentName);
                 continue;
             }
             loadJavaScript(component, jsFile);
         }
         
-        return warnings;
+        return skipped;
     } 
     
     private void loadJavaScript(final Component component, final File jsFile) throws ScriptException, IOException {        
@@ -375,7 +403,7 @@ public class Tester extends AbstractSimulator {
                     }
                     break;
                 }
-                case "-c":
+                case "-n":
                     componentName = args[++i];
                     break;
             }

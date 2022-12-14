@@ -1,11 +1,10 @@
 package tetrominocomputer.tse.ui;
 
-import java.io.File;
+import tetrominocomputer.util.Dirs;
 
 public class SvgExportModel {
     
-    public static String DEFAULT_FILENAME = System.getProperty("user.dir") + File.separator + "web" + File.separator 
-            + "test.svg";
+    public static String DEFAULT_FILENAME = Dirs.WEB + "test.svg";
 
     private boolean stdout;
     private String filename = DEFAULT_FILENAME;

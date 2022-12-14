@@ -103,7 +103,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
         padRightSpinner = new javax.swing.JSpinner();
         padTopLabel = new javax.swing.JLabel();
         padTopSpinner = new javax.swing.JSpinner();
-        cancelButton = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
         exportButton = new javax.swing.JButton();
         renderPanel = new javax.swing.JPanel();
         tetrominoesCheckBox = new javax.swing.JCheckBox();
@@ -299,13 +299,13 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cancelButton.setMnemonic('c');
-        cancelButton.setText("Cancel");
-        cancelButton.setToolTipText("");
-        cancelButton.setPreferredSize(null);
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        closeButton.setMnemonic('c');
+        closeButton.setText("Close");
+        closeButton.setToolTipText("");
+        closeButton.setPreferredSize(null);
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
+                closeButtonActionPerformed(evt);
             }
         });
 
@@ -487,7 +487,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -501,9 +501,9 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 .addComponent(renderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -614,11 +614,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_exportButtonActionPerformed
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         if (actionListener != null) {
             actionListener.actionPerformed(new ActionEvent(this, 0, COMMAND_CANCEL));
         }
-    }//GEN-LAST:event_cancelButtonActionPerformed
+    }//GEN-LAST:event_closeButtonActionPerformed
 
     private void stdOutCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdOutCheckBoxActionPerformed
         final boolean enabled = !stdOutCheckBox.isSelected();
@@ -653,9 +653,9 @@ public class SvgExportPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox allPossibleValuesCheckBox;
     private javax.swing.JCheckBox axesNumbersCheckBox;
     private javax.swing.JButton browseFileButton;
-    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel cellSizeLabel;
     private javax.swing.JSpinner cellSizeSpinner;
+    private javax.swing.JButton closeButton;
     private javax.swing.JButton defaultFileButton;
     private javax.swing.JLabel depthLabel;
     private javax.swing.JSpinner depthSpinner;

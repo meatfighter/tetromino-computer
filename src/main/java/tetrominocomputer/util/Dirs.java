@@ -13,4 +13,6 @@ public interface Dirs {
     String LUTS = CODE + "luts" + File.separator;
     String MC = CODE + "mc" + File.separator;
     String TS = CODE + "ts" + File.separator;
+    
+    String WEB = USER + File.separator + "web" + File.separator;
 }

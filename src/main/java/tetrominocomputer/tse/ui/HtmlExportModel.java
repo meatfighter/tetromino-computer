@@ -1,11 +1,10 @@
 package tetrominocomputer.tse.ui;
 
-import java.io.File;
+import tetrominocomputer.util.Dirs;
 
 public class HtmlExportModel {
     
-    public static String DEFAULT_FILENAME = System.getProperty("user.dir") + File.separator + "web" + File.separator 
-            + "snippet.html";
+    public static String DEFAULT_FILENAME = Dirs.WEB + "snippet.html";
     
     private boolean stdout;
     private String filename = DEFAULT_FILENAME; 

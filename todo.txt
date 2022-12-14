@@ -2,8 +2,6 @@ compnents with no inputs/outputs are undefined dimensions
 
 new seems to save twice?!
 
-new/open/save dialogs need to remember last directory
-
 remaining sections:
 
 - TetrominoScript Editor tutorial
