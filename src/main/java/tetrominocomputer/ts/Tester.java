@@ -43,8 +43,9 @@ public class Tester extends AbstractSimulator {
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
-            loadComponents(new File(Dirs.TS), components);
-            
+            if (loadComponents(new File(Dirs.TS), components)) {
+                Out.println();
+            }            
             Out.format("Loaded components.%n%n");
             
             if (componentName != null) {
@@ -302,12 +303,13 @@ public class Tester extends AbstractSimulator {
         }
     }    
     
-    private void loadComponents(final File directory, final Map<String, Component> components) 
+    private boolean loadComponents(final File directory, final Map<String, Component> components) 
             throws IOException, LexerParserException, ScriptException {
         
+        boolean warnings = false;
         for (final File file : directory.listFiles()) {
             if (file.isDirectory()) {
-                loadComponents(file, components);
+                warnings |= loadComponents(file, components);
                 continue;
             }
             final String tsFilename = file.getName();
@@ -318,12 +320,15 @@ public class Tester extends AbstractSimulator {
             final String componentName = tsFilename.substring(0, tsFilename.length() - 2);
             final Component component = components.get(componentName);
             final File jsFile = new File(file.getParent() + File.separator + componentName + ".js");
-            if (!(jsFile.isFile() && jsFile.exists())) {
+            if (!(jsFile.isFile() && jsFile.exists() && jsFile.length() > 0)) {
+                warnings = true;
                 Out.format("WARNING: %s missing JavaScript file.%n", componentName);
                 continue;
             }
             loadJavaScript(component, jsFile);
         }
+        
+        return warnings;
     } 
     
     private void loadJavaScript(final Component component, final File jsFile) throws ScriptException, IOException {        

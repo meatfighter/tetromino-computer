@@ -3,8 +3,10 @@ package tetrominocomputer.util;
 import java.io.File;
 
 public interface Dirs {
+    
+    String USER = System.getProperty("user.dir");
 
-    String CODE = System.getProperty("user.dir") + File.separator + "code" + File.separator;
+    String CODE = USER + File.separator + "code" + File.separator;
     
     String ASM = CODE + "asm" + File.separator;
     String BIN = CODE + "bin" + File.separator;

@@ -148,7 +148,6 @@ public class Controller {
         try {
             ss.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
         } catch (final ScriptException e) {
-            e.printStackTrace(); // TODO
         }
         components.put(ss.getName(), ss);
     }    
@@ -167,7 +166,6 @@ public class Controller {
         try {
             zs.setCompiledScript(((Compilable)scriptEngine).compile("o=i;"));
         } catch (final ScriptException e) {
-            e.printStackTrace(); // TODO
         }
         components.put(zs.getName(), zs);
     }
@@ -956,7 +954,6 @@ public class Controller {
             createStructure(component, depth, testBitStr, runTask);
             notifyStructuresCreated(componentName);
         } catch (final LexerParserException e) {
-            e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.format("Build failed.");
                 listener.format(e.toString());
@@ -964,7 +961,6 @@ public class Controller {
             notifyStructuresCreated(componentName);
             return;
         } catch (final Exception e) {
-            e.printStackTrace(); // TODO REMOVE
             if (listener != null) {
                 listener.format("Build failed.");
                 listener.format(e.getMessage());

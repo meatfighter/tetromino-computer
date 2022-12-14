@@ -126,7 +126,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                             }                            
                         }                        
                     } catch (final BadLocationException e) {
-                        e.printStackTrace(); // TODO REMOVE
                     }
                 }
             }

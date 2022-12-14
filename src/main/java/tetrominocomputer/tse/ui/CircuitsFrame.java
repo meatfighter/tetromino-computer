@@ -35,7 +35,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private Controller controller;
     private Map<String, Structure> structures;
     
-    private String circuitsDirectory;
+    private String tsDir;
     private File tetrominoScriptFile;
     private File javaScriptFile;
     private String componentName;
@@ -75,17 +75,31 @@ public class CircuitsFrame extends javax.swing.JFrame {
         compEditComboBox.setModel(new DefaultComboBoxModel(new String[0]));
     }
     
-    private String getComponentDirectory() {
-        if (circuitsDirectory == null) {
-            circuitsDirectory = Dirs.TS;
-            final File componentsDir = new File(circuitsDirectory);
-            if (!(componentsDir.exists() && componentsDir.isDirectory())) {
-                circuitsDirectory = System.getProperty("user.dir");
-            }            
-        }
-        return circuitsDirectory;
+    private String getTsDir() {
+        if (tsDir == null) {
+            tsDir = Dirs.TS;                        
+        } 
+        final File dir = new File(tsDir);
+        if (!(dir.exists() && dir.isDirectory())) {
+            tsDir = Dirs.TS;
+        }        
+        return tsDir;
     }
-
+    
+    private void setTsDir(final File fileWithinTsDir) {
+        if (fileWithinTsDir.isDirectory()) {
+            tsDir = fileWithinTsDir.getPath();
+            return;
+        } 
+        String dir = fileWithinTsDir.getParent();
+        if (dir == null) {
+            dir = fileWithinTsDir.getAbsoluteFile().getParent();
+        }
+        if (dir != null) {
+            tsDir = dir;
+        }
+    }
+    
     public Controller getController() {
         return controller;
     }
@@ -1246,7 +1260,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_centerButtonActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        final JFileChooser fileChooser = new JFileChooser(getComponentDirectory());
+        final JFileChooser fileChooser = new JFileChooser(getTsDir());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
         final FileFilter tsFileFilter = new FileNameExtensionFilter("TetrominoScript file (*.t)", "t");
@@ -1258,27 +1272,37 @@ public class CircuitsFrame extends javax.swing.JFrame {
             return;
         }
         
+        final File selectedFile = fileChooser.getSelectedFile();
+        if (selectedFile == null || !selectedFile.exists() || !selectedFile.isFile()) {
+            return;
+        }
+        
+        promptSaveChanges(() -> EventQueue.invokeLater(() -> open(selectedFile)), "Save changes before open?");               
+    }//GEN-LAST:event_openMenuItemActionPerformed
+   
+    private void open(final File file) {
+        
+        setTsDir(file);
         reset();
                 
-		final File selectedFile = fileChooser.getSelectedFile();
         final File tsFile;
         final File jsFile;
         final String compName;
-        if (selectedFile.getName().endsWith(".js")) {
-            jsFile = selectedFile;
-            compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 3);
-            tsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName 
+        if (file.getName().endsWith(".js")) {
+            jsFile = file;
+            compName = file.getName().substring(0, file.getName().length() - 3);
+            tsFile = new File(file.getAbsoluteFile().getParent() + File.separator + compName 
                     + ".t");
         } else {
-            tsFile = selectedFile;
-            compName = selectedFile.getName().substring(0, selectedFile.getName().length() - 2);
-            jsFile = new File(selectedFile.getAbsoluteFile().getParent() + File.separator + compName 
+            tsFile = file;
+            compName = file.getName().substring(0, file.getName().length() - 2);
+            jsFile = new File(file.getAbsoluteFile().getParent() + File.separator + compName 
                     + ".js");
         }
         
         controller.openComponent(compName, tsFile, jsFile);
-    }//GEN-LAST:event_openMenuItemActionPerformed
-   
+    }
+    
     private void newMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMenuItemActionPerformed
         promptSaveChanges(() -> EventQueue.invokeLater(() -> {
             reset();
@@ -1306,7 +1330,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void saveAs(final Runnable runnable, final String title) {
-        final JFileChooser fileChooser = new JFileChooser(getComponentDirectory());
+        final JFileChooser fileChooser = new JFileChooser(getTsDir());
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setMultiSelectionEnabled(false);
         final FileFilter tsFileFilter = new FileNameExtensionFilter("TetrominoScript file (*.t)", "t");
@@ -1377,6 +1401,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         tetrominoScriptFile = tsFile;
         javaScriptFile = jsFile;
         setComponentName(compName);
+        setTsDir(tsFile);
         
         tetrominoScriptChangeCount = circuitsEditorPanel.getTetrominoScriptChangeCount();
         javaScriptChangeCount = circuitsEditorPanel.getJavaScriptChangeCount();

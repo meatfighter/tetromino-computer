@@ -1,15 +1,8 @@
 compnents with no inputs/outputs are undefined dimensions
-no warning about saving when opening
 
 new seems to save twice?!
 
-JS exceptions not displayed
-
 new/open/save dialogs need to remember last directory
-
-subtractor
-inverter
-negator
 
 remaining sections:
 
@@ -17,5 +10,3 @@ remaining sections:
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
-
-- tester window
