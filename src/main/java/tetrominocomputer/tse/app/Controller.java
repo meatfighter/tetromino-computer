@@ -44,8 +44,13 @@ import tetrominocomputer.tse.ui.SvgGenerator;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import tetrominocomputer.sim.SimulatorException;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Out;
 
 public class Controller {
     
@@ -792,6 +797,7 @@ public class Controller {
                 structs.toArray(new Structure[0]));
     }
     
+    // Run button invokes this method
     public void buildAndRun(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth) {
         final BuildListener listener = buildListener;
@@ -1072,6 +1078,128 @@ public class Controller {
             execute(() -> runComponent(component.getName(), testBitStr.trim(), depth, false));
         }        
     }
+    
+    private boolean isTwoBytesBit(final Playfield playfield, final Component component, final AtomicBoolean cancelled) {
+        
+        final int inputsCount = component.getInputs().length;
+        if (inputsCount != 24) {
+            return false;
+        }
+        
+        final OutputListener outListener = outputListener;
+        
+        try {
+            final Random random = ThreadLocalRandom.current();
+            while (true) {
+                playfield.clear();
+                final int inputs = random.nextInt() & 0xFFFFFF;
+                simulator.init(playfield, component, Out.toBinaryString(inputs, 24));
+                simulator.simulate(playfield, component);
+                final int outputs = Integer.parseInt(simulator.readTerminals(component.getOutputs(), playfield), 2);
+                final int high = 0xFF & (outputs >> 16);
+                final int low = 0xFF & outputs;
+                if (high > 1 && low > 1) {
+                    if (outListener != null) {
+                        outListener.format("TEST FAILED: Invalid output -- inputs=%X, outputs=%X", inputs, outputs);
+                    }
+                    cancelled.set(true);
+                    return false;
+                }
+                if (low > 1) {
+                    return false;
+                }
+                if (high > 1) {
+                    return true;
+                }
+            }
+        } catch (final Exception e) {
+            if (outListener != null) {
+                outListener.format("TEST FAILED: %s", e.getMessage());
+            }
+            cancelled.set(true);
+        }
+        return false;
+    }  
+    
+    private boolean testComponent(final Component component, final Playfield playfield, final double frac, 
+            final AtomicBoolean cancelled) {
+
+        final OutputListener outListener = outputListener;
+        
+        if (component.getCompiledScript() == null) {
+            if (outListener != null) {
+                outListener.format("TEST FAILED -- Missing or invalid JavaScript.");
+            }
+            return false;
+        }
+        
+        if (component.getInputs() == null) {
+            if (outListener != null) {
+                outListener.format("TEST FAILED -- No input nodes.");
+            }
+            return false;
+        }
+        
+        final boolean twoBytesBit = isTwoBytesBit(playfield, component, cancelled);
+        final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
+        if (testComponent(component, playfield, max, 0, (max > 0x3FF) ? frac : 1.0, twoBytesBit, cancelled)) {
+            if (outListener != null) {
+                outListener.format("TEST PASSED");
+            }
+            return true;
+        }
+        
+        return false;
+    }    
+    
+    private boolean testComponent(final Component component, final Playfield playfield, final double max, 
+            final double min, final double frac, final boolean twoBytesBit, final AtomicBoolean cancelled) {
+        
+        final double expect = 1.0 / frac;
+        final Random random = ThreadLocalRandom.current();
+        for (double i = max; i >= min && !cancelled.get(); i -= expect) {
+            final int inputBits = Math.max(0, (int) (i - ((frac < 1.0) ? expect * random.nextDouble() : 0)));
+            if (!testComponent(component, playfield, Out.toBinaryString(twoBytesBit 
+                    ? ((inputBits & 0x1FFFE) << 7) | (inputBits & 1) : inputBits, component.getInputs().length))) {
+                return false;
+            }
+        }
+        
+        return true;
+    }    
+    
+    private boolean testComponent(final Component component, final Playfield playfield, final String inputBits) {
+        
+        final OutputListener outListener = outputListener;
+        
+        try {
+            playfield.clear();
+            simulator.init(playfield, component, inputBits);        
+            simulator.simulate(playfield, component);            
+            final String simulatedOutput = simulator.readTerminals(component.getOutputs(), playfield);
+
+            playfield.clear();
+            simulator.init(playfield, component, inputBits);
+            simulator.simulate(playfield, component, 0);
+            final String emulatedOutput = simulator.readTerminals(component.getOutputs(), playfield);
+            
+            if (!simulatedOutput.equals(emulatedOutput)) {
+                if (outListener != null) {
+                    outListener.format("TEST FAILED: input = %s, output = %s, expected output = %s", inputBits,
+                            simulatedOutput, emulatedOutput);                    
+                }
+                return false;
+            }
+            
+        } catch (final Exception e) {
+            if (outListener != null) {
+                outListener.format("TEST FAILED: %s", e.getMessage());
+            }
+            return false;
+        }
+        
+        return true;
+    }    
     
     private int findComponentNameSortGroup(final String componentName) {
         if (componentName.length() >= 2) {

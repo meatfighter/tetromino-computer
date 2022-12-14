@@ -253,6 +253,12 @@ public class CircuitsFrame extends javax.swing.JFrame {
         findPreviousMenuItem = new javax.swing.JMenuItem();
         replaceMenuItem = new javax.swing.JMenuItem();
         goToMenuItem = new javax.swing.JMenuItem();
+        runMenu = new javax.swing.JMenu();
+        runMenuItem = new javax.swing.JMenuItem();
+        jSeparator13 = new javax.swing.JPopupMenu.Separator();
+        testQuicklyMenuItem = new javax.swing.JMenuItem();
+        testFullyMenuItem = new javax.swing.JMenuItem();
+        cancelTestMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         translateMenuItem = new javax.swing.JMenuItem();
         translateToCenterMenuItem = new javax.swing.JMenuItem();
@@ -897,6 +903,53 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         menuBar.add(editMenu);
 
+        runMenu.setMnemonic('r');
+        runMenu.setText("Run");
+        runMenu.setToolTipText("");
+
+        runMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        runMenuItem.setMnemonic('r');
+        runMenuItem.setText("Run");
+        runMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runMenuItemActionPerformed(evt);
+            }
+        });
+        runMenu.add(runMenuItem);
+        runMenu.add(jSeparator13);
+
+        testQuicklyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.CTRL_MASK));
+        testQuicklyMenuItem.setMnemonic('q');
+        testQuicklyMenuItem.setText("Test Quickly");
+        testQuicklyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testQuicklyMenuItemActionPerformed(evt);
+            }
+        });
+        runMenu.add(testQuicklyMenuItem);
+
+        testFullyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.SHIFT_MASK));
+        testFullyMenuItem.setMnemonic('t');
+        testFullyMenuItem.setText("Test Fully");
+        testFullyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testFullyMenuItemActionPerformed(evt);
+            }
+        });
+        runMenu.add(testFullyMenuItem);
+
+        cancelTestMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        cancelTestMenuItem.setMnemonic('c');
+        cancelTestMenuItem.setText("Cancel Test");
+        cancelTestMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelTestMenuItemActionPerformed(evt);
+            }
+        });
+        runMenu.add(cancelTestMenuItem);
+
+        menuBar.add(runMenu);
+
         toolsMenu.setMnemonic('T');
         toolsMenu.setText("Tools");
 
@@ -1511,6 +1564,22 @@ public class CircuitsFrame extends javax.swing.JFrame {
         htmlExportDialog.setVisible(true);
     }//GEN-LAST:event_exportHtmlMenuItemActionPerformed
 
+    private void testFullyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testFullyMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testFullyMenuItemActionPerformed
+
+    private void testQuicklyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testQuicklyMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testQuicklyMenuItemActionPerformed
+
+    private void cancelTestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelTestMenuItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelTestMenuItemActionPerformed
+
+    private void runMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runMenuItemActionPerformed
+        runButtonActionPerformed(evt);
+    }//GEN-LAST:event_runMenuItemActionPerformed
+
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
         circuitsEditorPanel.goToLine(lineNumber);
@@ -1555,6 +1624,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JButton addComponentButton;
     private javax.swing.JPanel bottomPanel;
+    private javax.swing.JMenuItem cancelTestMenuItem;
     private javax.swing.JSpinner cellSizeSpinner;
     private javax.swing.JButton centerButton;
     private tetrominocomputer.tse.ui.CircuitsEditorPanel circuitsEditorPanel;
@@ -1580,6 +1650,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
+    private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1606,6 +1677,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem redoMenuItem;
     private javax.swing.JMenuItem replaceMenuItem;
     private javax.swing.JButton runButton;
+    private javax.swing.JMenu runMenu;
+    private javax.swing.JMenuItem runMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JToolBar.Separator separator4;
@@ -1616,6 +1689,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JButton shButton;
     private javax.swing.JButton svButton;
     private javax.swing.JButton tdButton;
+    private javax.swing.JMenuItem testFullyMenuItem;
+    private javax.swing.JMenuItem testQuicklyMenuItem;
     private javax.swing.JTextField testTextField;
     private javax.swing.JButton tlButton;
     private javax.swing.JToolBar toolBar;

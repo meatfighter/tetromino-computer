@@ -86,6 +86,53 @@ public class Simulator {
         }
     }
     
+    public String readTerminals(final Terminal[] terminals, final Playfield playfield) {
+        
+        final StringBuilder sb = new StringBuilder();        
+        if (terminals == null) {
+            return sb.toString();
+        }
+        
+        final int ox = playfield.getWidth() >> 1;
+        final int oy = playfield.getHeight() - 1;
+        
+        for (int i = 0; i < terminals.length; ++i) {
+            TerminalState state = TerminalState.UNKNOWN;            
+            final HorizontalLine[] horizontalLines = terminals[i].getHorizontalLines();            
+            outer: for (int j = horizontalLines.length - 1; j >= 0; --j) {
+                final HorizontalLine horizontalLine = horizontalLines[j];
+                final int maxX = horizontalLine.getMaxX();                
+                int y = oy - horizontalLine.getY() - 1;                
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(ox + x, y)) {
+                        state = TerminalState.ONE;
+                        break outer;
+                    }
+                }
+                ++y;
+                for (int x = horizontalLine.getMinX(); x <= maxX; ++x) {
+                    if (playfield.isSolid(ox + x, y)) {
+                        state = TerminalState.ZERO;
+                        break outer;
+                    }
+                }
+            }
+            switch (state) {
+                case ZERO:
+                    sb.append('0');
+                    break;
+                case ONE:
+                    sb.append('1');
+                    break;
+                default:
+                    sb.append('?');
+                    break;
+            }            
+        }
+
+        return sb.toString();
+    }    
+    
     public TerminalRectangle[][] readTerminals(final Terminal[] terminals, final int originX, final int originY, 
             final Playfield playfield) {
         
@@ -185,6 +232,10 @@ public class Simulator {
         }
 
         return rectangles;
+    }
+    
+    public void simulate(final Playfield playfield, final Component component) throws SimulatorException {
+        simulate(playfield, component, Integer.MAX_VALUE);
     }
     
     public void simulate(final Playfield playfield, final Component component, final int depth)

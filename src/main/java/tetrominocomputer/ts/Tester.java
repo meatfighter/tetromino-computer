@@ -32,7 +32,8 @@ import tetrominocomputer.util.Out;
 
 public class Tester extends AbstractSimulator {
     
-    private static final double DEFAULT_FRACTION = 0.05;
+    private static final double DEFAULT_ALL_FRACTION = 0.05;
+    private static final double DEFAULT_SINGLE_FRACTION = 1.0;
     
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
@@ -271,8 +272,8 @@ public class Tester extends AbstractSimulator {
         lock(playfield, tetromino, x, y);
     } 
     
-    private boolean isTwoBytesBit(final Map<String, Component> components, 
-            final Playfield playfield, final Component component) {
+    private boolean isTwoBytesBit(final Map<String, Component> components, final Playfield playfield, 
+            final Component component) {
         
         final int inputsCount = component.getInputs().length;
         if (inputsCount != 24) {
@@ -351,22 +352,32 @@ public class Tester extends AbstractSimulator {
     
     public static void main(final String... args) throws Exception {
         
-        double frac = DEFAULT_FRACTION;
+        double frac = -1.0;
         String componentName = null;
         for (int i = 0; i < args.length - 1; ++i) {   
             switch (args[i]) {
-                case "-f":
+                case "-f": {
+                    boolean error = false;
                     try {
                         frac = Double.parseDouble(args[++i]);
+                        error = frac <= 0 || Double.isInfinite(frac) || Double.isNaN(frac);
                     } catch (final NumberFormatException e) {
+                        error = true;
+                    }
+                    if (error) {
                         Out.formatError("Invalid fraction.%n%n");
                         return;
                     }
                     break;
+                }
                 case "-c":
                     componentName = args[++i];
                     break;
             }
+        }
+        
+        if (frac <= 0) {
+            frac = (componentName == null) ? DEFAULT_ALL_FRACTION : DEFAULT_SINGLE_FRACTION;
         }
         
         new Tester().launch(frac, componentName);
