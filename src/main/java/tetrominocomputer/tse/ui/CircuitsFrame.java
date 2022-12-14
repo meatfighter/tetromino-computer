@@ -8,6 +8,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URI;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -26,6 +28,9 @@ import tetrominocomputer.util.Dirs;
 public class CircuitsFrame extends javax.swing.JFrame {
     
     private static final int COORDINATES_SPACES = 15;
+    
+    private final AtomicInteger taskCount = new AtomicInteger();
+    private final AtomicBoolean cancelled = new AtomicBoolean();
     
     private Controller controller;
     private Map<String, Structure> structures;
@@ -906,6 +911,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         runMenu.setMnemonic('r');
         runMenu.setText("Run");
         runMenu.setToolTipText("");
+        runMenu.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                runMenuMenuSelected(evt);
+            }
+        });
 
         runMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
         runMenuItem.setMnemonic('r');
@@ -1565,20 +1579,29 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exportHtmlMenuItemActionPerformed
 
     private void testFullyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testFullyMenuItemActionPerformed
-        // TODO add your handling code here:
+        buildAndTest(1.0);
     }//GEN-LAST:event_testFullyMenuItemActionPerformed
 
     private void testQuicklyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testQuicklyMenuItemActionPerformed
-        // TODO add your handling code here:
+        buildAndTest(0.1);
     }//GEN-LAST:event_testQuicklyMenuItemActionPerformed
 
+    private void buildAndTest(final double frac) {
+        circuitsEditorPanel.buildAndTest(componentName, testTextField.getText().trim(), (int)depthSpinner.getValue(), 
+                frac, cancelled, taskCount);
+    }
+    
     private void cancelTestMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelTestMenuItemActionPerformed
-        // TODO add your handling code here:
+        cancelled.set(true);
     }//GEN-LAST:event_cancelTestMenuItemActionPerformed
 
     private void runMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runMenuItemActionPerformed
         runButtonActionPerformed(evt);
     }//GEN-LAST:event_runMenuItemActionPerformed
+
+    private void runMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_runMenuMenuSelected
+        cancelTestMenuItem.setEnabled(taskCount.get() > 0 && !cancelled.get());
+    }//GEN-LAST:event_runMenuMenuSelected
 
     public void goToLine(final int lineNumber) {
         closeGoToDialog();

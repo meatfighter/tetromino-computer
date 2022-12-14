@@ -32,7 +32,7 @@ import tetrominocomputer.util.Out;
 
 public class Tester extends AbstractSimulator {
     
-    private static final double DEFAULT_ALL_FRACTION = 0.05;
+    private static final double DEFAULT_ALL_FRACTION = 0.1;
     private static final double DEFAULT_SINGLE_FRACTION = 1.0;
     
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");

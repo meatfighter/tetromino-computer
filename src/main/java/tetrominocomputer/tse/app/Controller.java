@@ -47,6 +47,7 @@ import static java.lang.Math.min;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetrominocomputer.sim.SimulatorException;
 import tetrominocomputer.util.Dirs;
@@ -797,6 +798,20 @@ public class Controller {
                 structs.toArray(new Structure[0]));
     }
     
+    // Test menuItems invoke this method
+    public void buildAndTest(final String componentName, final String tetrominoScript, final String javaScript, 
+            final String testBitStr, final int depth, final double frac, final AtomicBoolean cancelled, 
+            final AtomicInteger taskCount) {
+        final BuildListener listener = buildListener;
+        if (listener != null) {
+            listener.buildStarted();
+        }
+        taskCount.set(1);
+        cancelled.set(false);
+        execute(() -> buildScripts(componentName, tetrominoScript, javaScript, testBitStr, depth, 
+                () -> testComponent(componentName, frac, cancelled, taskCount)));
+    }
+    
     // Run button invokes this method
     public void buildAndRun(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth) {
@@ -1121,35 +1136,76 @@ public class Controller {
         return false;
     }  
     
-    private boolean testComponent(final Component component, final Playfield playfield, final double frac, 
-            final AtomicBoolean cancelled) {
-
-        final OutputListener outListener = outputListener;
+    private void testComponent(final String componentName, final double frac, final AtomicBoolean cancelled,
+            final AtomicInteger taskCount) {
         
-        if (component.getCompiledScript() == null) {
+        final OutputListener outListener = outputListener;
+        if (outListener != null) {
+            outListener.format("Testing...");
+        }
+        
+        final Component component = components.get(componentName);
+        if (component == null) {
             if (outListener != null) {
-                outListener.format("TEST FAILED -- Missing or invalid JavaScript.");
+                outListener.format("TEST FAILED -- Component not found.");                
             }
-            return false;
+            taskCount.set(0);
+            return;
         }
         
         if (component.getInputs() == null) {
             if (outListener != null) {
-                outListener.format("TEST FAILED -- No input nodes.");
+                outListener.format("TEST FAILED -- No input nodes.");                
             }
-            return false;
+            taskCount.set(0);
+            return;
         }
         
-        final boolean twoBytesBit = isTwoBytesBit(playfield, component, cancelled);
+        final boolean twoBytesBit;
+        {
+            final Playfield playfield = borrowPlayfield();
+            try {
+                twoBytesBit = isTwoBytesBit(playfield, component, cancelled);
+                if (cancelled.get()) {
+                    taskCount.set(0);
+                    return;
+                }
+            } finally {
+                returnPlayfield(playfield);
+            }
+        }
+                
         final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
-        if (testComponent(component, playfield, max, 0, (max > 0x3FF) ? frac : 1.0, twoBytesBit, cancelled)) {
-            if (outListener != null) {
-                outListener.format("TEST PASSED");
-            }
-            return true;
+        final int range = 1 + (max / Runtime.getRuntime().availableProcessors());
+        final List<Runnable> tasks = new ArrayList<>();
+        for (int high = max; high >= 0 && !cancelled.get(); high -= range) {
+            final int h = high;
+            final int low = Math.max(0, high - range);
+            tasks.add(() -> {
+                Playfield playfield = null;
+                try {
+                    playfield = borrowPlayfield();
+                    if (!testComponent(component, playfield, h, low, (range > 0x3FF) ? frac : 1.0, twoBytesBit, 
+                            cancelled)) {
+                        cancelled.set(true);
+                    }                    
+                } catch (final Exception e) {
+                    if (outListener != null) {
+                        outListener.format("TEST FAILED -- %s", e.getMessage());                
+                    }
+                    cancelled.set(true);
+                } finally {
+                    returnPlayfield(playfield);                    
+                    if (taskCount.decrementAndGet() == 0 && !cancelled.get()) {
+                        outListener.format("TEST PASSED");
+                    }
+                }
+            });
+        }            
+        taskCount.set(tasks.size());
+        for (final Runnable task : tasks) {
+            executor.execute(task);
         }
-        
-        return false;
     }    
     
     private boolean testComponent(final Component component, final Playfield playfield, final double max, 
@@ -1322,6 +1378,9 @@ public class Controller {
     }
     
     private void returnPlayfield(final Playfield playfield) {
+        if (playfield == null) {
+            return;
+        }
         playfield.clear();
         playfieldPool.add(playfield);
     }

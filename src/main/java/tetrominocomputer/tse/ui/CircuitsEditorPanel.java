@@ -11,6 +11,8 @@ import java.io.File;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -485,6 +487,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
     
     public void build(final String componentName, final int depth) {
         controller.build(componentName, tetrominoScriptTextPane.getText(), javaScriptTextArea.getText(), depth);
+    }
+    
+    public void buildAndTest(final String componentName, final String testBitsStr, final int depth, final double frac,
+            final AtomicBoolean cancelled, final AtomicInteger taskCount) {
+        controller.buildAndTest(componentName, tetrominoScriptTextPane.getText(), javaScriptTextArea.getText(), 
+                testBitsStr, depth, frac, cancelled, taskCount);
     }
     
     public void buildAndRun(final String componentName, final String testBitsStr, final int depth) {
