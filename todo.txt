@@ -7,3 +7,5 @@ remaining sections:
 
 - screen shot of gpc
 - video of gpc
+
+c:\jdk1.8.0_152\bin\java.exe -jar target\tetromino-computer.jar-jar-with-dependencies.jar

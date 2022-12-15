@@ -21,12 +21,14 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>tetrominocomputer.computer.Computer</mainClass>
+                            <mainClass>tetrominocomputer.gpc.app.GeneralPurposeComputer</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <finalName>tetromino-computer</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
