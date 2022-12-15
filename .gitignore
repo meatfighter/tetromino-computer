@@ -2,5 +2,5 @@
 
 hs_err_pid*
 
-/target/
+target/*
 !/target/tetromino-computer.jar
