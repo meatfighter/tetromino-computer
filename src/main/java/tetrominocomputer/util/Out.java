@@ -29,6 +29,7 @@ public class Out {
             System.out.format("Finished at: %s%n%n", formatter.format(ZonedDateTime.now()));
         }));
 
+        System.out.println();
         System.out.println(startMessage);
         System.out.println();
         task.call();
