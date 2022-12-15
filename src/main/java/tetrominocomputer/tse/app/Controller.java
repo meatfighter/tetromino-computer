@@ -49,7 +49,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import tetrominocomputer.sim.SimulatorException;
 import tetrominocomputer.util.Dirs;
 import tetrominocomputer.util.Out;
 
@@ -73,11 +72,27 @@ public class Controller {
     private final Object taskMonitor = new Object();
     private final Object loadMonitor = new Object();
     
-    private volatile OutputListener outputListener;
-    private volatile ProgressListener progressListener;
-    private volatile BuildListener buildListener;
-    private volatile RunListener runListener;
-    private volatile OpenListener openListener;
+    private volatile OutputListener outputListener = new OutputListener() {
+        @Override
+        public void clear() {
+        }
+        @Override
+        public void format(final String text, final Object... args) {
+            System.out.format(text + "%n", args);
+        }        
+    };
+    
+    private volatile BuildListener buildListener = new BuildListener() {
+        @Override
+        public void buildStarted() {
+        }
+        @Override
+        public void buildCompleted(final String[] componentNames, final Map<String, Structure> structures) {
+        }
+    };
+    
+    private volatile RunListener runListener = s -> { };    
+    private volatile OpenListener openListener = (n, tsf, ts, jsf, js, t) -> { };
     
     private int taskCount;
     private int loadCount;
@@ -95,10 +110,6 @@ public class Controller {
         this.outputListener = outputListener;
     }
     
-    public void setProgressListener(final ProgressListener progressListener) {
-        this.progressListener = progressListener;
-    }
-
     public void setBuildListener(final BuildListener buildListener) {
         this.buildListener = buildListener;
     }
@@ -109,10 +120,6 @@ public class Controller {
 
     public OutputListener getOutputListener() {
         return outputListener;
-    }
-
-    public ProgressListener getProgressListener() {
-        return progressListener;
     }
 
     public BuildListener getBuildListener() {
@@ -298,10 +305,7 @@ public class Controller {
     
     private String readFile(final File file) {
         if (file == null || !file.exists() || !file.isFile()) {
-            final OutputListener listener = outputListener;
-            if (listener != null) {
-                listener.format("Failed to find %s", file);
-            }
+            outputListener.format("Failed to find %s", file);
             return "";
         }
         final StringBuilder sb = new StringBuilder();
@@ -314,10 +318,7 @@ public class Controller {
                 sb.append(line);
             }
         } catch (final IOException e) {
-            final OutputListener listener = outputListener;
-            if (listener != null) {
-                listener.format("Failed to read %s: %s", file, e.getMessage());
-            }
+            outputListener.format("Failed to read %s: %s", file, e.getMessage());
             return "";
         }
         return sb.toString();
@@ -354,7 +355,6 @@ public class Controller {
             structures.clear();
             dependencies.clear();
             createIsSsAndZs();
-            final OutputListener listener = outputListener;
             final Map<String, Files> files = new HashMap<>();
             findSourceFiles(new File(Dirs.TS), files);
             synchronized(loadMonitor) {
@@ -379,29 +379,17 @@ public class Controller {
     
     private void loadComponentJavaScript(final String componentName, final File file) {
      
-        final OutputListener listener = outputListener;
-        if (listener != null) {
-            if (file == null || !file.exists()) {
-                listener.format("Error: %s missing JavaScript file.", componentName);
-                return;
-            } else {
-                listener.format("Loading %s JavaScript file...", componentName);
-            }
-        }
+        if (file == null || !file.exists() || !file.isFile()) {
+            outputListener.format("ERROR: %s missing JavaScript.", componentName);
+            return;
+        } 
         
         try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
             loadComponentJavaScript(componentName, file, br);
         } catch (final Exception e) {
-            if (listener != null) {
-                listener.format("Failed to load %s Javascript.", componentName);
-                listener.format(e.getMessage());
-            }
+            outputListener.format("ERROR: %s -- %s", componentName, e.getMessage());
             return;
         }
-        
-        if (listener != null) {
-            listener.format("Loaded %s Javascript.", componentName);
-        } 
     }
     
     private void loadComponentJavaScript(final String componentName, final File file, final Reader reader) 
@@ -413,15 +401,10 @@ public class Controller {
     
     private void loadComponentTetrominoScript(final String componentName, final File file) {
         
-        final OutputListener listener = outputListener;
-        if (listener != null) {
-            if (file == null || !file.exists()) {
-                listener.format("Error: %s missing TetrominoScript file.", componentName);
-                return;
-            } else {
-                listener.format("Loading %s TetrominoScript file...", componentName);
-            }
-        }
+        if (file == null || !file.exists() || !file.isFile()) {
+            outputListener.format("ERROR: %s missing TetrominoScript.", componentName);
+            return;
+        } 
         
         final String filename = file.getName();        
         final LexerParser lexerParser = new LexerParser();
@@ -429,21 +412,12 @@ public class Controller {
         try {
             lexerParser.parse(components, filename, new FileInputStream(file));
         } catch (final LexerParserException e) {
-            if (listener != null) {
-                listener.format("Failed to load %s defintion file.", componentName);
-                listener.format(e.toString());
-            }
+            outputListener.format("ERROR: %s -- %s", componentName, e.toString());
             return;
         } catch (final Exception e) {
-            if (listener != null) {
-                listener.format("Failed to load %s defintion file.", componentName);
-                listener.format(e.getMessage());
-            }
+            outputListener.format("ERROR: %s -- %s", componentName, e.getMessage());
             return;
-        }
-        if (listener != null) {
-            listener.format("Loaded %s TetrominoScript file.", componentName);
-        }        
+        } 
     }
     
     private void updateComponentExtents() {        
@@ -614,10 +588,7 @@ public class Controller {
     private void saveScripts(final String compName, final File tsFile, final String tetrominoScript, final File jsFile, 
             final String javaScript, final Runnable runnable) {
         
-        final OutputListener outListener = outputListener;
-        if (outListener != null) {
-            outListener.clear();
-        }
+        outputListener.clear();
         
         saveScript(tsFile, tetrominoScript);
         saveScript(jsFile, javaScript);
@@ -632,19 +603,14 @@ public class Controller {
         }
     }
     
-    private void saveScript(final File file, final String script) {
-        final OutputListener outListener = outputListener;        
+    private void saveScript(final File file, final String script) {   
         try (final BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(script);
         } catch (final IOException e) {
-            if (outListener != null) {
-                outListener.format("Failed to write to %s: %s", file, e.getMessage());
-            }
+            outputListener.format("Failed to write to %s: %s", file, e.getMessage());
             return;
         }
-        if (outListener != null) {
-            outListener.format("Saved to %s", file);
-        }
+        outputListener.format("Saved to %s", file);
     }
     
     public void exportHtmlAsync(final String componentName, final String tetrominoScript, 
@@ -658,10 +624,7 @@ public class Controller {
         try {
             new HtmlGenerator().generate(componentName, tetrominoScript, htmlExportModel);
         } catch (final Exception e) {
-            final OutputListener outListener = outputListener;
-            if (outListener != null) {
-                outListener.format(e.getMessage());
-            }
+            outputListener.format(e.getMessage());
         }            
     }
     
@@ -672,10 +635,7 @@ public class Controller {
     
     private void exportSvg(final String componentName, final String tetrominoScript, final String javaScript, 
             final SvgExportModel svgExportModel) {
-        final BuildListener listener = buildListener;
-        if (listener != null) {
-            listener.buildStarted();
-        }
+        buildListener.buildStarted();
         execute(() -> buildScripts(componentName, tetrominoScript, javaScript, svgExportModel.getInputValue(), 
                 svgExportModel.getDepth(), () -> exportSvg(componentName, svgExportModel)));
     }
@@ -689,10 +649,7 @@ public class Controller {
                 final int bits = component.getInputs().length;
                 final int combos = 1 << bits;
                 if (combos > 16) {
-                    final OutputListener outListener = outputListener;
-                    if (outListener != null) {
-                        outListener.format("Too many input combinations.");
-                    }
+                    outputListener.format("Too many input combinations.");
                     return;
                 }
                 for (int i = 0; i < combos; ++i) {
@@ -710,17 +667,13 @@ public class Controller {
             }               
             new SvgGenerator().generate(structs.toArray(new Structure[0]), svgExportModel);
         } catch (final Exception e) {
-            final OutputListener outListener = outputListener;
-            if (outListener != null) {
-                outListener.format(e.getMessage());
-            }
+            outputListener.format(e.getMessage());
         }
     }  
     
     private Structure exportSvgStructure(final String componentName, final String testBitStr, final int depth) 
             throws Exception {
         
-        final OutputListener outListener = outputListener;
         final List<Structure> structs = new ArrayList<>();                 
         Component component = components.get(componentName);
         int minX = 0;
@@ -729,9 +682,7 @@ public class Controller {
         TerminalRectangle[][] inputs = new TerminalRectangle[0][];
         TerminalRectangle[][] outputs = new TerminalRectangle[0][];        
         if (component == null) {
-            if (outListener != null) {
-                outListener.format("Error: Unknown component: %s", componentName);
-            }
+            outputListener.format("ERROR: Unknown component: %s", componentName);
         } else {        
             final Playfield playfield = borrowPlayfield();
             try {
@@ -748,13 +699,11 @@ public class Controller {
                 });
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
-                maxY = playfield.getHeight() - 1 - playfield.getMinY();
-                if (outListener != null) {
-                    if (isBlank(testBitStr)) {
-                        outListener.format("Ran %s with no inputs.", componentName);
-                    } else {
-                        outListener.format("Ran %s with %s.", componentName, testBitStr);
-                    }
+                maxY = playfield.getHeight() - 1 - playfield.getMinY();    
+                if (isBlank(testBitStr)) {
+                    outputListener.format("Ran %s with no inputs.", componentName);
+                } else {
+                    outputListener.format("Ran %s with %s.", componentName, testBitStr);
                 }
                 inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
                 outputs = simulator.readTerminals(component.getOutputs(), 0, 0, playfield);
@@ -800,10 +749,8 @@ public class Controller {
     public void buildAndTest(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth, final double frac, final AtomicBoolean cancelled, 
             final AtomicInteger taskCount) {
-        final BuildListener listener = buildListener;
-        if (listener != null) {
-            listener.buildStarted();
-        }
+
+        buildListener.buildStarted();
         taskCount.set(1);
         cancelled.set(false);
         execute(() -> buildScripts(componentName, tetrominoScript, javaScript, testBitStr, depth, 
@@ -813,10 +760,8 @@ public class Controller {
     // Run button invokes this method
     public void buildAndRun(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth) {
-        final BuildListener listener = buildListener;
-        if (listener != null) {
-            listener.buildStarted();
-        }
+
+        buildListener.buildStarted();
         execute(() -> buildScripts(componentName, tetrominoScript, javaScript, testBitStr, depth, null));
     }
     
@@ -831,11 +776,8 @@ public class Controller {
     private void runComponent(final String componentName, final String testBitStr, final int depth, 
             final boolean clearOutput) {
         
-        final OutputListener outListener = outputListener;
-        final RunListener listener = runListener;
-        
-        if (outListener != null && clearOutput) {
-            outListener.clear();
+        if (clearOutput) {
+            outputListener.clear();
         }
         
         final List<Structure> structs = new ArrayList<>();         
@@ -845,9 +787,7 @@ public class Controller {
         int maxX = 0;
         int maxY = 0;
         if (component == null) {
-            if (outListener != null) {
-                outListener.format("Error: Unknown component %s", componentName);
-            }
+            outputListener.format("ERROR: Unknown component %s", componentName);
         } else {                
             final Playfield playfield = borrowPlayfield();
             try {
@@ -865,71 +805,62 @@ public class Controller {
                 minX = playfield.getMinX() - (playfield.getWidth() >> 1);
                 maxX = playfield.getMaxX() - (playfield.getWidth() >> 1);
                 maxY = playfield.getHeight() - 1 - playfield.getMinY();
-                if (outListener != null) {
-                    if (isBlank(testBitStr)) {
-                        outListener.format("Ran %s with no inputs.", componentName);
-                    } else {
-                        outListener.format("Ran %s with %s.", componentName, testBitStr);
-                    }
+                if (isBlank(testBitStr)) {
+                    outputListener.format("Ran %s with no inputs.", componentName);
+                } else {
+                    outputListener.format("Ran %s with %s.", componentName, testBitStr);
                 }
             } catch (final Exception e) {
-                if (outListener != null) {
-                    outListener.format("Error: %s", e.getMessage());
-                }
+                outputListener.format("ERROR: %s", e.getMessage());
             } finally {
                 returnPlayfield(playfield);
             }
         }
         
-        if (listener != null) {   
-            final TerminalRectangle[][] inputs;
-            final TerminalRectangle[][] outputs;
-            if (component == null) {
-                inputs = new TerminalRectangle[0][];
-                outputs = new TerminalRectangle[0][];
-            } else {
-                inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
-                outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
-            }
-            
-            final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
-                    null);
-            if (extents != null) {
-                minX = extents.getMinX();
-                maxX = extents.getMaxX();
-                maxY = extents.getMaxY();
-            } else {
-                for (int i = inputs.length - 1; i >= 0; --i) {
-                    final TerminalRectangle[] ins = inputs[i];
-                    for (int j = ins.length - 1; j >= 0; --j) {
-                        final TerminalRectangle input = ins[j];
-                        minX = min(minX, input.x);
-                        maxX = max(maxX, input.x + input.width - 1);
-                        maxY = max(maxY, input.y + 1);
-                    }
-                }
+        final TerminalRectangle[][] inputs;
+        final TerminalRectangle[][] outputs;
+        if (component == null) {
+            inputs = new TerminalRectangle[0][];
+            outputs = new TerminalRectangle[0][];
+        } else {
+            inputs = simulator.findTerminals(component.getInputs(), 0, 0, testBitStr);
+            outputs = simulator.findTerminals(component.getOutputs(), 0, 0);
+        }
 
-                for (int i = outputs.length - 1; i >= 0; --i) {
-                    final TerminalRectangle[] outs = outputs[i];
-                    for (int j = outs.length - 1; j >= 0; --j) {
-                        final TerminalRectangle output = outs[j];
-                        minX = min(minX, output.x);
-                        maxX = max(maxX, output.x + output.width - 1);
-                        maxY = max(maxY, output.y + 1);
-                    }
+        final Extents extents = (component == null) ? null : componentExtents.getOrDefault(component.getName(), 
+                null);
+        if (extents != null) {
+            minX = extents.getMinX();
+            maxX = extents.getMaxX();
+            maxY = extents.getMaxY();
+        } else {
+            for (int i = inputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] ins = inputs[i];
+                for (int j = ins.length - 1; j >= 0; --j) {
+                    final TerminalRectangle input = ins[j];
+                    minX = min(minX, input.x);
+                    maxX = max(maxX, input.x + input.width - 1);
+                    maxY = max(maxY, input.y + 1);
                 }
             }
-            
-            listener.runCompleted(new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
-                    structs.toArray(new Structure[0])));
-        }        
+
+            for (int i = outputs.length - 1; i >= 0; --i) {
+                final TerminalRectangle[] outs = outputs[i];
+                for (int j = outs.length - 1; j >= 0; --j) {
+                    final TerminalRectangle output = outs[j];
+                    minX = min(minX, output.x);
+                    maxX = max(maxX, output.x + output.width - 1);
+                    maxY = max(maxY, output.y + 1);
+                }
+            }
+        }
+
+        runListener.runCompleted(new Structure(componentName, 0, 0, inputs, outputs, minX, maxX, 0, maxY,
+                structs.toArray(new Structure[0])));
     }
     
     public void build(final String componentName, final String tetrominoScript, final String javaScript, final int depth) {
-        final BuildListener listener = buildListener;
-        if (listener != null) {
-            listener.buildStarted();
-        }
+        buildListener.buildStarted();
         execute(() -> buildScripts(componentName, tetrominoScript, javaScript, depth, null));
     }
     
@@ -940,12 +871,10 @@ public class Controller {
     
     private void buildScripts(final String componentName, final String tetrominoScript, final String javaScript, 
             final String testBitStr, final int depth, final Runnable runTask) {
-        final OutputListener listener = outputListener;        
+        
         final LexerParser lexerParser = new LexerParser();
-        if (listener != null) {
-            listener.clear();
-            listener.format("Building.");
-        }
+        outputListener.clear();
+        outputListener.format("Building...");
         try {
             final Component component = lexerParser.parse(components, componentName, 
                     new ByteArrayInputStream(tetrominoScript.getBytes()));
@@ -954,51 +883,34 @@ public class Controller {
             createStructure(component, depth, testBitStr, runTask);
             notifyStructuresCreated(componentName);
         } catch (final LexerParserException e) {
-            if (listener != null) {
-                listener.format("Build failed.");
-                listener.format(e.toString());
-            }
+            outputListener.format("ERROR: Build failed -- %s", e.toString());
             notifyStructuresCreated(componentName);
             return;
         } catch (final Exception e) {
-            if (listener != null) {
-                listener.format("Build failed.");
-                listener.format(e.getMessage());
-            }
+            outputListener.format("ERROR: Build failed -- %s", e.getMessage());
             notifyStructuresCreated(componentName);
             return;
         }
-        if (listener != null) {
-            listener.format("Build success.");
-        }
+        outputListener.format("Build succeeded.");
     }
     
     public String translateToCenter(final String componentName, final String tetrominoScript) {
-        final OutputListener listener = outputListener;
-        if (listener != null) {
-            listener.clear();
-        }
+
         final LexerParser lexerParser = new LexerParser();
+        outputListener.clear();
+        outputListener.format("Translating to center...");        
         try {
             lexerParser.parse(components, componentName, new ByteArrayInputStream(tetrominoScript.getBytes()));
             updateComponentExtents();
             final Extents extents = componentExtents.get(componentName);
             final int tx = -((extents.getMaxX() + extents.getMinX()) >> 1);
-            if (listener != null) {
-                listener.format("Translated %s", tx);
-            }
+            outputListener.format("Translated %s", tx);
             return translate(componentName, tetrominoScript, tx, 0);            
         } catch (final LexerParserException e) {
-            if (listener != null) {
-                listener.format("Build failed.");
-                listener.format(e.toString());
-            }
+            outputListener.format("ERROR: Build failed -- %s", e.toString());
             notifyStructuresCreated(componentName);            
         } catch (final IOException e) {
-            if (listener != null) {
-                listener.format("Build failed.");
-                listener.format(e.getMessage());
-            }
+            outputListener.format("ERROR: Build failed -- %s", e.getMessage());
             notifyStructuresCreated(componentName);
         }
         return tetrominoScript;
@@ -1006,9 +918,7 @@ public class Controller {
     
     private void createStructures(final int depth) {
         structures.clear();
-        for (final Component component : components.values()) {
-            createStructure(component, depth);
-        }
+        components.values().forEach(component -> createStructure(component, depth));
     }
     
     private void createStructure(final Component component, final int depth) {
@@ -1018,7 +928,6 @@ public class Controller {
     private void createStructure(final Component component, final int depth, final String testBitStr, 
             final Runnable nextTask) {
         
-        final OutputListener listener = outputListener;
         final Playfield playfield = borrowPlayfield();
         try {                        
             simulator.init(playfield, component, testBitStr);
@@ -1072,13 +981,9 @@ public class Controller {
             structures.put(component.getName(), new Structure(component.getName(), 0, 0, inputs, outputs, minX, maxX, 0, 
                     maxY, structs.toArray(new Structure[0])));
         } catch (final StackOverflowError e) {                    
-            if (listener != null) {
-                listener.format("Error: Definition of %s contains itself.", component.getName());
-            }
+            outputListener.format("ERROR: Definition of %s contains itself.", component.getName());
         } catch (final Exception e) {
-            if (listener != null) {
-                listener.format("Error: %s", e.getMessage());
-            }
+            outputListener.format("ERROR: %s", e.getMessage());
         } finally {
             returnPlayfield(playfield);
         }        
@@ -1097,8 +1002,6 @@ public class Controller {
             return false;
         }
         
-        final OutputListener outListener = outputListener;
-        
         try {
             final Random random = ThreadLocalRandom.current();
             while (true) {
@@ -1110,9 +1013,7 @@ public class Controller {
                 final int high = 0xFF & (outputs >> 16);
                 final int low = 0xFF & outputs;
                 if (high > 1 && low > 1) {
-                    if (outListener != null) {
-                        outListener.format("TEST FAILED: Invalid output -- inputs=%X, outputs=%X", inputs, outputs);
-                    }
+                    outputListener.format("TEST FAILED: Invalid output -- inputs=%X, outputs=%X", inputs, outputs);
                     cancelled.set(true);
                     return false;
                 }
@@ -1124,9 +1025,7 @@ public class Controller {
                 }
             }
         } catch (final Exception e) {
-            if (outListener != null) {
-                outListener.format("TEST FAILED: %s", e.getMessage());
-            }
+            outputListener.format("TEST FAILED: %s", e.getMessage());
             cancelled.set(true);
         }
         return false;
@@ -1135,24 +1034,17 @@ public class Controller {
     private void testComponent(final String componentName, final double frac, final AtomicBoolean cancelled,
             final AtomicInteger taskCount) {
         
-        final OutputListener outListener = outputListener;
-        if (outListener != null) {
-            outListener.format("Testing...");
-        }
+        outputListener.format("Testing...");
         
         final Component component = components.get(componentName);
         if (component == null) {
-            if (outListener != null) {
-                outListener.format("TEST FAILED -- Component not found.");                
-            }
+            outputListener.format("TEST FAILED -- Component not found.");                
             taskCount.set(0);
             return;
         }
         
         if (component.getInputs() == null) {
-            if (outListener != null) {
-                outListener.format("TEST FAILED -- No input nodes.");                
-            }
+            outputListener.format("TEST FAILED -- No input nodes.");                
             taskCount.set(0);
             return;
         }
@@ -1186,14 +1078,12 @@ public class Controller {
                         cancelled.set(true);
                     }                    
                 } catch (final Exception e) {
-                    if (outListener != null) {
-                        outListener.format("TEST FAILED -- %s", e.getMessage());                
-                    }
+                    outputListener.format("TEST FAILED -- %s", e.getMessage());                
                     cancelled.set(true);
                 } finally {
                     returnPlayfield(playfield);                    
                     if (taskCount.decrementAndGet() == 0 && !cancelled.get()) {
-                        outListener.format("TEST PASSED");
+                        outputListener.format("TEST PASSED");
                     }
                 }
             });
@@ -1222,8 +1112,6 @@ public class Controller {
     
     private boolean testComponent(final Component component, final Playfield playfield, final String inputBits) {
         
-        final OutputListener outListener = outputListener;
-        
         try {
             playfield.clear();
             simulator.init(playfield, component, inputBits);        
@@ -1236,17 +1124,13 @@ public class Controller {
             final String emulatedOutput = simulator.readTerminals(component.getOutputs(), playfield);
             
             if (!simulatedOutput.equals(emulatedOutput)) {
-                if (outListener != null) {
-                    outListener.format("TEST FAILED: input = %s, output = %s, expected output = %s", inputBits,
-                            simulatedOutput, emulatedOutput);                    
-                }
+                outputListener.format("TEST FAILED: input = %s, output = %s, expected output = %s", inputBits,
+                        simulatedOutput, emulatedOutput);                    
                 return false;
             }
             
         } catch (final Exception e) {
-            if (outListener != null) {
-                outListener.format("TEST FAILED: %s", e.getMessage());
-            }
+            outputListener.format("TEST FAILED: %s", e.getMessage());
             return false;
         }
         
@@ -1338,16 +1222,10 @@ public class Controller {
     private void execute(final Runnable runnable) {
         synchronized(taskMonitor) {
             ++taskCount;
-            final ProgressListener listener = progressListener;
-            if (listener != null) {
-                listener.update(true);
-            }
             executor.execute(() -> {
                 runnable.run();
                 synchronized(taskMonitor) {
-                    if (--taskCount == 0 && listener != null) {
-                        listener.update(false);
-                    }
+                    --taskCount;                    
                     taskMonitor.notifyAll();
                 }
             });
