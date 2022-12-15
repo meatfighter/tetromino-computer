@@ -1,8 +1,9 @@
-compnents with no inputs/outputs are undefined dimensions
-
 remaining sections:
 
 - TetrominoScript Editor tutorial
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
+
+- screen shot of gpc
+- video of gpc
