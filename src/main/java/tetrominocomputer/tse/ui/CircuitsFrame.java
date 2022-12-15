@@ -1625,6 +1625,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_runMenuItemActionPerformed
 
     private void runMenuMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_runMenuMenuSelected
+        final boolean testMenuItemsEnabled = taskCount.get() == 0;
+        testQuicklyMenuItem.setEnabled(testMenuItemsEnabled);
+        testFullyMenuItem.setEnabled(testMenuItemsEnabled);
         cancelTestMenuItem.setEnabled(taskCount.get() > 0 && !cancelled.get());
     }//GEN-LAST:event_runMenuMenuSelected
 
