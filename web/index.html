@@ -3959,6 +3959,73 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The program prioritizes simplicity over space. This text leaves the optimal balance between data, instruction path lengths, and program size that maximizes the frame rate to future researchers.</p>
 
+<h1 id="applications">Applications</h1>
+
+<p>This section covers the applications developed for this project.</p>
+
+<h2 id="repository">Repository</h2>
+
+<p>The apps are written in <a href="https://www.oracle.com/java/technologies/java8.html" target="_blank">Java 8</a>, and they are built by <a href="https://maven.apache.org/" target="_blank">Maven</a>. The <a href="https://en.wikipedia.org/wiki/Swing_(Java)" target="_blank">Swing</a> user interfaces were created with NetBeans IDE 8.2's <a href="https://netbeans.apache.org/kb/docs/java/quickstart-gui.html" target="_blank">GUI Builder</a>. The files reside in:</p>
+
+<p><a href="https://github.com/meatfighter/tetromino-computer" target="_blank">https://github.com/meatfighter/tetromino-computer</a></p>
+
+<table class="borderless">
+<tr><th class="borderless">Directory</th><th class="borderless">Description</th></tr>
+<tr><td class="separator"> </td><td class="separator"> </td></tr>
+<tr><td class="mono2">code</td><td class="borderless">Non-Java sources and binaries</td></tr>
+<tr><td class="mono2">code/asm</td><td class="borderless">Assembly language programs</td></tr>
+<tr><td class="mono2">code/bin</td><td class="borderless">Machine code binaries</td></tr>
+<tr><td class="mono2">code/luts</td><td class="borderless">Lookup tables</td></tr>
+<tr><td class="mono2">code/mc</td><td class="borderless">Memory code programs</td></tr>
+<tr><td class="mono2">code/ts</td><td class="borderless">TetrisScript programs</td></tr>
+<tr><td class="mono2">code/ts/examples</td><td class="borderless">Samples for this text</td></tr>
+<tr><td class="mono2">code/ts/functions</td><td class="borderless">Function catalog</td></tr>
+<tr><td class="mono2">code/ts/gates</td><td class="borderless">Logic gates</td></tr>
+<tr><td class="mono2">code/ts/gates/intermediate</td><td class="borderless">Intermediate gates</td></tr>
+<tr><td class="mono2">code/ts/gates/ordinary</td><td class="borderless">Ordinary gates</td></tr>
+<tr><td class="mono2">code/ts/logic</td><td class="borderless">Combinational logic</td></tr>
+<tr><td class="separator"> </td><td class="separator"> </td></tr>
+
+<tr><td class="mono2">src</td><td class="borderless">Java source</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/asm</td><td class="borderless">Assembler</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/gpc</td><td class="borderless">General-purpose computer</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/sim</td><td class="borderless">Tetrominoes and playfield simulator</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/mc</td><td class="borderless">Memory code parser, and cycle programs generator</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/ts</td><td class="borderless">TetrisScript parser and tester, and lookup table generator</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/tse</td><td class="borderless">TetrisScript Editor</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/util</td><td class="borderless">Utilities</td></tr>
+<tr><td class="separator"> </td><td class="separator"> </td></tr>
+
+<tr><td class="mono2">target</td><td class="borderless">Executables</td></tr>
+<tr><td class="separator"> </td><td class="separator"> </td></tr>
+
+<tr><td class="mono2">web</td><td class="borderless">This text</td></tr>
+</table>
+
+<h2 id="tetrominoscript-editor">TetrominoScript Editor</h2>
+
+<p> ... </p>
+
+<h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
+
+<p> ... </p>
+
+<h2 id="lookup-table-generator">Lookup Table Generator</h2>
+
+<p> ... </p>
+
+<h2 id="assembler">Assembler</h2>
+
+<p> ... </p>
+
+<h2 id="cycle-programs-generator">Cycle Programs Generator</h2>
+
+<p> ... </p>
+
+<h2 id="cycle-programs-generator">General-purpose Computer</h2>
+
+<p> ... </p>
+
 </body>
 
 </html>

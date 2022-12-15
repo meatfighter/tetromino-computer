@@ -294,6 +294,10 @@ td.separator {
     padding-top: 1em;
 }
 
+td.half-separator {
+    padding-top: 0.5em;
+}
+
 td.pad {
     padding-left: 10px;
     padding-right: 10px;
@@ -303,6 +307,10 @@ td.borderless {
     font-size: 16px;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+td.tab {
+    border-left: 25px;
 }
 
 td.pad-left {
