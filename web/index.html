@@ -4008,7 +4008,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>To run an individual app, clone the repo, and execute <span class="mono">java</span> in the local repo's root:</p>
 
-<p><span class="mono">java -cp target/tetromino-computer.jar [ app class name ] [[ args ]]</span></p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> <span class="nowrap">[ app class name ]</span> <span class="nowrap">[[ args ]]</span></span></p>
 
 <p>The subsequent sections detail the app class names and their expected arguments.</p>
 
@@ -4026,7 +4026,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="assembler">Assembler</h2>
 
-<p> ... </p>
+<p>The assembler translates a program written in the general-purpose computer’s assembly language into a machine code binary.</p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler <span class="nowrap">[ asm source filename ]</span> <span class="nowrap">-o [ binary output filename ]</span></span></p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler code/asm/example.asm <span class="nowrap">-o code/bin/example.bin</span></span></p>
 
 <h2 id="cycle-programs-generator">Cycle Programs Generator</h2>
 
