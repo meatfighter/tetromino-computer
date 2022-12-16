@@ -136,6 +136,8 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         Ui.setMonospaced(javaScriptScrollPane);
         Ui.setMonospaced(javaScriptTextArea);
         Ui.setMonospaced(outputTextArea);
+        Ui.setTextAreaRows(javaScriptTextArea, 10);
+        Ui.setTextAreaRows(outputTextArea, 10);
     }
     
     public long getTetrominoScriptChangeCount() {
@@ -702,11 +704,11 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+            .addComponent(horizontalSplitPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

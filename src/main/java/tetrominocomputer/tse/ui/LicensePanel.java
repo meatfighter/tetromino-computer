@@ -18,6 +18,7 @@ public class LicensePanel extends javax.swing.JPanel {
                     .getMinimum());
         });
         Ui.setMonospaced(licenseTextArea);
+        Ui.setTextAreaRows(licenseTextArea, 50);
     }
 
     /**

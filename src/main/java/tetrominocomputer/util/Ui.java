@@ -24,6 +24,7 @@ import javax.swing.plaf.FontUIResource;
 import tetrominocomputer.tse.ui.CircuitsFrame;
 
 import static javax.swing.JOptionPane.CLOSED_OPTION;
+import javax.swing.JTextArea;
 
 public final class Ui {
     
@@ -77,8 +78,6 @@ public final class Ui {
                 } else {
                     defaults.put(key, new Font(font.getName(), font.getStyle(), size));
                 }
-            } else {
-                System.out.println(key);
             }
         });
     }
@@ -114,6 +113,10 @@ public final class Ui {
     public static void resetTextFieldColumns(final JTextField textField) {
         textField.setMinimumSize(null);
         textField.setMaximumSize(null);
+    }
+    
+    public static void setTextAreaRows(final JTextArea textArea, final int rows) {
+        textArea.setRows(Math.round(rows / fontSizeMultiplier));
     }
 
     public static void showMessageDialog(final Component parentComponent, final Object message, final String title, 

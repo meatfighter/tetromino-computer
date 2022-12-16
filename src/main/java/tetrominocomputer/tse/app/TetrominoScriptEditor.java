@@ -40,7 +40,7 @@ public class TetrominoScriptEditor {
                 boolean error = false;
                 try {
                     fontSizeMultiplier = Float.parseFloat(args[++i]);
-                    if (fontSizeMultiplier < 0 || fontSizeMultiplier > 20) {
+                    if (fontSizeMultiplier < 0.5f || fontSizeMultiplier > 4f) {
                         error = true;
                     }
                 } catch (final NumberFormatException e) {
