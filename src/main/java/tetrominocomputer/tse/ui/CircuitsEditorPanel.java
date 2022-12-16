@@ -38,6 +38,7 @@ import tetrominocomputer.tse.app.Controller;
 import tetrominocomputer.tse.app.OutputListener;
 import tetrominocomputer.tse.app.RunListener;
 import tetrominocomputer.sim.Structure;
+import tetrominocomputer.util.Ui;
 
 public class CircuitsEditorPanel extends javax.swing.JPanel {
 
@@ -129,7 +130,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     }
                 }
             }
-        });         
+        });
+        
+        Ui.setMonospaced(tetrominoScriptTextPane);
+        Ui.setMonospaced(javaScriptScrollPane);
+        Ui.setMonospaced(javaScriptTextArea);
+        Ui.setMonospaced(outputTextArea);
     }
     
     public long getTetrominoScriptChangeCount() {

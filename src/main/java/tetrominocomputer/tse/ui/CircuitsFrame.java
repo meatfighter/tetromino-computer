@@ -4,6 +4,7 @@ import tetrominocomputer.util.Ui;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -62,6 +63,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         initComponents();
         toolBar.setLayout(new WrapLayout(WrapLayout.LEFT, 0, 0));
         Ui.setTextFieldColumns(testTextField, 32);
+        Ui.setMonospaced(testTextField);
+        Ui.setMonospaced(compEditComboBox, Font.BOLD);
+        Ui.setMonospaced(coordinatesLabel);
+        Ui.setMonospaced(cursorLabel);
         initEditableComboBox(compEditComboBox); 
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);
     }
@@ -297,8 +302,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-
-        circuitsEditorPanel.setPreferredSize(null);
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -621,8 +624,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         toolBar.add(ihButton);
 
-        bottomPanel.setPreferredSize(null);
-
         cellSizeSpinner.setModel(new javax.swing.SpinnerNumberModel(16, 1, 32, 1));
         cellSizeSpinner.setToolTipText("");
         cellSizeSpinner.setMaximumSize(null);
@@ -640,7 +641,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         coordinatesLabel.setToolTipText("Playfield Coordinates");
         coordinatesLabel.setMaximumSize(null);
         coordinatesLabel.setMinimumSize(null);
-        coordinatesLabel.setPreferredSize(null);
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -676,7 +676,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         cursorLabel.setMaximumSize(null);
         cursorLabel.setMinimumSize(null);
         cursorLabel.setName(""); // NOI18N
-        cursorLabel.setPreferredSize(null);
 
         centerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/center.png"))); // NOI18N
         centerButton.setToolTipText("");
@@ -1044,9 +1043,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE)
+                    .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 999, Short.MAX_VALUE))
+                    .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1054,9 +1053,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 807, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(circuitsEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

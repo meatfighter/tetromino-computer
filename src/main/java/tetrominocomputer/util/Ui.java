@@ -35,6 +35,8 @@ public final class Ui {
     
     private static final List<Image> LOGOS = new ArrayList<>();
     
+    private static float fontSizeMultiplier = 1f;
+    
     static {
         try {
             for (int i = 16; i <= 128; i <<= 1) {
@@ -52,11 +54,13 @@ public final class Ui {
         }
     }
     
-    public static void initFontSize(final float multiplier) {  
+    public static void initFontSize(final float fontSizeMultiplier) {  
 
-        if (multiplier == 1f) {
+        if (fontSizeMultiplier == 1f) {
             return;
         }
+        
+        Ui.fontSizeMultiplier = fontSizeMultiplier;
         
         final UIDefaults defaults = UIManager.getDefaults();
         final Set<Object> keys = new HashSet<>();
@@ -67,15 +71,29 @@ public final class Ui {
             final Object value = defaults.get(key);
             if (value instanceof Font) {
                 final Font font = (Font) value;
-                final int size = Math.round(font.getSize() * multiplier);
+                final int size = Math.round(font.getSize() * fontSizeMultiplier);
                 if (value instanceof FontUIResource) {
                     defaults.put(key, new FontUIResource(font.getName(), font.getStyle(), size));
                 } else {
                     defaults.put(key, new Font(font.getName(), font.getStyle(), size));
                 }
+            } else {
+                System.out.println(key);
             }
         });
-    }    
+    }
+    
+    public static void setMonospaced(final Component component) {
+        setFont(component, Font.MONOSPACED, Font.PLAIN, 13);
+    }
+    
+    public static void setMonospaced(final Component component, final int style) {
+        setFont(component, Font.MONOSPACED, style, 13);
+    }
+    
+    public static void setFont(Component component, final String name, final int style, final int size) {
+        component.setFont(new Font(name, style, Math.round(fontSizeMultiplier * size)));
+    }
 
     public static void initIcons(final Window window) {
         window.setIconImages(LOGOS);

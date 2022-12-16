@@ -1,6 +1,8 @@
 package tetrominocomputer.tse.ui;
 
+import java.awt.Font;
 import tetrominocomputer.tse.app.Version;
+import tetrominocomputer.util.Ui;
 
 public class AboutPanel extends javax.swing.JPanel {
 
@@ -13,6 +15,7 @@ public class AboutPanel extends javax.swing.JPanel {
         copyrightLabel.setText(String.format("<html>Copyright &copy; %s meatfighter.com<br>\n"
                 + "This is free software; you can redistribute it<br>\n"
                 + "and/or modify it under the terms of LGPL v2.1.</html>", Version.getYear()));
+        Ui.setFont(titleLabel, Font.DIALOG, Font.BOLD, 48);
     }
 
     /**

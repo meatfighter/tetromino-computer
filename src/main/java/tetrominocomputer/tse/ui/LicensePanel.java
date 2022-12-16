@@ -2,6 +2,7 @@ package tetrominocomputer.tse.ui;
 
 import java.awt.EventQueue;
 import tetrominocomputer.tse.app.License;
+import tetrominocomputer.util.Ui;
 
 public class LicensePanel extends javax.swing.JPanel {
 
@@ -16,6 +17,7 @@ public class LicensePanel extends javax.swing.JPanel {
             licenseScrollPane.getHorizontalScrollBar().setValue(licenseScrollPane.getHorizontalScrollBar()
                     .getMinimum());
         });
+        Ui.setMonospaced(licenseTextArea);
     }
 
     /**

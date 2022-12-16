@@ -8,6 +8,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+import tetrominocomputer.util.Ui;
 
 // https://stackoverflow.com/questions/18768649/java-code-to-display-lines-number-in-jtextarea
 public class LineNumberingTextArea extends JTextArea {
@@ -15,7 +16,8 @@ public class LineNumberingTextArea extends JTextArea {
     private static final Color FOREGROUND = new Color(0x888888);    
     private static final Color BACKGROUND = new Color(0x313335);
     
-    private JTextComponent textComponent;
+    private final JTextComponent textComponent;
+    
     private int lastMaxLineNumber;
     
     private static int getDigits(final int number) {
@@ -80,8 +82,8 @@ public class LineNumberingTextArea extends JTextArea {
         setSelectionColor(BACKGROUND);
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 0, 1, FOREGROUND), 
-                BorderFactory.createEmptyBorder(2, 2, 2, 2)));        
-        setFont(new Font("Monospaced", 0, 13));
+                BorderFactory.createEmptyBorder(2, 2, 2, 2)));                
+        Ui.setMonospaced(this);
         setEditable(false);        
     }    
     
