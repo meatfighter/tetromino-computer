@@ -39,12 +39,12 @@ public class Tester extends AbstractSimulator {
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
-    public void launch(final double frac, final String componentName) throws Exception {
+    public void launch(final double frac, final String componentName, final File tsDir) throws Exception {
         
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
-            final int skipped = loadComponents(new File(Dirs.TS), components);
+            final int skipped = loadComponents(tsDir, components);
             if (skipped > 0) {
                 Out.println();
             }            
@@ -387,6 +387,7 @@ public class Tester extends AbstractSimulator {
         
         double frac = -1.0;
         String componentName = null;
+        String tsDirName = Dirs.TS;
         for (int i = 0; i < args.length - 1; ++i) {   
             switch (args[i]) {
                 case "-f": {
@@ -406,13 +407,22 @@ public class Tester extends AbstractSimulator {
                 case "-n":
                     componentName = args[++i];
                     break;
+                case "-t":
+                    tsDirName = args[++i];
+                    break;
             }
         }
+        
+        final File tsDir = new File(tsDirName);
+        if (!(tsDir.exists() && tsDir.isDirectory())) {
+            Out.formatError("Cannot find TS directory: %s%n%n", tsDir);
+            return;
+        }       
         
         if (frac <= 0) {
             frac = (componentName == null) ? DEFAULT_ALL_FRACTION : DEFAULT_SINGLE_FRACTION;
         }
         
-        new Tester().launch(frac, componentName);
+        new Tester().launch(frac, componentName, tsDir);
     }
 }

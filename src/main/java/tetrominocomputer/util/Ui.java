@@ -36,7 +36,7 @@ public final class Ui {
     
     private static final List<Image> LOGOS = new ArrayList<>();
     
-    private static float fontSizeMultiplier = 1f;
+    private static float fontSizeScaler = 1f;
     
     static {
         try {
@@ -55,13 +55,13 @@ public final class Ui {
         }
     }
     
-    public static void initFontSize(final float fontSizeMultiplier) {  
+    public static void initFontSize(final float fontSizeScaler) {  
 
-        if (fontSizeMultiplier == 1f) {
+        if (fontSizeScaler == 1f) {
             return;
         }
         
-        Ui.fontSizeMultiplier = fontSizeMultiplier;
+        Ui.fontSizeScaler = fontSizeScaler;
         
         final UIDefaults defaults = UIManager.getDefaults();
         final Set<Object> keys = new HashSet<>();
@@ -72,7 +72,7 @@ public final class Ui {
             final Object value = defaults.get(key);
             if (value instanceof Font) {
                 final Font font = (Font) value;
-                final int size = Math.round(font.getSize() * fontSizeMultiplier);
+                final int size = Math.round(font.getSize() * fontSizeScaler);
                 if (value instanceof FontUIResource) {
                     defaults.put(key, new FontUIResource(font.getName(), font.getStyle(), size));
                 } else {
@@ -91,7 +91,7 @@ public final class Ui {
     }
     
     public static void setFont(Component component, final String name, final int style, final int size) {
-        component.setFont(new Font(name, style, Math.round(fontSizeMultiplier * size)));
+        component.setFont(new Font(name, style, Math.round(fontSizeScaler * size)));
     }
 
     public static void initIcons(final Window window) {
@@ -116,7 +116,7 @@ public final class Ui {
     }
     
     public static void setTextAreaRows(final JTextArea textArea, final int rows) {
-        textArea.setRows(Math.round(rows / fontSizeMultiplier));
+        textArea.setRows(Math.round(rows / fontSizeScaler));
     }
 
     public static void showMessageDialog(final Component parentComponent, final Object message, final String title, 

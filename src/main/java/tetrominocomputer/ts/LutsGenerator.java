@@ -34,52 +34,54 @@ public class LutsGenerator extends AbstractSimulator {
     
     public static final Pattern UPPERCASE_PATTERN = Pattern.compile("^[A-Z0-9_]+$");
     
-    public void launch() throws Exception {                  
-        Out.timeTask(String.format("Cleaning directory: %s", Dirs.LUTS), () -> {
-            cleanLutsDirectory();
-            saveLuts(generateLuts());
+    public void launch(final File tsDir, final File lutsDir) throws Exception {                  
+        Out.timeTask(String.format("Cleaning directory: %s", lutsDir), () -> {
+            if (cleanLutsDirectory(lutsDir)) {
+                saveLuts(lutsDir, generateLuts(tsDir));
+            }
             return null;
         });
     }
     
-    private void cleanLutsDirectory() {
-        for (final File file : new File(Dirs.LUTS).listFiles()) {
+    private boolean cleanLutsDirectory(final File lutsDir) {
+        for (final File file : lutsDir.listFiles()) {
             if (file.isFile() && file.getName().endsWith(".lut") && !file.delete()) {
-                System.err.format("Failed to delete file: %s%n%n", file);
-                System.exit(0);
+                Out.formatError("Failed to delete file: %s%n%n", file);
+                return false;
             }
         }
+        return true;
     }
     
-    private void saveLuts(final Map<String, ComponentLut> luts) throws Exception {
+    private void saveLuts(final File lutsDir, final Map<String, ComponentLut> luts) throws Exception {
         
-        System.out.format("%nSaving lookup tables...%n%n");
+        Out.format("%nSaving lookup tables...%n%n");
         
         for (final Map.Entry<String, ComponentLut> entry : luts.entrySet()) {
             final String name = entry.getKey();
             if (UPPERCASE_PATTERN.matcher(name).matches()) {
-                saveLut(name, entry.getValue());
+                saveLut(lutsDir, name, entry.getValue());
             }
         }
         
-        System.out.format("Saved lookup tables.%n%n");
+        Out.format("Saved lookup tables.%n%n");
     }
     
-    private void saveLut(final String name, final ComponentLut componentLut) throws Exception {
+    private void saveLut(final File lutsDir, final String name, final ComponentLut componentLut) throws Exception {
         try (final OutputStream out = new BufferedOutputStream(new FileOutputStream(
-                String.format("%s%s.lut", Dirs.LUTS, name)))) {
+                String.format("%s%s.lut", lutsDir, name)))) {
             new ByteLut(componentLut).write(out);
         }
     }
     
-    private Map<String, ComponentLut> generateLuts() throws Exception {
+    private Map<String, ComponentLut> generateLuts(final File tsDir) throws Exception {
         
-        System.out.format("Generating lookup tables for:%n%n");
+        Out.format("Generating lookup tables for:%n%n");
         
         final Map<String, Component> components = new ConcurrentHashMap<>();
         final Map<String, ComponentLut> luts = new ConcurrentHashMap<>();
         createIsSsAndZs(components);
-        loadComponents(new File(Dirs.TS), components);
+        loadComponents(tsDir, components);
         final Map<String, Set<String>> dependencies = findDependencies(components);
         final Map<String, Set<String>> reverseDependencies = reverseDependencies(dependencies);
         final List<Playfield> playfieldPool = Collections.synchronizedList(new ArrayList<>());
@@ -102,8 +104,8 @@ public class LutsGenerator extends AbstractSimulator {
                             playfield = borrowPlayfield(playfieldPool);
                             generateComponentLut(components, luts, playfield, component);
                         } catch (final Exception e) {
-                            e.printStackTrace();
-                            System.err.println();
+                            Out.printStackTrace(e);
+                            Out.printlnError();
                             System.exit(0);
                         } finally {
                             returnPlayfield(playfieldPool, playfield);
@@ -154,7 +156,7 @@ public class LutsGenerator extends AbstractSimulator {
             return;
         }        
         
-        System.out.println(component.getName());
+        Out.println(component.getName());
         
         switch (componentLutType) {
             case BIT_TWO_BYTES:
@@ -423,6 +425,32 @@ public class LutsGenerator extends AbstractSimulator {
     }    
     
     public static void main(final String... args) throws Exception {
-        new LutsGenerator().launch();
+        
+        String tsDirName = Dirs.TS;
+        String lutsDirName = Dirs.LUTS;
+        for (int i = 0; i < args.length - 1; ++i) {            
+            switch (args[i]) {
+                case "-t":
+                    tsDirName = args[++i];
+                    break;
+                case "-l":
+                    lutsDirName = args[++i];
+                    break;
+            }
+        }
+        
+        final File tsDir = new File(tsDirName);
+        if (!(tsDir.exists() && tsDir.isDirectory())) {
+            Out.formatError("Cannot find TS directory: %s%n%n", tsDir);
+            return;
+        }
+        
+        final File lutsDir = new File(lutsDirName);
+        if (!(lutsDir.exists() && lutsDir.isDirectory())) {
+            Out.formatError("Cannot find lookup tables directory: %s%n%n", lutsDir);
+            return;
+        }
+        
+        new LutsGenerator().launch(tsDir, lutsDir);
     }
 }

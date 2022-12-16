@@ -3963,9 +3963,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>This section covers the applications developed for this project.</p>
 
-<h2 id="repository">Repository</h2>
+<h2 id="repository">Overview</h2>
 
-<p>The apps are written in <a href="https://www.oracle.com/java/technologies/java8.html" target="_blank">Java 8</a>, and they are built by <a href="https://maven.apache.org/" target="_blank">Maven</a>. The <a href="https://en.wikipedia.org/wiki/Swing_(Java)" target="_blank">Swing</a> user interfaces were created with NetBeans IDE 8.2's <a href="https://netbeans.apache.org/kb/docs/java/quickstart-gui.html" target="_blank">GUI Builder</a>. The files reside in:</p>
+<p>The apps are written in <a href="https://www.java.com/" target="_blank">Java</a>, and they are built by <a href="https://maven.apache.org/" target="_blank">Maven</a>. The <a href="https://en.wikipedia.org/wiki/Swing_(Java)" target="_blank">Swing</a> user interfaces were created with <a href="https://netbeans.apache.org/kb/docs/java/quickstart-gui.html" target="_blank">NetBeans IDE GUI Builder</a>.</p>
+
+<p>The files reside in:</p>
 
 <p><a href="https://github.com/meatfighter/tetromino-computer" target="_blank">https://github.com/meatfighter/tetromino-computer</a></p>
 
@@ -4006,11 +4008,13 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="mono">src</span> compiles to a single jar: <span class="mono">target/tetromino-computer.jar</span></p>
 
-<p>To run an individual app, clone the repo, and execute <span class="mono">java</span> in the local repo's root:</p>
+<p>To run an individual app, <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank">clone the repo</a>, and execute the jar in the local repo's root:</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> <span class="nowrap">[ app class name ]</span> <span class="nowrap">[[ args ]]</span></span></p>
 
 <p>The subsequent sections detail the app class names and their expected arguments.</p>
+
+<p>The code was developed and tested on a 
 
 <h2 id="tetrominoscript-editor">TetrominoScript Editor</h2>
 
@@ -4022,19 +4026,29 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="lookup-table-generator">Lookup Table Generator</h2>
 
-<p> ... </p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator <span class="nowrap">-t [ TS programs dir ]</span> <span class="nowrap">-l [ lookup tables dir ]</span></span></p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator <span class="nowrap">-t code/ts</span> <span class="nowrap">-l code/luts</span></span></p>
 
 <h2 id="assembler">Assembler</h2>
 
-<p>The assembler translates a program written in the general-purpose computer’s assembly language into a machine code binary.</p>
+<p>The Assembler translates a program written in the general-purpose computer’s assembly language into a machine code binary. To run it from the command-line, enter the following.</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler <span class="nowrap">[ asm source filename ]</span> <span class="nowrap">-o [ binary output filename ]</span></span></p>
+
+<p>The arguments are optional. They default to:</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler code/asm/example.asm <span class="nowrap">-o code/bin/example.bin</span></span></p>
 
 <h2 id="cycle-programs-generator">Cycle Programs Generator</h2>
 
-<p> ... </p>
+<p>The Cycle Programs Generator produces the general-purpose computer's left and right cycle MC programs based on the size of the machine code binary. To run it from the command-line, enter the following.</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
+
+<p>The arguments are optional. They default to:</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b code/bin/example.bin</span> <span class="nowrap">-l code/mc/CYCLE_LEFT.mc</span> <span class="nowrap">-r code/mc/CYCLE_RIGHT.mc</span></span></p>
 
 <h2 id="cycle-programs-generator">General-purpose Computer</h2>
 
