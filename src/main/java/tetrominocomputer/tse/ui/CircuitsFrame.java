@@ -1,5 +1,6 @@
 package tetrominocomputer.tse.ui;
 
+import tetrominocomputer.util.Ui;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.EventQueue;
@@ -60,7 +61,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     public CircuitsFrame() {
         initComponents();
         toolBar.setLayout(new WrapLayout(WrapLayout.LEFT, 0, 0));
-        UiUtil.setTextFieldColumns(testTextField, 32);
+        Ui.setTextFieldColumns(testTextField, 32);
         initEditableComboBox(compEditComboBox); 
         setComponentName(Controller.DEFAULT_COMPONENT_NAME);
     }
@@ -146,6 +147,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     public void init() {
         circuitsEditorPanel.init();
         circuitsEditorPanel.setCircuitsFrame(this);
+        Ui.resetTextFieldColumns(testTextField);
     }
     
     public void zoom(final int delta) {
@@ -1071,7 +1073,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void promptSaveChanges(final Runnable runnable, final String question) {
         if (tetrominoScriptChangeCount != circuitsEditorPanel.getTetrominoScriptChangeCount()
                 || javaScriptChangeCount != circuitsEditorPanel.getJavaScriptChangeCount()) {
-            switch (UiUtil.showConfirmDialog(this, question, "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION)) {
+            switch (Ui.showConfirmDialog(this, question, "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION)) {
                 case JOptionPane.YES_OPTION:
                     save(runnable);
                     break;
@@ -1349,7 +1351,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
             
             File selectedFile = fileChooser.getSelectedFile();            
             if (selectedFile == null) {
-                UiUtil.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
+                Ui.showMessageDialog(this, "Invalid file name.", "Save Error", JOptionPane.ERROR_MESSAGE);
                 continue;
             }
             
@@ -1387,7 +1389,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
                 break;
             }
             
-            switch(UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
+            switch(Ui.showConfirmDialog(this, String.format("%s already exists. Replace it?", 
                     existingFileName), "Overwrite Existing File", JOptionPane.YES_NO_CANCEL_OPTION)) {
                 case JOptionPane.YES_OPTION:
                     break outer;
@@ -1559,12 +1561,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
             });
             
             svgExportDialog = new JDialog(this, "Export SVG", JDialog.ModalityType.MODELESS);            
-            UiUtil.setIcons(svgExportDialog);
+            Ui.initIcons(svgExportDialog);
             svgExportDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
             svgExportDialog.setContentPane(svgExportPanel);
             svgExportDialog.setPreferredSize(null);
             svgExportDialog.pack();            
             svgExportDialog.setLocationRelativeTo(this);
+            svgExportPanel.init();
         }
         if (svgExportDialog.isVisible()) {
             svgExportDialog.setLocationRelativeTo(this);            
@@ -1590,12 +1593,13 @@ public class CircuitsFrame extends javax.swing.JFrame {
             });
             
             htmlExportDialog = new JDialog(this, "Export HTML", JDialog.ModalityType.MODELESS);            
-            UiUtil.setIcons(htmlExportDialog);
+            Ui.initIcons(htmlExportDialog);
             htmlExportDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
             htmlExportDialog.setContentPane(htmlExportPanel);
             htmlExportDialog.setPreferredSize(null);
             htmlExportDialog.pack();            
             htmlExportDialog.setLocationRelativeTo(this);
+            htmlExportPanel.init();
         }
         if (htmlExportDialog.isVisible()) {
             htmlExportDialog.setLocationRelativeTo(this);            

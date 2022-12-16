@@ -1,5 +1,6 @@
 package tetrominocomputer.tse.ui;
 
+import tetrominocomputer.util.Ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,8 +23,12 @@ public class SvgExportPanel extends javax.swing.JPanel {
      */
     public SvgExportPanel() {
         initComponents();
-        UiUtil.setTextFieldColumns(fileTextField, 50);
+        Ui.setTextFieldColumns(fileTextField, 50);
         initComponentValues();
+    }
+    
+    public void init() {
+        Ui.resetTextFieldColumns(fileTextField);
     }
     
     public void setModel(final SvgExportModel model) {
@@ -322,22 +327,16 @@ public class SvgExportPanel extends javax.swing.JPanel {
         renderPanel.setPreferredSize(null);
 
         tetrominoesCheckBox.setText("Tetrominoes");
-        tetrominoesCheckBox.setPreferredSize(null);
 
         structuresCheckBox.setText("Structures");
-        structuresCheckBox.setPreferredSize(null);
 
         inputNodesCheckBox.setText("Input nodes");
-        inputNodesCheckBox.setPreferredSize(null);
 
         outputNodesCheckBox.setText("Output nodes");
-        outputNodesCheckBox.setPreferredSize(null);
 
         nodeValuesCheckBox.setText("Node values");
-        nodeValuesCheckBox.setPreferredSize(null);
 
         absoluteWidthCheckBox.setText("Absolute width");
-        absoluteWidthCheckBox.setPreferredSize(null);
         absoluteWidthCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 absoluteWidthCheckBoxActionPerformed(evt);
@@ -345,7 +344,6 @@ public class SvgExportPanel extends javax.swing.JPanel {
         });
 
         displayWidthLabel.setText("Display width:");
-        displayWidthLabel.setPreferredSize(null);
 
         displayWidthTextField.setColumns(5);
         displayWidthTextField.setPreferredSize(null);
@@ -376,15 +374,15 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(renderPanelLayout.createSequentialGroup()
-                        .addComponent(inputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inputNodesCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(outputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(outputNodesCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nodeValuesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(nodeValuesCheckBox))
                     .addGroup(renderPanelLayout.createSequentialGroup()
-                        .addComponent(absoluteWidthCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(absoluteWidthCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(displayWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(displayWidthLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(displayWidthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(renderPanelLayout.createSequentialGroup()
@@ -400,17 +398,17 @@ public class SvgExportPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(depthSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(renderPanelLayout.createSequentialGroup()
-                        .addComponent(tetrominoesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tetrominoesCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(structuresCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(structuresCheckBox)))
+                .addGap(65, 65, 65))
         );
         renderPanelLayout.setVerticalGroup(
             renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, renderPanelLayout.createSequentialGroup()
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(absoluteWidthCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(displayWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(absoluteWidthCheckBox)
+                    .addComponent(displayWidthLabel)
                     .addComponent(displayWidthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -424,13 +422,13 @@ public class SvgExportPanel extends javax.swing.JPanel {
                     .addComponent(marginTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tetrominoesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(structuresCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tetrominoesCheckBox)
+                    .addComponent(structuresCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(outputNodesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nodeValuesCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputNodesCheckBox)
+                    .addComponent(outputNodesCheckBox)
+                    .addComponent(nodeValuesCheckBox))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -494,14 +492,14 @@ public class SvgExportPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(outputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(outputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(renderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gridPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -538,11 +536,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
         if (!stdOutCheckBox.isSelected()) {
             final File file = new File(fileTextField.getText());
             if (file.isDirectory()) {
-                UiUtil.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
+                Ui.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (file.exists() && UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?",
+            if (file.exists() && Ui.showConfirmDialog(this, String.format("%s already exists. Replace it?",
                     file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
                 return;
             }
@@ -560,7 +558,7 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 errorMessage = "Not a number.";
             }            
             if (!absoluteWidthCheckBox.isSelected() && errorMessage != null) {
-                UiUtil.showMessageDialog(this, errorMessage, "Invalid Display Width", JOptionPane.ERROR_MESSAGE);
+                Ui.showMessageDialog(this, errorMessage, "Invalid Display Width", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
@@ -577,11 +575,11 @@ public class SvgExportPanel extends javax.swing.JPanel {
                 errorMessage = "Not a number.";
             }            
             if (errorMessage != null) {
-                UiUtil.showMessageDialog(this, errorMessage, "Invalid Margin", JOptionPane.ERROR_MESSAGE);
+                Ui.showMessageDialog(this, errorMessage, "Invalid Margin", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else {
-            UiUtil.showMessageDialog(this, "Margin not specified.", "Missing Value", JOptionPane.ERROR_MESSAGE);
+            Ui.showMessageDialog(this, "Margin not specified.", "Missing Value", JOptionPane.ERROR_MESSAGE);
         }        
         
         model.setStdout(stdOutCheckBox.isSelected());

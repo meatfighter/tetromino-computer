@@ -1,5 +1,7 @@
 package tetrominocomputer.tse.ui;
 
+import tetrominocomputer.util.Ui;
+
 public class FindReplacePanel extends javax.swing.JPanel {
 
     private CircuitsFrame circuitsFrame;
@@ -9,8 +11,8 @@ public class FindReplacePanel extends javax.swing.JPanel {
      */
     public FindReplacePanel() {
         initComponents();
-        UiUtil.setTextFieldColumns(findWhatTextField, 40);
-        UiUtil.setTextFieldColumns(replaceWithTextField, 40);
+        Ui.setTextFieldColumns(findWhatTextField, 40);
+        Ui.setTextFieldColumns(replaceWithTextField, 40);
     }
     
     public void setCircuitsFrame(final CircuitsFrame circuitsFrame) {
@@ -27,6 +29,8 @@ public class FindReplacePanel extends javax.swing.JPanel {
     public void init() {
         findWhatTextField.requestFocusInWindow();
         findWhatTextField.selectAll();
+        Ui.resetTextFieldColumns(findWhatTextField);
+        Ui.resetTextFieldColumns(replaceWithTextField);
     }
 
     /**

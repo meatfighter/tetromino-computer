@@ -1,23 +1,31 @@
-package tetrominocomputer.tse.ui;
+package tetrominocomputer.util;
 
 import com.bulenkov.darcula.DarculaLaf;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Window;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.CLOSED_OPTION;
 import javax.swing.JTextField;
+import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.FontUIResource;
+import tetrominocomputer.tse.ui.CircuitsFrame;
 
-public final class UiUtil {
+import static javax.swing.JOptionPane.CLOSED_OPTION;
+
+public final class Ui {
     
     public static final Icon ERROR_ICON = new ImageIcon(CircuitsFrame.class.getResource("/icons/error.png"));
     public static final Icon INFORMATION_ICON = new ImageIcon(CircuitsFrame.class
@@ -30,21 +38,46 @@ public final class UiUtil {
     static {
         try {
             for (int i = 16; i <= 128; i <<= 1) {
-                LOGOS.add(ImageIO.read(UiUtil.class.getResourceAsStream(
+                LOGOS.add(ImageIO.read(Ui.class.getResourceAsStream(
                         String.format("/icons/logo%dx%d.png", i, i))));
             }
         } catch (final IOException e) {            
         }
     }
     
-    public static void setLookAndFeel() {
+    public static void initLookAndFeel() {
         try {
             UIManager.setLookAndFeel(new DarculaLaf()); 
         } catch (final UnsupportedLookAndFeelException e) {
         }
     }
+    
+    public static void initFontSize(final float multiplier) {  
 
-    public static void setIcons(final Window window) {
+        if (multiplier == 1f) {
+            return;
+        }
+        
+        final UIDefaults defaults = UIManager.getDefaults();
+        final Set<Object> keys = new HashSet<>();
+        for (final Enumeration<Object> e = defaults.keys(); e.hasMoreElements(); ) {
+            keys.add(e.nextElement());
+        }
+        keys.forEach(key -> {
+            final Object value = defaults.get(key);
+            if (value instanceof Font) {
+                final Font font = (Font) value;
+                final int size = Math.round(font.getSize() * multiplier);
+                if (value instanceof FontUIResource) {
+                    defaults.put(key, new FontUIResource(font.getName(), font.getStyle(), size));
+                } else {
+                    defaults.put(key, new Font(font.getName(), font.getStyle(), size));
+                }
+            }
+        });
+    }    
+
+    public static void initIcons(final Window window) {
         window.setIconImages(LOGOS);
     }
     
@@ -58,6 +91,11 @@ public final class UiUtil {
         textField.setMinimumSize(textField.getPreferredSize());
         textField.setMaximumSize(textField.getPreferredSize());
         textField.setText("");
+    }
+    
+    public static void resetTextFieldColumns(final JTextField textField) {
+        textField.setMinimumSize(null);
+        textField.setMaximumSize(null);
     }
 
     public static void showMessageDialog(final Component parentComponent, final Object message, final String title, 
@@ -84,7 +122,7 @@ public final class UiUtil {
 
         final JOptionPane optionPane = new JOptionPane(message, messageType, JOptionPane.DEFAULT_OPTION, icon);  
         final JDialog dialog = optionPane.createDialog(parentComponent, title);
-        setIcons(dialog);
+        initIcons(dialog);
         dialog.setResizable(true);
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
@@ -98,7 +136,7 @@ public final class UiUtil {
         final JOptionPane optionPane = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, optionType, 
                 QUESTION_ICON);  
         final JDialog dialog = optionPane.createDialog(parentComponent, title);
-        setIcons(dialog);
+        initIcons(dialog);
         dialog.setResizable(true); 
         dialog.pack();
         dialog.setLocationRelativeTo(parentComponent);
@@ -111,7 +149,7 @@ public final class UiUtil {
         }
         return CLOSED_OPTION;
     }
-
-    private UiUtil() {        
+    
+    private Ui() {        
     }
 }

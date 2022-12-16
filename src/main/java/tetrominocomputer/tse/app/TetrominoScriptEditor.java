@@ -3,23 +3,26 @@ package tetrominocomputer.tse.app;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import tetrominocomputer.tse.ui.CircuitsFrame;
-import tetrominocomputer.tse.ui.UiUtil;
+import tetrominocomputer.util.Ui;
 
 public class TetrominoScriptEditor {
     
+    private static final float DEFAULT_FONT_SIZE_MULTIPLIER = 1f;
+    
     private final Controller controller = new Controller();
 
-    public void launch() throws Exception {
+    public void launch(final float fontSizeMultiplier) throws Exception {
         License.getLicense();
-        EventQueue.invokeLater(this::createFrame);
+        EventQueue.invokeLater(() -> createFrame(fontSizeMultiplier));
     }
     
-    private void createFrame() {        
-        UiUtil.setLookAndFeel();
+    private void createFrame(final float fontSizeMultiplier) {
+        Ui.initLookAndFeel();        
+        Ui.initFontSize(fontSizeMultiplier);        
         
         final CircuitsFrame frame = new CircuitsFrame();        
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        UiUtil.setIcons(frame);
+        Ui.initIcons(frame);
         frame.pack();
         frame.setLocationRelativeTo(null);        
         frame.init();        
@@ -30,6 +33,26 @@ public class TetrominoScriptEditor {
     }
     
     public static void main(final String... args) throws Exception {
-        new TetrominoScriptEditor().launch();
+        
+        float fontSizeMultiplier = DEFAULT_FONT_SIZE_MULTIPLIER;
+        for (int i = 0; i < args.length; ++i) {
+            if ("-f".equals(args[i]) && i != args.length - 1) {
+                boolean error = false;
+                try {
+                    fontSizeMultiplier = Float.parseFloat(args[++i]);
+                    if (fontSizeMultiplier < 0 || fontSizeMultiplier > 20) {
+                        error = true;
+                    }
+                } catch (final NumberFormatException e) {
+                    error = true;
+                }
+                if (error) {
+                    System.err.println("Invalid font size multiplier.");
+                    return;
+                }
+            }
+        }        
+        
+        new TetrominoScriptEditor().launch(fontSizeMultiplier);
     }
 }

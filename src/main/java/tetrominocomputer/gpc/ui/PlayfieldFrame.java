@@ -3,7 +3,7 @@ package tetrominocomputer.gpc.ui;
 import static java.awt.EventQueue.invokeAndWait;
 import static java.awt.EventQueue.isDispatchThread;
 import java.awt.event.KeyEvent;
-import tetrominocomputer.tse.ui.UiUtil;
+import tetrominocomputer.util.Ui;
 
 public class PlayfieldFrame extends javax.swing.JFrame {
 
@@ -40,7 +40,7 @@ public class PlayfieldFrame extends javax.swing.JFrame {
      */
     public PlayfieldFrame() {
         initComponents();
-        UiUtil.setIcons(this);
+        Ui.initIcons(this);
         setContentPane(playfieldPanel);
     }
 

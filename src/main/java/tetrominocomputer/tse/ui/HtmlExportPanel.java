@@ -1,5 +1,7 @@
 package tetrominocomputer.tse.ui;
 
+import java.awt.EventQueue;
+import tetrominocomputer.util.Ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -21,8 +23,12 @@ public class HtmlExportPanel extends javax.swing.JPanel {
      */
     public HtmlExportPanel() {
         initComponents();
-        UiUtil.setTextFieldColumns(fileTextField, 50);
+        Ui.setTextFieldColumns(fileTextField, 50);
         initComponentValues();
+    }
+    
+    public void init() {
+        EventQueue.invokeLater(() -> Ui.resetTextFieldColumns(fileTextField));
     }
     
     public void setModel(final HtmlExportModel model) {
@@ -67,10 +73,8 @@ public class HtmlExportPanel extends javax.swing.JPanel {
         exportButton = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Output"));
-        jPanel1.setPreferredSize(null);
 
         stdOutCheckBox.setText("Stdout");
-        stdOutCheckBox.setPreferredSize(null);
         stdOutCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stdOutCheckBoxActionPerformed(evt);
@@ -78,13 +82,9 @@ public class HtmlExportPanel extends javax.swing.JPanel {
         });
 
         fileLabel.setText("File:");
-        fileLabel.setPreferredSize(null);
-
-        fileTextField.setPreferredSize(null);
 
         defaultFileButton.setMnemonic('d');
         defaultFileButton.setText("Default");
-        defaultFileButton.setPreferredSize(null);
         defaultFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 defaultFileButtonActionPerformed(evt);
@@ -93,7 +93,6 @@ public class HtmlExportPanel extends javax.swing.JPanel {
 
         browseFileButton.setMnemonic('b');
         browseFileButton.setText("Browse...");
-        browseFileButton.setPreferredSize(null);
         browseFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 browseFileButtonActionPerformed(evt);
@@ -108,35 +107,34 @@ public class HtmlExportPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(stdOutCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(stdOutCheckBox)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fileLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fileTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(browseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(browseFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(defaultFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(defaultFileButton)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(stdOutCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(stdOutCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fileLabel)
                     .addComponent(fileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(defaultFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(defaultFileButton)
+                    .addComponent(browseFileButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         closeButton.setMnemonic('c');
         closeButton.setText("Close");
-        closeButton.setPreferredSize(null);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
@@ -145,7 +143,6 @@ public class HtmlExportPanel extends javax.swing.JPanel {
 
         exportButton.setMnemonic('x');
         exportButton.setText("Export");
-        exportButton.setPreferredSize(null);
         exportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportButtonActionPerformed(evt);
@@ -161,9 +158,9 @@ public class HtmlExportPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(exportButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(closeButton))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -174,8 +171,8 @@ public class HtmlExportPanel extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(closeButton)
+                    .addComponent(exportButton))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -217,11 +214,11 @@ public class HtmlExportPanel extends javax.swing.JPanel {
         if (!stdOutCheckBox.isSelected()) {
             final File file = new File(fileTextField.getText());
             if (file.isDirectory()) {
-                UiUtil.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
+                Ui.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (file.exists() && UiUtil.showConfirmDialog(this, String.format("%s already exists. Replace it?",
+            if (file.exists() && Ui.showConfirmDialog(this, String.format("%s already exists. Replace it?",
                     file.getName()), "Overwrite Existing File", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
                 return;
             }
