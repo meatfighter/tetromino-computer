@@ -413,7 +413,7 @@ public class Tester extends AbstractSimulator {
             }
         }
         
-        final File tsDir = new File(tsDirName);
+        final File tsDir = Dirs.toFile(tsDirName);
         if (!(tsDir.exists() && tsDir.isDirectory())) {
             Out.formatError("Cannot find TS directory: %s%n%n", tsDir);
             return;

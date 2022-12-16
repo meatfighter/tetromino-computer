@@ -1,6 +1,7 @@
 package tetrominocomputer.util;
 
 import java.io.File;
+import org.apache.commons.lang3.StringUtils;
 
 public interface Dirs {
     
@@ -15,4 +16,12 @@ public interface Dirs {
     String TS = CODE + "ts" + File.separator;
     
     String WEB = USER + File.separator + "web" + File.separator;
+    
+    static File toFile(final String dirName) {
+        String name = StringUtils.trimToEmpty(dirName);
+        if (!(name.endsWith("/") || name.endsWith("\\") || name.endsWith(File.separator))) {
+            name += File.separator;
+        }
+        return new File(name);
+    }
 }

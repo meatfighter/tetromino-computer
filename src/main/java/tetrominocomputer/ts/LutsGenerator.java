@@ -439,13 +439,13 @@ public class LutsGenerator extends AbstractSimulator {
             }
         }
         
-        final File tsDir = new File(tsDirName);
+        final File tsDir = Dirs.toFile(tsDirName);
         if (!(tsDir.exists() && tsDir.isDirectory())) {
             Out.formatError("Cannot find TS directory: %s%n%n", tsDir);
             return;
         }
         
-        final File lutsDir = new File(lutsDirName);
+        final File lutsDir = Dirs.toFile(lutsDirName);
         if (!(lutsDir.exists() && lutsDir.isDirectory())) {
             Out.formatError("Cannot find lookup tables directory: %s%n%n", lutsDir);
             return;
