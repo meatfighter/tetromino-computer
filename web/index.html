@@ -4020,17 +4020,55 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="tetrominoscript-editor">TetrominoScript Editor</h2>
 
-<p>The <span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for visually designing digital components and combinational logic circuits. It automatically generates a <span class="nowrap">TS program</span> as the user drags and drops tetrominoes and previously defined components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
+<p><span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for visually designing digital components and combinational logic circuits. It automatically generates a <span class="nowrap">TS program</span> as the user drags and drops tetrominoes and previously defined components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
 
-<p>TSE is also a testing tool. The user enters input bits and TSE shows how the circuit responds. For thorough testing, TSE accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that describes what the circuit is supposed to do. Upon request, it will compare the output of the circuit for every possible input against the expected output specified in the <span class="nowrap">JS snippet</span>.</p>
+<p>TSE is also a testing tool. It reveals how the circuit responds to user entered inputs. Plus, it accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that specifies the expected outputs. Upon request, it compares the JS values against the actual outputs for all possible inputs.</p>
 
 <p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output message region.</p>
 
-<p><img id="tse-swap.png" src="tse-swap.png" width="978" /></p>
+<p><img id="tse-swap.png" class="centered" src="tse-swap.png" /></p>
+
+<p>To demonstrate the features of TSE, the following steps explain how to construct a <span class="nowrap">NAND gate</span>.</p>  
+
+<p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl+N</span>:</p>
+
+<p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
+
+<p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
+
+<p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
+
+<p>The status bar provides grid controls:</p>
+
+<ul>
+  <li>Center button - Moves the origin to the bottom-center by bottoming the vertical scrollbar and centering the horizontal scrollbar.</li>
+  <li>Rendering depth spinner - Sets the displayed detail level.</li>
+  <li>Width and height spinners - Sets the grid dimensions.</li>
+  <li>Zoom spinner - Sets the grid cell size.</li>
+  <li>Cursor coordinates - Indicates the cell at which the mouse cursor points.</li>
+</ul>
+
+<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
+
+<p>Turning the <span class="keys">scroll wheel</span> also adjusts the grid cell size. Set it to 32.</p>
+
+<p>Type <span class="mono nowrap">&ldquo;in a&rdquo;</span> into the <span class="nowrap">TS program</span> region:</p>
+
+<p><img id="tse-in-a.png" class="centered" src="tse-in-a.png" /></p>
+
+<p>Click on grid cell <span class="mono nowrap">&minus;2:0</span>:</p>
+
+<p><img id="tse-cell-minus-two-zero.png" class="centered" src="tse-cell-minus-two-zero.png" /></p>
+
+<p>That transfers the cell coordinates to the <span class="nowrap">TS program</span>:</p>
+
+<p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" /></p>
+
+
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
-<p> ... </p>
+<p>...</p>
 
 <h2 id="lookup-table-generator">Lookup Table Generator</h2>
 
