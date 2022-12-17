@@ -4024,9 +4024,33 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>TSE is also a testing tool. It reveals how the circuit responds to user entered inputs. Plus, it accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that specifies the expected outputs. Upon request, it compares the JS values against the actual outputs for all possible inputs.</p>
 
-<p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output message region.</p>
+<p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output messages region.</p>
 
 <p><img id="tse-swap.png" class="centered" src="tse-swap.png" /></p>
+
+<p>The toolbar provides test and insert controls:</p>
+
+<ul>
+  <li>Input field - Holds an entered binary value.</li>
+  <li>Run button - Executes the <span class="nowrap">TS program</span> with the entered value. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li>Components combo box - Lists all previously defined components.</li>
+  <li>Add button - Selects a listed component. Clicking on a grid cell will insert it.</li>
+  <li>Tetrominoes buttons - Selects a tetromino in one of the nineteen possible orientations. Clicking on a grid cell will insert it.</li>
+</ul>
+
+<p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
+
+<p>The status bar provides grid controls:</p>
+
+<ul>
+  <li>Center button - Moves the origin to bottom-center by bottoming the vertical scrollbar and centering the horizontal scrollbar.</li>
+  <li>Rendering depth spinner - Sets the displayed detail level.</li>
+  <li>Width and height spinners - Sets the grid dimensions.</li>
+  <li>Zoom spinner - Sets the grid cell size. Turning the <span class="keys">scroll wheel</span> does the same.</li>
+  <li>Cursor coordinates - Indicates the cell at which the mouse cursor points.</li>
+</ul>
+
+<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
 
 <p>To demonstrate the features of TSE, the following steps explain how to construct a <span class="nowrap">NAND gate</span>.</p>  
 
@@ -4038,19 +4062,13 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
 
-<p>The status bar provides grid controls:</p>
+<p>The window regions reset and the named component appears in the title bar:</p>
 
-<ul>
-  <li>Center button - Moves the origin to the bottom-center by bottoming the vertical scrollbar and centering the horizontal scrollbar.</li>
-  <li>Rendering depth spinner - Sets the displayed detail level.</li>
-  <li>Width and height spinners - Sets the grid dimensions.</li>
-  <li>Zoom spinner - Sets the grid cell size.</li>
-  <li>Cursor coordinates - Indicates the cell at which the mouse cursor points.</li>
-</ul>
+<p><img id="tse-new-result.png" class="centered" src="tse-new-result.png" /></p>
 
-<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
+<p>Turn the <span class="keys">scroll wheel</span> to adjust the grid cell size to 32:</p>
 
-<p>Turning the <span class="keys">scroll wheel</span> also adjusts the grid cell size. Set it to 32.</p>
+<p><img id="tse-zoom-32.png" class="centered" src="tse-zoom-32.png" /></p>
 
 <p>Type <span class="mono nowrap">&ldquo;in a&rdquo;</span> into the <span class="nowrap">TS program</span> region:</p>
 
@@ -4064,7 +4082,27 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" /></p>
 
+<p>Press Enter. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span> and click on cell <span class="mono nowrap">1:0</span>:</p>
 
+<p><img id="tse-in-b.png" class="centered" src="tse-in-b.png" /></p>
+
+<p>Click on the input field and type <span class="mono nowrap">&ldquo;01&rdquo;</span>:</p>
+
+<p><img id="tse-input-01.png" class="centered" src="tse-input-01.png" /></p>
+
+<p>Press the <span class="keys">Run</span> button.</p>
+
+<p>Input nodes <span class="mono">a</span> and <span class="mono">b</span> appear in the playfield with the specified values:</p>
+
+<p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
+
+<p>In the <span class="nowrap">TS program</span> region, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or on the start of <span class="nowrap">line 3</span>. Then click on the component combo box and type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
+
+<p><img id="tse-notleft-select.png" class="centered" src="tse-notleft-select.png" /></p>
+
+<p>Press the <span class="keys">Add</span> button and move the mouse cursor into the playfield:</p>
+
+<p><img id="tse-notleft-drag.png" class="centered" src="tse-notleft-drag.png" /></p>
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
