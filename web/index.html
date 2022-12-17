@@ -4020,7 +4020,13 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="tetrominoscript-editor">TetrominoScript Editor</h2>
 
-<p> ... </p>
+<p>The <span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for visually designing digital components and combinational logic circuits. It automatically generates a <span class="nowrap">TS program</span> as the user drags and drops tetrominoes and previously defined components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
+
+<p>TSE is also a testing tool. The user enters input bits and TSE shows how the circuit responds. For thorough testing, TSE accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that describes what the circuit is supposed to do. Upon request, it will compare the output of the circuit for every possible input against the expected output specified in the <span class="nowrap">JS snippet</span>.</p>
+
+<p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output message region.</p>
+
+<p><img id="tse-swap.png" src="tse-swap.png" width="978" /></p>
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
