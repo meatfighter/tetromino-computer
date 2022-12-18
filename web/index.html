@@ -4036,27 +4036,28 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element selection:</p>
 
-<ul>
-  <li>Input field - Contains a user entered binary string that specifies the input node states.</li>
-  <li>Run button - Executes the <span class="nowrap">TS program</span> with the input field value. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
-  <li>Components combo box - Lists all previously defined components.</li>
-  <li>Add button - Selects a listed component. Clicking on a grid cell inserts it into the playfield.</li>
-  <li>Tetrominoes buttons - Selects a tetromino in one of the nineteen possible orientations. Clicking on a grid cell inserts it.</li>
-</ul>
-
 <p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
 
-<p>The status bar provides grid controls:</p>
-
 <ul>
-  <li>Center button - Moves the origin to bottom-center by bottoming the vertical scrollbar and centering the horizontal scrollbar.</li>
-  <li>Rendering depth spinner - Sets the displayed detail level.</li>
-  <li>Width and height spinners - Sets the grid dimensions.</li>
-  <li>Zoom spinner - Sets the grid cell size. Turning the <span class="keys">scroll wheel</span> does the same.</li>
-  <li>Cursor coordinates - Indicates the cell at which the mouse cursor points.</li>
+  <li>Input - Enter input node values as a binary string.</li>
+  <li>Run - Press to execute the <span class="nowrap">TS program</span> with the specified input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li>Components - Browse the component catalog.</li>
+  <li>Add - Select a component. Click on a grid cell to insert it into the playfield.</li>
+  <li>Tetrominoes - Select a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
 </ul>
 
+<p>The <span class="nowrap">status bar</span> provides grid controls:</p>
+
 <p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
+
+<ul>
+  <li>Center - Press to reposition the playfield's origin to the center-bottom.</li>
+  <li>Depth - Enter the recursive rendering depth.</li>
+  <li>Width - Enter the grid width.</li>
+  <li>Height - Enter the grid height.</li>
+  <li>Zoom - Enter the grid cell size. Turning the <span class="keys">scroll wheel</span> does the same.</li>
+  <li>Cursor - Read the coordinates of cell at which the mouse cursor points.</li>
+</ul>
 
 <h3 id="tse-nand-tutorial">NAND Tutorial</h3>
 
@@ -4066,7 +4067,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
 
-<p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter File Name <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
+<p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
 
 <p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
 
@@ -4078,7 +4079,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-zoom-32.png" class="centered" src="tse-zoom-32.png" /></p>
 
+<p>The goal is to build the following circuit.</p>
+
 <object id="nand-schematic.svg" data="nand-schematic.svg" type="image/svg+xml" class="diagram">NAND Schematic</object>
+
+<p>It will be constructed bottom-up, starting with the input nodes.</p>
 
 <p>Type <span class="mono nowrap">&ldquo;in a&rdquo;</span> into the <span class="nowrap">TS program</span> region:</p>
 
@@ -4092,27 +4097,84 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" /></p>
 
-<p>Press Enter. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span> and click on cell <span class="mono nowrap">1:0</span>:</p>
+<p>Press Enter. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span>. Click on cell <span class="mono nowrap">1:0</span>:</p>
 
 <p><img id="tse-in-b.png" class="centered" src="tse-in-b.png" /></p>
 
-<p>Click on the input field and type <span class="mono nowrap">&ldquo;01&rdquo;</span>:</p>
+<p>Click on the input field. Type <span class="mono nowrap">&ldquo;01&rdquo;</span>:</p>
 
 <p><img id="tse-input-01.png" class="centered" src="tse-input-01.png" /></p>
 
 <p>Press the <span class="keys">Run</span> button.</p>
 
-<p>Input nodes <span class="mono">a</span> and <span class="mono">b</span> appear in the playfield, assigned to the specified values:</p>
+<p>The input nodes appear in the playfield assigned to the input bits:</p>
 
 <p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
 
-<p>In the <span class="nowrap">TS program</span> region, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or on the start of <span class="nowrap">line 3</span>. Then click on the component combo box and type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
+<p>Note: TSE assigns input nodes from left to right regardless of the order that they appear in the <span class="nowrap">TS program</span>.</p>
+
+<p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or at the start of <span class="nowrap">line 3</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
 
 <p><img id="tse-notleft-select.png" class="centered" src="tse-notleft-select.png" /></p>
 
-<p>Press the <span class="keys">Add</span> button and move the mouse cursor into the playfield:</p>
+<p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield:</p>
 
 <p><img id="tse-notleft-drag.png" class="centered" src="tse-notleft-drag.png" /></p>
+
+<p>TSE depicts the <span class="nowrap"><span class="mono">notLeft</span> gate</span> as a dark rectangle. An unassigned input node protrudes from its bottom. An output node assigned <span class="mono">1</span> extends from its top.</p>
+
+<p>Overlap <span class="mono">notLeft</span>'s input node and input node <span class="mono">a</span>:</p>
+
+<p><img id="tse-notleft-insert.png" class="centered" src="tse-notleft-insert.png" /></p>
+
+<p>Click the <span class="keys">left mouse</span> button.</p>
+
+<p>TSE appends <span class="mono">notLeft</span> to the <span class="nowrap">TS program</span>:</p>
+
+<p><img id="tse-notleft-added.png" class="centered" src="tse-notleft-added.png" /></p>
+
+<p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 3</span> or at the start of <span class="nowrap">line 4</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notRight&rdquo;</span>:</p>
+
+<p><img id="tse-notright-select.png" class="centered" src="tse-notright-select.png" /></p>
+
+<p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield. Overlap <span class="mono">notRight</span>'s input node and input node <span class="mono">b</span>:</p>
+
+<p><img id="tse-notright-overlap.png" class="centered" src="tse-notright-overlap.png" /></p>
+
+<p>Click the <span class="keys">left mouse</span> button.</p>
+
+<p>TSE appends <span class="mono">notRight</span> to the <span class="nowrap">TS program</span>:</p>
+
+<p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" /></p>
+
+<p>TSE displays the component outputs as inverses of their inputs:</p>
+
+<p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" /></p>
+
+<p>Set the rendering depth to 2 by adjusting the leftmost spinner on the <span class="nowrap">status bar</span>:</p>
+
+<p><img id="tse-depth-2.png" class="centered" src="tse-depth-2.png" /></p>
+
+<p>At that rendering depth, TSE reveals the inner workings of the inverters.</p>
+
+<p>Both input nodes should be three cells wide. Edit them as follows.</p>
+
+<p><img id="tse-three-wide.png" class="centered" src="tse-three-wide.png" /></p>
+
+<p>Press the <span class="keys">Run</span> button:</p>
+
+<p><img id="tse-three-wide-2.png" class="centered" src="tse-three-wide-2.png" /></p>
+
+<p>A TS program can label its components. The labels appear immediately right of the component names.</p>
+
+<p>In the <span class="nowrap">TS program</span>, type <span class="mono">&ldquo;not1&rdquo;</span> immediately right of <span class="mono">notLeft</span>. Type <span class="mono">&ldquo;not2&rdquo;</span> immediately right of <span class="mono">notRight</span>:</p>
+
+<p><img id="tse-not1-not2.png" class="centered" src="tse-not1-not2.png" /></p>
+
+<p>Set the rendering depth back to 1. Press the <span class="keys">Run</span> button:</p>
+
+<p><img id="tse-not1-not2-depth-1.png" class="centered" src="tse-not1-not2-depth-1.png" /></p>
+
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
