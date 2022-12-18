@@ -4020,22 +4020,28 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="tetrominoscript-editor">TetrominoScript Editor</h2>
 
-<p><span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for visually designing digital components and combinational logic circuits. It automatically generates a <span class="nowrap">TS program</span> as the user drags and drops tetrominoes and previously defined components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
+<p><span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for designing digital components and combinational logic circuits visually. It automatically generates a <span class="nowrap">TS program</span> as the user clicks and drops tetrominoes and components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
 
-<p>TSE is also a testing tool. It reveals how the circuit responds to user entered inputs. Plus, it accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that specifies the expected outputs. Upon request, it compares the JS values against the actual outputs for all possible inputs.</p>
+<p>TSE is also a testing tool. It reveals how a circuit responds to user entered inputs. Plus, it accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that specifies expected outputs. Upon request, it compares the JS values against actual outputs for all possible inputs.</p>
+
+<h3 id="tse-run">Run</h3>
+
+<p>...</p>
+
+<h3 id="tse-user-interface">User Interface</h3>
 
 <p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output messages region.</p>
 
 <p><img id="tse-swap.png" class="centered" src="tse-swap.png" /></p>
 
-<p>The toolbar provides test and insert controls:</p>
+<p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element selection:</p>
 
 <ul>
-  <li>Input field - Holds an entered binary value.</li>
-  <li>Run button - Executes the <span class="nowrap">TS program</span> with the entered value. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li>Input field - Contains a user entered binary string that specifies the input node states.</li>
+  <li>Run button - Executes the <span class="nowrap">TS program</span> with the input field value. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
   <li>Components combo box - Lists all previously defined components.</li>
-  <li>Add button - Selects a listed component. Clicking on a grid cell will insert it.</li>
-  <li>Tetrominoes buttons - Selects a tetromino in one of the nineteen possible orientations. Clicking on a grid cell will insert it.</li>
+  <li>Add button - Selects a listed component. Clicking on a grid cell inserts it into the playfield.</li>
+  <li>Tetrominoes buttons - Selects a tetromino in one of the nineteen possible orientations. Clicking on a grid cell inserts it.</li>
 </ul>
 
 <p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
@@ -4052,23 +4058,27 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
 
-<p>To demonstrate the features of TSE, the following steps explain how to construct a <span class="nowrap">NAND gate</span>.</p>  
+<h3 id="tse-nand-tutorial">NAND Tutorial</h3>
+
+<p>This tutorial explains how to construct a <span class="nowrap">NAND gate</span> in TSE.</p>  
 
 <p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl+N</span>:</p>
 
 <p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
 
-<p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
+<p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter File Name <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
 
 <p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
 
-<p>The window regions reset and the named component appears in the title bar:</p>
+<p>The window regions reset and <span class="mono">nandExample</span> appears in the title bar:</p>
 
 <p><img id="tse-new-result.png" class="centered" src="tse-new-result.png" /></p>
 
 <p>Turn the <span class="keys">scroll wheel</span> to adjust the grid cell size to 32:</p>
 
 <p><img id="tse-zoom-32.png" class="centered" src="tse-zoom-32.png" /></p>
+
+<object id="nand-schematic.svg" data="nand-schematic.svg" type="image/svg+xml" class="diagram">NAND Schematic</object>
 
 <p>Type <span class="mono nowrap">&ldquo;in a&rdquo;</span> into the <span class="nowrap">TS program</span> region:</p>
 
@@ -4092,7 +4102,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Press the <span class="keys">Run</span> button.</p>
 
-<p>Input nodes <span class="mono">a</span> and <span class="mono">b</span> appear in the playfield with the specified values:</p>
+<p>Input nodes <span class="mono">a</span> and <span class="mono">b</span> appear in the playfield, assigned to the specified values:</p>
 
 <p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
 
