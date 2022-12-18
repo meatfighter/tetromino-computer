@@ -4063,7 +4063,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>This tutorial explains how to construct a <span class="nowrap">NAND gate</span> in TSE.</p>  
 
-<p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl+N</span>:</p>
+<p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl-N</span>:</p>
 
 <p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
 
@@ -4097,7 +4097,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" /></p>
 
-<p>Press Enter. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span>. Click on cell <span class="mono nowrap">1:0</span>:</p>
+<p>Press <span class="keys">Enter</span>. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span>. Click on cell <span class="mono nowrap">1:0</span>:</p>
 
 <p><img id="tse-in-b.png" class="centered" src="tse-in-b.png" /></p>
 
@@ -4121,9 +4121,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-notleft-drag.png" class="centered" src="tse-notleft-drag.png" /></p>
 
-<p>TSE depicts the <span class="nowrap"><span class="mono">notLeft</span> gate</span> as a dark rectangle. An unassigned input node protrudes from its bottom. An output node assigned <span class="mono">1</span> extends from its top.</p>
+<p>TSE depicts <span class="mono">notLeft</span> as a dark rectangle. An unassigned input node protrudes from its bottom. An output node assigned <span class="mono">1</span> extends from its top.</p>
 
-<p>Overlap <span class="mono">notLeft</span>'s input node and input node <span class="mono">a</span>:</p>
+<p><span class="nowrap">Node <span class="mono">a</span></span> will serve as <span class="mono">notLeft</span>'s input node. To make that work, overlap the nodes thusly:</p>
 
 <p><img id="tse-notleft-insert.png" class="centered" src="tse-notleft-insert.png" /></p>
 
@@ -4137,7 +4137,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-notright-select.png" class="centered" src="tse-notright-select.png" /></p>
 
-<p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield. Overlap <span class="mono">notRight</span>'s input node and input node <span class="mono">b</span>:</p>
+<p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield. Overlap <span class="nowrap">node <span class="mono">b</span></span> and <span class="mono">notRight</span>'s input node:</p>
 
 <p><img id="tse-notright-overlap.png" class="centered" src="tse-notright-overlap.png" /></p>
 
@@ -4147,7 +4147,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" /></p>
 
-<p>TSE displays the component outputs as inverses of their inputs:</p>
+<p>The inverter outputs properly indicate the opposite of their inputs:</p>
 
 <p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" /></p>
 
@@ -4175,6 +4175,67 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-not1-not2-depth-1.png" class="centered" src="tse-not1-not2-depth-1.png" /></p>
 
+<p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 4</span> or at the start of <span class="nowrap">line 5</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;or&rdquo;</span>:</p>
+
+<p><img id="tse-or-select.png" class="centered" src="tse-or-select.png" /></p>
+
+<p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield:</p>
+
+<p><img id="tse-or-added.png" class="centered" src="tse-or-added.png" /></p>
+
+<p>TSE depicts <span class="mono">or</span> as a dark square. Two unassigned input nodes protrude from its bottom. An unsigned output extends from its top.</p>
+
+<p>The output nodes of the inverters will serve as the input nodes of the <span class="nowrap">OR gate</span>. To make that work, overlap the nodes thusly:</p>
+
+<p><img id="tse-or-overlap.png" class="centered" src="tse-or-overlap.png" /></p>
+
+<p>Click the <span class="keys">left mouse</span> button.</p>
+
+<p>TSE appends <span class="mono">or</span> to the <span class="nowrap">TS program</span>:</p>
+
+<p><img id="tse-or-appended.png" class="centered" src="tse-or-appended.png" /></p>
+
+<p>The <span class="nowrap">OR gate's</span> output node will serve as the output of the NAND gate.</p>
+
+<p>Press <span class="keys">Enter</span>. Type <span class="mono nowrap">&ldquo;out o -1..0 7&rdquo;</span>:
+
+<p><img id="tse-output-node.png" class="centered" src="tse-output-node.png" /></p>
+
+<p>Click on the input field. Type <span class="mono nowrap">&ldquo;11&rdquo;</span>. Press the <span class="keys">Run</span> button:</p>
+
+<p><img id="tse-input-11.png" class="centered" src="tse-input-11.png" /></p>
+
+<p>Repeat for all possible input values. Verify the output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>.</p>
+
+<p>Type in the following JavaScript snippet.</p>
+
+<p><img id="tse-js.png" class="centered" src="tse-js.png" /></p>
+
+<p>Select <span class="menu">Run > Test Fully</span> or press <span class="keys">Shift-F6</span>:</p>
+
+<p><img id="tse-test-fully.png" class="centered" src="tse-test-fully.png" /></p>
+
+<p>That causes TSE to compare the NAND gate's output with the value from JavaScript snippet for all possible inputs. They match:</p>
+
+<p><img id="tse-test-passed.png" class="centered" src="tse-test-passed.png" /></p>
+
+<p>Click on <span class="nowrap">line 4</span> of the <span class="nowrap">TS program</span>. Press <span class="keys">Ctrl-/</span> to comment out the line:</p>
+
+<p><img id="tse-comment.png" class="centered" src="tse-comment.png" /></p>
+
+<p>Press <span class="keys">Shift-F6</span> to test again. With the missing inverter, the test fails:</p>
+
+<p><img id="tse-test-failed.png" class="centered" src="tse-test-failed.png" /></p>
+
+<p>Click on <span class="nowrap">line 4</span> of the <span class="nowrap">TS program</span>. Press <span class="keys">Ctrl-/</span> to uncomment out the line.</p>
+
+<p>Verify the NAND gates works once again.</p>
+
+<p>If a circuit has a large number of inputs, <span class="menu">Run > Test Fully</span> may take several minutes to complete. And since TSE parallelizes testing, it consumes <span class="nowrap">100% CPU</span> during that period.</p>
+
+<p>The alternative, <span class="menu">Run > Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript value for a randomly selected subset that includes a minimum of 10% of the possible values. Consequentially, it typically finishes 10&times; faster.</p>
+
+<p>[ TODO CANCEL ]</p>
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 

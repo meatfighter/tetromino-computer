@@ -15,3 +15,9 @@ luts gen: 1m 46.838s
           1m 47.93s
 
 more dir params on all apps
+
+new replace does seem to save twice
+
+cell coordinates remove tooltip
+
+add Toggle Comment (Ctrl-/) to the edit menu
