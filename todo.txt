@@ -29,3 +29,7 @@ ERROR: Unknown component unnamed
 Build succeeded.
 
 Esc or right mouse click <--
+
+<p>Note: The <span class="keys">right mouse button</span> or <span class="keys">Esc</span> deselects a component without adding it to the playfield.</p> 
+
+put that somewhere!!!
