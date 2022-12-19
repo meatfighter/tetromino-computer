@@ -4034,16 +4034,16 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-swap.png" class="centered" src="tse-swap.png" /></p>
 
-<p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element selection:</p>
+<p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element insertion:</p>
 
 <p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
 
 <ul>
-  <li>Input - Enter input node values as a binary string.</li>
-  <li>Run - Press to execute the <span class="nowrap">TS program</span> with the specified input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
-  <li>Components - Browse the component catalog.</li>
-  <li>Add - Select a component. Click on a grid cell to insert it into the playfield.</li>
-  <li>Tetrominoes - Select a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
+  <li>Input - A user-entered binary string representing input node values.</li>
+  <li>Run - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li>Components - Available components.</li>
+  <li>Add - Selects an available component. Click on a grid cell to insert it into the playfield.</li>
+  <li>Tetrominoes - Selects a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
 </ul>
 
 <p>The <span class="nowrap">status bar</span> provides grid controls:</p>
@@ -4051,17 +4051,17 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
 
 <ul>
-  <li>Center - Press to reposition the playfield's origin to the center-bottom.</li>
-  <li>Depth - Enter the recursive rendering depth.</li>
-  <li>Width - Enter the grid width.</li>
-  <li>Height - Enter the grid height.</li>
-  <li>Zoom - Enter the grid cell size. Turning the <span class="keys">scroll wheel</span> does the same.</li>
-  <li>Cursor - Read the coordinates of cell at which the mouse cursor points.</li>
+  <li>Center - Moves the origin to center-bottom by centering the horizontal scrollbar and bottoming the vertical scrollbar.</li>
+  <li>Depth - Recursive rendering depth, the level of displayed detail.</li>
+  <li>Width - Number of cells wide.</li>
+  <li>Height - Number of cells high.</li>
+  <li>Zoom - Grid cell size. Turn the <span class="keys">scroll wheel</span> to change it.</li>
+  <li>Cursor - Coordinates of the cell at which the mouse cursor points.</li>
 </ul>
 
 <h3 id="tse-nand-tutorial">NAND Tutorial</h3>
 
-<p>This tutorial explains how to construct a <span class="nowrap">NAND gate</span> in TSE.</p>  
+<p>This tutorial demonstrates the features of TSE by explaining how to construct a <span class="nowrap">NAND gate</span>.</p>  
 
 <p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl-N</span>:</p>
 
@@ -4071,7 +4071,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
 
-<p>The window regions reset and <span class="mono">nandExample</span> appears in the title bar:</p>
+<p>The window regions reset, and <span class="mono">nandExample</span> appears in the title bar:</p>
 
 <p><img id="tse-new-result.png" class="centered" src="tse-new-result.png" /></p>
 
@@ -4107,11 +4107,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Press the <span class="keys">Run</span> button.</p>
 
-<p>The input nodes appear in the playfield assigned to the input bits:</p>
+<p>The input nodes assigned to the input bits appear in the playfield:</p>
 
 <p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
 
-<p>Note: TSE assigns input nodes from left to right regardless of the order that they appear in the <span class="nowrap">TS program</span>.</p>
+<p>Note: TSE assigns input nodes from left to right regardless of the order that the <span class="nowrap">TS program</span> defines them.</p>
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or at the start of <span class="nowrap">line 3</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
 
@@ -4147,7 +4147,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" /></p>
 
-<p>The inverter outputs properly indicate the opposite of their inputs:</p>
+<p>TSE assigns the output nodes of the inverters to the opposite of their inputs:</p>
 
 <p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" /></p>
 
@@ -4165,9 +4165,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-three-wide-2.png" class="centered" src="tse-three-wide-2.png" /></p>
 
-<p>A TS program can label its components. The labels appear immediately right of the component names.</p>
-
-<p>In the <span class="nowrap">TS program</span>, type <span class="mono">&ldquo;not1&rdquo;</span> immediately right of <span class="mono">notLeft</span>. Type <span class="mono">&ldquo;not2&rdquo;</span> immediately right of <span class="mono">notRight</span>:</p>
+<p>A TS program can label its components. Type <span class="mono">&ldquo;not1&rdquo;</span> immediately right of <span class="mono">notLeft</span>. Type <span class="mono">&ldquo;not2&rdquo;</span> immediately right of <span class="mono">notRight</span>:</p>
 
 <p><img id="tse-not1-not2.png" class="centered" src="tse-not1-not2.png" /></p>
 
@@ -4207,7 +4205,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Repeat for all possible input values. Verify the output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>.</p>
 
-<p>Type in the following JavaScript snippet.</p>
+<p>In the JavaScript region, type in the following snippet.</p>
 
 <p><img id="tse-js.png" class="centered" src="tse-js.png" /></p>
 
@@ -4233,9 +4231,35 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>If a circuit has a large number of inputs, <span class="menu">Run > Test Fully</span> may take several minutes to complete. And since TSE parallelizes testing, it consumes <span class="nowrap">100% CPU</span> during that period.</p>
 
-<p>The alternative, <span class="menu">Run > Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript value for a randomly selected subset that includes a minimum of 10% of the possible values. Consequentially, it typically finishes 10&times; faster.</p>
+<p>The alternative, <span class="menu">Run > Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript for a randomly selected subset of the possible input values. It covers only 10% of the testing space, enabling it to finish 10&times; faster.</p>
 
-<p>[ TODO CANCEL ]</p>
+<p>To terminate a long-running test, select <span class="menu">Run > Cancel Test</span></p>
+
+<p>TSE recursively renders a circuit to a specified cutoff depth. At the cutoff, it assigns output nodes by evaluating JavaScript snippets. Meaning, not only does it display less detail, it simulates less detail. Consequentially, the lower the depth, the faster the render.</p>
+
+<p>To make this clear, set the rendering depth <span class="nowrap">to 0</span>:</p>
+
+<p><img id="tse-depth-0.png" class="centered" src="tse-depth-0.png" /></p>
+
+<p>TSE assigns the output node by evaluating the JavaScript snippet rather than simulating <span class="mono">nandExample</span>'s unseen internals.</p>
+
+<p>Set the rendering depth <span class="nowrap">to 1</span>:</p>
+
+<p><img id="tse-depth-1.png" class="centered" src="tse-depth-1.png" /></p>
+
+<p>TSE assigns the output nodes of the inverters and the <span class="nowrap">OR gate</span> by evaluating their JavaScript snippets rather than simulating their unseen internals.</p>
+
+<p>Set the rendering depth <span class="nowrap">to 2</span>:</p>
+
+<p><img id="tse-depth-2a.png" class="centered" src="tse-depth-2a.png" /></p>
+
+<p>At this rendering depth, TSE fully simulates everything. It ignores the JavaScript snippets.</p>
+
+<p>Select <span class="menu">File > Save</span> or press <span class="keys">Ctrl-S</span>.</p>
+
+<p>TSE saves components as two separate files. In this case, it writes the TS program to <span class="mono">code/ts/examples/nandExample.t</span> and the JavaScript snippet to <span class="mono">code/ts/examples/nandExample.js</span>.</p>
+
+<p>All files within code/ts, in any subdirectory or otherwise, are part of the components catalog.</p>
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
