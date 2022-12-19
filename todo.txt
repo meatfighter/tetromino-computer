@@ -21,3 +21,11 @@ new replace does seem to save twice
 cell coordinates remove tooltip
 
 add Toggle Comment (Ctrl-/) to the edit menu
+
+on new:
+
+Building...
+ERROR: Unknown component unnamed
+Build succeeded.
+
+Esc or right mouse click <--
