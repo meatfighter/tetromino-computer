@@ -23,12 +23,3 @@ on new:
 Building...
 ERROR: Unknown component unnamed
 Build succeeded.
-
-
-Translating all by (0, 0)...
-Failed to translate: String index out of range: -1
-
-Translating to center...
-Translated 1
-Failed to translate: String index out of range: -1
-

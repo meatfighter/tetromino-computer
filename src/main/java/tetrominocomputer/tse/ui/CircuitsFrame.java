@@ -1227,10 +1227,15 @@ public class CircuitsFrame extends javax.swing.JFrame {
         }
         
         circuitsEditorPanel.clearOutput();
-        circuitsEditorPanel.appendOutput(String.format("Translating %s by (%d, %d)...", 
+        circuitsEditorPanel.appendOutput("Translating %s by (%d, %d)...", 
                 translatePanel.isTranslateSelection() ? "selection" : "all", 
                 translatePanel.getOffsetX(),
-                translatePanel.getOffsetY()));
+                translatePanel.getOffsetY());
+        if (translatePanel.getOffsetX() == 0 && translatePanel.getOffsetY() == 0) {
+            circuitsEditorPanel.appendOutput("Nothing changed.");
+            return;
+        }        
+        
         try {
             circuitsEditorPanel.replaceTetrominoScriptLines(controller.translate(componentName, 
                     circuitsEditorPanel.getTetrominoScriptLines(translatePanel.isTranslateSelection()), 

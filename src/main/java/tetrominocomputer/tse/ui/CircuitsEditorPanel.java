@@ -557,7 +557,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         return sb.toString();
     }
     
-    public void replaceTetrominoScriptLines(final String replacement, final boolean selection) {        
+    public void replaceTetrominoScriptLines(final String replacement, final boolean selection) { 
+        
+        if (isBlank(replacement)) {
+            return;
+        }
+        
         final StyledDocument doc = tetrominoScriptTextPane.getStyledDocument();
         final int selectionStart = tetrominoScriptTextPane.getSelectionStart();
         final int selectionEnd = tetrominoScriptTextPane.getSelectionEnd();
