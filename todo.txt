@@ -23,5 +23,3 @@ on new:
 Building...
 ERROR: Unknown component unnamed
 Build succeeded.
-
-svg export with no file name seems to do something!!!
