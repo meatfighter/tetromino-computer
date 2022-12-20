@@ -4039,11 +4039,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
 
 <ul>
-  <li>Input - A user-entered binary string representing input node values.</li>
-  <li>Run - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
-  <li>Components - Available components.</li>
-  <li>Add - Selects an available component. Click on a grid cell to insert it into the playfield.</li>
-  <li>Tetrominoes - Selects a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
+  <li><span class="menu">Input</span> - A user-entered binary string where each bit represents the state of an input node.</li>
+  <li><span class="menu">Run</span> - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li><span class="menu">Components</span> - Available components.</li>
+  <li><span class="menu">Add</span> - Selects an available component. Click on a grid cell to insert it into the playfield.</li>
+  <li><span class="menu">Tetrominoes</span> - Selects a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
 </ul>
 
 <p>The <span class="nowrap">status bar</span> provides grid controls:</p>
@@ -4051,12 +4051,12 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
 
 <ul>
-  <li>Center - Moves the origin to center-bottom by centering the horizontal scrollbar and bottoming the vertical scrollbar.</li>
-  <li>Depth - Recursive rendering depth, the level of displayed detail.</li>
-  <li>Width - Number of cells wide.</li>
-  <li>Height - Number of cells high.</li>
-  <li>Zoom - Grid cell size. Turn the <span class="keys">scroll wheel</span> to change it.</li>
-  <li>Cursor - Coordinates of the cell at which the mouse cursor points.</li>
+  <li><span class="menu">Center</span> - Moves the origin to center-bottom by centering the horizontal scrollbar and bottoming the vertical scrollbar.</li>
+  <li><span class="menu">Depth</span> - Recursive rendering depth, the level of displayed detail.</li>
+  <li><span class="menu">Width</span> - Number of cells wide.</li>
+  <li><span class="menu">Height</span> - Number of cells high.</li>
+  <li><span class="menu">Zoom</span> - Grid cell size. Turn the <span class="keys">scroll wheel</span> to change it.</li>
+  <li><span class="menu">Cursor</span> - Coordinates of the cell at which the mouse cursor points.</li>
 </ul>
 
 <h3 id="tse-nand-tutorial">NAND Tutorial</h3>
@@ -4107,11 +4107,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Press the <span class="keys">Run</span> button.</p>
 
-<p>The input nodes assigned to the input bits appear in the playfield:</p>
+<p>The input nodes appear in the playfield. Their states correspond to the input bits:</p>
 
 <p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
 
-<p>Note: TSE assigns input nodes from left to right regardless of the order that the <span class="nowrap">TS program</span> defines them.</p>
+<p>Note: TSE assigns the input nodes to the bit values from left to right regardless of order that the <span class="nowrap">TS program</span> defines them. Also, for readability, bit strings with many digits can be partitioned into nibbles or arbitrary group sizes by using spaces as separators.</p>
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or at the start of <span class="nowrap">line 3</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
 
@@ -4123,7 +4123,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>TSE depicts <span class="mono">notLeft</span> as a dark rectangle. An unassigned input node protrudes from its bottom. An output node assigned <span class="mono">1</span> extends from its top.</p>
 
-<p><span class="nowrap">Node <span class="mono">a</span></span> will serve as <span class="mono">notLeft</span>'s input node. To make that work, overlap the nodes thusly:</p>
+<p><span class="nowrap">Node <span class="mono">a</span></span> will serve as <span class="mono">notLeft</span>'s input node. Overlap the nodes thusly:</p>
 
 <p><img id="tse-notleft-insert.png" class="centered" src="tse-notleft-insert.png" /></p>
 
@@ -4132,6 +4132,8 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <p>TSE appends <span class="mono">notLeft</span> to the <span class="nowrap">TS program</span>:</p>
 
 <p><img id="tse-notleft-added.png" class="centered" src="tse-notleft-added.png" /></p>
+
+<p>Note: While positioning a component, the <span class="keys">right mouse button</span> or <span class="keys">Esc</span> deselects the component. Also, if a component is put in the wrong place, edit its coordinates in the <span class="nowrap">TS program</span> and press the <span class="keys">Run</span> button to update the playfield.</p> 
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 3</span> or at the start of <span class="nowrap">line 4</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notRight&rdquo;</span>:</p>
 
@@ -4147,7 +4149,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" /></p>
 
-<p>TSE assigns the output nodes of the inverters to the opposite of their inputs:</p>
+<p>Note that the inverters' input and output nodes are in opposite states:</p>
 
 <p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" /></p>
 
@@ -4183,7 +4185,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>TSE depicts <span class="mono">or</span> as a dark square. Two unassigned input nodes protrude from its bottom. An unsigned output extends from its top.</p>
 
-<p>The output nodes of the inverters will serve as the input nodes of the <span class="nowrap">OR gate</span>. To make that work, overlap the nodes thusly:</p>
+<p>The output nodes of the inverters will serve as the input nodes of the <span class="nowrap">OR gate</span>. Overlap the nodes thusly:</p>
 
 <p><img id="tse-or-overlap.png" class="centered" src="tse-or-overlap.png" /></p>
 
@@ -4261,6 +4263,8 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>All files within code/ts, in any subdirectory or otherwise, are part of the components catalog.</p>
 
+<p>That completes the NAND tutorial.</p>
+
 <h3 id="tse-wires">Wires</h3>
 
 <p>On startup, TSE synthesizes components that represent vertical wires of various lengths. The image below depicts <span class="nowrap mono">ir3, ir4, &mldr;, ir12</span> from left to right. The <span class="mono">&ldquo;i&rdquo;</span> in their names refer to fact that vertical wires primarily consist of <span class="nowrap">I-tetrominoes</span>. The <span class="mono">&ldquo;r&rdquo;</span> means the piece at the base extends to the right of the wire. And the number is the height. It goes up to <span class="mono">2001</span>.</p>
@@ -4309,6 +4313,10 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Either way, only the rightmost <span class="nowrap">S-tetromino</span> supports the entire wire.</p>
 
+<p><span class="mono">z7</span> is the horizontal reflection of <span class="mono">s7</span>:</p>
+
+<p><img id="tse-z7.png" class="centered" src="tse-z7.png" /></p>
+
 <p>The user can fashion wires from individual tetrominoes. To demonstrate this, the following image shows a <span class="nowrap">TS program</span> describing a pair of inverters.</p>
 
 <p><img id="tse-inverters-1.png" class="centered" src="tse-inverters-0.png" /></p>
@@ -4344,6 +4352,65 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <p>Here is the result at rendering depth 2:</p>
 
 <p><img id="tse-inverters-8.png" class="centered" src="tse-inverters-8.png" /></p>
+
+<h3 id="tse-other-features">Other Features</h3>
+
+<p>TSE generated the <a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> diagrams in this text. To access the <span class="nowrap">Export SVG</span> dialog shown below, select <span class="menu">File > Export SVG...</span></p>
+
+<p><img id="tse-export-svg.png" class="centered" src="tse-export-svg.png" /></p>
+
+<ul>
+  <li><span class="menu">Output</span>
+    <ul>
+      <li><span class="menu">Stdout</span> - When checked, TSE exports to the <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)" target="_blank">standard output stream</a> instead of a file.</li>
+      <li><span class="menu">File</span> - TSE exports to this filename when the <span class="menu">stdout</span> checkbox is unchecked.</li>
+      <li><span class="menu">Browse...</span> - Opens a file chooser to enable the user to select the target filename.</li>
+      <li><span class="menu">Default</span> - Resets the filename to the default value.</li>
+    </ul>
+  </li>
+  <li><span class="menu">Input</span>
+    <ul>
+      <li><span class="menu">All possible values</span> - When checked, TSE repeatedly renders the circuit in a single SVG with all possible input values. This works only when there are four or fewer input nodes.</li>
+      <li><span class="menu">Value</span> - When <span class="menu">All possible values</span> is unchecked, TSE uses this binary string to set the input node states.</li>
+    </ul>
+  </li>
+  <li><span class="menu">Render</span>
+    <ul>
+      <li><span class="menu">Absolute width</span> - When checked, TSE does not scale the SVG.</li>
+      <li><span class="menu">Display width</span> - When <span class="menu">Absolute width</span> is unchecked, TSE scales the SVG to this width.</li>
+      <li><span class="menu">Cell size</span> - The unscaled grid cell size.</li>
+      <li><span class="menu">Depth</span> - The recursive rendering depth.</li>
+      <li><span class="menu">Margin</span> - Amount of pixel padding on all sides of the SVG.</li>
+      <li><span class="menu">Tetrominoes</span> - Hides/shows the tetrominoes.</li>
+      <li><span class="menu">Structures</span> - Hides/shows the dark rectangles that represent components.</li>
+      <li><span class="menu">Input nodes</span> - Hides/shows the input nodes.</li>
+      <li><span class="menu">Output nodes</span> - Hides/shows the output nodes.</li>
+      <li><span class="menu">Node values</span> - Hides/shows the bits that indicate node states.</li>
+    </ul>
+  </li>
+  <li><span class="menu">Grid</span>
+    <ul>
+      <li><span class="menu">Visible</span> - Hides/shows the grid.</li>
+      <li><span class="menu">Non-scaling stroke</span> - When checked, grid lines are rendered at the same thickness regardless of <span class="menu">Display width</span> scaling.</li>
+      <li><span class="menu">y-axis</span> - Hides/shows the y-axis.</li>
+      <li><span class="menu">Axes numbers</span> - Hides/shows the axes numbers.</li>
+      <li><span class="menu">Open left</span> - When checked, the grid appears open on the left, suggesting it continues beyond the displayed region.</li>
+      <li><span class="menu">Open right</span> - When checked, the grid appears open on the right, suggesting it continues beyond the displayed region.</li>
+      <li><span class="menu">Open top</span> - When checked, the grid appears open on the top, suggesting it continues beyond the displayed region.</li>
+      <li><span class="menu">Pad left</span> - Number of empty columns to insert on the left.</li>
+      <li><span class="menu">Pad right</span> - Number of empty columns to insert on the right.</li>
+      <li><span class="menu">Pad top</span> - Number of empty rows to insert on the top.</li>
+    </ul>
+  </li>
+  <li><span class="menu">Buttons</span>
+    <ul>
+      <li><span class="menu">Export</span> - Generates an SVG.</li>
+      <li><span class="menu">Close</span> - Dismisses the window.</li>
+    </ul>
+  </li>
+</ul>
+
+[ TODO MENTION ANIMATED SVG ]
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 

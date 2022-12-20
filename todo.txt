@@ -28,8 +28,6 @@ Building...
 ERROR: Unknown component unnamed
 Build succeeded.
 
-Esc or right mouse click <--
+Change hotkey for Cancel Test (ctrl-C is copy) -- update image
 
-<p>Note: The <span class="keys">right mouse button</span> or <span class="keys">Esc</span> deselects a component without adding it to the playfield.</p> 
-
-put that somewhere!!!
+svg export with no file name seems to do something!!!
