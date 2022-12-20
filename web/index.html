@@ -4215,7 +4215,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-test-fully.png" class="centered" src="tse-test-fully.png" /></p>
 
-<p>That causes TSE to compare the NAND gate's output with the value from JavaScript snippet for all possible inputs. They match:</p>
+<p>That causes TSE to compare the <span class="nowrap">NAND gate's</span> output with the value from JavaScript snippet for all possible inputs. They match:</p>
 
 <p><img id="tse-test-passed.png" class="centered" src="tse-test-passed.png" /></p>
 
@@ -4235,7 +4235,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The alternative, <span class="menu">Run > Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript for a randomly selected subset of the possible input values. It covers only 10% of the testing space, enabling it to finish 10&times; faster.</p>
 
-<p>To terminate a long-running test, select <span class="menu">Run > Cancel Test</span></p>
+<p>To terminate a long-running test, select <span class="menu">Run > Cancel Test</span> or press <span class="keys">Alt-F6</span>.</p>
 
 <p>TSE recursively renders a circuit to a specified cutoff depth. At the cutoff, it assigns output nodes by evaluating JavaScript snippets. Meaning, not only does it display less detail, it simulates less detail. Consequentially, the lower the depth, the faster the render.</p>
 
@@ -4355,16 +4355,18 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h3 id="tse-other-features">Other Features</h3>
 
-<p>TSE generated the <a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> diagrams in this text. To access the <span class="nowrap">Export SVG</span> dialog shown below, select <span class="menu">File > Export SVG...</span></p>
+<p>The <span class="nowrap">Export SVG</span> dialog, shown below, created the <a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> diagrams for this text. Select <span class="menu">File > Export SVG...</span> to open it.</span></p>
 
 <p><img id="tse-export-svg.png" class="centered" src="tse-export-svg.png" /></p>
+
+<p>Here are descriptions of its elements:</p>
 
 <ul>
   <li><span class="menu">Output</span>
     <ul>
       <li><span class="menu">Stdout</span> - When checked, TSE exports to the <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)" target="_blank">standard output stream</a> instead of a file.</li>
-      <li><span class="menu">File</span> - TSE exports to this filename when the <span class="menu">stdout</span> checkbox is unchecked.</li>
-      <li><span class="menu">Browse...</span> - Opens a file chooser to enable the user to select the target filename.</li>
+      <li><span class="menu">File</span> - When the <span class="menu">stdout</span> checkbox is unchecked, TSE exports to a file with this name.</li>
+      <li><span class="menu">Browse...</span> - Opens a file chooser for the export filename.</li>
       <li><span class="menu">Default</span> - Resets the filename to the default value.</li>
     </ul>
   </li>
@@ -4378,14 +4380,14 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
     <ul>
       <li><span class="menu">Absolute width</span> - When checked, TSE does not scale the SVG.</li>
       <li><span class="menu">Display width</span> - When <span class="menu">Absolute width</span> is unchecked, TSE scales the SVG to this width.</li>
-      <li><span class="menu">Cell size</span> - The unscaled grid cell size.</li>
-      <li><span class="menu">Depth</span> - The recursive rendering depth.</li>
+      <li><span class="menu">Cell size</span> - Unscaled grid cell size.</li>
+      <li><span class="menu">Depth</span> - Recursive rendering depth.</li>
       <li><span class="menu">Margin</span> - Amount of pixel padding on all sides of the SVG.</li>
       <li><span class="menu">Tetrominoes</span> - Hides/shows the tetrominoes.</li>
       <li><span class="menu">Structures</span> - Hides/shows the dark rectangles that represent components.</li>
       <li><span class="menu">Input nodes</span> - Hides/shows the input nodes.</li>
       <li><span class="menu">Output nodes</span> - Hides/shows the output nodes.</li>
-      <li><span class="menu">Node values</span> - Hides/shows the bits that indicate node states.</li>
+      <li><span class="menu">Node values</span> - Hides/shows the zeros and ones that indicate node states.</li>
     </ul>
   </li>
   <li><span class="menu">Grid</span>

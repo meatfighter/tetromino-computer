@@ -18,16 +18,10 @@ more dir params on all apps
 
 new replace does seem to save twice
 
-cell coordinates remove tooltip
-
-add Toggle Comment (Ctrl-/) to the edit menu
-
 on new:
 
 Building...
 ERROR: Unknown component unnamed
 Build succeeded.
-
-Change hotkey for Cancel Test (ctrl-C is copy) -- update image
 
 svg export with no file name seems to do something!!!

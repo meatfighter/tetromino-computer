@@ -279,6 +279,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
         findPreviousMenuItem = new javax.swing.JMenuItem();
         replaceMenuItem = new javax.swing.JMenuItem();
         goToMenuItem = new javax.swing.JMenuItem();
+        jSeparator14 = new javax.swing.JPopupMenu.Separator();
+        toggleCommentMenuItem = new javax.swing.JMenuItem();
         runMenu = new javax.swing.JMenu();
         runMenuItem = new javax.swing.JMenuItem();
         jSeparator13 = new javax.swing.JPopupMenu.Separator();
@@ -638,7 +640,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
         coordinatesLabel.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
         coordinatesLabel.setText("               ");
-        coordinatesLabel.setToolTipText("Playfield Coordinates");
+        coordinatesLabel.setToolTipText("");
         coordinatesLabel.setMaximumSize(null);
         coordinatesLabel.setMinimumSize(null);
 
@@ -745,7 +747,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         );
 
         coordinatesLabel.getAccessibleContext().setAccessibleName("");
-        coordinatesLabel.getAccessibleContext().setAccessibleDescription("");
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -920,6 +921,17 @@ public class CircuitsFrame extends javax.swing.JFrame {
             }
         });
         editMenu.add(goToMenuItem);
+        editMenu.add(jSeparator14);
+
+        toggleCommentMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SLASH, java.awt.event.InputEvent.CTRL_MASK));
+        toggleCommentMenuItem.setMnemonic('c');
+        toggleCommentMenuItem.setText("Toggle Comment");
+        toggleCommentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleCommentMenuItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(toggleCommentMenuItem);
 
         menuBar.add(editMenu);
 
@@ -967,7 +979,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
         });
         runMenu.add(testFullyMenuItem);
 
-        cancelTestMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        cancelTestMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, java.awt.event.InputEvent.ALT_MASK));
         cancelTestMenuItem.setMnemonic('c');
         cancelTestMenuItem.setText("Cancel Test");
         cancelTestMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -1634,6 +1646,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         cancelTestMenuItem.setEnabled(taskCount.get() > 0 && !cancelled.get());
     }//GEN-LAST:event_runMenuMenuSelected
 
+    private void toggleCommentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleCommentMenuItemActionPerformed
+        circuitsEditorPanel.toggleComment();
+    }//GEN-LAST:event_toggleCommentMenuItemActionPerformed
+
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
         circuitsEditorPanel.goToLine(lineNumber);
@@ -1705,6 +1721,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1747,6 +1764,7 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem testQuicklyMenuItem;
     private javax.swing.JTextField testTextField;
     private javax.swing.JButton tlButton;
+    private javax.swing.JMenuItem toggleCommentMenuItem;
     private javax.swing.JToolBar toolBar;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JButton trButton;

@@ -70,67 +70,12 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         
         javaScriptUndoManager = new UndoManager();
         javaScriptTextArea.getDocument().addUndoableEditListener(e -> javaScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(javaScriptScrollPane, javaScriptTextArea, javaScriptDocumentFilter);
+        addKeyHandlers(javaScriptScrollPane, javaScriptTextArea, javaScriptDocumentFilter);
         
         tetrominoScriptUndoManager = ((CustomTextPane)tetrominoScriptTextPane).createUndoManager();
         tetrominoScriptTextPane.getDocument().addUndoableEditListener(
                 e -> tetrominoScriptUndoManager.addEdit(e.getEdit()));
-        createUndoRedoUnIndentHandlers(tetrominoScriptScrollPane, tetrominoScriptTextPane, 
-                tetrominoScriptDocumentFilter);
-        tetrominoScriptTextPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(COMMENT_KEYSTROKE, "commentKeyStroke");
-        tetrominoScriptTextPane.getActionMap().put("commentKeyStroke", new AbstractAction() {
-            @Override
-            public void actionPerformed(final ActionEvent evt) {
-                final StyledDocument doc = tetrominoScriptTextPane.getStyledDocument();
-                final Element root = doc.getDefaultRootElement();
-                final int startIndex = root.getElementIndex(tetrominoScriptTextPane.getSelectionStart());
-                final int endIndex = root.getElementIndex(tetrominoScriptTextPane.getSelectionEnd());
-                final int lineCount = endIndex - startIndex + 1;
-                int comments = 0;
-                for (int i = startIndex; i <= endIndex; ++i) {
-                    final Element element = root.getElement(i);
-                    final int startOffset = element.getStartOffset();
-                    final int endOffset = element.getEndOffset();
-                    try {
-                        final String line = doc.getText(startOffset, endOffset - startOffset);
-                        if (line.startsWith("#")) {
-                            ++comments;
-                        }
-                    } catch (final BadLocationException e) {
-                    }
-                }
-                final boolean toggle = lineCount == 1;
-                final boolean comment = comments <= (lineCount >> 1);
-                for (int i = startIndex; i <= endIndex; ++i) {
-                    final Element element = root.getElement(i);
-                    final int startOffset = element.getStartOffset();
-                    final int endOffset = element.getEndOffset();
-                    try {
-                        final String line = doc.getText(startOffset, endOffset - startOffset);
-                        if (toggle) {
-                            if (line.startsWith("#")) {
-                                doc.remove(startOffset, 1);
-                            } else {                                
-                                doc.insertString(startOffset, "#", null);
-                            }
-                            TetrominoScriptDocumentFilter.applySyntaxHighlighting(doc, element);
-                        } else if (comment) {
-                            if (!line.startsWith("#")) {
-                                doc.insertString(startOffset, "#", null);
-                                TetrominoScriptDocumentFilter.applySyntaxHighlighting(doc, element);
-                            }                            
-                        } else {
-                            if (line.startsWith("#")) {                                
-                                doc.remove(startOffset, 1);
-                                TetrominoScriptDocumentFilter.applySyntaxHighlighting(doc, element);
-                            }                            
-                        }                        
-                    } catch (final BadLocationException e) {
-                    }
-                }
-            }
-        });
+        addKeyHandlers(tetrominoScriptScrollPane, tetrominoScriptTextPane, tetrominoScriptDocumentFilter);
         
         Ui.setMonospaced(tetrominoScriptTextPane);
         Ui.setMonospaced(javaScriptScrollPane);
@@ -148,7 +93,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         return javaScriptDocumentFilter.getChangeCount();
     }    
     
-    private void createUndoRedoUnIndentHandlers(final JScrollPane scrollPane, final JTextComponent textComponent, 
+    private void addKeyHandlers(final JScrollPane scrollPane, final JTextComponent textComponent, 
             final DocumentFilter documentFilter) {
         
         scrollPane.setRowHeaderView(new LineNumberingTextArea(textComponent));                
@@ -197,6 +142,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                     } catch (final BadLocationException e) {
                     }
                 }                
+            }
+        });
+        
+        textComponent.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(COMMENT_KEYSTROKE, "commentKeyStroke");
+        textComponent.getActionMap().put("commentKeyStroke", new AbstractAction() {
+            @Override
+            public void actionPerformed(final ActionEvent evt) {
+                toggleComment();
             }
         });
     }
@@ -464,6 +417,68 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         } catch (final BadLocationException e) {
         }
     }
+    
+    public void toggleComment() {
+        if (tetrominoScriptHasFocus) {
+            toggleComment(tetrominoScriptTextPane, "#");
+        } else if (javaScriptHasFocus) {
+            toggleComment(javaScriptTextArea, "//");
+        }
+    }
+    
+    private void toggleComment(final JTextComponent textComponent, final String commentDelimiter) {
+        final Document doc = textComponent.getDocument();
+        final Element root = doc.getDefaultRootElement();
+        final int startIndex = root.getElementIndex(textComponent.getSelectionStart());
+        final int endIndex = root.getElementIndex(textComponent.getSelectionEnd());
+        final int lineCount = endIndex - startIndex + 1;
+        int comments = 0;
+        for (int i = startIndex; i <= endIndex; ++i) {
+            final Element element = root.getElement(i);
+            final int startOffset = element.getStartOffset();
+            final int endOffset = element.getEndOffset();
+            try {
+                final String line = doc.getText(startOffset, endOffset - startOffset);
+                if (line.startsWith(commentDelimiter)) {
+                    ++comments;
+                }
+            } catch (final BadLocationException e) {
+            }
+        }
+        final boolean toggle = lineCount == 1;
+        final boolean comment = comments <= (lineCount >> 1);
+        for (int i = startIndex; i <= endIndex; ++i) {
+            final Element element = root.getElement(i);
+            final int startOffset = element.getStartOffset();
+            final int endOffset = element.getEndOffset();
+            try {
+                final String line = doc.getText(startOffset, endOffset - startOffset);
+                if (toggle) {
+                    if (line.startsWith(commentDelimiter)) {
+                        doc.remove(startOffset, commentDelimiter.length());
+                    } else {                                
+                        doc.insertString(startOffset, commentDelimiter, null);
+                    }
+                    if (tetrominoScriptHasFocus) {
+                        TetrominoScriptDocumentFilter.applySyntaxHighlighting((StyledDocument) doc, element);
+                    }
+                } else if (comment) {
+                    if (!line.startsWith(commentDelimiter)) {
+                        doc.insertString(startOffset, commentDelimiter, null);
+                        if (tetrominoScriptHasFocus) {
+                            TetrominoScriptDocumentFilter.applySyntaxHighlighting((StyledDocument) doc, element);
+                        }
+                    }                            
+                } else if (line.startsWith(commentDelimiter)) {                                
+                    doc.remove(startOffset, commentDelimiter.length());
+                    if (tetrominoScriptHasFocus) {
+                        TetrominoScriptDocumentFilter.applySyntaxHighlighting((StyledDocument) doc, element);
+                    }
+                }                        
+            } catch (final BadLocationException e) {
+            }
+        }
+    }    
     
     public void undo() {
         try {
