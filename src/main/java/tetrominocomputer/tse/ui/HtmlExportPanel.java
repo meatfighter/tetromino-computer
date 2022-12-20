@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public class HtmlExportPanel extends javax.swing.JPanel {
     
@@ -212,6 +213,10 @@ public class HtmlExportPanel extends javax.swing.JPanel {
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
         
         if (!stdOutCheckBox.isSelected()) {
+            if (isBlank(fileTextField.getText())) {
+                Ui.showMessageDialog(this, "Filename not specified.", "Invalid File", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             final File file = new File(fileTextField.getText());
             if (file.isDirectory()) {
                 Ui.showMessageDialog(this, "Path refers to a directory.", "Invalid File", 
