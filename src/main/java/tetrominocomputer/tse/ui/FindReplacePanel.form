@@ -119,6 +119,9 @@
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[0, 14, 2, 14]"/>
         </Property>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="replaceButton"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findNextButtonActionPerformed"/>
@@ -128,6 +131,9 @@
       <Properties>
         <Property name="mnemonic" type="int" value="82"/>
         <Property name="text" type="java.lang.String" value="Replace"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="replaceAllButton"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="replaceButtonActionPerformed"/>
@@ -137,6 +143,9 @@
       <Properties>
         <Property name="mnemonic" type="int" value="65"/>
         <Property name="text" type="java.lang.String" value="Replace All"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="closeButton"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="replaceAllButtonActionPerformed"/>
@@ -145,6 +154,9 @@
     <Component class="javax.swing.JButton" name="closeButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Close"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="findWhatTextField"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeButtonActionPerformed"/>
@@ -153,6 +165,7 @@
     <Component class="javax.swing.JTextField" name="findWhatTextField">
       <Properties>
         <Property name="columns" type="int" value="40"/>
+        <Property name="focusCycleRoot" type="boolean" value="true"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection component="replaceWithTextField" type="bean"/>
         </Property>
@@ -168,7 +181,7 @@
       <Properties>
         <Property name="columns" type="int" value="40"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection component="findWhatTextField" type="bean"/>
+          <Connection component="backwardCheckBox" type="bean"/>
         </Property>
       </Properties>
     </Component>
@@ -176,18 +189,27 @@
       <Properties>
         <Property name="mnemonic" type="int" value="98"/>
         <Property name="text" type="java.lang.String" value="Backward direction"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="matchCaseCheckBox"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="matchCaseCheckBox">
       <Properties>
         <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Match case"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="regExCheckBox"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="regExCheckBox">
       <Properties>
         <Property name="mnemonic" type="int" value="103"/>
         <Property name="text" type="java.lang.String" value="Regular expression"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="wrapCheckBox"/>
+        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="wrapCheckBox">
@@ -195,6 +217,9 @@
         <Property name="mnemonic" type="int" value="112"/>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Wrap around"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="findNextButton"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

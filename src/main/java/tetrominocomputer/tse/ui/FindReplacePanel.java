@@ -65,6 +65,7 @@ public class FindReplacePanel extends javax.swing.JPanel {
         findNextButton.setMnemonic('F');
         findNextButton.setText("Find Next");
         findNextButton.setMargin(new java.awt.Insets(0, 14, 2, 14));
+        findNextButton.setNextFocusableComponent(replaceButton);
         findNextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 findNextButtonActionPerformed(evt);
@@ -73,6 +74,7 @@ public class FindReplacePanel extends javax.swing.JPanel {
 
         replaceButton.setMnemonic('R');
         replaceButton.setText("Replace");
+        replaceButton.setNextFocusableComponent(replaceAllButton);
         replaceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 replaceButtonActionPerformed(evt);
@@ -81,6 +83,7 @@ public class FindReplacePanel extends javax.swing.JPanel {
 
         replaceAllButton.setMnemonic('A');
         replaceAllButton.setText("Replace All");
+        replaceAllButton.setNextFocusableComponent(closeButton);
         replaceAllButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 replaceAllButtonActionPerformed(evt);
@@ -88,6 +91,7 @@ public class FindReplacePanel extends javax.swing.JPanel {
         });
 
         closeButton.setText("Close");
+        closeButton.setNextFocusableComponent(findWhatTextField);
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
@@ -95,6 +99,7 @@ public class FindReplacePanel extends javax.swing.JPanel {
         });
 
         findWhatTextField.setColumns(40);
+        findWhatTextField.setFocusCycleRoot(true);
         findWhatTextField.setNextFocusableComponent(replaceWithTextField);
         findWhatTextField.setPreferredSize(null);
         findWhatTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -104,20 +109,24 @@ public class FindReplacePanel extends javax.swing.JPanel {
         });
 
         replaceWithTextField.setColumns(40);
-        replaceWithTextField.setNextFocusableComponent(findWhatTextField);
+        replaceWithTextField.setNextFocusableComponent(backwardCheckBox);
 
         backwardCheckBox.setMnemonic('b');
         backwardCheckBox.setText("Backward direction");
+        backwardCheckBox.setNextFocusableComponent(matchCaseCheckBox);
 
         matchCaseCheckBox.setMnemonic('c');
         matchCaseCheckBox.setText("Match case");
+        matchCaseCheckBox.setNextFocusableComponent(regExCheckBox);
 
         regExCheckBox.setMnemonic('g');
         regExCheckBox.setText("Regular expression");
+        regExCheckBox.setNextFocusableComponent(wrapCheckBox);
 
         wrapCheckBox.setMnemonic('p');
         wrapCheckBox.setSelected(true);
         wrapCheckBox.setText("Wrap around");
+        wrapCheckBox.setNextFocusableComponent(findNextButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

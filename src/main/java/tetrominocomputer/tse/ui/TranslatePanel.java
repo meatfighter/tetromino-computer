@@ -39,6 +39,7 @@ public class TranslatePanel extends javax.swing.JPanel {
 
         cancelButton.setMnemonic('C');
         cancelButton.setText("Cancel");
+        cancelButton.setNextFocusableComponent(xTextField);
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -47,6 +48,7 @@ public class TranslatePanel extends javax.swing.JPanel {
 
         translateButton.setMnemonic('T');
         translateButton.setText("Translate");
+        translateButton.setNextFocusableComponent(cancelButton);
         translateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 translateButtonActionPerformed(evt);
@@ -58,6 +60,7 @@ public class TranslatePanel extends javax.swing.JPanel {
         xTextField.setColumns(5);
         xTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         xTextField.setText("0");
+        xTextField.setFocusCycleRoot(true);
         xTextField.setNextFocusableComponent(yTextField);
 
         yLabel.setText("Y");
@@ -65,10 +68,11 @@ public class TranslatePanel extends javax.swing.JPanel {
         yTextField.setColumns(5);
         yTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         yTextField.setText("0");
-        yTextField.setNextFocusableComponent(xTextField);
+        yTextField.setNextFocusableComponent(translateSelectionCheckBox);
 
         translateSelectionCheckBox.setSelected(true);
         translateSelectionCheckBox.setText("Translate selection");
+        translateSelectionCheckBox.setNextFocusableComponent(translateButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

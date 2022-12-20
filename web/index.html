@@ -4353,7 +4353,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-inverters-8.png" class="centered" src="tse-inverters-8.png" /></p>
 
-<h3 id="tse-other-features">Other Features</h3>
+<h3 id="tse-export-svg">Export SVG</h3>
 
 <p>The <span class="nowrap">Export SVG</span> dialog, shown below, renders a circuit to an <span class="nowrap"><a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> file</span>. It produced the diagrams for this text.</p>
 
@@ -4416,9 +4416,32 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The animated tetromino diagrams were coded by hand. Some are modified versions of files produced by TSE.</p>
 
+<h3 id="tse-export-html">Export HTML</h3>
+
 <p>The <span class="nowrap">Export HTML</span> dialog, shown below, outputs an <span class="nowrap">HTML file</span> that contains a <span class="nowrap">TS program's</span> name, code, <span class="nowrap">line numbers</span>, and <a href="https://en.wikipedia.org/wiki/Syntax_highlighting" target="_blank">syntax highlighting</a>. It formatted the examples for this text.</p>
 
+<p>Select <span class="menu">File > Export HTML...</span> to open it.</span></p>
+
 <p><img id="tse-export-html.png" class="centered" src="tse-export-html.png" /></p>
+
+<p>Here are descriptions of its components:</p>
+
+<ul>
+  <li><span class="menu">Output</span>
+    <ul>
+      <li><span class="menu">Stdout</span> - When checked, the dialog exports to the <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_output_(stdout)" target="_blank">standard output stream</a> instead of a file.</li>
+      <li><span class="menu">File</span> - When the <span class="menu">stdout</span> checkbox is unchecked, the dialog exports to a file with this name.</li>
+      <li><span class="menu">Browse...</span> - Opens a file chooser for the export filename.</li>
+      <li><span class="menu">Default</span> - Resets the filename to the default value.</li>
+    </ul>
+  </li>
+  <li><span class="menu">Buttons</span>
+    <ul>
+      <li><span class="menu">Export</span> - Generates an HTML.</li>
+      <li><span class="menu">Close</span> - Dismisses the window.</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 

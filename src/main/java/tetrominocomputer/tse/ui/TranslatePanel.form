@@ -64,6 +64,9 @@
       <Properties>
         <Property name="mnemonic" type="int" value="67"/>
         <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="xTextField"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
@@ -73,6 +76,9 @@
       <Properties>
         <Property name="mnemonic" type="int" value="84"/>
         <Property name="text" type="java.lang.String" value="Translate"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cancelButton"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="translateButtonActionPerformed"/>
@@ -90,6 +96,7 @@
           <Format format="#0" subtype="-1" type="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="focusCycleRoot" type="boolean" value="true"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="yTextField"/>
         </Property>
@@ -108,7 +115,7 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="xTextField"/>
+          <ComponentRef name="translateSelectionCheckBox"/>
         </Property>
       </Properties>
     </Component>
@@ -116,6 +123,9 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Translate selection"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="translateButton"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>
