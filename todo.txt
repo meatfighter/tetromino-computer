@@ -1,6 +1,5 @@
 remaining sections:
 
-- TetrominoScript Editor tutorial
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
@@ -23,3 +22,11 @@ on new:
 Building...
 ERROR: Unknown component unnamed
 Build succeeded.
+
+
+TetrominoScriptEditor -s [ font scale ]
+Tester -f [ frac ] -n [ component name ]
+LutsGenerator
+Assembler -a [ asm ] (must be in asm dir)
+CycleProgramsGenerator
+GeneralPurposeComputer -c [ class name ]
