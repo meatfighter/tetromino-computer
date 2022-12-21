@@ -16,6 +16,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -153,6 +154,10 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.init();
         circuitsEditorPanel.setCircuitsFrame(this);
         Ui.resetTextFieldColumns(testTextField);
+        EventQueue.invokeLater(() -> {
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+            EventQueue.invokeLater(() -> circuitsEditorPanel.init2());
+        });
     }
     
     public void zoom(final int delta) {

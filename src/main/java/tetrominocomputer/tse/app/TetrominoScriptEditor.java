@@ -40,7 +40,6 @@ public class TetrominoScriptEditor {
         Ui.initFontSize(fontSizeMultiplier);        
         
         final CircuitsFrame frame = new CircuitsFrame();        
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Ui.initIcons(frame);
         frame.pack();
         frame.setLocationRelativeTo(null);        
@@ -48,7 +47,7 @@ public class TetrominoScriptEditor {
         frame.setController(controller);
         frame.setVisible(true);   
         
-        controller.loadComponents();
+        controller.loadComponents();        
     }
     
     public static void main(final String... args) throws Exception {

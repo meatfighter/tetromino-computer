@@ -217,13 +217,6 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         verticalSplitPane.setDividerLocation(0.8);
         horizontalSplitPane.setDividerLocation(0.4);        
         
-        EventQueue.invokeLater(() -> {
-            final JViewport viewPort = playfieldScrollPane.getViewport();
-            final Rectangle bounds = viewPort.getViewRect();
-            final Dimension size = viewPort.getViewSize();
-            viewPort.setViewPosition(new java.awt.Point((size.width - bounds.width) >> 1, size.height - bounds.height));
-        });
-        
         final String ESCAPE_PRESSED = "escapePressed";
         getActionMap().put(ESCAPE_PRESSED, new AbstractAction("ESCAPE_PRESSED") {
             @Override
@@ -233,6 +226,14 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
         });
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
                 ESCAPE_PRESSED);
+    }
+    
+    public void init2() {
+        final JViewport viewPort = playfieldScrollPane.getViewport();
+        final Rectangle bounds = viewPort.getViewRect();
+        final Dimension size = viewPort.getViewSize();
+        viewPort.setViewPosition(new java.awt.Point((size.width - bounds.width) >> 1, size.height - bounds.height));
+        EventQueue.invokeLater(this::centerPlayfield);
     }
     
     public void setPlayfieldWidth(final int playfieldWidth) {
