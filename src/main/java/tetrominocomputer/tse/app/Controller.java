@@ -78,7 +78,7 @@ public class Controller {
         }
         @Override
         public void format(final String text, final Object... args) {
-            System.out.format(text + "%n", args);
+            Out.format(text + "%n", args);
         }        
     };
     

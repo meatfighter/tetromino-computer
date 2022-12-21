@@ -8,6 +8,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import tetrominocomputer.gpc.ui.PlayfieldFrame;
 import tetrominocomputer.gpc.ui.PlayfieldModel;
+import tetrominocomputer.util.Out;
 
 public final class GeneralPurposeComputer {
     
@@ -31,25 +32,30 @@ public final class GeneralPurposeComputer {
     private ProcessorAndMemory processorAndMemory;
     
     private void launch(final String[] args) throws Exception {
-        initProcessorAndMemory(args);
+        if (!initProcessorAndMemory(args)) {
+            return;
+        }
         EventQueue.invokeAndWait(this::createFrame);
         loop();
     }  
     
-    private void initProcessorAndMemory(final String[] args) throws Exception {
+    private boolean initProcessorAndMemory(final String[] args) throws Exception {
         
         String processorAndMemoryClassName = DEFAULT_PROCESSOR_AND_MEMORY_CLASS_NAME;
-        for (int i = 0; i < args.length; i += 2) {
-            if (i == args.length - 1) {
-                break;
-            }
+        for (int i = 0; i < args.length - 1; ++i) {
             if ("-c".equals(args[i])) {
-                processorAndMemoryClassName = args[i + 1];
+                processorAndMemoryClassName = args[++i];
             }            
         }
         
-        processorAndMemory = (ProcessorAndMemory) Class.forName(processorAndMemoryClassName).newInstance();
-        processorAndMemory.init(args);
+        try {
+            processorAndMemory = (ProcessorAndMemory) Class.forName(processorAndMemoryClassName).newInstance();
+        } catch (final ClassNotFoundException e) {
+            Out.printlnError("Processor and memory class not found.");
+            return false;
+        }
+        
+        return processorAndMemory.init(args);
     }
             
     private void createFrame() {

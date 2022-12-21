@@ -3,6 +3,7 @@ package tetrominocomputer.tse.app;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import tetrominocomputer.tse.ui.CircuitsFrame;
+import tetrominocomputer.util.Out;
 import tetrominocomputer.util.Ui;
 
 public class TetrominoScriptEditor {
@@ -35,8 +36,8 @@ public class TetrominoScriptEditor {
     public static void main(final String... args) throws Exception {
         
         float fontSizeMultiplier = DEFAULT_FONT_SIZE_MULTIPLIER;
-        for (int i = 0; i < args.length; ++i) {
-            if ("-f".equals(args[i]) && i != args.length - 1) {
+        for (int i = 0; i < args.length - 1; ++i) {
+            if ("-m".equals(args[i])) {
                 boolean error = false;
                 try {
                     fontSizeMultiplier = Float.parseFloat(args[++i]);
@@ -47,7 +48,7 @@ public class TetrominoScriptEditor {
                     error = true;
                 }
                 if (error) {
-                    System.err.println("Invalid font size multiplier.");
+                    Out.printlnError("Invalid font size multiplier.");
                     return;
                 }
             }

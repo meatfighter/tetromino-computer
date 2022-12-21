@@ -1,5 +1,7 @@
 remaining sections:
 
+mentioned its' around ~5.75 frames/sec, not 5
+
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
@@ -24,9 +26,11 @@ ERROR: Unknown component unnamed
 Build succeeded.
 
 
-TetrominoScriptEditor -s [ font scale ]
-Tester -f [ frac ] -n [ component name ]
-LutsGenerator
-Assembler -a [ asm ] (must be in asm dir)
-CycleProgramsGenerator
-GeneralPurposeComputer -c [ class name ]
+
+
+x TetrominoScriptEditor -m [ font size multiplier ]
+x Tester -p [ percent ] -n [ component name ]
+x LutsGenerator
+x Assembler -a [ asm ] -b [ bin ]
+x CycleProgramsGenerator -b [ bin ] -l [ left cycle ] -r [ right cycle ]
+x GeneralPurposeComputer -c [ class name ] -b [ bin ] -l [ left cycle ] -r [ right cycle ]

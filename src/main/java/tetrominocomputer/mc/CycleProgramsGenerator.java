@@ -1,16 +1,15 @@
 package tetrominocomputer.mc;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 import tetrominocomputer.util.Dirs;
 import tetrominocomputer.util.Out;
 
 public final class CycleProgramsGenerator {
     
-    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
-    private static final String DEFAULT_CYCLE_LEFT_PROGRAM_FILENAME = Dirs.MC + "CYCLE_LEFT.mc";
-    private static final String DEFAULT_CYCLE_RIGHT_PROGRAM_FILENAME = Dirs.MC + "CYCLE_RIGHT.mc";    
+    private static final String DEFAULT_BIN_FILENAME = "example.bin";
+    private static final String DEFAULT_CYCLE_LEFT_PROGRAM_FILENAME = "CYCLE_LEFT.mc";
+    private static final String DEFAULT_CYCLE_RIGHT_PROGRAM_FILENAME = "CYCLE_RIGHT.mc";    
     
     private void slideStateRegisterRight(final PrintStream out, final int maxAddress) {
         for (int address = 0; address < maxAddress; ++address) {
@@ -47,32 +46,22 @@ public final class CycleProgramsGenerator {
         out.format("%s %d%n", name, index);
     }
        
-    public int readMaxAddress(final String binFilename) throws IOException {
-        final File binFile = new File(binFilename);
-        if (!(binFile.exists() && binFile.isFile() && binFile.length() >= 3)) {
-            throw new IOException("Invalid binary file.");
-        }
-        return ((int) binFile.length()) - 3;
-    }    
-       
-    public void launch(final String binFilename, final String cycleLeftFilename, final String cycleRightfilename) 
+    public void launch(final int maxAddress, final String cycleLeftFilename, final String cycleRightfilename) 
             throws Exception {
         
         Out.timeTask("Generating cycle programs...", () -> {
-            
-            final int maxAddress = readMaxAddress(binFilename);
 
-            try (final PrintStream out = new PrintStream(cycleLeftFilename)) {
+            try (final PrintStream out = new PrintStream(Dirs.MC + cycleLeftFilename)) {
                 slideStateRegisterLeft(out, maxAddress);
                 executeInstruction(out, 0x0000);   
             }
 
-            try (final PrintStream out = new PrintStream(cycleRightfilename)) {
+            try (final PrintStream out = new PrintStream(Dirs.MC + cycleRightfilename)) {
                 slideStateRegisterRight(out, maxAddress);
                 executeInstruction(out, maxAddress);    
             }
             
-            System.out.format("Generated cycle programs.%n%n");
+            Out.format("Generated cycle programs.%n%n");
             
             return null;
         });
@@ -84,23 +73,31 @@ public final class CycleProgramsGenerator {
         String cycleLeftProgramFilename = DEFAULT_CYCLE_LEFT_PROGRAM_FILENAME;
         String cycleRightProgramFilename = DEFAULT_CYCLE_RIGHT_PROGRAM_FILENAME;
 
-        for (int i = 0; i < args.length; i += 2) {
-            if (i == args.length - 1) {
-                break;
-            }
+        for (int i = 0; i < args.length - 1; ++i) {
             switch (args[i]) {
                 case "-b":
-                    binFilename = args[i + 1];
+                    binFilename = args[++i];
                     break;
                 case "-l":
-                    cycleLeftProgramFilename = args[i + 1];
+                    cycleLeftProgramFilename = args[++i];
                     break;
                 case "-r":
-                    cycleRightProgramFilename = args[i + 1];
+                    cycleRightProgramFilename = args[++i];
                     break;
             }            
         }
         
-        new CycleProgramsGenerator().launch(binFilename, cycleLeftProgramFilename, cycleRightProgramFilename);
+        final File binFile = new File(Dirs.BIN + binFilename);
+        if (!(binFile.exists() && binFile.isFile())) {
+            Out.formatError("Binary file not found: %s%n", binFile);
+            return;
+        }
+        final int maxAddress = ((int) binFile.length()) - 3;
+        if (maxAddress < 0) {
+            Out.printlnError("Invalid binary file.");
+            return;
+        }
+        
+        new CycleProgramsGenerator().launch(maxAddress, cycleLeftProgramFilename, cycleRightProgramFilename);
     }    
 }

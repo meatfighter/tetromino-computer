@@ -6,10 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Out;
 
 public class EmulatedProcessorAndMemory implements ProcessorAndMemory {
     
-    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
+    private static final String DEFAULT_BIN_FILENAME = "example.bin";
 
     private int[] memory; // up to 64 KiB of RAM
 
@@ -27,24 +28,26 @@ public class EmulatedProcessorAndMemory implements ProcessorAndMemory {
     private boolean n; // Zero Flag - Indicates an arithmetic, logic, or load instruction produced zero.
     
     @Override
-    public void init(final String[] args) throws Exception {
+    public boolean init(final String[] args) throws Exception {
         
         String binFilename = DEFAULT_BIN_FILENAME;
-        for (int i = 0; i < args.length; i += 2) {
-            if (i == args.length - 1) {
-                break;
-            }
+        for (int i = 0; i < args.length - 1; ++i) {
             if ("-b".equals(args[i])) {
-                binFilename = args[i + 1];
+                binFilename = args[++i];
             }            
         }
         
-        final File binFile = new File(binFilename);
-        if (!(binFile.exists() && binFile.isFile() && binFile.length() >= 3)) {
-            throw new IOException("Invalid binary file.");
+        final File binFile = new File(Dirs.BIN + binFilename);
+        if (!(binFile.exists() && binFile.isFile())) {
+            Out.formatError("Binary file not found: %s%n", binFile);
+            return false;
+        }
+        final int maxAddress = ((int) binFile.length()) - 3;
+        if (maxAddress < 0) {
+            Out.printlnError("Invalid binary file.");
+            return false;
         }
         
-        final int maxAddress = ((int) binFile.length()) - 3;
         memory = new int[maxAddress + 1];
         
         try (final InputStream in = new BufferedInputStream(new FileInputStream(binFile))){
@@ -62,6 +65,8 @@ public class EmulatedProcessorAndMemory implements ProcessorAndMemory {
             }
             P = (PH << 8) | PL;
         }
+        
+        return true;
     }    
 
     @Override

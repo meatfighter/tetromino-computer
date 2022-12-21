@@ -19,8 +19,8 @@ import tetrominocomputer.util.Out;
 
 public class Assembler {
     
-    private static final String DEFAULT_ASM_FILENAME = Dirs.ASM + "example.asm";
-    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
+    private static final String DEFAULT_ASM_FILENAME = "example.asm";
+    private static final String DEFAULT_BIN_FILENAME = "example.bin";
     
     private static class ConstantUsage {
         
@@ -44,30 +44,12 @@ public class Assembler {
     public void launch(final String asmFilename, final String binFilename) throws Exception {
                
         Out.timeTask(String.format("Assembling %s", asmFilename), () -> {
-            
-            final File asmFile = new File(asmFilename);
-            if (!(asmFile.isFile() && asmFile.exists())) {
-                printFailure("File not found: %s", asmFilename);
-                return null;
-            }
-            
-            final File binFile = new File(binFilename);
-            if (binFile.exists()) {
-                if (binFile.isDirectory()) {
-                    printFailure("Binary is existing directory: %s", binFilename);
-                    return null;
-                }
-                if (binFile.isFile() && !binFile.delete()) {
-                    printFailure("Failed to delete file: %s", binFilename);
-                    return null;
-                }
-            }
 
-            try (final InputStream in = new BufferedInputStream(new FileInputStream(asmFile));
-                    final OutputStream out = new BufferedOutputStream(new FileOutputStream(binFile))) {
+            try (final InputStream in = new BufferedInputStream(new FileInputStream(Dirs.ASM + asmFilename));
+                    final OutputStream out = new BufferedOutputStream(new FileOutputStream(Dirs.BIN + binFilename))) {
                 assemble(asmFilename, in, out);
-                System.out.println("BUILD SUCCESS");
-                System.out.format("Created %s%n%n", binFilename);
+                Out.println("BUILD SUCCESS");
+                Out.format("Created %s%n%n", binFilename);
             } catch (final LexerException e) {
                 printFailure(e.toString());
             }
@@ -77,9 +59,9 @@ public class Assembler {
     }
     
     private void printFailure(final String message, final Object... args) {
-        System.err.println("BUILD FAILURE");
-        System.err.format(message, args);
-        System.err.format("%n%n");
+        Out.printlnError("BUILD FAILURE");
+        Out.formatError(message, args);
+        Out.formatError("%n%n");
     }
     
     private void assemble(final String asmFilename, final InputStream in, final OutputStream out) 
@@ -262,12 +244,25 @@ public class Assembler {
         
         String asmFilename = DEFAULT_ASM_FILENAME;
         String binFilename = DEFAULT_BIN_FILENAME;
-        for (int i = 0; i < args.length; i++) {
-            if ("-o".equals(args[i]) && i != args.length - 1) {
-                binFilename = args[++i];
-            } else {
-                asmFilename = args[i];
+        for (int i = 0; i < args.length - 1; i++) {
+            switch (args[i]) {
+                case "-a":
+                    asmFilename = args[++i];
+                    break;
+                case "-b":
+                    binFilename = args[++i];
+                    break;
             }
+        }
+        
+        final File asmFile = new File(Dirs.ASM + asmFilename);
+        if (!(asmFile.exists() && asmFile.isFile())) {
+            Out.formatError("File not found: %s%n", asmFile);
+            return;
+        }
+        if (asmFile.length() == 0) {
+            Out.printlnError("Invalid asm file.");
+            return;
         }
                
         new Assembler().launch(asmFilename, binFilename);

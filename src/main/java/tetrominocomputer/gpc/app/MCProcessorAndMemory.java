@@ -12,10 +12,11 @@ import tetrominocomputer.ts.ByteLut;
 import tetrominocomputer.mc.Instruction;
 import tetrominocomputer.mc.LexerParser;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Out;
 
 public final class MCProcessorAndMemory implements ProcessorAndMemory {
     
-    private static final String DEFAULT_BIN_FILENAME = Dirs.BIN + "example.bin";
+    private static final String DEFAULT_BIN_FILENAME = "example.bin";
     private static final String DEFAULT_CYCLE_LEFT_PROGRAM_NAME = "CYCLE_LEFT";
     private static final String DEFAULT_CYCLE_RIGHT_PROGRAM_NAME = "CYCLE_RIGHT";    
     
@@ -25,49 +26,68 @@ public final class MCProcessorAndMemory implements ProcessorAndMemory {
     private boolean cycleLeft = true;
     
     @Override
-    public void init(final String[] args) throws Exception {
+    public boolean init(final String[] args) throws Exception {
         
         String binFilename = DEFAULT_BIN_FILENAME;
         String cycleLeftProgramName = DEFAULT_CYCLE_LEFT_PROGRAM_NAME;
         String cycleRightProgramName = DEFAULT_CYCLE_RIGHT_PROGRAM_NAME;
 
-        for (int i = 0; i < args.length; i += 2) {
-            if (i == args.length - 1) {
-                break;
-            }
+        for (int i = 0; i < args.length - 1; ++i) {
             switch (args[i]) {
                 case "-b":
-                    binFilename = args[i + 1];
+                    binFilename = args[++i];
                     break;
                 case "-l":
-                    cycleLeftProgramName = args[i + 1];
+                    cycleLeftProgramName = removeFileExtension(args[++i]);
                     break;
                 case "-r":
-                    cycleRightProgramName = args[i + 1];
+                    cycleRightProgramName = removeFileExtension(args[++i]);
                     break;
             }            
         }
         
-        initMemory(binFilename);
-        
-        final Map<String, Instruction[]> programs = new LexerParser().parseAll();
-        final Map<String, ByteLut> luts = loadLuts();
-        cycleLeftRunnables = convertProgramToRunnables(cycleLeftProgramName, programs, luts);
-        cycleRightRunnables = convertProgramToRunnables(cycleRightProgramName, programs, luts); 
-    }    
-    
-    public void initMemory(final String binFilename) throws IOException {
-        
-        final File binFile = new File(binFilename);
-        if (!(binFile.exists() && binFile.isFile() && binFile.length() >= 3)) {
-            throw new IOException("Invalid binary file.");
+        if (!initMemory(binFilename)) {
+            return false;
         }
         
-        final int maxAddress = ((int) binFile.length()) - 3; 
+        final Map<String, Instruction[]> programs = new LexerParser().parseAll();
+        if (!programs.containsKey(cycleLeftProgramName)) {
+            Out.printlnError("Cycle left file not found.");
+            return false;
+        }
+        if (!programs.containsKey(cycleRightProgramName)) {
+            Out.printlnError("Cycle right file not found.");
+            return false;
+        }
+        
+        final Map<String, ByteLut> luts = loadLuts();
+        cycleLeftRunnables = convertProgramToRunnables(cycleLeftProgramName, programs, luts);
+        cycleRightRunnables = convertProgramToRunnables(cycleRightProgramName, programs, luts);
+        
+        return true;
+    }  
+    
+    private String removeFileExtension(final String filename) {
+        final int index = filename.lastIndexOf('.');
+        return (index < 0) ? filename : filename.substring(0, index);
+    }
+    
+    public boolean initMemory(final String binFilename) throws IOException {
+        
+        final File binFile = new File(Dirs.BIN + binFilename);
+        if (!(binFile.exists() && binFile.isFile())) {
+            Out.formatError("Binary file not found: %s%n", binFile);
+            return false;
+        }
+        final int maxAddress = ((int) binFile.length()) - 3;
+        if (maxAddress < 0) {
+            Out.printlnError("Invalid binary file.");
+            return false;
+        }
         
         memory = new int[maxAddress + 24]; // machine code + 2 padding bytes + 21-byte state register
         
-        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFilename))) {
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(binFile))) {
             for (int address = 0; address <= maxAddress; ++address) {                
                 final int b = in.read();
                 if (b < 0) {
@@ -84,6 +104,8 @@ public final class MCProcessorAndMemory implements ProcessorAndMemory {
         
         memory[maxAddress + 13] = maxAddress >> 8;      // a = L-1;
         memory[maxAddress + 14] = 0xFF & maxAddress;
+        
+        return true;
     }    
 
     private Map<String, ByteLut> loadLuts() throws IOException {
@@ -101,7 +123,7 @@ public final class MCProcessorAndMemory implements ProcessorAndMemory {
     
     private Runnable[] convertProgramToRunnables(final String programName, 
             final Map<String, Instruction[]> programs, final Map<String, ByteLut> luts) throws IOException {
-                
+        
         final List<Instruction> instructions = LexerParser.expand(programName, programs);
         final Runnable[] runnables = new Runnable[instructions.size()];
         

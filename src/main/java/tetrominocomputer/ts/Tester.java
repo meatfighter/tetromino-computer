@@ -23,6 +23,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import tetrominocomputer.sim.Component;
 import tetrominocomputer.sim.Instruction;
 import tetrominocomputer.sim.Playfield;
@@ -39,12 +41,12 @@ public class Tester extends AbstractSimulator {
     private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
-    public void launch(final double frac, final String componentName, final File tsDir) throws Exception {
+    public void launch(final double frac, final String componentName) throws Exception {
         
         Out.timeTask("Loading components...", () -> {
             final Map<String, Component> components = new ConcurrentHashMap<>();
             createIsSsAndZs(components);
-            final int skipped = loadComponents(tsDir, components);
+            final int skipped = loadComponents(new File(Dirs.TS), components);
             if (skipped > 0) {
                 Out.println();
             }            
@@ -166,7 +168,7 @@ public class Tester extends AbstractSimulator {
         }
         
         final boolean twoBytesBit = isTwoBytesBit(components, playfield, component);
-        final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);
+        final int max = Math.min(0x1FFFF, (1 << component.getInputs().length) - 1);       
         if (testComponent(components, component, playfield, max, 0, (max > 0x7FFF) ? frac : 1.0, twoBytesBit, 
                 cancelled)) {
             Out.format("PASSED: %s%n", component.getName());
@@ -385,21 +387,20 @@ public class Tester extends AbstractSimulator {
     
     public static void main(final String... args) throws Exception {
         
-        double frac = -1.0;
+        double frac = 0;
         String componentName = null;
-        String tsDirName = Dirs.TS;
         for (int i = 0; i < args.length - 1; ++i) {   
             switch (args[i]) {
-                case "-f": {
-                    boolean error = false;
+                case "-p": {
+                    boolean error;
                     try {
-                        frac = Double.parseDouble(args[++i]);
-                        error = frac <= 0 || Double.isInfinite(frac) || Double.isNaN(frac);
+                        frac = Double.parseDouble(args[++i]) / 100;
+                        error = frac <= 0 || frac > 1;
                     } catch (final NumberFormatException e) {
                         error = true;
                     }
                     if (error) {
-                        Out.formatError("Invalid fraction.%n%n");
+                        Out.formatError("Invalid percent.%n%n");
                         return;
                     }
                     break;
@@ -407,22 +408,13 @@ public class Tester extends AbstractSimulator {
                 case "-n":
                     componentName = args[++i];
                     break;
-                case "-t":
-                    tsDirName = args[++i];
-                    break;
             }
         }
         
-        final File tsDir = Dirs.toFile(tsDirName);
-        if (!(tsDir.exists() && tsDir.isDirectory())) {
-            Out.formatError("Cannot find TS directory: %s%n%n", tsDir);
-            return;
-        }       
-        
-        if (frac <= 0) {
-            frac = (componentName == null) ? DEFAULT_ALL_FRACTION : DEFAULT_SINGLE_FRACTION;
+        if (frac == 0) {
+            frac = isBlank(componentName) ? DEFAULT_ALL_FRACTION : DEFAULT_SINGLE_FRACTION;
         }
         
-        new Tester().launch(frac, componentName, tsDir);
+        new Tester().launch(frac, componentName);
     }
 }
