@@ -4477,21 +4477,27 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The Assembler translates a program written in the general-purpose computer’s assembly language into a machine code binary. To run it from the command-line, enter the following.</p>
 
-<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler <span class="nowrap">[ asm source filename ]</span> <span class="nowrap">-o [ binary output filename ]</span></span></p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler <span class="nowrap">-a [ asm filename ]</span> <span class="nowrap">-b [ binary filename ]</span></span></p>
 
 <p>The arguments are optional. They default to:</p>
 
-<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler code/asm/example.asm <span class="nowrap">-o code/bin/example.bin</span></span></p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.asm.Assembler <span class="nowrap">-a example.asm</span> <span class="nowrap">-b example.bin</span></span></p>
+
+<p>The Assembler loads the assembly language source file from <span class="mono">code/asm</span>. It saves the binary file to <span class="mono">code/bin</span>.</p>
 
 <h2 id="cycle-programs-generator">Cycle Programs Generator</h2>
 
-<p>The Cycle Programs Generator produces the general-purpose computer's left and right cycle MC programs based on the size of the machine code binary. To run it from the command-line, enter the following.</p>
+<p>The Cycle Programs Generator produces the general-purpose computer's left and right cycle <span class="nowrap">MC programs</span>. To run it from the command-line, enter the following.</p>
 
-<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename ]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
 
 <p>The arguments are optional. They default to:</p>
 
-<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b code/bin/example.bin</span> <span class="nowrap">-l code/mc/CYCLE_LEFT.mc</span> <span class="nowrap">-r code/mc/CYCLE_RIGHT.mc</span></span></p>
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b example.bin</span> <span class="nowrap">-l CYCLE_LEFT.mc</span> <span class="nowrap">-r CYCLE_RIGHT.mc</span></span></p>
+
+<p>The Cycle Programs Generator obtains the binary file from <span class="mono">code/bin</span>. It does not load the file's contents. Rather, it uses the file's length to determine the general-purpose computer's maximum RAM address. That enables it to generate <span class="nowrap">MC programs</span> that iterate across RAM.</p>
+
+<p>The Cycle Programs Generator saves the <span class="nowrap">MC programs</span> to <span class="mono">code/mc</span>.</p>
 
 <h2 id="cycle-programs-generator">General-purpose Computer</h2>
 

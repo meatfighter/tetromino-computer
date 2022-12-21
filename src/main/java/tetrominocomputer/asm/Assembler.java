@@ -257,11 +257,11 @@ public class Assembler {
         
         final File asmFile = new File(Dirs.ASM + asmFilename);
         if (!(asmFile.exists() && asmFile.isFile())) {
-            Out.formatError("File not found: %s%n", asmFile);
+            Out.formatError("%nFile not found: %s%n", asmFile);
             return;
         }
         if (asmFile.length() == 0) {
-            Out.printlnError("Invalid asm file.");
+            Out.formatError("%nInvalid asm file.%n");
             return;
         }
                

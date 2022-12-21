@@ -89,12 +89,12 @@ public final class CycleProgramsGenerator {
         
         final File binFile = new File(Dirs.BIN + binFilename);
         if (!(binFile.exists() && binFile.isFile())) {
-            Out.formatError("Binary file not found: %s%n", binFile);
+            Out.formatError("%nBinary file not found: %s%n", binFile);
             return;
         }
         final int maxAddress = ((int) binFile.length()) - 3;
         if (maxAddress < 0) {
-            Out.printlnError("Invalid binary file.");
+            Out.formatError("%nInvalid binary file.%n");
             return;
         }
         

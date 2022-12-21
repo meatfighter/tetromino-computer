@@ -28,9 +28,25 @@ Build succeeded.
 
 
 
-x TetrominoScriptEditor -m [ font size multiplier ]
-x Tester -p [ percent ] -n [ component name ]
-x LutsGenerator
+TetrominoScriptEditor -m [ font size multiplier ]
+Tester -p [ percent ] -n [ component name ]
+LutsGenerator
 x Assembler -a [ asm ] -b [ bin ]
 x CycleProgramsGenerator -b [ bin ] -l [ left cycle ] -r [ right cycle ]
-x GeneralPurposeComputer -c [ class name ] -b [ bin ] -l [ left cycle ] -r [ right cycle ]
+GeneralPurposeComputer -c [ class name ] -b [ bin ] -l [ left cycle ] -r [ right cycle ]
+
+
+TSE does not open maximized!!!
+
+C:\NetBeansProjects\tetromino-computer>java -Dsun.java2d.uiScale=2.0 -cp target/tetromino-computer.jar tetrominocomputer.tse.app.TetrominoScriptEditor
+Exception in thread "ForkJoinPool-1-worker-1" java.lang.NullPointerException: Cannot invoke "javax.script.Compilable.compile(String)" because "this.scriptEngine" is null
+        at tetrominocomputer.tse.app.Controller.createIls(Controller.java:230)
+        at tetrominocomputer.tse.app.Controller.createIsSsAndZs(Controller.java:135)
+        at tetrominocomputer.tse.app.Controller.lambda$loadComponents$5(Controller.java:357)
+        at tetrominocomputer.tse.app.Controller.lambda$execute$23(Controller.java:1226)
+        at java.base/java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1395)
+        at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:373)
+        at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1182)
+        at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1655)
+        at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1622)
+        at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)

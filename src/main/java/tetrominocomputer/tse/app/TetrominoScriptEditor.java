@@ -1,10 +1,14 @@
 package tetrominocomputer.tse.app;
 
 import java.awt.EventQueue;
+import java.io.PrintStream;
 import javax.swing.JFrame;
+import org.apache.commons.io.output.NullOutputStream;
 import tetrominocomputer.tse.ui.CircuitsFrame;
 import tetrominocomputer.util.Out;
 import tetrominocomputer.util.Ui;
+
+import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
 public class TetrominoScriptEditor {
     
@@ -14,7 +18,21 @@ public class TetrominoScriptEditor {
 
     public void launch(final float fontSizeMultiplier) throws Exception {
         License.getLicense();
+        initDarcula();        
         EventQueue.invokeLater(() -> createFrame(fontSizeMultiplier));
+    }
+    
+    // https://github.com/bulenkov/Darcula/issues/23#issuecomment-920747794
+    private void initDarcula() {
+        final PrintStream out = System.out;
+        try {
+            System.setOut(new PrintStream(NullOutputStream.NULL_OUTPUT_STREAM));
+            if (Modules != null) {
+                Modules.exportAllToAll();
+            }
+        } finally {
+            System.setOut(out);
+        }
     }
     
     private void createFrame(final float fontSizeMultiplier) {
