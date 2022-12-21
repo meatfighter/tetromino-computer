@@ -3933,7 +3933,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Despite their seeming levitation, the output cells support structures built on top of them as if the swap circuit was really there.</p>
 
-<p>To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. That order enables the algorithm to response to a dependency with a lookup in a table it just computed. And it uses the looked up value to skip the build via the technique above. To finish even faster, the algorithm parallelizes the process.</p>
+<p id="lut-algorithm">To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. That order enables the algorithm to response to a dependency with a lookup in a table it just computed. And it uses the looked up value to skip the build via the technique above. To finish even faster, the algorithm parallelizes the process.</p>
 
 <p>The algorithm does not compute lookup tables for <a href="#intermediate-gates">intermediate gates</a> because the side effects of leaking tetrominoes cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked tetrominoes.</p>
 
@@ -3971,7 +3971,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><a href="https://github.com/meatfighter/tetromino-computer" target="_blank">https://github.com/meatfighter/tetromino-computer</a></p>
 
-<p>Here is a summary of the repository's contents:</p>
+<p>Here is a summary of the repository:</p>
 
 <table class="borderless">
 <tr><th class="borderless">Directory</th><th class="borderless">Description</th></tr>
@@ -3981,7 +3981,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <tr><td class="mono2">code/bin</td><td class="borderless">Machine code binaries</td></tr>
 <tr><td class="mono2">code/luts</td><td class="borderless">Lookup tables</td></tr>
 <tr><td class="mono2">code/mc</td><td class="borderless">Memory code programs</td></tr>
-<tr><td class="mono2">code/ts</td><td class="borderless">TetrisScript programs</td></tr>
+<tr><td class="mono2">code/ts</td><td class="borderless">TetrominoScript programs</td></tr>
 <tr><td class="mono2">code/ts/examples</td><td class="borderless">Samples for this text</td></tr>
 <tr><td class="mono2">code/ts/functions</td><td class="borderless">Arithmetic and logic functions</td></tr>
 <tr><td class="mono2">code/ts/gates</td><td class="borderless">Logic gates</td></tr>
@@ -3995,8 +3995,8 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <tr><td class="mono2">src/main/java/tetrominocomputer/gpc</td><td class="borderless">General-purpose computer</td></tr>
 <tr><td class="mono2">src/main/java/tetrominocomputer/sim</td><td class="borderless">Tetrominoes and playfield simulator</td></tr>
 <tr><td class="mono2">src/main/java/tetrominocomputer/mc</td><td class="borderless">Memory code parser, and cycle programs generator</td></tr>
-<tr><td class="mono2">src/main/java/tetrominocomputer/ts</td><td class="borderless">TetrisScript parser and tester, and lookup tables generator</td></tr>
-<tr><td class="mono2">src/main/java/tetrominocomputer/tse</td><td class="borderless">TetrisScript Editor</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/ts</td><td class="borderless">TetrominoScript parser and tester, and lookup tables generator</td></tr>
+<tr><td class="mono2">src/main/java/tetrominocomputer/tse</td><td class="borderless">TetrominoScript Editor</td></tr>
 <tr><td class="mono2">src/main/java/tetrominocomputer/util</td><td class="borderless">Utilities</td></tr>
 <tr><td class="separator"> </td><td class="separator"> </td></tr>
 
@@ -4006,9 +4006,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <tr><td class="mono2">web</td><td class="borderless">This text</td></tr>
 </table>
 
-<p><a href="https://maven.apache.org/" target="_blank">Maven</a> follows the supplied <span class="mono">pom.xml</span> to build and package <span class="mono">src</span> into a single jar: <span class="mono">target/tetromino-computer.jar</span></p>
+<p><a href="https://maven.apache.org/" target="_blank">Maven</a> builds and packages <span class="mono">src</span> into a single jar: <span class="mono">target/tetromino-computer.jar</span></p>
 
-<p>To run an individual app, <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank">clone the repo</a>, and execute the jar in the local repo's root:</p>
+<p>To run an individual app, <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank">clone the repo</a>, and execute the jar in the local repo's root with <span class="nowrap">Java 8</span> or higher:</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> <span class="nowrap">[ app class name ]</span> <span class="nowrap">[[ args ]]</span></span></p>
 
@@ -4026,7 +4026,13 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h3 id="tse-run">Run</h3>
 
-<p>...</p>
+<p>To run TSE from the command-line, enter the following.</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.tse.app.TetrominoScriptEditor <span class="nowrap">-m [ font size multiplier ]</span></span></p>
+
+<p>Since TSE renders components based on pixels, text may appear small on high DPI displays. To compensate, it accepts an optional font size multiplier in the range 0.5&ndash;4.0. It defaults to:</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.tse.app.TetrominoScriptEditor <span class="nowrap">-m 1.0</span></span></p>
 
 <h3 id="tse-user-interface">User Interface</h3>
 
@@ -4469,9 +4475,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="lookup-table-generator">Lookup Table Generator</h2>
 
-<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator <span class="nowrap">-t [ TS programs dir ]</span> <span class="nowrap">-l [ lookup tables dir ]</span></span></p>
+<p>The <span class="nowrap">Lookup Table Generator</span> computes a lookup table for each <span class="nowrap">TS program</span> via the memoized algorithm described <a href="#lut-algorithm">previously</a>. To run it from the command-line, enter the following.</p>
 
-<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator <span class="nowrap">-t code/ts</span> <span class="nowrap">-l code/luts</span></span></p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator</p>
+
+<p>It loads the <span class="nowrap">TS programs</span> from <span class="mono">code/ts</span>, and it saves the lookup tables to <span class="mono">code/luts</span>.</p>
 
 <h2 id="assembler">Assembler</h2>
 
@@ -4495,9 +4503,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.mc.CycleProgramsGenerator <span class="nowrap">-b example.bin</span> <span class="nowrap">-l CYCLE_LEFT.mc</span> <span class="nowrap">-r CYCLE_RIGHT.mc</span></span></p>
 
-<p>The Cycle Programs Generator obtains the binary file from <span class="mono">code/bin</span>. It does not load the file's contents. Rather, it uses the file's length to determine the general-purpose computer's maximum RAM address. That enables it to generate <span class="nowrap">MC programs</span> that iterate across RAM.</p>
+<p>The <span class="nowrap">Cycle Programs Generator</span> obtains the binary file from <span class="mono">code/bin</span>. It does not load the file's contents. Rather, it uses the file's length to determine the general-purpose computer's maximum RAM address. That enables it to generate <span class="nowrap">MC programs</span> that iterate across RAM.</p>
 
-<p>The Cycle Programs Generator saves the <span class="nowrap">MC programs</span> to <span class="mono">code/mc</span>.</p>
+<p>The <span class="nowrap">Cycle Programs Generator</span> saves the <span class="nowrap">MC programs</span> to <span class="mono">code/mc</span>.</p>
 
 <h2 id="cycle-programs-generator">General-purpose Computer</h2>
 
