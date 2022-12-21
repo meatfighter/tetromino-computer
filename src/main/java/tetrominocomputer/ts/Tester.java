@@ -20,7 +20,6 @@ import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -31,6 +30,7 @@ import tetrominocomputer.sim.Playfield;
 import tetrominocomputer.sim.Terminal;
 import tetrominocomputer.sim.Tetromino;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Js;
 import tetrominocomputer.util.Out;
 
 public class Tester extends AbstractSimulator {
@@ -38,7 +38,7 @@ public class Tester extends AbstractSimulator {
     private static final double DEFAULT_ALL_FRACTION = 0.1;
     private static final double DEFAULT_SINGLE_FRACTION = 1.0;
     
-    private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+    private final ScriptEngine scriptEngine = Js.getScriptEngine();
     private final List<Bindings> bindingsPool = Collections.synchronizedList(new ArrayList<>());
     
     public void launch(final double frac, final String componentName) throws Exception {

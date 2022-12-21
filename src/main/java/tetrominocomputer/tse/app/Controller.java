@@ -33,7 +33,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.script.Compilable;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import tetrominocomputer.ts.LexerParserException;
 import tetrominocomputer.ts.LexerParser;
@@ -50,13 +49,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import tetrominocomputer.util.Dirs;
+import tetrominocomputer.util.Js;
 import tetrominocomputer.util.Out;
 
 public class Controller {
     
     public static final String DEFAULT_COMPONENT_NAME = "unnamed";
            
-    private final ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
+    private final ScriptEngine scriptEngine = Js.getScriptEngine();
        
     private final Map<String, Component> components = new ConcurrentHashMap<>();
     private final Map<String, Extents> componentExtents = new ConcurrentHashMap<>();
