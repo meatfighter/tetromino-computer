@@ -1,7 +1,5 @@
 remaining sections:
 
-mentioned its' around ~5.75 frames/sec, not 5
-
 - where are all the files, how to run
 - index
 - splitting up in smaller pages
@@ -27,8 +25,8 @@ Build succeeded.
 
 
 x TetrominoScriptEditor -m [ font size multiplier ]
-Tester -p [ percent ] -n [ component name ]
-LutsGenerator
+x Tester -p [ percent ] -n [ component name ]
+x LutsGenerator
 x Assembler -a [ asm ] -b [ bin ]
 x CycleProgramsGenerator -b [ bin ] -l [ left cycle ] -r [ right cycle ]
 GeneralPurposeComputer -c [ class name ] -b [ bin ] -l [ left cycle ] -r [ right cycle ]

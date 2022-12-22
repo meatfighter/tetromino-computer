@@ -3094,7 +3094,7 @@
 <span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
 </pre>
 
-<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. While generating a frame, the program decrements the <span class="nowrap">fall timer</span> by one if it is nonzero. Otherwise, the program resets the <span class="nowrap">fall timer</span> to <span class="mono">FALL_SPEED</span>, and it executes a gravity drop. Since the frame rate is approximately <span class="nowrap">5 frames/sec</span>, a <span class="mono">FALL_SPEED</span> of <span class="mono">01</span> translates to a gravity drop about every <span class="nowrap">400 milliseconds</span>, a rate similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. While generating a frame, the program decrements the <span class="nowrap">fall timer</span> by one if it is nonzero. Otherwise, the program resets the <span class="nowrap">fall timer</span> to <span class="mono">FALL_SPEED</span>, and it executes a gravity drop. Since the frame rate is approximately <span class="nowrap">5.75 frames/sec</span>, a <span class="mono">FALL_SPEED</span> of <span class="mono">01</span> translates to a gravity drop about every <span class="nowrap">350 milliseconds</span>, a rate similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
 
 <p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which causes the program to clear the playfield and to transition to <span class="mono">MODE_PLAY</span>. As its name suggests, <span class="mono">MODE_PLAY</span> is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
 
@@ -4022,7 +4022,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="nowrap">TetrominoScript Editor (TSE)</span> is a tool for designing digital components and combinational logic circuits visually. It automatically generates a <span class="nowrap">TS program</span> as the user clicks and drops tetrominoes and components into place. If the user edits the <span class="nowrap">TS program</span>, TSE provides immediate feedback of the changes.</p>
 
-<p>TSE is also a testing tool. It reveals how a circuit responds to user entered inputs. Plus, it accepts a snippet of <span class="nowrap">JavaScript (JS)</span> that specifies expected outputs. Upon request, it compares the JS values against actual outputs for all possible inputs.</p>
+<p>TSE is also a testing tool. It reveals how a circuit responds to user entered inputs. Plus, it accepts a snippet of JavaScript that specifies expected outputs. Upon request, it compares the JavaScript values against actual outputs for all possible inputs.</p>
 
 <h3 id="tse-run">Run</h3>
 
@@ -4030,7 +4030,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.tse.app.TetrominoScriptEditor <span class="nowrap">-m [ font size multiplier ]</span></span></p>
 
-<p>Since TSE renders components based on pixels, text may appear small on high DPI displays. To compensate, it accepts an optional font size multiplier in the range 0.5&ndash;4.0. It defaults to:</p>
+<p>Since TSE renders components based on pixels, text may appear small on high DPI displays. To compensate, it accepts an optional font size multiplier in the range 0.5&ndash;4.0 that defaults to:</p>
 
 <p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.tse.app.TetrominoScriptEditor <span class="nowrap">-m 1.0</span></span></p>
 
@@ -4471,15 +4471,35 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
 
-<p>...</p>
+<p>The <span class="nowrap">TetrominoScript Tester</span> compares the behavior of a <span class="nowrap">TS program</span> with a <span class="nowrap">JavaScript snippet</span> for all components or for a specified component. It reports passes and failures to stdout.</p>
+
+<p>To run it from the command-line, enter the following.</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.ts.Tester <span class="nowrap">-p [ percent ]</span> <span class="nowrap">-n [ component name ]</span></span></p>
+
+<p>The arguments are optional. They default to:</p>
+
+<p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.ts.Tester <span class="nowrap">-p 100</span></span></p>
+
+<p>If percent is less than 100, the <span class="nowrap">TetrominoScript Tester</span> performs comparisons for a randomly selected subsets of the possible input values that covers at least the specified percent of the test space.</p>
+
+<p>If a component name is not provided, the <span class="nowrap">TetrominoScript Tester</span> evaluates all components.</p>
+
+<p>The <span class="nowrap">TetrominoScript Tester</span> simulates components at the maximum recursive depth without memoization or emulation. Meaning, there is no cutoff point where it falls back on cached results or JavaScript snippets to speed up evaluation. It performs full and fair tests.</p> 
+
+<p>The <span class="nowrap">TetrominoScript Tester</span> partitions the test space across the available logical cores. Consequentially, it consumes <span class="nowrap">100% CPU</span> as it runs. And if a partition contains less than <span class="nowrap">32,769 tests</span>, it executes all of them, regardless of the specified percent.</p>
 
 <h2 id="lookup-table-generator">Lookup Table Generator</h2>
 
-<p>The <span class="nowrap">Lookup Table Generator</span> computes a lookup table for each <span class="nowrap">TS program</span> via the memoized algorithm described <a href="#lut-algorithm">previously</a>. To run it from the command-line, enter the following.</p>
+<p>The <span class="nowrap">Lookup Table Generator</span> computes a lookup table for each <span class="nowrap">TS programs</span>. To run it from the command-line, enter the following.</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator</p>
 
 <p>It loads the <span class="nowrap">TS programs</span> from <span class="mono">code/ts</span>, and it saves the lookup tables to <span class="mono">code/luts</span>.</p>
+
+<p>The <span class="nowrap">Lookup Table Generator</span> employs the memoized algorithm described <a href="#lut-algorithm">previously</a>. As a parallelized algorithm, it consumes <span class="nowrap">100% CPU</span> during execution.</p>
+
+<p>The <span class="nowrap">Lookup Table Generator</span> ignores the JavaScript snippets. It works exclusively from the <span class="nowrap">TS programs</span>.</p>
 
 <h2 id="assembler">Assembler</h2>
 
