@@ -228,7 +228,7 @@ public class CircuitsEditorPanel extends javax.swing.JPanel {
                 ESCAPE_PRESSED);
     }
     
-    public void init2() {
+    public void windowOpened() {
         final JViewport viewPort = playfieldScrollPane.getViewport();
         final Rectangle bounds = viewPort.getViewRect();
         final Dimension size = viewPort.getViewSize();

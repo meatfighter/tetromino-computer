@@ -15,8 +15,6 @@ mentioned its' around ~5.75 frames/sec, not 5
 luts gen: 1m 46.838s
           1m 47.93s
 
-more dir params on all apps
-
 new replace does seem to save twice
 
 on new:

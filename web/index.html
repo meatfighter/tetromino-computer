@@ -436,17 +436,17 @@
 
 <p><span class="math">A &oplus; B<span></p>
       
-<p><span class="math">= (A &ne; B)</p>      
+<p><span class="math"&gt;= (A &ne; B)</p>      
       
-<p><span class="math">= <span class="overline">A</span>B + A<span class="overline">B</span></p>      
+<p><span class="math"&gt;= <span class="overline">A</span>B + A<span class="overline">B</span></p>      
      
-<p><span class="math">= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
+<p><span class="math"&gt;= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
       
-<p><span class="math">= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
+<p><span class="math"&gt;= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
 
-<p><span class="math">= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></p>  
+<p><span class="math"&gt;= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></p>  
 
-<p><span class="math">= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
+<p><span class="math"&gt;= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
 
 <p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
 
@@ -706,9 +706,9 @@
 
 <p><span class="math">AS + B<span class="overline">S</span></span></p>
 
-<p><span class="math">= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
+<p><span class="math"&gt;= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
 
-<p><span class="math">= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
+<p><span class="math"&gt;= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
 
 <p>That suggests two NAND gates, an OR gate, and an inverter arranged as follows.</p>
 
@@ -1071,7 +1071,7 @@
 
 <p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
 
-<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
+<p><span class="math"&gt;= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
 
 <p>That suggests the following circuit.</p>
 
@@ -1103,9 +1103,9 @@
 
 <p><span class="math">E = (A = B)V</span> 
 
-<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+<p><span class="math"&gt;= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
 
-<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
+<p><span class="math"&gt;= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
   
 <p>It provides a way to compare multiple bytes:</p>
 
@@ -1422,17 +1422,17 @@
 
 <p><span class="math">S = <span class="overline">X</span> <span class="overline">Y</span> Z + <span class="overline">X</span> Y <span class="overline">Z</span> + X <span class="overline">Y</span> <span class="overline">Z</span> + X Y Z</span></p>
 
-<p><span class="math">= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
+<p><span class="math"&gt;= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
 
-<p><span class="math">= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
+<p><span class="math"&gt;= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
 
-<p><span class="math">= X &oplus; Y &oplus; Z</span></p>
+<p><span class="math"&gt;= X &oplus; Y &oplus; Z</span></p>
 
-<p><span class="math">= </span><span class="overline2"><span class="math">X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math"> &oplus; Z</span></span></p>
+<p><span class="math"&gt;= </span><span class="overline2"><span class="math">X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math"> &oplus; Z</span></span></p>
 
-<p><span class="math">= </span><span class="overline2"><span class="math">(X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math">) &oplus; Z</span></span></p>
+<p><span class="math"&gt;= </span><span class="overline2"><span class="math">(X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math">) &oplus; Z</span></span></p>
 
-<p><span class="math">= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
+<p><span class="math"&gt;= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
 
 <p>Per the table rows where <span class="math">C</span> is <span class="mono">1</span>:</p>
 
@@ -1542,11 +1542,11 @@
   <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A</td></tr>
   <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A + 1</td></tr>
   <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W + 1</td></tr>
-  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A << 2</td></tr>
-  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A << 3</td></tr>
-  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A << 4</td></tr>
-  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A >>> 1</td></tr>
-  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A >>> 5</td></tr>
+  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 2</td></tr>
+  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 3</td></tr>
+  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 4</td></tr>
+  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 1</td></tr>
+  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 5</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
   <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A + B, B ]</td></tr>
@@ -2490,19 +2490,19 @@
 <span class="line"><span class="normal">LS2_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS2);</span></span>
 <span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
-<span class="line"><span class="normal">LS2 </span><span class="number">15                  </span><span class="comment">; s0 <<= 2;</span></span>
+<span class="line"><span class="normal">LS2 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 2;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">LS3_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS3);</span></span>
 <span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
-<span class="line"><span class="normal">LS3 </span><span class="number">15                  </span><span class="comment">; s0 <<= 3;</span></span>
+<span class="line"><span class="normal">LS3 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 3;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">LS4_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS4);</span></span>
 <span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
-<span class="line"><span class="normal">LS4 </span><span class="number">15                  </span><span class="comment">; s0 <<= 4;</span></span>
+<span class="line"><span class="normal">LS4 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 4;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">OR_C </span><span class="number">12                 </span><span class="comment">; s1 = (i is OR);</span></span>
@@ -2514,13 +2514,13 @@
 <span class="line"><span class="normal">RS1_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS1);</span></span>
 <span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
-<span class="line"><span class="normal">RS1 </span><span class="number">15                  </span><span class="comment">; s0 >>= 1;</span></span>
+<span class="line"><span class="normal">RS1 </span><span class="number">15                  </span><span class="comment">; s0 &gt;&gt;= 1;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">RS5_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS5);</span></span>
 <span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
 <span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
-<span class="line"><span class="normal">RS5 </span><span class="number">15                  </span><span class="comment">; s0 >>= 5;</span></span>
+<span class="line"><span class="normal">RS5 </span><span class="number">15                  </span><span class="comment">; s0 &gt;&gt;= 5;</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SUB_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SUB);</span></span>
@@ -2536,7 +2536,7 @@
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">CLEAR </span><span class="number">15                </span><span class="comment">; s0 = 0; // required by C_MINUS</span></span>
-<span class="line"><span class="normal">C_MINUS </span><span class="number">15              </span><span class="comment">; s0 = (A < 0);</span></span>
+<span class="line"><span class="normal">C_MINUS </span><span class="number">15              </span><span class="comment">; s0 = (A &lt; 0);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) n = s0;</span></span>
 <span class="line"><span class="normal">C_ZERO </span><span class="number">15               </span><span class="comment">; s0 = (A == 0);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) z = s0;</span></span>
@@ -2695,7 +2695,7 @@
 
 <pre class="code">
 <span class="filename">ASSIGN_LOADED.mc</span>
-<span class="line"><span class="normal">MINUS_C </span><span class="number">11              </span><span class="comment">; s0 = (m < 0);</span></span>
+<span class="line"><span class="normal">MINUS_C </span><span class="number">11              </span><span class="comment">; s0 = (m &lt; 0);</span></span>
 <span class="line"><span class="normal">C_COPY_A_B </span><span class="number">16           </span><span class="comment">; if (r) n = s0;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">ZERO_C </span><span class="number">16               </span><span class="comment">; s0 = (m == 0);</span></span>
@@ -2857,12 +2857,12 @@
   <tr><td class="mono">AND</td><td class="borderless">Bitwise AND</td><td class="pseudocode">A &= B;</td><td class="mono">11</td></tr>
   <tr><td class="mono">DEC</td><td class="borderless">Decrement</td><td class="pseudocode">--A;</td><td class="mono">12</td></tr>
   <tr><td class="mono">INC</td><td class="borderless">Increment</td><td class="pseudocode">++A;</td><td class="mono">13</td></tr>
-  <tr><td class="mono">LS2</td><td class="borderless">Logical Left Shift by 2</td><td class="pseudocode">A <<= 2;</td><td class="mono">14</td></tr>
-  <tr><td class="mono">LS3</td><td class="borderless">Logical Left Shift by 3</td><td class="pseudocode">A <<= 3;</td><td class="mono">15</td></tr>
-  <tr><td class="mono">LS4</td><td class="borderless">Logical Left Shift by 4</td><td class="pseudocode">A <<= 4;</td><td class="mono">16</td></tr>
+  <tr><td class="mono">LS2</td><td class="borderless">Logical Left Shift by 2</td><td class="pseudocode">A &lt;&lt;= 2;</td><td class="mono">14</td></tr>
+  <tr><td class="mono">LS3</td><td class="borderless">Logical Left Shift by 3</td><td class="pseudocode">A &lt;&lt;= 3;</td><td class="mono">15</td></tr>
+  <tr><td class="mono">LS4</td><td class="borderless">Logical Left Shift by 4</td><td class="pseudocode">A &lt;&lt;= 4;</td><td class="mono">16</td></tr>
   <tr><td class="mono">OR</td><td class="borderless">Bitwise OR</td><td class="pseudocode">A |= B;</td><td class="mono">17</td></tr>
-  <tr><td class="mono">RS1</td><td class="borderless">Logical Right Shift by 1</td><td class="pseudocode">A >>>= 1;</td><td class="mono">18</td></tr>
-  <tr><td class="mono">RS5</td><td class="borderless">Logical Right Shift by 5</td><td class="pseudocode">A >>>= 5;</td><td class="mono">19</td></tr>
+  <tr><td class="mono">RS1</td><td class="borderless">Logical Right Shift by 1</td><td class="pseudocode">A >&gt;&gt;= 1;</td><td class="mono">18</td></tr>
+  <tr><td class="mono">RS5</td><td class="borderless">Logical Right Shift by 5</td><td class="pseudocode">A >&gt;&gt;= 5;</td><td class="mono">19</td></tr>
   <tr><td class="mono">SUB</td><td class="borderless">Subtract (without borrow)</td><td class="pseudocode">A -= B;</td><td class="mono">1A</td></tr>
   <tr><td class="mono">XOR</td><td class="borderless">Bitwise XOR</td><td class="pseudocode">A ^= B;</td><td class="mono">1B</td></tr>
 </table>
@@ -3408,7 +3408,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">bit9Clear</span></span>
 <span class="line"><span class="normal">SEA</span> <span class="number">80</span></span>
 <span class="line"><span class="label">bit9Clear:</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) << 6;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) &lt;&lt; 6;</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
 <span class="line"><span class="normal">LDA</span></span>
@@ -3421,7 +3421,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">RS1</span></span>
 <span class="line"><span class="normal">OR</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh << 7) | (seedLow >>> 1);</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh &lt;&lt; 7) | (seedLow &gt;&gt;&gt; 1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
 <span class="line"><span class="normal">LDB</span></span>
@@ -3429,7 +3429,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">RS1</span></span>
 <span class="line"><span class="normal">OR</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh >>> 1);</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh &gt;&gt;&gt; 1);</span></span>
 <span class="line"></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">frameCounter</span></span>
 <span class="line"><span class="normal">LDB</span></span>
@@ -3470,9 +3470,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <pre class="pseudocode">
 = (8 * v - v) / 32
 
-= ((v << 3) - v) / 32
+= ((v &lt;&lt; 3) - v) / 32
 
-= ((v << 3) - v) >>> 5
+= ((v &lt;&lt; 3) - v) &gt;&gt;&gt; 5
 </pre>
 
 <p>If the randomly chosen tetromino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
@@ -3710,7 +3710,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">BEQ</span> <span class="identifier">continueClearLines</span>  <span class="comment">;   goto continueClearLines;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"><span class="normal">TBA</span></span>
-<span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--B < 0) { </span></span>
+<span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--B &lt; 0) { </span></span>
 <span class="line"><span class="normal">BMI</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines; // Found a line         </span></span>
 <span class="line"><span class="normal">TAB</span>                     <span class="comment">; }</span></span>
 <span class="line"></span>
@@ -3722,7 +3722,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"></span>
 <span class="line"><span class="normal">TBA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
-<span class="line"><span class="normal">TAB</span>                     <span class="comment">; if (--B >= 0) {</span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; if (--B &gt;= 0) {</span></span>
 <span class="line"><span class="normal">BPL</span> <span class="identifier">scanLine</span>            <span class="comment">;   goto scanLine;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 </pre>
@@ -3767,7 +3767,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"></span>
 <span class="line"><span class="normal">TNA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
-<span class="line"><span class="normal">TAN</span>                     <span class="comment">; if (--N >= 0) {</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; if (--N &gt;= 0) {</span></span>
 <span class="line"><span class="normal">BPL</span> <span class="identifier">clearTopLine</span>        <span class="comment">;   goto clearTopLine;</span></span>
 <span class="line">                        <span class="comment">; }</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
@@ -3788,7 +3788,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
 <span class="line"><span class="normal">LDA</span></span>
 <span class="line"><span class="normal">DEC</span></span>
-<span class="line"><span class="normal">STA</span>                     <span class="comment">; if (--i >= 0) {</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; if (--i &gt;= 0) {</span></span>
 <span class="line"><span class="normal">BPL</span> <span class="identifier">clearLinesLoop</span>      <span class="comment">;   goto clearLinesLoop;</span></span>
 <span class="line">                        <span class="comment">; } else {</span></span>
 <span class="line"><span class="normal">JMP</span> <span class="identifier">spawn</span>               <span class="comment">;   goto spawn;</span></span>
@@ -4046,7 +4046,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <ul>
   <li><span class="menu">Input</span> - A user-entered binary string where each bit represents the state of an input node.</li>
-  <li><span class="menu">Run</span> - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run > Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li><span class="menu">Run</span> - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run &gt; Run</span> and <span class="keys">F6</span> do the same.</li>
   <li><span class="menu">Components</span> - Available components.</li>
   <li><span class="menu">Add</span> - Selects an available component. Click on a grid cell to insert it into the playfield.</li>
   <li><span class="menu">Tetrominoes</span> - Selects a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
@@ -4069,7 +4069,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>This tutorial demonstrates the features of TSE by explaining how to construct a <span class="nowrap">NAND gate</span>.</p>  
 
-<p>Select <span class="menu">File > New...</span> or press <span class="keys">Ctrl-N</span>:</p>
+<p>Select <span class="menu">File &gt; New...</span> or press <span class="keys">Ctrl-N</span>:</p>
 
 <p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
 
@@ -4217,7 +4217,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><img id="tse-js.png" class="centered" src="tse-js.png" /></p>
 
-<p>Select <span class="menu">Run > Test Fully</span> or press <span class="keys">Shift-F6</span>:</p>
+<p>Select <span class="menu">Run &gt; Test Fully</span> or press <span class="keys">Shift-F6</span>:</p>
 
 <p><img id="tse-test-fully.png" class="centered" src="tse-test-fully.png" /></p>
 
@@ -4237,11 +4237,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Verify the NAND gates works once again.</p>
 
-<p>If a circuit has a large number of inputs, <span class="menu">Run > Test Fully</span> may take several minutes to complete. And since TSE parallelizes testing, it consumes <span class="nowrap">100% CPU</span> during that period.</p>
+<p>If a circuit has a large number of inputs, <span class="menu">Run &gt; Test Fully</span> may take several minutes to complete. And since TSE parallelizes testing, it consumes <span class="nowrap">100% CPU</span> during that period.</p>
 
-<p>The alternative, <span class="menu">Run > Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript for a randomly selected subset of the possible input values. It covers only 10% of the testing space, enabling it to finish 10&times; faster.</p>
+<p>The alternative, <span class="menu">Run &gt; Test Quickly</span> or <span class="keys">Ctrl-F6</span>, compares the circuit’s output with the JavaScript for a randomly selected subset of the possible input values. It covers only 10% of the testing space, enabling it to finish 10&times; faster.</p>
 
-<p>To terminate a long-running test, select <span class="menu">Run > Cancel Test</span> or press <span class="keys">Alt-F6</span>.</p>
+<p>To terminate a long-running test, select <span class="menu">Run &gt; Cancel Test</span> or press <span class="keys">Alt-F6</span>.</p>
 
 <p>TSE recursively renders a circuit to a specified cutoff depth. At the cutoff, it assigns output nodes by evaluating JavaScript snippets. Meaning, not only does it display less detail, it simulates less detail. Consequentially, the lower the depth, the faster the render.</p>
 
@@ -4263,7 +4263,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>At this rendering depth, TSE fully simulates everything. It ignores the JavaScript snippets.</p>
 
-<p>Select <span class="menu">File > Save</span> or press <span class="keys">Ctrl-S</span>.</p>
+<p>Select <span class="menu">File &gt; Save</span> or press <span class="keys">Ctrl-S</span>.</p>
 
 <p>TSE saves components as two separate files. In this case, it writes the TS program to <span class="mono">code/ts/examples/nandExample.t</span> and the JavaScript snippet to <span class="mono">code/ts/examples/nandExample.js</span>.</p>
 
@@ -4363,7 +4363,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The Translate dialog, shown below, offsets the coordinates of selected or all <span class="nowrap">TS program</span> instructions by specified values.</p>
 
-<p>Select <span class="menu">Tools > Translate...</span> to open it.</span></p>
+<p>Select <span class="menu">Tools &gt; Translate...</span> to open it.</span></p>
 
 <p><img id="tse-translate.png" class="centered" src="tse-translate.png" /></p>
 
@@ -4377,13 +4377,13 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
   <li><span class="menu">Cancel</span> - Dismisses the dialog.</li>
 </ul>
 
-<span class="menu">Tools > Translate to Center</span> horizontally translates the entire <span class="nowrap">TS program</span> such that the <span class="nowrap">y-axis</span> passes through the middle of the resultant circuit.</p>
+<span class="menu">Tools &gt; Translate to Center</span> horizontally translates the entire <span class="nowrap">TS program</span> such that the <span class="nowrap">y-axis</span> passes through the middle of the resultant circuit.</p>
 
 <h3 id="tse-export-svg">Export SVG</h3>
 
 <p>The <span class="nowrap">Export SVG</span> dialog, shown below, renders a circuit to an <span class="nowrap"><a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> file</span>. It produced the diagrams for this text.</p>
 
-<p>Select <span class="menu">File > Export SVG...</span> to open it.</span></p>
+<p>Select <span class="menu">File &gt; Export SVG...</span> to open it.</span></p>
 
 <p><img id="tse-export-svg.png" class="centered" src="tse-export-svg.png" /></p>
 
@@ -4446,7 +4446,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The <span class="nowrap">Export HTML</span> dialog, shown below, outputs an <span class="nowrap">HTML file</span> that contains a <span class="nowrap">TS program's</span> name, code, <span class="nowrap">line numbers</span>, and <a href="https://en.wikipedia.org/wiki/Syntax_highlighting" target="_blank">syntax highlighting</a>. It formatted the examples for this text.</p>
 
-<p>Select <span class="menu">File > Export HTML...</span> to open it.</span></p>
+<p>Select <span class="menu">File &gt; Export HTML...</span> to open it.</span></p>
 
 <p><img id="tse-export-html.png" class="centered" src="tse-export-html.png" /></p>
 

@@ -41,8 +41,9 @@ public class TetrominoScriptEditor {
         
         final CircuitsFrame frame = new CircuitsFrame();        
         Ui.initIcons(frame);
-        frame.pack();
-        frame.setLocationRelativeTo(null);        
+        frame.pack();        
+        frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);        
         frame.init();        
         frame.setController(controller);
         frame.setVisible(true);   

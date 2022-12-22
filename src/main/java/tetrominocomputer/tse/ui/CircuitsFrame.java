@@ -154,10 +154,6 @@ public class CircuitsFrame extends javax.swing.JFrame {
         circuitsEditorPanel.init();
         circuitsEditorPanel.setCircuitsFrame(this);
         Ui.resetTextFieldColumns(testTextField);
-        EventQueue.invokeLater(() -> {
-            setExtendedState(JFrame.MAXIMIZED_BOTH);
-            EventQueue.invokeLater(() -> circuitsEditorPanel.init2());
-        });
     }
     
     public void zoom(final int delta) {
@@ -307,6 +303,9 @@ public class CircuitsFrame extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -1659,6 +1658,11 @@ public class CircuitsFrame extends javax.swing.JFrame {
     private void toggleCommentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleCommentMenuItemActionPerformed
         circuitsEditorPanel.toggleComment();
     }//GEN-LAST:event_toggleCommentMenuItemActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        EventQueue.invokeLater(circuitsEditorPanel::windowOpened);
+    }//GEN-LAST:event_formWindowOpened
 
     public void goToLine(final int lineNumber) {
         closeGoToDialog();
