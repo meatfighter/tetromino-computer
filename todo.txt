@@ -5,7 +5,7 @@ remaining sections:
 - splitting up in smaller pages
 
 - screen shot of gpc
-- video of gpc
+- video of gpc (final section)
 
 - formatting of document (narrow width)
 - test on mobile

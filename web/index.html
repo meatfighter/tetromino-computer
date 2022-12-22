@@ -1,22 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-03" type="text/css"/>
-<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
-<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
-<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon"/>
-<link rel="mask-icon" href="mask-icon.svg" color="#000000"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="manifest" href="manifest.json"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet"/>
-<meta name="theme-color" content="#FFFFFF"/>
-<meta name="date" content="2022-12-03"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="style.css?v=2022-12-22" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-22">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
 <body>
@@ -29,7 +28,7 @@
 
 <p>The section provides a foundation for understanding the way to compute within Tetris.</p>
 
-<h2 id="fundamentals">Fundamentals</h1>
+<h2 id="fundamentals">Fundamentals</h2>
 
 <p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, shown below, consists of twenty visible rows and ten columns, but the dimensions are arbitrary.</p>
 
@@ -434,19 +433,19 @@
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
-<p><span class="math">A &oplus; B<span></p>
+<p><span class="math">A &oplus; B</span></p>
       
-<p><span class="math"&gt;= (A &ne; B)</p>      
+<p><span class="math">= (A &ne; B)</span></p>
       
-<p><span class="math"&gt;= <span class="overline">A</span>B + A<span class="overline">B</span></p>      
+<p><span class="math">= <span class="overline">A</span>B + A<span class="overline">B</span></span></p>      
      
-<p><span class="math"&gt;= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span><span></p>
+<p><span class="math">= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span></span></p>
       
-<p><span class="math"&gt;= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</p>  
+<p><span class="math">= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</span></p>  
 
-<p><span class="math"&gt;= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></p>  
+<p><span class="math">= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></span></p>  
 
-<p><span class="math"&gt;= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
+<p><span class="math">= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
 
 <p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
 
@@ -706,9 +705,9 @@
 
 <p><span class="math">AS + B<span class="overline">S</span></span></p>
 
-<p><span class="math"&gt;= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
+<p><span class="math">= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
 
-<p><span class="math"&gt;= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
+<p><span class="math">= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
 
 <p>That suggests two NAND gates, an OR gate, and an inverter arranged as follows.</p>
 
@@ -1071,7 +1070,7 @@
 
 <p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
 
-<p><span class="math"&gt;= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
 
 <p>That suggests the following circuit.</p>
 
@@ -1103,9 +1102,9 @@
 
 <p><span class="math">E = (A = B)V</span> 
 
-<p><span class="math"&gt;= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
 
-<p><span class="math"&gt;= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
   
 <p>It provides a way to compare multiple bytes:</p>
 
@@ -1422,17 +1421,17 @@
 
 <p><span class="math">S = <span class="overline">X</span> <span class="overline">Y</span> Z + <span class="overline">X</span> Y <span class="overline">Z</span> + X <span class="overline">Y</span> <span class="overline">Z</span> + X Y Z</span></p>
 
-<p><span class="math"&gt;= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
+<p><span class="math">= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
 
-<p><span class="math"&gt;= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
+<p><span class="math">= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
 
-<p><span class="math"&gt;= X &oplus; Y &oplus; Z</span></p>
+<p><span class="math">= X &oplus; Y &oplus; Z</span></p>
 
-<p><span class="math"&gt;= </span><span class="overline2"><span class="math">X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math"> &oplus; Z</span></span></p>
+<p><span class="math">= </span><span class="overline2"><span class="math">X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math"> &oplus; Z</span></span></p>
 
-<p><span class="math"&gt;= </span><span class="overline2"><span class="math">(X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math">) &oplus; Z</span></span></p>
+<p><span class="math">= </span><span class="overline2"><span class="math">(X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math">) &oplus; Z</span></span></p>
 
-<p><span class="math"&gt;= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
+<p><span class="math">= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
 
 <p>Per the table rows where <span class="math">C</span> is <span class="mono">1</span>:</p>
 
@@ -1840,7 +1839,7 @@
 
 <p>Memory works like an infinitely long, one-dimensional, byte array, <span class="mono">a</span>, initialized as:</p>
   
-<p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[0,L-1]</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte of an <span class="nowrap"><span class="mono">L</span>-byte</span> initial memory state</p>
+<p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[0,L-1]</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte</span> of an <span class="nowrap"><span class="mono">L</span>-byte</span> initial memory state</p>
 
 <p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[L,&infin;)</span> &larr; 0</span></span></p>
 
@@ -1953,7 +1952,7 @@
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    p &larr; v<span class="sub3">i</span>
+<span class="line">    p &larr; v<span class="sub3">i</span></span>
 <span class="line">    a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>
 <span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
@@ -1989,7 +1988,7 @@
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    p &larr; v<span class="sub3">i</span>
+<span class="line">    p &larr; v<span class="sub3">i</span></span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; q ? p : a<span class="sub3">x+n&minus;1</span></span>
@@ -2012,7 +2011,7 @@
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    a<span class="sub3">x+n+1</span> &larr; a<span class="sub3">x+n+1</span> <span class="keyword2">and</span> a<span class="sub3">x+n</span></span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span>
+<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span></span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
 <span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; a<span class="sub3">x+n+1</span> ? a<span class="sub3">x+n</span> : a<span class="sub3">x+n&minus;1</span></span>
@@ -2035,7 +2034,7 @@
 <span class="line">      SWAP j</span>
 <span class="line">    AND_AB_AF n</span>
 <span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
-<span class="line">    CONST_v<span class="sub3">i</span> n
+<span class="line">    CONST_v<span class="sub3">i</span> n</span>
 <span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
 <span class="line">      SWAP j</span>
 <span class="line">    COPY_B_A_C n&minus;1</span>
@@ -2299,7 +2298,7 @@
 <span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span> &larr; fetchLoadStore(a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span>)</span>
 <span class="line">  a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span> &larr; decodeExecute(a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span>)</span>
 <span class="line">  <span class="keyword2">for</span> x &larr; 0 <span class="keyword2">to</span> L&minus;2</span>
-<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23)</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23)</span></span>
 <span class="line">    slideRegister(x+3, 1)</span>
 <span class="line">  a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span> &larr; fetchLoadStore(a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span>)</span>
 <span class="line">  a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span> &larr; decodeExecute(a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span>)</span>
@@ -2583,7 +2582,7 @@
     
 <p>Following the copy, it jumps:</p>
     
-<object id="register-copy-jk-to-p.svg" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
+<object id="register-copy-jk-to-p.svg-2" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
     
 <p>Afterwards, a <span class="term">return-from-subroutine instruction</span> restores <span class="mono">P</span> from <span class="mono">R</span>:</p>
 
@@ -2964,7 +2963,7 @@
   <tr><td class="mono">SMN immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">MN</span></td><td class="pseudocode">MN = immediate;</td><td class="mono">2F</td></tr>
 </table>
 
-<p><span class="mono">SEA</span> and <span class="mono">SEB</span> assign an <span class="nowrap">8-bit<span> immediate. And <span class="mono">SMN</span> assigns a <span class="nowrap">16-bit<span> immediate.</p>
+<p><span class="mono">SEA</span> and <span class="mono">SEB</span> assign an <span class="nowrap">8-bit</span> immediate. And <span class="mono">SMN</span> assigns a <span class="nowrap">16-bit</span> immediate.</p>
 
 <p>They assemble to an opcode followed by the immediate byte or big-endian bytes.</p>      
       
@@ -2997,7 +2996,7 @@
 <pre class="code">
 <span class="line"><span class="label">v:</span> <span class="number">00</span>                   <span class="comment">; v = 0;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">v</span>                   <span class="comment">; MN = &v;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">v</span>                   <span class="comment">; MN = &amp;v;</span></span>
 <span class="line"><span class="normal">LDA</span>                     <span class="comment">; A = *MN;</span></span>
 <span class="line"><span class="normal">INC</span>                     <span class="comment">; ++A;</span></span>
 <span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
@@ -3016,7 +3015,7 @@
 <span class="line"></span>
 <span class="line"><span class="label">index:</span> <span class="number">03</span>               <span class="comment">; index = 0x03;</span></span>
 <span class="line"></span>
-<span class="line"><span class="normal">SMN</span> <span class="identifier">index</span>               <span class="comment">; MN = &index;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">index</span>               <span class="comment">; MN = &amp;index;</span></span>
 <span class="line"><span class="normal">LDA</span>                     <span class="comment">; A = *MN;</span></span>
 <span class="line"><span class="normal">SMN</span> <span class="identifier">table</span>               <span class="comment">; MN = table;</span></span>
 <span class="line"><span class="normal">TNB</span>                     <span class="comment">; B = N;</span></span>
@@ -4038,11 +4037,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output messages region.</p>
 
-<p><img id="tse-swap.png" class="centered" src="tse-swap.png" /></p>
+<p><img id="tse-swap.png" class="centered" src="tse-swap.png" alt="tse-swap.png"></p>
 
 <p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element insertion:</p>
 
-<p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" /></p>
+<p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" alt="tse-toolbar.png"></p>
 
 <ul>
   <li><span class="menu">Input</span> - A user-entered binary string where each bit represents the state of an input node.</li>
@@ -4054,7 +4053,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The <span class="nowrap">status bar</span> provides grid controls:</p>
 
-<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" /></p>
+<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" alt="tse-status-bar.png"></p>
 
 <ul>
   <li><span class="menu">Center</span> - Moves the origin to center-bottom by centering the horizontal scrollbar and bottoming the vertical scrollbar.</li>
@@ -4071,19 +4070,19 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Select <span class="menu">File &gt; New...</span> or press <span class="keys">Ctrl-N</span>:</p>
 
-<p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" /></p>
+<p><img id="tse-file-new.png" class="centered" src="tse-file-new.png" alt="tse-file-new.png"></p>
 
 <p>In the New file chooser, navigate to <span class="mono">code/ts/examples</span>, enter <span class="mono">nandExample.t</span>, and hit <span class="menu">Save</span>:</p>
 
-<p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" /></p>
+<p><img id="tse-new-file-chooser.png" class="centered" src="tse-new-file-chooser.png" alt="tse-new-file-chooser.png"></p>
 
 <p>The window regions reset, and <span class="mono">nandExample</span> appears in the title bar:</p>
 
-<p><img id="tse-new-result.png" class="centered" src="tse-new-result.png" /></p>
+<p><img id="tse-new-result.png" class="centered" src="tse-new-result.png" alt="tse-new-result.png"></p>
 
 <p>Turn the <span class="keys">scroll wheel</span> to adjust the grid cell size to 32:</p>
 
-<p><img id="tse-zoom-32.png" class="centered" src="tse-zoom-32.png" /></p>
+<p><img id="tse-zoom-32.png" class="centered" src="tse-zoom-32.png" alt="tse-zoom-32.png"></p>
 
 <p>The goal is to build the following circuit.</p>
 
@@ -4093,145 +4092,145 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>Type <span class="mono nowrap">&ldquo;in a&rdquo;</span> into the <span class="nowrap">TS program</span> region:</p>
 
-<p><img id="tse-in-a.png" class="centered" src="tse-in-a.png" /></p>
+<p><img id="tse-in-a.png" class="centered" src="tse-in-a.png" alt="tse-in-a.png"></p>
 
 <p>Click on grid cell <span class="mono nowrap">&minus;2:0</span>:</p>
 
-<p><img id="tse-cell-minus-two-zero.png" class="centered" src="tse-cell-minus-two-zero.png" /></p>
+<p><img id="tse-cell-minus-two-zero.png" class="centered" src="tse-cell-minus-two-zero.png" alt="tse-cell-minus-two-zero.png"></p>
 
 <p>That transfers the cell coordinates to the <span class="nowrap">TS program</span>:</p>
 
-<p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" /></p>
+<p><img id="tse-in-a-coordinates.png" class="centered" src="tse-in-a-coordinates.png" alt="tse-in-a-coordinates.png"></p>
 
 <p>Press <span class="keys">Enter</span>. Type <span class="mono nowrap">&ldquo;in b&rdquo;</span>. Click on cell <span class="mono nowrap">1:0</span>:</p>
 
-<p><img id="tse-in-b.png" class="centered" src="tse-in-b.png" /></p>
+<p><img id="tse-in-b.png" class="centered" src="tse-in-b.png" alt="tse-in-b.png"></p>
 
 <p>Click on the input field. Type <span class="mono nowrap">&ldquo;01&rdquo;</span>:</p>
 
-<p><img id="tse-input-01.png" class="centered" src="tse-input-01.png" /></p>
+<p><img id="tse-input-01.png" class="centered" src="tse-input-01.png" alt="tse-input-01.png"></p>
 
 <p>Press the <span class="keys">Run</span> button.</p>
 
 <p>The input nodes appear in the playfield. Their states correspond to the input bits:</p>
 
-<p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" /></p>
+<p><img id="tse-nodes.png" class="centered" src="tse-nodes.png" alt="tse-nodes.png"></p>
 
 <p>Note: TSE assigns the input nodes to the bit values from left to right regardless of order that the <span class="nowrap">TS program</span> defines them. Also, for readability, bit strings with many digits can be partitioned into nibbles or arbitrary group sizes by using spaces as separators.</p>
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 2</span> or at the start of <span class="nowrap">line 3</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notLeft&rdquo;</span>:</p>
 
-<p><img id="tse-notleft-select.png" class="centered" src="tse-notleft-select.png" /></p>
+<p><img id="tse-notleft-select.png" class="centered" src="tse-notleft-select.png" alt="tse-notleft-select.png"></p>
 
 <p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield:</p>
 
-<p><img id="tse-notleft-drag.png" class="centered" src="tse-notleft-drag.png" /></p>
+<p><img id="tse-notleft-drag.png" class="centered" src="tse-notleft-drag.png" alt="tse-notleft-drag.png"></p>
 
 <p>TSE depicts <span class="mono">notLeft</span> as a dark rectangle. An unassigned input node protrudes from its bottom. An output node assigned <span class="mono">1</span> extends from its top.</p>
 
 <p><span class="nowrap">Node <span class="mono">a</span></span> will serve as <span class="mono">notLeft</span>'s input node. Overlap the nodes thusly:</p>
 
-<p><img id="tse-notleft-insert.png" class="centered" src="tse-notleft-insert.png" /></p>
+<p><img id="tse-notleft-insert.png" class="centered" src="tse-notleft-insert.png" alt="tse-notleft-insert.png"></p>
 
 <p>Click the <span class="keys">left mouse</span> button.</p>
 
 <p>TSE appends <span class="mono">notLeft</span> to the <span class="nowrap">TS program</span>:</p>
 
-<p><img id="tse-notleft-added.png" class="centered" src="tse-notleft-added.png" /></p>
+<p><img id="tse-notleft-added.png" class="centered" src="tse-notleft-added.png" alt="tse-notleft-added.png"></p>
 
 <p>Note: While positioning a component, the <span class="keys">right mouse button</span> or <span class="keys">Esc</span> deselects the component. Also, if a component is put in the wrong place, edit its coordinates in the <span class="nowrap">TS program</span> and press the <span class="keys">Run</span> button to update the playfield.</p> 
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 3</span> or at the start of <span class="nowrap">line 4</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;notRight&rdquo;</span>:</p>
 
-<p><img id="tse-notright-select.png" class="centered" src="tse-notright-select.png" /></p>
+<p><img id="tse-notright-select.png" class="centered" src="tse-notright-select.png" alt="tse-notright-select.png"></p>
 
 <p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield. Overlap <span class="nowrap">node <span class="mono">b</span></span> and <span class="mono">notRight</span>'s input node:</p>
 
-<p><img id="tse-notright-overlap.png" class="centered" src="tse-notright-overlap.png" /></p>
+<p><img id="tse-notright-overlap.png" class="centered" src="tse-notright-overlap.png" alt="tse-notright-overlap.png"></p>
 
 <p>Click the <span class="keys">left mouse</span> button.</p>
 
 <p>TSE appends <span class="mono">notRight</span> to the <span class="nowrap">TS program</span>:</p>
 
-<p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" /></p>
+<p><img id="tse-notright-appended.png" class="centered" src="tse-notright-appended.png" alt="tse-notright-appended.png"></p>
 
 <p>Note that the inverters' input and output nodes are in opposite states:</p>
 
-<p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" /></p>
+<p><img id="tse-notright-value.png" class="centered" src="tse-notright-value.png" alt="tse-notright-value.png"></p>
 
 <p>Set the rendering depth to 2 by adjusting the leftmost spinner on the <span class="nowrap">status bar</span>:</p>
 
-<p><img id="tse-depth-2.png" class="centered" src="tse-depth-2.png" /></p>
+<p><img id="tse-depth-2.png" class="centered" src="tse-depth-2.png" alt="tse-depth-2.png"></p>
 
 <p>At that rendering depth, TSE reveals the inner workings of the inverters.</p>
 
 <p>Both input nodes should be three cells wide. Edit them as follows.</p>
 
-<p><img id="tse-three-wide.png" class="centered" src="tse-three-wide.png" /></p>
+<p><img id="tse-three-wide.png" class="centered" src="tse-three-wide.png" alt="tse-three-wide.png"></p>
 
 <p>Press the <span class="keys">Run</span> button:</p>
 
-<p><img id="tse-three-wide-2.png" class="centered" src="tse-three-wide-2.png" /></p>
+<p><img id="tse-three-wide-2.png" class="centered" src="tse-three-wide-2.png" alt="tse-three-wide-2.png"></p>
 
 <p>A TS program can label its components. Type <span class="mono">&ldquo;not1&rdquo;</span> immediately right of <span class="mono">notLeft</span>. Type <span class="mono">&ldquo;not2&rdquo;</span> immediately right of <span class="mono">notRight</span>:</p>
 
-<p><img id="tse-not1-not2.png" class="centered" src="tse-not1-not2.png" /></p>
+<p><img id="tse-not1-not2.png" class="centered" src="tse-not1-not2.png" alt="tse-not1-not2.png"></p>
 
 <p>Set the rendering depth back to 1. Press the <span class="keys">Run</span> button:</p>
 
-<p><img id="tse-not1-not2-depth-1.png" class="centered" src="tse-not1-not2-depth-1.png" /></p>
+<p><img id="tse-not1-not2-depth-1.png" class="centered" src="tse-not1-not2-depth-1.png" alt="tse-not1-not2-depth-1.png"></p>
 
 <p>In the <span class="nowrap">TS program</span>, make sure the cursor is positioned at the end of <span class="nowrap">line 4</span> or at the start of <span class="nowrap">line 5</span>. Click on the components <span class="nowrap">combo box</span>. Type <span class="mono">&ldquo;or&rdquo;</span>:</p>
 
-<p><img id="tse-or-select.png" class="centered" src="tse-or-select.png" /></p>
+<p><img id="tse-or-select.png" class="centered" src="tse-or-select.png" alt="tse-or-select.png"></p>
 
 <p>Press the <span class="keys">Add</span> button. Move the mouse cursor into the playfield:</p>
 
-<p><img id="tse-or-added.png" class="centered" src="tse-or-added.png" /></p>
+<p><img id="tse-or-added.png" class="centered" src="tse-or-added.png" alt="tse-or-added.png"></p>
 
 <p>TSE depicts <span class="mono">or</span> as a dark square. Two unassigned input nodes protrude from its bottom. An unsigned output extends from its top.</p>
 
 <p>The output nodes of the inverters will serve as the input nodes of the <span class="nowrap">OR gate</span>. Overlap the nodes thusly:</p>
 
-<p><img id="tse-or-overlap.png" class="centered" src="tse-or-overlap.png" /></p>
+<p><img id="tse-or-overlap.png" class="centered" src="tse-or-overlap.png" alt="tse-or-overlap.png"></p>
 
 <p>Click the <span class="keys">left mouse</span> button.</p>
 
 <p>TSE appends <span class="mono">or</span> to the <span class="nowrap">TS program</span>:</p>
 
-<p><img id="tse-or-appended.png" class="centered" src="tse-or-appended.png" /></p>
+<p><img id="tse-or-appended.png" class="centered" src="tse-or-appended.png" alt="tse-or-appended.png"></p>
 
 <p>The <span class="nowrap">OR gate's</span> output node will serve as the output of the NAND gate.</p>
 
 <p>Press <span class="keys">Enter</span>. Type <span class="mono nowrap">&ldquo;out o -1..0 7&rdquo;</span>:
 
-<p><img id="tse-output-node.png" class="centered" src="tse-output-node.png" /></p>
+<p><img id="tse-output-node.png" class="centered" src="tse-output-node.png" alt="tse-output-node.png"></p>
 
 <p>Click on the input field. Type <span class="mono nowrap">&ldquo;11&rdquo;</span>. Press the <span class="keys">Run</span> button:</p>
 
-<p><img id="tse-input-11.png" class="centered" src="tse-input-11.png" /></p>
+<p><img id="tse-input-11.png" class="centered" src="tse-input-11.png" alt="tse-input-11.png"></p>
 
 <p>Repeat for all possible input values. Verify the output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>.</p>
 
 <p>In the JavaScript region, type in the following snippet.</p>
 
-<p><img id="tse-js.png" class="centered" src="tse-js.png" /></p>
+<p><img id="tse-js.png" class="centered" src="tse-js.png" alt="tse-js.png"></p>
 
 <p>Select <span class="menu">Run &gt; Test Fully</span> or press <span class="keys">Shift-F6</span>:</p>
 
-<p><img id="tse-test-fully.png" class="centered" src="tse-test-fully.png" /></p>
+<p><img id="tse-test-fully.png" class="centered" src="tse-test-fully.png" alt="tse-test-fully.png"></p>
 
 <p>That causes TSE to compare the <span class="nowrap">NAND gate's</span> output with the value from JavaScript snippet for all possible inputs. They match:</p>
 
-<p><img id="tse-test-passed.png" class="centered" src="tse-test-passed.png" /></p>
+<p><img id="tse-test-passed.png" class="centered" src="tse-test-passed.png" alt="tse-test-passed.png"></p>
 
 <p>Click on <span class="nowrap">line 4</span> of the <span class="nowrap">TS program</span>. Press <span class="keys">Ctrl-/</span> to comment out the line:</p>
 
-<p><img id="tse-comment.png" class="centered" src="tse-comment.png" /></p>
+<p><img id="tse-comment.png" class="centered" src="tse-comment.png" alt="tse-comment.png"></p>
 
 <p>Press <span class="keys">Shift-F6</span> to test again. With the missing inverter, the test fails:</p>
 
-<p><img id="tse-test-failed.png" class="centered" src="tse-test-failed.png" /></p>
+<p><img id="tse-test-failed.png" class="centered" src="tse-test-failed.png" alt="tse-test-failed.png"></p>
 
 <p>Click on <span class="nowrap">line 4</span> of the <span class="nowrap">TS program</span>. Press <span class="keys">Ctrl-/</span> to uncomment out the line.</p>
 
@@ -4247,19 +4246,19 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>To make this clear, set the rendering depth <span class="nowrap">to 0</span>:</p>
 
-<p><img id="tse-depth-0.png" class="centered" src="tse-depth-0.png" /></p>
+<p><img id="tse-depth-0.png" class="centered" src="tse-depth-0.png" alt="tse-depth-0.png"></p>
 
 <p>TSE assigns the output node by evaluating the JavaScript snippet rather than simulating <span class="mono">nandExample</span>'s unseen internals.</p>
 
 <p>Set the rendering depth <span class="nowrap">to 1</span>:</p>
 
-<p><img id="tse-depth-1.png" class="centered" src="tse-depth-1.png" /></p>
+<p><img id="tse-depth-1.png" class="centered" src="tse-depth-1.png" alt="tse-depth-1.png"></p>
 
 <p>TSE assigns the output nodes of the inverters and the <span class="nowrap">OR gate</span> by evaluating their JavaScript snippets rather than simulating their unseen internals.</p>
 
 <p>Set the rendering depth <span class="nowrap">to 2</span>:</p>
 
-<p><img id="tse-depth-2a.png" class="centered" src="tse-depth-2a.png" /></p>
+<p><img id="tse-depth-2a.png" class="centered" src="tse-depth-2a.png" alt="tse-depth-2a.png"></p>
 
 <p>At this rendering depth, TSE fully simulates everything. It ignores the JavaScript snippets.</p>
 
@@ -4283,11 +4282,11 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>TSE renders a vertical wire as a dark rectangle with unassigned input and output nodes:</p>
 
-<p><img id="tse-ir8-drag.png" class="centered" src="tse-ir8-drag.png" /></p>
+<p><img id="tse-ir8-drag.png" class="centered" src="tse-ir8-drag.png" alt="tse-ir8-drag.png"></p>
 
 <p>Below, the wire is attached to the inverter such that the inverter's output node serves as the wire's input node. Note that it propagates the signal.</p>
 
-<p><img id="tse-ir8-drop.png" class="centered" src="tse-ir8-drop.png" /></p>
+<p><img id="tse-ir8-drop.png" class="centered" src="tse-ir8-drop.png" alt="tse-ir8-drop.png"></p>
 
 <p>TSE also synthesizes components that represent horizontal wires of various lengths. The following image depicts <span class="nowrap mono">s3, s5, s7, &mldr;, s21</span> and <span class="nowrap mono">z3, z5, z7, &mldr;, z21</span> separated by <span class="nowrap">O-tetrominoes</span> from top to bottom. The numbers refer to the component widths. As with the vertical wires, they go up to <span class="mono">2001</span>. However, since a single piece has width three and each additional piece increases the width by two, TSE cannot synthesize horizontal wires of even length, at least not purely out of <span class="nowrap">S- and Z-tetrominoes</span>.</p>
 
@@ -4295,77 +4294,77 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The image below shows that TSE renders <span class="mono">s7</span> as a enigmatic set of rectangles.</p>
 
-<p><img id="tse-s7-drag.png" class="centered" src="tse-s7-drag.png" /></p>
+<p><img id="tse-s7-drag.png" class="centered" src="tse-s7-drag.png" alt="tse-s7-drag.png"></p>
 
 <p>It looks strange because both the input and the output nodes are disjoint. In the following image, the input node is painted blue. The white-outlined rectangles constitute the output node.</p>
 
-<p><img id="tse-s7-input-nodes.png" class="centered" src="tse-s7-input-nodes.png" /></p>
+<p><img id="tse-s7-input-nodes.png" class="centered" src="tse-s7-input-nodes.png" alt="tse-s7-input-nodes.png"></p>
 
 <p><span class="mono">s7</span> can couple to a component in two different ways. It can connect on the right:</p>
 
-<p><img id="tse-s7-right-input-1.png" class="centered" src="tse-s7-right-input-1.png" /></p>
+<p><img id="tse-s7-right-input-1.png" class="centered" src="tse-s7-right-input-1.png" alt="tse-s7-right-input-1.png"></p>
 
 <p>That hangs it off the side:</p>
 
-<p><img id="tse-s7-right-input-2.png" class="centered" src="tse-s7-right-input-2.png" /></p>
+<p><img id="tse-s7-right-input-2.png" class="centered" src="tse-s7-right-input-2.png" alt="tse-s7-right-input-2.png"></p>
 
 <p>Or it can connect on the bottom:</p>
 
-<p><img id="tse-s7-bottom-input-1.png" class="centered" src="tse-s7-bottom-input-1.png" /></p>
+<p><img id="tse-s7-bottom-input-1.png" class="centered" src="tse-s7-bottom-input-1.png" alt="tse-s7-bottom-input-1.png"></p>
 
 <p>That rests it on its base:</p>
 
-<p><img id="tse-s7-bottom-input-2.png" class="centered" src="tse-s7-bottom-input-2.png" /></p>
+<p><img id="tse-s7-bottom-input-2.png" class="centered" src="tse-s7-bottom-input-2.png" alt="tse-s7-bottom-input-2.png"></p>
 
 <p>Either way, only the rightmost <span class="nowrap">S-tetromino</span> supports the entire wire.</p>
 
 <p><span class="mono">z7</span> is the horizontal reflection of <span class="mono">s7</span>:</p>
 
-<p><img id="tse-z7.png" class="centered" src="tse-z7.png" /></p>
+<p><img id="tse-z7.png" class="centered" src="tse-z7.png" alt="tse-z7.png"></p>
 
 <p>The user can fashion wires from individual tetrominoes. To demonstrate this, the following image shows a <span class="nowrap">TS program</span> describing a pair of inverters.</p>
 
-<p><img id="tse-inverters-1.png" class="centered" src="tse-inverters-0.png" /></p>
+<p><img id="tse-inverters-0.png" class="centered" src="tse-inverters-0.png" alt="tse-inverters-0.png"></p>
 
 <p>The user presses the <span class="mono">iv</span> button. Then, as the user moves the mouse cursor in the playfield, TSE renders a vertical <span class="nowrap">I-tetromino</span>:</p>
 
-<p><img id="tse-inverters-1.png" class="centered" src="tse-inverters-1.png" /></p>
+<p><img id="tse-inverters-1.png" class="centered" src="tse-inverters-1.png" alt="tse-inverters-1.png"></p>
 
 <p>The user presses the <span class="keys">left mouse button</span>, causing the <span class="nowrap">I-tetromino</span> to drop: </p>
 
-<p><img id="tse-inverters-2.png" class="centered" src="tse-inverters-2.png" /></p>
+<p><img id="tse-inverters-2.png" class="centered" src="tse-inverters-2.png" alt="tse-inverters-2.png"></p>
 
 <p>TSE appends <span class="mono">iv</span> to the <span class="nowrap">TS program</span>:</p>
 
-<p><img id="tse-inverters-3.png" class="centered" src="tse-inverters-3.png" /></p>
+<p><img id="tse-inverters-3.png" class="centered" src="tse-inverters-3.png" alt="tse-inverters-3.png"></p>
 
 <p>The user repeats with a second <span class="nowrap">I-tetromino</span>:</p>
 
-<p><img id="tse-inverters-4.png" class="centered" src="tse-inverters-4.png" /></p>
+<p><img id="tse-inverters-4.png" class="centered" src="tse-inverters-4.png" alt="tse-inverters-4.png"></p>
 
 <p>Like any solid structure, an individual tetromino resting on a node propagates the node’s value to its surface cells. In this case, the uppermost cells of the vertical <span class="nowrap">I-tetrominoes</span>, outlined in the image below, act as output nodes.</p>
 
-<p><img id="tse-inverters-5.png" class="centered" src="tse-inverters-5.png" /></p>
+<p><img id="tse-inverters-5.png" class="centered" src="tse-inverters-5.png" alt="tse-inverters-5.png"></p>
 
 <p>In the following image, the left <span class="nowrap">I-tetromino</span>'s output node serves as the input node of an inverter.</p>
 
-<p><img id="tse-inverters-6.png" class="centered" src="tse-inverters-6.png" /></p>
+<p><img id="tse-inverters-6.png" class="centered" src="tse-inverters-6.png" alt="tse-inverters-6.png"></p>
 
 <p>Similarly, the right <span class="nowrap">I-tetromino</span>'s output node serves as the input node of another inverter:</p>
 
-<p><img id="tse-inverters-7.png" class="centered" src="tse-inverters-7.png" /></p>
+<p><img id="tse-inverters-7.png" class="centered" src="tse-inverters-7.png" alt="tse-inverters-7.png"></p>
 
 <p>Here is the result at rendering depth 2:</p>
 
-<p><img id="tse-inverters-8.png" class="centered" src="tse-inverters-8.png" /></p>
+<p><img id="tse-inverters-8.png" class="centered" src="tse-inverters-8.png" alt="tse-inverters-8.png"></p>
 
 <h3 id="tse-translate">Translate</h3>
 
 <p>The Translate dialog, shown below, offsets the coordinates of selected or all <span class="nowrap">TS program</span> instructions by specified values.</p>
 
-<p>Select <span class="menu">Tools &gt; Translate...</span> to open it.</span></p>
+<p>Select <span class="menu">Tools &gt; Translate...</span> to open it.</p>
 
-<p><img id="tse-translate.png" class="centered" src="tse-translate.png" /></p>
+<p><img id="tse-translate.png" class="centered" src="tse-translate.png" alt="tse-translate.png"></p>
 
 <p>Here are descriptions of its components:</p>
 
@@ -4377,15 +4376,15 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
   <li><span class="menu">Cancel</span> - Dismisses the dialog.</li>
 </ul>
 
-<span class="menu">Tools &gt; Translate to Center</span> horizontally translates the entire <span class="nowrap">TS program</span> such that the <span class="nowrap">y-axis</span> passes through the middle of the resultant circuit.</p>
+<p><span class="menu">Tools &gt; Translate to Center</span> horizontally translates the entire <span class="nowrap">TS program</span> such that the <span class="nowrap">y-axis</span> passes through the middle of the resultant circuit.</p>
 
 <h3 id="tse-export-svg">Export SVG</h3>
 
 <p>The <span class="nowrap">Export SVG</span> dialog, shown below, renders a circuit to an <span class="nowrap"><a href="https://en.wikipedia.org/wiki/SVG" target="_blank">SVG</a> file</span>. It produced the diagrams for this text.</p>
 
-<p>Select <span class="menu">File &gt; Export SVG...</span> to open it.</span></p>
+<p>Select <span class="menu">File &gt; Export SVG...</span> to open it.</p>
 
-<p><img id="tse-export-svg.png" class="centered" src="tse-export-svg.png" /></p>
+<p><img id="tse-export-svg.png" class="centered" src="tse-export-svg.png" alt="tse-export-svg.png"></p>
 
 <p>Here are descriptions of its components:</p>
 
@@ -4446,9 +4445,9 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The <span class="nowrap">Export HTML</span> dialog, shown below, outputs an <span class="nowrap">HTML file</span> that contains a <span class="nowrap">TS program's</span> name, code, <span class="nowrap">line numbers</span>, and <a href="https://en.wikipedia.org/wiki/Syntax_highlighting" target="_blank">syntax highlighting</a>. It formatted the examples for this text.</p>
 
-<p>Select <span class="menu">File &gt; Export HTML...</span> to open it.</span></p>
+<p>Select <span class="menu">File &gt; Export HTML...</span> to open it.</p>
 
-<p><img id="tse-export-html.png" class="centered" src="tse-export-html.png" /></p>
+<p><img id="tse-export-html.png" class="centered" src="tse-export-html.png" alt="tse-export-html.png"></p>
 
 <p>Here are descriptions of its components:</p>
 
@@ -4469,7 +4468,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
   </li>
 </ul>
 
-<h2 id="tetrominoscript-editor">TetrominoScript Tester</h2>
+<h2 id="tetrominoscript-tester">TetrominoScript Tester</h2>
 
 <p>The <span class="nowrap">TetrominoScript Tester</span> compares the behavior of a <span class="nowrap">TS program</span> with a <span class="nowrap">JavaScript snippet</span> for all components or for a specified component. It reports passes and failures to stdout.</p>
 
@@ -4481,7 +4480,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="command">java -cp target/tetromino-computer.jar tetrominocomputer.ts.Tester <span class="nowrap">-p 100</span></span></p>
 
-<p>If percent is less than 100, the <span class="nowrap">TetrominoScript Tester</span> performs comparisons for a randomly selected subsets of the possible input values that covers at least the specified percent of the test space.</p>
+<p>If percent is less than 100, the <span class="nowrap">TetrominoScript Tester</span> performs comparisons for randomly selected subsets of the possible input values at least as large as the specified percent.</p>
 
 <p>If a component name is not provided, the <span class="nowrap">TetrominoScript Tester</span> evaluates all components.</p>
 
@@ -4493,7 +4492,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The <span class="nowrap">Lookup Table Generator</span> computes a lookup table for each <span class="nowrap">TS programs</span>. To run it from the command-line, enter the following.</p>
 
-<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator</p>
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.ts.LutsGenerator</span></p>
 
 <p>It loads the <span class="nowrap">TS programs</span> from <span class="mono">code/ts</span>, and it saves the lookup tables to <span class="mono">code/luts</span>.</p>
 
@@ -4527,9 +4526,18 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The <span class="nowrap">Cycle Programs Generator</span> saves the <span class="nowrap">MC programs</span> to <span class="mono">code/mc</span>.</p>
 
-<h2 id="cycle-programs-generator">General-purpose Computer</h2>
+<h2 id="general-purpose-computer-2">General-purpose Computer</h2>
 
-<p> ... </p>
+<p>The General-purpose Computer simulates or emulates a machine code program. To run it from the command-line, enter:</p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c [ processor and memory class name ]</span> <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename ]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
+
+<p>The arguments are optional. They default to:</p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c tetrominocomputer.gpc.app.MCProcessorAndMemory</span> <span class="nowrap">-b example.bin</span> <span class="nowrap">-l CYCLE_LEFT.mc</span> <span class="nowrap">-r CYCLE_RIGHT.mc</span></span></p>
+
+<p>The Java source defines an abstract processor and memory type. It contains two implementations in the <span class="mono nowrap">tetrominocomputer.gpc.app package</span>: <span class="mono">MCProcessorAndMemory</span> and <span class="mono">EmulatedProcessorAndMemory</span>.</p>
+
 
 </body>
 

@@ -52,11 +52,11 @@ public final class MCProcessorAndMemory implements ProcessorAndMemory {
         
         final Map<String, Instruction[]> programs = new LexerParser().parseAll();
         if (!programs.containsKey(cycleLeftProgramName)) {
-            Out.printlnError("Cycle left file not found.");
+            Out.formatError("%nCycle left file not found.%n%n");
             return false;
         }
         if (!programs.containsKey(cycleRightProgramName)) {
-            Out.printlnError("Cycle right file not found.");
+            Out.formatError("%nCycle right file not found.%n%n");
             return false;
         }
         
@@ -76,12 +76,12 @@ public final class MCProcessorAndMemory implements ProcessorAndMemory {
         
         final File binFile = new File(Dirs.BIN + binFilename);
         if (!(binFile.exists() && binFile.isFile())) {
-            Out.formatError("Binary file not found: %s%n", binFile);
+            Out.formatError("%nBinary file not found: %s%n%n", binFile);
             return false;
         }
         final int maxAddress = ((int) binFile.length()) - 3;
         if (maxAddress < 0) {
-            Out.printlnError("Invalid binary file.");
+            Out.formatError("%nInvalid binary file.%n%n");
             return false;
         }
         

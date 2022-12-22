@@ -51,7 +51,7 @@ public final class GeneralPurposeComputer {
         try {
             processorAndMemory = (ProcessorAndMemory) Class.forName(processorAndMemoryClassName).newInstance();
         } catch (final ClassNotFoundException e) {
-            Out.printlnError("Processor and memory class not found.");
+            Out.formatError("%nProcessor and memory class not found.%n%n");
             return false;
         }
         
