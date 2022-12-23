@@ -3950,9 +3950,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>However, due to the computer's minimal instruction set, the additional code required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller data region. Worse, such a change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetromino</span> loop. At five subroutine calls per frame and four blocks per tetromino, the program amplifies the computational cost of anything in the loop twenty-fold.</p>
 
-<p>On the other hand, if the program employed a smaller playfield data region, it would likely speed up line clears. As revealed in the video below, there is a noticeable delay when clearing lines due to the amount of data copied. But if the program packed multiple cells into each byte, then it would copy cells in parallel, significantly hastening the process.</p>
-
-<p>[ TODO VIDEO OF LINE CLEARS ]</p>
+<p>On the other hand, if the program employed a smaller playfield data region, it would likely speed up line clears. There is currently a noticeable delay when clearing lines due to the amount of data copied. But if the program packed multiple cells into each byte, then it would copy cells in parallel, significantly hastening the process.</p>
 
 <p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetrominoes</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows demands <span class="nowrap">28 bytes</span>. And indirection increases access time.</p>
 
@@ -4528,7 +4526,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="general-purpose-computer-2">General-purpose Computer</h2>
 
-<p>The General-purpose Computer simulates or emulates a machine code program. To run it from the command-line, enter:</p>
+<p>The General-purpose Computer executes a machine code binary via emulation or simulation. To run it from the command-line, enter the following.</p>
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c [ processor and memory class name ]</span> <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename ]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
 
@@ -4536,8 +4534,19 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c tetrominocomputer.gpc.app.MCProcessorAndMemory</span> <span class="nowrap">-b example.bin</span> <span class="nowrap">-l CYCLE_LEFT.mc</span> <span class="nowrap">-r CYCLE_RIGHT.mc</span></span></p>
 
-<p>The Java source defines an abstract processor and memory type. It contains two implementations in the <span class="mono nowrap">tetrominocomputer.gpc.app package</span>: <span class="mono">MCProcessorAndMemory</span> and <span class="mono">EmulatedProcessorAndMemory</span>.</p>
+<p>The General-purpose Computer provides two implementations of an abstract processor and memory type in the <span class="mono nowrap">tetrominocomputer.gpc.app</span> package: <span class="mono">EmulatedProcessorAndMemory</span> and <span class="mono">MCProcessorAndMemory</span>. Both load the binary file from <span class="mono">code/bin</span> to set the starting memory state. </p>
 
+<p><span class="mono">EmulatedProcessorAndMemory</span> mimics the behavior of the computer at the machine code instruction level. It defines variables in place of registers and memory. And it contains Java code that reproduces the effect of every instruction type by manipulating those variables.</p>
+
+<p><span class="mono">EmulatedProcessorAndMemory</span> was created for testing purposes. It enabled the development of <span class="mono">example.asm</span> before <span class="mono">MCProcessorAndMemory</span> was available.</p>
+
+<p><span class="mono">MCProcessorAndMemory</span> runs the <span class="nowrap">MC programs</span> in <span class="mono">code/mc</span>. It simulates the <span class="nowrap">TS programs</span> by applying the lookup tables in <span class="mono">code/luts</span> that were derived from them.</p>
+
+<p><span class="mono">MCProcessorAndMemory</span> accepts the left and right cycle <span class="nowrap">MC program</span> filenames because their contents depend on the binary file size. <span class="mono">EmulatedProcessorAndMemory</span> ignores those arguments.</p>
+
+<p>The video below demonstrates the performance of <span class="mono">MCProcessorAndMemory</span> on a <span class="nowrap">Dell XPS 8930</span> desktop featuring an <span class="nowrap">i7-8700K CPU</span>, <span class="nowrap">64 GiB</span> of RAM, and <span class="nowrap">Windows 10 Pro</span>&mdash;a 5-years-old machine at the time of this writing. It runs at approximately <span class="nowrap">5.75 frames/sec</span> with <span class="nowrap">Java 8u351</span>. For unknown reasons, it runs at approximately <span class="nowrap">5.25 frames/sec</span> on more recent versions of Java. [ TODO ]The delay is a consequence of the large amount of data copied while shifting rows down.</p>
+
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/kUUqHcX86K8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 
 </body>
 
