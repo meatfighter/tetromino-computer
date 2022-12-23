@@ -13,5 +13,3 @@ on new:
 Building...
 ERROR: Unknown component unnamed
 Build succeeded.
-
-CC license and copyright
