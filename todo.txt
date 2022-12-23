@@ -1,17 +1,10 @@
 remaining sections:
 
-- where are all the files, how to run
 - index
 - splitting up in smaller pages
 
-- screen shot of gpc
-- video of gpc (final section)
-
 - formatting of document (narrow width)
 - test on mobile
-
-luts gen: 1m 46.838s
-          1m 47.93s
 
 new replace does seem to save twice
 
@@ -21,12 +14,4 @@ Building...
 ERROR: Unknown component unnamed
 Build succeeded.
 
-
-
-
-x TetrominoScriptEditor -m [ font size multiplier ]
-x Tester -p [ percent ] -n [ component name ]
-x LutsGenerator
-x Assembler -a [ asm ] -b [ bin ]
-x CycleProgramsGenerator -b [ bin ] -l [ left cycle ] -r [ right cycle ]
-GeneralPurposeComputer -c [ class name ] -b [ bin ] -l [ left cycle ] -r [ right cycle ]
+CC license and copyright

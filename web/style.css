@@ -379,6 +379,31 @@ td.number {
     text-align: right;
 }
 
+table.copyright {
+    width: 100%;
+    margin-top: -15px;
+}
+
+td.copyright {    
+}
+
+p.copyright {
+    font-size: 12px;
+    line-height: 8px;
+}
+
+p.home {
+    font-size: 16px;
+    line-height: 27px;
+    font-weight: 300;
+    text-align: right;
+}
+
+hr {
+    border-top: 0pt;
+    border-bottom: 1pt solid silver;
+}
+
 pre.pseudocode2 {
     font-family: 'Source Code Pro', monospace;
     font-size: 16px;
