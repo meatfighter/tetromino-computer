@@ -24,6 +24,95 @@
 
 <p>This text presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
+<h1 id="table-of-contents">Table of Contents</h1>
+
+<p class="toc1"><a href="#introduction">Introduction</a></p>
+<p class="toc2"><a href="#fundamentals">Fundamentals</a></p>
+<p class="toc2"><a href="#method-overview">Method Overview</a></p>
+<p class="toc2"><a href="#nodes">Nodes</a></p>
+<p class="toc2"><a href="#infinite-playfield">Infinite Playfield</a></p>
+<p class="toc2"><a href="#input-language">Input Language</a></p>
+<p class="toc2"><a href="#tetrominoscript">TetrominoScript</a></p>
+<p class="toc1"><a href="#logic-gates">Logic Gates</a></p>
+<p class="toc2"><a href="#buffer">Buffer</a></p>
+<p class="toc2"><a href="#inverter-not">Inverter (NOT)</a></p>
+<p class="toc2"><a href="#or">OR</a></p>
+<p class="toc2"><a href="#nor">NOR</a></p>
+<p class="toc2"><a href="#nand">NAND</a></p>
+<p class="toc2"><a href="#and">AND</a></p>
+<p class="toc2"><a href="#xor">XOR</a></p>
+<p class="toc2"><a href="#xnor">XNOR</a></p>
+<p class="toc2"><a href="#intermediate-gates">Intermediate Gates</a></p>
+<p class="toc1"><a href="#wires">Wires</a></p>
+<p class="toc2"><a href="#fan-out">Fan-out</a></p>
+<p class="toc2"><a href="#fan-in">Fan-in</a></p>
+<p class="toc2"><a href="#crossing">Crossing</a></p>
+<p class="toc2"><a href="#multiplexing">Multiplexing</a></p>
+<p class="toc1"><a href="#functions">Functions</a></p>
+<p class="toc2"><a href="#functions-overview">Overview</a></p>
+<p class="toc2"><a href="#identity">Identity</a></p>
+<p class="toc2"><a href="#constant">Constant</a></p>
+<p class="toc2"><a href="#logical-left-shift">Logical Left Shift</a></p>
+<p class="toc2"><a href="#logical-right-shift">Logical Right Shift</a></p>
+<p class="toc2"><a href="#logical-and">Logical AND</a></p>
+<p class="toc2"><a href="#logical-and-not">Logical AND-NOT</a></p>
+<p class="toc2"><a href="#bitwise-and">Bitwise AND</a></p>
+<p class="toc2"><a href="#bitwise-or">Bitwise OR</a></p>
+<p class="toc2"><a href="#bitwise-xor">Bitwise XOR</a></p>
+<p class="toc2"><a href="#byte-swap">Byte Swap</a></p>
+<p class="toc2"><a href="#byte-match">Byte Match</a></p>
+<p class="toc2"><a href="#equals">Equals</a></p>
+<p class="toc2"><a href="#byte-copy">Byte Copy</a></p>
+<p class="toc2"><a href="#conditional-byte-copy">Conditional Byte Copy</a></p>
+<p class="toc2"><a href="#decrement">Decrement</a></p>
+<p class="toc2"><a href="#increment">Increment</a></p>
+<p class="toc2"><a href="#conditional-increment">Conditional Increment</a></p>
+<p class="toc2"><a href="#add">Add</a></p>
+<p class="toc2"><a href="#subtract">Subtract</a></p>
+<p class="toc2"><a href="#function-catalog">Function Catalog</a></p>
+<p class="toc1"><a href="#memory">Memory</a></p>
+<p class="toc2"><a href="#memory-implementation">Implementation</a></p>
+<p class="toc2"><a href="#memory-code">Memory Code</a></p>
+<p class="toc2"><a href="#infinite-array-abstraction">Infinite Array Abstraction</a></p>
+<p class="toc1"><a href="#abstract-machines">Abstract Machines</a></p>
+<p class="toc2"><a href="#function-emulator">Function Emulator</a></p>
+<p class="toc2"><a href="#state-machine">State Machine</a></p>
+<p class="toc3"><a href="#sequencer">Sequencer</a></p>
+<p class="toc3"><a href="#classifier">Classifier</a></p>
+<p class="toc3"><a href="#transducer">Transducer</a></p>
+<p class="toc2"><a href="#turing-machine">Turing Machine</a></p>
+<p class="toc3"><a href="#turing-machine-definition">Definition</a></p>
+<p class="toc3"><a href="#turing-machine-implementation">Implementation</a></p>
+<p class="toc3"><a href="#turing-machine-discussion">Discussion</a></p>
+<p class="toc1"><a href="#general-purpose-computer">General-purpose Computer</a></p>
+<p class="toc2"><a href="#computer-overview">Overview</a></p>
+<p class="toc2"><a href="#microcode">Microcode</a></p>
+<p class="toc2"><a href="#assembly-language">Assembly Language</a></p>
+<p class="toc3"><a href="#registers">Registers</a></p>
+<p class="toc3"><a href="#transfer-instructions">Transfer Instructions</a></p>
+<p class="toc3"><a href="#arithmetic-and-logic-instructions">Arithmetic and Logic Instructions</a></p>
+<p class="toc3"><a href="#branch-instructions">Branch Instructions</a></p>
+<p class="toc3"><a href="#load-instructions">Load Instructions</a></p>
+<p class="toc3"><a href="#store-instructions">Store Instructions</a></p>
+<p class="toc3"><a href="#set-instructions">Set Instructions</a></p>
+<p class="toc2"><a href="#example-program">Example Program</a></p>
+<p class="toc2"><a href="#simulator">Simulator</a></p>
+<p class="toc1"><a href="#applications">Applications</a></p>
+<p class="toc2"><a href="#repository">Overview</a></p>
+<p class="toc2"><a href="#tetrominoscript-editor">TetrominoScript Editor</a></p>
+<p class="toc3"><a href="#tse-run">Run</a></p>
+<p class="toc3"><a href="#tse-user-interface">User Interface</a></p>
+<p class="toc3"><a href="#tse-nand-tutorial">NAND Tutorial</a></p>
+<p class="toc3"><a href="#tse-wires">Wires</a></p>
+<p class="toc3"><a href="#tse-translate">Translate</a></p>
+<p class="toc3"><a href="#tse-export-svg">Export SVG</a></p>
+<p class="toc3"><a href="#tse-export-html">Export HTML</a></p>
+<p class="toc2"><a href="#tetrominoscript-tester">TetrominoScript Tester</a></p>
+<p class="toc2"><a href="#lookup-table-generator">Lookup Table Generator</a></p>
+<p class="toc2"><a href="#assembler">Assembler</a></p>
+<p class="toc2"><a href="#cycle-programs-generator">Cycle Programs Generator</a></p>
+<p class="toc2"><a href="#general-purpose-computer-2">General-purpose Computer</a></p>
+
 <h1 id="introduction">Introduction</h1>
 
 <p>The section provides a foundation for understanding the way to compute within Tetris.</p>

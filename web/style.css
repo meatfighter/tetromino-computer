@@ -15,8 +15,28 @@ p,ul,ol {
     font-weight: 300;
 }
 
+p.toc1 {
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: 300;
+}
+
+p.toc2 {
+    font-size: 16px;
+    line-height: 0.25em;
+    font-weight: 300;
+    margin-left: 24px;
+}
+
+p.toc3 {
+    font-size: 16px;
+    line-height: 0.25em;
+    font-weight: 300;
+    margin-left: 48px;
+}
+
 li {
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 p.title {  
