@@ -1,15 +1,6 @@
 remaining sections:
 
-- index
 - splitting up in smaller pages
 
 - formatting of document (narrow width)
 - test on mobile
-
-new replace does seem to save twice
-
-on new:
-
-Building...
-ERROR: Unknown component unnamed
-Build succeeded.
