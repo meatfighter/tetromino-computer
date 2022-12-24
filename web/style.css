@@ -403,12 +403,27 @@ td.number {
     text-align: right;
 }
 
+table.previous-next {
+    width: 100%;
+}
+
+p.previous {
+    font-size: 16px;
+    line-height: 27px;
+    font-weight: 300;
+    text-align: left;
+}
+
+p.next {
+    font-size: 16px;
+    line-height: 27px;
+    font-weight: 300;
+    text-align: right;
+}
+
 table.copyright {
     width: 100%;
     margin-top: -15px;
-}
-
-td.copyright {    
 }
 
 p.copyright {
