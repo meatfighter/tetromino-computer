@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="and.html">&#129092; Previous</a></p></td><td><p class="next"><a href="xnor.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="logic-gates.html">Logic Gates</a></p>
+
+<h2 id="xor">XOR</h2>
+
+<p>XOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Exclusive_or" target="_blank">exclusive disjunction</a> of its inputs. That is, it outputs <span class="mono">1</span> only when the inputs are unequal.</p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math">A &oplus; B</span></p>
+      
+<p><span class="math">= (A &ne; B)</span></p>
+      
+<p><span class="math">= <span class="overline">A</span>B + A<span class="overline">B</span></span></p>      
+     
+<p><span class="math">= <span class="overline">A</span>A + <span class="overline">A</span>B + A<span class="overline">B</span> + B<span class="overline">B</span></span></p>
+      
+<p><span class="math">= <span class="overline">A</span>(A + B) + <span class="overline">B</span>(A + B)</span></p>  
+
+<p><span class="math">= <span class="overline">A</span> <span class="overline">C</span> + <span class="overline">B</span> <span class="overline">C</span>, C = <span class="overline">A + B</span></span></p>  
+
+<p><span class="math">= <span class="overline">A + C</span> + <span class="overline">B + C</span>, C = <span class="overline">A + B</span></span></p>
+
+<p>That suggests the following construction of XOR from 3 NOR gates and an OR gate.</p>
+
+<object id="xor-schematic.svg" data="xor-schematic.svg" type="image/svg+xml" class="diagram">XOR Schematic</object>
+
+<p>The code below is based on that schematic.</p>
+
+<pre class="code">
+<span class="filename">xor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">3</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">2 5</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
+</pre>
+
+<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-tetrominoes</span>. It is detailed in a <a href="intermediate-gates.html">later section</a>.</p>
+
+<p>Here are the results for all input combinations:</p>
+
+<object id="xor.svg" data="xor.svg" type="image/svg+xml" class="diagram">XOR</object>
+
+<p>The L- and J-tetrominoes resting on the <span class="nowrap">O-tetrominoes</span> and the vertical <span class="nowrap">I-tetrominoes</span> act as wires. The bases of the inverters serve as OR gates, making them function as NORs. And the horizontal <span class="nowrap">I-tetromino</span> at the top operates as an OR gate.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="and.html">&#129092; Previous</a></p></td><td><p class="next"><a href="xnor.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory.html">&#129092; Previous</a></p></td><td><p class="next"><a href="memory-code.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="memory.html">Memory</a></p>
+
+<h2 id="memory-implementation">Implementation</h2>
+
+<p>Memory consists of a rectangular pile with large, yet finite, dimensions. It stores an ordered list of bytes in a sequence of nodes in its <span class="nowrap">top-two</span> rows. The nodes are evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>.</p>
+
+<p>To perform a <a href="https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write" target="_blank">read-modify-write</a> operation, the agent builds a function on top of the bytes to be changed. The function’s output&mdash;a row of 8, 16, or 24 evenly-spaced nodes&mdash;is the initial segment of a new surface of a taller pile. The agent raises the remaining surface flush with the function’s output by constructing identity functions over all the remaining bytes. The new surface contains the same data as the original surface, except for the bytes targeted by the operation.</p> 
+
+<p>To make this clear, the following visualization depicts the layers of a rectangular pile resulting from a read-modify-write operation. The bottom layer shows the initial memory state: five bytes, all zeros. The agent built an <span class="nowrap">8-bit</span> increment function, <span class="mono">INC</span>, above <span class="nowrap">byte <span class="mono">2</span></span>. <span class="mono">INC</span>'s output created the first segment of the top layer (the yellow cell). Then the agent built identify functions over the remaining bytes (the <span class="nowrap">up-arrows</span>). The outputs of those functions formed the rest of top layer. The final memory state consists of five bytes, all zeros, except for <span class="nowrap">byte <span class="mono">2</span></span>, which was incremented.</p>
+
+<table class="bits" style="width: 635.7px">
+<tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom blue">&#129093;</td><td class="left bottom blue">&#129093;</td><td class="left bottom mono blue">INC</td><td class="left bottom blue">&#129093;</td><td class="left right bottom blue">&#129093;</td></tr>
+
+<tr><td class="row-number">0</td><td class="mono bottom green">00</td><td class="left bottom mono green">00</td><td class="left bottom mono green">00</td><td class="left bottom mono green">00</td><td class="left right bottom mono green">00</td></tr>
+
+<tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
+</table> 
+
+<p>In the more elaborate example below, the agent assigned <span class="nowap">byte <span class="mono">0</span></span> the sum of bytes <span class="mono">1</span>, <span class="mono">2</span>, <span class="mono">3</span>, and <span class="mono">4</span>, via a sequence of read-modify-write operations.</p>
+
+<table class="bits" style="width: 635.7px">
+<tr><td class="row-number">9</td><td class="mono bottom top yellow">0A</td><td class="left bottom top mono yellow">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left right bottom top mono green">04</td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr> 
+  
+<tr><td class="row-number">8</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">0A</td><td class="left bottom mono yellow">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+  
+<tr><td class="row-number">7</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">0A</td><td class="left bottom mono yellow">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">6</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono yellow">0A</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td></tr>
+
+<tr><td class="row-number">5</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">03</td><td class="left bottom mono yellow">06</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">4</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">06</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">3</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">02</td><td class="left bottom mono yellow">03</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">2</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">03</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">1</td><td class="mono bottom yellow">01</td><td class="left bottom mono green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td></tr>  
+
+<tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td></tr>  
+</table>
+
+<p>Here is an explanation each operation:</p>
+
+<ol>
+  <li><span class="mono">COPY_B_A</span> copied byte <span class="mono">1</span> to byte <span class="mono">0</span>.</li>
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">1</span> and <span class="mono">2</span> into <span class="nowrap">byte <span class="mono">1</span></span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">2</span> and <span class="mono">3</span> into <span class="nowrap">byte <span class="mono">2</span></span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
+  <li><span class="mono">ADD_AB_FB</span> put the sum of bytes <span class="mono">3</span> and <span class="mono">4</span> into <span class="nowrap">byte <span class="mono">3</span></span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">2</span> and <span class="mono">3</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">1</span> and <span class="mono">2</span>.</li> 
+  <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
+</ol>  
+
+<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the agent used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
+
+<p>Memory capacity is always finite, but the agent can expand it endlessly. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-tetrominoes</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
+
+<object id="zeros.svg" data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
+
+<p>Then the agent repeatedly builds identity functions above the new nodes until the output of one of them reaches the height of the rest of the pile.</p>
+
+<p>The process is portrayed in the following example. It shows a newly allocated byte appended to the sum pile.</p>
+
+<table class="bits" style="width: 635.7px">
+<tr><td class="row-number">9</td><td class="mono bottom top green">0A</td><td class="left bottom top mono green">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left bottom top mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr> 
+  
+<tr><td class="row-number">8</td><td class="mono bottom green">01</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+  
+<tr><td class="row-number">7</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">6</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">5</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">06</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">4</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">06</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">3</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">2</td><td class="mono bottom green">01</td><td class="left bottom mono green">03</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue">&#129093;</td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">1</td><td class="mono bottom green">01</td><td class="left bottom mono green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left blue">&#129093;</td><td class="bottom left right blue">&#129093;</td></tr>
+
+<tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td><td class="left right mono yellow">00</td></tr>  
+
+<tr><td class="row-number"></td><td class="column-number">0</td><td class="column-number">1</td><td class="column-number">2</td><td class="column-number">3</td><td class="column-number">4</td><td class="column-number">5</td></tr>  
+</table>
+
+<p>The agent never deallocates memory. The pile's width either remains constant or it increases.</p>
+
+<p>The agent loads the initial memory state by dropping a sequence of horizontal <span class="nowrap">I-tetrominoes</span> (<span class="nowrap"><span class="mono">0</span>-nodes</span>) and <span class="nowrap">O-tetrominoes</span> (<span class="nowrap"><span class="mono">1</span>-nodes</span>) onto the playfield floor, evenly-spaced, ten columns apart, starting from <span class="nowrap">column 0</span>. For instance, here is a single byte, the value 42:</p>
+
+<object id="forty-two.svg" data="forty-two.svg" type="image/svg+xml" class="diagram">42</object>
+
+<p>Since the agent clears newly allocated bytes, all memory locations after the final byte of the initial state effectively contain zero.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory.html">&#129092; Previous</a></p></td><td><p class="next"><a href="memory-code.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

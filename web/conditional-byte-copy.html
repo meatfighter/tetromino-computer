@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="byte-copy.html">&#129092; Previous</a></p></td><td><p class="next"><a href="decrement.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="conditional-byte-copy">Conditional Byte Copy</h2>
+
+<p>The conditional byte copy function operates on a <span class="nowrap">3-byte</span> array. It either copies the first byte to the second byte, or it does nothing, per the value of the third byte.</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, Q, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>In its circuit, shown below, each bit of <span class="math">Q</span>, <span class="math">Q<span class="sub">i</span></span>, is the output of a <span class="nowrap">2-to-1</span> multiplexer that selects between <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> based on <span class="math">C<span class="sub">0</span></span>.</p>
+
+<object id="copy-a-b-c-schematic.svg" data="copy-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Here is the Tetris version:</p>
+
+<object id="copy-a-b-c.svg" data="copy-a-b-c.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Flipping the circuit horizontally creates a variation that either copies the third byte to the second byte, or does nothing, per the value of the first byte:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, Q, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">C</span> and <span class="math">B</span> pass through, unchanged.</p>
+
+<p>The flipped circuit appears below.</p>
+
+<object id="copy-c-b-a-schematic.svg" data="copy-c-b-a-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>The Tetris version follows.</p>
+
+<object id="copy-c-b-a.svg" data="copy-c-b-a.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>Repositioning the multiplexers from the <span class="math">A</span> lines to the <span class="math">B</span> lines reverses the roles of the second and third bytes:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, Q </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q</span> is <span class="math">A</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">B</span>. In both cases, <span class="math">A</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>Here is the schematic:</p>
+
+<object id="copy-c-a-b-schematic.svg" data="copy-c-a-b-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Below is the Tetris version.</p>
+
+<object id="copy-c-a-b.svg" data="copy-c-a-b.svg" type="image/svg+xml" class="diagram">Q = C ? B : A</object>
+
+<p>Finally, flipping that circuit horizontally yields a variation that either copies the second byte to the first byte, or does nothing, per the value of the third byte:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q</span> is <span class="math">B</span> if <span class="math">C</span> is <span class="mono">1</span>; otherwise, <span class="math">Q</span> is <span class="math">A</span>. In both cases, <span class="math">B</span> and <span class="math">C</span> pass through, unchanged.</p>
+
+<p>The flipped circuit follows.</p>
+
+<object id="copy-b-a-c-schematic.svg" data="copy-b-a-c-schematic.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<p>Here is the Tetris realization:</p>
+
+<object id="copy-b-a-c.svg" data="copy-b-a-c.svg" type="image/svg+xml" class="diagram">Q = C ? A : B</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="byte-copy.html">&#129092; Previous</a></p></td><td><p class="next"><a href="decrement.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

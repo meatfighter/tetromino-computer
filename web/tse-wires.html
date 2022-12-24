@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="tse-nand-tutorial.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tse-translate.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="applications.html">Applications</a> &gt; <a href="tetrominoscript-editor.html">TetrominoScript Editor</a></p>
+
+<h3 id="tse-wires">Wires</h3>
+
+<p>On startup, TSE synthesizes components that represent vertical wires of various lengths. The image below depicts <span class="nowrap mono">ir3, ir4, &mldr;, ir12</span> from left to right. The <span class="mono">&ldquo;i&rdquo;</span> in their names refer to fact that vertical wires primarily consist of <span class="nowrap">I-tetrominoes</span>. The <span class="mono">&ldquo;r&rdquo;</span> means the piece at the base extends to the right of the wire. And the number is the height. It goes up to <span class="mono">2001</span>.</p>
+
+<object id="ils.svg" data="ils.svg" type="image/svg+xml" class="diagram">ils</object>
+
+<p>The following image shows <span class="nowrap mono">il3, il4, &mldr;, il12</span>. The <span class="mono">&ldquo;l&rdquo;</span> means the piece at the base extends to the left of the wire.</p>
+
+<object id="irs.svg" data="irs.svg" type="image/svg+xml" class="diagram">irs</object>
+
+<p>TSE renders a vertical wire as a dark rectangle with unassigned input and output nodes:</p>
+
+<p><img id="tse-ir8-drag.png" class="centered" src="tse-ir8-drag.png" alt="tse-ir8-drag.png"></p>
+
+<p>Below, the wire is attached to the inverter such that the inverter's output node serves as the wire's input node. Note that it propagates the signal.</p>
+
+<p><img id="tse-ir8-drop.png" class="centered" src="tse-ir8-drop.png" alt="tse-ir8-drop.png"></p>
+
+<p>TSE also synthesizes components that represent horizontal wires of various lengths. The following image depicts <span class="nowrap mono">s3, s5, s7, &mldr;, s21</span> and <span class="nowrap mono">z3, z5, z7, &mldr;, z21</span> separated by <span class="nowrap">O-tetrominoes</span> from top to bottom. The numbers refer to the component widths. As with the vertical wires, they go up to <span class="mono">2001</span>. However, since a single piece has width three and each additional piece increases the width by two, TSE cannot synthesize horizontal wires of even length, at least not purely out of <span class="nowrap">S- and Z-tetrominoes</span>.</p>
+
+<object id="ss-zs.svg" data="ss-zs.svg" type="image/svg+xml" class="diagram">ss and zs</object>
+
+<p>The image below shows that TSE renders <span class="mono">s7</span> as a enigmatic set of rectangles.</p>
+
+<p><img id="tse-s7-drag.png" class="centered" src="tse-s7-drag.png" alt="tse-s7-drag.png"></p>
+
+<p>It looks strange because both the input and the output nodes are disjoint. In the following image, the input node is painted blue. The white-outlined rectangles constitute the output node.</p>
+
+<p><img id="tse-s7-input-nodes.png" class="centered" src="tse-s7-input-nodes.png" alt="tse-s7-input-nodes.png"></p>
+
+<p><span class="mono">s7</span> can couple to a component in two different ways. It can connect on the right:</p>
+
+<p><img id="tse-s7-right-input-1.png" class="centered" src="tse-s7-right-input-1.png" alt="tse-s7-right-input-1.png"></p>
+
+<p>That hangs it off the side:</p>
+
+<p><img id="tse-s7-right-input-2.png" class="centered" src="tse-s7-right-input-2.png" alt="tse-s7-right-input-2.png"></p>
+
+<p>Or it can connect on the bottom:</p>
+
+<p><img id="tse-s7-bottom-input-1.png" class="centered" src="tse-s7-bottom-input-1.png" alt="tse-s7-bottom-input-1.png"></p>
+
+<p>That rests it on its base:</p>
+
+<p><img id="tse-s7-bottom-input-2.png" class="centered" src="tse-s7-bottom-input-2.png" alt="tse-s7-bottom-input-2.png"></p>
+
+<p>Either way, only the rightmost <span class="nowrap">S-tetromino</span> supports the entire wire.</p>
+
+<p><span class="mono">z7</span> is the horizontal reflection of <span class="mono">s7</span>:</p>
+
+<p><img id="tse-z7.png" class="centered" src="tse-z7.png" alt="tse-z7.png"></p>
+
+<p>The user can fashion wires from individual tetrominoes. To demonstrate this, the following image shows a <span class="nowrap">TS program</span> describing a pair of inverters.</p>
+
+<p><img id="tse-inverters-0.png" class="centered" src="tse-inverters-0.png" alt="tse-inverters-0.png"></p>
+
+<p>The user presses the <span class="mono">iv</span> button. Then, as the user moves the mouse cursor in the playfield, TSE renders a vertical <span class="nowrap">I-tetromino</span>:</p>
+
+<p><img id="tse-inverters-1.png" class="centered" src="tse-inverters-1.png" alt="tse-inverters-1.png"></p>
+
+<p>The user presses the <span class="keys">left mouse button</span>, causing the <span class="nowrap">I-tetromino</span> to drop: </p>
+
+<p><img id="tse-inverters-2.png" class="centered" src="tse-inverters-2.png" alt="tse-inverters-2.png"></p>
+
+<p>TSE appends <span class="mono">iv</span> to the <span class="nowrap">TS program</span>:</p>
+
+<p><img id="tse-inverters-3.png" class="centered" src="tse-inverters-3.png" alt="tse-inverters-3.png"></p>
+
+<p>The user repeats with a second <span class="nowrap">I-tetromino</span>:</p>
+
+<p><img id="tse-inverters-4.png" class="centered" src="tse-inverters-4.png" alt="tse-inverters-4.png"></p>
+
+<p>Like any solid structure, an individual tetromino resting on a node propagates the node’s value to its surface cells. In this case, the uppermost cells of the vertical <span class="nowrap">I-tetrominoes</span>, outlined in the image below, act as output nodes.</p>
+
+<p><img id="tse-inverters-5.png" class="centered" src="tse-inverters-5.png" alt="tse-inverters-5.png"></p>
+
+<p>In the following image, the left <span class="nowrap">I-tetromino</span>'s output node serves as the input node of an inverter.</p>
+
+<p><img id="tse-inverters-6.png" class="centered" src="tse-inverters-6.png" alt="tse-inverters-6.png"></p>
+
+<p>Similarly, the right <span class="nowrap">I-tetromino</span>'s output node serves as the input node of another inverter:</p>
+
+<p><img id="tse-inverters-7.png" class="centered" src="tse-inverters-7.png" alt="tse-inverters-7.png"></p>
+
+<p>Here is the result at rendering depth 2:</p>
+
+<p><img id="tse-inverters-8.png" class="centered" src="tse-inverters-8.png" alt="tse-inverters-8.png"></p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="tse-nand-tutorial.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tse-translate.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

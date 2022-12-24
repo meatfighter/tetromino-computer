@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="infinite-playfield.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tetrominoscript.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="introduction.html">Introduction</a></p>
+
+<h2 id="input-language">Input Language</h2>
+
+<p>The agent is a device that enters precisely timed input sequences per the instructions of an <span class="nowrap"><span class="term">Input Language</span> (IL)</span> program. Each instruction contains a tetromino type, <span class="nowrap"><span class="mono">t</span><span class="roboto">&isin;{T,J,Z,O,S,L,I}</span></span>, followed by a sequence of moves, <span class="mono">m</span>:</p>
+
+<p class="definition">t m<span class="sub3">0</span> m<span class="sub3">1</span> m<span class="sub3">2</span> &mldr; m<span class="sub3">N&minus;1</span></p> 
+
+<p>Each element of the sequence, <span class="mono">m<span class="sub3">i</span></span>, is one of the following.</p>
+
+<ul>
+    <li><span class="mono nowrap">ROTATE_NINETY_DEGREES_COUNTERCLOCKWISE</span></li>
+    <li><span class="mono nowrap">ROTATE_NINETY_DEGREES_CLOCKWISE</span></li>
+    <li><span class="mono nowrap">SHIFT_LEFT_ONE_COLUMN</span></li>
+    <li><span class="mono nowrap">SHIFT_RIGHT_ONE_COLUMN</span></li>
+    <li><span class="mono nowrap">SOFT_DROP_ONE_ROW</span></li>
+    <li><span class="mono nowrap">SEMIHARD_DROP_TO_ROW y</span></li>
+    <li><span class="mono nowrap">HARD_DROP</span></li>  
+</ul>
+
+<p>Note: <span class="mono">SEMIHARD_DROP_TO_ROW</span> requires a parameter, the target row, <span class="mono">y</span>.</p>
+
+<p>When a tetromino spawns, the agent compares the tetromino type with <span class="mono">t</span>. If they match, the agent enters sequence <span class="mono">m</span>, and it advances to the next instruction. Otherwise, the agent hard drops the tetromino onto an unbounded pile of discards in <span class="nowrap">column &minus;2</span>, and it stays on the current instruction:</p> 
+
+<object id="discards-pile.svg" data="discards-pile.svg" type="image/svg+xml" class="diagram">Discards Pile</object>
+
+<p>IL programs direct the agent to assemble structures only in <span class="nowrap">columns &ge; 0</span>.</p> 
+
+<p>The way the agent enters moves depends on the mechanics of the Tetris implementation. For instance, to shift left by two columns, the agent may need to press the left button, release the left button, and press the left button again with a particular timing.</p>
+
+<p>In practice, <span class="nowrap">IL programs</span> direct the agent to construct a pile near the origin that progressively grows taller and wider. That being the case, it can work with a Tetris implementation that defines <span class="nowrap">&ldquo;row infinity&rdquo;</span> as a finite row whose index increases as a function of the number of spawns. In such an implementation, the agent emulates a <span class="nowrap">semihard drop</span> with a finite number of <span class="nowrap">soft drops</span>.</p>
+
+<p>Since the game denies requests to move a piece into solid cells, the content of the playfield determines where a piece ultimately ends up. For example, in the animation below, the agent attempts to shift the <span class="nowrap">O-tetromino</span> into <span class="nowrap">column 1</span>. The attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+
+<object id="shift-interruption.svg" data="shift-interruption.svg" type="image/svg+xml" class="diagram">Shift Interruption</object>
+
+<p>In the following example, the agent attempts to drop the <span class="nowrap">O-tetromino</span> onto the floor. Again, the attempt works on the empty playfield on the left, but it fails on the nonempty playfield on the right.</p>
+
+<object id="drop-interruption.svg" data="drop-interruption.svg" type="image/svg+xml" class="diagram">Drop Interruption</object>
+
+<p>An <span class="nowrap">IL program</span> program resembles a <span class="nowrap"><a href="https://en.wikipedia.org/wiki/Tool-assisted_speedrun" target="_blank">tool-assisted speedrun</a> (TAS)</span> recording. Both rely on deterministic responses to precisely timed inputs. But IL supports nondeterministic randomizers because it instructs the agent to wait for spawns and to discard unwanted pieces. And the agent acts as an interpreter between a move sequence and the input requirements of a specific Tetris implementation. Nonetheless, if an implementation employs a seedable <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a>, then a <span class="nowrap">TAS recording</span> along with the seed will work just as well.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="infinite-playfield.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tetrominoscript.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

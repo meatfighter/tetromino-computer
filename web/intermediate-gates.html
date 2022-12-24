@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="xnor.html">&#129092; Previous</a></p></td><td><p class="next"><a href="wires.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="logic-gates.html">Logic Gates</a></p>
+
+<h2 id="intermediate-gates">Intermediate Gates</h2>
+
+<p>The <a href="inverter-not.html">inverter described above</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-tetromino</span>:</p>
+
+<pre class="code">
+<span class="filename">_notLeft.t</span>
+<span class="line"><span class="normal">o </span><span class="number">-1 2 0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
+</pre>
+
+<p>As shown in the animated constructions below, the input and output nodes overlap. When the input is <span class="mono">1</span>, the overlap establishes an output of <span class="mono">0</span> before the <span class="nowrap">O-tetromino</span> drops. Though, when the input is <span class="mono">0</span>, the output node is initially unassigned.</p>
+
+<object id="animated-intermediate-not.svg" data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
+
+<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-tetromino</span>. If that <span class="nowrap">O-tetromino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in a <a href="simulator.html">later section</a>, which depends on consistent circuit operation.</p>
+
+<p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-tetromino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, <span class="mono">_notLeft</span> and other leaky gates are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. Their names start with an underscore to make them instantly distinguishable from ordinary gates.</p>
+
+<p>Smaller circuits suggest faster processing. But the aforementioned optimization makes circuits built purely out of ordinary gates compute just as quickly despite their larger size. There is no justification for intermediate gates except that their compact nature effectuates aesthetically pleasing designs. That is the impetus behind the following variation of the intermediate inverter.</p>
+
+<pre class="code">
+<span class="filename">_notLeft2.t</span>
+<span class="line"><span class="normal">o </span><span class="number">-1 2 1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 1</span></span>
+</pre>
+
+<p><span class="mono">_notLeft2</span> nudges the <span class="nowrap">O-tetromino</span> right twice:</p>
+
+<object id="animated-intermediate-not-2.svg" data="animated-intermediate-not-2.svg" type="image/svg+xml" class="diagram">Intermediate NOT 2</object>
+
+<p>The construction assumes the fall speed is slow enough to slide the <span class="nowrap">O-tetromino</span> across the surface of the input node when the input value is <span class="mono">0</span>.</p>
+
+<p><span class="mono">_notLeft2</span> is attached to the output of an ordinary OR gate to create an intermediate NOR gate:</p>
+
+<pre class="code">
+<span class="filename">_norLeft.t</span>
+<span class="line"><span class="normal">or </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">_notLeft2 </span><span class="number">-1 2</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">0 3</span></span>
+</pre>
+
+<p>Its response to all possible inputs appears below.</p>
+
+<object id="intermediate-nor.svg" data="intermediate-nor.svg" type="image/svg+xml" class="diagram">Intermediate NOR</object>
+
+<p>On <span class="nowrap">line 2</span> of the code, if <span class="mono">_notLeft2</span> is replaced with <span class="mono">_notLeft</span>, the intermediate NOR gate works just as well. However, when both inputs are <span class="mono">0</span>, the vertical column of <span class="nowrap">O-tetrominoes</span> becomes lopsided, an aesthetically displeasing configuration.</p>
+
+<p><span class="mono">_norLeft</span> is found in the interior of the ordinary XOR gate to reduce its size and to guarantee the <span class="nowrap">O-tetromino</span> is always caught.</p>
+
+<p>The &ldquo;<span class="mono">Left</span>&rdquo; in the names of these intermediate gates refers the side of the inputs nudged by the <span class="nowrap">O-tetromino</span>. Horizontally-reflected versions exist called <span class="mono">_notRight</span>, <span class="mono">_notRight2</span>, and <span class="mono">_norRight</span>.</p>
+
+<p>The intermediate NAND gate, <span class="mono">_nand</span>, uses intermediate inverters to feed input complements into an ordinary OR gate:</p>
+
+<pre class="code">
+<span class="filename">_nand.t</span>
+<span class="line"><span class="normal">_notLeft </span><span class="number">-1 0</span></span>
+<span class="line"><span class="normal">_notRight </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">or </span><span class="number">0 1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 3</span></span>
+</pre>
+
+<p>Intermediate NAND leaks up to two <span class="nowrap">O-tetrominoes</span>:</p>
+
+<object id="intermediate-nand.svg" data="intermediate-nand.svg" type="image/svg+xml" class="diagram">Intermediate NAND</object>
+
+<p>The intermediate AND gate, <span class="mono">_andLeft</span>, consists of an intermediate NAND in series with an intermediate inverter:</p>
+
+<pre class="code">
+<span class="filename">_andLeft.t</span>
+<span class="line"><span class="normal">_nand </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">_notLeft2 </span><span class="number">-1 3</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 4</span></span>
+</pre>
+
+<p>Here is its responses to all inputs:</p>
+
+<object id="intermediate-and.svg" data="intermediate-and.svg" type="image/svg+xml" class="diagram">Intermediate AND</object>
+
+<p>Its horizontally-reflected version goes by the name <span class="mono">_andRight</span>.</p>
+
+<p>While a single intermediate NOR appears in the ordinary XOR, the intermediate XOR, <span class="mono">_xor</span>, employs three of them:</p>
+
+<pre class="code">
+<span class="filename">_xor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">3</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">_norRight </span><span class="number">3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">or </span><span class="number">0 9</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..0 11</span></span>
+</pre>
+
+<p>Like the intermediate NAND and AND gates, intermediate XOR emits up to two <span class="nowrap">O-tetrominoes</span>:</p>
+
+<object id="intermediate-xor.svg" data="intermediate-xor.svg" type="image/svg+xml" class="diagram">Intermediate XOR</object>
+
+<p>Other intermediate gates are possible. But aside from the intermediate NOR gate and the intermediate inverter it is based on, the rest are not used. Their petiteness and visual appeal are not compelling enough to use them over ordinary gates, which operate safely in all circumstances.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="xnor.html">&#129092; Previous</a></p></td><td><p class="next"><a href="wires.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

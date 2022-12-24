@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory-implementation.html">&#129092; Previous</a></p></td><td><p class="next"><a href="infinite-array-abstraction.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="memory.html">Memory</a></p>
+
+<h2 id="memory-code">Memory Code</h2>
+
+<p><span class="nowrap"><span class="term">Memory Code</span> (MC)</span> is a language that provides a concise way to manipulate memory. It compiles to TS, and ultimately <span class="nowrap">to IL</span>.</p> 
+
+<p>MC has of two instruction types. The first directs the agent to perform a read-modify-write operation. It consists of the modify function’s name, <span class="mono">f</span>, and the memory address where to apply it, <span class="mono">x</span>: 
+
+<p class="definition">f x</p> 
+
+<p>It commands the agent to:</p>
+
+<ol>
+  <li>Build <span class="mono">f</span> on the surface of the pile, starting at byte <span class="mono">x</span>, and covering either one, two, or three bytes per <span class="mono">f</span>'s byte width.</li> 
+  <li>Repeatedly build identity functions on the surface of the pile, covering all remaining bytes.</li>
+</ol>
+
+<p>The following <span class="nowrap">MC program</span> demonstrate this instruction type. It performs the sum from the previous section.</p>
+
+<pre class="code">
+<span class="filename">sum.mc</span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">1</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">2</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">3</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">0</span></span>
+</pre>
+
+<p>The second instruction type directs the agent to execute a previously defined <span class="nowrap">MC program</span>, <span class="mono">p</span>, relative to a specified memory address, <span class="mono">x</span>: 
+
+<p class="definition">p x</p>
+
+<p>The <span class="nowrap">MC compiler</span> replaces the instruction with <span class="mono">p</span>'s contents, such that the memory address arguments of <span class="mono">p</span>'s instruction are incremented by <span class="mono">x</span>. The compiler recursively repeats that process until all what remains are instructions of the first type. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
+
+<p>The code below references the last example to illustrate this instruction type.</p>
+
+<pre class="code">
+<span class="filename">sum5.mc</span>
+<span class="line"><span class="normal">sum </span><span class="number">5</span></span>
+</pre>
+
+<p>The compiler expands the single instruction, offsetting the memory locations per the provided address:</p>
+
+<pre class="code">
+<span class="filename">sum5Expanded.mc</span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">5</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">6</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">7</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">8</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5</span></span>
+</pre>
+
+<p>The expanded version reveals <span class="mono">sum5</span> totals bytes <span class="mono">6</span>, <span class="mono">7</span>, <span class="mono">8</span>, and <span class="mono">9</span>, and it puts the result into <span class="nowrap">byte <span class="mono">5</span></span>. In other words, it executes <span class="mono">sum</span> relative to <span class="nowrap">byte <span class="mono">5</span></span>.</p>
+
+<p>MC does not provide instructions for initializing memory. Rather, an <span class="nowrap">MC program</span> operates on existing memory, a rectangular pile originating from a <span class="nowrap">TS program</span> and potentially manipulated by other <span class="nowrap">MC programs</span>. That being the case, the compiler requires the existing pile’s dimensions. The pile’s height provides the original surface <span class="nowrap">row index</span>. Then, for each <span class="nowrap">MC instruction</span>, the compiler increments the surface <span class="nowrap">row index</span> by the height of the instruction’s function, and it uses the function’s <span class="nowrap">byte width</span> along with the pile’s width to figure out how many identity functions to build and where to build them.</p>
+
+<p>The compiler knows the function <span class="nowrap">byte widths</span> because, at startup, it counts the number of <span class="mono keyword2">in</span> directives in each <span class="nowrap">TS program</span>. And it knows the function heights because it builds an instance of each function on a finite, private playfield, using zeros for input.</p>
+
+<p>For the identity functions, the compiler outputs a sequence of <span class="nowrap">TS instructions</span> that direct the agent to build columns above the pile’s surface nodes, primarily from vertical <span class="nowrap">I-tetrominoes</span>, where the heights of the columns equal the height of the <span class="nowrap">MC instruction’s</span> function.</p>
+
+<p>If the compiler encounters a <span class="nowrap">MC instruction</span> that references a memory address beyond the pile’s width, then it expands the pile up to that address before it translates the instruction to TS. As explained in the last section, to allocate and initialize bytes, the compiler appends <span class="nowrap"><span class="mono">0</span>-nodes</span> in the form of horizontal <span class="nowrap">I-tetrominoes</span>, and it pads the nodes in the same way that it synthesizes the identity functions.</p>
+
+<p>The agent can execute the <span class="nowrap">TS program</span> generated by the <span class="nowrap">MC compiler</span> on any rectangular pile matching the dimensions provided at compilation time.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory-implementation.html">&#129092; Previous</a></p></td><td><p class="next"><a href="infinite-array-abstraction.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

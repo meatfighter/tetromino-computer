@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="logical-right-shift.html">&#129092; Previous</a></p></td><td><p class="next"><a href="logical-and-not.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="logical-and">Logical AND</h2>
+
+<p>The logical AND function operates on a <span class="nowrap">3-byte</span> array, where all three bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It ANDs the first and second bytes together, and it puts the result in the third byte:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">C = AB</span></p>
+
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
+
+<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are ANDed together:</p>
+
+<object id="and-a-b-c-schematic.svg" data="and-a-b-c-schematic.svg" type="image/svg+xml" class="diagram">Logical AND Schematic</object>
+
+<p>In the Tetris realization below, the AND gate is miniscule in comparison to the swap circuits required for <span class="math">A<span class="sub">0</span></span> to traverse the <span class="math">B</span> lines.</p>
+
+<object id="and-a-b-c.svg" data="and-a-b-c.svg" type="image/svg+xml" class="diagram">Logical AND</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="logical-right-shift.html">&#129092; Previous</a></p></td><td><p class="next"><a href="logical-and-not.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

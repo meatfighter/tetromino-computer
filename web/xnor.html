@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="xor.html">&#129092; Previous</a></p></td><td><p class="next"><a href="intermediate-gates.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="logic-gates.html">Logic Gates</a></p>
+
+<h2 id="xnor">XNOR</h2>
+
+<p>XNOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_equality" target="_blank">equality</a> of its inputs. That is, the output is <span class="mono">1</span> only when the inputs are equal.</p>
+
+<p>The code below constructs XNOR from an XOR gate connected to an inverter.</p>
+
+<pre class="code">
+<span class="filename">xnor.t</span>
+<span class="line"><span class="normal">xor </span><span class="number">0 0</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">0 11</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 16</span></span>
+</pre>
+
+<p>The following image shows the outputs for all possible inputs.</p>
+
+<object id="xnor.svg" data="xnor.svg" type="image/svg+xml" class="diagram">XNOR</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="xor.html">&#129092; Previous</a></p></td><td><p class="next"><a href="intermediate-gates.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="computer-overview.html">&#129092; Previous</a></p></td><td><p class="next"><a href="assembly-language.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a></p>
+
+<h2 id="microcode">Microcode</h2>
+
+<p>This section presents the <span class="nowrap">MC programs</span> that implement internal control sequences and machine code instructions. The programs represent a layer of abstraction analogous to <a href="https://en.wikipedia.org/wiki/Microcode" target="_blank">microcode</a> in traditional processor design.</p>
+
+<p>As revealed in the image below, the state register consists of twenty-one <span class="nowrap">8-bit</span> registers. Most of them are internal registers, but a few are exposed to machine code instructions.</p>
+
+<object id="register-all-bytes.svg" data="register-all-bytes.svg" type="image/svg+xml" class="diagram">All Byte Registers</object>
+
+<p>The three bytes immediately left of the state register and the byte immediately right of the state register are called <span class="mono">I</span>, <span class="mono">J</span>, <span class="mono">K</span>, and <span class="mono">Q</span>, respectively, regardless of the state register’s location. The <span class="nowrap">MC programs</span> execute relative to <span class="nowrap">byte <span class="mono">I</span></span>.</p>
+
+<p>Several <span class="nowrap">8-bit</span> registers jointly function as <span class="nowrap">16-bit</span> or <span class="nowrap">24-bit</span> registers:</p>
+
+<object id="register-all.svg" data="register-all.svg" type="image/svg+xml" class="diagram">All Registers</object>
+
+<p>The <span class="nowrap">16-bit</span> <span class="term">address register</span>, <span class="mono">a</span>, stores <span class="mono">I</span>’s address:</p>
+
+<object id="register-a.svg" data="register-a.svg" type="image/svg+xml" class="diagram">Address Register</object>
+
+<p>Since the state register starts out two bytes right of the machine code program, a process initializes <span class="mono">a</span> to <span class="mono">L&minus;1</span>.</p>
+
+<p>The <span class="nowrap">MC program</span> that slides the state register left decrements <span class="mono">a</span> to keep it pointed at <span class="mono">I</span>:</p>
+
+<pre class="code">
+<span class="filename">SLIDE_STATE_REG_LEFT.mc</span>
+<span class="line"><span class="normal">DEC_16 </span><span class="number">13               </span><span class="comment">; --a;</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">2                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap K right</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap K right</span></span>
+</pre>
+
+<p>Similarly, the <span class="nowrap">MC program</span> that slides the state register right increments <span class="mono">a</span>:</p>
+
+<pre class="code">
+<span class="filename">SLIDE_STATE_REG_RIGHT.mc</span>
+<span class="line"><span class="normal">INC_16 </span><span class="number">13               </span><span class="comment">; ++a;</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">23                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">22                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">21                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">20                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">19                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">18                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">17                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">16                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">15                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">14                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">13                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">12                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">11                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">10                 </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">9                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">8                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">7                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">6                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">5                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">4                  </span><span class="comment">; swap Q left</span></span>
+<span class="line"><span class="normal">SWAP </span><span class="number">3                  </span><span class="comment">; swap Q left</span></span>
+</pre>
+
+<p>The <span class="nowrap">16-bit</span> <span class="term">program counter</span>, <span class="mono">P</span>, stores the address of the instruction to be fetched. As the computer slides the state register across RAM, when <span class="mono">P</span> equals <span class="mono">a</span>, it copies <span class="mono">IJK</span> into the <span class="term">instruction register</span>, <span class="mono">ijk</span>:</p>
+
+<object id="register-p.svg" data="register-p.svg" type="image/svg+xml" class="diagram">Program Counter</object>
+
+<p>Machine code instructions vary in length from one to three bytes. The first byte is the opcode and the rest, if any, is an <span class="nowrap">8-bit</span> or a <span class="nowrap">16-bit</span> operand. At twenty-four bits wide, <span class="mono">ijk</span> can store any instruction. And at decode time, if the instruction does not take up the full width of <span class="mono">ijk</span>, the computer discards the remainder.</p>
+
+<p>The implementation follows. To highlight the most pertinent code, the listings omit <span class="mono">SWAP</span>s from this point forward.</p>
+
+<pre class="code">
+<span class="filename">FETCH.mc</span>
+<span class="line"><span class="normal">CMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (P1 == a1);</span></span>
+<span class="line"><span class="normal">CMP_AND_C </span><span class="number">10            </span><span class="comment">; s1 &= (P0 == a0);</span></span>
+<span class="line"><span class="normal">COPY_A_B_C </span><span class="number">2            </span><span class="comment">; if (s1) i = I;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C </span><span class="number">3            </span><span class="comment">; if (s1) j = J;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C </span><span class="number">4            </span><span class="comment">; if (s1) k = K;</span></span>
+</pre>
+
+<p>Since there is no <span class="nowrap">16-bit</span> comparator, the program separately compares the high bytes, <span class="mono">P1</span> and <span class="mono">a1</span>, and the low bytes, <span class="mono">P0</span> and <span class="mono">a0</span>. It puts the result in <span class="mono">s1</span>, one of two <span class="nowrap">8-bit</span> <span class="term">shuttle registers</span> that transport intermediate values between production sites and consumption sites. Because there is no <span class="nowrap">24-bit</span> copy function, the program individually and conditionally copies the bytes of <span class="mono">IJK</span> to <span class="mono">ijk</span> if <span class="mono">s1</span> is set.</p>
+
+<p>After the computer slides the state register across RAM, it increments <span class="mono">P</span> by the fetched instruction length in preparation of the next fetch. The implementation uses match functions that check if the opcode in <span class="mono">i</span> fits the pattern of a <span class="nowrap">2- or 3-byte</span> instruction:</p>
+
+<pre class="code">
+<span class="filename">INCREMENT_P.mc</span>
+<span class="line"><span class="normal">INC_16 </span><span class="number">8                </span><span class="comment">; ++P;</span></span>
+<span class="line"><span class="normal">SEX_C </span><span class="number">12                </span><span class="comment">; s1 = (i is a 2-byte instruction);</span></span>
+<span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
+<span class="line"><span class="normal">THREE_C </span><span class="number">12              </span><span class="comment">; s1 = (i is a 3-byte instruction);</span></span>
+<span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
+<span class="line"><span class="normal">INC_16_C </span><span class="number">8              </span><span class="comment">; if (s1) ++P;</span></span>
+</pre>
+
+<p>After the computer increments <span class="mono">P</span>, it decodes and executes the fetched instruction. The process begins with the <span class="term">transfer instructions</span>, each of which copies an <span class="nowrap">8-bit</span> source register to an <span class="nowrap">8-bit</span> destination register, among those listed below.</p>
+
+<table class="borderless high-rows">  
+  <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Description</th></tr>
+  <tr><td class="mono">A</td><td class="pad-right2">Accumulator</td><td class="borderless">Input and lone output of all arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">B</td><td class="pad-right2"><span class="nowrap">Data Register</span></td><td class="borderless">Input of some arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">M</td><td class="pad-right2"><span class="nowrap">High Memory Register</span></td><td class="borderless"><span class="nowrap">High byte</span> of the <span class="nowrap">16-bit</span> <span class="term">Memory Register</span>, <span class="mono">MN</span>, which contains the <span class="nowrap">source address</span> of <span class="nowrap">load instructions</span> and the <span class="nowrap">destination address</span> of <span class="nowrap">store instructions</span>.</td></tr>
+  <tr><td class="mono">N</td><td class="pad-right2"><span class="nowrap">Low Memory Register</span></td><td class="borderless"><span class="nowrap">Low byte</span> of <span class="mono">MN</span>.</td></tr>
+</table>
+
+<p>There are twelve ways to transfer data between those registers:</p>
+
+<object id="register-copy-all.svg" data="register-copy-all.svg" type="image/svg+xml" class="diagram">Transfers</object>
+
+<p>The following <span class="nowrap">MC program</span> decodes and executes the transfer instructions.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_TRANSFER.mc</span>
+<span class="line"><span class="normal">TMX_C </span><span class="number">12                </span><span class="comment">; s1 = (i matches TM*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">13           </span><span class="comment">; if (s1) s0 = M;</span></span>
+<span class="line"><span class="normal">TNX_C </span><span class="number">13                </span><span class="comment">; s1 = (i matches TN*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) s0 = N;</span></span>
+<span class="line"><span class="normal">TAX_C </span><span class="number">17                </span><span class="comment">; s1 = (i matches TA*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">18           </span><span class="comment">; if (s1) s0 = A;</span></span>
+<span class="line"><span class="normal">TBX_C </span><span class="number">18                </span><span class="comment">; s1 = (i matches TB*);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s1) s0 = B;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TXB_C </span><span class="number">18                </span><span class="comment">; s1 = (i matches T*B);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">19           </span><span class="comment">; if (s1) B = s0;</span></span>
+<span class="line"><span class="normal">TXA_C </span><span class="number">17                </span><span class="comment">; s1 = (i matches T*A);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">18           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"><span class="normal">TXN_C </span><span class="number">13                </span><span class="comment">; s1 = (i matches T*N);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">14           </span><span class="comment">; if (s1) N = s0;</span></span>
+<span class="line"><span class="normal">TXM_C </span><span class="number">12                </span><span class="comment">; s1 = (i matches T*M);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) M = s0;</span></span>
+</pre>
+
+<p>If the opcode in <span class="mono">i</span> matches the pattern of a transfer instruction, then the program copies the source register to <span class="mono">s0</span> <span class="nowrap">(lines 1&ndash;8)</span>. Subsequently, the program copies <span class="mono">s0</span> to the destination register, again conditioned on <span class="mono">i</span> <span class="nowrap">(lines 10&ndash;17)</span>. Since transfer instructions are <span class="nowrap">1-byte</span> instructions, the program ignores <span class="mono">j</span> and <span class="mono">k</span>.</p>
+
+<p>Next, the computer handles <span class="term">arithmetic and logic instructions</span>. Each computes an <span class="nowrap">8-bit</span> function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>, and it puts the result in <span class="mono">A</span>. If the result is negative (if <span class="nowrap">bit-7</span> of <span class="mono">A</span> is <span class="mono">1</span>), the instruction sets the <span class="term">negative flag</span>, <span class="mono">n</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">n</span> to <span class="mono">0</span>. If the result is zero, the instruction sets the <span class="term">zero flag</span>, <span class="mono">z</span>, to <span class="mono">1</span>; otherwise, it resets <span class="mono">z</span> to <span class="mono">0</span>.</p>
+
+<p>The <span class="nowrap">MC program</span> below decodes and executes the twelve arithmetic and logic instructions, all of which are <span class="nowrap">1-byte</span> instructions. Each implementation follows the same pattern. First, the program compares <span class="mono">i</span> and an opcode, storing the result in <span class="mono">s1</span>. Then, the program sets <span class="mono">s0</span> to a function of <span class="mono">A</span> or of <span class="mono">A</span> and <span class="mono">B</span>. Finally, the program conditionally copies <span class="mono">s0</span> to <span class="mono">A</span> based on <span class="mono">s1</span>.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_ARITHMETIC_LOGIC.mc</span>
+<span class="line"><span class="normal">CLEAR </span><span class="number">14                </span><span class="comment">; d = 0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ADD_C </span><span class="number">12                </span><span class="comment">; s1 = (i is ADD);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">ADD_AB_FB </span><span class="number">16            </span><span class="comment">; s0 += B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">AND_C </span><span class="number">12                </span><span class="comment">; s1 = (i is AND);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">AND_AB_FB </span><span class="number">16            </span><span class="comment">; s0 &= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">DEC_C </span><span class="number">12                </span><span class="comment">; s1 = (i is DEC);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">DEC </span><span class="number">15                  </span><span class="comment">; --s0;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">INC_C </span><span class="number">12                </span><span class="comment">; s1 = (i is INC);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">INC </span><span class="number">15                  </span><span class="comment">; ++s0;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS2_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS2);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS2 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 2;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS3_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS3);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS3 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 3;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LS4_C </span><span class="number">12                </span><span class="comment">; s1 = (i is LS4);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">LS4 </span><span class="number">15                  </span><span class="comment">; s0 &lt;&lt;= 4;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">OR_C </span><span class="number">12                 </span><span class="comment">; s1 = (i is OR);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">16             </span><span class="comment">; s0 |= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RS1_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS1);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">RS1 </span><span class="number">15                  </span><span class="comment">; s0 &gt;&gt;= 1;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RS5_C </span><span class="number">12                </span><span class="comment">; s1 = (i is RS5);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">RS5 </span><span class="number">15                  </span><span class="comment">; s0 &gt;&gt;= 5;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SUB_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SUB);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">SUB_AB_FB </span><span class="number">16            </span><span class="comment">; s0 -= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">XOR_C </span><span class="number">12                </span><span class="comment">; s1 = (i is XOR);</span></span>
+<span class="line"><span class="normal">OR_AB_FB </span><span class="number">13             </span><span class="comment">; d |= s1;</span></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">15             </span><span class="comment">; s0 = A;</span></span>
+<span class="line"><span class="normal">XOR_AB_FB </span><span class="number">16            </span><span class="comment">; s0 ^= B;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (s1) A = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">CLEAR </span><span class="number">15                </span><span class="comment">; s0 = 0; // required by C_MINUS</span></span>
+<span class="line"><span class="normal">C_MINUS </span><span class="number">15              </span><span class="comment">; s0 = (A &lt; 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) n = s0;</span></span>
+<span class="line"><span class="normal">C_ZERO </span><span class="number">15               </span><span class="comment">; s0 = (A == 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">14           </span><span class="comment">; if (d) z = s0;</span></span>
+</pre>
+
+<p>The program resets the <span class="term">destination flag</span>, <span class="mono">d</span>, to <span class="mono">0</span> (false) on line 1. If <span class="mono">i</span> contains any of the twelve arithmetic and logic instruction opcodes, then the program sets <span class="mono">d</span> to <span class="mono">1</span> (true). On <span class="nowrap">lines 77</span> and 79, the program updates <span class="mono">n</span> and <span class="mono">z</span>, respectively, subject to <span class="mono">d</span>.</p>
+
+<p>Next, the computer handles the <span class="term">set instructions</span>. There are three of them and they vary in length. The first is a <span class="nowrap">2-byte</span> instruction that assigns <span class="mono">A</span> to an <span class="nowrap">8-bit</span> immediate, a constant operand in <span class="mono">j</span>. The second is the same except <span class="mono">B</span> is the target:</p>
+
+<object id="register-copy-j-to-ab.svg" data="register-copy-j-to-ab.svg" type="image/svg+xml" class="diagram">Copy j to A or B</object>
+
+<p>The third is a <span class="nowrap">3-byte</span> instruction that assigns <span class="mono">MN</span> to a <span class="nowrap">16-bit</span> immediate contained in <span class="mono">jk</span>: </p>
+
+<object id="register-copy-jk-to-mn.svg" data="register-copy-jk-to-mn.svg" type="image/svg+xml" class="diagram">Copy jk to MN</object>
+
+<p>The following <span class="nowrap">MC program</span> decodes and executes the set instructions.</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_SET.mc</span>
+<span class="line"><span class="normal">SEA_C </span><span class="number">12                </span><span class="comment">; s1 = (i is SEA);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) A = j;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SEB);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) B = j;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN_C </span><span class="number">11                </span><span class="comment">; s1 = (i is SMN);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) M = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">11           </span><span class="comment">; if (s1) N = k;</span></span>
+</pre>
+
+<p>Next, the computer handles the <span class="term">branch instructions</span>. There are six of them. Each consists of an opcode in <span class="mono">i</span> followed by a <span class="nowrap">16-bit</span> target address in <span class="mono">jk</span>. The first unconditionally jumps to the target simply by copying <span class="mono">jk</span> to <span class="mono">P</span>:</p>
+
+<object id="register-copy-jk-to-p.svg" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
+
+<p>The next four conditionally jump to the target iff a specified flag, <span class="mono">n</span> or <span class="mono">z</span>, equals a given value, <span class="mono">0</span> or <span class="mono">1</span>:</p>
+
+<object id="register-copy-jk-to-p-with-nz.svg" data="register-copy-jk-to-p-with-nz.svg" type="image/svg+xml" class="diagram">Copy jk to P with n and z</object>
+
+<p>The last is the <span class="term">jump-to-subroutine instruction</span>. It copies <span class="mono">P</span> to the <span class="nowrap">16-bit</span> <span class="term">return register</span>, <span class="mono">R</span>:</p>
+
+<object id="register-copy-p-to-r.svg" data="register-copy-p-to-r.svg" type="image/svg+xml" class="diagram">Copy P to R</object>
+    
+<p>Since the copy occurs after <span class="mono">P</span> is incremented, <span class="mono">R</span> points to the instruction immediately following the jump-to-subroutine instruction. That is, <span class="mono">R</span> contains the return address, hence its name.</p>
+    
+<p>Following the copy, it jumps:</p>
+    
+<object id="register-copy-jk-to-p.svg-2" data="register-copy-jk-to-p.svg" type="image/svg+xml" class="diagram">Copy jk to P</object>
+    
+<p>Afterwards, a <span class="term">return-from-subroutine instruction</span> restores <span class="mono">P</span> from <span class="mono">R</span>:</p>
+
+<object id="register-copy-r-to-p.svg" data="register-copy-r-to-p.svg" type="image/svg+xml" class="diagram">Copy R to P</object>
+
+<p>This <a href="https://en.wikipedia.org/wiki/Link_register" target="_blank">link register</a> scheme enables subroutine calls one level deep (all subroutines are <a href="https://en.wikipedia.org/wiki/Leaf_subroutine" target="_blank">leaf subroutines</a>). The computer does not provide a <a href="https://en.wikipedia.org/wiki/Call_stack" target="_blank">call stack</a>.</p>
+
+<p>Here is the <span class="nowrap">MC program</span> for the branch instructions:</p>
+
+<pre class="code">
+<span class="filename">DECODE_EXECUTE_BRANCH.mc</span>
+<span class="line"><span class="comment">; Jump:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP_C </span><span class="number">9                 </span><span class="comment">; s1 = (i is JMP);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">10           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment">; Conditional branches:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">BEQ_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is BEQ);</span></span>
+<span class="line"><span class="normal">AND_AB_FB </span><span class="number">9             </span><span class="comment">; s1 &= z;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">BNE_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is BNE);</span></span>
+<span class="line"><span class="normal">AND_NOT_AB_FB </span><span class="number">9         </span><span class="comment">; s1 &= !z;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">BMI_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is BMI);</span></span>
+<span class="line"><span class="normal">AND_AB_FB </span><span class="number">9             </span><span class="comment">; s1 &= n;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">BPL_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is BPL);</span></span>
+<span class="line"><span class="normal">AND_NOT_AB_FB </span><span class="number">9         </span><span class="comment">; s1 &= !n;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment">; Jump-to-subroutine:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JSR_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is JSR);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">13           </span><span class="comment">; if (s1) R0 = P0;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">12           </span><span class="comment">; if (s1) P0 = k;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">10           </span><span class="comment">; if (s1) R1 = P1;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">9            </span><span class="comment">; if (s1) P1 = j;</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment">; Return-from-subroutine:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RTS_C </span><span class="number">8                 </span><span class="comment">; s1 = (i is RTS);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">10           </span><span class="comment">; if (s1) P1 = R1;</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">13           </span><span class="comment">; if (s1) P0 = R0;</span></span>
+</pre>
+
+<p>Last, the computer handles the store and load instructions. A store instruction writes a source register, <span class="mono">A</span> or <span class="mono">B</span>, to memory at the address in <span class="mono">MN</span>. While decoding, if the instruction is not a store instruction, the computer resets the <span class="term">write flag</span>, <span class="mono">w</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">w</span> to <span class="mono">1</span>, and it copies the source register to the <span class="nowrap">8-bit</span> <span class="term">memory value register</span>, m:</p>
+
+<object id="register-copy-ab-to-m.svg" data="register-copy-ab-to-m.svg" type="image/svg+xml" class="diagram">Copy A/B to m</object>
+
+<p>The computer executes a store instruction as it slides the state register slides across RAM. For each address, if <span class="mono">w</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then the computer copies <span class="mono">m</span> to <span class="mono">I</span>:</p>
+
+<object id="register-copy-m-to-i.svg" data="register-copy-m-to-i.svg" type="image/svg+xml" class="diagram">Copy m to I</object>
+
+<p>A load instruction reads a byte from memory at the address in <span class="mono">MN</span>, and it puts the byte in a destination register, <span class="mono">A</span> or <span class="mono">B</span>. While decoding, if the instruction is not a load instruction, the computer resets the <span class="term">read flag</span>, <span class="mono">r</span>, to <span class="mono">0</span>. Otherwise, it sets <span class="mono">r</span> to <span class="mono">1</span>, and it assigns the aforementioned destination flag, <span class="mono">d</span>, to <span class="mono">0</span> for <span class="mono">A</span> or <span class="mono">1</span> for <span class="mono">B</span>.</p>
+
+<p>The computer executes a load instruction as it slides the state register slides across RAM. For each address, if <span class="mono">r</span> is <span class="mono">1</span> and <span class="mono">a</span> equals <span class="mono">MN</span>, then the computer copies <span class="mono">I</span> to <span class="mono">m</span>:</p>
+
+<object id="register-copy-i-to-m.svg" data="register-copy-i-to-m.svg" type="image/svg+xml" class="diagram">Copy I to m</object>
+
+<p>After the computer slides the state register across RAM and before it decodes the fetched instruction, if <span class="mono">r</span> is <span class="mono">1</span>, then the computer copies the read byte in <span class="mono">m</span> to <span class="mono">A</span> or <span class="mono">B</span> based on the value in <span class="mono">d</span>, and it assigns <span class="mono">n</span> and <span class="mono">z</span> as if the read byte were the result of an arithmetic or logic instruction:</p>
+
+<object id="register-copy-m-to-ab.svg" data="register-copy-m-to-ab.svg" type="image/svg+xml" class="diagram">Copy m to A/B</object>
+
+<p>Note: <span class="mono">d</span>, <span class="mono">n</span>, <span class="mono">r</span>, <span class="mono">w</span>, and <span class="mono">z</span> each occupy a full byte of the state register despite being <span class="nowrap">1-bit</span> flags. And there is neither a <span class="term">carry flag</span> nor an <span class="term">overflow flag</span>.</p>
+
+<p>The following <span class="nowrap">MC program</span> decodes load and store instructions. As explained, load assigns <span class="mono">d</span> and <span class="mono">r</span>, while store assigns <span class="mono">m</span> and <span class="mono">w</span>.</p>
+
+<pre class="code">
+<span class="filename">DECODE_LOAD_STORE.mc</span>
+<span class="line"><span class="normal">STB_C </span><span class="number">11                </span><span class="comment">; s1 = (i is STB);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">12           </span><span class="comment">; if (s1) m = B;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">STA_C </span><span class="number">11                </span><span class="comment">; s1 = (i is STA);</span></span>
+<span class="line"><span class="normal">C_COPY_B_A </span><span class="number">12           </span><span class="comment">; if (s1) m = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LDB_C </span><span class="number">12                </span><span class="comment">; d = (i is LDB);</span></span>
+<span class="line"><span class="normal">LDX_C </span><span class="number">7                 </span><span class="comment">; r = (i matches LD*);</span></span>
+<span class="line"><span class="normal">STX_C </span><span class="number">6                 </span><span class="comment">; w = (i matches ST*);</span></span>
+</pre>
+
+<p>Since load and store instructions are single-byte instructions, the program ignores <span class="mono">j</span> and <span class="mono">k</span>.</p>
+
+<p>The <span class="nowrap">MC program</span> below executes load and store instructions. As the computer slides the state register across RAM, the program compares <span class="mono">MN</span> and <span class="mono">a</span>. When they match, the program copies <span class="mono">I</span> to <span class="mono">m</span> if <span class="mono">r</span> indicates read, or it copies <span class="mono">m</span> to <span class="mono">I</span> if <span class="mono">w</span> indicates write.</p>
+
+<pre class="code">
+<span class="filename">EXECUTE_LOAD_STORE.mc</span>
+<span class="line"><span class="normal">CMP_C </span><span class="number">12                </span><span class="comment">; s0 = (M == a1);</span></span>
+<span class="line"><span class="normal">CMP_AND_C </span><span class="number">14            </span><span class="comment">; s0 &= (N == a0);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">11             </span><span class="comment">; s1 = s0;</span></span>
+<span class="line"><span class="normal">AND_AB_AF </span><span class="number">8             </span><span class="comment">; s1 &= r;</span></span>
+<span class="line"><span class="normal">COPY_A_B_C </span><span class="number">5            </span><span class="comment">; if (s1) m = I;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">COPY_B_A </span><span class="number">11             </span><span class="comment">; s1 = s0;</span></span>
+<span class="line"><span class="normal">AND_AB_AF </span><span class="number">7             </span><span class="comment">; s1 &= w;</span></span>
+<span class="line"><span class="normal">COPY_B_A_C </span><span class="number">5            </span><span class="comment">; if (s1) I = m;</span></span>
+</pre>
+
+<p>The following <span class="nowrap">MC program</span> completes the execution of load instructions. If <span class="mono">r</span> indicates read, then the program assigns <span class="mono">n</span> and <span class="mono">z</span> based on <span class="mono">m</span>, and the program copies <span class="mono">m</span> to <span class="mono">A</span> or <span class="mono">B</span> based on <span class="mono">d</span>.</p>
+
+<pre class="code">
+<span class="filename">ASSIGN_LOADED.mc</span>
+<span class="line"><span class="normal">MINUS_C </span><span class="number">11              </span><span class="comment">; s0 = (m &lt; 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">16           </span><span class="comment">; if (r) n = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ZERO_C </span><span class="number">16               </span><span class="comment">; s0 = (m == 0);</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">17           </span><span class="comment">; if (r) z = s0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">C_AND_A_NOT_B </span><span class="number">16        </span><span class="comment">; s0 = r & !d;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">18           </span><span class="comment">; if (s0) A = m;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">AND_A_B_C </span><span class="number">15            </span><span class="comment">; s0 = r & d;</span></span>
+<span class="line"><span class="normal">C_COPY_A_B </span><span class="number">19           </span><span class="comment">; if (s0) B = m;</span></span>
+</pre>
+
+<p>Putting it all together, the <span class="nowrap">MC program</span> below slides the state register leftward across RAM. Along the way (lines 1&ndash;24), it fetches an instruction, and it potentially loads or stores a byte. Afterward (lines 26&ndash;32), the program assigns <span class="mono">A</span> or <span class="mono">B</span> to the loaded byte (if there is one), it increments <span class="mono">P</span>, and it decodes and executes the transfer instructions, the arithmetic and logic instructions, the set instructions, and the branch instructions. Finally, it decodes the load and store instructions, deferring their execution to the rightward slide.</p>
+
+<pre class="code">
+<span class="filename">CYCLE_LEFT.mc</span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">L-3</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">...</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_LEFT </span><span class="number">1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ASSIGN_LOADED </span><span class="number">0</span></span>
+<span class="line"><span class="normal">INCREMENT_P </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_TRANSFER </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_ARITHMETIC_LOGIC </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_SET </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_BRANCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">0</span></span>
+</pre>
+
+<p>The rightward slide follows.</p>
+
+<pre class="code">
+<span class="filename">CYCLE_RIGHT.mc</span>
+<span class="line"><span class="normal">FETCH </span><span class="number">0</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">0</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">1</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">...</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-3</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">L-3</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-2</span></span>
+<span class="line"><span class="normal">SLIDE_STATE_REG_RIGHT </span><span class="number">L-2</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">FETCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">EXECUTE_LOAD_STORE </span><span class="number">L-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">ASSIGN_LOADED </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">INCREMENT_P </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_TRANSFER </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_ARITHMETIC_LOGIC </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_SET </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_EXECUTE_BRANCH </span><span class="number">L-1</span></span>
+<span class="line"><span class="normal">DECODE_LOAD_STORE </span><span class="number">L-1</span></span>
+</pre>
+
+<p>Unlike all the other <span class="nowrap">MC programs</span>, which were coded by hand, a process generated <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> due to their dependency on the machine code program length. In the real code, the placeholders, <span class="mono">L-x</span>, are actual array index values.</p>
+
+<p>The computer alternates between <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> from startup to shutdown.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="computer-overview.html">&#129092; Previous</a></p></td><td><p class="next"><a href="assembly-language.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

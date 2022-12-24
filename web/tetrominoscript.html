@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="input-language.html">&#129092; Previous</a></p></td><td><p class="next"><a href="logic-gates.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="introduction.html">Introduction</a></p>
+
+<h2 id="tetrominoscript">TetrominoScript</h2>
+
+<p><span class="nowrap"><span class="term">TetrominoScript</span> (TS)</span> is a language that provides a concise way to express where to put the pieces. It compiles to IL.</p>
+
+<p>TS refers to each of the nineteen distinct tetromino orientations with a mnemonic consisting of the tetromino type concatenated with the first letter of &ldquo;down&rdquo;, &ldquo;left&rdquo;, &ldquo;up&rdquo;, &ldquo;right&rdquo;, &ldquo;horizontal&rdquo;, &ldquo;vertical&rdquo;, or nothing for the <span class="nowrap">O-tetromino</span>:</p>
+
+<object id="mnemonic-table.svg" data="mnemonic-table.svg" type="image/svg+xml" class="diagram">Mnemonic Table</object>
+
+<p>TS specifies locations relative to the center block of each tetromino.</p>
+
+<p>TS has three instruction types. The first directs the agent to hard drop a tetromino. It consists of the tetromino's mnemonic, <span class="mono">m</span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+
+<p class="definition">m x<span class="sub3">h</span></p>
+
+<p>It commands the agent to:</p>
+
+<ol>
+    <li>Discard tetrominoes until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the tetromino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">h</span></span>.</li>   
+    <li>Hard drop the tetromino.</li> 
+</ol>
+
+<p>The example below demonstrates this instructions type.</p>
+
+<pre class="code">
+<span class="filename">example1.t</span>
+<span class="line"><span class="normal">td </span><span class="number">1</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">5</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">9</span></span>
+<span class="line"><span class="normal">o </span><span class="number">13</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">16</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">20</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">25</span></span>
+</pre>
+
+<p>The program instructs the agent to produce the following.</p>
+
+<object id="example1.svg" data="example1.svg" type="image/svg+xml" class="diagram">example1</object>
+
+<p>The second instruction type directs the agent to perform a semihard drop followed by a hard drop in a different column. It consists of the tetromino’s mnemonic, <span class="mono">m</span>, the semihard drop’s column index, <span class="mono">x<span class="sub3">s</span></span>, the semihard drop's row index, <span class="mono">y<span class="sub3">s</span></span>, and the hard drop's column index, <span class="mono">x<span class="sub3">h</span></span>:</p>
+
+<p class="definition">m x<span class="sub3">s</span> y<span class="sub3">s</span> x<span class="sub3">h</span></p>
+
+<p>It commands the agent to:</p>
+
+<ol>
+    <li>Discard tetrominoes until the randomizer spawns the one specified by <span class="mono">m</span>'s type.</li> 
+    <li>Rotate the tetromino into <span class="mono">m</span>'s orientation.</li>   
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">s</span></span>.</li>
+    <li>Semihard drop the tetromino to row <span class="mono">y<span class="sub3">s</span></span>.</li>
+    <li>Shift the tetromino to column <span class="mono">x<span class="sub3">h</span></span>.</li>
+    <li>Hard drop the tetromino.</li> 
+</ol>
+
+<p>If a gravity drop occurs after <span class="nowrap">step 4</span>, but before <span class="nowrap">step 5</span> finishes, the agent will misplace the piece. To avert that possibility, the agent times a semihard drop to coincide with a gravity drop. How it does that depends on the Tetris implementation. For instance, if the agent emulates a semihard drop with a finite number of soft drops, then it will let a gravity drop serve as the final soft drop. That maximizes the time to shift from column <span class="mono">x<span class="sub3">s</span></span> to column <span class="mono">x<span class="sub3">h</span></span>. The strategy works as long as the distance between the columns does not exceed the maximum shift achievable in the period between gravity drops.</p>
+
+<p>The following code demonstrates the second instruction type.</p>
+
+<pre class="code">
+<span class="filename">example2.t</span>
+<span class="line"><span class="normal">td </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">o </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">1 15 2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">1 15 2</span></span>
+</pre>
+
+<p>Those are the instructions for the structure below.</p>
+
+<object id="example2.svg" data="example2.svg" type="image/svg+xml" class="diagram">example2</object>
+
+<p>The third instruction directs the agent to build a previously defined structure. It consists of the structure's name, <span class="mono">s</span>, and the coordinates of where to build it, <span class="nowrap"><span class="mono">x</span> and <span class="mono">y</span></span>:</p>
+
+<p class="definition">s x y</p>
+
+<p>The <span class="nowrap">TS compiler</span> replaces the instruction with the contents of <span class="mono">s</span>’s program, such that the column and row arguments of <span class="mono">n</span>’s instructions are incremented by <span class="mono">x</span> and <span class="mono">y</span>, respectively. The compiler recursively repeats that process until all what remains are instructions of the first and second types. To ensure the process finishes, the compiler does not permit <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank">circular dependencies</a>.</p>
+
+<p>The following code demonstrates the third instruction type by referencing the prior examples.</p>
+
+<pre class="code">
+<span class="filename">example3.t</span>
+<span class="line"><span class="normal">example1 </span><span class="number">3 0</span></span>
+<span class="line"><span class="normal">example2 </span><span class="number">14 2</span></span>
+</pre>
+
+<p>The compiler expands those instructions, offsetting the column and row indices per the provided coordinates:</p>
+
+<pre class="code">
+<span class="filename">example3Expanded.t</span>
+<span class="line"><span class="comment"># example1 3 0</span></span>
+<span class="line"><span class="normal">td </span><span class="number">4</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">8</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">12</span></span>
+<span class="line"><span class="normal">o </span><span class="number">16</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">19</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">23</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">28</span></span>
+<span class="line"></span>
+<span class="line"><span class="comment"># example2 14 2</span></span>
+<span class="line"><span class="normal">td </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">zh </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">o </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">15 17 16</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">15 17 16</span></span>
+</pre>
+
+<p><a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Line_comments" target="_blank">Line comments</a> begin with <span class="mono">#</span> and end with <a href="https://en.wikipedia.org/wiki/Newline" target="_blank">newline</a>, as demonstrated by <span class="nowrap">lines 1 and 10</span>. TS does not support <a href="https://en.wikipedia.org/wiki/Comment_(computer_programming)#Block_comment" target="_blank">block comments</a>.</p>
+
+<p>The code above instructs the agent to create the structure below.</p>
+
+<object id="example3.svg" data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
+
+<p>To make testing easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
+
+<pre class="definition">
+<span class="keyword2">in</span> n x<span class="sub3">0</span> y<span class="sub3">0</span> x<span class="sub3">1</span> y<span class="sub3">1</span> &mldr; x<span class="sub3">N&minus;1</span> y<span class="sub3">N&minus;1</span>
+
+<span class="keyword2">out</span> n x<span class="sub3">0</span> y<span class="sub3">0</span> x<span class="sub3">1</span> y<span class="sub3">1</span> &mldr; x<span class="sub3">N&minus;1</span> y<span class="sub3">N&minus;1</span>
+</pre>
+
+<p>The node type, <span class="mono keyword2">in</span> or <span class="mono keyword2">out</span>, is followed by the node name, <span class="mono">n</span>. The successive coordinates, <span class="mono">x<span class="sub3">i</span> y<span class="sub3">i</span></span>, refer to the lower-cells of the node's vertically-adjacent pairs. Each coordinate is either a single integer or a range of integers, <span class="mono nowrap">min..max</span>.</p>
+
+<p>The example below declares five input nodes.</p>
+
+<pre class="code">
+<span class="filename">nodes.t</span>
+<span class="line"><span class="keyword">in </span><span class="normal">a </span><span class="number">0 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">b </span><span class="number">2..4 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">c </span><span class="number">6 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">d </span><span class="number">7 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">e </span><span class="number">9..10 0 12..13 0</span></span>
+</pre>
+
+<p>Node <span class="mono">a</span> is a single pair. Node <span class="mono">b</span> is a horizontal line consisting of three pairs. Nodes <span class="mono">c</span> and <span class="mono">d</span> are adjoining, single pairs. Node <span class="mono">e</span> is disjoint. They are illustrated below, where nodes <span class="mono">a</span>, <span class="mono">b</span>, <span class="mono">c</span>, <span class="mono">d</span>, and <span class="mono">e</span> are set to <span class="mono">0</span>, <span class="mono">1</span>, <span class="mono">0</span>, <span class="mono">1</span>, and <span class="mono">0</span>, respectively.</p>
+
+<object id="nodes.svg" data="nodes.svg" type="image/svg+xml" class="diagram">Nodes</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="input-language.html">&#129092; Previous</a></p></td><td><p class="next"><a href="logic-gates.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

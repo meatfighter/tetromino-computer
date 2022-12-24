@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="logical-and.html">&#129092; Previous</a></p></td><td><p class="next"><a href="bitwise-and.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="logical-and-not">Logical AND-NOT</h2>
+
+<p>The logical AND-NOT function operates on a <span class="nowrap">2-byte</span> array, where both bytes are Booleans, values restricted to <span class="mono">0</span> and <span class="mono">1</span>. It replaces the first byte with the first byte ANDed with the inverse of the second byte:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q = A<span class="overline">B</span></span></p>
+
+<p><span class="math">B</span> passes through unchanged, while <span class="math">A</span> is lost.</p>
+
+<p>Since <span class="math">A</span> and <span class="math">B</span> are Booleans, only their lowest bits are used to produce <span class="math">Q</span>:</p>
+
+<object id="and-a-not-b-schematic.svg" data="and-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+
+<p>The wire leading to the inverter&mdash;the horizontal line in the schematic above&mdash;appears diagonal in the Tetris realization because it consists of swap circuits stacked right-to-left, the arrangement required to propagate the signal across the <span class="math">B</span> lines:</p>
+
+<object id="and-a-not-b.svg" data="and-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+
+<p>There is a variation that operates on a 3-byte array, where all three bytes are Booleans. It sets the first byte to the second byte ANDed with the inverse of the third byte:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> C, A, B </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">A,B,C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">C = A<span class="overline">B</span></span></p>
+
+<p><span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
+
+<p>As above, only the lowest bits of <span class="math">A</span> and <span class="math">B</span> are used to generate the result:</p>
+
+<object id="and-c-a-not-b-schematic.svg" data="and-c-a-not-b-schematic.svg" type="image/svg+xml" class="diagram">Logical AND NOT Schematic</object>
+
+<p>The Tetris version follows.</p>
+
+<object id="and-c-a-not-b.svg" data="and-c-a-not-b.svg" type="image/svg+xml" class="diagram">Logical AND NOT</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="logical-and.html">&#129092; Previous</a></p></td><td><p class="next"><a href="bitwise-and.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

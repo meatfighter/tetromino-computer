@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="nodes.html">&#129092; Previous</a></p></td><td><p class="next"><a href="input-language.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="introduction.html">Introduction</a></p>
+
+<h2 id="infinite-playfield">Infinite Playfield</h2>
+
+<p>On an infinite playfield, tetrominoes spawn at <span class="nowrap">&ldquo;row infinity&rdquo;</span> and <span class="nowrap">column zero</span>. When a newly spawned piece falls, it never gets closer to the floor due to the nature of infinity. This means, in finite&mdash;though potentially vast&mdash;time, the agent can shift the piece into any finite column. And once in position, the agent can hard drop the piece.</p>  
+
+<p>A hard drop attempts to vertically translate the piece from <span class="nowrap">&ldquo;row infinity&rdquo;</span> to <span class="nowrap">row zero</span>, crossing all the space in between in the same time it takes to perform a soft drop. Along the way, the piece can encounter a barrier of solid cells that stops it. And, once stopped, the piece locks into place.</p> 
+
+<p>A more generalized version, the <span class="term">semihard drop</span>, attempts to vertically translate the piece from <span class="nowrap">&ldquo;row infinity&rdquo;</span> to a specified, finite row. If it encounters a barrier along the way, it locks into place. Otherwise, the agent is free to shift, rotate, and drop the piece from there. A semihard dropped piece does get closer to the floor as it falls because the move puts it on a finite row.</p>
+
+<p>The agent is limited to actions that take finite time. For instance, it cannot clear a line because it cannot carry out the infinite moves required to arrange infinite pieces into a line. Consequentially, the game never advances to the second level. It permanently runs at the lowest drop speed.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="nodes.html">&#129092; Previous</a></p></td><td><p class="next"><a href="input-language.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

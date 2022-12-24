@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="increment.html">&#129092; Previous</a></p></td><td><p class="next"><a href="add.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="conditional-increment">Conditional Increment</h2>
+
+<p>The conditional increment function operates on a 2-element array, <span class="nowrap"><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span></span>, where <span class="math">W</span> is a signed or unsigned <span class="nowrap">16-bit</span> integer, and <span class="math">C</span> is a Boolean, a byte restricted to <span class="mono">0</span> and <span class="mono">1</span>:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> W, C </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, C </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">C </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">Q</span> is <span class="math">W </span><span class="serif">+ 1</span> if <span class="math">C</span> is <span class="serif">1</span>; otherwise, <span class="math">Q</span> is <span class="math">W</span>. Either way, <span class="math">C</span> passes through, unchanged.</p>
+
+<p>As shown below, its circuit consists of a <span class="nowrap">16-bit</span> incrementer, where the <span class="nowrap">carry-in</span> is <span class="math">C<span class="sub">0</span></span> and the <span class="nowrap">carry-out</span> is discarded.</p>
+
+<object id="conditional-increment-schematic.svg" data="conditional-increment-schematic.svg" type="image/svg+xml" class="diagram">Conditional Increment Schematic</object>
+
+<p>Here is the Tetris version:</p>
+
+<object id="conditional-increment.svg" data="conditional-increment.svg" type="image/svg+xml" class="diagram">Conditional Increment</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="increment.html">&#129092; Previous</a></p></td><td><p class="next"><a href="add.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

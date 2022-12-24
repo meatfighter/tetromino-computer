@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="turing-machine-definition.html">&#129092; Previous</a></p></td><td><p class="next"><a href="turing-machine-discussion.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="abstract-machines.html">Abstract Machines</a> &gt; <a href="turing-machine.html">Turing Machine</a></p>
+
+<h3 id="turing-machine-implementation">Implementation</h3>
+
+<p>The following Turing machine implementation stores its data in an <a href="infinite-array-abstraction.html">infinite array abstraction</a>. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset of those bytes store the state machine’s current state. The remaining bytes, <span class="mono nowrap">a<span class="sub3">N</span>&nldr;a<span class="sub3">&infin;</span></span>, emulate the tape drive, where each data byte, <span class="mono">t<span class="sub3">i</span></span>, is paired with a <a href="https://en.wikipedia.org/wiki/Metadata" target="_blank">metadata</a> byte, <span class="mono">h<span class="sub3">i</span></span>:</p>
+
+<p><span class="nowrap mono">h<span class="sub3">i</span> &equiv; 1</span> if the head is over <span class="mono">t<span class="sub3">i</span></span>; otherwise, <span class="mono">0</span>.</p>
+
+<p>Initially, <span class="nowrap mono">h<span class="sub3">0</span> = 1</span> and <span class="nowrap mono">h<span class="sub3">i&ne;0</span> = 0</span>, because the head starts out over <span class="mono">t<span class="sub3">0</span></span>.</p>
+
+<p>To step the head, adjacent elements of <span class="mono">h</span> are swapped:</p>
+
+<table class="map"> 
+  <tr><td class="key">step left:</td><td><span class="nowrap mono">[h<span class="sub3">i</span>,h<span class="sub3">i&minus;1</span>] &larr; [h<span class="sub3">i&minus;1</span>,h<span class="sub3">i</span>]</span></td></tr>
+  <tr><td class="key">step right:</td><td><span class="nowrap mono">[h<span class="sub3">i</span>,h<span class="sub3">i+1</span>] &larr; [h<span class="sub3">i+1</span>,h<span class="sub3">i</span>]</span></td></tr>
+</table>
+
+<p>Since the array is bounded on the left, the tape is &ldquo;folded in half at the origin&rdquo; and the pairs are interlaced:</p>
+
+<p><span class="nowrap mono">h<span class="sub3">0</span>, t<span class="sub3">0</span>, h<span class="sub3">&minus;1</span>, t<span class="sub3">&minus;1</span>, h<span class="sub3">1</span>, t<span class="sub3">1</span>, h<span class="sub3">&minus;2</span>, t<span class="sub3">&minus;2</span>, h<span class="sub3">2</span>, t<span class="sub3">2</span>, h<span class="sub3">&minus;3</span>, t<span class="sub3">&minus;3</span>, h<span class="sub3">3</span>, t<span class="sub3">3</span>, &mldr;</span></p>
+
+<p>Every four bytes consists of a positive-indexed pair followed by a negative-indexed pair. Formally, for <span class="nowrap mono">i &ge; 0</span>:</p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+0</span> &equiv; h<span class="sub3">i</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+1</span> &equiv; t<span class="sub3">i</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+2</span> &equiv; h<span class="sub3">&minus;(i+1)</span></span></p>
+
+<p><span class="nowrap mono">a<span class="sub3">N+4i+3</span> &equiv; t<span class="sub3">&minus;(i+1)</span></span></p>
+
+<p>At runtime, the machine slides the register to indices divisible by four. At those locations, <span class="mono">j</span>, it applies a transition function, <span class="mono">T<span class="sub3">m</span></span>, that operates on the register bytes, <span class="mono nowrap">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N&minus;1</span></span>, and eight extra bytes immediately to the right of the register, <span class="mono nowrap">a<span class="sub3">j+N</span>&nldr;a<span class="sub3">j+N+7</span></span>:</p>
+
+<p><span class="nowrap mono">a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span></p>
+
+<p>The eight extra bytes correspond to the segment:</p>
+
+<p><span class="nowrap mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
+
+<p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if metadata bytes <span class="mono">h<span class="sub3">j</span></span>, <span class="mono">h<span class="sub3">&minus;(j+1)</span></span>, <span class="mono">h<span class="sub3">j+1</span></span>, and <span class="mono">h<span class="sub3">&minus;(j+2)</span></span> are all zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it swaps two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
+
+<p>To enable <span class="mono">T<span class="sub3">m</span></span> to know if it is being applied to the &ldquo;fold&rdquo; of the tape, where it may need to step the head from <span class="mono">h<span class="sub3">0</span></span> to <span class="mono">h<span class="sub3">&minus;1</span></span> or vice versa, the first byte of the register, <span class="mono">a<span class="sub3">j</span></span>, is set to <span class="mono">1</span> if <span class="mono nowrap">j = 0</span>, and it is reset to <span class="mono">0</span>, otherwise.</p>
+
+<p>The <span class="nowrap">MC program</span> that governs the machine applies <span class="mono">T<span class="sub3">m</span></span> to the minimal tape region guaranteed to contain the head. The head starts at <span class="mono">h<span class="sub3">0</span></span>, and during each cycle, it steps, at most, one element further away from that origin. This means, after <span class="nowrap"><span class="mono">y</span> cycles</span>, the minimal region expands to <span class="mono nowrap">h<span class="sub3">&minus;y</span>&nldr;h<span class="sub3">y</span></span>. As shown below, the program slides the register back-and-forth across the array, applying <span class="mono">T<span class="sub3">m</span></span> to every index divisible by four along the way, and venturing a greater distance out with each pass of the outer loop.</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    slideRegister(j, 4)</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    slideRegister(j, &minus;4)</span>
+</pre>
+
+<p><span class="nowrap">Lines 2&ndash;5</span> slide the register rightward across the widening region. And <span class="nowrap">lines 6&ndash;9</span> handle the return trip.</p>
+
+<p>The following version expands <span class="mono">slideRegister</span> into nested loops that repeated swap array elements through the register. </p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for</span> i &larr; 4 <span class="keyword2">to</span> &infin; <span class="keyword2">step by</span> 4</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; 0 <span class="keyword2">to</span> i&minus;4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    <span class="keyword2">for</span> k &larr; 0 <span class="keyword2">to</span> 3</span>
+<span class="line">      <span class="keyword2">for</span> p &larr; N&minus;1 <span class="keyword2">down to</span> 0</span>
+<span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
+<span class="line">  <span class="keyword2">for</span> j &larr; i <span class="keyword2">down to</span> 4 <span class="keyword2">step by</span> 4</span>
+<span class="line">    a<span class="sub3">j</span> &larr; j = 0</span>
+<span class="line">    a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span> &larr; T<span class="sub3">m</span>(a<span class="sub3">j</span>&nldr;a<span class="sub3">j+N+7</span>)</span>
+<span class="line">    <span class="keyword2">for</span> k &larr; 3 <span class="keyword2">down to</span> 0</span>
+<span class="line">      <span class="keyword2">for</span> p &larr; 0 <span class="keyword2">to</span> N&minus;1</span>
+<span class="line">        [a<span class="sub3">j+k+p</span>,a<span class="sub3">j+k+p+1</span>] &larr; [a<span class="sub3">j+k+p+1</span>,a<span class="sub3">j+k+p</span>]</span>
+</pre>
+
+<p>Through a chain of conversions from pseudocode to MC to TS to IL, that program ultimately represents an endless sequence of game inputs that can run any algorithm.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="turing-machine-definition.html">&#129092; Previous</a></p></td><td><p class="next"><a href="turing-machine-discussion.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

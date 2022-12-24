@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="tse-run.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tse-nand-tutorial.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="applications.html">Applications</a> &gt; <a href="tetrominoscript-editor.html">TetrominoScript Editor</a></p>
+
+<h3 id="tse-user-interface">User Interface</h3>
+
+<p>As shown below, TSE is a single-window application segmented into regions. The largest region is the playfield, the grid where the user assembles circuits. On the left, from top-to-bottom, are the <span class="nowrap">TS program</span>, the <span class="nowrap">JS snippet</span>, and the output messages region.</p>
+
+<p><img id="tse-swap.png" class="centered" src="tse-swap.png" alt="tse-swap.png"></p>
+
+<p>The toolbar provides controls for <span class="nowrap">TS program</span> execution and element insertion:</p>
+
+<p><img id="tse-toolbar.png" class="centered" src="tse-toolbar.png" alt="tse-toolbar.png"></p>
+
+<ul>
+  <li><span class="menu">Input</span> - A user-entered binary string where each bit represents the state of an input node.</li>
+  <li><span class="menu">Run</span> - Executes the <span class="nowrap">TS program</span> with the provided input node values. <span class="menu">Run &gt; Run</span> and <span class="keys">F6</span> do the same.</li>
+  <li><span class="menu">Components</span> - Available components.</li>
+  <li><span class="menu">Add</span> - Selects an available component. Click on a grid cell to insert it into the playfield.</li>
+  <li><span class="menu">Tetrominoes</span> - Selects a tetromino in a particular orientation. Click on a grid cell to insert it into the playfield.</li>
+</ul>
+
+<p>The <span class="nowrap">status bar</span> provides grid controls:</p>
+
+<p><img id="tse-status-bar.png" class="centered" src="tse-status-bar.png" alt="tse-status-bar.png"></p>
+
+<ul>
+  <li><span class="menu">Center</span> - Moves the origin to center-bottom by centering the horizontal scrollbar and bottoming the vertical scrollbar.</li>
+  <li><span class="menu">Depth</span> - Recursive rendering depth, the level of displayed detail.</li>
+  <li><span class="menu">Width</span> - Number of cells wide.</li>
+  <li><span class="menu">Height</span> - Number of cells high.</li>
+  <li><span class="menu">Zoom</span> - Grid cell size. Turn the <span class="keys">scroll wheel</span> to change it.</li>
+  <li><span class="menu">Cursor</span> - Coordinates of the cell at which the mouse cursor points.</li>
+</ul>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="tse-run.html">&#129092; Previous</a></p></td><td><p class="next"><a href="tse-nand-tutorial.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

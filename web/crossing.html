@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="fan-in.html">&#129092; Previous</a></p></td><td><p class="next"><a href="multiplexing.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="wires.html">Wires</a></p>
+
+<h2 id="crossing">Crossing</h2>
+
+<p>In a three-dimensional universe, wires can cross over each other without connecting. But on the two-dimensional playfield, a cross requires a planar device that mutually exchanges inputs. That device implements the <a href="https://en.wikipedia.org/wiki/XOR_swap_algorithm" target="_blank">XOR swap algorithm</a>. It stores the XOR of inputs <span class="math">A</span> and <span class="math">B</span> into a temporary variable, <span class="math">C</span>:</p>
+
+<p><span class="math">C = A &oplus; B</span></p>
+
+<p>Then it XORs the inputs with that temporary variable, which swaps them:</p>
+
+<p><span class="math">A &oplus; C = A &oplus; A &oplus; B = B</span></p>
+
+<p><span class="math">B &oplus; C = B &oplus; A &oplus; B = A</span></p>
+
+<p>Those steps suggests this circuit:</p>
+
+<object id="swap-schematic.svg" data="swap-schematic.svg" type="image/svg+xml" class="diagram">Swap Schematic</object>
+
+<p>Since two-dimensional XOR gates exist and the circuit does not contain any cross-overs, it achieves a planar swap.</p>
+
+<p>In following the actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-tetromino operating as an OR. The other pieces function as wires.</p>
+
+<pre class="code">
+<span class="filename">swap.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">ll </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">3</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">5</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">lu </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">1</span></span>
+<span class="line"><span class="normal">_norLeft </span><span class="number">-3 5</span></span>
+<span class="line"><span class="normal">_norRight </span><span class="number">3 5</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">2</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">6 7</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">-6</span></span>
+<span class="line"><span class="normal">ld </span><span class="number">5</span></span>
+<span class="line"><span class="normal">xor </span><span class="number">-4 10</span></span>
+<span class="line"><span class="normal">xor </span><span class="number">4 10</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i1 </span><span class="number">-4..-1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i0 </span><span class="number">0..3 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o1 </span><span class="number">-6..-3 21</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
+</pre>
+
+<p>As demonstrated below, the outputs are the inputs, but positionally exchanged.</p>
+
+<object id="swap.svg" data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
+
+<p>The following animation shows a diagonal wire crossing over multiple vertical wires via repeated application of the swap circuit.</p>
+
+<object id="cross-seven.svg" data="cross-seven.svg" type="image/svg+xml" class="diagram">Cross Seven</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="fan-in.html">&#129092; Previous</a></p></td><td><p class="next"><a href="multiplexing.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

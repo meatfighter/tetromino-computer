@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="assembly-language.html">&#129092; Previous</a></p></td><td><p class="next"><a href="transfer-instructions.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a> &gt; <a href="assembly-language.html">Assembly Language</a></p>
+
+<h3 id="registers">Registers</h3>
+
+<p>The following table lists the <a href="https://en.wikipedia.org/wiki/Processor_register#Types" target="_blank">user-accessible registers</a>, those available to assembly language instructions.</p>
+
+<table class="borderless high-rows">  
+  <tr><th class="borderless">Register</th><th class="borderless">Name</th><th class="borderless">Bits</th><th class="borderless">Description</th></tr>
+  <tr><td class="mono">A</td><td>Accumulator</td><td class="centered">8</td><td class="borderless">Input and lone output of all arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">B</td><td><span class="nowrap">Data Register</span></td><td class="centered">8</td><td class="borderless">Input of some arithmetic and logic instructions.</td></tr>
+  <tr><td class="mono">MN</td><td><span class="nowrap">Memory Register</span></td><td class="centered">16</td><td class="borderless">Source address of load instructions and the destination address of store instructions. The <span class="nowrap">8-bit</span> <span class="mono">M</span> and <span class="mono">N</span> registers contain its high and low bytes, respectively. </td></tr>
+  <tr><td class="mono">P</td><td><span class="nowrap">Program Counter</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to execute next.</td></tr>
+  <tr><td class="mono">R</td><td><span class="nowrap">Return Register</span></td><td class="centered">16</td><td class="borderless">Address of the instruction to return to at the end of a subroutine.</td></tr>
+  <tr><td class="mono">n</td><td><span class="nowrap">Negative Flag</span></td><td class="centered">1</td><td class="borderless">Indicates an arithmetic, logic, or load instruction produced a negatively signed value.</td></tr>
+  <tr><td class="mono">z</td><td><span class="nowrap">Zero Flag</span></td><td class="centered">1</td><td class="borderless">Indicates an arithmetic, logic, or load instruction produced zero.</td></tr>
+</table>
+
+<p>Note: There is no carry flag, nor an overflow flag.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="assembly-language.html">&#129092; Previous</a></p></td><td><p class="next"><a href="transfer-instructions.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

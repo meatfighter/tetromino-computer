@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="conditional-byte-copy.html">&#129092; Previous</a></p></td><td><p class="next"><a href="increment.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="decrement">Decrement</h2>
+
+<p>The decrement function subtracts one from its argument:</p>
+
+<p><span class="math">f(x) = x &minus; </span><span class="serif">1</span></p>
+
+<p>Its circuit consists of chain of <a href="https://en.wikipedia.org/wiki/Subtractor#Half_subtractor" target="_blank">half subtractors</a>, devices capable of single-digit subtraction. Each half subtractor accepts a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">minuend</a>, <span class="math">X</span>, and a <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Subtraction#Notation_and_terminology" target="_blank">subtrahend</a>, <span class="math">Y</span>, and it returns their signed difference, a <span class="nowrap">2-bit</span> value composed of the sign bit, <span class="math">B</span>, and the ones bit, <span class="math">D</span>. The table below shows the outputs for all possible inputs.</p>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">B</th><th class="math">D</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &minus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &minus; 1 = &minus;1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &minus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &minus; 1 = 0</span></td></tr>
+</table>
+
+<p>The table reveals <span class="math">B</span> and <span class="math">D</span> are:</p>
+
+<p><span class="math">B = <span class="overline">X</span>Y</span></p>
+
+<p><span class="math">D = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = B + X<span class="overline">Y</span></span></p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math"><span class="overline">X</span>Y = <span class="overline">X</span>X + <span class="overline">X</span>Y = <span class="overline">X</span>(X + Y) = <span class="high-overline">X + <span class="overline">X + Y</span></span> = <span class="overline">X + T</span>, T = <span class="overline">X + Y</span></span></p>
+
+<p><span class="math">X<span class="overline">Y</span> = X<span class="overline">Y</span> + Y<span class="overline">Y</span> = <span class="overline">Y</span>(X + Y) = <span class="high-overline">Y + <span class="overline">X + Y</span></span> = <span class="overline">Y + T</span>, T = <span class="overline">X + Y</span></span></p>
+
+<p>Cleaning up:</p>
+
+<p><span class="math">T = <span class="overline">X + Y</span></span></p>
+
+<p><span class="math">B = <span class="overline">X + T</span></span></p>
+
+<p><span class="math">D = B + <span class="overline">Y + T</span></span></p>
+
+<p>That implies the following circuit.</p>
+
+<object id="half-subtractor-schematic.svg" data="half-subtractor-schematic.svg" type="image/svg+xml" class="diagram">Half Subtractor Schematic</object>
+
+<p>In the code below, which is based on that schematic, a horizontal I-tetromino functions as the upper OR.</p>
+
+<pre class="code">
+<span class="filename">halfSubtractor.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">lr </span><span class="number">3</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">nor nor1 </span><span class="number">1 1</span></span>
+<span class="line"><span class="normal">nor nor2 </span><span class="number">-1 6</span></span>
+<span class="line"><span class="normal">nor nor3 </span><span class="number">3 6</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-3</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-4</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-2..1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">2..5 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">b </span><span class="number">-5 14</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">d </span><span class="number">-2 14</span></span>
+</pre>
+
+<p>Here is its response to all input combinations:</p>
+
+<object id="half-subtractor.svg" data="half-subtractor.svg" type="image/svg+xml" class="diagram">Half Subtractor</object>
+
+<p>In the full circuit, half subtractors are chained in the following configuration, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+
+<object id="decrementer-schematic.svg" data="decrementer-schematic.svg" type="image/svg+xml" class="diagram">Decrementer Schematic</object>
+
+<p>The circuit is a binary odometer that counts down. When a digit rolls back&mdash;when it transitions from <span class="mono">0</span> to <span class="mono">1</span>&mdash;the digit to its left is decremented. The signal to decrement a digit is referred to as the <span class="term">borrow</span>. The initial <span class="term nowrap">borrow-in</span> is <span class="mono">1</span> (far right). Its effect ripples right-to-left. For each half subtractor, if the input digit is <span class="mono">0</span> and the <span class="nowrap">borrow-in</span> is <span class="mono">1</span>, then both the output digit and the <span class="term nowrap">borrow-out</span> are <span class="mono">1</span>. Otherwise, the <span class="nowrap">borrow-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
+
+<p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> decrement function that calculated <span class="nowrap serif">42 &minus; 1</span>. The sequence in which components were built determined the evaluation order. It started with a <span class="nowrap">1-bit</span> constant function in the bottom-right, which supplied the initial <span class="nowrap">borrow-in</span>. From there, digits were evaluated right-to-left and bottom-up. The final <span class="nowrap">borrow-out</span> was discarded.</p>
+
+<object id="decrementer-8.svg" data="decrementer-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Decrementer</object>
+
+<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> decrement function that calculated <span class="nowrap serif">0 &minus; 1</span>. It rolled back to all ones, the <a href="https://en.wikipedia.org/wiki/Two%27s_complement" target="_blank">two's complement</a> representation of &minus;1 or the maximum unsigned integer value.</p>
+
+<object id="decrementer-16.svg" data="decrementer-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Decrementer</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="conditional-byte-copy.html">&#129092; Previous</a></p></td><td><p class="next"><a href="increment.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

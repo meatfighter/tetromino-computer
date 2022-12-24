@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="introduction.html">&#129092; Previous</a></p></td><td><p class="next"><a href="method-overview.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="introduction.html">Introduction</a></p>
+
+<h2 id="fundamentals">Fundamentals</h2>
+
+<p>The <span class="term">playfield</span> is the grid of square cells where Tetris is played. The standard playfield, shown below, consists of twenty visible rows and ten columns, but the dimensions are arbitrary.</p>
+
+<object id="standard-playfield.svg" data="standard-playfield.svg" type="image/svg+xml" class="diagram">Standard Playfield</object>
+
+<p>Each playfield cell is in one of two states: empty or solid.</p>
+
+<p><span class="term">Tetrominoes</span>&mdash;the falling pieces&mdash;are composed of four adjacent solid cells, painted any color. Each has a single-character, shape-based name:</p>
+
+<object id="seven-tetrominoes.svg" data="seven-tetrominoes.svg" type="image/svg+xml" class="diagram">Seven tetrominoes</object>
+
+<p>A <span class="term">move</span> is a rotation or a translation of the piece in play. The following terms apply to translation.</p>
+
+<ul>
+    <li>A <span class="term">shift</span> is a horizontal translation.</li>
+    <li>A <span class="term">drop</span> is a downward translation.
+        <ul>
+            <li>A <span class="term">soft drop</span> is a player-controlled, one-row drop.</li>
+            <li>A <span class="term">hard drop</span> is a player-controlled, drop as far down as the piece can go. The move <span class="term">locks</span> the piece where it lands.</li>
+            <li>A <span class="term">gravity drop</span> is an automatic, one-row drop triggered by the <span class="term">fall timer</span>.</li>
+        </ul>
+    </li>
+</ul>
+
+<p>A move is preceded by a <span class="term">request to move</span>. The game will deny a request to translate a piece out of bounds or into solid cells. If the game denies the fall timer’s request for a gravity drop, then the piece locks and the next piece spawns.</p>
+
+<p>The <span class="term"><a href="https://tetris.wiki/Category:Rotation_systems" target="_blank">rotation system</a></span> determines if and how the game responds to a request to rotate. Modern versions of Tetris employ complicated rotation systems that take into account the states of the surrounding cells, the playfield boundaries, and other factors.</p>
+
+<p>The <span class="term">randomizer</span> is the mechanism that determines the sequence of pieces presented to the player.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="introduction.html">&#129092; Previous</a></p></td><td><p class="next"><a href="method-overview.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

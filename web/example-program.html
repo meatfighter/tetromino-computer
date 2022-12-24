@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="set-instructions.html">&#129092; Previous</a></p></td><td><p class="next"><a href="simulator.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a></p>
+
+<h2 id="example-program">Example Program</h2>
+
+<p>The following program is designed to demonstrate the capabilities of the general-purpose computer. It is a bare-bones implementation of Tetris written in the assembly language detailed in the <a href="assembly-language.html">previous section</a>.</p>
+
+<p>The program begins by defining constants:</p>
+
+<pre class="code">
+<span class="line"><span class="keyword">define</span> <span class="identifier">FALL_SPEED</span> <span class="number">01</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_ATTRACT</span>     <span class="number">00</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_PLAY</span>        <span class="number">01</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">MODE_CLEAR_LINES</span> <span class="number">02</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">ACTION_DRAW</span> <span class="number">22</span> <span class="comment">; BNE</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">ACTION_TEST</span> <span class="number">23</span> <span class="comment">; BEQ</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">CELL_EMPTY</span> <span class="number">00</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">CELL_SOLID</span> <span class="number">FF</span> <span class="comment">; Any nonzero cell is solid</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">PLAYFIELD_WIDTH</span> <span class="number">0B</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_X</span> <span class="number">05</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_Y</span> <span class="number">02</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">SPAWN_ROTATION</span> <span class="number">00</span></span>
+</pre>
+
+<p><span class="mono">FALL_SPEED</span> is the number of frames between gravity drops. While generating a frame, the program decrements the <span class="nowrap">fall timer</span> by one if it is nonzero. Otherwise, the program resets the <span class="nowrap">fall timer</span> to <span class="mono">FALL_SPEED</span>, and it executes a gravity drop. Since the frame rate is approximately <span class="nowrap">5.75 frames/sec</span>, a <span class="mono">FALL_SPEED</span> of <span class="mono">01</span> translates to a gravity drop about every <span class="nowrap">350 milliseconds</span>, a rate similar to <span class="nowrap">level 5</span> in <span class="nowrap">NES Tetris</span>.</p>
+
+<p>The program switches between the modes defined on lines 3&ndash;5. <span class="mono">MODE_ATTRACT</span> is a very basic <span class="term"><a href="https://en.wikipedia.org/wiki/Glossary_of_video_game_terms#attract_mode" target="_blank">attract mode</a></span> that simply keeps the last <span class="term"><a href="https://tetris.wiki/Top_out" target="_blank">top out</a></span> displayed, or an empty playfield in the case of startup. It is unresponsive to controls except for the Start button, which causes the program to clear the playfield and to transition to <span class="mono">MODE_PLAY</span>. As its name suggests, <span class="mono">MODE_PLAY</span> is the mode where the player interacts with the falling pieces. When a piece locks into the pile, the program temporarily changes to <span class="mono">MODE_CLEAR_LINES</span>, during which it scans for and removes lines.</p>
+
+<p>The program declares a single subroutine called <span class="mono">drawOrTestTetromino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetromino</span> to paint four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetromino</span> to verify that four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
+
+<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
+
+<p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with <span class="nowrap">23 rows</span> and <span class="nowrap">11 columns</span> (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
+
+<pre class="code" style="counter-increment: step 18;">
+<span class="line"><span class="keyword">segment</span> <span class="number">0000</span></span>
+<span class="line"><span class="label">playfield:</span></span>
+<span class="line"><span class="comment">;  0  1  2  3  4  5  6  7  8  9 10</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">FF</span>  <span class="comment">;  0</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span> <span class="number">FF</span>  <span class="comment">;  1</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  2</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  3</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  4</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  5</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  6</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  7</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  8</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">;  9</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 10</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 11</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 12</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 13</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 14</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 15</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 16</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 17</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 18</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 19</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 20</span></span>
+<span class="line">  <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number2">00</span> <span class="number">FF</span>  <span class="comment">; 21</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">FF</span> <span class="number">00</span>  <span class="comment">; 22</span></span>
+</pre>
+
+<p>The green rectangular region is the visible playfield. It spans <span class="nowrap">rows 2&ndash;21</span> and <span class="nowrap">columns 0&ndash;9</span>. tetrominoes spawn in the middle of its ceiling, centered at <span class="nowrap">row 2</span> (<span class="mono">SPAWN_Y</span>) and <span class="nowrap">column 5</span> (<span class="mono">SPAWN_X</span>).</p>
+
+<p><span class="nowrap">Rows 0&ndash;1</span> constitute the <span class="term"><a href="https://tetris.wiki/Playfield#Vanish_zone" target="_blank">vanish zone</a></span>, the area above the ceiling that falling tetrominoes can rotate and even lock into. The initial rotation index, <span class="mono">SPAWN_ROTATION</span>, ensures none of the blocks of newly spawned tetrominoes start out in the vanish zone.</p>
+
+<p><span class="nowrap">Row 22</span> and <span class="nowrap">column 10</span> consist entirely of solid cells (<span class="mono">CELL_SOLID</span>), except for the element in the lower-right corner. <span class="nowrap">Row 22</span> acts as the floor. <span class="nowrap">Column 10</span> serves as both the left wall and the right wall since the matrix, like all data regions, is a one-dimensional array, and each of its row wraps into the next.</p>
+
+<p>When a tetromino locks into the pile, the program scans four rows about the tetromino's center for lines. The scan ignores the visible playfield boundaries for performance and code simplicity. To prevent <span class="nowrap">row 22</span> from inadvertently registering as a line, its rightmost element is an empty cell, and the program scans for lines of eleven solid cells, rather than ten. The eleven-solids check works on the visible rows due the solid elements of <span class="nowrap">column 10</span>.</p>
+
+<p>To clear a line, the program shifts all rows above the line downward. To achieve that, the program overwrites each row with a copy of the preceding row. Since <span class="nowrap">row 0</span> has no preceding row, the program fills it with ten empty cells followed by a solid cell.</p> 
+
+<p>At the start of a new game, the program resets the playfield to the state in the listing above.</p> 
+
+<p>The segment directive on <span class="nowrap">line 19</span> is superfluous because no instructions or data appear before the playfield. But the directive makes it clear the playfield is located at the beginning of RAM. I.e., the label <span class="mono">playfield</span> resolves to address <span class="mono">0000</span>.</p>
+
+<p>At <span class="nowrap">23 &times; 11 = 253 bytes</span>, the playfield fits in the first <span class="nowrap">256-byte</span> page of memory with <span class="nowrap">three bytes</span> to spare. That enables the program to address a cell at <span class="nowrap mono">(row,col)</span> with code equivalent to:</p> 
+
+<pre class="pseudocode">
+M = 0;               // page zero
+
+N = 11 * row + col;  // offset within page zero
+</pre>
+
+<p>The computer is connected to an external peripheral device, a window that serves as a proxy for the player’s physical monitor and keyboard. It presents a graphical representation of the visible playfield:</p> 
+
+<p><img id="general-purpose-computer.png" class="centered" src="general-purpose-computer.png" alt="general-purpose-computer.png"></p>
+
+<p>The lower-three bits of each visible playfield byte determine the color of each cell per the following mapping.</p>
+
+<table class="borderless">
+<tr><th class="borderless">Value</th><th class="borderless">tetromino</th><th class="borderless">Color</th></tr>
+<tr><td class="mono">000</td><td class="roboto centered">(empty)</td><td class="borderless">Black</td></tr>
+<tr><td class="mono">001</td><td class="roboto centered">T</td><td class="borderless">Purple</td></tr>
+<tr><td class="mono">010</td><td class="roboto centered">J</td><td class="borderless">Blue</td></tr>
+<tr><td class="mono">011</td><td class="roboto centered">Z</td><td class="borderless">Red</td></tr>
+<tr><td class="mono">100</td><td class="roboto centered">O</td><td class="borderless">Yellow</td></tr>
+<tr><td class="mono">101</td><td class="roboto centered">S</td><td class="borderless">Green</td></tr>
+<tr><td class="mono">110</td><td class="roboto centered">L</td><td class="borderless">Orange</td></tr>
+<tr><td class="mono">111</td><td class="roboto centered">I</td><td class="borderless">Cyan</td></tr>
+</table>
+
+<p>The computer and the window communicate via <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory-mapped I/O</a>. After the program updates the visible playfield in RAM, it writes <span class="mono">01</span> to <span class="mono">00FD</span>, the <span class="mono">drawFrame</span> flag in the listing below.
+
+<pre class="code" style="counter-increment: step 45;">
+<span class="line"><span class="keyword">segment</span> <span class="number">00FD</span></span>
+<span class="line"><span class="label">drawFrame:</span>           <span class="number">00</span> <span class="comment">; 00 = generating frame; otherwise, finished generating frame</span></span>
+<span class="line"><span class="label">leftButton:</span>          <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
+<span class="line"><span class="label">rightButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
+</pre>
+
+<p>The window polls that location. When it reads a nonzero value, it copies the visible playfield from RAM to an array that backs the displayed image. Then, for each keyboard key that controls the game, the window writes the key's status&mdash;either <span class="mono">00</span> for released or <span class="mono">01</span> for pressed&mdash;to a key-specific address. Finally, it resets <span class="mono">drawFrame</span> to <span class="mono">00</span>. </p>
+
+<p>The window writes the statuses of the left and right <span class="nowrap">arrow keys</span> in <span class="mono">leftButton</span> and <span class="mono">rightButton</span>, respectively, the <span class="nowrap">last-two bytes</span> of memory <span class="nowrap">page zero</span>. The remaining keyboard key addresses appear later in the code because the <span class="mono">tetrominoes</span> table is aligned with the start of <span class="nowrap">page one</span>:</p>
+
+<pre class="code" style="counter-increment: step 50;">
+<span class="line"><span class="keyword">segment</span> <span class="number">0100</span></span>
+<span class="line"><span class="label">tetrominoes:</span></span>
+<span class="line"><span class="comment">;  0  1  2  3</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 0 0 td {  -1,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 0 1 tl { -11,  -1,   0,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">F5</span> <span class="comment">; 0 2 tu {  -1,   0,   1, -11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 0 3 tr { -11,   0,   1,  11 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 1 0 jd {  -1,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 1 1 jl { -11,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 1 2 ju { -12,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">F6</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 1 3 jr { -11, -10,   0,  11 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 2 0 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 2 1 zv { -10,   0,   1,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 2 2 zh {  -1,   0,  11,  12 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0B</span> <span class="comment">; 2 3 zv { -10,   0,   1,  11 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 0 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 1 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 2 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 3 3 o  {  -1,   0,  10,  11 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 4 0 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 4 1 sv { -11,   0,   1,  12 }</span></span>
+<span class="line">  <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="number">0B</span> <span class="comment">; 4 2 sh {   0,   1,  10,  11 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0C</span> <span class="comment">; 4 3 sv { -11,   0,   1,  12 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="number">0A</span> <span class="comment">; 5 0 ld {  -1,   0,   1,  10 }</span></span>
+<span class="line">  <span class="number">F4</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 5 1 ll { -12, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">F6</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 5 2 lu { -10,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="number">0C</span> <span class="comment">; 5 3 lr { -11,   0,  11,  12 }</span></span>
+<span class="line"></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 6 0 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 6 1 iv { -22, -11,   0,  11 }</span></span>
+<span class="line">  <span class="number">FE</span> <span class="number">FF</span> <span class="number">00</span> <span class="number">01</span> <span class="comment">; 6 2 ih {  -2,  -1,   0,   1 }</span></span>
+<span class="line">  <span class="number">EA</span> <span class="number">F5</span> <span class="number">00</span> <span class="number">0B</span> <span class="comment">; 6 3 iv { -22, -11,   0,  11 }</span></span>
+</pre>
+
+<p>Each row of the <span class="mono">tetrominoes</span> table contains the coordinates of four blocks of a rotated tetromino encoded as signed offsets relative to the tetromino’s center. Since the playfield is a <span class="nowrap">one-dimensional</span> data region representing a <span class="nowrap">two-dimensional</span> matrix of width eleven, the signed offset of a block at <span class="nowrap mono">(x,y)</span> is <span class="nowrap mono">11 * y + x</span>.</p> 
+
+<p>The program addresses each table element with code equivalent to:</p>
+
+<pre class="pseudocode">
+M = 1;  // page one
+
+N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within page one
+</pre>
+
+<p>The orientation of the falling tetromino, <span class="mono">tetrominoRotation</span>, is in the range <span class="nowrap mono">[0,3]</span> regardless of the tetromino type, <span class="mono">tetrominoType</span>, because the orientations of the Z-, S-, and <span class="nowrap">I-tetrominoes</span> appear twice, and the orientation of the <span class="nowrap">O-tetromino</span> appears four times:</p>
+
+<object id="tetrominoes-table.svg" data="tetrominoes-table.svg" type="image/svg+xml" class="diagram">Tetrominoes Table</object>
+
+<p>Above, the leftmost column comprises the <span class="term">spawn orientations</span>, the way the pieces initially appear. And the steps of clockwise rotation span left-to-right across each row. This is the same <a href="https://tetris.wiki/Nintendo_Rotation_System" target="_blank">way pieces rotate</a> in <span class="nowrap">NES Tetris</span>.</p>
+
+<p>The window writes the remaining keyboard key statuses to bytes immediately following the <span class="mono">tetrominoes</span> table.</p>
+
+<pre class="code" style="counter-increment: step 88;">
+<span class="line"><span class="keyword">segment</span> <span class="number">0170</span></span>
+<span class="line"><span class="label">startButton:</span>         <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
+<span class="line"><span class="label">ccwRotateButton:</span>     <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed </span></span>
+<span class="line"><span class="label">cwRotateButton:</span>      <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
+<span class="line"><span class="label">downButton:</span>          <span class="number">00</span> <span class="comment">; 00 = released; otherwise, pressed</span></span>
+</pre>
+
+<p><span class="mono">ccw</span> and <span class="mono">cw</span> are abbreviations for &ldquo;counterclockwise&rdquo; and &ldquo;clockwise&rdquo;, respectively.</p>
+
+<p>Here is the full key mapping:</p>
+
+<table class="borderless">
+<tr><th class="borderless">Status Variable</th><th class="borderless">Key</th></tr>
+<tr><td class="mono2">startButton</td><td class="borderless centered">Enter</td></tr>
+<tr><td class="mono2">leftButton</td><td class="borderless centered">&larr;</td></tr>
+<tr><td class="mono2">rightButton</td><td class="borderless centered">&rarr;</td></tr>
+<tr><td class="mono2">downButton</td><td class="borderless centered">&darr;</td></tr>
+<tr><td class="mono2">ccwRotateButton</td><td class="borderless centered">Z</td></tr>
+<tr><td class="mono2">cwRotateButton</td><td class="borderless centered">X</td></tr>
+</table>
+
+<p>Next, the program declares the game state variables:</p>
+
+<pre class="code" style="counter-increment: step 94;">
+<span class="line"><span class="label">tetrominoType:</span>       <span class="number">00</span> <span class="comment">; 00--06 (T, J, Z, O, S, L, I)</span></span>
+<span class="line"><span class="label">tetrominoRotation:</span>   <span class="number">00</span> <span class="comment">; 00--03</span></span>
+<span class="line"><span class="label">tetrominoX:</span>          <span class="number">00</span> <span class="comment">; 00--09</span></span>
+<span class="line"><span class="label">tetrominoY:</span>          <span class="number">00</span> <span class="comment">; 02--15</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">lastRotation:</span>        <span class="number">00</span> <span class="comment">; 00--03</span></span>
+<span class="line"><span class="label">lastX:</span>               <span class="number">00</span> <span class="comment">; 00--09</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">frameCounter:</span>        <span class="number">00</span> <span class="comment">; 00--FF (wraps around)</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">seedHigh:</span>            <span class="number">89</span> <span class="comment">; randomizer</span></span>
+<span class="line"><span class="label">seedLow:</span>             <span class="number">88</span></span>
+<span class="line"><span class="label">nextBit:</span>             <span class="number">00</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">i:</span>                   <span class="number">00</span> <span class="comment">; loops index</span></span>
+<span class="line"><span class="label">origin:</span>              <span class="number">00</span> <span class="comment">; playfield index corresponding to tetromino center</span></span>
+<span class="line"><span class="label">tetrominoesIndex:</span>    <span class="number">00</span> <span class="comment">; tetrominoes table index corresponding to a tetromino block</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">fallTimer:</span>           <span class="number">00</span> <span class="comment">; 00 = drop tetromino</span></span>
+<span class="line"><span class="label">mode:</span>                <span class="number">00</span> <span class="comment">; 00 = attract, 01 = play, 02 = clear lines</span></span>
+<span class="line"><span class="label">minY:</span>                <span class="number">00</span> <span class="comment">; minimal locked tetromino Y (00--16)</span></span>
+</pre>
+
+<p>The variables on <span class="nowrap">lines 95&ndash;98</span> describe the falling tetromino. Prior to servicing a move request, the program backs up the tetromino's orientation and <span class="nowrap">x-coordinate</span> in the variables on <span class="nowrap">lines 100&ndash;101</span>. If the program discovers the request is invalid, then it restores the original values from the backups.</p>
+
+<p>When a tetromino spawns, the program updates the <span class="nowrap">16-bit value</span> spread across <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> by it passing through a randomization function. The <span class="mono">frameCounter</span>&mdash;a variable the program increments at the start of each frame&mdash;influences the randomization function. It provides a source of entropy based on the timing of the player's actions. The program stores the function's <span class="nowrap">single-bit</span> output in <span class="mono">nextBit</span>.</p>
+
+<p>The code comments describe the rest of the variables, though <span class="mono">minY</span> deserves extra explanation. <span class="mono">minY</span> stores the row index of the highest tetromino on the pile. The program uses it to improved the performance of clearing lines. Specifically, the program does not shift the empty rows above the highest tetromino because empty space looks the same shifted or not.</p>
+
+<p>That completes the data region. The rest of the program consists of instructions, beginning with its entry point:</p>
+
+<pre class="code" style="counter-increment: step 116;">
+<span class="line"><span class="label">main:</span> <span class="comment">; ------------------------------------------------------------------------------------------------------</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawFrame</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">01</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; render frame</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">frameCounter</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++frameCounter;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_PLAY</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (mode == MODE_PLAY) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">playing</span>             <span class="comment">;   goto playing;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_CLEAR_LINES</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (mode == MODE_CLEAR_LINES) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">clearLines</span>          <span class="comment">;   goto clearLines;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">startButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (startButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">main</span><span class="comment">;               ;   goto main;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>The program signals the window to display the current playfield state by writing <span class="mono">01</span> to <span class="mono">drawFrame</span>. It does not wait for the window to write <span class="mono">00</span> back to <span class="mono">drawFrame</span> because the window runs at blistering speed compared to the program.</p>
+
+<p>The program increments the <span class="mono">frameCounter</span> by one.</p>
+
+<p>In play mode and clear lines mode, the program jumps to respective handlers. Otherwise, the program is in attract mode, where it monitors the Start button's status. If the button is released, the program loops back to the entry point. Else it continues to:</p>
+
+<pre class="code" style="counter-increment: step 142;">
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span>                <span class="comment">; // Start button pressed</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">16</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; minY = 22;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">F1</span>                  <span class="comment">; A = 0xF1; // 22 * PLAYFIELD_WIDTH - 1, index of last element of row 21</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">CELL_EMPTY</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">playfield</span></span>
+<span class="line"><span class="label">clearLoop:</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; playfield[A] = CELL_EMPTY;</span></span>
+<span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--A != 0) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">clearLoop</span>           <span class="comment">;   goto clearLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; playfield[0] = CELL_EMPTY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="number">00F1</span>                <span class="comment">; MN = 0x00F1; // 22 * PLAYFIELD_WIDTH - 1, address of last element of row 21 </span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">CELL_SOLID</span></span>
+<span class="line"><span class="label">edgeLoop:</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; *MN = CELL_SOLID;</span></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; MN -= PLAYFIELD_WIDTH;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">FF</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (*MN != -1) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">edgeLoop</span>            <span class="comment">;   goto edgeLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>The program resets <span class="mono">minY</span> to the floor index, it clears <span class="nowrap">rows 0&ndash;21</span>, and it resolidifies <span class="nowrap">column 10</span>. Then the program spawns the first tetromino of the game:</p>
+
+<pre class="code" style="counter-increment: step 169;">
+<span class="line"><span class="label">spawn:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_PLAY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_PLAY;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_ROTATION</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = SPAWN_ROTATION;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_X</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoX = SPAWN_X;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">SPAWN_Y</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoY = SPAWN_Y;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">FALL_SPEED</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
+</pre>
+
+<p>The program finally changes to play mode. It happens here, rather than earlier, because this spawn code also executes at the end of clear lines mode to resume play mode.</p>
+
+<p>The program positions and orients the tetromino at the spawn point, and it resets the <span class="mono">fallTimer</span> to the maximum value to prevent the tetromino from gravity dropping immediately after spawning.</p>
+
+<p>Next, the program randomly chooses the tetromino type:</p> 
+
+<pre class="code" style="counter-increment: step 186;">
+<span class="line"><span class="label">randomlyChoose:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">02</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedLow</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">STA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">XOR</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">bit9Clear</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">80</span></span>
+<span class="line"><span class="label">bit9Clear:</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; nextBit = ((seedHigh & 0x02) ^ (seedLow & 0x02)) &lt;&lt; 6;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">01</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">bit8Clear</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">80</span></span>
+<span class="line"><span class="label">bit8Clear:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedLow</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">RS1</span></span>
+<span class="line"><span class="normal">OR</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedLow = (seedHigh &lt;&lt; 7) | (seedLow &gt;&gt;&gt; 1);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">nextBit</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">seedHigh</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">RS1</span></span>
+<span class="line"><span class="normal">OR</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; seedHigh = nextBit | (seedHigh &gt;&gt;&gt; 1);</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">frameCounter</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">XOR</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">1F</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">RS5</span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; B = ((seedHigh ^ frameCounter) & 0x1F) * 7 / 32;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (B == tetrominoType) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">randomlyChoose</span>      <span class="comment">;   goto randomlyChoose;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; tetrominoType = B;</span></span>
+</pre>
+
+<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_tetrominoes" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
+
+<object id="lfsr-schematic.svg" data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
+
+<p><span class="mono">seedHigh</span> and <span class="mono">seedLow</span> collectively operate as a <span class="nowrap">16-bit</span> register. The program logical right shifts it, discarding the lowest bit, and <span class="nowrap">shifting-in</span> <span class="mono">nextBit</span>.</p>
+
+<p>The program initializes <span class="mono">seedHigh</span> and <span class="mono">seedLow</span> to <span class="mono">89</span> and <span class="mono">88</span>, respectively, the same arbitrary quantities used in <span class="nowrap">NES Tetris</span>.</p>
+
+<p>The LFSR generates a sequence of 32,767 unique values before cycling, one less-than half the numbers that fit in a <span class="nowrap">16-bit</span> register. To prevent that deterministic sequence from producing a constant tetromino order, the program bases its selection on <span class="mono">seedHigh</span> XORed with the <span class="mono">frameCounter</span>. Since the program increments the <span class="mono">frameCounter</span> at the beginning of every frame, even during attract mode, the XOR makes the tetromino order dependent on when the player hits the Start button. The number of frames between spawns also affects the order. And the player’s inputs influence that number.</p>
+
+<p>The program reduces the XORed value to the range <span class="nowrap">[ 0, 6 ]</span> because there are seven tetrominoes. Since the computer does not provide a <a href="https://en.wikipedia.org/wiki/Modulo_operation" target="_blank">modulo</a> instruction, the program performs the reduction with the following formula, where <span class="mono">v</span> is the <span class="nowrap">lower-five</span> bits of the XORed value.</p>
+
+<p><span class="mono">7 * v / 32</span></p>
+
+<p>Since <span class="nowrap"><span class="mono">v</span><span class="serif"> &isin; </span>[ 0, 31 ]</span>, the formula multiplies 7 by a fraction less-than 1.0, producing a value in the correct range when floored.</p>
+
+<p>The program employs a transformed version of the formula:</p>
+
+<pre class="pseudocode">
+= (8 * v - v) / 32
+
+= ((v &lt;&lt; 3) - v) / 32
+
+= ((v &lt;&lt; 3) - v) &gt;&gt;&gt; 5
+</pre>
+
+<p>If the randomly chosen tetromino is the same as the last one, the program picks again. That simple strategy does not prevent alternating duplicate pieces. Nor does it inhibit droughts.</p>
+
+<p>Next, the program verifies the tetromino spawned into empty space by invoking <span class="mono">drawOrTestTetromino</span>:</p>
+
+<pre class="code" style="counter-increment: step 242;">
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino spawned into empty space</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto playing;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span>               <span class="comment"> ; // Bad tetromino position. It's game over.</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_ATTRACT</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_ATTRACT;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">endFall</span>             <span class="comment">; goto endFall; // draws the tetromino that failed to spawn</span></span>
+</pre>
+
+<p>Based on the action constant stored to <span class="mono">drawOrTest</span>, <span class="mono">drawOrTestTetromino</span> either paints or examine the four playfield cells corresponding to the blocks of the falling tetromino. But unlike the inputs that describe the falling tetromino&mdash;<span class="mono">tetrominoType</span>, <span class="mono">tetrominoRotation</span>, <span class="mono">tetrominoX</span>, and <span class="mono">tetrominoY</span>&mdash;<span class="mono">drawOrTest</span> is not a global variable. It is a label that resolves to the address an instruction inside of <span class="mono">drawOrTestTetromino</span>. When the program &ldquo;assigns&rdquo; <span class="mono">drawOrTest</span>, it modifies its own code. </p>
+
+<p><span class="mono">ACTION_TEST</span> causes <span class="mono">drawOrTestTetromino</span> to set the zero flag iff all four examined cells are empty. If they are, the program jumps to the play handler below. Otherwise, a top out occurred. In that case, the program switches to attract mode, and it jumps to <span class="mono">endFall</span>. There, the program draws the tetromino at the invalid location, overlaid on solid blocks, to provide a visual indication of spawn failure. Then the program loops back to the beginning, where it waits for player to press the Start button once again.</p>
+
+<pre class="code" style="counter-increment: step 256;">
+<span class="line"><span class="label">playing:</span>                <span class="comment">; // Play handler</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_DRAW</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_DRAW;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">CELL_EMPTY</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = CELL_EMPTY;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; drawOrTestTetromino(); // erase tetromino</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastRotation = tetrominoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; lastX = tetrominoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">leftButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (leftButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testRightButton</span>     <span class="comment">;   goto testRightButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span>          <span class="comment">; // Left button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetrominoX;</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">; goto testCcwRotateButton;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testRightButton:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">rightButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (rightButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testCcwRotateButton</span> <span class="comment">;   goto testCcwRotateButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span>          <span class="comment">; // Right button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetrominoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testCcwRotateButton:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">03</span>                  <span class="comment">; B = 3;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">ccwRotateButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (ccwRotateButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">testCwRotateButton</span>  <span class="comment">;   goto testCwRotateButton;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span>   <span class="comment">; // CCW button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = (tetrominoRotation - 1) & 3;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">validatePosition</span>    <span class="comment">; goto validatePosition;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">testCwRotateButton:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">cwRotateButton</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (cwRotateButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">validatePosition</span>    <span class="comment">;   goto validatePosition;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span>   <span class="comment">; // CW button pressed</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">AND</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = (tetrominoRotation + 1) & 3;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">validatePosition:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_TEST</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_TEST;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino shifted/rotated into empty space</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">keepPosition</span>        <span class="comment">;   goto keepPosition;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastRotation</span>        <span class="comment">; // Bad tetromino position. Undo shift or rotation.</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoRotation = lastRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">lastX</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoX = lastX;</span></span>
+</pre>
+
+<p>The play handler calls <span class="mono">drawOrTestTetromino</span> to paint the falling tetromino with empty cells, erasing it from the playfield. In another example of self-modifying code, the handler stores the paint value, <span class="mono">CELL_EMPTY</span>, to <span class="mono">drawCell+1</span>, the address of an instruction operand in <span class="mono">drawOrTestTetromino</span>.</p>
+
+<p>The handler backs up the orientation and the <span class="nowrap">x-coordinate</span> of the falling tetromino.</p>
+
+<p>If the Left button is pressed, the handler decrements the <span class="nowrap">x-coordinate</span> by one. Otherwise, if the Right button is pressed, the handler increments the <span class="nowrap">x-coordinate</span> by one.</p>
+
+<p>If the Counterclockwise Rotation button is pressed, the handler decrements the orientation by one, such that zero wraps to three. Otherwise, if the Clockwise Rotation button is pressed, the handler increments the orientation by one, such that three wraps to zero.</p>
+
+<p>The handler verifies the manipulated tetromino is fully within empty space by calling <span class="mono">drawOrTestTetromino</span>. If it is not, the handler restores the original orientation and <span class="nowrap">x-coordinate</span> from the backups.</p>
+
+<p>Next, the handler deals with drops:</p>
+
+<pre class="code" style="counter-increment: step 340;">
+<span class="line"><span class="label">keepPosition:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">downButton</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span>           <span class="comment">; if (downButton == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">updateFallTimer</span>     <span class="comment">;   goto updateFallTimer;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; // Down button pressed</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = 0;                  </span></span>
+<span class="line"></span>
+<span class="line"><span class="label">updateFallTimer:</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (fallTimer != 0) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">decFallTimer</span>        <span class="comment">;   goto decFallTimer;</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">FALL_SPEED</span>          <span class="comment">; } </span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; fallTimer = FALL_SPEED;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span>          <span class="comment">; // Drop tetromino</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++tetrominoY;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; if (drawOrTestTetromino()) { // verify tetromino dropped into empty space</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">endFall</span>             <span class="comment">;   goto endFall;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span>          <span class="comment">; // Bad tetromino position. Undo drop and lock tetromino in place.</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --tetrominoY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">BMI</span> <span class="identifier">keepMinY</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; minY = min(minY, tetrominoY);</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">keepMinY:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">mode</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">MODE_CLEAR_LINES</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; mode = MODE_CLEAR_LINES;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">decFallTimer:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">fallTimer</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --fallTimer;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">endFall:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawOrTest</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">ACTION_DRAW</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; drawOrTest = ACTION_DRAW;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">drawCell</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(drawCell+1) = tetrominoType + 1;</span></span>
+<span class="line"><span class="normal">JSR</span> <span class="identifier">drawOrTestTetromino</span> <span class="comment">; drawOrTestTetromino(); // draw tetromino</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">main</span>                <span class="comment">; goto main;</span></span>
+</pre>
+
+<p>If the Down button is pressed, the handler assigns <span class="mono">fallTimer</span> zero.</p>  
+
+<p>If <span class="mono">fallTimer</span> is zero, the handler resets <span class="mono">fallTimer</span> to <span class="mono">FALL_SPEED</span>, and it increments the tetromino's <span class="nowrap">y-coordinate</span> by one. If the dropped tetromino is not fully within empty space per a check by <span class="mono">drawOrTestTetromino</span>, the handler decrements the tetromino's <span class="nowrap">y-coordinate</span> by one, restoring its position to where it now locks into the pile. Afterwards, the handler updates <span class="mono">minY</span> based off the new pile height, and it switches to clear lines mode.</p> 
+
+<p>Then the handler flows into the code that normally runs when <span class="mono">fallTimer</span> is nonzero. It decrements <span class="mono">fallTimer</span> by one, and it calls <span class="mono">drawOrTestTetromino</span> to draw the tetromino, which may now be at a different location and orientation from where it was erased at the start of the play handler. The paint value is <span class="mono nowrap">tetrominoType + 1</span> because zero represents an empty cell.</p>  
+
+<p>Finally, the handler jumps back to the beginning of the program. If the tetromino locked into the pile, the program will jump from there to the clear lines handler below. It scans for and vanishes lines, without displaying a clearing animation.</p> 
+
+<pre class="code" style="counter-increment: step 401;">
+<span class="line"><span class="label">clearLines:</span>             <span class="comment">; // Clear lines handler</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // loop 4 times, from i = 3 down to 0.</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * (tetrominoY + 1); // row below tetromino center</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">clearLinesLoop:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">16</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">notLine0</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="label">notLine0:</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minN</span><span class="normal">+</span><span class="number">1</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *(minN+1) = PLAYFIELD_WIDTH * max(1, minY - 2) - 1; // minimum index to copy from</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">playfield</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; MN = playfield + origin;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">0A</span>                  <span class="comment">; B = PLAYFIELD_WIDTH - 1;</span></span>
+<span class="line"><span class="label">scanLine:</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (*MN == CELL_EMPTY) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">continueClearLines</span>  <span class="comment">;   goto continueClearLines;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">TBA</span></span>
+<span class="line"><span class="normal">DEC</span>                     <span class="comment">; if (--B &lt; 0) { </span></span>
+<span class="line"><span class="normal">BMI</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines; // Found a line         </span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; ++N;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">scanLine</span>            <span class="comment">; goto scanLine;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TBA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAB</span>                     <span class="comment">; if (--B &gt;= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">scanLine</span>            <span class="comment">;   goto scanLine;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>As <a href="#tetrominoes-table.svg">visualized above</a>, the <span class="mono">tetrominoes</span> table centers pieces in 5&times;5 matrices, none of which contain solid cells in its bottom row. This means, the handler only needs to check rows in the range <span class="nowrap"><span class="serif">[ </span><span class="mono">tetrominoY&minus;2</span>, <span class="mono">tetrominoY+1</span><span class="serif"> ]</span></span> for lines. To do so, it loops backwards over that range, using <span class="mono">i</span> as the loop index.</p>
+
+<p><span class="mono">origin</span> is a pointer to the row to be checked. The handler initializes it to the index of row <span class="mono">tetrominoY+1</span>'s first element. At the end of each iteration, if handler did not find a line, it moves <span class="mono">origin</span> to the next row by decrementing it by <span class="mono">PLAYFIELD_WIDTH</span>. However, if the handler found a line, it shifts all the rows above the line downward. In that case, the handler does not decrement <span class="mono">origin</span> because the row that shifted into the cleared line is the next row to be checked.</p> 
+
+<p>As previously mentioned, the handler does not shift the empty rows above the pile because empty space looks the same shifted or not. The first row above the pile guaranteed to be completed empty is either <span class="nowrap">row <span class="mono">minY&minus;3</span></span> or <span class="mono">0</span>, whichever is larger. In yet another example of self-modifying code, the handler assigns the byte at <span class="mono">minN+1</span> to the index of the last element of that row.</p>
+
+<p>In the inner loop on <span class="nowrap">lines 434&ndash;459</span>, the handler examines a row, including <span class="nowrap">column 10</span>. If the handler detects an empty cell, it breaks out of the loop, and it decrements <span class="mono">origin</span> as described above. If it does not detect any empty cells, then the handler discovered a line, and it runs the following code to clear the line.</p>
+
+<pre class="code" style="counter-increment: step 460;">
+<span class="line"><span class="label">copyLines:</span>              <span class="comment">; // Clear line by copying down the lines above it</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N -= PLAYFIELD_WIDTH;</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">TAM</span>                     <span class="comment">; M = *MN;</span></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N += PLAYFIELD_WIDTH;</span></span>
+<span class="line"><span class="normal">TMA</span>                     <span class="comment">; A = M;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span></span>
+<span class="line"><span class="normal">TBM</span>                     <span class="comment">; M = 0;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"><span class="label">minN:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [minN+1] ***</span></span>
+<span class="line"><span class="normal">SUB</span>                     <span class="comment">; if (--N != *(minN+1)) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">copyLines</span>           <span class="comment">;   goto copyLines;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">09</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N = 9;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">CELL_EMPTY</span></span>
+<span class="line"><span class="label">clearTopLine:</span></span>
+<span class="line"><span class="normal">STB</span>                     <span class="comment">; *MN = CELL_EMPTY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">TNA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; if (--N &gt;= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">clearTopLine</span>        <span class="comment">;   goto clearTopLine;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">minY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; ++minY;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">continueClear</span>       <span class="comment">; goto continueClear;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">continueClearLines:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">PLAYFIELD_WIDTH</span></span>
+<span class="line"><span class="normal">SUB</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin -= PLAYFIELD_WIDTH;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">continueClear:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; if (--i &gt;= 0) {</span></span>
+<span class="line"><span class="normal">BPL</span> <span class="identifier">clearLinesLoop</span>      <span class="comment">;   goto clearLinesLoop;</span></span>
+<span class="line">                        <span class="comment">; } else {</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">spawn</span>               <span class="comment">;   goto spawn;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+</pre>
+
+<p>At the start of this snippet, <span class="mono">N</span> contains the index of the last element of the line to be cleared.</p>
+
+<p>In the inner loop on <span class="nowrap">lines 461&ndash;483</span>, the handler copies the nonempty rows above the line down by one row. The loop is equivalent to the following pseudocode.</p>
+
+<pre class="pseudocode2">
+<span class="line">M = 0;</span>
+<span class="line">do {</span>
+<span class="line">  *MN = *(MN - PLAYFIELD_WIDTH);</span>
+<span class="line">} while (--N != *(minN+1));</span>
+</pre>
+
+<p>In the inner loop on <span class="nowrap">lines 484&ndash;494</span>, the handler fills <span class="nowrap">row 0</span> with empty cells, except for <span class="nowrap">column 10</span>. The loop is necessary for the rare case that a tetromino locks into the vanish zone.</p>
+
+<p>The handler increments <span class="mono">minY</span> by one because clearing a line reduces the height of the pile by that amount.</p> 
+
+<p>At the end of the outer loop, the handler decrements <span class="mono">i</span> by one, and if it did not find a line, it decrements <span class="mono">origin</span> by <span class="mono">PLAYFIELD_WIDTH</span>.</p>
+
+<p>The only remaining code is the definition of the <span class="mono">drawOrTestTetromino</span> subroutine:</p>
+
+<pre class="code" style="counter-increment: step 518;">
+<span class="line"><span class="label">drawOrTestTetromino:</span> <span class="comment">; ---------------------------------------------------------------------------------------</span></span>
+<span class="line"><span class="comment">; drawOrTest        - 22 = draw, 23 = test</span></span>
+<span class="line"><span class="comment">; drawCell+1        - cell to draw</span></span>
+<span class="line"><span class="comment">;</span></span>
+<span class="line"><span class="comment">; tetrominoType     - type</span></span>
+<span class="line"><span class="comment">; tetrominoRotation - rotation</span></span>
+<span class="line"><span class="comment">; tetrominoX        - x</span></span>
+<span class="line"><span class="comment">; tetrominoY        - y</span></span>
+<span class="line"><span class="comment">;</span></span>
+<span class="line"><span class="comment">; z: 0 = some solid, 1 = all empty</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">03</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; i = 3; // Loop 4 times, once for each tetromino block</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoY</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS3</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoX</span></span>
+<span class="line"><span class="normal">LDB</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; origin = PLAYFIELD_WIDTH * tetrominoY + tetrominoX;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoType</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS4</span></span>
+<span class="line"><span class="normal">TAB</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoRotation</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">LS2</span></span>
+<span class="line"><span class="normal">ADD</span>                     <span class="comment">; A = 16 * tetrominoType + 4 * tetrominoRotation;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoesIndex</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; tetrominoesIndex = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">origin</span></span>
+<span class="line"><span class="normal">LDB</span>                     <span class="comment">; B = origin;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawLoop:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoes</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">ADD</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">playfield</span></span>
+<span class="line"><span class="normal">TAN</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawOrTest:</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">drawCell</span>            <span class="comment">; *** self-modifying code [BNE = draw, BEQ = test] ***</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (playfield[tetrominoes[tetrominoesIndex] + origin] != 0) {</span></span>
+<span class="line"><span class="normal">BNE</span> <span class="identifier">endDrawLoop</span>         <span class="comment">;   goto endDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; } else {</span></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">incDrawLoop</span>         <span class="comment">;   goto incDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">drawCell:</span></span>
+<span class="line"><span class="normal">SEA</span> <span class="number">00</span>                  <span class="comment">; *** self-modifying code [ 00 = empty; otherwise solid ] ***</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; playfield[tetrominoes[tetrominoesIndex] + origin] = *(drawCell+1);</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">incDrawLoop:</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">i</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; if (i == 0) {</span></span>
+<span class="line"><span class="normal">BEQ</span> <span class="identifier">endDrawLoop</span>         <span class="comment">;   goto endDrawLoop;</span></span>
+<span class="line">                        <span class="comment">; }</span></span>
+<span class="line"><span class="normal">DEC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; --i;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">tetrominoesIndex</span></span>
+<span class="line"><span class="normal">LDA</span></span>
+<span class="line"><span class="normal">INC</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; A = ++tetrominoesIndex;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">JMP</span> <span class="identifier">drawLoop</span>            <span class="comment">; goto drawLoop;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">endDrawLoop:</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">RTS</span>                     <span class="comment">; return; // -------------------------------------------------------------------------</span></span>
+</pre>
+
+<p>The program prepares three variables on <span class="nowrap">lines 530&ndash;559</span>. It assigns <span class="mono">origin</span> to the playfield index corresponding to the center of the falling tetromino. It assigns <span class="mono">tetrominoesIndex</span> to the index of the first element of the <span class="mono">tetrominoes</span> table row associated with the type and orientation of the falling tetromino. And it assigns <span class="mono">i</span> to three to make the loop on <span class="nowrap">lines 561&ndash;598</span> iterate over the four tetromino blocks.</p> 
+
+<p>When the program stores <span class="mono">ACTION_DRAW</span> or <span class="mono">ACTION_TEST</span> to <span class="mono">drawOrTest</span>, it changes the instruction on <span class="nowrap">line 571</span> to <span class="mono">BNE</span> or <span class="mono">BEQ</span>, respectively. When the program arrives at that line, the zero flag is reset due to the <span class="mono">ADD</span> instruction on <span class="nowrap">line 566</span>. That <span class="mono">ADD</span> cannot set the zero flag because the player cannot to move the falling tetromino into the upper-right corner of the vanish zone. Consequentially, <span class="mono">ACTION_TEST</span> directs the program to <span class="nowrap">lines 573&ndash;577</span>, and <span class="mono">ACTION_DRAW</span> directs the program to <span class="nowrap">lines 580&ndash;581</span>.</p> 
+
+<p>In both pathways, the program accesses the playfield byte at <span class="nowrap mono">tetrominoes[tetrominoesIndex] + origin</span>, the center of the falling tetromino offset by the relative location of one of its blocks. In the <span class="mono">ACTION_TEST</span> pathway, the program reads from that location. If a read byte is a solid cell (nonzero), the program returns from the subroutine with the zero flag reset. Otherwise, if all read bytes are empty cells (all zeros), the program returns from the subroutine with the zero flag set, thanks to <span class="nowrap">line 585</span>. In the <span class="mono">ACTION_DRAW</span> pathway, the program writes the value at <span class="mono">drawCell+1</span> to that location.</p>
+
+<p>The subroutine employs self-modifying code twice because the alternative&mdash;moving values in and out of memory&mdash;imposes complexity and a performance cost.</p>
+
+<p>At the end of the loop, the program decrements <span class="mono">i</span> by one, and it increments <span class="mono">tetrominoesIndex</span> by one.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="set-instructions.html">&#129092; Previous</a></p></td><td><p class="next"><a href="simulator.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

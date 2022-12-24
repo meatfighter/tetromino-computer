@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="buffer.html">&#129092; Previous</a></p></td><td><p class="next"><a href="or.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="logic-gates.html">Logic Gates</a></p>
+
+<h2 id="inverter-not">Inverter (NOT)</h2>
+
+<p>An inverter is a single-input gate where the output is the <a href="https://en.wikipedia.org/wiki/Negation" target="_blank">complement</a> of the input.</p>
+
+<p>The code below makes an inverter by sandwiching an <span class="nowrap">O-tetromino</span> between horizontal L- and J-tetrominoes.</p>
+
+<pre class="code">
+<span class="filename">not.t</span>
+<span class="line"><span class="normal">lu </span><span class="number">0</span></span>
+<span class="line"><span class="normal">o </span><span class="number">0 4 1</span></span>
+<span class="line"><span class="normal">jd </span><span class="number">0</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">i </span><span class="number">-1..1 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-1..1 5</span></span>
+</pre>
+
+<p>Note: While workspace coordinates are always &ge; 0 due to the floor and the discards pile, structure definitions may contain negative column indices because the coordinates are relative to where the structure is built.</p>
+
+<p>The following animation shows what happens for both input values.</p>
+
+<object id="animated-not.svg" data="animated-not.svg" type="image/svg+xml" class="diagram">Animated NOT</object>
+
+<p>When the input is <span class="mono">0</span>, the <span class="nowrap">L-tetromino</span> lands low. That enables the <span class="nowrap">O-tetromino</span> to shift upon the <span class="nowrap">L-tetromino's</span> protuberance. The <span class="nowrap">J-tetromino</span>, in turn, lands high, producing an output of <span class="mono">1</span>.</p>
+
+<p>When the input is <span class="mono">1</span>, the <span class="nowrap">L-tetromino</span> lands high. That causes it to act a barrier that obstructs the horizontal movement of the <span class="nowrap">O-tetromino</span>. Consequentially, the <span class="nowrap">J-tetromino</span> lands low, generating an output of <span class="mono">0</span>.</p>
+
+<p>In both cases, the output is the opposite of the input.</p>
+
+<p>A horizontally reflected version exists purely for aesthetics reasons. The image below shows <span class="mono">notLeft</span> (an alias for <span class="mono">not</span>) and its reflection, <span class="mono">notRight</span>.</p>
+
+<object id="nots.svg" data="nots.svg" type="image/svg+xml" class="diagram">notLeft and notRight</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="buffer.html">&#129092; Previous</a></p></td><td><p class="next"><a href="or.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

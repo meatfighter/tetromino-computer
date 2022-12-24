@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="turing-machine.html">&#129092; Previous</a></p></td><td><p class="next"><a href="turing-machine-implementation.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="abstract-machines.html">Abstract Machines</a> &gt; <a href="turing-machine.html">Turing Machine</a></p>
+
+<h3 id="turing-machine-definition">Definition</h3>
+
+<p>A <a href="https://en.wikipedia.org/wiki/Turing_machine" target="_blank">Turing machine</a> consists of a <a href="https://en.wikipedia.org/wiki/Tape_drive" target="_blank">tape drive</a> coupled to a state machine. Mounted onto the drive is an infinitely long <span class="term">tape</span> that stores an endless sequence of characters, <span class="mono">t</span>, all of which are initially zero:</p> 
+
+<p><span class="nowrap mono">t<span class="sub3">i&isin;(&minus;&infin;, &infin;)</span> &larr; 0</span></p>
+
+<p>A process writes an input string to the tape at <span class="nowrap">index <span class="mono">0</span></span>:</p>  
+
+<p><span class="nowrap mono">t<span class="sub3">i&isin;[0,L&minus;1]</span> &larr; i<span class="sup2">th</span></span> character of an input string of length <span class="mono">L</span></p>
+
+<p>Afterwards, the drive’s read/write <span class="term">head</span>&mdash;which is limited to accessing a single character at any time&mdash;is repositioned over the first character of the input string, <span class="mono">t<span class="sub3">0</span></span>. On command, the head can step left from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i&minus;1</span></span>, or right from some <span class="mono">t<span class="sub3">i</span></span> to <span class="mono">t<span class="sub3">i+1</span></span>.</p> 
+
+<p>A process initializes the state machine to a starting state. At runtime, if the state machine transitions to a halt state, then the algorithm finished. At that point, the process may read output strings deposited on the tape by the algorithm.</p> 
+
+<p>During each processing cycle, the machine reads the character under the head, <span class="mono">r</span>, it pairs the character with the current state, <span class="mono">s</span>, and it uses the pair to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
+
+<p><span class="nowrap mono">[ r, s ] &#8614; [ w, d, z ]</span></p>
+
+<p>The looked-up value is a triplet representing instructions, which the machine carries out:</p>
+
+<ol>
+  <li>Write character <span class="mono">w</span>, overwriting <span class="mono">r</span>.</li>
+  <li>Step the head in direction <span class="mono">d</span>, repositioning it over an immediate neighbor.</li> 
+  <li>Transition to state <span class="mono">z</span>.</li>
+</ol>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="turing-machine.html">&#129092; Previous</a></p></td><td><p class="next"><a href="turing-machine-implementation.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

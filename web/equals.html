@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="byte-match.html">&#129092; Previous</a></p></td><td><p class="next"><a href="byte-copy.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="equals">Equals</h2>
+
+<p>The equals function operates on a <span class="nowrap">3-byte</span> array:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, X </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="serif">]</span></span></p>
+
+<p><span class="math">E</span> is <span class="mono">1</span> if <span class="math">A</span> equals <span class="math">B</span>; otherwise, <span class="math">E</span> is <span class="mono">0</span>. Either way, <span class="math">A</span> and <span class="math">B</span> pass through unchanged, while <span class="math">X</span> is discarded.</p>
+
+<p><span class="math">E</span> is defined by the following expression, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
+
+<p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
+
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
+
+<p>That suggests the following circuit.</p>
+
+<object id="equals-a-b-e-schematic.svg" data="equals-a-b-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>In the Tetris version below, a constant bit function seeds the AND chain with <span class="mono">1</span> (see lower-right).</p>
+
+<object id="equals-a-b-e.svg" data="equals-a-b-e.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>Since the evaluation order is established by the sequence in which components are built, each input propagates upward as it advances from left-to-right. The diamond arrangement of swap circuits is a consequence of nearly-parallel, diagonally-upward lines that terminate on the vertical AND chain.</p>
+
+<p>There is a variation of the equals function where the parameters are rearranged:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> X, A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> E, A, B </span><span class="serif">]</span></span></p>
+
+<p>Its circuit is roughly the horizontal-reflection of the one above:</p>
+
+<object id="equals-e-a-b-schematic.svg" data="equals-e-a-b-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>Here is the Tetris realization:</p>
+
+<object id="equals-e-a-b.svg" data="equals-e-a-b.svg" type="image/svg+xml" class="diagram">E = (A == B)</object>
+
+<p>There is a another variation that uses all three input bytes:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B, V </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> A, B, E </span><span class="math">]</span></span>, where <span class="nowrap"><span class="math">V,E </span><span class="serif">&isin; { </span><span class="mono">0</span><span class="math">, </span><span class="mono">1</span><span class="serif"> }</span></span></p>
+
+<p><span class="math">E</span> is <span class="mono">1</span> iff <span class="math">A</span> equals <span class="math">B</span> and <span class="math">V</span> is <span class="mono">1</span>:</p>
+
+<p><span class="math">E = (A = B)V</span> 
+
+<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
+  
+<p>It provides a way to compare multiple bytes:</p>
+
+<p><span class="math">V = (T = U)</span></p>
+
+<p><span class="math">V&prime; = (R = S)V = (R = S)(T = U)</span></p>
+
+<p><span class="math">V&Prime; = (P = Q)V&prime; = (P = Q)(R = S)(T = U)</span></p>
+
+<p>And so on.</p>
+
+<p>The variation can be realized by using the lowest bit of <span class="math">V</span> as the seed of the AND chain. Instead, in an effort to reuse wherever possible, an AND gate was added to the top of the existing circuit:</p>
+
+<object id="equals-a-b-and-e-schematic.svg" data="equals-a-b-and-e-schematic.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+
+<p>The Tetris implementation follows.</p>
+
+<object id="equals-a-b-and-e.svg" data="equals-a-b-and-e.svg" type="image/svg+xml" class="diagram">E = (A == B) V</object>
+
+<p>The horizontal-reflection of this variation was not implemented. </p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="byte-match.html">&#129092; Previous</a></p></td><td><p class="next"><a href="byte-copy.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

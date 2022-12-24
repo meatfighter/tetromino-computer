@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="example-program.html">&#129092; Previous</a></p></td><td><p class="next"><a href="applications.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a></p>
+
+<h2 id="simulator">Simulator</h2>
+
+<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
+
+<p>A separate process generates <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary file’s size.</p>
+
+<p>The simulator for the general-purpose computer loads the binary file (the starting memory state), the generated and hand coded <span class="nowrap">MC programs</span> (the microcode), and the <span class="nowrap">TS programs</span> (the logic circuits). It writes the machine code bytes onto the floor of an empty playfield, followed by two padding zeros, and the <span class="nowrap">21-byte</span> state register. It initializes the state register to all zeros, except for <span class="mono">a</span> and <span class="mono">P</span>, to which it assigns the maximum address and the <span class="nowrap">entry point</span> address, respectively.</p>
+
+<p>For the example program, the assembler produces a binary file containing <span class="nowrap">1,021 bytes</span>. The simulator loads the file, and it allocates a playfield with:</p>
+
+<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes) &times; 8 bits/byte &times; 10 columns/bit = 83,360 columns.</span></p>
+
+<p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
+
+<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
+
+<object id="swap.svg-2" data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
+
+<p>Rather than manipulating all those pieces, the algorithm inspects the input cells, it performs a table lookup, and it assigns the output cells, omitting everything in between:</p>
+
+<object id="swap-memoized.svg" data="swap-memoized.svg" type="image/svg+xml" class="diagram">swap memoized</object>
+
+<p>Despite their seeming levitation, the output cells support structures built on top of them as if the swap circuit was really there.</p>
+
+<p id="lut-algorithm">To efficiently compute the lookup tables, the algorithm orders the <span class="nowrap">TS programs</span> into a dependency tree. It starts from those that have no dependencies, and it works outward through the tree. That order enables the algorithm to response to a dependency with a lookup in a table it just computed. And it uses the looked up value to skip the build via the technique above. To finish even faster, the algorithm parallelizes the process.</p>
+
+<p>The algorithm does not compute lookup tables for <a href="intermediate-gates.html">intermediate gates</a> because the side effects of leaking tetrominoes cannot be determined in advance. However, the algorithm does compute lookup tables for circuits that employ intermediate gates because those circuits internally catch the leaked tetrominoes.</p>
+
+<p>Rather than accommodating an ever-taller rectangular pile, the algorithm only keeps track of the pile's surface. For each <span class="nowrap">MC instruction</span>, the algorithm reads input from the surface, it performs a table lookup, and it stores output back to surface, overwriting what it just read. The effect is same as if the algorithm grew the pile, and it truncated everything below the surface.</p>
+
+<p>The algorithm implements the surface as a one-dimensional byte array, <span class="mono">s</span>, where each byte contains the data normally spaced across eighty columns of the <span class="nowrap">top-two</span> rows of the pile. For each <span class="nowrap">MC instruction</span>, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is the name of an <span class="nowrap"><span class="mono">n</span>-byte</span> function, the algorithm applies <span class="mono">f</span>'s lookup table, <span class="mono">LUT<span class="sub3">f</span></span>, to <span class="nowrap"><span class="mono">n</span> consecutive</span> bytes of the surface, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
+
+<p><span class="nowrap mono">s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span> &larr; LUT<span class="sub3">f</span>(s<span class="sub2">x</span>&nldr;s<span class="sub2">x+n&minus;1</span>)</span></p>
+
+<p>That read-lookup-write operation is performant, but an <span class="nowrap"><span class="mono">n</span>-byte</span> function requires a lookup table of size <span class="nowrap"><span class="mono">(2<span class="sup3">8</span>)<span class="sup3">n</span></span> bytes</span>; i.e., <span class="nowrap">1-,</span> <span class="nowrap">2-,</span> and <span class="nowrap">3-byte</span> functions require <span class="nowrap">256 B</span>, <span class="nowrap">64 KiB</span>, and <span class="nowrap">16 MiB</span> tables, respectively. However, as the algorithm computes a table for a <span class="nowrap">3-byte</span> function, it monitors the output for a byte constrained to <span class="mono">0</span> and <span class="mono">1</span>. If it finds such a byte, it assumes the corresponding input parameter is a Boolean, effectively reducing a <span class="nowrap">24-bit</span> function to a <span class="nowrap">17-bit</span> function. In the general case, that is a risky assumption. But in this particular situation, the first or third parameter of every <span class="nowrap">3-byte</span> function is a Boolean, enabling the algorithm to safely cache them in <span class="nowrap">128 KiB</span> tables.</p>
+
+<p>The simulator’s speed&mdash;the number of machines cycles it simulates per unit time&mdash;is proportional to the total operations the machine carries out per cycle, or more specifically, to the lengths of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. Since a process generates those <span class="nowrap">MC programs</span> based on the machine code size, the program will run faster if it can be made smaller.</p>
+
+<p>The program’s playfield data region consumes nearly a quarter of the program's size at <span class="nowrap">253 bytes</span>. If the program adopts boundary checks, it eliminates the need for solid <span class="nowrap">row 22</span> and solid <span class="nowrap">column 10</span> (the floor and walls, respectively), as well as <span class="nowrap">rows 0&ndash;1</span> (the vanish zone). That brings the size down to <span class="nowrap">200 bytes</span>. If the program packs each playfield cell into a nibble rather than a full byte, then it halves the region size. If the program reduces the palette to two colors, then each cell fits in a single bit, and the region drops to a mere <span class="nowrap">25 bytes</span>, less than a tenth of its current size. </p>
+
+<p>However, due to the computer's minimal instruction set, the additional code required to support an alternate playfield representation may increase the program size to the point that it negates the benefit of a smaller data region. Worse, such a change could decrease the frame rate because it requires extra code in the <span class="mono">drawOrTestTetromino</span> loop. At five subroutine calls per frame and four blocks per tetromino, the program amplifies the computational cost of anything in the loop twenty-fold.</p>
+
+<p>On the other hand, if the program employed a smaller playfield data region, it would likely speed up line clears. There is currently a noticeable delay when clearing lines due to the amount of data copied. But if the program packed multiple cells into each byte, then it would copy cells in parallel, significantly hastening the process.</p>
+
+<p>At <span class="nowrap">112 bytes</span>, the <span class="mono">tetrominoes</span> table is another possible target for program size reduction. Nearly a third of its rows are duplicates. Deleting them would save 36 bytes. However, the indirection table required to compensate for the missing rows demands <span class="nowrap">28 bytes</span>. And indirection increases access time.</p>
+
+<p>The program prioritizes simplicity over space. This text leaves the optimal balance between data, instruction path lengths, and program size that maximizes the frame rate to future researchers.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="example-program.html">&#129092; Previous</a></p></td><td><p class="next"><a href="applications.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

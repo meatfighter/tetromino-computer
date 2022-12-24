@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="decrement.html">&#129092; Previous</a></p></td><td><p class="next"><a href="conditional-increment.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="increment">Increment</h2>
+
+<p>The increment function adds one to its argument:</p>
+
+<p><span class="math">f(x) = x + </span><span class="serif">1</span></p>
+
+<p>Its circuit consists of chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Half_adder" target="_blank">half adders</a>, devices capable of single-digit addition. Each half adder accepts two <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span> and <span class="math">Y</span>, and it outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below shows the outputs for all possible inputs.</p>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 = 2</span></td></tr>
+</table>
+
+<p>The table reveals <span class="math">C</span> and <span class="math">S</span> are:</p>
+
+<p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
+
+<p><span class="math">S = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> = (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) = <span class="overline">C</span>(X + Y) = <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
+
+<p>That implies the following circuit.</p>
+
+<object id="half-adder-schematic.svg" data="half-adder-schematic.svg" type="image/svg+xml" class="diagram">Half Adder Schematic</object>
+
+<p>In the code below, which is based on that schematic, the <span class="mono">swap</span> (line 14) enables the output of the bottom NOR (line 13) to hop over the input of the <span class="math">Y</span> inverter (line 17). The <span class="math">X</span> inverter (line 16) feeds into the middle NOR (line 18), which, in turn, feeds into the top NOR (line 25).</p>
+
+<pre class="code">
+<span class="filename">halfAdder.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-6</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">jl </span><span class="number">2</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">2</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">0 1</span></span>
+<span class="line"><span class="normal">swap </span><span class="number">2 6</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-7 28</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-3 28</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">-5 33</span></span>
+<span class="line"><span class="normal">lr </span><span class="number">4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">4</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">3</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">1</span></span>
+<span class="line"><span class="normal">sh </span><span class="number">-1</span></span>
+<span class="line"><span class="normal">nor </span><span class="number">-3 38</span></span>
+<span class="line"><span class="normal">ju </span><span class="number">-7</span></span>
+<span class="line"><span class="normal">iv </span><span class="number">-8</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-1</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">x </span><span class="number">-3..0 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">y </span><span class="number">1..2 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">c </span><span class="number">-8 44</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">s </span><span class="number">-3..0 44</span></span>
+</pre>
+
+<p>As revealed in the following image, which shows the responses to all input combinations, the Tetris realization of a half adder is significantly larger than a half subtractor due to the swap circuit.</p>
+
+<object id="half-adder.svg" data="half-adder.svg" type="image/svg+xml" class="diagram">Half Adder</object>
+
+<p>In the full circuit, half adders are chained in the configuration below, where each <span class="math">I<span class="sub">i</span></span> is an input digits, and each <span class="math">Q<span class="sub">i</span></span> is an output digit.</p>
+
+<object id="incrementor-schematic.svg" data="incrementor-schematic.svg" type="image/svg+xml" class="diagram">Incrementor Schematic</object>
+
+<p>The circuit is a binary odometer that counts up. When a digit rolls over&mdash;when it transitions from <span class="mono">1</span> to <span class="mono">0</span>&mdash;the digit to its left is incremented. The signal to increment a digit is referred to as the <span class="term">carry</span>. The initial <span class="term"><span class="nowrap">carry-in</span></span> is <span class="mono">0</span> (far right). Its effect ripples right-to-left. For each half adder, if both the input digit and the <span class="nowrap">carry-in</span> is <span class="mono">1</span>, then the output digit is <span class="mono">0</span> and the <span class="term nowrap">carry-out</span> is <span class="mono">1</span>. Otherwise, the <span class="nowrap">carry-out</span> is <span class="mono">0</span> and all digits to its left remain the same.</p>
+
+<p>The image below depicts a Tetris realization of an <span class="nowrap">8-bit</span> increment function that calculated <span class="nowrap serif">42 + 1</span>. A <span class="nowrap">1-bit</span> constant function at the bottom-right supplied the initial <span class="nowrap">carry-in</span>. The final <span class="nowrap">carry-out</span> was discarded.</p>
+
+<object id="incrementor-8.svg" data="incrementor-8.svg" type="image/svg+xml" class="diagram"><span class="nowrap">8-bit</span> Incrementor</object>
+
+<p>The following image shows a Tetris realization of a <span class="nowrap">16-bit</span> increment function. The input is all ones, the two's complement representation of &minus;1 or the maximum unsigned integer value. The function rolled over to all zeros, in agreement with <span class="nowrap serif">&minus;1 + 1.</span></p>
+
+<object id="incrementor-16.svg" data="incrementor-16.svg" type="image/svg+xml" class="diagram"><span class="nowrap">16-bit</span> Incrementor</object>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="decrement.html">&#129092; Previous</a></p></td><td><p class="next"><a href="conditional-increment.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="state-machine.html">&#129092; Previous</a></p></td><td><p class="next"><a href="classifier.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="abstract-machines.html">Abstract Machines</a> &gt; <a href="state-machine.html">State Machine</a></p>
+
+<h3 id="sequencer">Sequencer</h3>
+
+<p>The simplest <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank">state machine</a> is a <a href="https://en.wikipedia.org/wiki/Finite-state_machine#Sequencers" target="_blank">sequencer</a>, a device that generates the next element of a sequence when prompted. A classic example is a traffic light, a sequencer prompted by a timer. Another example is a <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register" target="_blank">linear-feedback shift register</a>, such as the one that serves as the <a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator" target="_blank">pseudorandom number generator</a> in a Tetris implementation described in a <a href="example-program.html">subsequent section</a>. It is a sequencer prompted when a piece spawns.</p>
+
+<p>The <a href="infinite-array-abstraction.html">infinite array abstract</a> permits a straightforward implementation of a sequencer. The first <span class="nowrap"><span class="mono">N</span> bytes</span> of the array, <span class="mono nowrap">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span></span>, serve as an <span class="nowrap"><span class="mono">N</span>-byte</span> register, where a subset or all those bytes store the most recently generated element of the sequence. A process initializes the register to a starting value. When the process wants the next element of the sequence, it runs an <span class="nowrap">MC program</span> equivalent to the single line of pseudocode below.</p>
+
+<pre class="pseudocode2">
+<span class="line">a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span> &larr; T<span class="sub3">s</span>(a<span class="sub3">0</span>&nldr;a<span class="sub3">N&minus;1</span>)</span>
+</pre>
+
+<p>The program passes the register value into a <span class="term">transition function</span>, <span class="mono">T<span class="sub3">s</span></span>, and it puts the result back into the register.</p>
+
+<p>Since the register is limited to a finite number of values, the generated sequence eventually becomes cyclic.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="state-machine.html">&#129092; Previous</a></p></td><td><p class="next"><a href="classifier.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

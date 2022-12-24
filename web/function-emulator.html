@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="abstract-machines.html">&#129092; Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="abstract-machines.html">Abstract Machines</a></p>
+
+<h2 id="function-emulator">Function Emulator</h2>
+
+<p>For all <span class="nowrap"><span class="mono">n</span>-byte</span> functions <span class="mono">f</span>, there exists an <span class="nowrap">MC program</span>, <span class="mono">E</span>, that emulates <span class="mono">f</span>. This is because, regardless of how <span class="mono">f</span> is mathematically defined, it can be replaced with a lookup table, a finite&mdash;though potentially large&mdash;map from <span class="nowrap"><span class="mono">n</span>-byte</span> keys to <span class="nowrap"><span class="mono">n</span>-byte</span> values. As such, <span class="mono">E</span> simply needs to mimic the following pseudocode, when executed at index <span class="mono">x</span>.</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  <span class="keyword2">if</span> a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span></span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
+<span class="line">    <span class="keyword2">break</span></span>
+</pre>
+
+<p><span class="mono">a</span> is the infinite array abstraction from the previous section. <span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span> is the segment of the array the function operates on.</p>
+
+<p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
+
+<p>Unfortunately, MC does not support loops, nor conditional branches (<span class="mono">if</span> statements), nor unconditional branches (such as the <span class="mono">break</span> statement). But the loop can be <a href="https://en.wikipedia.org/wiki/Loop_unrolling" target="_blank">unrolled</a> (at the expense of lengthy code) and the branches can be simulated with the assistance of temporary variables appended to the end of the array segment:</p>  
+
+<p><span class="nowrap mono">p &equiv; a<span class="sub3">x+n</span></span></p>
+
+<p><span class="nowrap mono">q &equiv; a<span class="sub3">x+n+1</span></span></p>
+
+<p><span class="nowrap mono">r &equiv; a<span class="sub3">x+n+2</span></span></p>
+
+<p>The initial values of those elements do not matter. But they must be reserved since <span class="mono">E</span> overwrites them.</p>
+
+<p>The code is transformed through the following steps. First, the <span class="mono">break</span> statement is replaced with <span class="mono">r</span> acting as a flag:</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  <span class="keyword2">if</span> (a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span>) <span class="keyword2">and not</span> r</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span></span>
+<span class="line">    r &larr; 1</span>
+</pre>
+
+<p>The loop no longer exits early, but <span class="mono">r</span> ensures the assignment happens at most once.</p>
+
+<p>Next, the <span class="mono">if</span> statement is converted to a <a href="https://en.wikipedia.org/wiki/Ternary_operation" target="_blank">ternary operation</a>, where the condition is stored in <span class="mono">q</span>:</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; (a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">0</span>&nldr;k<span class="sub3">n&minus;1</span>) <span class="keyword2">and not</span> r</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>Each iteration overwrites the array segment with itself, except when a key matches for the first time.</p>
+
+<p><span class="nowrap">Line 3</span> is expanded into <span class="nowrap">lines 3&ndash;6</span> below.</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>
+<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>When the inner loop on <span class="nowrap">line 4</span> is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
+
+<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
+
+<p><span class="mono">A</span> is the array element compared with <span class="mono">k<span class="sub3">i</span></span>. It passes through unchanged. <span class="mono">C</span> is the array element that stores the result of the comparison, which in this case is <span class="mono">p</span>.</p>
+
+<p>To make this work, 256 implementations of that byte matcher need to be added to the function catalog, one for every possible value of <span class="mono">k<span class="sub3">i</span></span>. However, the byte matchers operate on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p><span class="nowrap">Line 11</span> is expanded into <span class="nowrap">lines 11&ndash;13</span> below.</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    p &larr; v<span class="sub3">i</span></span>
+<span class="line">    a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>
+<span class="line">  a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; q ? v<span class="sub3">0</span>&nldr;v<span class="sub3">n&minus;1</span> : a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>When the inner loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
+
+<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &#8614; v<span class="sub3">i</span></span></p>
+
+<p><span class="mono">A</span> is the array element assigned <span class="mono">v<span class="sub3">i</span></span>, which in this case is <span class="mono">p</span>.</p>
+
+<p>As with the byte matchers, 256 implementations need to be added to the function catalog, one for every possible value of <span class="mono">v<span class="sub3">i</span></span>.</p>
+
+<p>Additionally, every conditional-assignment, <span class="mono">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
+
+<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &#8614; [ C ? B : A, B, C ]</span>.</p>
+
+<p><span class="mono">A</span> is the destination element. When the condition is false, it is also the source element. <span class="mono">B</span> is the source element when the condition is true. And <span class="mono">C</span> is the condition element.</p>
+
+<p><span class="mono">B</span> and <span class="mono">C</span> pass through, unchanged. They are <span class="mono">p</span> and <span class="mono">q</span>, respectively.</p>
+
+<p><span class="mono">COPY_B_A_C</span> already exists in the function catalog. However, it operates on a triplet of consecutive elements. So, the following version duplicates the strategy used for the byte matchers. It moves the value in <span class="mono">a<span class="sub3">x+i</span></span> into <span class="mono">a<span class="sub3">x+n&minus;1</span></span> via repeated swaps. There, it performs the copy. Then it restores the moved value back to its original location.</p>
+
+<pre class="pseudocode2">
+<span class="line">r &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  q &larr; <span class="keyword2">not</span> r</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    p &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    q &larr; q <span class="keyword2">and</span> p</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    p &larr; v<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; q ? p : a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
+</pre>
+
+<p>Next, the placeholders, <span class="mono">p</span>, <span class="mono">q</span>, and <span class="mono">r</span>, are filled in with their corresponding array elements, <span class="mono">a<span class="sub3">x+n</span></span>, <span class="mono">a<span class="sub3">x+n+1</span></span>, and <span class="mono">a<span class="sub3">x+n+2</span></span>, respectively:</p>
+
+<pre class="pseudocode2">
+<span class="line">a<span class="sub3">x+n+2</span> &larr; 0</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  a<span class="sub3">x+n+1</span> &larr; <span class="keyword2">not</span> a<span class="sub3">x+n+2</span></span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    a<span class="sub3">x+n</span> &larr; a<span class="sub3">x+n&minus;1</span> = k<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    a<span class="sub3">x+n+1</span> &larr; a<span class="sub3">x+n+1</span> <span class="keyword2">and</span> a<span class="sub3">x+n</span></span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    a<span class="sub3">x+n</span> &larr; v<span class="sub3">i</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">    a<span class="sub3">x+n&minus;1</span> &larr; a<span class="sub3">x+n+1</span> ? a<span class="sub3">x+n</span> : a<span class="sub3">x+n&minus;1</span></span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      [a<span class="sub3">x+j</span>,a<span class="sub3">x+j+1</span>] &larr; [a<span class="sub3">x+j+1</span>,a<span class="sub3">x+j</span>]</span>    
+<span class="line">  a<span class="sub3">x+n+2</span> &larr; a<span class="sub3">x+n+2</span> <span class="keyword2">or</span> a<span class="sub3">x+n+1</span></span>
+</pre>
+
+<p>Then all references to the array are replaced with MC instructions:</p>
+
+<pre class="pseudocode2">
+<span class="line">CLEAR n+2</span>
+<span class="line"><span class="keyword2">for each</span> (k,v) <span class="keyword2">in</span> m</span>
+<span class="line">  COPY_NOT_B_A n+1</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      SWAP j</span>    
+<span class="line">    MATCH_k<span class="sub3">i</span>_C n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      SWAP j</span>
+<span class="line">    AND_AB_AF n</span>
+<span class="line">  <span class="keyword2">for</span> i &larr; 0 <span class="keyword2">to</span> n&minus;1</span>
+<span class="line">    CONST_v<span class="sub3">i</span> n</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; i <span class="keyword2">to</span> n&minus;2</span>
+<span class="line">      SWAP j</span>
+<span class="line">    COPY_B_A_C n&minus;1</span>
+<span class="line">    <span class="keyword2">for</span> j &larr; n&minus;2 <span class="keyword2">down to</span> i</span>
+<span class="line">      SWAP j</span>
+<span class="line">  OR_AB_AF n+1</span>
+</pre>
+
+<p>The code needs two variations of existing functions:</p>
+
+<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &#8614; [ <span class="keyword2">not</span> E, E ]</span></p>
+
+<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &#8614; [ A, A | B ]</span></p>
+
+<p>The final step is to unroll the loops. As that happens, the <span class="mono">(k,v)</span> pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. However, since <span class="mono">m</span> contains up to <span class="mono">256<span class="sup3">n</span></span> entries, the unroll may produce an extremely long program.</p>
+
+<p>Clearly, this technique is not practical or efficient. Nonetheless, it demonstrates an <span class="nowrap">MC program</span> can emulate an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function, at least in principle.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="abstract-machines.html">&#129092; Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

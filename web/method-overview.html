@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="fundamentals.html">&#129092; Previous</a></p></td><td><p class="next"><a href="nodes.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="introduction.html">Introduction</a></p>
+
+<h2 id="method-overview">Method Overview</h2>
+
+<p>A process encodes input data into the cells of the <span class="nowrap">bottom-two</span> rows of a playfield that is infinite in width and height, but bounded by the floor. An <span class="term">agent</span> drops tetrominoes onto those cells, forming a structure that emulates <a href="https://en.wikipedia.org/wiki/Combinational_logic" target="_blank">combinational logic</a>. A process decodes output data from the <span class="nowrap">top-two</span> rows of that structure:</p>
+
+<object id="boolean-circuit.svg" data="boolean-circuit.svg" type="image/svg+xml" class="diagram">Boolean Circuit</object>
+
+<p>The agent builds a second structure above the first, such that the output rows of the first structure serve as the input rows of the second structure. By repeating this procedure, the agent effectuates a state machine, where the data rows are states and the structures are transition functions:</p>
+
+<object id="state-machine.svg" data="state-machine.svg" type="image/svg+xml" class="diagram">State Machine</object>
+
+<p>There exists a modification of this technique where the data capacity of a state always exceeds its predecessor. The modification provides a way to build an abstract computing device with unbounded storage that can simulate an arbitrary Turing machine operating on given input.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="fundamentals.html">&#129092; Previous</a></p></td><td><p class="next"><a href="nodes.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

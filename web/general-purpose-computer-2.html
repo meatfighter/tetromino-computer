@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="cycle-programs-generator.html">&#129092; Previous</a></p></td><td><p class="next"><a href="conclusion.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="applications.html">Applications</a></p>
+
+<h2 id="general-purpose-computer-2">General-purpose Computer</h2>
+
+<p>The General-purpose Computer executes a machine code binary via emulation or simulation. To run it from the command-line, enter the following.</p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c [ processor and memory class name ]</span> <span class="nowrap">-b [ binary filename ]</span> <span class="nowrap">-l [ cycle left filename ]</span> <span class="nowrap">-r [ cycle right filename ]</span></span></p>
+
+<p>The arguments are optional. They default to:</p>
+
+<p><span class="command">java <span class="nowrap">-cp target/tetromino-computer.jar</span> tetrominocomputer.gpc.app.GeneralPurposeComputer <span class="nowrap">-c tetrominocomputer.gpc.app.MCProcessorAndMemory</span> <span class="nowrap">-b example.bin</span> <span class="nowrap">-l CYCLE_LEFT.mc</span> <span class="nowrap">-r CYCLE_RIGHT.mc</span></span></p>
+
+<p>The General-purpose Computer provides two implementations of an abstract processor and memory type in the <span class="mono nowrap">tetrominocomputer.gpc.app</span> package: <span class="mono">EmulatedProcessorAndMemory</span> and <span class="mono">MCProcessorAndMemory</span>. Both load the binary file from <span class="mono">code/bin</span> to set the starting memory state. </p>
+
+<p><span class="mono">EmulatedProcessorAndMemory</span> contains variables in place of registers and memory, and Java code that directly manipulates those variables to reproduce the effect of every machine code instruction type. It was created for testing purposes. It enabled the development of <span class="mono">example.asm</span> before <span class="mono">MCProcessorAndMemory</span> was available.</p>
+
+<p><span class="mono">MCProcessorAndMemory</span> is the simulator detailed in a <a href="simulator.html">prior section</a>. It runs the <span class="nowrap">MC programs</span> in <span class="mono">code/mc</span>, and it simulates the <span class="nowrap">TS programs</span> by applying the lookup tables in <span class="mono">code/luts</span> that were derived from them.</p>
+
+<p><span class="mono">MCProcessorAndMemory</span> accepts the left and right cycle <span class="nowrap">MC program</span> filenames because their contents depend on the binary file size. <span class="mono">EmulatedProcessorAndMemory</span> ignores those arguments.</p>
+
+<p>The video below demonstrates the performance of <span class="mono">MCProcessorAndMemory</span> on a <span class="nowrap">Dell XPS 8930</span> desktop featuring an <span class="nowrap">i7-8700K CPU</span>, <span class="nowrap">64 GiB</span> of RAM, and <span class="nowrap">Windows 10 Pro</span>&mdash;a five year old machine at the time of this writing. It runs at approximately <span class="nowrap">5.75 frames/sec</span> with <span class="nowrap">Java 8u351</span>. For unknown reasons, it runs slower on more recent versions of Java, at approximately <span class="nowrap">5.25 frames/sec</span>. The game pauses momentarily while clearing lines because shifting rows requires copying a large amount of data, and the processor cannot do anything else until that finishes.</p>
+
+<p class="centered"><iframe width="560" height="315" src="https://www.youtube.com/embed/kUUqHcX86K8" title="YouTube video player" style="border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+
+<p><span class="mono">EmulatedProcessorAndMemory</span> runs at approximately <span class="nowrap">400 frames/sec</span>, nearly 70&times; faster. But the General-purpose Computer caps the maximum frame rate at <span class="nowrap">10 frames/sec</span>.</p>
+
+<p>Here is the game's key mapping:</p>
+
+<table class="borderless">
+<tr><th class="borderless">Action</th><th class="borderless">Key</th></tr>
+<tr><td class="borderless">Start game</td><td class="borderless centered">Enter</td></tr>
+<tr><td class="borderless">Shift left</td><td class="borderless centered">&larr;</td></tr>
+<tr><td class="borderless">Shift right</td><td class="borderless centered">&rarr;</td></tr>
+<tr><td class="borderless">Soft drop</td><td class="borderless centered">&darr;</td></tr>
+<tr><td class="borderless">Rotate counterclockwise</td><td class="borderless centered">Z</td></tr>
+<tr><td class="borderless">Rotate clockwise</td><td class="borderless centered">X</td></tr>
+</table>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="cycle-programs-generator.html">&#129092; Previous</a></p></td><td><p class="next"><a href="conclusion.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="general-purpose-computer.html">&#129092; Previous</a></p></td><td><p class="next"><a href="microcode.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a></p>
+
+<h2 id="computer-overview">Overview</h2>
+
+<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="infinite-array-abstraction.html">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
+
+<object id="machine-code-padding-and-register.svg" data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
+
+<p>The machine code program is a sequence of bytes representing instructions and data. At execution time, the computer restricts the program to accessing its own bytes, as opposed to the entire array. This means, the loaded program is the initial state of the computer’s RAM. Its length, <span class="mono">L</span>, establishes the RAM size and a fixed address space, <span class="nowrap mono">0&nldr;L&minus;1</span>, where <span class="nowrap"><span class="mono">L</span> &le; 65,536 bytes</span>, the maximum <span class="nowrap">RAM size</span>.</p>
+
+<p>A segment of the state register contains the address of the next instruction to execute. To fetch the instruction, the computer slides the state register across RAM, applying a function, <span class="mono">fetchLoadStore</span>, to each byte along the way. When the state register reaches the instruction’s address, <span class="mono">fetchLoadStore</span> copies the instruction to a segment of the state register.</p>
+
+<p>Similarly, a segment of state register may contain the address of a byte to load or store. If present, when the state register reaches that address, <span class="mono">fetchLoadStore</span> copies a <span class="nowrap">RAM byte</span> to a state register byte, or <span class="nowrap">vice versa</span>.</p> 
+
+<p>After the computer slides the state register across RAM, it applies a function, <span class="mono">decodeExecute</span>, to decode and execute the fetched instruction. It puts calculated results in segments of the state register.</p>
+
+<p>The following pseudocode summarizes the computer. The inner loop on <span class="nowrap">line 2</span> slides the state register leftward and the inner loop on <span class="nowrap">line 7</span> slides the state register rightward.</p>
+
+<pre class="pseudocode2">
+<span class="line"><span class="keyword2">while true</span></span>
+<span class="line">  <span class="keyword2">for</span> x &larr; L&minus;1 <span class="keyword2">down to</span> 1</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span>)</span>
+<span class="line">    slideRegister(x+3, &minus;1)</span>
+<span class="line">  a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span> &larr; fetchLoadStore(a<span class="sub3">0</span>&nldr;a<span class="sub3">23</span>)</span>
+<span class="line">  a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span> &larr; decodeExecute(a<span class="sub3">3</span>&nldr;a<span class="sub3">23</span>)</span>
+<span class="line">  <span class="keyword2">for</span> x &larr; 0 <span class="keyword2">to</span> L&minus;2</span>
+<span class="line">    a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23</span> &larr; fetchLoadStore(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+23)</span></span>
+<span class="line">    slideRegister(x+3, 1)</span>
+<span class="line">  a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span> &larr; fetchLoadStore(a<span class="sub3">L&minus;1</span>&nldr;a<span class="sub3">L+22</span>)</span>
+<span class="line">  a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span> &larr; decodeExecute(a<span class="sub3">L+2</span>&nldr;a<span class="sub3">L+22</span>)</span>
+</pre>
+
+<p><span class="mono">fetchLoadStore</span> operates on the state register bytes, <span class="nowrap mono">a<span class="sub3">x+3</span>&nldr;a<span class="sub3">x+23</span></span>, and three extra bytes immediately left of the state register, <span class="nowrap mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+2</span></span>. The state register slides left only as far as <span class="nowrap">address 3</span> to enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the leftmost machine code byte <span class="nowrap">(line 5)</span>. Likewise, the two padding bytes enable <span class="mono">fetchLoadStore</span> to simultaneously engage the state register and the rightmost machine code byte <span class="nowrap">(line 10)</span>.</p>
+
+<p><span class="mono">decodeExecute</span> operates exclusively on the state register. It defers execution of load and store instructions to <span class="mono">fetchLoadStore</span> since it does not engage RAM.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="general-purpose-computer.html">&#129092; Previous</a></p></td><td><p class="next"><a href="microcode.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

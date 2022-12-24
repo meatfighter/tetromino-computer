@@ -471,7 +471,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 11</span></span>
 </pre>
 
-<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-tetrominoes</span>. It is detailed in <a href="#intermediate-gates">a later section</a>.</p>
+<p><span class="mono">_norLeft</span> is a compact NOR gate composed of two <span class="nowrap">O-tetrominoes</span>. It is detailed in a <a href="#intermediate-gates">later section</a>.</p>
 
 <p>Here are the results for all input combinations:</p>
 
@@ -515,7 +515,7 @@
 
 <object id="animated-intermediate-not.svg" data="animated-intermediate-not.svg" type="image/svg+xml" class="diagram">Intermediate NOT</object>
 
-<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-tetromino</span>. If that <span class="nowrap">O-tetromino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in <a href="#simulation">a later section</a>, which depends on consistent circuit operation.</p>
+<p><span class="mono">_notLeft</span>'s compact size translates to smaller circuits, which should be motivation to use it frequently. But in practice, it is used sparingly because, when the input is <span class="mono">1</span>, it fails to support the <span class="nowrap">O-tetromino</span>. If that <span class="nowrap">O-tetromino</span> leaks out of a circuit, it will plummet until it meets the surface of the pile, where it can interfere with other circuits. The resultant unpredictable behavior renders such circuits incompatible with an important optimization, described in a <a href="#simulator">later section</a>, which depends on consistent circuit operation.</p>
 
 <p>To use <span class="mono">_notLeft</span> safely, the <span class="nowrap">O-tetromino</span> must be caught. This is practical only in the interior of circuits, where the surrounding components act as barriers. There, <span class="mono">_notLeft</span> and other leaky gates are relegated to processing intermediate values, hence the designation, &ldquo;intermediate gates&rdquo;. Their names start with an underscore to make them instantly distinguishable from ordinary gates.</p>
 
@@ -4490,7 +4490,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>It loads the <span class="nowrap">TS programs</span> from <span class="mono">code/ts</span>, and it saves the lookup tables to <span class="mono">code/luts</span>.</p>
 
-<p>The <span class="nowrap">Lookup Table Generator</span> employs the memoized algorithm described <a href="#lut-algorithm">previously</a>. As a parallelized algorithm, it consumes <span class="nowrap">100% CPU</span> during execution.</p>
+<p>The <span class="nowrap">Lookup Table Generator</span> employs the memoized algorithm <a href="#lut-algorithm">described previously</a>. As a parallelized algorithm, it consumes <span class="nowrap">100% CPU</span> during execution.</p>
 
 <p>The <span class="nowrap">Lookup Table Generator</span> ignores the JavaScript snippets. It works exclusively from the <span class="nowrap">TS programs</span>.</p>
 
@@ -4555,6 +4555,8 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <tr><td class="borderless">Rotate counterclockwise</td><td class="borderless centered">Z</td></tr>
 <tr><td class="borderless">Rotate clockwise</td><td class="borderless centered">X</td></tr>
 </table>
+
+<h1 id="conclusion">Conclusion</h1>
 
 <p>That completes the excursion from Tetris to <span class="nowrap">Turing machines</span> and back again.</p>
 

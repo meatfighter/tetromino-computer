@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="crossing.html">&#129092; Previous</a></p></td><td><p class="next"><a href="functions.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="wires.html">Wires</a></p>
+
+<h2 id="multiplexing">Multiplexing</h2>
+
+<p>A <span class="term">multiplexer</span> is a switch that channels one of the inputs to the output. A <span class="nowrap">2-to-1</span> multiplexer outputs <span class="math">AS + B<span class="overline">S</span></span>, where <span class="math">A</span> and <span class="math">B</span> are the inputs, and <span class="math">S</span> is the <span class="term">selector</span> that controls the switch.</p>
+
+<p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
+
+<p><span class="math">AS + B<span class="overline">S</span></span></p>
+
+<p><span class="math">= AS + <span class="high-overline"><span class="overline">B</span> + S</span></span></p>
+
+<p><span class="math">= <span class="high-overline"><span class="overline">AS</span>(<span class="overline">B</span> + S)</span></span></p>
+
+<p>That suggests two NAND gates, an OR gate, and an inverter arranged as follows.</p>
+
+<object id="mux-schematic.svg" data="mux-schematic.svg" type="image/svg+xml" class="diagram">Multiplexer Schematic</object>
+
+<p>The code below is based on that schematic.</p>
+
+<pre class="code">
+<span class="filename">muxLeft.t</span>
+<span class="line"><span class="normal">ih </span><span class="number">0</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">4</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-4</span></span>
+<span class="line"><span class="normal">notLeft </span><span class="number">-4 1</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">-1 1</span></span>
+<span class="line"><span class="normal">notRight </span><span class="number">4 1</span></span>
+<span class="line"><span class="normal">jr </span><span class="number">1</span></span>
+<span class="line"><span class="normal">o </span><span class="number">2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">-2</span></span>
+<span class="line"><span class="normal">ih </span><span class="number">3</span></span>
+<span class="line"><span class="normal">nand </span><span class="number">0 7</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">in </span><span class="normal">l </span><span class="number">-6..-3 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">s </span><span class="number">-2..1 0</span></span>
+<span class="line"><span class="keyword">in </span><span class="normal">r </span><span class="number">2..5 0</span></span>
+<span class="line"><span class="keyword">out </span><span class="normal">o </span><span class="number">-2..1 13</span></span>
+</pre>
+
+<p>Here are the results for all input combinations:</p>
+
+<object id="mux.svg" data="mux.svg" type="image/svg+xml" class="diagram">Multiplexer</object>
+
+<p>The selector (the center input) is <span class="mono">0</span> in the upper-row and <span class="mono">1</span> in the lower-row.</p>
+
+<p>As suggested by its name, <span class="mono">muxLeft</span> outputs the left-input when the selector is <span class="mono">1</span>. A horizontally-reflected version, <span class="mono">muxRight</span>, outputs the right-input when the selector is <span class="mono">1</span>.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="crossing.html">&#129092; Previous</a></p></td><td><p class="next"><a href="functions.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

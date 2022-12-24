@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="store-instructions.html">&#129092; Previous</a></p></td><td><p class="next"><a href="example-program.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="general-purpose-computer.html">General-purpose Computer</a> &gt; <a href="assembly-language.html">Assembly Language</a></p>
+
+<h3 id="set-instructions">Set Instructions</h3>
+
+<p>A set instruction assigns a register to an immediate (a constant):</p>
+
+<table class="borderless">
+  <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
+  <tr><td class="mono">SEA immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">A</span></td><td class="pseudocode">A = immediate;</td><td class="mono">50</td></tr>    
+  <tr><td class="mono">SEB immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">B</span></td><td class="pseudocode">B = immediate;</td><td class="mono">51</td></tr>
+  <tr><td class="mono">SMN immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">MN</span></td><td class="pseudocode">MN = immediate;</td><td class="mono">2F</td></tr>
+</table>
+
+<p><span class="mono">SEA</span> and <span class="mono">SEB</span> assign an <span class="nowrap">8-bit</span> immediate. And <span class="mono">SMN</span> assigns a <span class="nowrap">16-bit</span> immediate.</p>
+
+<p>They assemble to an opcode followed by the immediate byte or big-endian bytes.</p>      
+      
+<p>The language accepts <a href="https://en.wikipedia.org/wiki/Integer_literal" target="_blank">integer literal</a> immediate values written in hexadecimal. As shown below, a <span class="nowrap">byte literal</span> contains two <span class="nowrap">hex digits</span> while a <span class="nowrap">16-bit word</span> literal contains four <span class="nowrap">hex digits</span>.</p>
+
+<pre class="code">
+<span class="line"><span class="normal">SEA</span> <span class="number">D3</span>                  <span class="comment">; A = 0xD3;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">7F</span>                  <span class="comment">; B = 0x7F;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="number">1234</span>                <span class="comment">; MN = 0x1234;</span></span>
+</pre>
+
+<p>The <span class="mono">define</span> directive equates a name with an integer literal:</p>
+
+<p class="definition">define name value</p>
+
+<p>A program can use defined names as immediate values:</p>
+
+<pre class="code">
+<span class="line"><span class="keyword">define</span> <span class="identifier">X</span> <span class="number">D3</span>             <span class="comment">; #define X 0xD3</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">Y</span> <span class="number">7F</span>             <span class="comment">; #define Y 0x7F</span></span>
+<span class="line"><span class="keyword">define</span> <span class="identifier">Z</span> <span class="number">1234</span>           <span class="comment">; #define Z 0x1234</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SEA</span> <span class="identifier">X</span>                   <span class="comment">; A = X;</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="identifier">Y</span>                   <span class="comment">; B = Y;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">Z</span>                   <span class="comment">; MN = Z;</span></span>
+</pre>
+
+<p>A data region is a sequence of one or more integer literals not preceded by an instruction mnemonic. To reference a data region, a program prefaces it with a label, and it successively uses the label as a <span class="nowrap">16-bit</span> immediate. The following example demonstrates this.</p>
+
+<pre class="code">
+<span class="line"><span class="label">v:</span> <span class="number">00</span>                   <span class="comment">; v = 0;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">v</span>                   <span class="comment">; MN = &amp;v;</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; A = *MN;</span></span>
+<span class="line"><span class="normal">INC</span>                     <span class="comment">; ++A;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
+</pre>
+
+<p>The label <span class="mono">v</span> is a placeholder for the address of a single-byte data region that is initialized to zero. When used as an immediate, <span class="mono">v</span> resembles a byte variable. <span class="nowrap">Lines 3&ndash;6</span> are equivalent to <span class="mono">++v;</span></p>
+
+<p>The next example reserves and initializes an <span class="nowrap">8-element</span> byte array, <span class="mono">table</span>, and a byte variable, <span class="mono">index</span>.</p>
+
+<pre class="code">
+<span class="line"><span class="keyword">segment</span> <span class="number">0180</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">table:</span>                  <span class="comment">; table[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80 }; </span></span>
+<span class="line"><span class="number">01</span> <span class="number">02</span> <span class="number">04</span> <span class="number">08</span></span>
+<span class="line"><span class="number">10</span> <span class="number">20</span> <span class="number">40</span> <span class="number">80</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">index:</span> <span class="number">03</span>               <span class="comment">; index = 0x03;</span></span>
+<span class="line"></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">index</span>               <span class="comment">; MN = &amp;index;</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; A = *MN;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">table</span>               <span class="comment">; MN = table;</span></span>
+<span class="line"><span class="normal">TNB</span>                     <span class="comment">; B = N;</span></span>
+<span class="line"><span class="normal">ADD</span>                     <span class="comment">; A += B;</span></span>
+<span class="line"><span class="normal">TAN</span>                     <span class="comment">; N = A;</span></span>
+<span class="line"><span class="normal">LDA</span>                     <span class="comment">; A = *MN;</span></span>
+</pre>
+
+<p><span class="nowrap">Lines 9&ndash;15</span> are equivalent to:</p>
+
+<p><span class="mono">A = table[index];</span></p>
+
+<p>Or:</p>
+
+<p><span class="mono">A = *(table + index);</span></p> 
+
+<p>However, without a carry flag, adding a <span class="nowrap">16-bit</span> value to an <span class="nowrap">8-bit</span> value is challenging. Instead, the code takes advantage of the <span class="mono">segment</span> directive, which has the following format.</p> 
+
+<p class="definition">segment address</p>
+
+<p>It instructs the assembler to store bytes generated from subsequent code at the specified address. In this case, the effect is:</p>
+
+<p><span class="mono">table = 0x0180;</span></p>
+
+<p>Since the table is fully contained within the same <span class="nowrap">256-byte</span> memory page, adding <span class="mono">table</span> and <span class="mono">index</span> does not produce a carry. The code offsets only the <span class="nowrap">low-byte</span> of the address.</p>
+
+<p>To facilitate <a href="https://en.wikipedia.org/wiki/Self-modifying_code" target="_blank">self-modifying code</a>, a program can offset a label immediate by a positive or negative constant with the notation below.</p>
+
+<p class="definition">label[+-]offset</p> 
+
+<p>The offset is a fixed integer value written in decimal.</p>  
+
+<p>The notation provides a way to modify the operand of an instruction, as seen in the following example.</p> 
+
+<pre class="code">
+<span class="line"><span class="normal">SEA</span> <span class="number">FF</span>                  <span class="comment">; A = 0xFF;</span></span>
+<span class="line"><span class="normal">SMN</span> <span class="identifier">target</span><span class="normal">+</span><span class="number">1</span>            <span class="comment">; MN = target + 1;</span></span>
+<span class="line"><span class="normal">STA</span>                     <span class="comment">; *MN = A;</span></span>
+<span class="line"></span>
+<span class="line"><span class="label">target:</span></span>
+<span class="line"><span class="normal">SEB</span> <span class="number">00</span>                  <span class="comment">; B = 0x00; // until replaced with 0xFF</span></span>
+</pre>
+
+<p>The label <span class="mono">target</span> is a placeholder for the address of <span class="mono">SEB</span>'s opcode byte. At runtime, lines 1&ndash;3 change <span class="mono">SEB</span>'s operand byte by offsetting <span class="mono">target</span> by one. Consequentially, when the <span class="mono">SEB</span> instruction executes, it assigns <span class="mono">B</span> to <span class="mono">FF</span> rather than <span class="mono">00</span>.</p> 
+
+<p>In summary, the operand of <span class="mono">SMN</span> can be any of the following.</p>
+
+<p class="definition">SMN hex | label | label+offset | label-offset</p>
+
+<p>The same applies to the branch instructions. They can use any of the above as the target. But it is rarely worthwhile to jump to a <span class="nowrap">hex address</span> or to a label offset by a constant.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="store-instructions.html">&#129092; Previous</a></p></td><td><p class="next"><a href="example-program.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

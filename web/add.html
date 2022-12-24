@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="conditional-increment.html">&#129092; Previous</a></p></td><td><p class="next"><a href="subtract.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
+
+<h2 id="add">Add</h2>
+
+<p>The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:</p>
+
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></span></p>
+
+<p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic add.</p>
+
+<p><span class="math">B</span> passes through, unchanged.</p>
+
+<p>Its circuit consists of a chain of <a href="https://en.wikipedia.org/wiki/Adder_(electronics)#Full_adder" target="_blank">full adders</a>, devices capable of single-digit addition. Each full adder accepts three <span class="nowrap">1-bit</span> <a href="https://en.wikipedia.org/wiki/Addition#Notation_and_terminology" target="_blank">addends</a>, <span class="math">X</span>, <span class="math">Y</span>, and <span class="math">Z</span>, and it outputs their sum, a <span class="nowrap">2-bit</span> value composed of the twos bit, <span class="math">C</span>, and the ones bit, <span class="math">S</span>. The table below shows the outputs for all possible inputs.</p>
+
+<table class="borderless">
+<tr><th class="math">X</th><th class="math">Y</th><th class="math">Z</th><th class="border-left math">C</th><th class="math">S</th><th class="border-left borderless">Meaning</th></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 0 &plus; 0 = 0</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 0 &plus; 1 = 1</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">0 &plus; 1 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">0 &plus; 1 &plus; 1 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="mono">0</td><td class="border-left mono">0</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 0 &plus; 0 = 1</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">0</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 0 &plus; 1 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="mono">0</td><td class="border-left mono">1</td><td class="mono">0</td><td class="border-left borderless"><span class="serif">1 &plus; 1 &plus; 0 = 2</span></td></tr>
+<tr><td class="mono">1</td><td class="mono">1</td><td class="mono">1</td><td class="border-left mono">1</td><td class="mono">1</td><td class="border-left borderless"><span class="serif">1 &plus; 1 &plus; 1 = 3</span></td></tr>
+</table>
+
+<p>Per the table rows where <span class="math">S</span> is <span class="mono">1</span>:</p>
+
+<p><span class="math">S = <span class="overline">X</span> <span class="overline">Y</span> Z + <span class="overline">X</span> Y <span class="overline">Z</span> + X <span class="overline">Y</span> <span class="overline">Z</span> + X Y Z</span></p>
+
+<p><span class="math">= <span class="overline">X</span> (<span class="overline">Y</span> Z + Y <span class="overline">Z</span>) + X (<span class="overline">Y</span> <span class="overline">Z</span> + Y Z)</span></p>
+
+<p><span class="math">= <span class="overline">X</span> (Y &oplus; Z) + X <span class="overline">(Y &oplus; Z)</span></span></p>
+
+<p><span class="math">= X &oplus; Y &oplus; Z</span></p>
+
+<p><span class="math">= </span><span class="overline2"><span class="math">X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math"> &oplus; Z</span></span></p>
+
+<p><span class="math">= </span><span class="overline2"><span class="math">(X &oplus; Y &oplus; </span><span class="serif">1</span><span class="math">) &oplus; Z</span></span></p>
+
+<p><span class="math">= <span class="high-overline"><span class="overline">(X &oplus; Y)</span> &oplus; Z</span></span></p>
+
+<p>Per the table rows where <span class="math">C</span> is <span class="mono">1</span>:</p>
+
+<p><span class="math">C = <span class="overline">X</span> Y Z + X <span class="overline">Y</span> Z + X Y <span class="overline">Z</span> + X Y Z</span></p>
+
+<p><span class="math"> = Z (<span class="overline">X</span> Y + X <span class="overline">Y</span>) + X Y (<span class="overline">Z</span> + Z)</span></p>
+
+<p><span class="math"> = Z (X <span class="overline">X</span> + <span class="overline">X</span> Y + X <span class="overline">Y</span> + Y <span class="overline">Y</span>) + X Y</span></p>
+
+<p><span class="math"> = Z (X + Y) (<span class="overline">X</span> + <span class="overline">Y</span>) + X Y</span></p>
+
+<p><span class="math"> = Z (X + Y) <span class="overline">(X Y)</span> + (X Y)</span></p>
+
+<p><span class="math"> = Z (X + Y) + (X Y)</span></p>
+
+<p><span class="math"> = Z (X + Y) + (X Y) + (X Y)</span></p>
+
+<p><span class="math"> = Z (X + Y) + (X X Y) + (Y X Y)</span></p>
+
+<p><span class="math"> = Z (X + Y) + (X X Y + X <span class="overline">X</span> <span class="overline">Y</span>) + (Y X Y + Y <span class="overline">X</span> <span class="overline">Y</span>)</span></p>
+
+<p><span class="math"> = Z (X + Y) + X (X Y + <span class="overline">X</span> <span class="overline">Y</span>) + Y (X Y + <span class="overline">X</span> <span class="overline">Y</span>)</span></p>
+
+<p><span class="math"> = Z (X + Y) + X <span class="overline">(X &oplus; Y)</span> + Y <span class="overline">(X &oplus; Y)</span></span></p>
+
+<p><span class="math"> = Z (X + Y) + <span class="overline">(X &oplus; Y)</span> (X + Y)</span></p>
+
+<p><span class="math"> = (X + Y) (Z + <span class="overline">X &oplus; Y</span>)</span></p>
+
+<p>The expressions for <span class="math">S</span> and <span class="math">C</span> are combined:</p>
+
+<p><span class="math">T = <span class="overline">X &oplus; Y</span></span></p>
+
+<p><span class="math">S = <span class="overline">T &oplus; Z</span></span></p>
+
+<p><span class="math">C = (X + Y) (Z + T) = <span class="high-overline"><span class="overline">X + Y</span> + <span class="overline">Z + T</span></span></span></p>
+
+<p>The resultant expressions suggest the following circuit, where the XNORs (the gray rectangles) are composed from four NORs.</p>
+
+<object id="full-adder-schematic.svg" data="full-adder-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic</object>
+
+<p>The Tetris realization is based on a slight modification that forwards input <span class="math">X</span> through and out between <span class="math">C</span> and <span class="math">S</span>. It consists of nine NORs and three crosses, as shown below.</p>
+
+<object id="full-adder-x-schematic.svg" data="full-adder-x-schematic.svg" type="image/svg+xml" class="diagram">Full Adder Schematic, Outputs X</object>
+
+<p>Here are the results for <span class="math">X = </span><span class="mono">0</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
+
+<object id="full-adder-x-0.svg" data="full-adder-x-0.svg" type="image/svg+xml" class="diagram">Full Adder, X = 0</object>
+
+<p>Here are the results for <span class="math">X = </span><span class="mono">1</span> and all possible values of <span class="math">Y</span> and <span class="math">Z</span>:</p>
+
+<object id="full-adder-x-1.svg" data="full-adder-x-1.svg" type="image/svg+xml" class="diagram">Full Adder, X = 1</object>
+
+<p>The complete circuit consists of full adders chained in the arrangement below. Each full adder accepts a pair of addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, and it outputs their sum digit, <span class="math">Q<span class="sub">i</span></span>, along with one of the input digits, <span class="math">B<span class="sub">i</span></span>, unmodified.</p>
+
+<object id="adder-schematic.svg" data="adder-schematic.svg" type="image/svg+xml" class="diagram">4-bit Adder Schematic</object>
+
+<p>The circuit evaluates right-to-left. For each full adder, if the sum of the <span class="nowrap">carry-in</span>, <span class="math">Z</span>, and the addend digits, <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span>, is not a single-digit number, then the high digit, <span class="math">C</span>, is carried out to the full adder on its left. The initial <span class="nowrap">carry-in</span> is <span class="mono">0</span> (far right) and the final <span class="nowrap">carry-out</span> is lost.</p>
+
+<p>Crisscrossing wires are required to interlace the inputs and to disentangle the outputs:</p>
+
+<object id="add-schematic.svg" data="add-schematic.svg" type="image/svg+xml" class="diagram">8-bit Adder Schematic</object>
+
+<p>The Tetris realization retains the triangular patterns from all the cross overs:</p>
+
+<object id="add.svg" data="add.svg" type="image/svg+xml" class="diagram">8-bit Adder</object>
+
+<p>The full adders are stacked diagonally to enable the carries to ripple in the expected order.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="conditional-increment.html">&#129092; Previous</a></p></td><td><p class="next"><a href="subtract.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+

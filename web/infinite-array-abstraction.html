@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory-code.html">&#129092; Previous</a></p></td><td><p class="next"><a href="abstract-machines.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="path"><a href="index.html">Contents</a> &gt; <a href="memory.html">Memory</a></p>
+
+<h2 id="infinite-array-abstraction">Infinite Array Abstraction</h2>
+
+<p>Memory works like an infinitely long, one-dimensional, byte array, <span class="mono">a</span>, initialized as:</p>
+  
+<p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[0,L-1]</span> &larr; </span><span class="mono">i<span class="sup2">th</span></span> byte</span> of an <span class="nowrap"><span class="mono">L</span>-byte</span> initial memory state</p>
+
+<p><span class="nowrap"><span class="mono">a<span class="sub3">i&isin;[L,&infin;)</span> &larr; 0</span></span></p>
+
+<p>Each MC instruction, <span class="mono nowrap">f x</span>, where <span class="mono">f</span> is an <span class="nowrap"><span class="mono">n</span>-byte</span> function, modifies <span class="mono">n</span> consecutive bytes, starting at <span class="nowrap">index <span class="mono">x</span></span>:</p>
+
+<p><span class="nowrap"><span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span> &larr; f(a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span>)</span></span></p>
+
+<p>The computing machines of the next section employ this abstraction to satisfy their data storage needs. The text describes the array as if it oriented horizontally, starting with <span class="nowrap">index 0</span> at the &ldquo;left&rdquo; end, and heading &ldquo;rightward&rdquo; toward infinity.</p>
+
+<table class="previous-next">
+<tr><td><p class="previous"><a href="memory-code.html">&#129092; Previous</a></p></td><td><p class="next"><a href="abstract-machines.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+
