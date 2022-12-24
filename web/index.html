@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Tetris is Capable of Universal Computation</title>
+<link rel="stylesheet" href="style.css?v=2022-12-24" type="text/css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
+<link rel="mask-icon" href="mask-icon.svg" color="#000000">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="date" content="2022-12-24">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table class="previous-next">
+<tr><td><p class="previous"> </p></td><td><p class="next"><a href="introduction.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<p class="title">Tetris is Capable of <span class="nowrap">Universal Computation</span></p>
+
+<p>This text presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
+
+<h1 id="contents">Contents</h1>
+
+<p class="toc1"><a href="introduction.html">Introduction</a></p>
+<p class="toc2"><a href="fundamentals.html">Fundamentals</a></p>
+<p class="toc2"><a href="method-overview.html">Method Overview</a></p>
+<p class="toc2"><a href="nodes.html">Nodes</a></p>
+<p class="toc2"><a href="infinite-playfield.html">Infinite Playfield</a></p>
+<p class="toc2"><a href="input-language.html">Input Language</a></p>
+<p class="toc2"><a href="tetrominoscript.html">TetrominoScript</a></p>
+<p class="toc1"><a href="logic-gates.html">Logic Gates</a></p>
+<p class="toc2"><a href="buffer.html">Buffer</a></p>
+<p class="toc2"><a href="inverter-not.html">Inverter (NOT)</a></p>
+<p class="toc2"><a href="or.html">OR</a></p>
+<p class="toc2"><a href="nor.html">NOR</a></p>
+<p class="toc2"><a href="nand.html">NAND</a></p>
+<p class="toc2"><a href="and.html">AND</a></p>
+<p class="toc2"><a href="xor.html">XOR</a></p>
+<p class="toc2"><a href="xnor.html">XNOR</a></p>
+<p class="toc2"><a href="intermediate-gates.html">Intermediate Gates</a></p>
+<p class="toc1"><a href="wires.html">Wires</a></p>
+<p class="toc2"><a href="fan-out.html">Fan-out</a></p>
+<p class="toc2"><a href="fan-in.html">Fan-in</a></p>
+<p class="toc2"><a href="crossing.html">Crossing</a></p>
+<p class="toc2"><a href="multiplexing.html">Multiplexing</a></p>
+<p class="toc1"><a href="functions.html">Functions</a></p>
+<p class="toc2"><a href="functions-overview.html">Overview</a></p>
+<p class="toc2"><a href="identity.html">Identity</a></p>
+<p class="toc2"><a href="constant.html">Constant</a></p>
+<p class="toc2"><a href="logical-left-shift.html">Logical Left Shift</a></p>
+<p class="toc2"><a href="logical-right-shift.html">Logical Right Shift</a></p>
+<p class="toc2"><a href="logical-and.html">Logical AND</a></p>
+<p class="toc2"><a href="logical-and-not.html">Logical AND-NOT</a></p>
+<p class="toc2"><a href="bitwise-and.html">Bitwise AND</a></p>
+<p class="toc2"><a href="bitwise-or.html">Bitwise OR</a></p>
+<p class="toc2"><a href="bitwise-xor.html">Bitwise XOR</a></p>
+<p class="toc2"><a href="byte-swap.html">Byte Swap</a></p>
+<p class="toc2"><a href="byte-match.html">Byte Match</a></p>
+<p class="toc2"><a href="equals.html">Equals</a></p>
+<p class="toc2"><a href="byte-copy.html">Byte Copy</a></p>
+<p class="toc2"><a href="conditional-byte-copy.html">Conditional Byte Copy</a></p>
+<p class="toc2"><a href="decrement.html">Decrement</a></p>
+<p class="toc2"><a href="increment.html">Increment</a></p>
+<p class="toc2"><a href="conditional-increment.html">Conditional Increment</a></p>
+<p class="toc2"><a href="add.html">Add</a></p>
+<p class="toc2"><a href="subtract.html">Subtract</a></p>
+<p class="toc2"><a href="function-catalog.html">Function Catalog</a></p>
+<p class="toc1"><a href="memory.html">Memory</a></p>
+<p class="toc2"><a href="memory-implementation.html">Implementation</a></p>
+<p class="toc2"><a href="memory-code.html">Memory Code</a></p>
+<p class="toc2"><a href="infinite-array-abstraction.html">Infinite Array Abstraction</a></p>
+<p class="toc1"><a href="abstract-machines.html">Abstract Machines</a></p>
+<p class="toc2"><a href="function-emulator.html">Function Emulator</a></p>
+<p class="toc2"><a href="state-machine.html">State Machine</a></p>
+<p class="toc3"><a href="sequencer.html">Sequencer</a></p>
+<p class="toc3"><a href="classifier.html">Classifier</a></p>
+<p class="toc3"><a href="transducer.html">Transducer</a></p>
+<p class="toc2"><a href="turing-machine.html">Turing Machine</a></p>
+<p class="toc3"><a href="turing-machine-definition.html">Definition</a></p>
+<p class="toc3"><a href="turing-machine-implementation.html">Implementation</a></p>
+<p class="toc3"><a href="turing-machine-discussion.html">Discussion</a></p>
+<p class="toc1"><a href="general-purpose-computer.html">General-purpose Computer</a></p>
+<p class="toc2"><a href="computer-overview.html">Overview</a></p>
+<p class="toc2"><a href="microcode.html">Microcode</a></p>
+<p class="toc2"><a href="assembly-language.html">Assembly Language</a></p>
+<p class="toc3"><a href="registers.html">Registers</a></p>
+<p class="toc3"><a href="transfer-instructions.html">Transfer Instructions</a></p>
+<p class="toc3"><a href="arithmetic-and-logic-instructions.html">Arithmetic and Logic Instructions</a></p>
+<p class="toc3"><a href="branch-instructions.html">Branch Instructions</a></p>
+<p class="toc3"><a href="load-instructions.html">Load Instructions</a></p>
+<p class="toc3"><a href="store-instructions.html">Store Instructions</a></p>
+<p class="toc3"><a href="set-instructions.html">Set Instructions</a></p>
+<p class="toc2"><a href="example-program.html">Example Program</a></p>
+<p class="toc2"><a href="simulator.html">Simulator</a></p>
+<p class="toc1"><a href="applications.html">Applications</a></p>
+<p class="toc2"><a href="repository.html">Overview</a></p>
+<p class="toc2"><a href="tetrominoscript-editor.html">TetrominoScript Editor</a></p>
+<p class="toc3"><a href="tse-run.html">Run</a></p>
+<p class="toc3"><a href="tse-user-interface.html">User Interface</a></p>
+<p class="toc3"><a href="tse-nand-tutorial.html">NAND Tutorial</a></p>
+<p class="toc3"><a href="tse-wires.html">Wires</a></p>
+<p class="toc3"><a href="tse-translate.html">Translate</a></p>
+<p class="toc3"><a href="tse-export-svg.html">Export SVG</a></p>
+<p class="toc3"><a href="tse-export-html.html">Export HTML</a></p>
+<p class="toc2"><a href="tetrominoscript-tester.html">TetrominoScript Tester</a></p>
+<p class="toc2"><a href="lookup-table-generator.html">Lookup Table Generator</a></p>
+<p class="toc2"><a href="assembler.html">Assembler</a></p>
+<p class="toc2"><a href="cycle-programs-generator.html">Cycle Programs Generator</a></p>
+<p class="toc2"><a href="general-purpose-computer-2.html">General-purpose Computer</a></p>
+<p class="toc1"><a href="conclusion.html">Conclusion</a></p>
+
+<table class="previous-next">
+<tr><td><p class="previous"> </p></td><td><p class="next"><a href="introduction.html">Next &#129094;</a></p></td></tr>
+</table>
+
+<hr>
+<table class="copyright">
+<tr><td><p class="copyright">&copy; 2023 meatfighter.com<br>This work is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt="SA"></a></p></td><td><p class="home"><a href="https://meatfighter.com">Home</a></p></td></tr>
+</table>
+
+</body>
+
+</html>
+
