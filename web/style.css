@@ -17,20 +17,20 @@ p,ul,ol {
 
 p.toc1 {
     font-size: 16px;
-    line-height: 1em;
+    line-height: 20px;
     font-weight: 300;
 }
 
 p.toc2 {
     font-size: 16px;
-    line-height: 0.25em;
+    line-height: 5px;
     font-weight: 300;
     margin-left: 24px;
 }
 
 p.toc3 {
     font-size: 16px;
-    line-height: 0.25em;
+    line-height: 5px;
     font-weight: 300;
     margin-left: 48px;
 }
@@ -397,6 +397,7 @@ td.pseudocode {
     text-align: left;
     padding-left: 25px;
     padding-right: 25px;
+    white-space: nowrap;
 }
 
 td.border-left {
@@ -453,7 +454,7 @@ pre.pseudocode2 {
     border-left: 6px;
     width: calc(100% - 71px);
     padding: 15px 15px 15px 50px;
-    white-space: pre-wrap;
+    white-space: pre;
     counter-reset: step;
     counter-increment: step 0;
     position: relative;    
@@ -495,7 +496,7 @@ pre.code {
     background: #2B2B2B;    
     border-left: 6px solid #888888;
     width: calc(100% - 71px);
-    white-space: pre-wrap;
+    white-space: pre;
     padding: 15px 15px 15px 50px;
     color: #E8E8E8; /* #BBBBBB; */
     counter-reset: step;

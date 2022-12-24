@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="date" content="2022-12-24">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -36,7 +37,7 @@
 
 <p>For the example program, the assembler produces a binary file containing <span class="nowrap">1,021 bytes</span>. The simulator loads the file, and it allocates a playfield with:</p>
 
-<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes) &times; 8 bits/byte &times; 10 columns/bit = 83,360 columns.</span></p>
+<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes)</span> <span class="nowrap">&times; 8 bits/byte &times; 10 columns/bit</span> <span class="nowrap">= 83,360 columns.</span></p>
 
 <p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 

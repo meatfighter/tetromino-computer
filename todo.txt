@@ -1,6 +1,2 @@
-remaining sections:
-
-- splitting up in smaller pages
-
 - formatting of document (narrow width)
 - test on mobile

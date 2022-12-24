@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="date" content="2022-12-24">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -20,7 +21,7 @@
 
 <body>
 
-<p class="title">Tetris is Capable of <span class="nowrap">Universal Computation</span></p>
+<p class="title">Tetris is Capable of Universal Computation</p>
 
 <p>This text presents a method for embedding a programmable, general-purpose, digital computer into Tetris. It describes the capabilities and performance of an implementation that runs Tetris on Tetris.</p>
 
@@ -1014,7 +1015,7 @@
 
 <p>The bit pattern consists of zeros, ones, and <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-cares</a>. Meaning, each bit of <span class="math">A</span>, <span class="math">A<span class="sub">i</span></span>, is either compared against a constant or it is ignored. For example, the following expression checks if all <span class="math">A<span class="sub">i</span></span> are <span class="mono">1</span>:</p> 
 
-<p><span class="math">M = A<span class="sub">7 </span>A<span class="sub">6 </span>A<span class="sub">5 </span>A<span class="sub">4 </span>A<span class="sub">3 </span>A<span class="sub">2 </span>A<span class="sub">1 </span>A<span class="sub">0 </span> = <span class="high-overline"><span class="overline2">A<span class="sub">7</span></span> + <span class="overline2">A<span class="sub">6</span></span> + <span class="overline2">A<span class="sub">5</span></span> + <span class="overline2">A<span class="sub">4</span></span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+<p><span class="math">M = A<span class="sub">7 </span>A<span class="sub">6 </span>A<span class="sub">5 </span>A<span class="sub">4 </span>A<span class="sub">3 </span>A<span class="sub">2 </span>A<span class="sub">1 </span>A<span class="sub">0 </span></span> <span class="math">= <span class="high-overline"><span class="overline2">A<span class="sub">7</span></span> + <span class="overline2">A<span class="sub">6</span></span> + <span class="overline2">A<span class="sub">5</span></span> + <span class="overline2">A<span class="sub">4</span></span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
 
 <p>That suggests the following circuit.</p>
 
@@ -1022,7 +1023,7 @@
 
 <p>Each <span class="math">A<span class="sub">i</span></span> column contains an inverter pair, which enables <span class="math">A</span> to traverse unmodified. For an arbitrary constant, <span class="math">K</span>, inverter pairs only exist in the columns where <span class="math">K<span class="sub">i</span></span> is <span class="mono">1</span>. For instance, the expression below checks if <span class="math">A</span> is <span class="mono">0</span>:</p>
 
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span> + A<span class="sub">1</span> + A<span class="sub">0</span></span></span></p>
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span></span></span> <span class="math">= <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span> + A<span class="sub">1</span> + A<span class="sub">0</span></span></span></p>
 
 <p>It requires no inverter pairs, as illustrated by the Tetris realization:</p>
 
@@ -1032,7 +1033,7 @@
 
 <p>The following expression checks if <span class="math">A</span> is binary value <span class="mono">00101111</span>.</p>
 
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> A<span class="sub">5</span> <span class="overline2">A<span class="sub">4</span></span> A<span class="sub">3</span> A<span class="sub">2</span> A<span class="sub">1</span> A<span class="sub">0</span> = <span class="high-overline">A<span class="sub">7</span> + A<span class="sub">6</span> + <span class="overline2">A<span class="sub">5</span></span> + A<span class="sub">4</span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> A<span class="sub">5</span> <span class="overline2">A<span class="sub">4</span></span> A<span class="sub">3</span> A<span class="sub">2</span> A<span class="sub">1</span> A<span class="sub">0</span></span> <span class="math">= <span class="high-overline">A<span class="sub">7</span> + A<span class="sub">6</span> + <span class="overline2">A<span class="sub">5</span></span> + A<span class="sub">4</span> + <span class="overline2">A<span class="sub">3</span></span> + <span class="overline2">A<span class="sub">2</span></span> + <span class="overline2">A<span class="sub">1</span></span> + <span class="overline2">A<span class="sub">0</span></span></span></span></p>
 
 <p>It is actualized by introducing inverter pairs corresponding to the <span class="mono">1</span> bits:</p>
 
@@ -1040,7 +1041,7 @@
 
 <p>Don’t-care bits are omitted from the OR chain. For instance, the following expression tests if A is <span class="mono">000000**</span>.</p>
 
-<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span> = <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
+<p><span class="math">M = <span class="overline2">A<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span></span></span> <span class="math">= <span class="overline2">A<span class="sub">7</span> + A<span class="sub">6</span> + A<span class="sub">5</span> + A<span class="sub">4</span> + A<span class="sub">3</span> + A<span class="sub">2</span></span></span></p>
 
 <p>In the Tetris realization below, two of the horizontal <span class="nowrap">J-tetrominoes</span> are absent, enabling <span class="math">A<span class="sub">1</span></span> and <span class="math">A<span class="sub">0</span></span> to cross the OR chain without contributing to it.</p>
 
@@ -1068,9 +1069,9 @@
 
 <p><span class="math">E</span> is defined by the following expression, where <span class="math">A<span class="sub">i</span></span> and <span class="math">B<span class="sub">i</span></span> are the <span class="math">i<span class="sup">th</span></span> bits of <span class="math">A</span> and <span class="math">B</span>, respectively.</p>
 
-<p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
+<p><span class="math">E = (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> =</span> <span class="math">B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)</span></p>
 
-<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span></span> <span class="math"><span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span></span></p>
 
 <p>That suggests the following circuit.</p>
 
@@ -1102,9 +1103,9 @@
 
 <p><span class="math">E = (A = B)V</span> 
 
-<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span></span> <span class="math">= B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
 
-<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
+<p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span></span> <span class="math"><span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
   
 <p>It provides a way to compare multiple bytes:</p>
 
@@ -1232,13 +1233,13 @@
 
 <p><span class="math">B = <span class="overline">X</span>Y</span></p>
 
-<p><span class="math">D = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = B + X<span class="overline">Y</span></span></p>
+<p><span class="math">D = X &oplus; Y</span> <span class="math">= (X &ne; Y)</span> <span class="math">= <span class="overline">X</span>Y + X<span class="overline">Y</span></span> <span class="math">= B + X<span class="overline">Y</span></span></p>
 
 <p>From <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>:</p>
 
-<p><span class="math"><span class="overline">X</span>Y = <span class="overline">X</span>X + <span class="overline">X</span>Y = <span class="overline">X</span>(X + Y) = <span class="high-overline">X + <span class="overline">X + Y</span></span> = <span class="overline">X + T</span>, T = <span class="overline">X + Y</span></span></p>
+<p><span class="math"><span class="overline">X</span>Y = <span class="overline">X</span>X + <span class="overline">X</span>Y</span> <span class="math">= <span class="overline">X</span>(X + Y)</span> <span class="math">= <span class="high-overline">X + <span class="overline">X + Y</span></span></span> <span class="math">= <span class="overline">X + T</span>,</span> <span class="math">T = <span class="overline">X + Y</span></span></p>
 
-<p><span class="math">X<span class="overline">Y</span> = X<span class="overline">Y</span> + Y<span class="overline">Y</span> = <span class="overline">Y</span>(X + Y) = <span class="high-overline">Y + <span class="overline">X + Y</span></span> = <span class="overline">Y + T</span>, T = <span class="overline">X + Y</span></span></p>
+<p><span class="math">X<span class="overline">Y</span> = X<span class="overline">Y</span> + Y<span class="overline">Y</span></span> <span class="math">= <span class="overline">Y</span>(X + Y)</span> <span class="math">= <span class="high-overline">Y + <span class="overline">X + Y</span></span></span> <span class="math">= <span class="overline">Y + T</span>,</span> <span class="math">T = <span class="overline">X + Y</span></span></p>
 
 <p>Cleaning up:</p>
 
@@ -1312,9 +1313,9 @@
 
 <p>The table reveals <span class="math">C</span> and <span class="math">S</span> are:</p>
 
-<p><span class="math">C = XY = <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
+<p><span class="math">C</span> <span class="math">= XY</span> <span class="math">= <span class="high-overline"><span class="overline">X</span> + <span class="overline">Y</span></span></span></p>
 
-<p><span class="math">S = X &oplus; Y = (X &ne; Y) = <span class="overline">X</span>Y + X<span class="overline">Y</span> = <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span> = (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y) = <span class="overline">C</span>(X + Y) = <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
+<p><span class="math">S</span> <span class="math">= X &oplus; Y</span> <span class="math">= (X &ne; Y)</span> <span class="math">= <span class="overline">X</span>Y + X<span class="overline">Y</span></span> <span class="math">= <span class="overline">X</span>X + <span class="overline">X</span>Y + X<span class="overline">Y</span> + Y<span class="overline">Y</span></span> <span class="math">= (<span class="overline">X</span> + <span class="overline">Y</span>)(X + Y)</span> <span class="math">= <span class="overline">C</span>(X + Y)</span> <span class="math">= <span class="high-overline">C + <span class="overline">X + Y</span></span></span></p>
 
 <p>That implies the following circuit.</p>
 
@@ -1575,8 +1576,8 @@
 <p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The function names declare the parameter orders:</p>
 
 <table class="matchers">
-  <tr><td style="text-align: right; padding-right: 15px;">Ends with <span class="mono">_C</span>:</td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
-  <tr><td style="text-align: left; padding-right: 15px;">Starts with <span class="mono">C_</span>:</td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span></td></tr>
+  <tr><td style="text-align: right; padding-right: 15px;"><span class="nowrap">Ends with <span class="mono">_C</span>:</span></td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
+  <tr><td style="text-align: left; padding-right: 15px;"><span class="nowrap">Starts with <span class="mono">C_</span>:</span></td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span></td></tr>
 </table>
 
 <p>The following table details the byte match functions. Those with bit patterns containing <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-care</a> are capable of matching multiple values, as shown in the right column.</p>
@@ -2206,7 +2207,7 @@
 
 <p>Since the array is bounded on the left, the tape is &ldquo;folded in half at the origin&rdquo; and the pairs are interlaced:</p>
 
-<p><span class="nowrap mono">h<span class="sub3">0</span>, t<span class="sub3">0</span>, h<span class="sub3">&minus;1</span>, t<span class="sub3">&minus;1</span>, h<span class="sub3">1</span>, t<span class="sub3">1</span>, h<span class="sub3">&minus;2</span>, t<span class="sub3">&minus;2</span>, h<span class="sub3">2</span>, t<span class="sub3">2</span>, h<span class="sub3">&minus;3</span>, t<span class="sub3">&minus;3</span>, h<span class="sub3">3</span>, t<span class="sub3">3</span>, &mldr;</span></p>
+<p><span class="mono">h<span class="sub3">0</span>, t<span class="sub3">0</span>, h<span class="sub3">&minus;1</span>, t<span class="sub3">&minus;1</span>, h<span class="sub3">1</span>, t<span class="sub3">1</span>, h<span class="sub3">&minus;2</span>, t<span class="sub3">&minus;2</span>, h<span class="sub3">2</span>, t<span class="sub3">2</span>, h<span class="sub3">&minus;3</span>, t<span class="sub3">&minus;3</span>, h<span class="sub3">3</span>, t<span class="sub3">3</span>, &mldr;</span></p>
 
 <p>Every four bytes consists of a positive-indexed pair followed by a negative-indexed pair. Formally, for <span class="nowrap mono">i &ge; 0</span>:</p>
 
@@ -2224,7 +2225,7 @@
 
 <p>The eight extra bytes correspond to the segment:</p>
 
-<p><span class="nowrap mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
+<p><span class="mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
 
 <p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if metadata bytes <span class="mono">h<span class="sub3">j</span></span>, <span class="mono">h<span class="sub3">&minus;(j+1)</span></span>, <span class="mono">h<span class="sub3">j+1</span></span>, and <span class="mono">h<span class="sub3">&minus;(j+2)</span></span> are all zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it swaps two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
 
@@ -3918,7 +3919,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>For the example program, the assembler produces a binary file containing <span class="nowrap">1,021 bytes</span>. The simulator loads the file, and it allocates a playfield with:</p>
 
-<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes) &times; 8 bits/byte &times; 10 columns/bit = 83,360 columns.</span></p>
+<p><span class="nowrap">(1,021 bytes &minus; 2 bytes + 2 bytes + 21 bytes)</span> <span class="nowrap">&times; 8 bits/byte &times; 10 columns/bit</span> <span class="nowrap">= 83,360 columns.</span></p>
 
 <p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 
