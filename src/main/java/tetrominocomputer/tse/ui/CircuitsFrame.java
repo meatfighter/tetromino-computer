@@ -1272,7 +1272,8 @@ public class CircuitsFrame extends javax.swing.JFrame {
 
     private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
         try {
-            Desktop.getDesktop().browse(new URI("https://meatfighter.com/")); // TODO TSE HELP URL
+            Desktop.getDesktop().browse(new URI(
+                    "https://meatfighter.com/tetromino-computer/tetrominoscript-editor.html"));
         } catch (final Exception e) {
         }
     }//GEN-LAST:event_helpMenuItemActionPerformed
