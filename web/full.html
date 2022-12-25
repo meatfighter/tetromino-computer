@@ -255,7 +255,9 @@
 
 <object id="example3.svg" data="example3.svg" type="image/svg+xml" class="diagram">example3</object>
 
-<p>To make testing easier, TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for labeling nodes:</p>
+<p>An output node is a segment of a structure’s surface. An input node is a segment of the foundation on which a structure is built.</p>  
+
+<p>TS provides <a href="https://en.wikipedia.org/wiki/Directive_(programming)" target="_blank">directives</a> for declaring input and output nodes:</p>
 
 <pre class="definition">
 <span class="keyword2">in</span> n x<span class="sub3">0</span> y<span class="sub3">0</span> x<span class="sub3">1</span> y<span class="sub3">1</span> &mldr; x<span class="sub3">N&minus;1</span> y<span class="sub3">N&minus;1</span>
@@ -355,13 +357,13 @@
 
 <object id="or.svg" data="or.svg" type="image/svg+xml" class="diagram">OR</object>
 
-<p>The <span class="nowrap">O-tetromino</span> lands low unless one or both inputs is <span class="mono">1</span>.</p>
+<p>The <span class="nowrap">O-tetromino</span> lands low unless one or both inputs are <span class="mono">1</span>.</p>
 
 <h2 id="nor">NOR</h2>
 
 <p>NOR is a <span class="nowrap">two-input</span> gate that outputs the <a href="https://en.wikipedia.org/wiki/Logical_NOR" target="_blank">joint denial</a> of its inputs. That is, the output is <span class="mono">1</span> only when both inputs are <span class="mono">0</span>.</p>
 
-<p>It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a>. NOR gates alone can be combined to form any other gate.</p>
+<p>It is a <a href="https://en.wikipedia.org/wiki/Logic_gate#Universal_logic_gates" target="_blank">universal gate</a>. Meaning, NOR gates alone can be combined to form any other gate.</p>
 
 <p>The code below realizes a NOR gate by feeding two inputs into an inverter.</p>
 
@@ -384,7 +386,7 @@
 
 <p>NAND is a <span class="nowrap">two-input</span> gate that outputs the complement of the <a href="https://en.wikipedia.org/wiki/Logical_conjunction" target="_blank">conjunction</a> of its inputs. That is, the output is <span class="mono">0</span> only when both inputs are <span class="mono">1</span>.</p>
 
-<p>It is a universal gate. NAND gates alone can be combined to form any other gate.</p>
+<p>It is a universal gate. Meaning, NAND gates alone can be combined to form any other gate.</p>
 
 <p>The code below realizes NAND as inverters feeding into an OR. It is based on one of <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws" target="_blank">De Morgan's laws</a>, <span class="math"><span class="overline">AB</span> = <span class="overline">A</span> + <span class="overline">B</span></span>.</p>
 
@@ -502,7 +504,7 @@
 
 <h2 id="intermediate-gates">Intermediate Gates</h2>
 
-<p>The <a href="#inverter-not">inverter described above</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-tetromino</span>:</p>
+<p>The <a href="#inverter-not">inverter described previously</a> consists of an O wedged between an L and a J. However, it is possible to implement an inverter with a single <span class="nowrap">O-tetromino</span>:</p>
 
 <pre class="code">
 <span class="filename">_notLeft.t</span>
@@ -659,7 +661,7 @@
 
 <p>Since two-dimensional XOR gates exist and the circuit does not contain any cross-overs, it achieves a planar swap.</p>
 
-<p>In following the actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-tetromino operating as an OR. The other pieces function as wires.</p>
+<p>In following actualization, the lower XOR gate of the schematic is made from three NORs and a horizontal I-tetromino operating as an OR. The other pieces function as wires.</p>
 
 <pre class="code">
 <span class="filename">swap.t</span>
@@ -690,7 +692,7 @@
 <span class="line"><span class="keyword">out </span><span class="normal">o0 </span><span class="number">2..5 21</span></span>
 </pre>
 
-<p>As demonstrated below, the outputs are the inputs, but positionally exchanged.</p>
+<p>As demonstrated below, the outputs equal the inputs positionally exchanged.</p>
 
 <object id="swap.svg" data="swap.svg" type="image/svg+xml" class="diagram">Swap</object>
 
@@ -855,7 +857,7 @@
 
 <h2 id="logical-left-shift">Logical Left Shift</h2>
 
-<p>Logical left shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the left. The rightmost bit is set to <span class="mono">0</span> and the leftmost bit is lost:</p>
+<p>Logical left shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position left. The rightmost bit is assigned <span class="mono">0</span> and the leftmost bit is lost:</p>
 
 <object id="logical-left-shift.svg" data="logical-left-shift.svg" type="image/svg+xml" class="diagram">Logical Left Shift</object>
 
@@ -865,7 +867,7 @@
 
 <h2 id="logical-right-shift">Logical Right Shift</h2>
 
-<p>Logical right shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position to the right. The leftmost bit is set to <span class="mono">0</span> and the right most bit is lost:</p>
+<p>Logical right shift is an <span class="nowrap">8-bit</span> function that moves every input bit one position right. The leftmost bit is assigned <span class="mono">0</span> and the right most bit is lost:</p>
 
 <object id="logical-right-shift.svg" data="logical-right-shift.svg" type="image/svg+xml" class="diagram">Logical Right Shift</object>
 
@@ -1103,7 +1105,7 @@
 
 <p><span class="math">E = (A = B)V</span> 
 
-<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)(A<span class="sub">3</span> <wbr>= B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
+<p><span class="math">= (A<span class="sub">7</span> = B<span class="sub">7</span>)(A<span class="sub">6</span> = B<span class="sub">6</span>)(A<span class="sub">5</span> = B<span class="sub">5</span>)(A<span class="sub">4</span> = B<span class="sub">4</span>)<wbr>(A<span class="sub">3</span> = B<span class="sub">3</span>)(A<span class="sub">2</span> = B<span class="sub">2</span>)(A<span class="sub">1</span> = B<span class="sub">1</span>)(A<span class="sub">0</span> = B<span class="sub">0</span>)V<span class="sub">0</span></span></p>
 
 <p><span class="math">= <span class="overline2">A<span class="sub">7</span> &oplus; B<span class="sub">7</span></span> <span class="overline2">A<span class="sub">6</span> &oplus; B<span class="sub">6</span></span> <span class="overline2">A<span class="sub">5</span> &oplus; B<span class="sub">5</span></span> <span class="overline2">A<span class="sub">4</span> &oplus; B<span class="sub">4</span></span> <wbr><span class="overline2">A<span class="sub">3</span> &oplus; B<span class="sub">3</span></span> <span class="overline2">A<span class="sub">2</span> &oplus; B<span class="sub">2</span></span> <span class="overline2">A<span class="sub">1</span> &oplus; B<span class="sub">1</span></span> <span class="overline2">A<span class="sub">0</span> &oplus; B<span class="sub">0</span></span> V<span class="sub">0</span></span></p>
   
