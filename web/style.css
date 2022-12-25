@@ -1,3 +1,10 @@
+@media only screen and (max-device-width: 400px) {
+    html {
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
+    }
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
     color: #000000;
@@ -559,6 +566,10 @@ span.identifier {
 span.label {
     color: #E8E8E8; /* #BBBBBB; */
     font-weight: bold;
+}
+
+span.zapf {
+    font-family: Wingdings, 'Zapf Dingbats', sans-serif;
 }
 
 img.centered {
