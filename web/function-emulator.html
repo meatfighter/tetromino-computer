@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="date" content="2022-12-25">
@@ -22,7 +22,7 @@
 <body>
 
 <table class="previous-next">
-<tr><td><p class="previous"><a href="abstract-machines.html"><span class="zapf">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next <span class="zapf">&#129094;</span></a></p></td></tr>
+<tr><td><p class="previous"><a href="abstract-machines.html"><span class="symbols">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next <span class="symbols">&#129094;</span></a></p></td></tr>
 </table>
 
 <p class="path"><a href="index.html">Contents</a> &gt; <a href="abstract-machines.html">Abstract Machines</a></p>
@@ -91,7 +91,7 @@
 
 <p>When the inner loop on <span class="nowrap">line 4</span> is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
 
-<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
+<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &RightTeeArrow; [ A, A = k<span class="sub3">i</span> ]</span></p>
 
 <p><span class="mono">A</span> is the array element compared with <span class="mono">k<span class="sub3">i</span></span>. It passes through unchanged. <span class="mono">C</span> is the array element that stores the result of the comparison, which in this case is <span class="mono">p</span>.</p>
 
@@ -134,7 +134,7 @@
 
 <p>When the inner loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
 
-<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &#8614; v<span class="sub3">i</span></span></p>
+<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &RightTeeArrow; v<span class="sub3">i</span></span></p>
 
 <p><span class="mono">A</span> is the array element assigned <span class="mono">v<span class="sub3">i</span></span>, which in this case is <span class="mono">p</span>.</p>
 
@@ -142,7 +142,7 @@
 
 <p>Additionally, every conditional-assignment, <span class="mono">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
 
-<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &#8614; [ C ? B : A, B, C ]</span>.</p>
+<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &RightTeeArrow; [ C ? B : A, B, C ]</span>.</p>
 
 <p><span class="mono">A</span> is the destination element. When the condition is false, it is also the source element. <span class="mono">B</span> is the source element when the condition is true. And <span class="mono">C</span> is the condition element.</p>
 
@@ -219,16 +219,16 @@
 
 <p>The code needs two variations of existing functions:</p>
 
-<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &#8614; [ <span class="keyword2">not</span> E, E ]</span></p>
+<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &RightTeeArrow; [ <span class="keyword2">not</span> E, E ]</span></p>
 
-<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &#8614; [ A, A | B ]</span></p>
+<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &RightTeeArrow; [ A, A | B ]</span></p>
 
 <p>The final step is to unroll the loops. As that happens, the <span class="mono">(k,v)</span> pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. However, since <span class="mono">m</span> contains up to <span class="mono">256<span class="sup3">n</span></span> entries, the unroll may produce an extremely long program.</p>
 
 <p>Clearly, this technique is not practical or efficient. Nonetheless, it demonstrates an <span class="nowrap">MC program</span> can emulate an arbitrary <span class="nowrap"><span class="mono">n</span>-byte</span> function, at least in principle.</p>
 
 <table class="previous-next">
-<tr><td><p class="previous"><a href="abstract-machines.html"><span class="zapf">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next <span class="zapf">&#129094;</span></a></p></td></tr>
+<tr><td><p class="previous"><a href="abstract-machines.html"><span class="symbols">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="state-machine.html">Next <span class="symbols">&#129094;</span></a></p></td></tr>
 </table>
 
 <hr>

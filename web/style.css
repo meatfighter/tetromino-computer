@@ -568,8 +568,9 @@ span.label {
     font-weight: bold;
 }
 
-span.zapf {
-    font-family: Wingdings, 'Zapf Dingbats', sans-serif;
+span.symbols {
+    font-family: 'Noto Sans Symbols 2', sans-serif;
+    font-size: 15px;
 }
 
 img.centered {

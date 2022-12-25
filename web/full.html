@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="date" content="2022-12-25">
@@ -1398,7 +1398,7 @@
 
 <p>The add function operates on a 2-byte array. It sets the first byte to the sum of both bytes:</p>
 
-<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&Zopf;</span></span></p>
 
 <p><span class="math">Q = A + B</span>, where the plus sign denotes arithmetic add.</p>
 
@@ -1506,7 +1506,7 @@
 
 <p>The subtract function operates on a 2-byte array. It sets the first byte to the difference of the first byte and the second byte:</p>
 
-<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&#8484;</span></span></p>
+<p><span class="nowrap"><span class="math">f( </span><span class="serif">[</span><span class="math"> A, B </span><span class="serif">]</span><span class="math"> ) = </span><span class="serif">[</span><span class="math"> Q, B </span><span class="serif">]</span></span>, where <span class="nowrap"><span class="math">A,B,Q </span><span class="serif">&isin;</span> <span class="math">&Zopf;</span></span></p>
 
 <p><span class="math">Q = A &minus; B</span></p>
 
@@ -1536,48 +1536,48 @@
 
 <table class="borderless">
   <tr><th class="borderless">Function</th><th class="borderless">Definition</th></tr>
-  <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &#8614; </span>0</td></tr>
-  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &minus; 1</td></tr>
-  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W &minus; 1</td></tr>
-  <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A</td></tr>
-  <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A + 1</td></tr>
-  <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W + 1</td></tr>
-  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 2</td></tr>
-  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 3</td></tr>
-  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 4</td></tr>
-  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 1</td></tr>
-  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 5</td></tr>
+  <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>0</td></tr>
+  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &minus; 1</td></tr>
+  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &RightTeeArrow; </span>W &minus; 1</td></tr>
+  <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A</td></tr>
+  <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A + 1</td></tr>
+  <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &RightTeeArrow; </span>W + 1</td></tr>
+  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 2</td></tr>
+  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 3</td></tr>
+  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 4</td></tr>
+  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &gt;&gt;&gt; 1</td></tr>
+  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &gt;&gt;&gt; 5</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
-  <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A + B, B ]</td></tr>
-  <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A & B ]</td></tr>
-  <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A & B, B ]</td></tr>
-  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &#8614; </span>[ D, D <span class="keyword2">and not</span> E ]</td></tr>
-  <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A ]</td></tr>
-  <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, B ]</td></tr>
-  <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &#8614; </span>[ C ? W + 1 : W, C ]</td></tr>
-  <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A | B, B ]</td></tr>
-  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A &minus; B, B ]</td></tr>
-  <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, A ]</td></tr>
-  <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A ^ B, B ]</td></tr>
+  <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A + B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A, A & B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A & B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &RightTeeArrow; </span>[ D, D <span class="keyword2">and not</span> E ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A, A ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ B, B ]</td></tr>
+  <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &RightTeeArrow; </span>[ C ? W + 1 : W, C ]</td></tr>
+  <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A | B, B ]</td></tr>
+  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A &minus; B, B ]</td></tr>
+  <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ B, A ]</td></tr>
+  <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A ^ B, B ]</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
-  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &#8614; </span>[ D, E, D <span class="keyword2">and</span> E ]</td></tr>
-  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &#8614; </span>[ D <span class="keyword2">and not</span> E, D, E ]</td></tr>
-  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, A = B ]</td></tr>  
-  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, (A = B) <span class="keyword2">and</span> C ]</td></tr>
-  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ A = B, A, B ]</td></tr>
-  <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, C ? A : B, C ]</td></tr>
-  <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ C ? B : A, B, C ]</td></tr>  
-  <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, C ? B : A, B ]</td></tr>
-  <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, A, C ? A : B ]</td></tr>
+  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &RightTeeArrow; </span>[ D, E, D <span class="keyword2">and</span> E ]</td></tr>
+  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &RightTeeArrow; </span>[ D <span class="keyword2">and not</span> E, D, E ]</td></tr>
+  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, B, A = B ]</td></tr>  
+  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, B, (A = B) <span class="keyword2">and</span> C ]</td></tr>
+  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ A = B, A, B ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, C ? A : B, C ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ C ? B : A, B, C ]</td></tr>  
+  <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ C, C ? B : A, B ]</td></tr>
+  <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ C, A, C ? A : B ]</td></tr>
 </table>
 
 <p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The function names declare the parameter orders:</p>
 
 <table class="matchers">
-  <tr><td style="text-align: right; padding-right: 15px;"><span class="nowrap">Ends with <span class="mono">_C</span>:</span></td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
-  <tr><td style="text-align: left; padding-right: 15px;"><span class="nowrap">Starts with <span class="mono">C_</span>:</span></td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span></td></tr>
+  <tr><td style="text-align: right; padding-right: 15px;"><span class="nowrap">Ends with <span class="mono">_C</span>:</span></td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &RightTeeArrow; </span>[ A, isMatch(A) ]</span></span></td></tr>
+  <tr><td style="text-align: left; padding-right: 15px;"><span class="nowrap">Starts with <span class="mono">C_</span>:</span></td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &RightTeeArrow; </span>[ isMatch(A), A ]</span></span></td></tr>
 </table>
 
 <p>The following table details the byte match functions. Those with bit patterns containing <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-care</a> are capable of matching multiple values, as shown in the right column.</p>
@@ -1659,7 +1659,7 @@
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">1</td><td class="top mono bottom green">00</td><td class="top left bottom mono green">00</td><td class="top left bottom mono yellow">01</td><td class="top left bottom mono green">00</td><td class="top left right bottom mono green">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom blue"><span class="zapf">&#129093;</span></td><td class="left bottom blue"><span class="zapf">&#129093;</span></td><td class="left bottom mono blue">INC</td><td class="left bottom blue"><span class="zapf">&#129093;</span></td><td class="left right bottom blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom blue"><span class="symbols">&#129093;</span></td><td class="left bottom blue"><span class="symbols">&#129093;</span></td><td class="left bottom mono blue">INC</td><td class="left bottom blue"><span class="symbols">&#129093;</span></td><td class="left right bottom blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">0</td><td class="mono bottom green">00</td><td class="left bottom mono green">00</td><td class="left bottom mono green">00</td><td class="left bottom mono green">00</td><td class="left right bottom mono green">00</td></tr>
 
@@ -1670,31 +1670,31 @@
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top yellow">0A</td><td class="left bottom top mono yellow">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left right bottom top mono green">04</td></tr>
-<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr> 
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr> 
   
 <tr><td class="row-number">8</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">0A</td><td class="left bottom mono yellow">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
   
 <tr><td class="row-number">7</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">0A</td><td class="left bottom mono yellow">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">6</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono yellow">0A</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td></tr>
 
 <tr><td class="row-number">5</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">03</td><td class="left bottom mono yellow">06</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">4</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono yellow">06</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">3</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">02</td><td class="left bottom mono yellow">03</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">2</td><td class="mono bottom green">01</td><td class="left bottom mono yellow">03</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">1</td><td class="mono bottom yellow">01</td><td class="left bottom mono green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left right bottom mono green">04</td></tr>
-<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td></tr>  
 
@@ -1727,31 +1727,31 @@
 
 <table class="bits" style="width: 635.7px">
 <tr><td class="row-number">9</td><td class="mono bottom top green">0A</td><td class="left bottom top mono green">01</td><td class="left bottom top mono green">02</td><td class="left bottom top mono green">03</td><td class="left bottom top mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr> 
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr> 
   
 <tr><td class="row-number">8</td><td class="mono bottom green">01</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
   
 <tr><td class="row-number">7</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">6</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">0A</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom right mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">5</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">06</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">4</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">06</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">3</td><td class="mono bottom green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">SWAP</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">2</td><td class="mono bottom green">01</td><td class="left bottom mono green">03</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td colspan="2" class="bottom mono blue">ADD_AB_FB</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">1</td><td class="mono bottom green">01</td><td class="left bottom mono green">01</td><td class="left bottom mono green">02</td><td class="left bottom mono green">03</td><td class="left bottom mono green">04</td><td class="left right bottom top mono yellow">00</td></tr>
-<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left blue"><span class="zapf">&#129093;</span></td><td class="bottom left right blue"><span class="zapf">&#129093;</span></td></tr>
+<tr><td class="row-number"></td><td colspan="2" class="bottom mono blue">COPY_B_A</td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left blue"><span class="symbols">&#129093;</span></td><td class="bottom left right blue"><span class="symbols">&#129093;</span></td></tr>
 
 <tr><td class="row-number">0</td><td class="mono green">00</td><td class="left mono green">01</td><td class="left mono green">02</td><td class="left mono green">03</td><td class="left right mono green">04</td><td class="left right mono yellow">00</td></tr>  
 
@@ -1918,7 +1918,7 @@
 
 <p>When the inner loop on <span class="nowrap">line 4</span> is unrolled, every compare-with-constant, <span class="mono">p &larr; a<span class="sub3">x+i</span> = k<span class="sub3">i</span></span>, is replaced with a byte matcher:</p>
 
-<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &#8614; [ A, A = k<span class="sub3">i</span> ]</span></p>
+<p><span class="mono">MATCH_k<span class="sub3">i</span>_C &equiv; [ A, C ] &RightTeeArrow; [ A, A = k<span class="sub3">i</span> ]</span></p>
 
 <p><span class="mono">A</span> is the array element compared with <span class="mono">k<span class="sub3">i</span></span>. It passes through unchanged. <span class="mono">C</span> is the array element that stores the result of the comparison, which in this case is <span class="mono">p</span>.</p>
 
@@ -1961,7 +1961,7 @@
 
 <p>When the inner loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
 
-<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &#8614; v<span class="sub3">i</span></span></p>
+<p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &RightTeeArrow; v<span class="sub3">i</span></span></p>
 
 <p><span class="mono">A</span> is the array element assigned <span class="mono">v<span class="sub3">i</span></span>, which in this case is <span class="mono">p</span>.</p>
 
@@ -1969,7 +1969,7 @@
 
 <p>Additionally, every conditional-assignment, <span class="mono">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
 
-<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &#8614; [ C ? B : A, B, C ]</span>.</p>
+<p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &RightTeeArrow; [ C ? B : A, B, C ]</span>.</p>
 
 <p><span class="mono">A</span> is the destination element. When the condition is false, it is also the source element. <span class="mono">B</span> is the source element when the condition is true. And <span class="mono">C</span> is the condition element.</p>
 
@@ -2046,9 +2046,9 @@
 
 <p>The code needs two variations of existing functions:</p>
 
-<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &#8614; [ <span class="keyword2">not</span> E, E ]</span></p>
+<p><span class="mono">COPY_NOT_B_A &equiv; [ D, E ] &RightTeeArrow; [ <span class="keyword2">not</span> E, E ]</span></p>
 
-<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &#8614; [ A, A | B ]</span></p>
+<p><span class="mono">OR_AB_AF &equiv; [ A, B ] &RightTeeArrow; [ A, A | B ]</span></p>
 
 <p>The final step is to unroll the loops. As that happens, the <span class="mono">(k,v)</span> pairs get encoded into sequences of <span class="mono">MATCH_k<span class="sub3">i</span>_C</span> and <span class="mono">CONST_v<span class="sub3">i</span></span> instructions. However, since <span class="mono">m</span> contains up to <span class="mono">256<span class="sup3">n</span></span> entries, the unroll may produce an extremely long program.</p>
 
@@ -2180,7 +2180,7 @@
 
 <p>During each processing cycle, the machine reads the character under the head, <span class="mono">r</span>, it pairs the character with the current state, <span class="mono">s</span>, and it uses the pair to perform a lookup in a <span class="term">state-transition table</span> that contains a finite number of entries of the form:</p> 
 
-<p><span class="nowrap mono">[ r, s ] &#8614; [ w, d, z ]</span></p>
+<p><span class="nowrap mono">[ r, s ] &RightTeeArrow; [ w, d, z ]</span></p>
 
 <p>The looked-up value is a triplet representing instructions, which the machine carries out:</p>
 

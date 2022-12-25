@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="date" content="2022-12-25">
@@ -22,7 +22,7 @@
 <body>
 
 <table class="previous-next">
-<tr><td><p class="previous"><a href="subtract.html"><span class="zapf">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="memory.html">Next <span class="zapf">&#129094;</span></a></p></td></tr>
+<tr><td><p class="previous"><a href="subtract.html"><span class="symbols">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="memory.html">Next <span class="symbols">&#129094;</span></a></p></td></tr>
 </table>
 
 <p class="path"><a href="index.html">Contents</a> &gt; <a href="functions.html">Functions</a></p>
@@ -35,48 +35,48 @@
 
 <table class="borderless">
   <tr><th class="borderless">Function</th><th class="borderless">Definition</th></tr>
-  <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &#8614; </span>0</td></tr>
-  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &minus; 1</td></tr>
-  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W &minus; 1</td></tr>
-  <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A</td></tr>
-  <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A + 1</td></tr>
-  <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &#8614; </span>W + 1</td></tr>
-  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 2</td></tr>
-  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 3</td></tr>
-  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &lt;&lt; 4</td></tr>
-  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 1</td></tr>
-  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &#8614; </span>A &gt;&gt;&gt; 5</td></tr>
+  <tr><td class="pseudocode">CLEAR</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>0</td></tr>
+  <tr><td class="pseudocode">DEC</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &minus; 1</td></tr>
+  <tr><td class="pseudocode">DEC_16</td><td class="pseudocode">W<span class="serif"> &RightTeeArrow; </span>W &minus; 1</td></tr>
+  <tr><td class="pseudocode">IDENTITY</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A</td></tr>
+  <tr><td class="pseudocode">INC</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A + 1</td></tr>
+  <tr><td class="pseudocode">INC_16</td><td class="pseudocode">W<span class="serif"> &RightTeeArrow; </span>W + 1</td></tr>
+  <tr><td class="pseudocode">LS2</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 2</td></tr>
+  <tr><td class="pseudocode">LS3</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 3</td></tr>
+  <tr><td class="pseudocode">LS4</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &lt;&lt; 4</td></tr>
+  <tr><td class="pseudocode">RS1</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &gt;&gt;&gt; 1</td></tr>
+  <tr><td class="pseudocode">RS5</td><td class="pseudocode">A<span class="serif"> &RightTeeArrow; </span>A &gt;&gt;&gt; 5</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
-  <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A + B, B ]</td></tr>
-  <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A & B ]</td></tr>
-  <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A & B, B ]</td></tr>
-  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &#8614; </span>[ D, D <span class="keyword2">and not</span> E ]</td></tr>
-  <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A, A ]</td></tr>
-  <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, B ]</td></tr>
-  <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &#8614; </span>[ C ? W + 1 : W, C ]</td></tr>
-  <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A | B, B ]</td></tr>
-  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A &minus; B, B ]</td></tr>
-  <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ B, A ]</td></tr>
-  <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &#8614; </span>[ A ^ B, B ]</td></tr>
+  <tr><td class="pseudocode">ADD_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A + B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_AF</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A, A & B ]</td></tr>
+  <tr><td class="pseudocode">AND_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A & B, B ]</td></tr>
+  <tr><td class="pseudocode">AND_NOT_AB_FB</td><td class="pseudocode">[ D, E ]<span class="serif"> &RightTeeArrow; </span>[ D, D <span class="keyword2">and not</span> E ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A, A ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ B, B ]</td></tr>
+  <tr><td class="pseudocode">INC_16_C</td><td class="pseudocode">[ W, C ]<span class="serif"> &RightTeeArrow; </span>[ C ? W + 1 : W, C ]</td></tr>
+  <tr><td class="pseudocode">OR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A | B, B ]</td></tr>
+  <tr><td class="pseudocode">SUB_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A &minus; B, B ]</td></tr>
+  <tr><td class="pseudocode">SWAP</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ B, A ]</td></tr>
+  <tr><td class="pseudocode">XOR_AB_FB</td><td class="pseudocode">[ A, B ]<span class="serif"> &RightTeeArrow; </span>[ A ^ B, B ]</td></tr>
   <tr><td class="separator"> </td><td class="separator"> </td></tr>
   
-  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &#8614; </span>[ D, E, D <span class="keyword2">and</span> E ]</td></tr>
-  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &#8614; </span>[ D <span class="keyword2">and not</span> E, D, E ]</td></tr>
-  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, A = B ]</td></tr>  
-  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, B, (A = B) <span class="keyword2">and</span> C ]</td></tr>
-  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ A = B, A, B ]</td></tr>
-  <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ A, C ? A : B, C ]</td></tr>
-  <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &#8614; </span>[ C ? B : A, B, C ]</td></tr>  
-  <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, C ? B : A, B ]</td></tr>
-  <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &#8614; </span>[ C, A, C ? A : B ]</td></tr>
+  <tr><td class="pseudocode">AND_A_B_C</td><td class="pseudocode">[ D, E, C ]<span class="serif"> &RightTeeArrow; </span>[ D, E, D <span class="keyword2">and</span> E ]</td></tr>
+  <tr><td class="pseudocode">C_AND_A_NOT_B</td><td class="pseudocode">[ C, D, E ]<span class="serif"> &RightTeeArrow; </span>[ D <span class="keyword2">and not</span> E, D, E ]</td></tr>
+  <tr><td class="pseudocode">CMP_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, B, A = B ]</td></tr>  
+  <tr><td class="pseudocode">CMP_AND_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, B, (A = B) <span class="keyword2">and</span> C ]</td></tr>
+  <tr><td class="pseudocode">C_CMP</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ A = B, A, B ]</td></tr>
+  <tr><td class="pseudocode">COPY_A_B_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ A, C ? A : B, C ]</td></tr>
+  <tr><td class="pseudocode">COPY_B_A_C</td><td class="pseudocode">[ A, B, C ]<span class="serif"> &RightTeeArrow; </span>[ C ? B : A, B, C ]</td></tr>  
+  <tr><td class="pseudocode">C_COPY_B_A</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ C, C ? B : A, B ]</td></tr>
+  <tr><td class="pseudocode">C_COPY_A_B</td><td class="pseudocode">[ C, A, B ]<span class="serif"> &RightTeeArrow; </span>[ C, A, C ? A : B ]</td></tr>
 </table>
 
 <p>A byte match functions accept a byte, <span class="mono">A</span>, and a Boolean, <span class="mono">C</span>. It returns <span class="mono">A</span>, unchanged, along with a Boolean indicating if <span class="mono">A</span> matches a specific bit pattern. The function names declare the parameter orders:</p>
 
 <table class="matchers">
-  <tr><td style="text-align: right; padding-right: 15px;"><span class="nowrap">Ends with <span class="mono">_C</span>:</span></td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &#8614; </span>[ A, isMatch(A) ]</span></span></td></tr>
-  <tr><td style="text-align: left; padding-right: 15px;"><span class="nowrap">Starts with <span class="mono">C_</span>:</span></td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &#8614; </span>[ isMatch(A), A ]</span></span></td></tr>
+  <tr><td style="text-align: right; padding-right: 15px;"><span class="nowrap">Ends with <span class="mono">_C</span>:</span></td><td><span class="nowrap"><span class="mono">[ A, C ]<span class="serif"> &RightTeeArrow; </span>[ A, isMatch(A) ]</span></span></td></tr>
+  <tr><td style="text-align: left; padding-right: 15px;"><span class="nowrap">Starts with <span class="mono">C_</span>:</span></td><td><span class="nowrap"><span class="mono">[ C, A ]<span class="serif"> &RightTeeArrow; </span>[ isMatch(A), A ]</span></span></td></tr>
 </table>
 
 <p>The following table details the byte match functions. Those with bit patterns containing <a href="https://en.wikipedia.org/wiki/Don%27t-care_term" target="_blank">don’t-care</a> are capable of matching multiple values, as shown in the right column.</p>
@@ -145,7 +145,7 @@
 <p><span class="mono">ZERO_C</span> and <span class="mono">C_ZERO</span> are <span class="nowrap">zero detectors</span>. </p>
 
 <table class="previous-next">
-<tr><td><p class="previous"><a href="subtract.html"><span class="zapf">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="memory.html">Next <span class="zapf">&#129094;</span></a></p></td></tr>
+<tr><td><p class="previous"><a href="subtract.html"><span class="symbols">&#129092;</span> Previous</a></p></td><td><p class="next"><a href="memory.html">Next <span class="symbols">&#129094;</span></a></p></td></tr>
 </table>
 
 <hr>
