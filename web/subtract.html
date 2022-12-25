@@ -37,7 +37,7 @@
 
 <p><span class="math">B</span> passes through, unchanged.</p>
 
-<p>Since <span class="math">A</span>, <span class="math">B</span>, and <span class="math">Q</span> are two’s complement numbers, the subtraction can be transformed into a sum:</p>
+<p>The subtraction is transformed into a sum by taking advantage of the fact that <span class="math">A</span>, <span class="math">B</span>, and <span class="math">Q</span> are two’s complement numbers:</p>
 
 <p><span class="math">A &minus; B = A + -B = A + </span><span class="serif">~</span><span class="math">B + </span><span class="serif">1</span>, where <span class="serif">~</span> means <a href="https://en.wikipedia.org/wiki/Bitwise_operation#NOT" target="_blank">bitwise inversion</a>.</p>
 
@@ -47,7 +47,7 @@
 
 <p>The initial <span class="nowrap">carry-in</span> (far right) serves as the <span class="serif">+ 1</span> term of the sum.</p>  
 
-<p><span class="math">B</span> is inverted twice to output it unchanged.</p> 
+<p>The circuit bitwise inverts <span class="math">B</span> twice to retain its value.</p> 
 
 <p>The Tetris realization follows.</p>
 

@@ -44,7 +44,7 @@
 
 <p>Since the array is bounded on the left, the tape is &ldquo;folded in half at the origin&rdquo; and the pairs are interlaced:</p>
 
-<p><span class="mono">h<span class="sub3">0</span>, t<span class="sub3">0</span>, h<span class="sub3">&minus;1</span>, t<span class="sub3">&minus;1</span>, h<span class="sub3">1</span>, t<span class="sub3">1</span>, h<span class="sub3">&minus;2</span>, t<span class="sub3">&minus;2</span>, h<span class="sub3">2</span>, t<span class="sub3">2</span>, h<span class="sub3">&minus;3</span>, t<span class="sub3">&minus;3</span>, h<span class="sub3">3</span>, t<span class="sub3">3</span>, &mldr;</span></p>
+<p><span class="mono nowrap">h<span class="sub3">0</span>, <wbr>t<span class="sub3">0</span>, <wbr>h<span class="sub3">&minus;1</span>, <wbr>t<span class="sub3">&minus;1</span>, <wbr>h<span class="sub3">1</span>, <wbr>t<span class="sub3">1</span>, <wbr>h<span class="sub3">&minus;2</span>, <wbr>t<span class="sub3">&minus;2</span>, <wbr>h<span class="sub3">2</span>, <wbr>t<span class="sub3">2</span>, <wbr>h<span class="sub3">&minus;3</span>, <wbr>t<span class="sub3">&minus;3</span>, <wbr>h<span class="sub3">3</span>, <wbr>t<span class="sub3">3</span>, &mldr;</span></p>
 
 <p>Every four bytes consists of a positive-indexed pair followed by a negative-indexed pair. Formally, for <span class="nowrap mono">i &ge; 0</span>:</p>
 
@@ -62,7 +62,7 @@
 
 <p>The eight extra bytes correspond to the segment:</p>
 
-<p><span class="mono">h<span class="sub3">j</span>, t<span class="sub3">j</span>, h<span class="sub3">&minus;(j+1)</span>, t<span class="sub3">&minus;(j+1)</span>, h<span class="sub3">j+1</span>, t<span class="sub3">j+1</span>, h<span class="sub3">&minus;(j+2)</span>, t<span class="sub3">&minus;(j+2)</span></span></p>
+<p><span class="mono nowrap">h<span class="sub3">j</span>, <wbr>t<span class="sub3">j</span>, <wbr>h<span class="sub3">&minus;(j+1)</span>, <wbr>t<span class="sub3">&minus;(j+1)</span>, <wbr>h<span class="sub3">j+1</span>, <wbr>t<span class="sub3">j+1</span>, <wbr>h<span class="sub3">&minus;(j+2)</span>, <wbr>t<span class="sub3">&minus;(j+2)</span></span></p>
 
 <p>Meaning, <span class="mono">T<span class="sub3">m</span></span> has access to two consecutive positive-index pairs and two consecutive negative-index pairs. If the head is not among them (if metadata bytes <span class="mono">h<span class="sub3">j</span></span>, <span class="mono">h<span class="sub3">&minus;(j+1)</span></span>, <span class="mono">h<span class="sub3">j+1</span></span>, and <span class="mono">h<span class="sub3">&minus;(j+2)</span></span> are all zero), then <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it uses the register value in conjunction with the data byte beneath the head to perform a state-transition table lookup. If the looked-up instructions command <span class="mono">T<span class="sub3">m</span></span> to step the head to a metadata byte beyond the bounds of the eight extra bytes, then <span class="mono">T<span class="sub3">m</span></span> cannot comply. In that case, <span class="mono">T<span class="sub3">m</span></span> passes its input through, unchanged. Otherwise, it carries out the instructions. Specifically, it overwrites the data byte, it swaps two metadata bytes to step the head, and it modifies the register value to transition the state machine.</p>
 

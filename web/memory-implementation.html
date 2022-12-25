@@ -93,13 +93,13 @@
   <li><span class="mono">SWAP</span> exchanged bytes <span class="mono">0</span> and <span class="mono">1</span>.</li> 
 </ol>  
 
-<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the agent used it bring values together for the add function. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
+<p>The <span class="mono">SWAP</span> function provides a way to move values around in memory. Above, the agent used it bring values together for the add functions. And it finished with three consecutive <span class="mono">SWAP</span>s to shuttle the computed sum from <span class="nowrap">byte <span class="mono">3</span></span> to <span class="nowrap">byte <span class="mono">0</span></span>.</p>
 
 <p>Memory capacity is always finite, but the agent can expand it endlessly. To allocate a byte, the agent drops eight horizontal <span class="nowrap">I-tetrominoes</span> onto the playfield floor, evenly-spaced, ten columns apart, immediately to the right of the pile. That introduces eight new <span class="nowrap"><span class="mono">0</span>-nodes</span>:</p>
 
 <object id="zeros.svg" data="zeros.svg" type="image/svg+xml" class="diagram">Zeros</object>
 
-<p>Then the agent repeatedly builds identity functions above the new nodes until the output of one of them reaches the height of the rest of the pile.</p>
+<p>Then the agent stacks identity functions above the new nodes until the output reaches the height of the rest of the pile.</p>
 
 <p>The process is portrayed in the following example. It shows a newly allocated byte appended to the sum pile.</p>
 
