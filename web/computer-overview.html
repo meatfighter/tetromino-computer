@@ -3,7 +3,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-25" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="date" content="2022-12-25">
+<meta name="date" content="2022-12-26">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
@@ -29,7 +29,7 @@
 
 <h2 id="computer-overview">Overview</h2>
 
-<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="infinite-array-abstraction.html">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
+<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor and up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="infinite-array-abstraction.html">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
 <object id="machine-code-padding-and-register.svg" data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 

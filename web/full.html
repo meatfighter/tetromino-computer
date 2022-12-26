@@ -3,7 +3,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-25" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="date" content="2022-12-25">
+<meta name="date" content="2022-12-26">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
@@ -2271,7 +2271,7 @@
 
 <h3 id="turing-machine-discussion">Discussion</h3>
 
-<p>If <span class="mono">T<span class="sub3">m</span></span> along with data on the tape emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input in accordance with the pseudocode just shown&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if the information encoded on the pile's surface evolves into a particular state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
+<p>If <span class="mono">T<span class="sub3">m</span></span> along with data on the tape emulates a <a href="https://en.wikipedia.org/wiki/Universal_Turing_machine" target="_blank">universal Turing machine</a>, then Tetris&mdash;with an infinite playfield, controlled by an agent entering input derived from the pseudocode&mdash;is a system capable of universal computation. However, since it depends on a finitely defined yet infinite sequence, the system is more accurately described as <a href="https://en.wikipedia.org/wiki/Turing_completeness#Formal_definitions" target="_blank">&ldquo;weakly universal&rdquo;</a>. Nonetheless, its universality implies <a href="https://en.wikipedia.org/wiki/Undecidable_problem" target="_blank">undecidable</a> problems. For instance, the problem of determining if the information encoded on the pile's surface evolves into a particular state is undecidable because it is equivalent to asking if a given program <a href="https://en.wikipedia.org/wiki/Halting_problem" target="_blank">halts</a>.</p>
 
 <h1 id="general-purpose-computer">General-purpose Computer</h1>
 
@@ -2279,7 +2279,7 @@
 
 <h2 id="computer-overview">Overview</h2>
 
-<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor coupled with up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
+<p>The following general-purpose computer is a <a href="https://en.wikipedia.org/wiki/Linear_bounded_automaton" target="_blank">deterministic linear bounded automaton</a> that emulates an <span class="nowrap">8-bit</span> processor and up to <span class="nowrap">64 KiB</span> of RAM. As with the abstract machines, it employs an <a href="#infinite-array-abstraction">infinite array abstraction</a> for storage. A process loads a <a href="https://en.wikipedia.org/wiki/Machine_code" target="_blank">machine code</a> program into the first <span class="nowrap"><span class="mono">L</span> bytes</span> of the array, it pads out the program with two zeros, and it reserves <span class="nowrap">21 bytes</span> for a state register:</p>
 
 <object id="machine-code-padding-and-register.svg" data="machine-code-padding-and-register.svg" type="image/svg+xml" class="diagram">Machine Code, Padding, and Register</object>
 
@@ -2859,12 +2859,12 @@
   <tr><td class="mono">AND</td><td class="borderless">Bitwise AND</td><td class="pseudocode">A &= B;</td><td class="mono">11</td></tr>
   <tr><td class="mono">DEC</td><td class="borderless">Decrement</td><td class="pseudocode">--A;</td><td class="mono">12</td></tr>
   <tr><td class="mono">INC</td><td class="borderless">Increment</td><td class="pseudocode">++A;</td><td class="mono">13</td></tr>
-  <tr><td class="mono">LS2</td><td class="borderless">Logical Left Shift by 2</td><td class="pseudocode">A &lt;&lt;= 2;</td><td class="mono">14</td></tr>
-  <tr><td class="mono">LS3</td><td class="borderless">Logical Left Shift by 3</td><td class="pseudocode">A &lt;&lt;= 3;</td><td class="mono">15</td></tr>
-  <tr><td class="mono">LS4</td><td class="borderless">Logical Left Shift by 4</td><td class="pseudocode">A &lt;&lt;= 4;</td><td class="mono">16</td></tr>
+  <tr><td class="mono">LS2</td><td class="borderless">Logical Left Shift <span class="nowrap">by 2</span></td><td class="pseudocode">A &lt;&lt;= 2;</td><td class="mono">14</td></tr>
+  <tr><td class="mono">LS3</td><td class="borderless">Logical Left Shift <span class="nowrap">by 3</span></td><td class="pseudocode">A &lt;&lt;= 3;</td><td class="mono">15</td></tr>
+  <tr><td class="mono">LS4</td><td class="borderless">Logical Left Shift <span class="nowrap">by 4</span></td><td class="pseudocode">A &lt;&lt;= 4;</td><td class="mono">16</td></tr>
   <tr><td class="mono">OR</td><td class="borderless">Bitwise OR</td><td class="pseudocode">A |= B;</td><td class="mono">17</td></tr>
-  <tr><td class="mono">RS1</td><td class="borderless">Logical Right Shift by 1</td><td class="pseudocode">A >&gt;&gt;= 1;</td><td class="mono">18</td></tr>
-  <tr><td class="mono">RS5</td><td class="borderless">Logical Right Shift by 5</td><td class="pseudocode">A >&gt;&gt;= 5;</td><td class="mono">19</td></tr>
+  <tr><td class="mono">RS1</td><td class="borderless">Logical Right Shift <span class="nowrap">by 1</span></td><td class="pseudocode">A >&gt;&gt;= 1;</td><td class="mono">18</td></tr>
+  <tr><td class="mono">RS5</td><td class="borderless">Logical Right Shift <span class="nowrap">by 5</span></td><td class="pseudocode">A >&gt;&gt;= 5;</td><td class="mono">19</td></tr>
   <tr><td class="mono">SUB</td><td class="borderless">Subtract (without borrow)</td><td class="pseudocode">A -= B;</td><td class="mono">1A</td></tr>
   <tr><td class="mono">XOR</td><td class="borderless">Bitwise XOR</td><td class="pseudocode">A ^= B;</td><td class="mono">1B</td></tr>
 </table>
@@ -2893,19 +2893,19 @@
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">JMP label</td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
-  <tr><td class="mono">BNE label</td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (z == 0) P = label;</td><td class="mono">22</td></tr>
-  <tr><td class="mono">BEQ label</td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (z == 1) P = label;</td><td class="mono">23</td></tr>
-  <tr><td class="mono">BPL label</td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (n == 0) P = label;</td><td class="mono">24</td></tr>
-  <tr><td class="mono">BMI label</td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (n == 1) P = label;</td><td class="mono">25</td></tr>
-  <tr><td class="mono">JSR label</td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
-  <tr><td class="mono">RTS</td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
+  <tr><td class="mono"><span class="nowrap">JMP label</span></td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
+  <tr><td class="mono"><span class="nowrap">BNE label</span></td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono"><span class="nowrap">BEQ label</span></td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono"><span class="nowrap">BPL label</span></td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (n == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono"><span class="nowrap">BMI label</span></td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (n == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono"><span class="nowrap">JSR label</span></td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
+  <tr><td class="mono"><span class="nowrap">RTS</span></td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
 <p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by a <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a> address. The opcode comprises <span class="nowrap">bits <span class="mono">0010rstu</span></span>, where only one of <span class="mono">r</span>, <span class="mono">s</span>, and <span class="mono">t</span> are set, and <span class="mono">u</span> is a value compared to <span class="mono">s</span> or <span class="mono">t</span>:</p>
 
 <table class="borderless">
-<tr><th class="borderless">Set Bit</th><th class="borderless">Instructions</th><th class="borderless">Description</th></tr>
+<tr><th class="borderless"><span class="nowrap">Set Bit</span></th><th class="borderless">Instructions</th><th class="borderless">Description</th></tr>
 <tr><td class="mono">r</td><td class="mono">JSR</td><td>The computer copies the program counter, <span class="mono">P</span>, to the return register, <span class="mono">R</span>, and it branches.</td></tr>
 <tr><td class="mono">s</td><td class="mono">BPL,BMI</td><td>The computer branches iff the negative flag, <span class="mono">n</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>
 <tr><td class="mono">t</td><td class="mono">BNE,BEQ</td><td>The computer branches iff the zero flag, <span class="mono">z</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>
@@ -2933,8 +2933,8 @@
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">LDA</td><td class="borderless">Load <span class="mono">A</span></td><td class="pseudocode">A = *MN;</td><td class="mono">40</td></tr>    
-  <tr><td class="mono">LDB</td><td class="borderless">Load <span class="mono">B</span></td><td class="pseudocode">B = *MN;</td><td class="mono">41</td></tr>
+  <tr><td class="mono">LDA</td><td class="borderless"><span class="nowrap">Load <span class="mono">A</span></span></td><td class="pseudocode">A = *MN;</td><td class="mono">40</td></tr>    
+  <tr><td class="mono">LDB</td><td class="borderless"><span class="nowrap">Load <span class="mono">B</span></span></td><td class="pseudocode">B = *MN;</td><td class="mono">41</td></tr>
 </table>
 
 <p>It assigns the zero flag, <span class="mono">z</span>, to <span class="mono">1</span> if the <span class="nowrap">read byte</span> is zero, and to <span class="mono">0</span>, otherwise. Similarly, it assigns the negative flag, <span class="mono">n</span>, to <span class="mono">1</span> if the <span class="nowrap">read byte</span> is negative (if <span class="nowrap">bit-7</span> is <span class="mono">1</span>), and to <span class="mono">0</span>, otherwise.</p>
@@ -2947,8 +2947,8 @@
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">STA</td><td class="borderless">Store <span class="mono">A</span></td><td class="pseudocode">*MN = A;</td><td class="mono">30</td></tr>    
-  <tr><td class="mono">STB</td><td class="borderless">Store <span class="mono">B</span></td><td class="pseudocode">*MN = B;</td><td class="mono">31</td></tr>
+  <tr><td class="mono">STA</td><td class="borderless"><span class="nowrap">Store <span class="mono">A</span></span></td><td class="pseudocode">*MN = A;</td><td class="mono">30</td></tr>    
+  <tr><td class="mono">STB</td><td class="borderless"><span class="nowrap">Store <span class="mono">B</span></span></td><td class="pseudocode">*MN = B;</td><td class="mono">31</td></tr>
 </table>
 
 <p>It does not affect the flags.</p>
@@ -2961,9 +2961,9 @@
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">SEA immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">A</span></td><td class="pseudocode">A = immediate;</td><td class="mono">50</td></tr>    
-  <tr><td class="mono">SEB immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">B</span></td><td class="pseudocode">B = immediate;</td><td class="mono">51</td></tr>
-  <tr><td class="mono">SMN immediate</td><td class="borderless pad-left pad-right">Set <span class="mono">MN</span></td><td class="pseudocode">MN = immediate;</td><td class="mono">2F</td></tr>
+  <tr><td class="mono"><span class="nowrap">SEA immediate</span></td><td class="borderless pad-left pad-right"><span class="nowrap">Set <span class="mono">A</span></span></td><td class="pseudocode">A = immediate;</td><td class="mono">50</td></tr>    
+  <tr><td class="mono"><span class="nowrap">SEB immediate</span></td><td class="borderless pad-left pad-right"><span class="nowrap">Set <span class="mono">B</span></span></td><td class="pseudocode">B = immediate;</td><td class="mono">51</td></tr>
+  <tr><td class="mono"><span class="nowrap">SMN immediate</span></td><td class="borderless pad-left pad-right"><span class="nowrap">Set <span class="mono">MN</span></span></td><td class="pseudocode">MN = immediate;</td><td class="mono">2F</td></tr>
 </table>
 
 <p><span class="mono">SEA</span> and <span class="mono">SEB</span> assign an <span class="nowrap">8-bit</span> immediate. And <span class="mono">SMN</span> assigns a <span class="nowrap">16-bit</span> immediate.</p>
@@ -3102,7 +3102,7 @@
 
 <p>The program declares a single subroutine called <span class="mono">drawOrTestTetromino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetromino</span> to paint four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetromino</span> to verify that four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
+<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants (the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>).</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with <span class="nowrap">23 rows</span> and <span class="nowrap">11 columns</span> (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -3451,7 +3451,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STB</span>                     <span class="comment">; tetrominoType = B;</span></span>
 </pre>
 
-<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_tetrominoes" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
+<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_Tetriminos" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
 
 <object id="lfsr-schematic.svg" data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 
@@ -3913,7 +3913,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <h2 id="simulator">Simulator</h2>
 
-<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
+<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values, and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
 
 <p>A separate process generates <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary file’s size.</p>
 
@@ -3925,7 +3925,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 
 <p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 
-<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
+<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here is the swap circuit for all possible inputs:</p>
 
 <object id="swap.svg-2" data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 

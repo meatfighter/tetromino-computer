@@ -3,7 +3,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-25" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="date" content="2022-12-25">
+<meta name="date" content="2022-12-26">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
@@ -59,7 +59,7 @@
 
 <p>The program declares a single subroutine called <span class="mono">drawOrTestTetromino</span> that performs the actions defined on <span class="nowrap">lines 7</span> and 8. <span class="mono">ACTION_DRAW</span> directs <span class="mono">drawOrTestTetromino</span> to paint four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, in a prescribed color. <span class="mono">ACTION_TEST</span> directs <span class="mono">drawOrTestTetromino</span> to verify that four playfield cells corresponding to the blocks of a named tetromino, at a specified location and orientation, are all empty. It enables the program to determine if a requested move is a valid move.</p>
 
-<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants&mdash;the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>.</p>
+<p>Since the computer does not provide a call stack, <span class="mono">drawOrTestTetromino</span> receives the tetromino type, coordinates, and orientation via global variables, and the action and the color via self-modifying code. Regarding the latter, the program overwrites instructions with the action constants (the opcodes for <span class="mono">BNE</span> and <span class="mono">BEQ</span>).</p>
 
 <p>The remaining constants relate to the playfield. As revealed below, the playfield is a matrix with <span class="nowrap">23 rows</span> and <span class="nowrap">11 columns</span> (<span class="mono">PLAYFIELD_WIDTH</span>). Each byte contains the state of an individual cell. <span class="mono">00</span> (<span class="mono">CELL_EMPTY</span>) means the cell is empty. Any other value represents the color of a solid cell.</p>
 
@@ -408,7 +408,7 @@ N = 16 * tetrominoType + 4 * tetrominoRotation + blockIndex;  // offset within p
 <span class="line"><span class="normal">STB</span>                     <span class="comment">; tetrominoType = B;</span></span>
 </pre>
 
-<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_tetrominoes" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
+<p>The program employs the same <a href="https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs" target="_blank">Fibonacci linear-feedback shift register</a> (LFSR) at the core of the pseudorandom number generator in <a href="https://meatfighter.com/nintendotetrisai/#Picking_Tetriminos" target="_blank">NES Tetris</a>. As shown below, the program generates the next random bit, <span class="mono">nextBit</span>, by XORing <span class="nowrap">bit-1s</span> of <span class="mono">seedHigh</span> and <span class="mono">seedLow</span>.</p>
 
 <object id="lfsr-schematic.svg" data="lfsr-schematic.svg" type="image/svg+xml" class="diagram">LFSR</object>
 

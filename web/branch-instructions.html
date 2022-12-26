@@ -3,7 +3,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-25" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="date" content="2022-12-25">
+<meta name="date" content="2022-12-26">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
@@ -45,19 +45,19 @@
 
 <table class="borderless">
   <tr><th class="borderless">Instruction</th><th class="borderless">Name</th><th class="borderless">Pseudocode</th><th class="borderless">Opcode</th></tr>
-  <tr><td class="mono">JMP label</td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
-  <tr><td class="mono">BNE label</td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (z == 0) P = label;</td><td class="mono">22</td></tr>
-  <tr><td class="mono">BEQ label</td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (z == 1) P = label;</td><td class="mono">23</td></tr>
-  <tr><td class="mono">BPL label</td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (n == 0) P = label;</td><td class="mono">24</td></tr>
-  <tr><td class="mono">BMI label</td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (n == 1) P = label;</td><td class="mono">25</td></tr>
-  <tr><td class="mono">JSR label</td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
-  <tr><td class="mono">RTS</td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
+  <tr><td class="mono"><span class="nowrap">JMP label</span></td><td class="borderless pad-left pad-right">Jump</td><td class="pseudocode">P = label;</td><td class="mono">20</td></tr>    
+  <tr><td class="mono"><span class="nowrap">BNE label</span></td><td class="borderless pad-left pad-right">Branch Not Equal</td><td class="pseudocode">if (z == 0) P = label;</td><td class="mono">22</td></tr>
+  <tr><td class="mono"><span class="nowrap">BEQ label</span></td><td class="borderless pad-left pad-right">Branch Equal</td><td class="pseudocode">if (z == 1) P = label;</td><td class="mono">23</td></tr>
+  <tr><td class="mono"><span class="nowrap">BPL label</span></td><td class="borderless pad-left pad-right">Branch Plus</td><td class="pseudocode">if (n == 0) P = label;</td><td class="mono">24</td></tr>
+  <tr><td class="mono"><span class="nowrap">BMI label</span></td><td class="borderless pad-left pad-right">Branch Minus</td><td class="pseudocode">if (n == 1) P = label;</td><td class="mono">25</td></tr>
+  <tr><td class="mono"><span class="nowrap">JSR label</span></td><td class="borderless pad-left pad-right">Jump Subroutine</td><td class="pseudocode">R = P; P = label;</td><td class="mono">28</td></tr>
+  <tr><td class="mono"><span class="nowrap">RTS</span></td><td class="borderless pad-left pad-right">Return Subroutine</td><td class="pseudocode">P = R;</td><td class="mono">70</td></tr>
 </table>
 
 <p><span class="mono">RTS</span> is a <span class="nowrap">1-byte</span> instruction. The rest are <span class="nowrap">3-byte</span> instructions consisting of an opcode followed by a <a href="https://en.wikipedia.org/wiki/Endianness" target="_blank">big-endian</a> address. The opcode comprises <span class="nowrap">bits <span class="mono">0010rstu</span></span>, where only one of <span class="mono">r</span>, <span class="mono">s</span>, and <span class="mono">t</span> are set, and <span class="mono">u</span> is a value compared to <span class="mono">s</span> or <span class="mono">t</span>:</p>
 
 <table class="borderless">
-<tr><th class="borderless">Set Bit</th><th class="borderless">Instructions</th><th class="borderless">Description</th></tr>
+<tr><th class="borderless"><span class="nowrap">Set Bit</span></th><th class="borderless">Instructions</th><th class="borderless">Description</th></tr>
 <tr><td class="mono">r</td><td class="mono">JSR</td><td>The computer copies the program counter, <span class="mono">P</span>, to the return register, <span class="mono">R</span>, and it branches.</td></tr>
 <tr><td class="mono">s</td><td class="mono">BPL,BMI</td><td>The computer branches iff the negative flag, <span class="mono">n</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>
 <tr><td class="mono">t</td><td class="mono">BNE,BEQ</td><td>The computer branches iff the zero flag, <span class="mono">z</span>, equals <span class="nowrap">bit <span class="mono">u</span></span>.</td></tr>

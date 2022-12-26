@@ -3,7 +3,7 @@
 
 <head>
 <title>Tetris is Capable of Universal Computation</title>
-<link rel="stylesheet" href="style.css?v=2022-12-25" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" sizes="any" type="image/x-icon">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&family=Bentham&family=Open+Sans&family=Source+Code+Pro&family=Source+Serif+Pro&family=Roboto+Mono&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="date" content="2022-12-25">
+<meta name="date" content="2022-12-26">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
@@ -29,7 +29,7 @@
 
 <h2 id="simulator">Simulator</h2>
 
-<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
+<p>The assembler for the general-purpose computer converts an assembly language program into a binary file. It consists of a <a href="https://en.wikipedia.org/wiki/Lexical_analysis" target="_blank">lexer</a> and a <a href="https://en.wikipedia.org/wiki/Code_generation_(compiler)" target="_blank">code generator</a>. As the lexer translates the program into a sequence of tokens, it builds a table that maps constants to values, and labels to addresses. The table enables the code generator to substitute symbolic operands with their numerical equivalents as it transforms the tokens into machine code bytes. The code generator appends two final bytes to the binary file containing the program’s <span class="nowrap">entry point</span> address.</p>
 
 <p>A separate process generates <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span> <span class="nowrap">MC programs</span> based on the binary file’s size.</p>
 
@@ -41,7 +41,7 @@
 
 <p>The simulator pops open a window to display the program’s graphics and to listen for keyboard events. Then it enters an infinite loop, where it perpetually alternates between actualizations of <span class="mono">CYCLE_LEFT</span> and <span class="mono">CYCLE_RIGHT</span>. At the end of each cycle, the simulator examines the surface of the pile in the columns corresponding to memory address <span class="mono">00FD</span>, the location of the <span class="mono">drawFrame</span> flag. When the flag indicates a frame is ready for display, the simulator copies the visible playfield from the pile to the window, and it copies the key statuses from the window to the pile.</p>
 
-<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here are the swap circuit for all possible inputs:</p>
+<p>Instead of executing every <span class="nowrap">IL instruction</span>, the simulator employs a <a href="https://en.wikipedia.org/wiki/Memoization" target="_blank">memoized</a> algorithm that computes the long-term evolution of the pile. On startup, the algorithm builds the structures described by the <span class="nowrap">TS programs</span> on a private playfield with all possible inputs, and it records the outputs into a set of lookup tables. The tables allow the algorithm to emulate the effects of building structures without actually building them. For example, here is the swap circuit for all possible inputs:</p>
 
 <object id="swap.svg-2" data="swap.svg" type="image/svg+xml" class="diagram">swap</object>
 
