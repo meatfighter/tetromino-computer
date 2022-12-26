@@ -1871,7 +1871,7 @@
 <span class="line">    <span class="keyword2">break</span></span>
 </pre>
 
-<p><span class="mono">a</span> is the infinite array abstraction from the <a href="#infinite-array-abstraction">previous section</a>. <span class="mono">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span> is the segment of the array the function operates on.</p>
+<p><span class="mono">a</span> is the infinite array abstraction from the <a href="#infinite-array-abstraction">previous section</a>. <span class="mono nowrap">a<span class="sub3">x</span>&nldr;a<span class="sub3">x+n&minus;1</span></span> is the segment of the array the function operates on.</p>
 
 <p>The code iterates over the <span class="nowrap">key-value</span> pairs of the map. For each pair, if the array segment equal the key, then it overwrites the segment with the value, and it breaks out of the loop to prevent the assigned value from matching the key of a successive entry. If it reaches the end of the loop without finding a match, it leaves the array unchanged.</p> 
 
@@ -1928,7 +1928,7 @@
 
 <p><span class="mono">A</span> is the array element compared with <span class="mono">k<span class="sub3">i</span></span>. It passes through unchanged. <span class="mono">C</span> is the array element that stores the result of the comparison, which in this case is <span class="mono">p</span>.</p>
 
-<p>To make this work, 256 implementations of that byte matcher need to be added to the function catalog, one for every possible value of <span class="mono">k<span class="sub3">i</span></span>. However, the byte matchers operate on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
+<p>To make this work, 256 implementations of that byte matcher need to be added to the function catalog, one for every possible value of <span class="mono">k<span class="sub3">i</span></span>. However, the byte matchers operate on a pair of adjacent elements. So, the following version of the code repeatedly swaps the value in <span class="mono nowrap">a<span class="sub3">x+i</span></span> rightward along the array, until it reaches <span class="mono nowrap">a<span class="sub3">x+n&minus;1</span></span>, the element immediately left of <span class="mono">p</span>. Once there, the code performs the comparison. Then it does the swaps in reverse order to restore the moved value back to its original location.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -1965,7 +1965,7 @@
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>When the inner loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
+<p>When the inner loop on <span class="nowrap">line 11</span> is unrolled, every assign-to-constant, <span class="mono nowrap">p &larr; v<span class="sub3">i</span></span>, is replaced with a constant function:</p>
 
 <p><span class="mono">CONST_v<span class="sub3">i</span> &equiv; A &RightTeeArrow; v<span class="sub3">i</span></span></p>
 
@@ -1973,7 +1973,7 @@
 
 <p>As with the byte matchers, 256 implementations need to be added to the function catalog, one for every possible value of <span class="mono">v<span class="sub3">i</span></span>.</p>
 
-<p>Additionally, every conditional-assignment, <span class="mono">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
+<p>Additionally, every conditional-assignment, <span class="mono nowrap">a<span class="sub3">x+i</span> &larr; q ? p : a<span class="sub3">x+i</span></span>, is replaced with a conditional byte copy function:</p>
 
 <p><span class="mono">COPY_B_A_C &equiv; [ A, B, C ] &RightTeeArrow; [ C ? B : A, B, C ]</span>.</p>
 
@@ -1981,7 +1981,7 @@
 
 <p><span class="mono">B</span> and <span class="mono">C</span> pass through, unchanged. They are <span class="mono">p</span> and <span class="mono">q</span>, respectively.</p>
 
-<p><span class="mono">COPY_B_A_C</span> already exists in the function catalog. However, it operates on a triplet of consecutive elements. So, the following version duplicates the strategy used for the byte matchers. It moves the value in <span class="mono">a<span class="sub3">x+i</span></span> into <span class="mono">a<span class="sub3">x+n&minus;1</span></span> via repeated swaps. There, it performs the copy. Then it restores the moved value back to its original location.</p>
+<p><span class="mono">COPY_B_A_C</span> already exists in the function catalog. However, it operates on a triplet of consecutive elements. So, the following version duplicates the strategy used for the byte matchers. It moves the value in <span class="mono nowrap">a<span class="sub3">x+i</span></span> into <span class="mono nowrap">a<span class="sub3">x+n&minus;1</span></span> via repeated swaps. There, it performs the copy. Then it restores the moved value back to its original location.</p>
 
 <pre class="pseudocode2">
 <span class="line">r &larr; 0</span>
@@ -2004,7 +2004,7 @@
 <span class="line">  r &larr; r <span class="keyword2">or</span> q</span>
 </pre>
 
-<p>Next, the placeholders, <span class="mono">p</span>, <span class="mono">q</span>, and <span class="mono">r</span>, are filled in with their corresponding array elements, <span class="mono">a<span class="sub3">x+n</span></span>, <span class="mono">a<span class="sub3">x+n+1</span></span>, and <span class="mono">a<span class="sub3">x+n+2</span></span>, respectively:</p>
+<p>Next, the placeholders, <span class="mono">p</span>, <span class="mono">q</span>, and <span class="mono">r</span>, are filled in with their corresponding array elements, <span class="mono nowrap">a<span class="sub3">x+n</span></span>, <span class="mono nowrap">a<span class="sub3">x+n+1</span></span>, and <span class="mono nowrap">a<span class="sub3">x+n+2</span></span>, respectively:</p>
 
 <pre class="pseudocode2">
 <span class="line">a<span class="sub3">x+n+2</span> &larr; 0</span>
