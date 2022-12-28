@@ -4,11 +4,11 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="date" content="2022-12-26">
+<meta name="date" content="2022-12-28">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#FFFFFF">
 
-<link rel="stylesheet" href="style.css?v=2022-12-26" type="text/css">
+<link rel="stylesheet" href="style.css?v=2022-12-28" type="text/css">
 <link rel="manifest" href="manifest.json">
 <link rel="mask-icon" href="mask-icon.svg" color="#000000">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -45,7 +45,7 @@
 
 <p><span class="mono">EmulatedProcessorAndMemory</span> contains variables in place of registers and memory, and Java code that directly manipulates those variables to reproduce the effect of every machine code instruction type. It was created for testing purposes. It enabled the development of <span class="mono">example.asm</span> before <span class="mono">MCProcessorAndMemory</span> was available.</p>
 
-<p><span class="mono">MCProcessorAndMemory</span> is the simulator detailed in a <a href="simulator.html">prior section</a>. It runs the <span class="nowrap">MC programs</span> in <span class="mono">code/mc</span>, and it simulates the <span class="nowrap">TS programs</span> by applying the lookup tables in <span class="mono">code/luts</span> that were derived from them.</p>
+<p><span class="mono">MCProcessorAndMemory</span> is the simulator detailed in a <a href="simulator.html">prior section</a>. It runs the <span class="nowrap">MC programs</span> in <span class="mono">code/mc</span>, and it simulates the <span class="nowrap">TS programs</span> by applying the lookup tables in <span class="mono">code/luts</span> that were derived from them. It does not use the JavaScript files.</p>
 
 <p><span class="mono">MCProcessorAndMemory</span> accepts the left and right cycle <span class="nowrap">MC program</span> filenames because their contents depend on the binary file size. <span class="mono">EmulatedProcessorAndMemory</span> ignores those arguments.</p>
 
